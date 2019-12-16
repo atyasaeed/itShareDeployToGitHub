@@ -1,0 +1,1 @@
+spring:  security:    user:      name: hasalem      password: 2big4u  data:    rest:      base-path: /api

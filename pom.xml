@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ilab</groupId>
 	<artifactId>ilab-parent</artifactId>
-	<version>1.0</version>
+	<version>1.2</version>
 	<packaging>pom</packaging>
 	<name>iLab parent project</name>
 	<description>Parent project for iLab</description>
