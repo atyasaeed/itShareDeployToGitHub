@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-root',
@@ -7,8 +8,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   model = {
-    left: true,
-    middle: false,
-    right: false
+
+
+  //Carousl//
   };
 }

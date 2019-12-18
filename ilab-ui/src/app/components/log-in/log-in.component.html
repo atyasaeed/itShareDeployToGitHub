@@ -1,0 +1,42 @@
+<section class="container">
+  <div class="row">
+    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+      <div class="card card-signin my-5">
+        <div class="card-body">
+          <h5 class="card-title text-center">Sign In</h5>
+
+
+
+<form #userForm="ngForm" class="form-signin" (ngSubmit)="userForm.form.valid && onSubmit(userForm)">
+<div class="form-group form-label-group">
+
+  <input type="email" class="form-control" name="email"  [(ngModel)]="model.email" #email="ngModel"
+    [ngClass]="{ 'is-invalid': userForm.submitted && email.invalid }" email   required>
+  <div *ngIf="userForm.submitted && email.invalid" class="invalid-feedback">
+    <div *ngIf="email.errors.required">Email is required</div>
+    <div *ngIf="email.errors.email">Must be a valid email address</div>
+  </div>
+</div>
+
+<div class="form-group form-label-group">
+  <input type="password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel"
+    [ngClass]="{ 'is-invalid': userForm.submitted && password.invalid }" minlength="8" required>
+    <label for="inputPassword">Password</label>
+  <div *ngIf="userForm.submitted && password.invalid" class="invalid-feedback">
+    <div *ngIf="password.errors.required">Password is required</div>
+    <div *ngIf="password.errors.minlength">Password should be at least 8 characters long</div>
+  </div>
+</div>
+<input type="submit" class="btn btn-primary btn-block" value="Log In" >
+
+<hr class="my-4">
+  <div class="sign-up">
+    Don't have an account? <a href="#">Create One</a>
+  </div>
+</form>
+
+</div>
+      </div>
+    </div>
+  </div>
+</section>
