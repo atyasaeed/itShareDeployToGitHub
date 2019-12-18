@@ -21,7 +21,7 @@
 	</properties>
 	
 	<modules>
-		<module>ilab-ui</module>
+		
 		<module>ilab-app</module>
 	</modules>
 </project>
