@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolve
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 @SpringBootApplication
 public class ILabApplication
@@ -19,21 +20,23 @@ public class ILabApplication
 	{
 		SpringApplication.run(ILabApplication.class, args);
 	}
+
 	@Bean
 	ErrorViewResolver supportPathBasedLocationStrategyWithoutHashes()
 	{
 		return new ErrorViewResolver()
-		
+
 		{
 			@Override
 			public ModelAndView resolveErrorView(HttpServletRequest request, HttpStatus status,
 					Map<String, Object> model)
 			{
-				ModelAndView result=status == HttpStatus.NOT_FOUND
+				ModelAndView result = status == HttpStatus.NOT_FOUND
 						? new ModelAndView("index.html", Collections.<String, Object>emptyMap(), HttpStatus.OK)
 						: null;
 				return result;
 			}
 		};
 	}
+
 }
