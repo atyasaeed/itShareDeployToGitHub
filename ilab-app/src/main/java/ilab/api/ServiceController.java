@@ -45,7 +45,7 @@ public class ServiceController
 	public Iterable<Service> recentServices()
 	{
 		PageRequest page=PageRequest.of(0, 20,Sort.by("updated").descending());
-		return serviceRepo.findAll(page);
+		return serviceRepo.findAll(page).getContent();
 	}
 	@GetMapping("/{id}")
 	public ResponseEntity<Service> tacoById(@PathVariable("id") UUID id)

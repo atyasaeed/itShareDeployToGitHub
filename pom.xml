@@ -23,5 +23,6 @@
 	<modules>
 		
 		<module>ilab-app</module>
+		<module>ilab-ui</module>
 	</modules>
 </project>
