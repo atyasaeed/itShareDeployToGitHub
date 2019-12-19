@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Injectable } from '@angular/core';
 import { NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 
@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpInterceptor, HttpRequest, HttpHandler, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 
 import { LogInComponent } from './components/log-in/log-in.component';
@@ -23,7 +23,15 @@ import { CartComponent } from './components/cart/cart.component';
 import { TrackOrderComponent } from './components/track-order/track-order.component';
 import { from } from 'rxjs';
 import { RegistrationService } from './services/registration.service';
-
+@Injectable()
+export class XhrInterceptor implements HttpInterceptor{
+  intercept(req: HttpRequest <any>, next: HttpHandler){
+    const xhr=req.clone({
+      headers:req.headers.set('X-Requested-With','XMLHttpRequest')
+    });
+    return next.handle(xhr);
+  }
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,7 +56,7 @@ import { RegistrationService } from './services/registration.service';
     HttpClientModule
 
   ],
-  providers: [RegistrationService],
+  providers: [RegistrationService,{provide:HTTP_INTERCEPTORS,useClass: XhrInterceptor,multi:true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -8,8 +8,8 @@
 
 
 <form #userForm="ngForm" class="form-signin" (ngSubmit)="userForm.form.valid && onSubmit(userForm)">
+  <label >Email</label>
 <div class="form-group form-label-group">
-
   <input type="email" class="form-control" name="email"  [(ngModel)]="model.email" #email="ngModel"
     [ngClass]="{ 'is-invalid': userForm.submitted && email.invalid }" email   required>
   <div *ngIf="userForm.submitted && email.invalid" class="invalid-feedback">
@@ -17,11 +17,10 @@
     <div *ngIf="email.errors.email">Must be a valid email address</div>
   </div>
 </div>
-
+<label >Password</label>
 <div class="form-group form-label-group">
   <input type="password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel"
     [ngClass]="{ 'is-invalid': userForm.submitted && password.invalid }" minlength="8" required>
-    <label for="inputPassword">Password</label>
   <div *ngIf="userForm.submitted && password.invalid" class="invalid-feedback">
     <div *ngIf="password.errors.required">Password is required</div>
     <div *ngIf="password.errors.minlength">Password should be at least 8 characters long</div>

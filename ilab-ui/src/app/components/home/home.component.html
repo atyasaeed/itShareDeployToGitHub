@@ -1,6 +1,11 @@
 <div class="container">
 <app-carousel></app-carousel>
-<app-card></app-card>
+<div  class="row">
+  <app-card *ngFor="let card of cards" [cardData]="card" class="col-sm-4">
+  </app-card>
+</div>
+
+
 </div>
 
 <!--//////////////////////////////////////////-->

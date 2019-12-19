@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -6,10 +7,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  cards: any [];
   ngOnInit(): void {
+  this._http.get('http://localhost:8080/api/services').subscribe(
+      response =>this.cards=response as [],
+      errore => {console.log(errore); }
+
+    );
   }
 
-  constructor() { }
+  constructor(private _http: HttpClient) { }
 
 
 
