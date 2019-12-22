@@ -13,8 +13,11 @@
         <a class="nav-link" [routerLink] = "['/cart']">Cart</a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" *ngIf="isLogIn()" [routerLink] = "['/login']" (click)="onLogOut()">logOut</a>
+      </li>
+      <li class="nav-item">
         <div class="col">
-          <div ngbDropdown class="d-inline-block">
+          <div *ngIf="!isLogIn()" ngbDropdown class="d-inline-block">
             <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Log In</button>
             <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
               <a ngbDropdownItem [routerLink]="['/login']">log in</a>

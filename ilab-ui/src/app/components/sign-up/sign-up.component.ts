@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { RegistrationService } from 'src/app/services/registration.service';
+import { RestService } from 'src/app/services/rest.service';
+import { NgForm } from '@angular/forms';
 
 export class User {
   public username: string;
@@ -21,20 +20,32 @@ export class User {
 })
 export class SignUpComponent implements OnInit {
 
-  constructor( private _formBuilder: FormBuilder , private _registrationService : RegistrationService) { }
+  constructor( private _rest: RestService) { }
   model = new User();
 
-mytest :any;
   ngOnInit() {
-    this._registrationService.GetUser().subscribe(
-      response => { console.log(JSON.stringify(response)) },
-      error => {});
   }
-  onSubmit(form) {
-    console.log(JSON.stringify(form.value) );
+  onSubmit(formModel: NgForm) {
 
-    this._registrationService.AddUser().subscribe();
+    console.log(formModel.value);
 
+    this._rest.register(formModel.value).subscribe(
+      (res: any) => {
+        if (res.succeded) {
+          formModel.reset();
+
+        } else {
+          res.errors.forEach(element => {
+            switch (element.code) {
+              case 'DuplicateUserName':
+                break;
+              default:
+                break;
+            }
+          });
+        }
+      }
+    );
   }
 
 

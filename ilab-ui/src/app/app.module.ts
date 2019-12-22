@@ -1,8 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, Injectable } from '@angular/core';
 import { NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { SlickCarouselModule } from 'ngx-slick-carousel';
-
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,12 +20,12 @@ import { FooterComponent } from './components/footer/footer.component';
 import { CartComponent } from './components/cart/cart.component';
 import { TrackOrderComponent } from './components/track-order/track-order.component';
 import { from } from 'rxjs';
-import { RegistrationService } from './services/registration.service';
+import { RestService } from './services/rest.service';
 @Injectable()
-export class XhrInterceptor implements HttpInterceptor{
-  intercept(req: HttpRequest <any>, next: HttpHandler){
-    const xhr=req.clone({
-      headers:req.headers.set('X-Requested-With','XMLHttpRequest')
+export class XhrInterceptor implements HttpInterceptor {
+  intercept(req: HttpRequest <any>, next: HttpHandler) {
+    const xhr = req.clone({
+      headers: req.headers.set('X-Requested-With', 'XMLHttpRequest')
     });
     return next.handle(xhr);
   }
@@ -56,7 +54,8 @@ export class XhrInterceptor implements HttpInterceptor{
     HttpClientModule
 
   ],
-  providers: [RegistrationService,{provide:HTTP_INTERCEPTORS,useClass: XhrInterceptor,multi:true}],
+  providers: [ RestService, {provide: HTTP_INTERCEPTORS, useClass: XhrInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+

@@ -1,4 +1,14 @@
 
+<section class="container">
+  <div class="row">
+    <div class="col-sm-9 col-md-7  mx-auto">
+      <div class="card card-signin my-5">
+        <div class="card-body">
+          <h5 class="card-header info-color white-text text-center py-4">
+            <strong>Sign up</strong>
+        </h5>
+
+
 <form #userForm="ngForm" (ngSubmit)="userForm.form.valid && onSubmit(userForm)" class="container">
  <section class="form-row">
   <div class="form-group col-md-4 mb-3">
@@ -52,9 +62,10 @@
     <input type="password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel"
       [ngClass]="{ 'is-invalid': userForm.submitted && password.invalid }" minlength="8" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
     <div *ngIf="userForm.submitted && password.invalid" class="invalid-feedback">
-      <div *ngIf="password.errors.required">Password is required</div>
+      <div *ngIf="password.errors.required ">Password is required</div>
       <div *ngIf="password.errors.minlength">Password should be at least 8 characters long</div>
     </div>
+
   </div>
 
   <div class="form-group col-md-6 mb-3">
@@ -72,3 +83,8 @@
   <input type="submit" class="btn btn-primary btn-block" value="submit" >
   </div>
 </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

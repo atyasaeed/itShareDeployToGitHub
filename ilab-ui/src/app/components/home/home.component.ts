@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -8,16 +9,30 @@ import { HttpClient } from '@angular/common/http';
 })
 export class HomeComponent implements OnInit {
   cards: any [];
+  param = this._route.snapshot.paramMap.get('email');
   ngOnInit(): void {
-  this._http.get('http://localhost:8080/api/services').subscribe(
-      response =>this.cards=response as [],
-      errore => {console.log(errore); }
 
-    );
+    this.getServices();
+
   }
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient , private _route: ActivatedRoute) { }
 
+
+  getServices() {
+    this._http.get('http://localhost:8080/api/services').subscribe(
+      response => this.cards = response as [],
+      errore => {console.log(errore); });
+  }
+
+  isLogIn(): boolean {
+    if (localStorage.getItem('token') != null) {
+
+      return true;
+    } else {
+      return false;
+    }
+  }
 
 
   /////////// Carousel//////////////////
