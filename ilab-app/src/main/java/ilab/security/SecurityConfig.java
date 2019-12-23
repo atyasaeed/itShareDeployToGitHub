@@ -6,12 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.server.csrf.CookieServerCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
@@ -40,18 +44,45 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 	@Override
 	protected void configure(HttpSecurity http) throws Exception
 	{
-		http.csrf().disable()
-		.authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-		.and()
+		http
+			.cors().configurationSource(corsConfigurationSource()).and()
+
+			.csrf().disable()
 			.authorizeRequests()
-			.antMatchers("/api/**")
-			.fullyAuthenticated()
-		.and()
+			.antMatchers(HttpMethod.OPTIONS,"/login").permitAll()
+			.and()
+
 			.authorizeRequests()
-			.antMatchers("/**")
-			.permitAll()
-		.and()
-			.httpBasic();
+			.anyRequest()
+			.authenticated()
+			.and()
+			.formLogin()
+			.failureHandler(customAuthenticationFailureHandler())
+			.successHandler(customAuthenticationSuccessHandler());
+		
+		
+//		http
+////		.exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+//		.csrf().disable()
+//		.authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+//		.and()
+//			.authorizeRequests()
+//			.antMatchers("/api/**")
+//			.fullyAuthenticated()
+//		.and()
+//			.authorizeRequests()
+//			.antMatchers("/**")
+//			.permitAll()
+//		.and()
+//			.cors()
+//		.and()
+//			.formLogin()
+			
+
+//		.and()
+//			.httpBasic()
+			
+			;
 		
 
 //		http
@@ -102,11 +133,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 //				;
 	}
 	@Bean
+	public AuthenticationFailureHandler customAuthenticationFailureHandler() {
+		return new CustomAuthenticationFailureHandler();
+	}
+	@Bean
+	public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
+		return new CustomAuthenticationSuccessHandler();
+	}
+	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("*"));
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+		configuration.setAllowCredentials(true);
 		configuration.addAllowedHeader("*");
-		configuration.setAllowedMethods(Arrays.asList("GET","POST","OPTIONS"));
+		configuration.setAllowedMethods(Arrays.asList("POST","OPTIONS","GET"));
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
