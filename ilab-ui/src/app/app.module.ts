@@ -21,6 +21,7 @@ import { CartComponent } from './components/cart/cart.component';
 import { TrackOrderComponent } from './components/track-order/track-order.component';
 import { from } from 'rxjs';
 import { RestService } from './services/rest.service';
+import { AlertComponent } from './components/alert/alert.component';
 @Injectable()
 export class XhrInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest <any>, next: HttpHandler) {
@@ -42,6 +43,7 @@ export class XhrInterceptor implements HttpInterceptor {
     FooterComponent,
     CartComponent,
     TrackOrderComponent,
+    AlertComponent,
 
   ],
   imports: [

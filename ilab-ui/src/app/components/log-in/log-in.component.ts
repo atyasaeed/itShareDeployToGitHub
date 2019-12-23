@@ -34,23 +34,12 @@ export class LogInComponent implements OnInit {
 
   }
   onSubmit(userForm: NgForm) {
-
-    this._RestService.login(userForm.value.email, userForm.value.password).subscribe(
-      (res: any) => {
-        localStorage.setItem('token', res.token);
-        this._router.navigate(['/home', userForm.value.email]);
-      },
-      err => {
-        if (err.status == 400) {
-          console.log('InCorrect pass or email');
-          this.synError = 'InCorrect pass or email';
-         } else {console.log('InCorrect pass or email');
-                 this.synError = 'InCorrect pass or email'
-                 userForm.reset()
-         ; }
+    const email = userForm.value.email;
+    const password = userForm.value.password;
+    this._RestService.getauth(email ,password);
       }
 
-    );
+
   }
 
-}
+

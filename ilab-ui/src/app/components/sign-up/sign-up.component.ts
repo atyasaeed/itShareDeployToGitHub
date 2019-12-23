@@ -28,24 +28,6 @@ export class SignUpComponent implements OnInit {
   onSubmit(formModel: NgForm) {
 
     console.log(formModel.value);
-
-    this._rest.register(formModel.value).subscribe(
-      (res: any) => {
-        if (res.succeded) {
-          formModel.reset();
-
-        } else {
-          res.errors.forEach(element => {
-            switch (element.code) {
-              case 'DuplicateUserName':
-                break;
-              default:
-                break;
-            }
-          });
-        }
-      }
-    );
   }
 
 

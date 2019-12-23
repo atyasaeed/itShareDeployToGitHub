@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
+import { RestService } from 'src/app/services/rest.service';
 
 @Component({
   selector: 'app-home',
@@ -12,27 +13,12 @@ export class HomeComponent implements OnInit {
   param = this._route.snapshot.paramMap.get('email');
   ngOnInit(): void {
 
-    this.getServices();
-
   }
 
-  constructor(private _http: HttpClient , private _route: ActivatedRoute) { }
+  constructor(private _http: HttpClient ,private _restservice:RestService , private _route: ActivatedRoute) { }
 
 
-  getServices() {
-    this._http.get('http://localhost:8080/api/services').subscribe(
-      response => this.cards = response as [],
-      errore => {console.log(errore); });
-  }
 
-  isLogIn(): boolean {
-    if (localStorage.getItem('token') != null) {
-
-      return true;
-    } else {
-      return false;
-    }
-  }
 
 
   /////////// Carousel//////////////////
