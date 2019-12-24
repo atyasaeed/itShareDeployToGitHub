@@ -39,13 +39,13 @@
 }
 
 .btn-google {
-  color: white;
-  background-color: #ea4335;
+  color: white !important;
+  background-color: #ea4335 !important;
 }
 
 .btn-facebook {
-  color: white;
-  background-color: #3b5998;
+  color: white !important;
+  background-color: #3b5998 !important;
 }
 
 

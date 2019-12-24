@@ -5,14 +5,18 @@ import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { CartComponent } from './components/cart/cart.component';
 import { TrackOrderComponent } from './components/track-order/track-order.component';
 import { AuthGuard } from './auth/auth.guard';
+import { LogoutComponent } from './logout/logout.component';
 
 export const routes: Routes = [
-  {path: '' , redirectTo : '/login',pathMatch :'full'},
-  {path: 'home/:email', component : HomeComponent,canActivate:[AuthGuard] },
+  // {path: '' , redirectTo : '/login',pathMatch :'full'},
+  {path: 'home', component : HomeComponent,canActivate:[AuthGuard] },
   {path: 'login' , component : LogInComponent},
   {path: 'signup' , component: SignUpComponent},
   {path : 'cart' , component: CartComponent},
   {path : 'trackorder', component: TrackOrderComponent},
+  {path : 'logout' , component : LogoutComponent},
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+
  // {path : '**' , component : HomeComponent},
 
 ]

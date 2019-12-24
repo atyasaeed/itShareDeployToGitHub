@@ -25,21 +25,17 @@ export class LogInComponent implements OnInit {
   // tslint:disable-next-line: new-parens
    ngOnInit() {
 
-    if (localStorage.getItem('token') != null) {
-      this._router.navigate(['/home', this.formModel.email]);
-    }
-  }
+   }
 
-  onFormSubmit() {
-
-  }
   onSubmit(userForm: NgForm) {
     const email = userForm.value.email;
     const password = userForm.value.password;
-    this._RestService.getauth(email ,password);
+    this._RestService.getauth(email , password);
+    this._router.navigate(['/home']);
+  }
+
       }
 
 
-  }
 
 

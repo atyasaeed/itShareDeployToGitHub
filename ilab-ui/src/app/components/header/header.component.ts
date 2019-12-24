@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { RestService } from 'src/app/services/rest.service';
 
 @Component({
   selector: 'app-header',
@@ -8,12 +9,11 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
+ public isUserLoggedIn: boolean = false;
 
-  constructor( private _router : Router) { }
+  constructor( private _router : Router , private _restservice: RestService) { }
 
   ngOnInit() {
-
-   this.isLogIn();
   }
 
   onLogOut(){
@@ -21,12 +21,12 @@ export class HeaderComponent implements OnInit {
     this._router.navigate(['/login']);
   }
 
-  isLogIn():boolean{
+  isLogIn(){
     if (localStorage.getItem('token') != null) {
       return true
     } else {
       return false
-    }
+            }
   }
 
 }

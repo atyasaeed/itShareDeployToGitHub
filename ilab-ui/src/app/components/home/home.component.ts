@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RestService } from 'src/app/services/rest.service';
+import { NgForm } from '@angular/forms';
+import { Card } from '../card/card.model';
 
 @Component({
   selector: 'app-home',
@@ -10,15 +12,26 @@ import { RestService } from 'src/app/services/rest.service';
 })
 export class HomeComponent implements OnInit {
   cards: any [];
-  param = this._route.snapshot.paramMap.get('email');
-  ngOnInit(): void {
+  card = {
+    name:'',
+    dis :''
+  }
 
+  ngOnInit(): void {
+ this.getservices()
+  console.log(this.cards)
   }
 
   constructor(private _http: HttpClient ,private _restservice:RestService , private _route: ActivatedRoute) { }
 
+  getservices(){
+ this._restservice.getservices().subscribe(res=>{this.cards = res as []})
+}
 
+addservices(cardForm){
+this._restservice.addservices(cardForm).subscribe(res=>{console.log(res); this.cards.push(res)})
 
+}
 
 
   /////////// Carousel//////////////////

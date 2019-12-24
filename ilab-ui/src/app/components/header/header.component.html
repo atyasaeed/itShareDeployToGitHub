@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Logo</a>
+  <a class="navbar-brand" [routerLink] = "['/home']">Logo</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -13,11 +13,11 @@
         <a class="nav-link" [routerLink] = "['/cart']">Cart</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" *ngIf="isLogIn()" [routerLink] = "['/login']" (click)="onLogOut()">logOut</a>
+        <a class="nav-link" (click)='onLogOut()' *ngIf='isLogIn()' [routerLink] = "['/login']">logOut</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf = '!isLogIn()'>
         <div class="col">
-          <div *ngIf="!isLogIn()" ngbDropdown class="d-inline-block">
+          <div  ngbDropdown class="d-inline-block">
             <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Log In</button>
             <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
               <a ngbDropdownItem [routerLink]="['/login']">log in</a>
