@@ -14,19 +14,28 @@ export class HeaderComponent implements OnInit {
   constructor( private _router : Router , private _restservice: RestService) { }
 
   ngOnInit() {
+    this.islogin();
   }
 
-  onLogOut(){
-    localStorage.removeItem('token');
-    this._router.navigate(['/login']);
+  onLogOut() {
+    this._restservice.logout().subscribe(res => {
+      this._router.navigate(['/login']);
+    })
   }
-
-  isLogIn(){
-    if (localStorage.getItem('token') != null) {
-      return true
-    } else {
-      return false
-            }
-  }
-
+log() {
+  localStorage.removeItem('token') ;
 }
+  islogin() {
+if (localStorage.getItem('token') != null) {
+  return true ;
+} else {
+  return false ;
+}
+  }
+
+
+
+
+  }
+
+

@@ -14,18 +14,23 @@ export class RestService {
   getauth(username , password) {
 
 
-   this._httpclient.post<Object>('http://localhost:8080/login',`username=${username}&password=${password}`, {
+return   this._httpclient.post<Object>('http://localhost:8080/login',`username=${username}&password=${password}`, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/x-www-form-urlencoded').set('responseType', 'text'),
         observe: 'response',
         withCredentials: true
-    }).subscribe((resp: HttpResponse<Object>) => {
-      console.log('Session:' + resp.headers.get('Set-Cookie'))
-      localStorage.setItem('token','body');
-      // tslint:disable-next-line: max-line-length
-      this._httpclient.get('http://localhost:8080/api/services', {withCredentials: true}).subscribe(resp => {console.log(resp); this.cards = resp as []});
- });
-  }
+//     }).subscribe((resp: HttpResponse<Object>) => {
+//       console.log('Session:' + resp.headers.get('Set-Cookie'))
+//       localStorage.setItem('token','body');
+//       // tslint:disable-next-line: max-line-length
+//  });
+}
+
+   )}
+
+   logout(){
+     return this._httpclient.get('http://localhost:8080/logout',{withCredentials: true})
+   }
 
 
   getservices() {

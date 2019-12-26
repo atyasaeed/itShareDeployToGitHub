@@ -18,6 +18,7 @@ export class LogInComponent implements OnInit {
   };
   synError: string;
 
+
   constructor( private _RestService: RestService ,
                private _router: Router,
                ) { }
@@ -30,9 +31,14 @@ export class LogInComponent implements OnInit {
   onSubmit(userForm: NgForm) {
     const email = userForm.value.email;
     const password = userForm.value.password;
-    this._RestService.getauth(email , password);
-    this._router.navigate(['/home']);
+    this._RestService.getauth(email , password).subscribe(res => {
+      this._router.navigate(['/home']);
+      console.log('anyyy' + JSON.stringify(res.body['name']));
+      localStorage.setItem('token', 'body');
+    }, err => {this.synError = 'sorry your email or password Incorrect'});
+
   }
+
 
       }
 

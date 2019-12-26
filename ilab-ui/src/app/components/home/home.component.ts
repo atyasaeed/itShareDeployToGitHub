@@ -14,12 +14,11 @@ export class HomeComponent implements OnInit {
   cards: any [];
   card = {
     name:'',
-    dis :''
+    description :''
   }
 
   ngOnInit(): void {
  this.getservices()
-  console.log(this.cards)
   }
 
   constructor(private _http: HttpClient ,private _restservice:RestService , private _route: ActivatedRoute) { }

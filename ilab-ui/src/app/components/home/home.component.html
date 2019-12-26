@@ -11,8 +11,8 @@
 </div>
 
 <form #cardForm="ngForm"(ngSubmit) = "addservices(cardForm.value)">
-  <input type="text" name="name" class="form-control" [(ngModel)]="card.name" #firstname="ngModel">
-  <input type="text" name="dis" class="form-control" [(ngModel)]="card.dis" #firstname="ngModel">
+  <input type="text" name="name" class="form-control" [(ngModel)]="card.name" #name="ngModel">
+  <input type="text" name="description" class="form-control" [(ngModel)]="card.description" #description="ngModel">
   <input type="submit" value="save">
  </form>
 
