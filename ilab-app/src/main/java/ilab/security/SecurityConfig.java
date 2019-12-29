@@ -15,6 +15,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.server.csrf.CookieServerCsrfTokenRepository;
@@ -44,12 +45,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 	@Override
 	protected void configure(HttpSecurity http) throws Exception
 	{
+		CookieCsrfTokenRepository csrf=CookieCsrfTokenRepository.withHttpOnlyFalse();
+		csrf.setCookieHttpOnly(true);
 		http
-			.cors().configurationSource(corsConfigurationSource()).and()
-
-			.csrf().disable()
 			.authorizeRequests()
 			.antMatchers(HttpMethod.OPTIONS,"/login").permitAll()
+			.antMatchers("/**").permitAll()
 			.and()
 
 			.authorizeRequests()
@@ -58,7 +59,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 			.and()
 			.formLogin()
 			.failureHandler(customAuthenticationFailureHandler())
-			.successHandler(customAuthenticationSuccessHandler());
+			.successHandler(customAuthenticationSuccessHandler())
+			.and()
+			.exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint())
+		.and()
+		.cors().configurationSource(corsConfigurationSource()).and()
+
+		.csrf()
+		.disable()
+		
+//		.ignoringAntMatchers("/login")
+//		.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+//		.and()
+		.headers().frameOptions().sameOrigin()
+					;
 		
 		
 //		http

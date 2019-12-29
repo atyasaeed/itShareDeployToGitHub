@@ -1,11 +1,12 @@
 package ilab.core.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
 public class Service extends AbstractEntity<Service>
 {
-	
+	@Column(unique = true)
 	private String name;
 	private String description;
 

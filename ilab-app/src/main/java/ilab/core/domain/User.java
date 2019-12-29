@@ -3,6 +3,7 @@ package ilab.core.domain;
 import java.util.Arrays;
 import java.util.Collection;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -19,8 +20,9 @@ public class User extends AbstractEntity<User> implements UserDetails
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	
+	@Column(unique = true)
 	private String username;
+	@Column(unique = true)
 	private String email;
 	private String password;
 	private String firstName;

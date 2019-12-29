@@ -26,6 +26,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 			Authentication authentication) throws IOException, ServletException
 	{
 		response.setStatus(HttpStatus.OK.value());
+		response.setHeader("content-type", "application/json");
 		Map<String, Object> data = new HashMap<>();
 //		response.getOutputStream().println(authentication);
 		User user=(User)authentication.getPrincipal();

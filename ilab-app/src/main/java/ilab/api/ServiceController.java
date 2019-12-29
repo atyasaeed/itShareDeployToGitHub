@@ -3,14 +3,11 @@ package ilab.api;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,22 +22,11 @@ import ilab.core.repository.ServiceRepository;
 
 @RestController
 @RequestMapping(path = "/api/services",produces = "application/json")
-@CrossOrigin(origins = "*", maxAge = 3600,
-//allowedHeaders={"x-auth-token", "x-requested-with", "x-xsrf-token"  
-//			,"origin, content-type, accept, x-requested-with","Authorization"})
-allowedHeaders = {"*"})
 public class ServiceController
 {
 	@Autowired
 	ServiceRepository serviceRepo;
-	@RequestMapping( method=RequestMethod.OPTIONS)
-	public void corsHeaders(HttpServletResponse response) {
-	    response.addHeader("Access-Control-Allow-Origin", "*");
-	    response.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-	    response.addHeader("Access-Control-Allow-Headers", "origin, content-type, accept, x-requested-with");
-	    response.addHeader("Access-Control-Max-Age", "3600");
-//	    response.setStatus(HttpStatus.OK);
-	}
+
 	@RequestMapping( method=RequestMethod.GET)
 	public Iterable<Service> recentServices()
 	{
@@ -57,7 +43,7 @@ public class ServiceController
 	}
 	@PostMapping(consumes = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Service postTaco(@RequestBody Service service)
+	public Service postService(@RequestBody Service service)
 	{
 		Service aService= serviceRepo.save(service);
 		return aService;
