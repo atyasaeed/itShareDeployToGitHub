@@ -29,8 +29,8 @@ public class DevelopmentConfig
 				serviceRepo.save(createService("3D Printing","3D Printing Description"));
 				serviceRepo.save(createService("Laser Cutting","Laser Cutting Description"));
 				serviceRepo.save(createService("CNC Routers","CNC Routers Description"));
-				userRepo.save(createUser( "hasalem", "2big4u"));
-				userRepo.save(createUser("mosalem", "123456"));
+				userRepo.save(createUser( "hasalem@gmail.com", "12345678"));
+				userRepo.save(createUser("mosalem@gmail.com", "12345678"));
 			}
 		};
 	}
