@@ -1,0 +1,80 @@
+    <!-- Header -->
+    <header>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <a class="navbar-brand" href="#">iLab</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" [routerLink]="['/']">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item" *ngIf="islogin()">
+                            <a class="nav-link" [routerLink]="['/order']">Track Order</a>
+                        </li>
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+
+                        <li class="nav-item" *ngIf="!islogin()">
+                            <a class="nav-link" [routerLink]="['/login']">Login</a>
+                        </li>
+                        <li class="nav-item" *ngIf="!islogin()">
+                            <a class="nav-link"  [routerLink]="['/registration']" >Sign Up</a>
+                        </li>
+                        <li class="nav-item" *ngIf="islogin()" (click)= "islogout()" >
+                            <a class="nav-link" [routerLink]="['/']" >Logout</a>
+                        </li>
+                        <li class="dropdown nav-item">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                                aria-expanded="false"> <span class="fas fa-shopping-cart"></span> 7 - Items<span
+                                    class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-cart" role="menu">
+                                <li>
+                                    <span class="item">
+                                        <span class="item-left">
+                                            <img src="http://lorempixel.com/50/50/" alt="" />
+                                            <span class="item-info">
+                                                <span>Item name</span>
+                                                <span>23$</span>
+                                            </span>
+                                        </span>
+                                        <span class="item-right">
+                                            <button class="btn btn-xs btn-danger pull-right">x</button>
+                                        </span>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="item">
+                                        <span class="item-left">
+                                            <img src="http://lorempixel.com/50/50/" alt="" />
+                                            <span class="item-info">
+                                                <span>Item name</span>
+                                                <span>23$</span>
+                                            </span>
+                                        </span>
+                                        <span class="item-right">
+                                            <button class="btn btn-xs btn-danger pull-right">x</button>
+                                        </span>
+                                    </span>
+                                </li>
+
+                                <!-- <li class="divider"></li> -->
+                                <div class="dropdown-divider"></div>
+                                <li><a class="col text-center" [routerLink]="['/cart']">View Cart</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- End Navbar -->
+    </header>
+    <!-- End Header -->

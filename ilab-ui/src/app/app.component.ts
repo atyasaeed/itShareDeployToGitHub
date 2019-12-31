@@ -7,9 +7,5 @@ import { NgbCarousel, NgbSlideEvent, NgbSlideEventSource } from '@ng-bootstrap/n
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  model = {
 
-
-  //Carousl//
-  };
 }
