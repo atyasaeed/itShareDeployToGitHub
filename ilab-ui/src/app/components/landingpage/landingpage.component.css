@@ -1,0 +1,23 @@
+/* .carousel-inner {
+    text-align: center;
+    margin: 0 auto;
+} */
+
+.carousel-inner{
+    height: 50vh;
+}
+.carousel-inner > .carousel-item > img {
+    width: 100%;
+  }
+
+  .card-img-top{
+      max-height: 180px;
+      min-height: 100px;
+  }
+
+  @media screen and (max-width: 900px){
+    .carousel-control-next-icon,.carousel-control-prev{
+        display: none;
+        visibility: hidden;
+    }
+  }

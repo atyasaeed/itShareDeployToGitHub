@@ -1,0 +1,57 @@
+ 
+<section class="container">
+    <div class="row">
+      <div class="col-sm-9 col-md-7  mx-auto">
+        <div class="card card-signin my-5">
+          <div class="card-body">
+            <h5 class="card-header info-color white-text text-center py-4">
+              <strong>Log In</strong>
+          </h5>
+  
+  
+  <form  class="container" data-toggle="validator" #userForm="ngForm" class="form-signin"  (ngSubmit)="userForm.valid && onSubmit(userForm)">
+   <section class="form-row">
+    <div class="form-group col-lg-6 mb-2">
+      <label>User Name</label>
+      <input type="text" #userName="ngModel" [(ngModel)]="model.userName" name="userName" class="form-control" 
+      [ngClass]="{ 'is-invalid': userForm.submitted && userName.invalid }" userName   required>
+      <div *ngIf="userForm.submitted && userName.invalid" class="text-danger">
+        <div *ngIf="userName.errors.required">username is required</div>
+        <div *ngIf="userName.errors.userName">Must be a valid userName address</div>
+      </div>
+    </div>
+    <div class="form-group col-lg-6 mb-2">
+        <label>Password</label>
+        <input type="password" #password="ngModel" [(ngModel)]="model.password" name="password" class="form-control" 
+        [ngClass]="{ 'is-invalid': userForm.submitted && password.invalid }" password   required>
+        <div *ngIf="userForm.submitted && password.invalid" class="text-danger">
+          <div *ngIf="password.errors.required">password is required</div>
+          <div *ngIf="password.errors.password">Must be a valid password</div>
+        </div>
+      </div>
+   </section>
+
+  <section  class="form-row">
+    <div class="form-group col-lg-3 mb-2">
+      <input  type="submit" class="btn btn-primary btn-block"  value="Log In " >
+    </div>
+    <div class="form-group col-lg-6 mb-2">
+    </div>
+  </section >
+    <hr class="my-4">
+    <section class="row">
+      <div class="sign-up col-lg-6 mb-2">
+        Create? <a [routerLink]="['/registration']">New Account</a>
+      </div>
+    <div class="forget-password col-lg-6 mb-2">
+      If you ? <a [routerLink]="['/forget-password']">Forget Password</a>
+    </div>
+    </section>
+  
+  </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
