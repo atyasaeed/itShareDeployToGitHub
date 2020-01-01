@@ -15,18 +15,18 @@
       <label>User Name</label>
       <input type="text" #userName="ngModel" [(ngModel)]="model.userName" name="userName" class="form-control" 
       [ngClass]="{ 'is-invalid': userForm.submitted && userName.invalid }" userName   required>
-      <div *ngIf="userForm.submitted && userName.invalid" class="text-danger error-none">
-        <div *ngIf="userName.errors.required">Email is required</div>
-        <div *ngIf="userName.errors.email">Must be a valid email address</div>
+      <div *ngIf="userForm.submitted && userName.invalid" class="text-danger">
+        <div *ngIf="userName.errors.required">username is required</div>
+        <div *ngIf="userName.errors.userName">Must be a valid userName address</div>
       </div>
     </div>
     <div class="form-group col-lg-6 mb-2">
         <label>Password</label>
         <input type="password" #password="ngModel" [(ngModel)]="model.password" name="password" class="form-control" 
         [ngClass]="{ 'is-invalid': userForm.submitted && password.invalid }" password   required>
-        <div *ngIf="userForm.submitted && password.invalid" class="text-danger error-none">
-          <div *ngIf="password.errors.required">Email is required</div>
-          <div *ngIf="password.errors.email">Must be a valid email address</div>
+        <div *ngIf="userForm.submitted && password.invalid" class="text-danger">
+          <div *ngIf="password.errors.required">password is required</div>
+          <div *ngIf="password.errors.password">Must be a valid password</div>
         </div>
       </div>
    </section>

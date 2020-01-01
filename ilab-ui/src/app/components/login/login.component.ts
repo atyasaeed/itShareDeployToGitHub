@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginData } from './login.model';
 import { NgForm } from '@angular/forms';
+import { RestServiceService } from 'src/app/services/rest-service.service';
 
 @Component({
   selector: 'app-login',
@@ -18,16 +19,15 @@ export class LoginComponent implements OnInit {
 }
 
   
-  constructor(private router:Router) { }
+  constructor(private router:Router, private restservice:RestServiceService) { }
 
   ngOnInit() {
     
   }
 
   onSubmit(userForm:NgForm){
-    const userName = "mody";
-    const password = "123456"
-    if (userForm.value.userName ==userName && userForm.value.password == password) {
+
+    if ( this.restservice.login(userForm.value.userName,userForm.value.password) ) {
       this.router.navigate(['/order']);
       this.model.isLoggedin = true;
       localStorage.setItem('token','body');
