@@ -1,9 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, Injectable } from '@angular/core';
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
-import { RouterModule } from '@angular/router';
 import { LandingpageComponent } from './components/landingpage/landingpage.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { CartComponent } from './components/cart/cart.component';
@@ -14,6 +14,10 @@ import { ForgetPasswordComponent } from './components/forget-password/forget-pas
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { FormsModule } from '@angular/forms';
+import { fakeBackendProvider } from './helpers';
+import { AlertComponent } from './components/alert/alert.component';
+import { AuthInterceptor } from './helpers/auth-interceptor';
+import { ErrorInterceptor } from './helpers/error-interceptor';
 
 
 
@@ -31,13 +35,20 @@ import { FormsModule } from '@angular/forms';
     ForgetPasswordComponent,
     NavbarComponent,
     FooterComponent,
+    AlertComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
+    
     FormsModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    fakeBackendProvider
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
