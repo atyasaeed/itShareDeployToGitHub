@@ -13,7 +13,7 @@
                         <section class="form-row">
                             <div class="form-group col-lg-6 mb-2">
                                 <label>User Name</label>
-                                <input type="text" #userName="ngModel" [(ngModel)]="model.userName" name="userName" class="form-control" [ngClass]="{ 'is-invalid': userForm.submitted && userName.invalid }" userName required>
+                                <input type="text" #userName="ngModel" [(ngModel)]="model.username" name="userName" class="form-control" [ngClass]="{ 'is-invalid': userForm.submitted && userName.invalid }" userName required>
                                 <div *ngIf="userForm.submitted && userName.invalid" class="text-danger">
                                     <div *ngIf="userName.errors.required">username is required</div>
                                     <div *ngIf="userName.errors.userName">Must be a valid userName address</div>
@@ -47,6 +47,7 @@
                         </section>
 
                     </form>
+                    
                 </div>
             </div>
         </div>

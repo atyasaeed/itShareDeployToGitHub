@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
  // model: LoginData;
   model={
-  userName:"",
+  username:"",
   password:"",
   isLoggedin: false,
 }
@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(){
-    this.authenticationService.login(this.model.userName,this.model.password)
+    this.authenticationService.login(this.model.username,this.model.password)
       .pipe(first()).subscribe(data => {
       this.router.navigate([this.returnUrl]);
     },

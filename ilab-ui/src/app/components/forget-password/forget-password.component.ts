@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from 'src/app/services/user.service';
+import { AuthenticationService, AlertService } from 'src/app/services';
 
 @Component({
   selector: 'app-forget-password',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ForgetPasswordComponent implements OnInit {
 
-  constructor() { }
+  constructor(private UserService:UserService,private alertService: AlertService) { }
+
+  model ={
+    email:''
+  }
 
   ngOnInit() {
+  }
+
+  onSubmit(){
+    this.UserService.forgetPassword(this.model.email).subscribe(
+      res=>{this.alertService.success("check your email please")
+        console.log(res)}
+    )
   }
 
 }

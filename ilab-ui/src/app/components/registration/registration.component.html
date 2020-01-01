@@ -8,11 +8,11 @@
           </h5>
   
   
-  <form  class="container" data-toggle="validator">
+  <!-- <form  class="container" data-toggle="validator" >
    <section class="form-row">
     <div class="form-group col-lg-4 mb-2">
       <label>First Name</label>
-      <input type="text" name="firstname" class="form-control" required>
+      <input type="text" name="firstname" class="form-control"  required>
       <div class="text-danger error-none">
         <small>firstname is required</small>
       </div>
@@ -69,7 +69,80 @@
     <input type="submit" class="btn btn-primary btn-block"  value="Create new account " >
     <hr class="my-4">
     
-  </form>
+  </form> -->
+  <form #userForm="ngForm" (ngSubmit)="userForm.form.valid && onSubmit()" class="container">
+    <section class="form-row">
+     <div class="form-group col-lg-4 mb-2">
+       <label>First Name</label>
+       <input type="text" name="firstName" class="form-control" [(ngModel)]="model.firstName" #firstName="ngModel"
+         [ngClass]="{ 'is-invalid': userForm.submitted && firstName.invalid }" required>
+       <div class="invalid-feedback" *ngIf="userForm.submitted && firstName.invalid">
+         <p *ngIf="firstName.errors.required">Name is required</p>
+       </div>
+     </div>
+     <div class="form-group col-lg-4 mb-2">
+       <label>Last Name</label>
+       <input type="text" name="lastName" class="form-control" [(ngModel)]="model.lastName" #lastName="ngModel"
+         [ngClass]="{ 'is-invalid': userForm.submitted && lastName.invalid }" required>
+       <div class="invalid-feedback" *ngIf="userForm.submitted && lastName.invalid">
+         <p *ngIf="lastName.errors.required">Name is required</p>
+       </div>
+     </div>
+     <div class="form-group col-lg-4 mb-2">
+      <label>Phone</label>
+      <input type="text" name="phone" class="form-control"  [(ngModel)]="model.phone" #phone="ngModel"
+        [ngClass]="{ 'is-invalid': userForm.submitted && phone.invalid }" required>
+      <div class="invalid-feedback" *ngIf="userForm.submitted && phone.invalid">
+        <p *ngIf="phone.errors.required">phone is required</p>
+      </div>
+    </div>
+    </section>
+   <section class="form-row">
+     <div class="form-group col-lg-6 mb-3">
+       <label>Email</label>
+       <input type="email" class="form-control" name="email" [(ngModel)]="model.email" #email="ngModel"
+         [ngClass]="{ 'is-invalid': userForm.submitted && email.invalid }" email required>
+       <div *ngIf="userForm.submitted && email.invalid" class="invalid-feedback">
+         <div *ngIf="email.errors.required">Email is required</div>
+         <div *ngIf="email.errors.email">Must be a valid email address</div>
+       </div>
+     </div>
+     <div class="form-group col-lg-6 mb-3">
+       <label>User Name</label>
+       <input type="text" name="username" class="form-control" [(ngModel)]="model.username" #username="ngModel"
+         [ngClass]="{ 'is-invalid': userForm.submitted && username.invalid }" required>
+       <div class="invalid-feedback" *ngIf="userForm.submitted && username.invalid">
+         <p *ngIf="username.errors.required">Name is required</p>
+       </div>
+     </div>
+   </section>
+   
+   <section class="form-row">
+     <div class="form-group col-lg-6 mb-3">
+       <label>Password</label>
+       <input type="password" class="form-control" name="password"  [(ngModel)]="model.password" #password="ngModel"
+         [ngClass]="{ 'is-invalid': userForm.submitted && password.invalid }" minlength="8" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+       <div *ngIf="userForm.submitted && password.invalid" class="invalid-feedback">
+         <div *ngIf="password.errors.required ">Password is required</div>
+         <div *ngIf="password.errors.minlength">Password should be at least 8 characters long</div>
+       </div>
+   
+     </div>
+   
+     <div class="form-group col-lg-6 mb-3">
+       <label>Confirm PassWord</label>
+       <input type="password" class="form-control" name="confirmPassword" #confirmPassword
+         [ngClass]="{ 'is-invalid': userForm.submitted && confirmPassword.invalid }" minlength="8" required pattern="{{password.value}}">
+       <div *ngIf="userForm.submitted && confirmPassword.invalid" class="invalid-feedback">
+         <div *ngIf="confirmPassword.errors.required">Password is required</div>
+         <div *ngIf="confirmPassword.errors.pattern">Password & Confirm Password does not match</div>
+       </div>
+     </div>
+   </section>
+   
+     <input type="submit" class="btn btn-primary btn-block"  value="Create new account " >
+     <hr class="my-4">
+   </form>
   <div class="sign-up">
     If you have an account? <a [routerLink]="['/login']">Log In</a>
   </div>

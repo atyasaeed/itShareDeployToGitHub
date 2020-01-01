@@ -17,4 +17,9 @@ export class UserService {
   delete(id: number) {
     return this.http.delete(`/users/${id}`);
   }
+
+  forgetPassword(email:any){
+    return this.http.post("/users/forget", email);
+
+  }
 }

@@ -2,6 +2,7 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse, HTT
 import { Observable, of, throwError } from 'rxjs';
 import { mergeMap, materialize, delay, dematerialize } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
+import { EmailValidator } from '@angular/forms';
 // array in local storage for registered users
 let users = JSON.parse(localStorage.getItem('users')) || [];
 @Injectable()
@@ -21,6 +22,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return getUsers();
                 case url.match(/\/users\/\d+$/) && method === 'DELETE':
                     return deleteUser();
+                case url.endsWith("/users/forget") && method === 'POST':
+                    return forgetPassword();
                 default:
                     // pass through any requests not handled above
                     return next.handle(request);
@@ -86,8 +89,16 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 const urlParts = url.split('/');
                 return parseInt(urlParts[urlParts.length - 1]);
             }
+
+            function forgetPassword() {
+               
+                return ok('gkgglhglhglhj');
+
+            
+            }
         }
     }
+
 
 
 
