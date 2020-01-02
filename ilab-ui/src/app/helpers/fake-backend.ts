@@ -22,8 +22,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return getUsers();
                 case url.match(/\/users\/\d+$/) && method === 'DELETE':
                     return deleteUser();
-                case url.endsWith("/users/forget") && method === 'POST':
+                case url.endsWith("/users/forgetpassword") && method === 'POST':
                     return forgetPassword();
+                case url.endsWith("/users/changePassword") && method === 'POST':
+                    return changePassword();
                 default:
                     // pass through any requests not handled above
                     return next.handle(request);
@@ -91,11 +93,20 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             }
 
             function forgetPassword() {
-               
-                return ok('gkgglhglhglhj');
+                const email = body;
+                const user = users.find(rr => rr.email === email);
+                if (user) {
+                    return ok(user);
+                }
 
-            
             }
+            function changePassword(){
+                const user =body;
+                if (users.find(rr=>rr.password === user.oldpassword )) {
+                }
+                return ok()
+            }
+
         }
     }
 

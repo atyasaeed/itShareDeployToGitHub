@@ -19,7 +19,11 @@ export class UserService {
   }
 
   forgetPassword(email:any){
-    return this.http.post("/users/forget", email);
+    return this.http.post<any>("/users/forgetpassword", email);
+
+  }
+  changePassword(model:any){
+    return this.http.post<any>("/users/changePassword", model);
 
   }
 }

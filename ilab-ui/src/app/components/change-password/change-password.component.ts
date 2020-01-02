@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from 'src/app/services/user.service';
+import { AlertService } from 'src/app/services';
 
 @Component({
   selector: 'app-change-password',
@@ -7,9 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChangePasswordComponent implements OnInit {
 
-  constructor() { }
+  constructor(private UserService:UserService,private alertService: AlertService) { }
+
+  model={
+    oldpassword:'',
+    newpassword:'',
+    confirmpassword:''
+  }
 
   ngOnInit() {
+  }
+
+  onSubmit(){
+    this.UserService.changePassword(this.model).subscribe(
+      res=>{}
+    )
+
   }
 
 }
