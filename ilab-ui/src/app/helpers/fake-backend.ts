@@ -3,6 +3,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { mergeMap, materialize, delay, dematerialize } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { EmailValidator } from '@angular/forms';
+import { User } from '../domain';
 // array in local storage for registered users
 let users = JSON.parse(localStorage.getItem('users')) || [];
 @Injectable()
@@ -26,6 +27,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return forgetPassword();
                 case url.endsWith("/users/changePassword") && method === 'POST':
                     return changePassword();
+                case url.endsWith("/users/logout") && method === 'POST':
+                    return logout();
+
                 default:
                     // pass through any requests not handled above
                     return next.handle(request);
@@ -100,11 +104,20 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 }
 
             }
-            function changePassword(){
-                const user =body;
-                if (users.find(rr=>rr.password === user.oldpassword )) {
+            function logout() {
+                return ok();
+            }
+            function changePassword() {
+
+                const model = body;
+                const user = users.find(r=> r.username === model.username);
+                if (isLoggedIn() && user.password === model.model.oldpassword ) {
+                    user.password = model.model.newpassword;
+                    localStorage.setItem('users', JSON.stringify(users));
+                    return ok(user);
                 }
-                return ok()
+               
+
             }
 
         }

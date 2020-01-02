@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../domain';
+import { AuthenticationService } from 'src/app/services';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient ,private AuthenticationService:AuthenticationService) { }
   register(user: User) {
     return this.http.post("/users/register", user);
   }
@@ -23,7 +25,8 @@ export class UserService {
 
   }
   changePassword(model:any){
-    return this.http.post<any>("/users/changePassword", model);
+    const username = this.AuthenticationService.currentUserValue.username
+    return this.http.post<any>("/users/changePassword",{username,model});
 
   }
 }

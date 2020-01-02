@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from "rxjs/operators";
 import { User } from '../domain';
+import { ok } from 'assert';
 
 @Injectable({
   providedIn: 'root'
@@ -40,5 +41,7 @@ export class AuthenticationService {
     this.currentUserSubject.next(null);
 
     //TODO: to call backend logout
+    return this.http.get<any>('/users/logout')
+
   }
 }

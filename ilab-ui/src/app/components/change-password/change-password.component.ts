@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { AlertService } from 'src/app/services';
+import { AuthenticationService } from 'src/app/services';
+
+
+
 
 @Component({
   selector: 'app-change-password',
@@ -9,7 +13,9 @@ import { AlertService } from 'src/app/services';
 })
 export class ChangePasswordComponent implements OnInit {
 
-  constructor(private UserService:UserService,private alertService: AlertService) { }
+  constructor(private UserService:UserService,private alertService: AlertService,private AuthenticationService:AuthenticationService) { }
+  
+  username = this.AuthenticationService.currentUserValue.username;
 
   model={
     oldpassword:'',
@@ -22,7 +28,8 @@ export class ChangePasswordComponent implements OnInit {
 
   onSubmit(){
     this.UserService.changePassword(this.model).subscribe(
-      res=>{}
+      res=>{console.log(res); this.alertService.success("your password is changed"); },
+      err=>{this.alertService.error("sorry your password is incorrect")}
     )
 
   }

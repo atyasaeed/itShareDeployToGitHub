@@ -20,8 +20,8 @@ export class NavbarComponent implements OnInit {
     return this.authenticationService.currentUserValue!=null;
   }
 
-  islogout(){
-    localStorage.removeItem('token')
+  logout(){
+    return this.authenticationService.logout().subscribe()
   }
 
 

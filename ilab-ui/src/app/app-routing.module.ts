@@ -10,17 +10,23 @@ import { ServiceComponent } from './components/service/service.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { ForgetPasswordComponent } from './components/forget-password/forget-password.component';
 
+import { AuthGuard } from 'src/app/services/auth-guard.guard';
+import { NonAuthGuard } from './services/non-auth.guard';
+
+
+
 
 const routes: Routes = [
   {path:'' , component:LandingpageComponent},
+  {path:'Landingpage' , component:LandingpageComponent},
   {path:'login',component:LoginComponent},
-  {path:'registration',component:RegistrationComponent},
-  {path:'signup',component:RegistrationComponent},
+  {path:'registration',component:RegistrationComponent,canActivate:[NonAuthGuard]},
+  //{path:'signup',component:RegistrationComponent,canActivate:[AuthGuard]},
   {path:'cart',component:CartComponent},
-  {path:'order',component:TrackOrderComponent},
+  {path:'order',component:TrackOrderComponent,canActivate:[AuthGuard]},
   {path:'service',component:ServiceComponent},
-  {path:'change-password',component:ChangePasswordComponent},
-  {path:'forget-password',component:ForgetPasswordComponent},
+  {path:'change-password',component:ChangePasswordComponent,canActivate:[AuthGuard]},
+  {path:'forget-password',component:ForgetPasswordComponent,canActivate:[NonAuthGuard]},
 
 
 ];
