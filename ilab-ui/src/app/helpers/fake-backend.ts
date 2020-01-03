@@ -3,120 +3,131 @@ import { Observable, of, throwError } from 'rxjs';
 import { mergeMap, materialize, delay, dematerialize } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { EmailValidator } from '@angular/forms';
+import { Service } from '../domain';
 // array in local storage for registered users
 let users = JSON.parse(localStorage.getItem('users')) || [];
+let services : Service []=[{id:1, name:'3D Printing', img:'assets/img06.jpg', description: 'Test test Test1' },
+                      {id:2, name:'3D Printing', img:'assets/img09.jpg', description: 'Test test Test2'},
+                      {id:3, name:'3D Printing3', img:'assets/img08.jpg', description: 'Test test Test3'}];
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
-    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const { url, method, headers, body } = request;
-        return of(null).pipe(mergeMap(handleRoute))
-            .pipe(materialize()).pipe(delay(500)).pipe(dematerialize());
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const { url, method, headers, body } = request;
+    return of(null).pipe(mergeMap(handleRoute))
+      .pipe(materialize()).pipe(delay(500)).pipe(dematerialize());
 
-        function handleRoute() {
-            switch (true) {
-                case url.endsWith('/users/authenticate') && method === 'POST':
-                    return authenticate();
-                case url.endsWith('/users/register') && method === 'POST':
-                    return register();
-                case url.endsWith('/users') && method === 'GET':
-                    return getUsers();
-                case url.match(/\/users\/\d+$/) && method === 'DELETE':
-                    return deleteUser();
-                case url.endsWith("/users/forgetpassword") && method === 'POST':
-                    return forgetPassword();
-                case url.endsWith("/users/changePassword") && method === 'POST':
-                    return changePassword();
-                default:
-                    // pass through any requests not handled above
-                    return next.handle(request);
-            }
-            // route functions
+    function handleRoute() {
+      switch (true) {
+        case url.endsWith('/users/authenticate') && method === 'POST':
+          return authenticate();
+        case url.endsWith('/users/register') && method === 'POST':
+          return register();
+        case url.endsWith('/users') && method === 'GET':
+          return getUsers();
+        case url.match(/\/users\/\d+$/) && method === 'DELETE':
+          return deleteUser();
+        case url.endsWith("/users/forgetpassword") && method === 'POST':
+          return forgetPassword();
+        case url.endsWith("/users/changePassword") && method === 'POST':
+          return changePassword();
 
-            function authenticate() {
-                const { username, password } = body;
-                const user = users.find(x => x.username === username && x.password === password);
-                if (!user) return error('Username or password is incorrect');
-                return ok({
-                    id: user.id,
-                    username: user.username,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    token: 'fake-jwt-token'
-                })
-            }
-            function register() {
-                const user = body
+        case url.endsWith('/services') && method === 'GET':
+          return getServices();
+        default:
+          // pass through any requests not handled above
+          return next.handle(request);
+      }
+      // route functions
 
-                if (users.find(x => x.username === user.username)) {
-                    return error('Username "' + user.username + '" is already taken')
-                }
+      function authenticate() {
+        const { username, password } = body;
+        const user = users.find(x => x.username === username && x.password === password);
+        if (!user) return error('Username or password is incorrect');
+        return ok({
+          id: user.id,
+          username: user.username,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          token: 'fake-jwt-token'
+        })
+      }
+      function register() {
+        const user = body
 
-                user.id = users.length ? Math.max(...users.map(x => x.id)) + 1 : 1;
-                users.push(user);
-                localStorage.setItem('users', JSON.stringify(users));
-
-                return ok();
-            }
-            function getUsers() {
-                if (!isLoggedIn()) return unauthorized();
-                return ok(users);
-            }
-            function deleteUser() {
-                if (!isLoggedIn()) return unauthorized();
-
-                users = users.filter(x => x.id !== idFromUrl());
-                localStorage.setItem('users', JSON.stringify(users));
-                return ok();
-            }
-            // helper functions
-
-            function ok(body?) {
-                return of(new HttpResponse({ status: 200, body }))
-            }
-
-            function error(message) {
-                return throwError({ error: { message } });
-            }
-
-            function unauthorized() {
-                return throwError({ status: 401, error: { message: 'Unauthorised' } });
-            }
-
-            function isLoggedIn() {
-                return headers.get('Authorization') === 'Bearer fake-jwt-token';
-                // return true;
-            }
-
-            function idFromUrl() {
-                const urlParts = url.split('/');
-                return parseInt(urlParts[urlParts.length - 1]);
-            }
-
-            function forgetPassword() {
-                const email = body;
-                const user = users.find(rr => rr.email === email);
-                if (user) {
-                    return ok(user);
-                }
-
-            }
-            function changePassword(){
-                const user =body;
-                if (users.find(rr=>rr.password === user.oldpassword )) {
-                }
-                return ok()
-            }
-
+        if (users.find(x => x.username === user.username)) {
+          return error('Username "' + user.username + '" is already taken')
         }
+
+        user.id = users.length ? Math.max(...users.map(x => x.id)) + 1 : 1;
+        users.push(user);
+        localStorage.setItem('users', JSON.stringify(users));
+
+        return ok();
+      }
+      function getUsers() {
+        if (!isLoggedIn()) return unauthorized();
+        return ok(users);
+      }
+      function deleteUser() {
+        if (!isLoggedIn()) return unauthorized();
+
+        users = users.filter(x => x.id !== idFromUrl());
+        localStorage.setItem('users', JSON.stringify(users));
+        return ok();
+      }
+      // helper functions
+
+      function ok(body?) {
+        return of(new HttpResponse({ status: 200, body }))
+      }
+
+      function error(message) {
+        return throwError({ error: { message } });
+      }
+
+      function unauthorized() {
+        return throwError({ status: 401, error: { message: 'Unauthorised' } });
+      }
+
+      function isLoggedIn() {
+        return headers.get('Authorization') === 'Bearer fake-jwt-token';
+        // return true;
+      }
+
+      function idFromUrl() {
+        const urlParts = url.split('/');
+        return parseInt(urlParts[urlParts.length - 1]);
+      }
+
+      function forgetPassword() {
+        const email = body;
+        const user = users.find(rr => rr.email === email);
+        if (user) {
+          return ok(user);
+        }
+
+      }
+      function changePassword() {
+        const user = body;
+        if (users.find(rr => rr.password === user.oldpassword)) {
+        }
+        return ok()
+      }
+
+      function getServices() {
+        return ok(services);
+      }
+
     }
+  }
 
 
 
 
 }
 export const fakeBackendProvider = {
-    // use fake backend in place of Http service for backend-less development
-    provide: HTTP_INTERCEPTORS,
-    useClass: FakeBackendInterceptor,
-    multi: true
+  // use fake backend in place of Http service for backend-less development
+  provide: HTTP_INTERCEPTORS,
+  useClass: FakeBackendInterceptor,
+  multi: true
 };

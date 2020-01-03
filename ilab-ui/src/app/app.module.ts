@@ -18,6 +18,7 @@ import { fakeBackendProvider } from './helpers';
 import { AlertComponent } from './components/alert/alert.component';
 import { AuthInterceptor } from './helpers/auth-interceptor';
 import { ErrorInterceptor } from './helpers/error-interceptor';
+import { ServiceCardComponent } from './components/service-card/service-card.component';
 
 
 
@@ -36,12 +37,13 @@ import { ErrorInterceptor } from './helpers/error-interceptor';
     NavbarComponent,
     FooterComponent,
     AlertComponent,
+    ServiceCardComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    
+
     FormsModule
   ],
   providers: [
