@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Order } from 'src/app/domain';
-import { TrackOrdersService } from 'src/app/services';
+import { OrdersService } from 'src/app/services';
 
 @Component({
   selector: 'app-track-order',
@@ -11,13 +11,11 @@ export class TrackOrderComponent implements OnInit {
 
   orders: Array<Order>;
 
-  constructor(private restOrders:TrackOrdersService) { }
+  constructor(private ordersService:OrdersService) { }
 
   ngOnInit() {
 
-    this.restOrders.getAll().subscribe((orders:Array<Order>)=>{
-      this.orders=orders;
-    });
+    this.ordersService.query<Order[]>().subscribe(orders=>this.orders=orders);
 }
 
 }

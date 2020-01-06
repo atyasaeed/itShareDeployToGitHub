@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../domain';
-import { AuthenticationService } from 'src/app/services';
+import { AuthenticationService } from './authentication.service';
 
 
 @Injectable({

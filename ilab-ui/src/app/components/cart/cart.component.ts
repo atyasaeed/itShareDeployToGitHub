@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { ShoppingCartItem } from 'src/app/domain/shoppingcart-item.model';
 import { ShoppingCartService } from 'src/app/services/shoppingcart.service';
 import { OrdersService } from 'src/app/services/orders.service';
+import { Order, LineItem } from 'src/app/domain';
+import { OrderItem } from 'src/app/domain/order-item.model';
 
 @Component({
   selector: 'app-cart',
@@ -16,20 +18,32 @@ export class CartComponent implements OnInit {
   items: Array<ShoppingCartItem>;
   ngOnInit() {
     this.refresh();
-    
+
   }
   deletItem(id) {
     this.shoppingCartService.delete(id).subscribe(resp=>{
-      
+
       this.refresh();
     });
   }
 
   checkout() {
-    this.ordersService.create(null).subscribe(resp=>{
+    const order=new Order();
+    order.status="WQ";
+    order.date=new Date();
+    order.lineItems=this.items.map((scItem:ShoppingCartItem)=>{
+      const orderItem=new OrderItem();
+      orderItem.quantity=scItem.quantity;
+      orderItem.status="WQ";
+      orderItem.service=scItem.service;
+      orderItem.id=scItem.id;
+      return orderItem;
+    });
+
+    this.ordersService.create(order).subscribe(resp=>{
       this.router.navigate(["/"]);
     });
-    
+
 
     // this.CartService.addOrder(this.item).subscribe(
     //   res => {

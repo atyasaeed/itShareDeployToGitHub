@@ -7,6 +7,11 @@ import { RestService } from './rest-service';
   providedIn: 'root'
 })
 
+export class OrdersService extends RestService {
+  resource:string="/orders";
+}
+
+
 export class TrackOrdersService {
 
   constructor(private http: HttpClient) { }
@@ -14,6 +19,5 @@ export class TrackOrdersService {
   getAll() {
     return this.http.get<Order[]>(`/orders`);
   }
-export class OrdersService extends RestService {
-  resource:string="/orders";
+
 }

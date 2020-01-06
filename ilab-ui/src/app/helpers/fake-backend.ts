@@ -4,14 +4,33 @@ import { Observable, of, throwError } from 'rxjs';
 import { mergeMap, materialize, delay, dematerialize } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { EmailValidator } from '@angular/forms';
-import { User } from '../domain';
+import { User, Order } from '../domain';
 import { ActivatedRoute } from '@angular/router';
 import { LineItem } from '../domain';
 // array in local storage for registered users
 let users = JSON.parse(localStorage.getItem('users')) || [];
 let shoppingCart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
-const orders = JSON.parse(localStorage.getItem('orders')) || [];
-
+const orders:any[] = JSON.parse(localStorage.getItem('orders')) || [];
+// let orders=
+// const orders=[{
+//   id: 5555, date: new Date(), total_payment: 930, status: 'Waiting For Approval', lineItems: [{
+//     id: 1, serviceName: '3D Printing', img: 'assets/img09.jpg', status: 'pending', details: 'ay Kalam'
+//   },
+//   { id: 2, serviceName: 'laser cutting machine', img: 'assets/img05.jpg', status: 'Done', details: 'ay Kalam version 02' },]
+// },
+// {
+//   id: 9999, date: new Date(), total_payment: 930, status: 'Canceled', lineItems: [{
+//     id: 1, serviceName: '3D Printing', img: 'assets/img09.jpg', status: 'pending', details: 'ay Kalam'
+//   },
+//   { id: 2, serviceName: 'laser cutting machine', img: 'assets/img05.jpg', status: 'Done', details: 'ay Kalam version 02' },]
+// },
+// {
+//   id: 9999, date: new Date(), total_payment: 930, status: 'Delivered', lineItems: [{
+//     id: 1, serviceName: '3D Printing', img: 'assets/img09.jpg', status: 'pending', details: 'ay Kalam'
+//   },
+//   { id: 2, serviceName: 'laser cutting machine', img: 'assets/img05.jpg', status: 'Done', details: 'ay Kalam version 02' },]
+// },
+// ];
 
 
 const services: Service[] = [
@@ -19,25 +38,7 @@ const services: Service[] = [
   { id: 2, title: '3D', description: 'LazerLazerLazerLazer', image: '../../assets/img04.jpg' },
   { id: 3, title: 'Any', description: 'LazerLazerLazerLazer', image: '../../assets/img05.jpg' },
 ];
-  {
-    id: 5555, date: new Date(), total_payment: 930, status: 'Waiting For Approval', lineItems: [{
-      id: 1, serviceName: '3D Printing', img: 'assets/img09.jpg', status: 'pending', details: 'ay Kalam'
-    },
-    { id: 2, serviceName: 'laser cutting machine', img: 'assets/img05.jpg', status: 'Done', details: 'ay Kalam version 02' },]
-  },
-  {
-    id: 9999, date: new Date(), total_payment: 930, status: 'Canceled', lineItems: [{
-      id: 1, serviceName: '3D Printing', img: 'assets/img09.jpg', status: 'pending', details: 'ay Kalam'
-    },
-    { id: 2, serviceName: 'laser cutting machine', img: 'assets/img05.jpg', status: 'Done', details: 'ay Kalam version 02' },]
-  },
-  {
-    id: 9999, date: new Date(), total_payment: 930, status: 'Delivered', lineItems: [{
-      id: 1, serviceName: '3D Printing', img: 'assets/img09.jpg', status: 'pending', details: 'ay Kalam'
-    },
-    { id: 2, serviceName: 'laser cutting machine', img: 'assets/img05.jpg', status: 'Done', details: 'ay Kalam version 02' },]
-  },
-];
+
 
 
 @Injectable()
@@ -200,20 +201,20 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         localStorage.setItem('shoppingCart', JSON.stringify(shoppingCart));
         return ok();
       }
-
-      function addOrder() {
-        // const orderDetails = body;
-      function getServices() {
-        return ok(services);
-      }
-
       function getOrders() {
         return ok(orders);
       }
 
-        // orderDetails.id = orders.length ? Math.max(...orders.map(x => x.id)) + 1 : 1;
-        // orders.push(orderDetails);
-        // localStorage.setItem('ordersDetalis', JSON.stringify(orders));
+      function addOrder() {
+        const order:Order=body;
+        // const orderDetails = body;
+
+
+
+
+        order.id = orders.length ? Math.max(...orders.map(x => x.id)) + 1 : 1;
+        orders.push(order);
+        localStorage.setItem('orders', JSON.stringify(orders));
 
         // return ok(localStorage.getItem('ordersDetalis'));
         localStorage.removeItem("shoppingCart");
