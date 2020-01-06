@@ -19,6 +19,8 @@ import { AlertComponent } from './components/alert/alert.component';
 import { AuthInterceptor } from './helpers/auth-interceptor';
 import { ErrorInterceptor } from './helpers/error-interceptor';
 import { ServiceCardComponent } from './components/service-card/service-card.component';
+import { OrderCardComponent } from './components/order-card/order-card.component';
+import { LineItemComponent } from './components/line-item/line-item.component';
 
 
 
@@ -38,6 +40,8 @@ import { ServiceCardComponent } from './components/service-card/service-card.com
     FooterComponent,
     AlertComponent,
     ServiceCardComponent,
+    OrderCardComponent,
+    LineItemComponent,
   ],
   imports: [
     BrowserModule,

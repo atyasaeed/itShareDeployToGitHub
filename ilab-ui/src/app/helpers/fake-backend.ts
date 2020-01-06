@@ -4,11 +4,41 @@ import { mergeMap, materialize, delay, dematerialize } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { EmailValidator } from '@angular/forms';
 import { Service } from '../domain';
+import { Order } from '../domain';
+import { LineItem } from '../domain';
 // array in local storage for registered users
 let users = JSON.parse(localStorage.getItem('users')) || [];
-let services : Service []=[{id:1, name:'3D Printing', img:'assets/img06.jpg', description: 'Test test Test1' },
-                      {id:2, name:'3D Printing', img:'assets/img09.jpg', description: 'Test test Test2'},
-                      {id:3, name:'3D Printing3', img:'assets/img08.jpg', description: 'Test test Test3'}];
+let services: Service[] = [{ id: 1, name: '3D Printing', img: 'assets/img06.jpg', description: 'Test test Test1' }, { id: 2, name: '3D Printing', img: 'assets/img09.jpg', description: 'Test test Test2' }, { id: 3, name: '3D Printing3', img: 'assets/img08.jpg', description: 'Test test Test3' }];
+
+let orders: Order[] = [
+  {
+    id: 4566, date: new Date(), total_payment: 200, status: 'Waiting For Quotation', lineItems: [{
+      id: 1, serviceName: '3D Printing', img: 'assets/img09.jpg', status: 'pending', details: 'ay Kalam'
+    },
+    { id: 2, serviceName: 'laser cutting machine', img: 'assets/img03.jpg', status: 'Done', details: 'ay Kalam version 02' },]
+  },
+  // {id: 5678, date: new Date(2020, 6, 31), total_payment: 540, status: 'Done' },
+  {
+    id: 5555, date: new Date(), total_payment: 930, status: 'Waiting For Approval', lineItems: [{
+      id: 1, serviceName: '3D Printing', img: 'assets/img09.jpg', status: 'pending', details: 'ay Kalam'
+    },
+    { id: 2, serviceName: 'laser cutting machine', img: 'assets/img05.jpg', status: 'Done', details: 'ay Kalam version 02' },]
+  },
+  {
+    id: 9999, date: new Date(), total_payment: 930, status: 'Canceled', lineItems: [{
+      id: 1, serviceName: '3D Printing', img: 'assets/img09.jpg', status: 'pending', details: 'ay Kalam'
+    },
+    { id: 2, serviceName: 'laser cutting machine', img: 'assets/img05.jpg', status: 'Done', details: 'ay Kalam version 02' },]
+  },
+  {
+    id: 9999, date: new Date(), total_payment: 930, status: 'Delivered', lineItems: [{
+      id: 1, serviceName: '3D Printing', img: 'assets/img09.jpg', status: 'pending', details: 'ay Kalam'
+    },
+    { id: 2, serviceName: 'laser cutting machine', img: 'assets/img05.jpg', status: 'Done', details: 'ay Kalam version 02' },]
+  },
+];
+
+
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -33,6 +63,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         case url.endsWith('/services') && method === 'GET':
           return getServices();
+        case url.endsWith('/orders') && method === 'GET':
+          return getOrders();
+
         default:
           // pass through any requests not handled above
           return next.handle(request);
@@ -116,6 +149,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
       function getServices() {
         return ok(services);
+      }
+
+      function getOrders() {
+        return ok(orders);
       }
 
     }

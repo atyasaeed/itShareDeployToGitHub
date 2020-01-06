@@ -17,7 +17,7 @@ const routes: Routes = [
   {path:'registration',component:RegistrationComponent},
   {path:'signup',component:RegistrationComponent},
   {path:'cart',component:CartComponent},
-  {path:'order',component:TrackOrderComponent},
+  {path:'orders',component:TrackOrderComponent},
   {path:'service',component:ServiceComponent},
   {path:'change-password',component:ChangePasswordComponent},
   {path:'forget-password',component:ForgetPasswordComponent},
