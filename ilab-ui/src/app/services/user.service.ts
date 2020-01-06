@@ -9,9 +9,9 @@ import { AuthenticationService } from 'src/app/services';
 })
 export class UserService {
 
-  constructor(private http: HttpClient ,private AuthenticationService:AuthenticationService) { }
+  constructor(private http: HttpClient , private AuthenticationService: AuthenticationService) { }
   register(user: User) {
-    return this.http.post("/users/register", user);
+    return this.http.post('/users/register', user);
   }
   getAll() {
     return this.http.get<User[]>(`/users`);
@@ -20,13 +20,13 @@ export class UserService {
     return this.http.delete(`/users/${id}`);
   }
 
-  forgetPassword(email:any){
-    return this.http.post<any>("/users/forgetpassword", email);
+  forgetPassword(email: any) {
+    return this.http.post<any>('/users/forgetpassword', email);
 
   }
-  changePassword(model:any){
-    const username = this.AuthenticationService.currentUserValue.username
-    return this.http.post<any>("/users/changePassword",{username,model});
+  changePassword(model: any) {
+    const username = this.AuthenticationService.currentUserValue.username;
+    return this.http.post<any>('/users/changePassword', { username, model});
 
   }
 }

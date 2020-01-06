@@ -14,7 +14,7 @@ import { AuthenticationService } from 'src/app/services';
 export class ChangePasswordComponent implements OnInit {
 
   constructor(private UserService:UserService,private alertService: AlertService,private AuthenticationService:AuthenticationService) { }
-  
+
   username = this.AuthenticationService.currentUserValue.username;
 
   model={

@@ -18,35 +18,37 @@
               <div class="items">
 
                 <!-- One Item Row -->
-                <div class="product">
+                <div class="product" *ngFor="let cartitem of allCartItem ">
                   <div class="row">
                     <div class="col-md-3">
-                      <img class="img-fluid mx-auto d-block image" src="assets/img06.jpg">
+                      <img class="img-fluid mx-auto d-block image" [src]="cartitem.service.image">
                     </div>
                     <div class="col-md-8">
                       <div class="info">
                         <div class="row">
                           <div class="col-md-5 product-name">
                             <div class="product-name">
-                              <a href="#">Lorem Ipsum dolor</a>
+                            <a [routerLink]="['/EditCart',cartitem.id]">{{cartitem.service.title}}</a>
                               <div class="product-info">
-                                <div>Display: <span class="value">5 inch</span></div>
-                                <div>RAM: <span class="value">4GB</span></div>
-                                <div>Memory: <span class="value">32GB</span></div>
+                              <div>Deliver Date: <span class="value">{{cartitem.deliveryDate}}</span></div>
+                              <div>Type of project: <span class="value">{{cartitem.typeProject}}</span></div>
+                              <div>Units used in file: <span class="value">{{cartitem.unit}}</span></div>
                               </div>
                             </div>
                           </div>
+
                           <div class="col-md-3 quantity">
                             <label for="quantity">Quantity:</label>
-                            <input id="quantity" type="number" value="1" class="form-control quantity-input">
+                            <input id="quantity" type="number" value="1" [(ngModel)] = "cartitem.quantity" #quantity='ngModel' class="form-control quantity-input">
                           </div>
                           <div class="col-md-2 price">
-                            <span>$120</span>
+                          <span>$120</span>
                           </div>
+
                           <div class="col-md-2 price">
                             <!-- <span>$120</span> -->
-                            <button type="button" class="btn btn-outline-danger btn-xs">
-                              <i class="fa fa-trash" aria-hidden="true"></i>
+                            <button type="button" class="btn btn-outline-danger btn-xs" (click)="deletItem(cartitem.id)">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
                             </button>
                           </div>
                         </div>
@@ -55,79 +57,6 @@
                   </div>
                 </div>
                 <!-- End One Item Row -->
-
-                <div class="product">
-                  <div class="row">
-                    <div class="col-md-3">
-                      <img class="img-fluid mx-auto d-block image" src="assets/img08.jpg">
-                    </div>
-                    <div class="col-md-8">
-                      <div class="info">
-                        <div class="row">
-                          <div class="col-md-5 product-name">
-                            <div class="product-name">
-                              <a href="#">Lorem Ipsum dolor</a>
-                              <div class="product-info">
-                                <div>Display: <span class="value">5 inch</span></div>
-                                <div>RAM: <span class="value">4GB</span></div>
-                                <div>Memory: <span class="value">32GB</span></div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-3 quantity">
-                            <label for="quantity">Quantity:</label>
-                            <input id="quantity" type="number" value="1" class="form-control quantity-input">
-                          </div>
-                          <div class="col-md-2 price">
-                            <span>$120</span>
-                          </div>
-                          <div class="col-md-2 price">
-                            <!-- <span>$120</span> -->
-                            <button type="button" class="btn btn-outline-danger btn-xs">
-                              <i class="fa fa-trash" aria-hidden="true"></i>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="product">
-                  <div class="row">
-                    <div class="col-md-3">
-                      <img class="img-fluid mx-auto d-block image" src="assets/img10.jpg">
-                    </div>
-                    <div class="col-md-8">
-                      <div class="info">
-                        <div class="row">
-                          <div class="col-md-5 product-name">
-                            <div class="product-name">
-                              <a href="#">Lorem Ipsum dolor</a>
-                              <div class="product-info">
-                                <div>Display: <span class="value">5 inch</span></div>
-                                <div>RAM: <span class="value">4GB</span></div>
-                                <div>Memory: <span class="value">32GB</span></div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-md-3 quantity">
-                            <label for="quantity">Quantity:</label>
-                            <input id="quantity" type="number" value="1" class="form-control quantity-input">
-                          </div>
-                          <div class="col-md-2 price">
-                            <span>$120</span>
-                          </div>
-                          <div class="col-md-2 price">
-                            <!-- <span>$120</span> -->
-                            <button type="button" class="btn btn-outline-danger btn-xs">
-                              <i class="fa fa-trash" aria-hidden="true"></i>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
             <!-- End Cart Items Table -->
@@ -140,7 +69,7 @@
                 <div class="summary-item"><span class="text">Discount</span><span class="price">$0</span></div>
                 <div class="summary-item"><span class="text">Shipping</span><span class="price">$0</span></div>
                 <div class="summary-item"><span class="text">Total</span><span class="price">$360</span></div>
-                <button type="button" class="btn btn-primary btn-lg btn-block">Checkout</button>
+                <button type="button" class="btn btn-primary btn-lg btn-block" (click) ="onsubmit()">Checkout</button>
               </div>
             </div>
             <!-- End Cart Summary & Checkout -->

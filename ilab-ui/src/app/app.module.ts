@@ -8,7 +8,7 @@ import { LandingpageComponent } from './components/landingpage/landingpage.compo
 import { RegistrationComponent } from './components/registration/registration.component';
 import { CartComponent } from './components/cart/cart.component';
 import { TrackOrderComponent } from './components/track-order/track-order.component';
-import { ServiceComponent } from './components/service/service.component';
+import { CartItemComponent } from './components/cart-item/cart-item.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { ForgetPasswordComponent } from './components/forget-password/forget-password.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -18,6 +18,8 @@ import { fakeBackendProvider } from './helpers';
 import { AlertComponent } from './components/alert/alert.component';
 import { AuthInterceptor } from './helpers/auth-interceptor';
 import { ErrorInterceptor } from './helpers/error-interceptor';
+import { ServiceItemComponent } from './components/service-item/service-item.component';
+import { EditCartItemComponent } from './components/edit-cart-item/edit-cart-item.component';
 
 
 
@@ -30,18 +32,19 @@ import { ErrorInterceptor } from './helpers/error-interceptor';
     RegistrationComponent,
     CartComponent,
     TrackOrderComponent,
-    ServiceComponent,
+    CartItemComponent,
     ChangePasswordComponent,
     ForgetPasswordComponent,
     NavbarComponent,
     FooterComponent,
     AlertComponent,
+    ServiceItemComponent,
+    EditCartItemComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    
     FormsModule
   ],
   providers: [

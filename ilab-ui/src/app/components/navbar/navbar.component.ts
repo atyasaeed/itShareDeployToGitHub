@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/services';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-navbar',
@@ -8,21 +9,23 @@ import { AuthenticationService } from 'src/app/services';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private authenticationService:AuthenticationService) { }
+  constructor(private authenticationService: AuthenticationService , private CartService: CartService) { }
 
+  index:number;
   ngOnInit() {
-    
+
   }
 
 
 
   islogin() {
-    return this.authenticationService.currentUserValue!=null;
+    return this.authenticationService.currentUserValue != null;
   }
 
-  logout(){
-    return this.authenticationService.logout().subscribe()
+  logout() {
+    return this.authenticationService.logout().subscribe();
   }
+
 
 
 }

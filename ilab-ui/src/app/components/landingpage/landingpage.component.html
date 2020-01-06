@@ -56,93 +56,10 @@
         <div class="container">
 
             <div class="row">
-                <div class="col-md-4">
-                    <div class="card mb-4 box-shadow">
-                        <img class="card-img-top img-fluid"  src="assets/img06.jpg" alt="Card image cap">
-                        <div class="card-body">
-                            <p class="card-text">This is a wider card with supporting text below as a natural
-                                lead-in to additional content. This content is a little bit longer.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <a type="" class="btn btn-md btn-success" [routerLink]='["/service"]'>Add To Cart</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 box-shadow">
-                        <img  class="card-img-top" src="assets/img07.png" alt="Card image cap">
-
-                        <div class="card-body">
-                            <p class="card-text">This is a wider card with supporting text below as a natural
-                                lead-in to additional content. This content is a little bit longer.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-md btn-success">Add To Cart</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 box-shadow">
-                        <img class="card-img-top" src="assets/img08.jpg" alt="Card image cap">
-                        <div class="card-body">
-                            <p class="card-text">This is a wider card with supporting text below as a natural
-                                lead-in to additional content. This content is a little bit longer.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-md btn-success">Add To Cart</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card mb-4 box-shadow">
-                        <img class="card-img-top" src="assets/img1.jpg" alt="Card image cap">
-                        <div class="card-body">
-                            <p class="card-text">This is a wider card with supporting text below as a natural
-                                lead-in to additional content. This content is a little bit longer.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-md btn-success">Add To Cart</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 box-shadow">
-                        <img class="card-img-top" src="assets/img09.jpg" alt="Card image cap">
-                        <div class="card-body">
-                            <p class="card-text">This is a wider card with supporting text below as a natural
-                                lead-in to additional content. This content is a little bit longer.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-md btn-success">Add To Cart</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 box-shadow">
-                        <img class="card-img-top" src="assets/img10.jpg" alt="Card image cap">
-                        <div class="card-body">
-                            <p class="card-text">This is a wider card with supporting text below as a natural
-                                lead-in to additional content. This content is a little bit longer.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-md btn-success">Add To Cart</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                <!--service-item-->
+                <div class="col-md-4" *ngFor ="let service of services">
+                <app-service-item [serviceItem] = service></app-service-item>
+              </div>
             </div>
         </div>
     </div>

@@ -14,38 +14,39 @@ import { first } from 'rxjs/operators';
 export class LoginComponent implements OnInit {
   returnUrl: string;
  // model: LoginData;
-  model={
-  username:"",
-  password:"",
+  model = {
+  username:'',
+  password:'',
   isLoggedin: false,
-}
+};
 
-  
-  constructor(private router:Router, private route: ActivatedRoute,private authenticationService:AuthenticationService,private alertService: AlertService) { }
+
+  // tslint:disable-next-line: max-line-length
+  constructor(private router: Router, private route: ActivatedRoute, private authenticationService: AuthenticationService, private alertService: AlertService) { }
 
   ngOnInit() {
     // get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-    
+    this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
+
   }
 
-  onSubmit(){
-    this.authenticationService.login(this.model.username,this.model.password)
+  onSubmit() {
+    this.authenticationService.login(this.model.username, this.model.password)
       .pipe(first()).subscribe(data => {
       this.router.navigate([this.returnUrl]);
-      this.alertService.success("welcome" +" " + this.authenticationService.currentUserValue.firstName)
+      this.alertService.success('welcome' + ' ' + this.authenticationService.currentUserValue.firstName);
     },
     error => {
       this.alertService.error(error);
       // this.loading = false;
-    })
+    });
 
     // if ( this.restservice.login(this.model.userName,this.model.password) ) {
     //   this.router.navigate(['/order']);
     //   this.model.isLoggedin = true;
     //   localStorage.setItem('token','body');
     // }
-    
+
   }
 
 }
