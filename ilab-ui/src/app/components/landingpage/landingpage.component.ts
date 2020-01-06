@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Service } from 'src/app/domain/service.model';
-import {CartService} from '../../services/cart.service';
-import { from } from 'rxjs';
+import { ServicesService } from 'src/app/services';
 
 @Component({
   selector: 'app-landingpage',
@@ -11,18 +10,10 @@ import { from } from 'rxjs';
 export class LandingpageComponent implements OnInit {
 
   services: Service [];
-  constructor(private CartService: CartService ) { }
+  constructor(private service: ServicesService ) { }
 
   ngOnInit() {
-   this.getAllService();
-  }
-
-  getAllService() {
-
-    this.CartService.getAllService().subscribe(
-      res => {this.services = res; }
-    );
-
+    this.service.query<Service[]>().subscribe(services=>this.services=services)
   }
 
 }

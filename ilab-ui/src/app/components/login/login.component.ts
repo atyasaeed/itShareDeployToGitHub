@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginData } from './login.model';
 import { NgForm } from '@angular/forms';
-import { RestServiceService } from 'src/app/services/rest-service.service';
 import { AuthenticationService, AlertService } from 'src/app/services';
 import { first } from 'rxjs/operators';
 

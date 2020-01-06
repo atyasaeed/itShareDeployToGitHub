@@ -1,9 +1,11 @@
-import { CartDetails } from '../../domain/cart-details.model';
+// import { CartDetails } from '../../domain/cart-details.model';
 import { NgForm } from '@angular/forms';
 import { Service } from '../../domain/service.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { CartService } from '../../services/cart.service';
+import { ServicesService } from 'src/app/services';
+import { ShoppingCartItem } from 'src/app/domain/shoppingcart-item.model';
+import { ShoppingCartService } from 'src/app/services/shoppingcart.service';
 
 
 @Component({
@@ -14,20 +16,18 @@ import { CartService } from '../../services/cart.service';
 
 export class CartItemComponent implements OnInit {
 
-  CartItem = new CartDetails();
-  service = new Service();
-  constructor(private route: ActivatedRoute, private CartService: CartService,private router:Router) { }
-
-
+  item:ShoppingCartItem=new ShoppingCartItem();
+  service ;
+  constructor(private route: ActivatedRoute, private shoppingCartService: ShoppingCartService,private servicesService:ServicesService, private router:Router) { }
 
   ngOnInit() {
 
-    const id = this.route.snapshot.paramMap.get('id');
-    this.CartService.getServiceById(id).subscribe(res => { console.log(res); this.service = res; });
+    const serviceId = this.route.snapshot.queryParamMap.get('service');
+    this.servicesService.get<Service>(serviceId).subscribe(service => this.service=service );
   }
   onSubmit() {
-    this.CartItem.service = this.service;
-    this.CartService.addCartItem(this.CartItem).subscribe(
+    this.item.service = this.service;
+    this.shoppingCartService.create(this.item).subscribe(
       res=>{this.router.navigateByUrl('/cart')}
     )
 

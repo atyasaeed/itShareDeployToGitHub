@@ -19,7 +19,6 @@ import { AlertComponent } from './components/alert/alert.component';
 import { AuthInterceptor } from './helpers/auth-interceptor';
 import { ErrorInterceptor } from './helpers/error-interceptor';
 import { ServiceItemComponent } from './components/service-item/service-item.component';
-import { EditCartItemComponent } from './components/edit-cart-item/edit-cart-item.component';
 
 
 
@@ -39,7 +38,6 @@ import { EditCartItemComponent } from './components/edit-cart-item/edit-cart-ite
     FooterComponent,
     AlertComponent,
     ServiceItemComponent,
-    EditCartItemComponent,
   ],
   imports: [
     BrowserModule,

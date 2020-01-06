@@ -8,8 +8,8 @@ import { User } from '../domain';
 import { ActivatedRoute } from '@angular/router';
 // array in local storage for registered users
 let users = JSON.parse(localStorage.getItem('users')) || [];
-let cartDetails = JSON.parse(localStorage.getItem('cartDetails')) || [];
-const ordersDetalis = JSON.parse(localStorage.getItem('ordersDetalis')) || [];
+let shoppingCart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
+const orders = JSON.parse(localStorage.getItem('orders')) || [];
 
 
 
@@ -44,20 +44,22 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           return logout();
         case url.endsWith('/services') && method === 'GET':
           return getServices();
-        case url.match(/\/servicebyid\/\d+$/) && method === 'GET':
+        case url.match(/\/services\/\d+$/) && method === 'GET':
           return servicebyid();
-        case url.endsWith('/add/cartItem') && method === 'POST':
+        case url.endsWith('/cart/items') && method === 'POST':
           return addCartItem();
-        case url.endsWith('/getAll/CartItem') && method === 'GET':
-          return getAllCartItem();
-        case url.match(/\/deletCartItem\/\d+$/) && method === 'DELETE':
+        case url.endsWith('/cart/items') && method === 'GET':
+          return getShoppingCartItems();
+        case url.match(/\/cart\/items\/\d+$/) && method === 'DELETE':
           return deletCartItem();
-        case url.endsWith('/add/order') && method === 'POST':
+        case url.endsWith('/orders') && method === 'POST':
           return addOrder();
-        case url.match(/\/getServiceDetailsById\/\d+$/) && method === 'GET':
-          return getServiceDetailsById();
-        case url.endsWith('/editService') && method === 'POST':
-          return editService();
+        case url.endsWith('/orders') && method === 'GET':
+          // retrieve all orders
+        // case url.match(/\/getServiceDetailsById\/\d+$/) && method === 'GET':
+        //   return getServiceDetailsById();
+        // case url.endsWith('/editService') && method === 'POST':
+        //   return editService();
 
         default:
           // pass through any requests not handled above
@@ -159,45 +161,48 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       }
 
       function addCartItem() {
-        const CartItemDetails = body;
+        const item = body;
 
-        CartItemDetails.id = cartDetails.length ? Math.max(...cartDetails.map(x => x.id)) + 1 : 1;
-        cartDetails.push(CartItemDetails);
-        localStorage.setItem('cartDetails', JSON.stringify(cartDetails));
+        item.id = shoppingCart.length ? Math.max(...shoppingCart.map(x => x.id)) + 1 : 1;
+        shoppingCart.push(item);
+        localStorage.setItem('shoppingCart', JSON.stringify(shoppingCart));
 
-        return ok(localStorage.getItem('cartDetails'));
+        return ok();
       }
-      function getAllCartItem() {
-        return ok(cartDetails);
+      function getShoppingCartItems() {
+        return ok(shoppingCart);
       }
 
       function deletCartItem() {
-        cartDetails = cartDetails.filter(x => x.id !== idFromUrl());
-        localStorage.setItem('cartDetails', JSON.stringify(cartDetails));
-        return ok(cartDetails);
+        shoppingCart = shoppingCart.filter(x => x.id !== idFromUrl());
+        localStorage.setItem('shoppingCart', JSON.stringify(shoppingCart));
+        return ok();
       }
 
       function addOrder() {
-        const orderDetails = body;
-        orderDetails.id = ordersDetalis.length ? Math.max(...ordersDetalis.map(x => x.id)) + 1 : 1;
-        ordersDetalis.push(orderDetails);
-        localStorage.setItem('ordersDetalis', JSON.stringify(ordersDetalis));
+        // const orderDetails = body;
+        // orderDetails.id = orders.length ? Math.max(...orders.map(x => x.id)) + 1 : 1;
+        // orders.push(orderDetails);
+        // localStorage.setItem('ordersDetalis', JSON.stringify(orders));
 
-        return ok(localStorage.getItem('ordersDetalis'));
+        // return ok(localStorage.getItem('ordersDetalis'));
+        localStorage.removeItem("shoppingCart");
+        shoppingCart={};
+        return ok();
       }
-      function getServiceDetailsById() {
-        const serviceDetails = cartDetails.find(x => x.id === idFromUrl());
-        return ok(serviceDetails);
+      // function getServiceDetailsById() {
+      //   const serviceDetails = cartDetails.find(x => x.id === idFromUrl());
+      //   return ok(serviceDetails);
 
-      }
-      function editService() {
-        const model = body;
-        const serviceDetails = cartDetails.find(r => r.id === model.id);
-        localStorage.setItem('cartDetails', JSON.stringify(cartDetails));
-        return ok(serviceDetails);
+      // }
+      // function editService() {
+      //   const model = body;
+      //   const serviceDetails = cartDetails.find(r => r.id === model.id);
+      //   localStorage.setItem('cartDetails', JSON.stringify(cartDetails));
+      //   return ok(serviceDetails);
 
 
-      }
+      // }
     }
   }
 

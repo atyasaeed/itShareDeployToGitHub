@@ -1,7 +1,8 @@
-import { CartDetails } from '../../domain/cart-details.model';
 import { Component, OnInit } from '@angular/core';
-import { CartService } from '../../services/cart.service';
 import { Router } from '@angular/router';
+import { ShoppingCartItem } from 'src/app/domain/shoppingcart-item.model';
+import { ShoppingCartService } from 'src/app/services/shoppingcart.service';
+import { OrdersService } from 'src/app/services/orders.service';
 
 @Component({
   selector: 'app-cart',
@@ -10,24 +11,38 @@ import { Router } from '@angular/router';
 })
 export class CartComponent implements OnInit {
 
-  constructor(private CartService: CartService, private router: Router) { }
+  constructor(private shoppingCartService: ShoppingCartService, private ordersService:OrdersService, private router: Router) { }
 
-  CartItem  = new CartDetails() ;
-  allCartItem: CartDetails [];
+  items: Array<ShoppingCartItem>;
   ngOnInit() {
-this.CartService.getAllCartItem().subscribe(
-  res => {this.allCartItem = res   ; console.log(this.allCartItem); }
-
-);
+    this.refresh();
+    
   }
   deletItem(id) {
-    this.CartService.deletCartItem(id).subscribe(res => {this.CartItem = res ; });
+    this.shoppingCartService.delete(id).subscribe(resp=>{
+      
+      this.refresh();
+    });
   }
 
-  onsubmit() {
-    this.CartService.addOrder(this.CartItem).subscribe(
-      res => {console.log(res);
-              this.router.navigateByUrl('/order'); });
-  }
+  checkout() {
+    this.ordersService.create(null).subscribe(resp=>{
+      this.router.navigate(["/"]);
+    });
+    
 
+    // this.CartService.addOrder(this.item).subscribe(
+    //   res => {
+    //     console.log(res);
+    //     this.router.navigateByUrl('/order');
+    //   });
+  }
+  private refresh(){
+    this.shoppingCartService.query<ShoppingCartItem[]>().subscribe(items=>this.items=items);
+  }
+  updateItem(item:ShoppingCartItem){
+    item.quantity=10;
+    // this.shoppingCartService.update
+    this.refresh;
+  }
 }

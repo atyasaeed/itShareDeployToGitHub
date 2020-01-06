@@ -1,83 +1,82 @@
 <main class="page">
     <section class="shopping-cart dark">
-      <div class="container">
-        <!-- page Head -->
-        <div class="block-heading">
-          <h2>iLab Shopping Cart</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis
-            vitae leo.</p>
-        </div>
-        <!-- End page Head -->
+        <div class="container">
+            <!-- page Head -->
+            <div class="block-heading">
+                <h2>iLab Shopping Cart</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
+            </div>
+            <!-- End page Head -->
 
-        <!-- Page Content -->
-        <div class="content">
-          <div class="row">
+            <!-- Page Content -->
+            <div class="content">
+                <div class="row">
 
-            <!-- Cart Items Table -->
-            <div class="col-md-12 col-lg-8">
-              <div class="items">
+                    <!-- Cart Items Table -->
+                    <div class="col-md-12 col-lg-8">
+                        <div class="items">
 
-                <!-- One Item Row -->
-                <div class="product" *ngFor="let cartitem of allCartItem ">
-                  <div class="row">
-                    <div class="col-md-3">
-                      <img class="img-fluid mx-auto d-block image" [src]="cartitem.service.image">
-                    </div>
-                    <div class="col-md-8">
-                      <div class="info">
-                        <div class="row">
-                          <div class="col-md-5 product-name">
-                            <div class="product-name">
-                            <a [routerLink]="['/EditCart',cartitem.id]">{{cartitem.service.title}}</a>
-                              <div class="product-info">
-                              <div>Deliver Date: <span class="value">{{cartitem.deliveryDate}}</span></div>
-                              <div>Type of project: <span class="value">{{cartitem.typeProject}}</span></div>
-                              <div>Units used in file: <span class="value">{{cartitem.unit}}</span></div>
-                              </div>
-                            </div>
-                          </div>
+                            <!-- One Item Row -->
+                            <div class="product" *ngFor="let item of items ">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <img class="img-fluid mx-auto d-block image" [src]="item.service.image">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="info">
+                                            <div class="row">
+                                                <div class="col-md-5 product-name">
+                                                    <div class="product-name">
+                                                        <a [routerLink]="['/EditCart',item.id]">{{item.service.title}}</a>
+                                                        <div class="product-info">
+                                                            <div>Deliver Date: <span class="value">{{item.deliveryDate |date:"mediumDate"}}</span></div>
+                                                            <div>Type of project: <span class="value">{{item.projectType}}</span></div>
+                                                            <div>Units used in file: <span class="value">{{item.unit}}</span></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-                          <div class="col-md-3 quantity">
-                            <label for="quantity">Quantity:</label>
-                            <input id="quantity" type="number" value="1" [(ngModel)] = "cartitem.quantity" #quantity='ngModel' class="form-control quantity-input">
-                          </div>
-                          <div class="col-md-2 price">
-                          <span>$120</span>
-                          </div>
+                                                <div class="col-md-3 quantity">
+                                                    <label for="quantity">Quantity:</label>
+                                                    <input id="quantity" type="number" value="1" [(ngModel)]="item.quantity" #quantity='ngModel' class="form-control quantity-input">
+                                                </div>
+                                                <div class="col-md-2 price">
+                                                    <span>{{item.price | currency:"USD" }}</span>
+                                                </div>
 
-                          <div class="col-md-2 price">
-                            <!-- <span>$120</span> -->
-                            <button type="button" class="btn btn-outline-danger btn-xs" (click)="deletItem(cartitem.id)">
+                                                <div class="col-md-2 price">
+                                                    <!-- <span>$120</span> -->
+                                                    <button type="button" class="btn btn-outline-danger btn-xs" (click)="deletItem(item.id)">
                             <i class="fa fa-trash" aria-hidden="true"></i>
                             </button>
-                          </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End One Item Row -->
                         </div>
-                      </div>
                     </div>
-                  </div>
+                    <!-- End Cart Items Table -->
+
+                    <!-- Cart Summary & Checkout -->
+                    <div class="col-md-12 col-lg-4">
+                        <div class="summary">
+                            <h3>Summary</h3>
+                            <div class="summary-item"><span class="text">Subtotal</span><span class="price">$360</span></div>
+                            <div class="summary-item"><span class="text">Discount</span><span class="price">$0</span></div>
+                            <div class="summary-item"><span class="text">Shipping</span><span class="price">$0</span></div>
+                            <div class="summary-item"><span class="text">Total</span><span class="price">$360</span></div>
+                            <button type="button" class="btn btn-primary btn-lg btn-block" (click)="checkout()">Checkout</button>
+                        </div>
+                    </div>
+                    <!-- End Cart Summary & Checkout -->
+
                 </div>
-                <!-- End One Item Row -->
-              </div>
             </div>
-            <!-- End Cart Items Table -->
+            <!-- End Page Content -->
 
-            <!-- Cart Summary & Checkout -->
-            <div class="col-md-12 col-lg-4">
-              <div class="summary">
-                <h3>Summary</h3>
-                <div class="summary-item"><span class="text">Subtotal</span><span class="price">$360</span></div>
-                <div class="summary-item"><span class="text">Discount</span><span class="price">$0</span></div>
-                <div class="summary-item"><span class="text">Shipping</span><span class="price">$0</span></div>
-                <div class="summary-item"><span class="text">Total</span><span class="price">$360</span></div>
-                <button type="button" class="btn btn-primary btn-lg btn-block" (click) ="onsubmit()">Checkout</button>
-              </div>
-            </div>
-            <!-- End Cart Summary & Checkout -->
-
-          </div>
         </div>
-        <!-- End Page Content -->
-
-      </div>
     </section>
-  </main>
+</main>
