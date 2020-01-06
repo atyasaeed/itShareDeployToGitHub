@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Order } from 'src/app/domain';
+import { TrackOrdersService } from 'src/app/services';
 
 @Component({
   selector: 'app-track-order',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TrackOrderComponent implements OnInit {
 
-  constructor() { }
+  orders: Array<Order>;
+
+  constructor(private restOrders:TrackOrdersService) { }
 
   ngOnInit() {
-  }
+
+    this.restOrders.getAll().subscribe((orders:Array<Order>)=>{
+      this.orders=orders;
+    });
+}
 
 }

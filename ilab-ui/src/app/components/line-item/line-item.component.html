@@ -1,0 +1,58 @@
+<div class="row">
+
+  <!-- Cart Items Table -->
+  <div class="col-md-12 col-lg-12">
+    <div class="items">
+
+      <!-- One Item Row -->
+      <div class="product">
+        <div class="row">
+          <div class="col-md-3">
+            <img class="img-fluid mx-auto d-block image" src="{{lineItem.img}}">
+          </div>
+          <div class="col-md-8">
+            <div class="info">
+              <div class="row">
+                <div class="col-md-8 product-name">
+                <h5 class="text-center">{{lineItem.serviceName}}</h5>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div>Deliver Date: <span class="value">5 inch</span></div>
+                      <div>Color: <span class="value">4GB</span></div>
+                      <div>Type of project: <span class="value">32GB</span></div>
+                      <div>Quantity: <span class="value">32GB</span></div>
+                    </div>
+                    <div class="col-md-6">
+                      <div>Uploaded File: <a href="#">File</a></div>
+                      <div>Units used in file: <span class="value">4GB</span></div>
+                      <div>Price: <span class="value">32GB</span></div>
+                      <!-- <div>Memory: <span class="value">32GB</span></div> -->
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="col-md-3 price">
+                  <div class="btn btn-warning">{{lineItem.status}}</div>
+                </div>
+                <div class="col-md-1 price">
+                  <!-- <span>$120</span> -->
+                  <button type="button" class="btn btn-outline-danger btn-xs">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End One Item Row -->
+
+    </div>
+  </div>
+
+  <!-- End One Item Row -->
+
+</div>
+<div class="dropdown-divider"></div>

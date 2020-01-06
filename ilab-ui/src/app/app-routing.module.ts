@@ -22,7 +22,7 @@ const routes: Routes = [
   {path: 'registration', component: RegistrationComponent, canActivate: [NonAuthGuard]},
   // {path:'signup',component:RegistrationComponent,canActivate:[AuthGuard]},
   {path: 'cart', component: CartComponent},
-  {path: 'order', component: TrackOrderComponent, canActivate: [AuthGuard]},
+  {path: 'orders', component: TrackOrderComponent, canActivate: [AuthGuard]},
   {path: 'CartItem', component: CartItemComponent},
   {path: 'change-password', component: ChangePasswordComponent, canActivate: [AuthGuard]},
   {path: 'forget-password', component: ForgetPasswordComponent, canActivate: [NonAuthGuard]},
