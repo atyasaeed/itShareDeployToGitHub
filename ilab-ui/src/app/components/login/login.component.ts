@@ -11,6 +11,7 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  loading = false;
   returnUrl: string;
  // model: LoginData;
   model = {
@@ -30,6 +31,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
+    this.loading = true;
     this.authenticationService.login(this.model.username, this.model.password)
       .pipe(first()).subscribe(data => {
       this.router.navigate([this.returnUrl]);
@@ -37,6 +39,7 @@ export class LoginComponent implements OnInit {
     },
     error => {
       this.alertService.error(error);
+      this.loading = false;
       // this.loading = false;
     });
 

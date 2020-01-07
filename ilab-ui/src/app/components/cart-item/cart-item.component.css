@@ -1,3 +1,9 @@
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .my-border{
     border-right: 1px solid rgba(0,0,0,.1);
 }
@@ -6,9 +12,13 @@
 
 }
 
+input[type="file"] {
+  border: none;
+}
 
-
-
+.description{
+  display: block;
+}
 
 .card-header{
     background-color: transparent;
@@ -29,12 +39,14 @@
     -moz-transition: .18s ease-out;
     -o-transition: .18s ease-out;
     transition: .18s ease-out;
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
-  
+
   .card:hover {
     box-shadow: inset 1px 2px 8px rgba(0, 0, 0, 0.02);
   }
-  
+
   .card:focus {
     color: #4b515d;
     border: 1px solid #B8B6B6;

@@ -19,7 +19,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-6 mb-2">
-                                    <label>upload your design file </label>
+                                    <label >upload your design file</label>
                                     <input type="file" name="file" [(ngModel)]="item.file" #file="ngModel" class="form-control" required>
                                     <div *ngIf="userForm.submitted && file.invalid" class="text-danger">
                                         <div *ngIf="file.errors.required">file is required</div>
@@ -78,7 +78,7 @@
                             </section>
                         </div>
                         <div class="col-md-3 my-border-left">
-                            <input type="submit" class="btn btn-primary btn-block" value="checkout">
+                            <input type="submit" [disabled]="loading" class="btn btn-primary btn-block" value="add to cart">
                         </div>
                     </article>
                 </form>
@@ -88,9 +88,34 @@
     <!--////////////////////////////////////////////////////////////////////////////////////-->
     <hr class="mb-0">
     <div class="card-body">
-        <h5 class="card-title">Card Description</h5>
-        <p class="card-text">
+        <h5 class="card-title">Service Description</h5>
+        <p class="card-text" hidden>
             {{service?.description}}
-        </p>
+          </p>
+            <div *ngIf="service.id == 1">
+            <small class="description"> 1- Computer-controlled cutting machine used for cutting various hard materials.</small>
+            <small class="description">   2- Performs the tasks of many carpentry shop machines such as the panel saw, the spindle moulder, and the boring machine.</small>
+              <small class="description">  3- CNC equipment that uses laser to engrave and cut metal/non-metal materials.</small>
+                <small class="description">  4- The machines equipped with high-dynamic step motor and high-accuracy linear guide way,</small>
+                  <small class="description">    leading to high dynamic response and load capacity.</small>
+              <img src="assets/lazer.png" alt="" width="100%">
+            </div>
+            <div *ngIf = "service.id == 2">
+           <small class="description">  1- Print with over 15 different print materials or combine two different materials into one single print.</small>
+           <small class="description">  2- Print anything in 3D with amazing details.</small>
+           <small class="description">  3- ​Print quality ranging from 50 micron up to 250 micron.</small>
+           <small class="description">  4- Provides users with an intuitive, easy-to-use manufacturing tool for every stage of their product development workflow.</small>
+           <small class="description">  5- Print Mechanical parts, Mockups for product design, Robotics parts, and Architecture designs.</small>
+              <img src="assets/3DPrinting.png" alt="" width="100%">
+            </div>
+            <div *ngIf = "service.id == 3">
+            <small class="description">  1- Offers an enhanced Handheld HD Scan Mode and enlarged scan range.</small>
+            <small class="description">  2- Captures 3D model of medium to large size objects with high efficiency.</small>
+            <small class="description">  3- Meets demands for wider range of applications.</small>
+            <small class="description">  4- Measures the geometry of physical objects by sensing discrete points on the surface of the object with a probe.</small>
+            <small class="description">  5- Offers Point-to-point and optional scanning configurations with high resolution scales.</small>
+              <img src="assets/3DScaning.png" alt="" width="100%">
+            </div>
+
     </div>
 </article>

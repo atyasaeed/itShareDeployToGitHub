@@ -14,9 +14,9 @@ const orders = JSON.parse(localStorage.getItem('orders')) || [];
 
 
 const services: Service[] = [
-  { id: 1, title: 'Lazer', description: 'LazerLazerLazerLazer', image: '../../assets/img03.jpg' },
-  { id: 2, title: '3D', description: 'LazerLazerLazerLazer', image: '../../assets/img04.jpg' },
-  { id: 3, title: 'Any', description: 'LazerLazerLazerLazer', image: '../../assets/img05.jpg' },
+  { id: 1, title: 'Laser Cutting', description: 'Computer-controlled cutting machine used for cutting various hard materials.', image: '../../assets/img03.jpg' },
+  { id: 2, title: '3D Printing and Prototyping', description: 'Print with over 15 different print materials or combine two different materials.', image: '../../assets/img04.jpg' },
+  { id: 3, title: '3D scanning', description: 'Captures 3D model of medium to large size objects with high efficiency.' , image: '../../assets/img05.jpg' },
 ];
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -50,6 +50,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           return addCartItem();
         case url.endsWith('/cart/items') && method === 'GET':
           return getShoppingCartItems();
+          case url.endsWith('/cart/items/') && method === 'PUT':
+          return updateCartItems();
         case url.match(/\/cart\/items\/\d+$/) && method === 'DELETE':
           return deletCartItem();
         case url.endsWith('/orders') && method === 'POST':
@@ -178,6 +180,13 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         localStorage.setItem('shoppingCart', JSON.stringify(shoppingCart));
         return ok();
       }
+      function updateCartItems() {
+       const item = body;
+       const cartitem = shoppingCart.find(x => x.id === item.id);
+       cartitem.quantity = item.quantity;
+       localStorage.setItem('shoppingCart', JSON.stringify(shoppingCart));
+       return ok(cartitem);
+      }
 
       function addOrder() {
         // const orderDetails = body;
@@ -186,8 +195,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         // localStorage.setItem('ordersDetalis', JSON.stringify(orders));
 
         // return ok(localStorage.getItem('ordersDetalis'));
-        localStorage.removeItem("shoppingCart");
-        shoppingCart={};
+        localStorage.removeItem('shoppingCart');
+        shoppingCart = {};
         return ok();
       }
       // function getServiceDetailsById() {

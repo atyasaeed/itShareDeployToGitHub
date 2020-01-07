@@ -15,20 +15,23 @@ import { ShoppingCartService } from 'src/app/services/shoppingcart.service';
 })
 
 export class CartItemComponent implements OnInit {
-
-  item:ShoppingCartItem=new ShoppingCartItem();
+  loading = false;
+  item: ShoppingCartItem = new ShoppingCartItem();
   service ;
-  constructor(private route: ActivatedRoute, private shoppingCartService: ShoppingCartService,private servicesService:ServicesService, private router:Router) { }
+  // tslint:disable-next-line: max-line-length
+  constructor(private route: ActivatedRoute, private shoppingCartService: ShoppingCartService, private servicesService: ServicesService, private router:Router) { }
 
   ngOnInit() {
 
     const serviceId = this.route.snapshot.queryParamMap.get('service');
-    this.servicesService.get<Service>(serviceId).subscribe(service => this.service=service );
+    this.servicesService.get<Service>(serviceId).subscribe(service => this.service = service );
   }
   onSubmit() {
+    this.loading = true;
     this.item.service = this.service;
     this.shoppingCartService.create(this.item).subscribe(
-      res=>{this.router.navigateByUrl('/cart')}
+      res => {this.router.navigateByUrl('/cart') },
+      err => { this.loading = true; }
     )
 
   }

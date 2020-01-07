@@ -13,17 +13,20 @@ import { Router } from '@angular/router';
 export class RegistrationComponent implements OnInit {
 
   constructor(private userService:UserService,private alertservice:AlertService,private router:Router) { }
+  loading = false;
 
   ngOnInit() {
   }
   model = new User();
 
   onSubmit(){
+    this.loading = true;
     this.userService.register(this.model).subscribe(
       res=>{
         this.router.navigateByUrl('/login')
       },
       err=>{
+        this.loading = false;
         console.log(err)
       }
     )

@@ -30,16 +30,30 @@
                             <a class="nav-link"  [routerLink]="['/registration']" >Sign Up</a>
                         </li>
                         <li class="nav-item" *ngIf="islogin()" (click)= "logout()" >
-                            <a class="nav-link" [routerLink]="['/']" >Logout</a>
+                            <a class="nav-link" [routerLink]="['/login']" >Logout</a>
                         </li>
                         <li class="nav-item" *ngIf="islogin()">
                             <a class="nav-link" [routerLink]="['/change-password']" >change Password</a>
                         </li>
                         <li class="dropdown nav-item">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                                aria-expanded="false"> <span class="fas fa-shopping-cart"></span> 7 - Items<span
-                                    class="caret"></span></a>
+                                aria-expanded="false"> <span class="fas fa-shopping-cart"></span><span
+                                    class="caret" *ngIf = "items.length !=0"> {{items.length}}- Items</span></a>
                             <ul class="dropdown-menu dropdown-cart" role="menu">
+                                <li *ngFor="let item of items">
+                                    <span class="item">
+                                        <span class="item-left">
+                                            <img [src]="item.service.image" width="50" height="50" alt="" />
+                                            <span class="item-info">
+                                            <span>{{item.service.title}}</span>
+                                            <span>{{item.quantity}}</span>
+                                            </span>
+                                        </span>
+                                        <span class="item-right">
+                                            <button class="btn btn-xs btn-danger pull-right" [disabled]="loading" (click)="deletItem(item.id)">x</button>
+                                        </span>
+                                    </span>
+                                </li>
                                 <!-- <li>
                                     <span class="item">
                                         <span class="item-left">
@@ -53,23 +67,9 @@
                                             <button class="btn btn-xs btn-danger pull-right">x</button>
                                         </span>
                                     </span>
-                                </li>
-                                <li>
-                                    <span class="item">
-                                        <span class="item-left">
-                                            <img src="http://lorempixel.com/50/50/" alt="" />
-                                            <span class="item-info">
-                                                <span>Item name</span>
-                                                <span>23$</span>
-                                            </span>
-                                        </span>
-                                        <span class="item-right">
-                                            <button class="btn btn-xs btn-danger pull-right">x</button>
-                                        </span>
-                                    </span>
-                                </li>
+                                </li> -->
 
-                                <li class="divider"></li> -->
+                                <li class="divider"></li>
                                 <div class="dropdown-divider"></div>
                                 <li><a class="col text-center" [routerLink]="['/cart']">View Cart</a></li>
                             </ul>

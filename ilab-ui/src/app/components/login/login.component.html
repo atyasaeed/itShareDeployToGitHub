@@ -31,7 +31,7 @@
 
                         <section class="form-row">
                             <div class="form-group col-lg-3 mb-2">
-                                <input type="submit" class="btn btn-primary btn-block" value="Log In ">
+                                <input [disabled]="loading" type="submit" class="btn btn-primary btn-block" value="Log In ">
                             </div>
                             <div class="form-group col-lg-6 mb-2">
                             </div>
@@ -47,7 +47,7 @@
                         </section>
 
                     </form>
-                    
+
                 </div>
             </div>
         </div>

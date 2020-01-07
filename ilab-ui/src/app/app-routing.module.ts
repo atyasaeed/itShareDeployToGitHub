@@ -26,6 +26,7 @@ const routes: Routes = [
   {path: 'CartItem', component: CartItemComponent},
   {path: 'change-password', component: ChangePasswordComponent, canActivate: [AuthGuard]},
   {path: 'forget-password', component: ForgetPasswordComponent, canActivate: [NonAuthGuard]},
+  {path: '**' , component: LandingpageComponent},
 
 
 
