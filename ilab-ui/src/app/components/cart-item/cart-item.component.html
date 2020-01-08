@@ -15,14 +15,14 @@
                                     <label>Planned Delivery Date </label>
                                     <input type="date" name="deliveryDate" [(ngModel)]="item.deliveryDate" #deliveryDate="ngModel" class="form-control" required>
                                     <div *ngIf="userForm.submitted && deliveryDate.invalid" class="text-danger">
-                                        <div *ngIf="deliveryDate.errors.required">Delivery Date is required</div>
+                                        <div *ngIf="deliveryDate.errors.required">Delivery Date Is Required</div>
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-6 mb-2">
-                                    <label>upload your design file </label>
+                                    <label >Upload Your Design File</label>
                                     <input type="file" name="file" [(ngModel)]="item.file" #file="ngModel" class="form-control" required>
                                     <div *ngIf="userForm.submitted && file.invalid" class="text-danger">
-                                        <div *ngIf="file.errors.required">file is required</div>
+                                        <div *ngIf="file.errors.required">File Is Required</div>
                                     </div>
                                 </div>
                             </section>
@@ -35,7 +35,7 @@
                                         <option value="yellow">yellow</option>
                                     </select>
                                     <div *ngIf="userForm.submitted && color.invalid" class="text-danger">
-                                        <div *ngIf="color.errors.required">color is required</div>
+                                        <div *ngIf="color.errors.required">Color Is Required</div>
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-6 mb-2">
@@ -46,39 +46,39 @@
                                         <option value="Material-3">Material-3</option>
                                     </select>
                                     <div *ngIf="userForm.submitted && material.invalid" class="text-danger">
-                                        <div *ngIf="material.errors.required">material is required</div>
+                                        <div *ngIf="material.errors.required">Material Is Required</div>
                                     </div>
                                 </div>
                             </section>
                             <section class="form-row">
                                 <div class="form-group col-sm-6 mb-2">
-                                    <label>Type of Project </label>
+                                    <label>Type Of Project </label>
                                     <select name="typeProject" class="form-control" [(ngModel)]="item.projectType" #typeProject="ngModel" required>
-                                        <option value="curricular">University - Curricular Project</option>
+                                        <option value="curricular">University -Curricular Project</option>
                                         <option value="extraCurricular">University - ExtraCurricular Project
                                         </option>
                                         <option value="personal">Personal</option>
                                     </select>
                                     <div *ngIf="userForm.submitted && typeProject.invalid" class="text-danger">
-                                        <div *ngIf="typeProject.errors.required">type of Project is required</div>
+                                        <div *ngIf="typeProject.errors.required">Type Of Project Is Required</div>
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-6 mb-2">
-                                    <label>Units used in file </label>
+                                    <label>Units Used In File </label>
                                     <select name="unit" class="form-control" [(ngModel)]="item.unit" #unit="ngModel" required>
-                                        <option value="cm">cm</option>
-                                        <option value="mm">mm</option>
-                                        <option value="inches">inches</option>
+                                        <option value="cm">CM</option>
+                                        <option value="mm">MM</option>
+                                        <option value="inches">Inches</option>
                                     </select>
                                     <div *ngIf="userForm.submitted && unit.invalid" class="text-danger">
-                                        <div *ngIf="unit.errors.required">unit of Project is required</div>
+                                        <div *ngIf="unit.errors.required">Unit Of Project Is Required</div>
                                     </div>
                                 </div>
 
                             </section>
                         </div>
                         <div class="col-md-3 my-border-left">
-                            <input type="submit" class="btn btn-primary btn-block" value="checkout">
+                            <input type="submit" [disabled]="loading" class="btn btn-primary btn-block" value="Add To Cart">
                         </div>
                     </article>
                 </form>
@@ -88,9 +88,10 @@
     <!--////////////////////////////////////////////////////////////////////////////////////-->
     <hr class="mb-0">
     <div class="card-body">
-        <h5 class="card-title">Card Description</h5>
+        <h5 class="card-title">Service Description</h5>
         <p class="card-text">
-            {{service?.description}}
-        </p>
+            {{service?.details}}
+          </p>
+          <div><img [src]="service?.imageDetails" alt="" width="100%"></div>
     </div>
 </article>

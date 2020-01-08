@@ -6,6 +6,7 @@ export class User{
     email: string;
     username: string;
     password: string;
+    confirmPassword :string
     //todo: to be removed
     token: string;
 }

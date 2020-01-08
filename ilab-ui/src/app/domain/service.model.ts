@@ -3,4 +3,6 @@ export class Service {
   title: string;
   image: string;
   description: string;
+  details: string;
+  imageDetails: string;
 }

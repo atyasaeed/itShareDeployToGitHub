@@ -13,18 +13,19 @@ import { OrderItem } from 'src/app/domain/order-item.model';
 })
 export class CartComponent implements OnInit {
 
-  constructor(private shoppingCartService: ShoppingCartService, private ordersService:OrdersService, private router: Router) { }
-
+  constructor(private shoppingCartService: ShoppingCartService, private ordersService: OrdersService, private router: Router) { }
+  loading = false;
   items: Array<ShoppingCartItem>;
   ngOnInit() {
     this.refresh();
 
   }
   deletItem(id) {
-    this.shoppingCartService.delete(id).subscribe(resp=>{
-
+    this.loading = true;
+    this.shoppingCartService.delete<ShoppingCartItem>(id).subscribe(resp => {
       this.refresh();
-    });
+      this.loading = false;
+    }, err => {this.loading = false; });
   }
 
   checkout() {
@@ -42,7 +43,6 @@ export class CartComponent implements OnInit {
     });
 
     this.ordersService.create(order).subscribe(resp=>{
-      this.router.navigate(["/"]);
     });
 
 
@@ -52,12 +52,16 @@ export class CartComponent implements OnInit {
     //     this.router.navigateByUrl('/order');
     //   });
   }
-  private refresh(){
-    this.shoppingCartService.query<ShoppingCartItem[]>().subscribe(items=>this.items=items);
+  private refresh() {
+    this.shoppingCartService.query<ShoppingCartItem[]>().subscribe(items => this.items = items);
   }
-  updateItem(item:ShoppingCartItem){
-    item.quantity=10;
-    // this.shoppingCartService.update
-    this.refresh;
+  updateItem(item: ShoppingCartItem) {
+    this.loading = true;
+    this.shoppingCartService.update<ShoppingCartItem>('', item).subscribe(
+  res => {
+     this.refresh();
+     this.loading = false;
+    }, err => {this.loading = false; });
+
   }
 }

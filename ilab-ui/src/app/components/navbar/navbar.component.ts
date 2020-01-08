@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from 'src/app/services';
+import { AuthenticationService, ShoppingCartService } from 'src/app/services';
+import { Router } from '@angular/router';
+import { ShoppingCartItem } from 'src/app/domain';
 
 @Component({
   selector: 'app-navbar',
@@ -8,11 +10,14 @@ import { AuthenticationService } from 'src/app/services';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private authenticationService: AuthenticationService ) { }
+  // tslint:disable-next-line: max-line-length
+  constructor(private authenticationService: AuthenticationService , private router: Router, private shoppingCartService: ShoppingCartService ) { }
 
-  index:number;
+  items: Array<ShoppingCartItem>;
+  loading = false;
+
   ngOnInit() {
-
+this.refresh();
   }
 
 
@@ -22,7 +27,19 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    return this.authenticationService.logout().subscribe();
+    return this.authenticationService.logout().subscribe(res=>{this.router.navigateByUrl('/login')});
+  }
+
+
+  private refresh() {
+    this.shoppingCartService.query<ShoppingCartItem[]>().subscribe(items => this.items = items);
+  }
+
+  deletItem(id) {
+    this.loading = true;
+    this.shoppingCartService.delete(id).subscribe(resp => {
+      this.refresh();
+    }, err => {this.loading = false; });
   }
 
 

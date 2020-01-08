@@ -22,32 +22,36 @@
                                     <div class="col-md-3">
                                         <img class="img-fluid mx-auto d-block image" [src]="item.service.image">
                                     </div>
-                                    <div class="col-md-8">
+                                    <div class="col-md-9">
                                         <div class="info">
                                             <div class="row">
                                                 <div class="col-md-5 product-name">
                                                     <div class="product-name">
-                                                        <a [routerLink]="['/EditCart',item.id]">{{item.service.title}}</a>
+                                                        <a [routerLink]="['/CartItem']" [queryParams]="{service:item.service.id}">{{item.service.title}}</a>
                                                         <div class="product-info">
-                                                            <div>Deliver Date: <span class="value">{{item.deliveryDate |date:"mediumDate"}}</span></div>
-                                                            <div>Type of project: <span class="value">{{item.projectType}}</span></div>
-                                                            <div>Units used in file: <span class="value">{{item.unit}}</span></div>
+                                                            <div>Deliver Date: <span class="value">{{item.deliveryDate |date:"mediumDate" |titlecase}}</span></div>
+                                                            <div>Type Of Project: <span class="value">{{item.projectType |titlecase}}</span></div>
+                                                            <div>Digital Material: <span class="value"><a href="">{{item.file}}</a></span></div>
+                                                            <div>Units Used In File: <span class="value">{{item.unit |titlecase}}</span></div>
+                                                            <div>Color: <span class="value">{{item.color |titlecase}}</span></div>
+                                                            <div>Material: <span class="value">{{item.material |titlecase}}</span></div>
+
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-3 quantity">
+                                                <div class="col-md-3 quantity" >
                                                     <label for="quantity">Quantity:</label>
-                                                    <input id="quantity" type="number" value="1" [(ngModel)]="item.quantity" #quantity='ngModel' class="form-control quantity-input">
+                                                    <input id="quantity" type="number" min="1" [disabled]="loading"    (change)="updateItem(item)" [(ngModel)]="item.quantity" #quantity='ngModel' class="form-control quantity-input">
                                                 </div>
                                                 <div class="col-md-2 price">
-                                                    <span>{{item.price | currency:"USD" }}</span>
+                                                    <span>NA</span>
                                                 </div>
 
                                                 <div class="col-md-2 price">
                                                     <!-- <span>$120</span> -->
-                                                    <button type="button" class="btn btn-outline-danger btn-xs" (click)="deletItem(item.id)">
-                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                                    <button type="button" [disabled]="loading"  class="btn btn-outline-danger btn-xs" (click)="deletItem(item.id)">
+                                                            <i class="fa fa-trash" aria-hidden="true"></i>
                             </button>
                                                 </div>
                                             </div>
@@ -64,10 +68,10 @@
                     <div class="col-md-12 col-lg-4">
                         <div class="summary">
                             <h3>Summary</h3>
-                            <div class="summary-item"><span class="text">Subtotal</span><span class="price">$360</span></div>
-                            <div class="summary-item"><span class="text">Discount</span><span class="price">$0</span></div>
+                            <div class="summary-item"><span class="text">Subtotal</span><span class="price">NA</span></div>
+                            <!-- <div class="summary-item"><span class="text">Discount</span><span class="price">$0</span></div>
                             <div class="summary-item"><span class="text">Shipping</span><span class="price">$0</span></div>
-                            <div class="summary-item"><span class="text">Total</span><span class="price">$360</span></div>
+                            <div class="summary-item"><span class="text">Total</span><span class="price">$360</span></div> -->
                             <button type="button" class="btn btn-primary btn-lg btn-block" (click)="checkout()">Checkout</button>
                         </div>
                     </div>
