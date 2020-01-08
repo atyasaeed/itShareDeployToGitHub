@@ -11,35 +11,12 @@ import { LineItem } from '../domain';
 let users = JSON.parse(localStorage.getItem('users')) || [];
 let shoppingCart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
 const orders:any[] = JSON.parse(localStorage.getItem('orders')) || [];
-// let orders=
-// const orders=[{
-//   id: 5555, date: new Date(), total_payment: 930, status: 'Waiting For Approval', lineItems: [{
-//     id: 1, serviceName: '3D Printing', img: 'assets/img09.jpg', status: 'pending', details: 'ay Kalam'
-//   },
-//   { id: 2, serviceName: 'laser cutting machine', img: 'assets/img05.jpg', status: 'Done', details: 'ay Kalam version 02' },]
-// },
-// {
-//   id: 9999, date: new Date(), total_payment: 930, status: 'Canceled', lineItems: [{
-//     id: 1, serviceName: '3D Printing', img: 'assets/img09.jpg', status: 'pending', details: 'ay Kalam'
-//   },
-//   { id: 2, serviceName: 'laser cutting machine', img: 'assets/img05.jpg', status: 'Done', details: 'ay Kalam version 02' },]
-// },
-// {
-//   id: 9999, date: new Date(), total_payment: 930, status: 'Delivered', lineItems: [{
-//     id: 1, serviceName: '3D Printing', img: 'assets/img09.jpg', status: 'pending', details: 'ay Kalam'
-//   },
-//   { id: 2, serviceName: 'laser cutting machine', img: 'assets/img05.jpg', status: 'Done', details: 'ay Kalam version 02' },]
-// },
-// ];
-
 
 const services: Service[] = [
   { id: 1, title: 'Lazer', description: 'LazerLazerLazerLazer', image: '../../assets/img03.jpg' },
   { id: 2, title: '3D', description: 'LazerLazerLazerLazer', image: '../../assets/img04.jpg' },
   { id: 3, title: 'Any', description: 'LazerLazerLazerLazer', image: '../../assets/img05.jpg' },
 ];
-
-
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -78,6 +55,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         case url.endsWith('/orders') && method === 'POST':
           return addOrder();
         case url.endsWith('/orders') && method === 'GET':
+          return getOrders();
+        case url.match(/\/orders\/\d+$/) && method === 'PUT':
+          return updateOrder();
+
           // retrieve all orders
         // case url.match(/\/getServiceDetailsById\/\d+$/) && method === 'GET':
         //   return getServiceDetailsById();
@@ -207,10 +188,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
       function addOrder() {
         const order:Order=body;
-        // const orderDetails = body;
-
-
-
 
         order.id = orders.length ? Math.max(...orders.map(x => x.id)) + 1 : 1;
         orders.push(order);
@@ -221,6 +198,17 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         shoppingCart={};
         return ok();
       }
+
+      function updateOrder() {
+        const order:Order=body;
+        const orderitem = orders.find(rr=>rr.id == order.id);
+        orderitem.status = order.status;
+        // console.log(order);
+        // order.status = 'Canceled';
+        localStorage.setItem('orders', JSON.stringify(orders));
+        return ok(orderitem);
+      }
+
       // function getServiceDetailsById() {
       //   const serviceDetails = cartDetails.find(x => x.id === idFromUrl());
       //   return ok(serviceDetails);

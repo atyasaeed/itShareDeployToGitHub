@@ -12,7 +12,7 @@
         Total Payment : <span> {{order.total_payment}}$ </span>
       </div>
       <div class="col-md-3 col-sm-12">
-        Order Status : <span class="btn order-status" [ngClass]="{success: Finished() || Delivered(), warning: WaitingForQuotation() || WaitingForApproval() || InProgress(),danger: Canceled()}">{{order.status}}</span>
+        Order Status : <span class="btn order-status" [ngClass]="{success: Finished() || Delivered() || InProgress(), warning: WaitingForQuotation() || WaitingForApproval(),danger: Cancelled() || quotationRejected()}">{{order.status}}</span>
       </div>
     </div>
 
@@ -41,20 +41,20 @@
 
       <!-- Stand alone button to cancel all order -->
       <div class="mt-2 text-center" *ngIf='WaitingForQuotation() || InProgress()'>
-        <input type="submit" class="btn btn-danger" value="Cancel Order">
+        <input type="submit" class="btn btn-danger" value="Cancel Order" (click)="cancelOrder(order.id)">
         <!-- <button class="btn btn-danger">
           Cancel Order
         </button> -->
       </div>
       <div class="row" style="justify-content: space-around;" *ngIf='WaitingForApproval()'>
         <div class="mt-2">
-          <input type="submit" class="btn btn-success" value="Approve">
+          <input type="submit" class="btn btn-success" value="Approve" (click)="approveQuotation(order.id)">
           <!-- <button class="btn btn-success">
             Approve
           </button> -->
         </div>
         <div class="mt-2">
-          <input type="submit" class="btn btn-danger" value="Reject">
+          <input type="submit" class="btn btn-danger" value="Reject" (click)="rejectQuotation(order.id)">
         </div>
       </div>
     </section>

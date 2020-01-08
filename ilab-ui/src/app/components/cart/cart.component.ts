@@ -29,7 +29,8 @@ export class CartComponent implements OnInit {
 
   checkout() {
     const order=new Order();
-    order.status="WQ";
+    order.status="Waiting For Quotation";
+    // order.status="Waiting For Approval";
     order.date=new Date();
     order.lineItems=this.items.map((scItem:ShoppingCartItem)=>{
       const orderItem=new OrderItem();
