@@ -11,12 +11,42 @@ let users = JSON.parse(localStorage.getItem('users')) || [];
 let shoppingCart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
 const orders = JSON.parse(localStorage.getItem('orders')) || [];
 
+const lazerDetails = 'Computer-controlled cutting machine used for cutting various hard materials.' +
+                     'Performs the tasks of many carpentry shop machines such as the panel saw, the spindle moulder, and the boring machine. ' +
+                     'CNC equipment that uses laser to engrave and cut metal/non-metal materials.' +
+                     'The machines equipped with high-dynamic step motor and high-accuracy linear guide way,leading to high dynamic response and load capacity. ';
 
+const PrintingDetails = 'Print with over 15 different print materials or combine two different materials into one single print.' +
+                        'Print anything in 3D with amazing details ' +
+                        'Print quality ranging from 50 micron up to 250 micron.' +
+                        'Provides users with an intuitive, easy-to-use manufacturing tool for every stage of their product development workflow' +
+                        'Print Mechanical parts, Mockups for product design, Robotics parts, and Architecture designs ';
+
+const scanningDetails = 'Offers an enhanced Handheld HD Scan Mode and enlarged scan range.' +
+                        'Captures 3D model of medium to large size objects with high efficiency. ' +
+                        'Meets demands for wider range of applications' +
+                        'Measures the geometry of physical objects by sensing discrete points on the surface of the object with a probe' +
+                        'Offers Point-to-point and optional scanning configurations with high resolution scales';
 
 const services: Service[] = [
-  { id: 1, title: 'Laser Cutting', description: 'Computer-controlled cutting machine used for cutting various hard materials.', image: '../../assets/img03.jpg' },
-  { id: 2, title: '3D Printing and Prototyping', description: 'Print with over 15 different print materials or combine two different materials.', image: '../../assets/img04.jpg' },
-  { id: 3, title: '3D scanning', description: 'Captures 3D model of medium to large size objects with high efficiency.' , image: '../../assets/img05.jpg' },
+  { id: 1, title: 'Laser Cutting',
+   description: 'Computer-controlled cutting machine used for cutting various hard materials.',
+   image: '../../assets/img03.jpg',
+   details: lazerDetails, imageDetails: '../../assets/lazer.png'},
+
+  { id: 2, title: '3D Printing',
+   description: 'Computer-controlled cutting machine used for cutting various hard materials.',
+   image: '../../assets/img04.jpg',
+   details: PrintingDetails,
+   imageDetails: '../../assets/3DPrinting.png'
+   },
+
+  { id: 3, title: '3D scanning',
+    description: 'Captures 3D model of medium to large size objects with high efficiency.' ,
+    image: '../../assets/img05.jpg',
+    details: scanningDetails ,
+    imageDetails: '../../assets/3DScaning.png'
+  }
 ];
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -176,7 +206,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       }
 
       function deletCartItem() {
-        shoppingCart = shoppingCart.filter(x => x.id !== idFromUrl());
+        const  shoppingCartitem = shoppingCart.find(x => x.id !== idFromUrl());
+        shoppingCart.splice('shoppingCartitem', 1);
         localStorage.setItem('shoppingCart', JSON.stringify(shoppingCart));
         return ok();
       }

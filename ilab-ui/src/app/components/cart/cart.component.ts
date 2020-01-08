@@ -20,8 +20,9 @@ export class CartComponent implements OnInit {
   }
   deletItem(id) {
     this.loading = true;
-    this.shoppingCartService.delete(id).subscribe(resp => {
+    this.shoppingCartService.delete<ShoppingCartItem>(id).subscribe(resp => {
       this.refresh();
+      this.loading = false;
     }, err => {this.loading = false; });
   }
 
@@ -30,7 +31,7 @@ export class CartComponent implements OnInit {
       if (localStorage.getItem('currentUser') !== null) {
         localStorage.removeItem('shoppingCart');
         this.router.navigate(['/']);
-      }else{
+      } else {
         this.router.navigate(['/login'])
       }
 

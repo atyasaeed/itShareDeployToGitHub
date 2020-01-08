@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/domain';
-import { NgForm } from '@angular/forms';
 import { AlertService } from 'src/app/services';
 import { Router } from '@angular/router';
 

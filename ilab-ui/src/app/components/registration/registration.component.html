@@ -4,7 +4,7 @@
         <div class="card card-signin my-5">
           <div class="card-body">
             <h5 class="card-header info-color white-text text-center py-4">
-              <strong>Create account</strong>
+              <strong>Create Account</strong>
           </h5>
 
 
@@ -15,7 +15,7 @@
        <input type="text" name="firstName" class="form-control" [(ngModel)]="model.firstName" #firstName="ngModel"
          [ngClass]="{ 'is-invalid': userForm.submitted && firstName.invalid }" required>
        <div class="invalid-feedback" *ngIf="userForm.submitted && firstName.invalid">
-         <p *ngIf="firstName.errors.required">Name is required</p>
+         <p *ngIf="firstName.errors.required">Name Is Required</p>
        </div>
      </div>
      <div class="form-group col-lg-4 mb-2">
@@ -23,7 +23,7 @@
        <input type="text" name="lastName" class="form-control" [(ngModel)]="model.lastName" #lastName="ngModel"
          [ngClass]="{ 'is-invalid': userForm.submitted && lastName.invalid }" required>
        <div class="invalid-feedback" *ngIf="userForm.submitted && lastName.invalid">
-         <p *ngIf="lastName.errors.required">Name is required</p>
+         <p *ngIf="lastName.errors.required">Last Name Is Required</p>
        </div>
      </div>
      <div class="form-group col-lg-4 mb-2">
@@ -31,7 +31,7 @@
       <input type="text" name="phone" class="form-control"  [(ngModel)]="model.phone" #phone="ngModel"
         [ngClass]="{ 'is-invalid': userForm.submitted && phone.invalid }" required>
       <div class="invalid-feedback" *ngIf="userForm.submitted && phone.invalid">
-        <p *ngIf="phone.errors.required">phone is required</p>
+        <p *ngIf="phone.errors.required">Phone Is Required</p>
       </div>
     </div>
     </section>
@@ -41,8 +41,8 @@
        <input type="email" class="form-control" name="email" [(ngModel)]="model.email" #email="ngModel"
          [ngClass]="{ 'is-invalid': userForm.submitted && email.invalid }" email required>
        <div *ngIf="userForm.submitted && email.invalid" class="invalid-feedback">
-         <div *ngIf="email.errors.required">Email is required</div>
-         <div *ngIf="email.errors.email">Must be a valid email address</div>
+         <div *ngIf="email.errors.required">Email Is Required</div>
+         <div *ngIf="email.errors.email">Must Be A Valid Email Address</div>
        </div>
      </div>
      <div class="form-group col-lg-6 mb-3">
@@ -50,7 +50,7 @@
        <input type="text" name="username" class="form-control" [(ngModel)]="model.username" #username="ngModel"
          [ngClass]="{ 'is-invalid': userForm.submitted && username.invalid }" required>
        <div class="invalid-feedback" *ngIf="userForm.submitted && username.invalid">
-         <p *ngIf="username.errors.required">Name is required</p>
+         <p *ngIf="username.errors.required">UserName Is Required</p>
        </div>
      </div>
    </section>
@@ -61,15 +61,15 @@
        <input type="password" class="form-control" name="password"  [(ngModel)]="model.password" #password="ngModel"
          [ngClass]="{ 'is-invalid': userForm.submitted && password.invalid }" minlength="8" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
        <div *ngIf="userForm.submitted && password.invalid" class="invalid-feedback">
-         <div *ngIf="password.errors.required ">Password is required</div>
-         <div *ngIf="password.errors.minlength">Password should be at least 8 characters long</div>
+         <div *ngIf="password.errors.required ">Password Is Required</div>
+         <div *ngIf="password.errors.minlength">Password Should Be At Least 8 Characters Long</div>
        </div>
 
      </div>
 
      <div class="form-group col-lg-6 mb-3">
        <label>Confirm PassWord</label>
-       <input type="password" class="form-control" name="confirmPassword" #confirmPassword
+       <input type="password" class="form-control" name="confirmPassword" [(ngModel)]="model.confirmPassword"  #confirmPassword = "ngModel"
          [ngClass]="{ 'is-invalid': userForm.submitted && confirmPassword.invalid }" minlength="8" required pattern="{{password.value}}">
        <div *ngIf="userForm.submitted && confirmPassword.invalid" class="invalid-feedback">
          <div *ngIf="confirmPassword.errors.required">Password is required</div>
@@ -81,7 +81,7 @@
 
    </section>
 
-     <input type="submit" [disabled]="loading"  class="btn btn-primary btn-block"  value="Create new account " >
+     <input type="submit" [disabled]="loading"  class="btn btn-primary btn-block"  value="Create New Account " >
      <hr class="my-4">
    </form>
   <div class="sign-up">
