@@ -211,7 +211,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
       function deletCartItem() {
         const  shoppingCartitem = shoppingCart.find(x => x.id !== idFromUrl());
-        shoppingCart.splice('shoppingCartitem', 1);
+        shoppingCart.splice(shoppingCartitem, 1);
         localStorage.setItem('shoppingCart', JSON.stringify(shoppingCart));
         return ok();
       }
@@ -234,8 +234,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         localStorage.setItem('orders', JSON.stringify(orders));
 
         // return ok(localStorage.getItem('ordersDetalis'));
-        localStorage.removeItem('shoppingCart');
-        shoppingCart = {};
+        const  shoppingCartitem = shoppingCart.find(x => x.id !== idFromUrl());
+        shoppingCart.splice(shoppingCartitem);
+        localStorage.removeItem('shoppingCart')
+        //shoppingCart = {};
         return ok();
       }
 

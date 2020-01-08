@@ -34,15 +34,24 @@ export class CartComponent implements OnInit {
     // order.status="Waiting For Approval";
     order.date=new Date();
     order.lineItems=this.items.map((scItem:ShoppingCartItem)=>{
+      this.refresh();
       const orderItem=new OrderItem();
+      orderItem.color= scItem.color;
+      orderItem.deliveryDate = scItem.deliveryDate;
+      orderItem.file = scItem.file;
+      orderItem.material = scItem.material;
+      orderItem.price = scItem.price;
       orderItem.quantity=scItem.quantity;
       orderItem.status="WQ";
+      orderItem.unit= scItem.unit;
       orderItem.service=scItem.service;
       orderItem.id=scItem.id;
-      return orderItem;
+      this.router.navigateByUrl('/orders');
+       return orderItem;
     });
 
     this.ordersService.create(order).subscribe(resp=>{
+      this.refresh();
     });
 
 
