@@ -21,6 +21,7 @@ import { ErrorInterceptor } from './helpers/error-interceptor';
 import { ServiceItemComponent } from './components/service-item/service-item.component';
 import { OrderCardComponent } from './components/order-card/order-card.component';
 import { LineItemComponent } from './components/line-item/line-item.component';
+import { APP_CONFIG, prodConfig, devConfig } from './app.config';
 
 
 
@@ -52,7 +53,8 @@ import { LineItemComponent } from './components/line-item/line-item.component';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    fakeBackendProvider
+    fakeBackendProvider,
+    {provide:APP_CONFIG,useValue:prodConfig}
   ],
   bootstrap: [AppComponent]
 })

@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,7 @@ import ilab.core.repository.ServiceRepository;
 
 @RestController
 @RequestMapping(path = "/api/services",produces = "application/json")
+
 public class ServiceController
 {
 	@Autowired
@@ -34,7 +36,8 @@ public class ServiceController
 		return serviceRepo.findAll(page).getContent();
 	}
 	@GetMapping("/{id}")
-	public ResponseEntity<Service> tacoById(@PathVariable("id") UUID id)
+	@Secured("ROLE_USER")
+	public ResponseEntity<Service> serviceById(@PathVariable("id") UUID id)
 	{
 		Optional<Service> optService= serviceRepo.findById(id);
 		if(optService.isPresent())

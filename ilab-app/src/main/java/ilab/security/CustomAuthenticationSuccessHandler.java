@@ -1,7 +1,6 @@
 package ilab.security;
 
 import java.io.IOException;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,8 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import ilab.core.domain.User;
@@ -29,7 +27,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 		response.setHeader("content-type", "application/json");
 		Map<String, Object> data = new HashMap<>();
 //		response.getOutputStream().println(authentication);
-		User user=(User)authentication.getPrincipal();
+		UserDetails user=(UserDetails)authentication.getPrincipal();
 		response.getOutputStream().println(String.format("{\"name\":\"%s\"}", user.getUsername()));
 //		response.getOutputStream().println("Hello");
 		

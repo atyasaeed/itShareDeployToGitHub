@@ -7,6 +7,5 @@ export class User{
     username: string;
     password: string;
     confirmPassword :string
-    //todo: to be removed
-    token: string;
+    
 }

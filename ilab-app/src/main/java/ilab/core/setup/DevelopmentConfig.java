@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import ilab.core.domain.Authority;
 import ilab.core.domain.Service;
 import ilab.core.domain.User;
 import ilab.core.repository.ServiceRepository;
@@ -29,8 +30,8 @@ public class DevelopmentConfig
 				serviceRepo.save(createService("3D Printing","3D Printing Description"));
 				serviceRepo.save(createService("Laser Cutting","Laser Cutting Description"));
 				serviceRepo.save(createService("CNC Routers","CNC Routers Description"));
-				userRepo.save(createUser( "hasalem@gmail.com", "12345678"));
-				userRepo.save(createUser("mosalem@gmail.com", "12345678"));
+				userRepo.save(createUser( "hasalem", "12345678"));
+				userRepo.save(createUser("mosalem", "12345678"));
 			}
 		};
 	}
@@ -48,6 +49,22 @@ public class DevelopmentConfig
 		user.setPassword(encoder.encode(password));
 		user.setEnabled(true);
 		user.setAccountNonLocked(true);
+		user.addAuthority(createAuthority(user));
 		return user;
+	}
+	private User addUserRoleAuthority(User user)
+	{
+		Authority roleUser=new Authority();
+		roleUser.setAuthority("ROLE_USER");
+		roleUser.setUser(user);
+		user.addAuthority(roleUser);
+		return user;
+	}
+	private Authority createAuthority(User user)
+	{
+		Authority roleUser=new Authority();
+		roleUser.setAuthority("ROLE_USER");
+		roleUser.setUser(user);
+		return roleUser;
 	}
 }

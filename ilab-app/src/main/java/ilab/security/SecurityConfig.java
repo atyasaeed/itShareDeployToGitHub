@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -27,6 +28,7 @@ import ilab.core.service.UserService;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
 	@Autowired
@@ -60,8 +62,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 			.formLogin()
 			.failureHandler(customAuthenticationFailureHandler())
 			.successHandler(customAuthenticationSuccessHandler())
-			.and()
-			.exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint())
+//			.and()
+//			.exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint())
 		.and()
 		.cors().configurationSource(corsConfigurationSource()).and()
 

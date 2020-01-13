@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, Inject } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from "rxjs/operators";
 import { User } from '../domain';
 import { ok } from 'assert';
+import { IAppConfig, APP_CONFIG } from '../app.config';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import { ok } from 'assert';
 export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
-  constructor(private http:HttpClient) {
+  constructor(private http:HttpClient, @Inject(APP_CONFIG) private appConfig:IAppConfig) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
    }
@@ -20,10 +21,18 @@ export class AuthenticationService {
   }
   login(username: string, password: string) {
 
-    return this.http.post<any>(`/users/authenticate`, { username, password })
+    // return this.http.post<any>(`/users/authenticate`, { username, password })
+    return this.http.post<any>(this.appConfig.LOGIN_URL, `username=${username}&password=${password}`,
+    {
+      headers: new HttpHeaders()
+        .set('Content-Type', 'application/x-www-form-urlencoded').set('responseType', 'text'),
+        // observe: 'response',
+    }    
+    
+    )
       .pipe(map(user => {
         // login successful if there's a jwt token in the response
-        if (user && user.token) {
+        if (user && user.name) {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
           localStorage.setItem('currentUser', JSON.stringify(user));
           this.currentUserSubject.next(user);
@@ -41,7 +50,7 @@ export class AuthenticationService {
     this.currentUserSubject.next(null);
 
     //TODO: to call backend logout
-    return this.http.get<any>('/users/logout')
+    return this.http.post<any>(this.appConfig.LOGOUT_URL,"");
 
   }
 }
