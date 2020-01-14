@@ -28,23 +28,18 @@ const scanningDetails = 'Offers an enhanced Handheld HD Scan Mode and enlarged s
                         'Measures the geometry of physical objects by sensing discrete points on the surface of the object with a probe' +
                         'Offers Point-to-point and optional scanning configurations with high resolution scales';
 const services: Service[] = [
-  { id: "1", title: 'Laser Cutting',
+  { id: "1", name: 'Laser Cutting',
    description: 'Computer-controlled cutting machine used for cutting various hard materials.',
-   image: '../../assets/img03.jpg',
-   details: lazerDetails, imageDetails: '../../assets/lazer.png'},
-
-  { id: "2", title: '3D Printing',
-   description: 'Computer-controlled cutting machine used for cutting various hard materials.',
-   image: '../../assets/img04.jpg',
-   details: PrintingDetails,
-   imageDetails: '../../assets/3DPrinting.png'
    },
 
-  { id: "3", title: '3D scanning',
+  { id: "2", name: '3D Printing',
+   description: 'Computer-controlled cutting machine used for cutting various hard materials.',
+  
+   },
+
+  { id: "3", name: '3D scanning',
     description: 'Captures 3D model of medium to large size objects with high efficiency.' ,
-    image: '../../assets/img05.jpg',
-    details: scanningDetails ,
-    imageDetails: '../../assets/3DScaning.png'
+    
   }
 ];
 
@@ -108,7 +103,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         let password=body.split("&")[1];
         username=username.split("=")[1];
         password=password.split("=")[1]
-        // const{username,password}=body.split("&");
+        
         // const { username, password } = body;
         const user = users.find(x => x.username === username && x.password === password);
         if (!user) { return error('Username or password is incorrect'); }

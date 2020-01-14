@@ -27,7 +27,7 @@
                                             <div class="row">
                                                 <div class="col-md-5 product-name">
                                                     <div class="product-name">
-                                                        <a [routerLink]="['/CartItem']" [queryParams]="{service:item.service.id}">{{item.service.title}}</a>
+                                                        <a [routerLink]="['/CartItem']" [queryParams]="{service:item.service.id}">{{item.service.name}}</a>
                                                         <div class="product-info">
                                                             <div>Deliver Date: <span class="value">{{item.plannedStartDate |date:"mediumDate" |titlecase}}</span></div>
                                                             <div>Type Of Project: <span class="value">{{item.projectType |titlecase}}</span></div>
