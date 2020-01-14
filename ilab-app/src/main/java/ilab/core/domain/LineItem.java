@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -15,7 +17,8 @@ public class LineItem extends AbstractEntity<LineItem>
 {
 	private int rank;
 	@JsonIgnore
-	@ManyToOne(optional = false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(nullable = false)
 	private OrderEntity orderEntity;
 	@ManyToOne(optional=false)
 	private Service service;

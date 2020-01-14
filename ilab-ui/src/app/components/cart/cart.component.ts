@@ -66,7 +66,10 @@ export class CartComponent implements OnInit {
     //   });
   }
   private refresh() {
-    this.shoppingCartService.query<ShoppingCartItem[]>().subscribe(items => this.items = items);
+    this.shoppingCartService.query<ShoppingCartItem[]>().subscribe(items => this.items = items.sort((obj1,obj2)=>{
+      if(obj1.rank>obj2.rank) return 1;
+      else return -1
+    }));
   }
   updateItem(item: ShoppingCartItem) {
     this.loading = true;

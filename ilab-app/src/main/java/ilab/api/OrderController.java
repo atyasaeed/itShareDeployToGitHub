@@ -1,6 +1,7 @@
 package ilab.api;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +33,10 @@ public class OrderController
 	@PostMapping(path = "cart", consumes = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
 	
-	public List<LineItem> postCartItem(@RequestBody LineItem	lineItem,Authentication authentication)
+	public Set<LineItem> postCartItem(@RequestBody LineItem	lineItem,Authentication authentication)
 	{
-		return orderService.addItemToCart(lineItem,authentication);
+		Set<LineItem> items= orderService.addItemToCart(lineItem,authentication);
+		return items;
 	}
 	@DeleteMapping(path = "cart/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
@@ -45,7 +47,7 @@ public class OrderController
 
 	@GetMapping(path = "cart")
 	@Secured("ROLE_USER")
-	public List<LineItem> getShoppingCart(Authentication authentication)
+	public Set<LineItem> getShoppingCart(Authentication authentication)
 	{
 		return orderService.getShoppingCart(authentication).getLineItems();
 	}

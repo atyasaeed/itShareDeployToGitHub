@@ -1,81 +1,77 @@
-    <!-- Header -->
-    <header>
-        <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container">
-                <a class="navbar-brand" href="#">iLab</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation">
+<!-- Header -->
+<header>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">iLab</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" [routerLink]="['/']">Home <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item" *ngIf="islogin()">
-                            <a class="nav-link" [routerLink]="['/orders']">Track Order</a>
-                        </li>
-                    </ul>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" [routerLink]="['/']">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item" *ngIf="loggedIn">
+                        <a class="nav-link" [routerLink]="['/orders']">Track Order</a>
+                    </li>
+                </ul>
 
-                    <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-right">
 
-                        <li class="nav-item" *ngIf="!islogin()">
-                            <a class="nav-link" [routerLink]="['/login']">Login</a>
-                        </li>
+                    <li class="nav-item" *ngIf="!loggedIn">
+                        <a class="nav-link" [routerLink]="['/login']">Login</a>
+                    </li>
 
-                        <li class="nav-item" *ngIf="!islogin()">
-                            <a class="nav-link"  [routerLink]="['/registration']" >Sign Up</a>
-                        </li>
-                        <li class="nav-item"  *ngIf="islogin()">
-                        <div class="dropdown" >
-                          <button class="btn btn-light dropdown-toggle"  id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <li class="nav-item" *ngIf="!loggedIn">
+                        <a class="nav-link" [routerLink]="['/registration']">Sign Up</a>
+                    </li>
+                    <li class="nav-item" *ngIf="loggedIn">
+                        <div class="dropdown">
+                            <button class="btn btn-light dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-user"></i>
                           </button>
-                          <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                            <a class="dropdown-item" class="nav-link" [routerLink]="['/login']" (click)= "logout()">Log Out</a>
-                            <a class="dropdown-item" class="nav-link" [routerLink]="['/change-password']">Change Password</a>
-                          </div>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                <a class="dropdown-item" class="nav-link" [routerLink]="['/login']" (click)="logout()">Log Out</a>
+                                <a class="dropdown-item" class="nav-link" [routerLink]="['/change-password']">Change Password</a>
+                            </div>
                         </div>
-                      </li>
-                        <!-- <li class="nav-item" *ngIf="islogin()" (click)= "logout()" >
+                    </li>
+                    <!-- <li class="nav-item" *ngIf="islogin()" (click)= "logout()" >
                             <a class="nav-link" [routerLink]="['/login']" >Logout</a>
                         </li>
                         <li class="nav-item" *ngIf="islogin()">
                             <a class="nav-link" [routerLink]="['/change-password']" >change Password</a>
                         </li> -->
-                        <li class="dropdown nav-item">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                                aria-expanded="false"> <span class="fas fa-shopping-cart"></span><span
-                                    class="caret"> {{items?.length}}- Items</span></a>
-                            <ul class="dropdown-menu dropdown-cart" role="menu">
-                                <li *ngFor="let item of items">
-                                    <span class="item">
+                    <li class="dropdown nav-item">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="fas fa-shopping-cart"></span><span class="caret"> {{items?.length}}- Items</span></a>
+                        <ul class="dropdown-menu dropdown-cart" role="menu">
+                            <li *ngFor="let item of items">
+                                <span class="item">
                                         <span class="item-left">
-                                            <img [src]="item.service.image" width="50" height="50" alt="" />
+                                            <!-- <img [src]="item.service.image" width="50" height="50" alt="" /> -->
                                             <span class="item-info">
-                                            <span>{{item.service.title}}</span>
-                                            <span>{{item.quantity}}</span>
-                                            </span>
-                                        </span>
-                                        <span class="item-right">
+                                            <span>{{item.service.name}}</span>
+                                <span>{{item.quantity}}</span>
+                                </span>
+                                </span>
+                                <span class="item-right">
                                             <button class="btn btn-xs btn-danger pull-right" [disabled]="loading" (click)="deletItem(item.id)">x</button>
                                         </span>
-                                    </span>
-                                </li>
+                                </span>
+                            </li>
 
-                                <li class="divider"></li>
-                                <div class="dropdown-divider"></div>
-                                <li><a class="col text-center" [routerLink]="['/cart']">View Cart</a></li>
-                            </ul>
-                        </li>
+                            <li class="divider"></li>
+                            <div class="dropdown-divider"></div>
+                            <li><a class="col text-center" [routerLink]="['/cart']">View Cart</a></li>
+                        </ul>
+                    </li>
 
-                    </ul>
-                </div>
+                </ul>
             </div>
-        </nav>
-        <!-- End Navbar -->
-    </header>
-    <!-- End Header -->
+        </div>
+    </nav>
+    <!-- End Navbar -->
+</header>
+<!-- End Header -->

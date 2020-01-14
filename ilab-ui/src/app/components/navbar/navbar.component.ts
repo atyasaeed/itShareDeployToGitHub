@@ -9,22 +9,26 @@ import { ShoppingCartItem } from 'src/app/domain';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-
+  loggedIn:boolean;
+  items: Array<ShoppingCartItem>;
+  loading = false;
   // tslint:disable-next-line: max-line-length
   constructor(private authenticationService: AuthenticationService , private router: Router, private shoppingCartService: ShoppingCartService ) { }
 
-  items: Array<ShoppingCartItem>;
-  loading = false;
+ 
 
   ngOnInit() {
+    this.authenticationService.currentUser.subscribe(user=>{
+      this.loggedIn=user?true:false;
+    })
 this.refresh();
   }
 
 
 
-  islogin() {
-    return this.authenticationService.currentUserValue != null;
-  }
+  // islogin() {
+  //   return this.authenticationService.currentUserValue != null;
+  // }
 
   logout() {
     return this.authenticationService.logout().subscribe(res=>{this.router.navigateByUrl('/login')});

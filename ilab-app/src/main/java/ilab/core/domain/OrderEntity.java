@@ -1,12 +1,15 @@
 package ilab.core.domain;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
@@ -17,20 +20,23 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 public class OrderEntity extends AbstractEntity<OrderEntity>
 {
-	@OneToMany(cascade=CascadeType.ALL, orphanRemoval=true,mappedBy="orderEntity")
+	@OneToMany(cascade=CascadeType.ALL,mappedBy="orderEntity",fetch = FetchType.LAZY)
 	@OrderColumn(name="rank",nullable=false)
 	@JsonIgnoreProperties("orderEntity")
-	private List<LineItem> lineItems=new ArrayList<LineItem>();
+	private Set<LineItem> lineItems=new HashSet<LineItem>();
+
 	@ManyToOne(optional=false)
 	@JsonIgnore
 	private Account account;
+	
 	@ManyToOne(optional=false)
 	@JsonIgnore
 	private User placedBy;
+	
 	@Enumerated(EnumType.ORDINAL)
 	@NotNull
 	private OrderType type;
-	public List<LineItem> getLineItems()
+	public Set<LineItem> getLineItems()
 	{
 		return lineItems;
 	}
@@ -38,7 +44,7 @@ public class OrderEntity extends AbstractEntity<OrderEntity>
 	{
 		this.lineItems.add(lineItem);
 	}
-	public void setLineItems(List<LineItem> lineItems)
+	public void setLineItems(Set<LineItem> lineItems)
 	{
 		this.lineItems = lineItems;
 	}

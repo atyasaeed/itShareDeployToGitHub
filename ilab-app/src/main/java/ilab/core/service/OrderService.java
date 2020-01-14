@@ -1,9 +1,11 @@
 package ilab.core.service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
+import javax.transaction.Transactional.TxType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -19,7 +21,7 @@ import ilab.core.repository.OrderRepository;
 import ilab.core.repository.UserRepository;
 
 @Service
-@Transactional
+@Transactional(value = TxType.REQUIRED)
 public class OrderService
 {
 	@Autowired
@@ -29,18 +31,10 @@ public class OrderService
 	@Autowired
 	private LineItemRepository lineItemRepo;
 	
-	public List<LineItem> addItemToCart(LineItem item,Authentication auth)
+	public Set<LineItem> addItemToCart(LineItem item,Authentication auth)
 	{
-//		User user=userRepo.findByUsername(auth.getName());
-//		OrderEntity order=getShoppingCart(user.getAccounts().iterator().next().getId());
 		OrderEntity order=getShoppingCart(auth);
 		
-//		if(order==null) {
-//			order=new OrderEntity();
-//			order.setType(OrderType.SHOPPING_CART);
-//			order.setPlacedBy(user);
-//			order.setAccount(user.getAccounts().iterator().next());
-//		}
 		item.setOrderEntity(order);
 		order.addLineItem(item);
 		order=orderRepo.save(order);
@@ -50,8 +44,20 @@ public class OrderService
 	{
 		User user=userRepo.findByUsername(auth.getName());
 		LineItem item= lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id, user.getAccounts().iterator().next().getId());
-		if(item.getOrderEntity().getLineItems().contains(item))
-			item.getOrderEntity().getLineItems().remove(item);
+		
+		OrderEntity orderEntity=orderRepo.findById(item.getOrderEntity().getId()).get();
+		if(orderEntity.getLineItems().contains(item))
+		{
+			orderEntity.getLineItems().remove(item);
+			orderRepo.save(orderEntity);
+			lineItemRepo.delete(item);
+		}
+//		if(item.getOrderEntity().getLineItems().contains(item)) {
+//			item.getOrderEntity().getLineItems().remove(item);
+//			lineItemRepo.deleteById(item.getId());
+//		}
+		
+			
 	}
 	public OrderEntity getShoppingCart(UUID accountId)
 	{

@@ -34,15 +34,15 @@ public class DevelopmentConfig
 			@Override
 			public void run(String... args) throws Exception
 			{
-				Service service;
-				service=serviceRepo.save(createService("3D Printing","3D Printing Description"));
-				Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));
-				service=serviceRepo.save(createService("Laser Scanning","Laser Cutting Description"));
-				Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));		
-				service=serviceRepo.save(createService("CNC Routers","CNC Routers Description"));
-				Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));
-//				userRepo.save(createUser( "hasalem", "12345678"));
-//				userRepo.save(createUser("mosalem", "12345678"));
+//				Service service;
+//				service=serviceRepo.save(createService("3D Printing","3D Printing Description"));
+//				Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));
+//				service=serviceRepo.save(createService("Laser Scanning","Laser Cutting Description"));
+//				Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));		
+//				service=serviceRepo.save(createService("CNC Routers","CNC Routers Description"));
+//				Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));
+////				userRepo.save(createUser( "hasalem", "12345678"));
+////				userRepo.save(createUser("mosalem", "12345678"));
 //				userService.register(createUser("hasalem", "New123456","Hatem","hasalem@gmail.com"));
 //				userService.register(createUser("mosalem", "New123456","Hatem","mosalem@gmail.com"));
 			}
