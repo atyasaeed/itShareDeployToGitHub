@@ -5,5 +5,5 @@ import { RestService } from './rest-service';
   providedIn: 'root'
 })
 export class ShoppingCartService extends RestService {
-  resource:string="/cart/items";
+  resource:string="orders/cart";
 }

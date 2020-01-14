@@ -9,12 +9,16 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "userInfo")
@@ -29,6 +33,7 @@ public class User extends AbstractEntity<User>
 	private String username;
 	@Column(unique = true)
 	private String email;
+	@JsonIgnore
 	private String password;
 	private String firstName;
 	private String middleName;
@@ -38,7 +43,12 @@ public class User extends AbstractEntity<User>
 	private boolean accountNonExpired;
 	private boolean credentialsNonExpired;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user",fetch = FetchType.EAGER)
-	  private Set<Authority> authorities = new HashSet<>();
+	@JsonIgnoreProperties("user")
+	private Set<Authority> authorities = new HashSet<>();
+	
+	@OneToMany(cascade = CascadeType.PERSIST)
+	@JoinTable(name =  "users_accounts")
+	private Set<Account> accounts=new HashSet<>(); 
 	
 	public void setPassword(String password)
 	{
@@ -62,7 +72,7 @@ public class User extends AbstractEntity<User>
 	}
 	public boolean isAccountNonExpired()
 	{
-		return true;
+		return accountNonExpired;
 	}
 	public void setAccountNonLocked(boolean accountNonLocked)
 	{
@@ -128,6 +138,14 @@ public class User extends AbstractEntity<User>
 	public void addAuthority(Authority authority)
 	{
 		this.authorities.add(authority);
+	}
+	public Set<Account> getAccounts()
+	{
+		return accounts;
+	}
+	public void addAccount(Account account)
+	{
+		this.accounts.add(account);
 	}
 	
 

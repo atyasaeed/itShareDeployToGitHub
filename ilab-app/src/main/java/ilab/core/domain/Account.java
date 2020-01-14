@@ -8,8 +8,6 @@ import javax.persistence.Id;
 @Entity
 public class Account extends AbstractEntity<Account>
 {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	
 
 }

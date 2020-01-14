@@ -1,5 +1,6 @@
 import { Service } from './../../domain/service.model';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
+import { APP_CONFIG, IAppConfig } from 'src/app/app.config';
 
 @Component({
   selector: 'app-service-item',
@@ -8,11 +9,13 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ServiceItemComponent implements OnInit {
 
- @Input() serviceItem: Service;
+ @Input() service: Service;
 
-  constructor() { }
+ constructor(@Inject(APP_CONFIG) private appConfig:IAppConfig) { }
 
   ngOnInit() {
   }
-
+  getImageUrl():string{
+    return this.appConfig.ASSETS_URL+this.service.id;
+  }
 }

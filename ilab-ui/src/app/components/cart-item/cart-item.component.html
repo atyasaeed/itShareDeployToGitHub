@@ -3,7 +3,7 @@
     <hr class="mt-0">
     <section class="row">
         <div class=" col-sm-4 my-border">
-            <img class="card-img-top" *ngIf="service" [src]="service?.image" alt="Card image cap">
+            <img class="card-img-top" *ngIf="service" [src]="getImageUrl()" alt="Card image cap">
         </div>
         <div class="col-sm-8">
             <section>
@@ -13,13 +13,13 @@
                             <section class="form-row">
                                 <div class="form-group col-sm-6 mb-2">
                                     <label>Planned Delivery Date </label>
-                                    <input type="date" name="deliveryDate" [(ngModel)]="item.deliveryDate" #deliveryDate="ngModel" class="form-control" required>
+                                    <input type="date" name="deliveryDate" [(ngModel)]="item.plannedStartDate" #deliveryDate="ngModel" class="form-control" required>
                                     <div *ngIf="userForm.submitted && deliveryDate.invalid" class="text-danger">
                                         <div *ngIf="deliveryDate.errors.required">Delivery Date Is Required</div>
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-6 mb-2">
-                                    <label >Upload Your Design File</label>
+                                    <label>Upload Your Design File</label>
                                     <input type="file" name="file" [(ngModel)]="item.file" #file="ngModel" class="form-control" required>
                                     <div *ngIf="userForm.submitted && file.invalid" class="text-danger">
                                         <div *ngIf="file.errors.required">File Is Required</div>
@@ -91,7 +91,7 @@
         <h5 class="card-title">Service Description</h5>
         <p class="card-text">
             {{service?.details}}
-          </p>
-          <div><img [src]="service?.imageDetails" alt="" width="100%"></div>
+        </p>
+        <div><img [src]="service?.imageDetails" alt="" width="100%"></div>
     </div>
 </article>

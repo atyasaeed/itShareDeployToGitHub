@@ -1,5 +1,6 @@
 import { Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { APP_CONFIG, IAppConfig } from '../app.config';
 
 interface Query {
   limit?: number;
@@ -10,16 +11,15 @@ interface Query {
 }
 
 export class RestService {
-  base: string = '';
   resource: string = '/';
   type: any;
 
-  constructor(@Inject(HttpClient) private _http: HttpClient) { }
+  constructor(@Inject(HttpClient) private _http: HttpClient,@Inject(APP_CONFIG) private appConfig:IAppConfig) { }
   get http(){
     return this._http;
   }
   get url() {
-    return this.base + this.resource;
+    return this.appConfig.getResourceUrl( this.resource);
   }
 
   query<T>(query?: Query) {

@@ -37,10 +37,10 @@ export class CartComponent implements OnInit {
       this.refresh();
       const orderItem=new OrderItem();
       orderItem.color= scItem.color;
-      orderItem.deliveryDate = scItem.deliveryDate;
+      orderItem.plannedStartDate = scItem.plannedStartDate;
       orderItem.file = scItem.file;
       orderItem.material = scItem.material;
-      orderItem.price = scItem.price;
+      orderItem.unitPrice = scItem.unitPrice;
       orderItem.quantity=scItem.quantity;
       orderItem.status="WQ";
       orderItem.unit= scItem.unit;

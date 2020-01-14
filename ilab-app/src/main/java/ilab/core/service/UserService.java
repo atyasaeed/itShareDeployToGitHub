@@ -1,12 +1,17 @@
 package ilab.core.service;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User.UserBuilder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import ilab.core.domain.Account;
+import ilab.core.domain.Authority;
 import ilab.core.domain.User;
 import ilab.core.repository.UserRepository;
 
@@ -15,6 +20,8 @@ public class UserService implements UserDetailsService
 {
 	@Autowired
 	private UserRepository userRepo;
+	@Autowired
+	private PasswordEncoder encoder;
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
 	{
@@ -32,5 +39,20 @@ public class UserService implements UserDetailsService
 		}
 		throw new UsernameNotFoundException(String.format("User '%s' not found!", username));
 	}
-
+	public User register(User user)
+	{
+		Authority authority=new Authority();
+		authority.setAuthority("ROLE_USER");
+		authority.setUser(user);
+		user.getAuthorities().clear();
+		user.addAuthority(authority);
+		
+		user.addAccount(new Account());
+		user.setEnabled(true);
+		user.setAccountNonExpired(true);
+		user.setAccountNonLocked(true);
+		user.setCredentialsNonExpired(true);
+		user.setPassword(encoder.encode(user.getPassword()));
+		return userRepo.save(user);
+	}
 }

@@ -28,19 +28,19 @@ const scanningDetails = 'Offers an enhanced Handheld HD Scan Mode and enlarged s
                         'Measures the geometry of physical objects by sensing discrete points on the surface of the object with a probe' +
                         'Offers Point-to-point and optional scanning configurations with high resolution scales';
 const services: Service[] = [
-  { id: 1, title: 'Laser Cutting',
+  { id: "1", title: 'Laser Cutting',
    description: 'Computer-controlled cutting machine used for cutting various hard materials.',
    image: '../../assets/img03.jpg',
    details: lazerDetails, imageDetails: '../../assets/lazer.png'},
 
-  { id: 2, title: '3D Printing',
+  { id: "2", title: '3D Printing',
    description: 'Computer-controlled cutting machine used for cutting various hard materials.',
    image: '../../assets/img04.jpg',
    details: PrintingDetails,
    imageDetails: '../../assets/3DPrinting.png'
    },
 
-  { id: 3, title: '3D scanning',
+  { id: "3", title: '3D scanning',
     description: 'Captures 3D model of medium to large size objects with high efficiency.' ,
     image: '../../assets/img05.jpg',
     details: scanningDetails ,
@@ -160,7 +160,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
       function idFromUrl() {
         const urlParts = url.split('/');
-        return parseInt(urlParts[urlParts.length - 1]);
+        return urlParts[urlParts.length - 1];
       }
 
       function forgetPassword() {

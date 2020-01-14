@@ -1,11 +1,18 @@
 package ilab.core.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
+@JsonIgnoreProperties(
+        value = {"createdAt", "updatedAt","user"},
+        allowGetters = true
+)
 public class Authority extends AbstractEntity<Authority>
 {
 	private String authority;

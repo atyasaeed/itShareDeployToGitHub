@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../domain';
 import { AuthenticationService } from './authentication.service';
+import { APP_CONFIG, IAppConfig } from '../app.config';
 
 
 @Injectable({
@@ -9,9 +10,12 @@ import { AuthenticationService } from './authentication.service';
 })
 export class UserService {
 
-  constructor(private http: HttpClient , private AuthenticationService: AuthenticationService) { }
+  constructor(private http: HttpClient , 
+    private AuthenticationService: AuthenticationService, 
+    @Inject(APP_CONFIG) private appConfig:IAppConfig) { }
+ 
   register(user: User) {
-    return this.http.post('/users/register', user);
+    return this.http.post(this.appConfig.REGISTER_URL, user);
   }
   getAll() {
     return this.http.get<User[]>(`/users`);

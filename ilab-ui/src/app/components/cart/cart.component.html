@@ -29,7 +29,7 @@
                                                     <div class="product-name">
                                                         <a [routerLink]="['/CartItem']" [queryParams]="{service:item.service.id}">{{item.service.title}}</a>
                                                         <div class="product-info">
-                                                            <div>Deliver Date: <span class="value">{{item.deliveryDate |date:"mediumDate" |titlecase}}</span></div>
+                                                            <div>Deliver Date: <span class="value">{{item.plannedStartDate |date:"mediumDate" |titlecase}}</span></div>
                                                             <div>Type Of Project: <span class="value">{{item.projectType |titlecase}}</span></div>
                                                             <div>Digital Material: <span class="value"><a href="">{{item.file}}</a></span></div>
                                                             <div>Units Used In File: <span class="value">{{item.unit |titlecase}}</span></div>
@@ -40,9 +40,9 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-3 quantity" >
+                                                <div class="col-md-3 quantity">
                                                     <label for="quantity">Quantity:</label>
-                                                    <input id="quantity" type="number" min="1" [disabled]="loading"    (change)="updateItem(item)" [(ngModel)]="item.quantity" #quantity='ngModel' class="form-control quantity-input">
+                                                    <input id="quantity" type="number" min="1" [disabled]="loading" (change)="updateItem(item)" [(ngModel)]="item.quantity" #quantity='ngModel' class="form-control quantity-input">
                                                 </div>
                                                 <div class="col-md-2 price">
                                                     <span>NA</span>
@@ -50,7 +50,7 @@
 
                                                 <div class="col-md-2 price">
                                                     <!-- <span>$120</span> -->
-                                                    <button type="button" [disabled]="loading"  class="btn btn-outline-danger btn-xs" (click)="deletItem(item.id)">
+                                                    <button type="button" [disabled]="loading" class="btn btn-outline-danger btn-xs" (click)="deletItem(item.id)">
                                                             <i class="fa fa-trash" aria-hidden="true"></i>
                             </button>
                                                 </div>

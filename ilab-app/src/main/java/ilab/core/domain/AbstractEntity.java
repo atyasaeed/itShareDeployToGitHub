@@ -15,7 +15,10 @@ import javax.persistence.Version;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @MappedSuperclass
+@JsonIgnoreProperties({  "created","updated","version" })
 public abstract class AbstractEntity<T extends AbstractEntity<?>>
 {
 	@Id

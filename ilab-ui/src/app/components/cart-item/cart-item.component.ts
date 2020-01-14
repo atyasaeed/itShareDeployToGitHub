@@ -2,10 +2,11 @@
 import { NgForm } from '@angular/forms';
 import { Service } from '../../domain/service.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ServicesService } from 'src/app/services';
 import { ShoppingCartItem } from 'src/app/domain/shoppingcart-item.model';
 import { ShoppingCartService } from 'src/app/services/shoppingcart.service';
+import { APP_CONFIG, IAppConfig } from 'src/app/app.config';
 
 
 @Component({
@@ -19,7 +20,12 @@ export class CartItemComponent implements OnInit {
   item: ShoppingCartItem = new ShoppingCartItem();
   service ;
   // tslint:disable-next-line: max-line-length
-  constructor(private route: ActivatedRoute, private shoppingCartService: ShoppingCartService, private servicesService: ServicesService, private router:Router) { }
+  constructor(private route: ActivatedRoute, 
+    private shoppingCartService: ShoppingCartService, 
+    private servicesService: ServicesService, 
+    private router:Router,
+    @Inject(APP_CONFIG) private appConfig:IAppConfig) { }
+  
 
   ngOnInit() {
 
@@ -36,5 +42,7 @@ export class CartItemComponent implements OnInit {
 
   }
 
-
+  getImageUrl():string{
+    return this.appConfig.ASSETS_URL+this.service.id;
+  }
 }

@@ -36,7 +36,6 @@ public class ServiceController
 		return serviceRepo.findAll(page).getContent();
 	}
 	@GetMapping("/{id}")
-	@Secured("ROLE_USER")
 	public ResponseEntity<Service> serviceById(@PathVariable("id") UUID id)
 	{
 		Optional<Service> optService= serviceRepo.findById(id);

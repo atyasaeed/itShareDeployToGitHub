@@ -50,7 +50,7 @@ export class AuthenticationService {
     this.currentUserSubject.next(null);
 
     //TODO: to call backend logout
-    return this.http.post<any>(this.appConfig.LOGOUT_URL,"");
+    return this.http.get<any>(this.appConfig.LOGOUT_URL);
 
   }
 }

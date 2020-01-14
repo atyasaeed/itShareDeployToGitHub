@@ -14,7 +14,9 @@ export class LandingpageComponent implements OnInit {
 
 
   ngOnInit() {
-    this.service.query<Service[]>().subscribe(services=>this.services=services)
+    this.service.query<Service[]>().subscribe(services=>{
+      this.services=services
+    });
 
   }
 

@@ -53,7 +53,7 @@ import { APP_CONFIG, prodConfig, devConfig } from './app.config';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    fakeBackendProvider,
+    // fakeBackendProvider,
     {provide:APP_CONFIG,useValue:prodConfig}
   ],
   bootstrap: [AppComponent]
