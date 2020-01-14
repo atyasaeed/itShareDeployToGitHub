@@ -44,6 +44,7 @@ public class DevelopmentConfig
 //				userRepo.save(createUser( "hasalem", "12345678"));
 //				userRepo.save(createUser("mosalem", "12345678"));
 				userService.register(createUser("hasalem", "New123456","Hatem","hasalem@gmail.com"));
+				userService.register(createUser("mosalem", "New123456","Hatem","mosalem@gmail.com"));
 			}
 		};
 	}

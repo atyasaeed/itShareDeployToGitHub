@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
@@ -14,5 +15,6 @@ import ilab.core.domain.OrderType;
 @Repository
 public interface OrderRepository extends PagingAndSortingRepository<OrderEntity, UUID>
 {
-	List<OrderEntity> findByType(OrderType type,Pageable page);
+	@Query("select o from OrderEntity o where o.type=?1 and o.account.id=?2")
+	List<OrderEntity> findShoppingCart(OrderType type,UUID accountId,Pageable page);
 }

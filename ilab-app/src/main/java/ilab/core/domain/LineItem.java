@@ -8,10 +8,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class LineItem extends AbstractEntity<LineItem>
 {
 	private int rank;
+	@JsonIgnore
 	@ManyToOne(optional = false)
 	private OrderEntity orderEntity;
 	@ManyToOne(optional=false)
@@ -153,7 +156,4 @@ public class LineItem extends AbstractEntity<LineItem>
 	{
 		this.plannedStartDate = plannedStartDate;
 	}
-	
-
-
 }

@@ -17,10 +17,10 @@
                         <div class="items">
 
                             <!-- One Item Row -->
-                            <div class="product" *ngFor="let item of items ">
+                            <div class="product" *ngFor="let item of items,let i=index ">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <img class="img-fluid mx-auto d-block image" [src]="item.service.image">
+                                        <img class="img-fluid mx-auto d-block image" [src]="getImageUrl(i)">
                                     </div>
                                     <div class="col-md-9">
                                         <div class="info">

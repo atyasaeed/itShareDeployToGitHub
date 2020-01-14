@@ -13,7 +13,7 @@ export interface IAppConfig{
 class DefaultAppConfig implements IAppConfig{
     public API_END_POINT="/";
     public get LOGIN_URL(){return this.API_END_POINT+"login"}
-    public get LOGOUT_URL(){return this.API_END_POINT+"login?logout"}
+    public get LOGOUT_URL(){return this.API_END_POINT+"logout"}
     public get REGISTER_URL(){return this.API_END_POINT+"api/users"}
     public get ASSETS_URL(){return this.API_END_POINT+"assets/images/"}
     public getResourceUrl(resource){
@@ -25,7 +25,7 @@ class ProdAppConfig extends DefaultAppConfig{
 
 }
 class DevAppConfig extends DefaultAppConfig{
-    public API_END_POINT="/";
+    public API_END_POINT="/test/";
     public getResourceUrl(resource){
         return this.API_END_POINT+resource;
     }

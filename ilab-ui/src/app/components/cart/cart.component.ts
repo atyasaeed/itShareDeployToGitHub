@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ShoppingCartItem } from 'src/app/domain/shoppingcart-item.model';
 import { ShoppingCartService } from 'src/app/services/shoppingcart.service';
 import { OrdersService } from 'src/app/services/orders.service';
 import { Order, LineItem } from 'src/app/domain';
 import { OrderItem } from 'src/app/domain/order-item.model';
+import { APP_CONFIG, IAppConfig } from 'src/app/app.config';
 
 @Component({
   selector: 'app-cart',
@@ -12,10 +13,13 @@ import { OrderItem } from 'src/app/domain/order-item.model';
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
-
-  constructor(private shoppingCartService: ShoppingCartService, private ordersService: OrdersService, private router: Router) { }
   loading = false;
   items: Array<ShoppingCartItem>;
+  constructor(private shoppingCartService: ShoppingCartService, 
+    private ordersService: OrdersService, 
+    private router: Router,
+    @Inject(APP_CONFIG) private appConfig:IAppConfig) { }
+ 
   ngOnInit() {
     this.refresh();
 
@@ -66,11 +70,14 @@ export class CartComponent implements OnInit {
   }
   updateItem(item: ShoppingCartItem) {
     this.loading = true;
-    this.shoppingCartService.update<ShoppingCartItem>('', item).subscribe(
+    this.shoppingCartService.update<ShoppingCartItem>(item.id, item).subscribe(
   res => {
      this.refresh();
      this.loading = false;
     }, err => {this.loading = false; });
 
+  }
+  getImageUrl(index:number):string{
+    return this.appConfig.ASSETS_URL+this.items[index].service.id;
   }
 }
