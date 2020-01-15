@@ -5,8 +5,8 @@
         <div class="container">
             <a class="navbar-brand" href="#">iLab</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
@@ -30,11 +30,12 @@
                     <li class="nav-item" *ngIf="loggedIn">
                         <div class="dropdown">
                             <button class="btn btn-light dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-user"></i>
-                          </button>
+                                <i class="fas fa-user"></i>
+                            </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                                 <a class="dropdown-item" class="nav-link" [routerLink]="['/login']" (click)="logout()">Log Out</a>
-                                <a class="dropdown-item" class="nav-link" [routerLink]="['/change-password']">Change Password</a>
+                                <a class="dropdown-item" class="nav-link" [routerLink]="['/change-password']">Change
+                                    Password</a>
                             </div>
                         </div>
                     </li>
@@ -45,20 +46,22 @@
                             <a class="nav-link" [routerLink]="['/change-password']" >change Password</a>
                         </li> -->
                     <li class="dropdown nav-item">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="fas fa-shopping-cart"></span><span class="caret"> {{items?.length}}- Items</span></a>
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="fas fa-shopping-cart"></span><span class="caret">
+                                {{items?.length}}- Items</span></a>
                         <ul class="dropdown-menu dropdown-cart" role="menu">
                             <li *ngFor="let item of items">
-                                <span class="item">
-                                        <span class="item-left">
-                                            <!-- <img [src]="item.service.image" width="50" height="50" alt="" /> -->
-                                            <span class="item-info">
-                                            <span>{{item.service.name}}</span>
+                                <span class="item" *ngIf="item">
+                                    <span class="item-left">
+                                        <!-- <img [src]="item.service.image" width="50" height="50" alt="" /> -->
+                                        <span class="item-info">
+                                            <span>{{item?.service?.name}}</span>
                                 <span>{{item.quantity}}</span>
                                 </span>
                                 </span>
                                 <span class="item-right">
-                                            <button class="btn btn-xs btn-danger pull-right" [disabled]="loading" (click)="deletItem(item.id)">x</button>
-                                        </span>
+                                        <button class="btn btn-xs btn-danger pull-right" [disabled]="loading"
+                                            (click)="deletItem(item.id)">x</button>
+                                    </span>
                                 </span>
                             </li>
 

@@ -6,6 +6,7 @@ export interface IAppConfig{
     LOGOUT_URL:string;
     REGISTER_URL:string;
     ASSETS_URL:string;
+    CHECKOUT_URL:string;
     getResourceUrl(resource:string):string;
 
 
@@ -16,6 +17,7 @@ class DefaultAppConfig implements IAppConfig{
     public get LOGOUT_URL(){return this.API_END_POINT+"logout"}
     public get REGISTER_URL(){return this.API_END_POINT+"api/users"}
     public get ASSETS_URL(){return this.API_END_POINT+"assets/images/"}
+    public get CHECKOUT_URL(){return this.getResourceUrl("orders/checkout")}
     public getResourceUrl(resource){
         return this.API_END_POINT+"api/"+resource;
     }

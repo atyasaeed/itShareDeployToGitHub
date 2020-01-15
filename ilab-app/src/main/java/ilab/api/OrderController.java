@@ -30,14 +30,36 @@ public class OrderController
 {
 	@Autowired
 	private OrderService orderService;
+	@GetMapping()
+	public Iterable<OrderEntity> getOrders(Authentication auth)
+	{
+		return orderService.getOrders(auth);
+	}
+	
+	@PutMapping(path="/{id}/approve")
+	public OrderEntity approve(@PathVariable("id") UUID id,Authentication auth)
+	{
+		return orderService.approve(id,auth);
+	}
+	@PutMapping(path="/{id}/cancel")
+	public OrderEntity cancel(@PathVariable("id") UUID id,Authentication auth)
+	{
+		return orderService.cancel(id,auth);
+	}
+	@PutMapping(path="/{id}/reject")
+	public OrderEntity reject(@PathVariable("id") UUID id,Authentication auth)
+	{
+		return orderService.reject(id,auth);
+	}
+	
 	@PostMapping(path = "cart", consumes = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
-	
-	public Set<LineItem> postCartItem(@RequestBody LineItem	lineItem,Authentication authentication)
+	public Iterable<LineItem> postCartItem(@RequestBody LineItem	lineItem,Authentication authentication)
 	{
-		Set<LineItem> items= orderService.addItemToCart(lineItem,authentication);
+		Iterable<LineItem> items= orderService.addItemToCart(lineItem,authentication);
 		return items;
 	}
+	
 	@DeleteMapping(path = "cart/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteCartItem(@PathVariable("id") UUID id,Authentication authentication)
@@ -47,13 +69,19 @@ public class OrderController
 
 	@GetMapping(path = "cart")
 	@Secured("ROLE_USER")
-	public Set<LineItem> getShoppingCart(Authentication authentication)
+	public Iterable<LineItem> getShoppingCart(Authentication authentication)
 	{
 		return orderService.getShoppingCart(authentication).getLineItems();
 	}
+	
 	@PutMapping(path="cart/{id}")
 	public LineItem updateCartItem(@RequestBody LineItem item,@PathVariable("id") UUID id,Authentication auth)
 	{
 		return orderService.updateItem(id, item, auth);
+	}
+	@PutMapping(path="checkout")
+	public OrderEntity checkoutCart(Authentication auth)
+	{
+		return orderService.checkout(auth);
 	}
 }

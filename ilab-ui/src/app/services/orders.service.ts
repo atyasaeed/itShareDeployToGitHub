@@ -8,16 +8,30 @@ import { RestService } from './rest-service';
 })
 
 export class OrdersService extends RestService {
-  resource:string="/orders";
-}
+  resource:string="orders";
+  approve(id:string)
+  {
+    return this.http.put<Order>(this.appConfig.getResourceUrl("orders")+"/"+id+"/approve",null);
 
-
-export class TrackOrdersService {
-
-  constructor(private http: HttpClient) { }
-
-  getAll() {
-    return this.http.get<Order[]>(`/orders`);
   }
-
+  cancel(id:string)
+  {
+    return this.http.put<Order>(this.appConfig.getResourceUrl("orders")+"/"+id+"/cancel",null);
+  }
+  reject(id:string)
+  {
+    return this.http.put<Order>(this.appConfig.getResourceUrl("orders")+"/"+id+"/reject",null);
+  }
+ 
 }
+
+
+// export class TrackOrdersService {
+
+//   constructor(private http: HttpClient) { }
+
+//   getAll() {
+//     return this.http.get<Order[]>(`/orders`);
+//   }
+
+// }

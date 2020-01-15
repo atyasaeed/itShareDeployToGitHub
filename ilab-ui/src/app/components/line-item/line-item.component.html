@@ -1,41 +1,41 @@
 <div class="row">
 
-  <!-- Cart Items Table -->
-  <div class="col-md-12 col-lg-12">
-    <div class="items">
+    <!-- Cart Items Table -->
+    <div class="col-md-12 col-lg-12">
+        <div class="items">
 
-      <!-- One Item Row -->
-      <div class="product">
-        <div class="row">
-          <div class="col-md-3">
-            <img class="img-fluid mx-auto d-block image" src="{{lineItem.service.image}}">
-          </div>
-          <div class="col-md-8">
-            <div class="info">
-              <div class="row">
-                <div class="col-md-8 product-name">
-                <h5 class="text-center">{{lineItem.service.title}}</h5>
-
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div>Deliver Date: <span class="value">{{lineItem.deliveryDate}}</span></div>
-                      <div>Color: <span class="value">{{lineItem.color}}</span></div>
-                      <div>Type of project: <span class="value">{{lineItem.projectType}}</span></div>
-                      <div>Quantity: <span class="value">{{lineItem.quantity}}</span></div>
+            <!-- One Item Row -->
+            <div class="product">
+                <div class="row">
+                    <div class="col-md-3">
+                        <img class="img-fluid mx-auto d-block image" [src]="getImageUrl()">
                     </div>
-                    <div class="col-md-6">
-                      <div>Uploaded File: <a href="#">{{lineItem.file}}</a></div>
-                      <div>Units used in file: <span class="value">{{lineItem.unit}}</span></div>
-                      <div>Price: <span class="value">{{lineItem.price}}</span></div>
-                      <div>Memory: <span class="value">{{lineItem.material}}</span></div>
-                    </div>
+                    <div class="col-md-8">
+                        <div class="info">
+                            <div class="row">
+                                <div class="col-md-8 product-name">
+                                    <h5 class="text-center">{{lineItem.service.name}}</h5>
 
-                  </div>
-                </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div>Deliver Date: <span class="value">{{lineItem.deliveryDate}}</span></div>
+                                            <div>Color: <span class="value">{{lineItem.color}}</span></div>
+                                            <div>Type of project: <span class="value">{{lineItem.projectType}}</span></div>
+                                            <div>Quantity: <span class="value">{{lineItem.quantity}}</span></div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div>Uploaded File: <a href="#">{{lineItem.file}}</a></div>
+                                            <div>Units used in file: <span class="value">{{lineItem.unit}}</span></div>
+                                            <div>Price: <span class="value">{{lineItem.unitPrice}}</span></div>
+                                            <div>Memory: <span class="value">{{lineItem.material}}</span></div>
+                                        </div>
 
-                  <!-- {{lineItem.status}} -->
+                                    </div>
+                                </div>
 
-                <!-- <div class="col-md-3 price">
+                                <!-- {{lineItem.status}} -->
+
+                                <!-- <div class="col-md-3 price">
                   <div class="btn btn-warning"></div>
                 </div>
                 <div class="col-md-1 price">
@@ -43,17 +43,17 @@
                     <i class="fa fa-trash" aria-hidden="true"></i>
                   </button>
                 </div> -->
-              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
+            <!-- End One Item Row -->
+
         </div>
-      </div>
-      <!-- End One Item Row -->
-
     </div>
-  </div>
 
-  <!-- End One Item Row -->
+    <!-- End One Item Row -->
 
 </div>
 <div class="dropdown-divider"></div>

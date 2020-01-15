@@ -12,8 +12,11 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.OrderColumn;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.ListIndexBase;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -21,9 +24,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class OrderEntity extends AbstractEntity<OrderEntity>
 {
 	@OneToMany(cascade=CascadeType.ALL,mappedBy="orderEntity",fetch = FetchType.LAZY)
-	@OrderColumn(name="rank",nullable=false)
+	@OrderBy(value = "rank")
+	@OrderColumn(name = "rank")
+	@ListIndexBase(value = 1)
+//	look at this issue https://www.intertech.com/Blog/hibernate-why-are-there-nulls-in-my-collection/
 	@JsonIgnoreProperties("orderEntity")
-	private Set<LineItem> lineItems=new HashSet<LineItem>();
+	private List<LineItem> lineItems=new ArrayList<LineItem>();
 
 	@ManyToOne(optional=false)
 	@JsonIgnore
@@ -35,8 +41,8 @@ public class OrderEntity extends AbstractEntity<OrderEntity>
 	
 	@Enumerated(EnumType.ORDINAL)
 	@NotNull
-	private OrderType type;
-	public Set<LineItem> getLineItems()
+	private OrderStatus status;
+	public List<LineItem> getLineItems()
 	{
 		return lineItems;
 	}
@@ -44,7 +50,7 @@ public class OrderEntity extends AbstractEntity<OrderEntity>
 	{
 		this.lineItems.add(lineItem);
 	}
-	public void setLineItems(Set<LineItem> lineItems)
+	public void setLineItems(List<LineItem> lineItems)
 	{
 		this.lineItems = lineItems;
 	}
@@ -64,13 +70,13 @@ public class OrderEntity extends AbstractEntity<OrderEntity>
 	{
 		this.placedBy = placedBy;
 	}
-	public OrderType getType()
+	public OrderStatus getStatus()
 	{
-		return type;
+		return status;
 	}
-	public void setType(OrderType type)
+	public void setStatus(OrderStatus type)
 	{
-		this.type = type;
+		this.status = type;
 	}
 	
 }

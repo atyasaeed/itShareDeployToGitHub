@@ -1,7 +1,6 @@
 import { Component, OnInit,Input } from '@angular/core';
 import { Order, LineItem } from 'src/app/domain';
 import { OrdersService } from 'src/app/services';
-import { TrackOrdersService } from 'src/app/services';
 import { ActivatedRoute, Router } from '@angular/router';
 
 
@@ -26,7 +25,7 @@ export class OrderCardComponent implements OnInit {
 
   WaitingForQuotation() {
     // Waiting For Quotation
-    return (this.order.status == 'Waiting For Quotation');
+    return (this.order.status == 'WAIT_QUOTE');
   }
 
   WaitingForApproval() {
@@ -69,27 +68,34 @@ export class OrderCardComponent implements OnInit {
   //   );
   // }
 
-  cancelOrder(id) {
-    const order = Object.assign({},this.order);
-    order.status="Cancelled";
-    this.orderService.update(id, order).subscribe(
-      res=>{this.router.navigateByUrl('/orders')}
-    )
+  cancelOrder() {
+    // const order = Object.assign({},this.order);
+    // order.status="Cancelled";
+    // this.orderService.update(id, order).subscribe(
+    //   res=>{this.router.navigateByUrl('/orders')}
+    // )
+    this.orderService.cancel(this.order.id).subscribe(res=>this.order=res);
   }
 
-  approveQuotation(id) {
-    const order = Object.assign({},this.order);
-    order.status="In Progress";
-    this.orderService.update(id, this.order).subscribe(
-      res=>{this.router.navigateByUrl('/orders')}
-    )
+  approveQuotation() {
+    // const order = Object.assign({},this.order);
+    // order.status="In Progress";
+    // this.orderService.update(id, this.order).subscribe(
+    //   res=>{this.router.navigateByUrl('/orders')}
+    // )
+    this.orderService.approve(this.order.id).subscribe(
+      res=>this.order=res
+    );
   }
 
-  rejectQuotation(id) {
-    const order = Object.assign({},this.order);
-    order.status="Rejected";
-    this.orderService.update(id, this.order).subscribe(
-      res=>{this.router.navigateByUrl('/orders')}
-    )
+  rejectQuotation() {
+    // const order = Object.assign({},this.order);
+    // order.status="Rejected";
+    // this.orderService.update(id, this.order).subscribe(
+    //   res=>{this.router.navigateByUrl('/orders')}
+    // )
+    this.orderService.reject(this.order.id).subscribe(
+      res=>this.order=res
+    );
   }
 }

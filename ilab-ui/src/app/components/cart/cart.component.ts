@@ -33,30 +33,32 @@ export class CartComponent implements OnInit {
   }
 
   checkout() {
-    const order=new Order();
-    order.status="Waiting For Quotation";
-    // order.status="Waiting For Approval";
-    order.date=new Date();
-    order.lineItems=this.items.map((scItem:ShoppingCartItem)=>{
-      this.refresh();
-      const orderItem=new OrderItem();
-      orderItem.color= scItem.color;
-      orderItem.plannedStartDate = scItem.plannedStartDate;
-      orderItem.file = scItem.file;
-      orderItem.material = scItem.material;
-      orderItem.unitPrice = scItem.unitPrice;
-      orderItem.quantity=scItem.quantity;
-      orderItem.status="WQ";
-      orderItem.unit= scItem.unit;
-      orderItem.service=scItem.service;
-      orderItem.id=scItem.id;
-      this.router.navigateByUrl('/orders');
-       return orderItem;
-    });
+    // const order=new Order();
+    // // order.status="Waiting For Approval";
+    // order.date=new Date();
+    // order.lineItems=this.items.map((scItem:ShoppingCartItem)=>{
+    //   this.refresh();
+    //   const orderItem=new OrderItem();
+    //   orderItem.color= scItem.color;
+    //   orderItem.plannedStartDate = scItem.plannedStartDate;
+    //   orderItem.file = scItem.file;
+    //   orderItem.material = scItem.material;
+    //   orderItem.unitPrice = scItem.unitPrice;
+    //   orderItem.quantity=scItem.quantity;
+    //   orderItem.status="WQ";
+    //   orderItem.unit= scItem.unit;
+    //   orderItem.service=scItem.service;
+    //   orderItem.id=scItem.id;
+    //   this.router.navigateByUrl('/orders');
+    //    return orderItem;
+    // });
 
-    this.ordersService.create(order).subscribe(resp=>{
+    // this.ordersService.create(order).subscribe(resp=>{
+    //   this.refresh();
+    // });
+    this.shoppingCartService.checkout().subscribe(resp=>{
       this.refresh();
-    });
+    })
 
 
     // this.CartService.addOrder(this.item).subscribe(

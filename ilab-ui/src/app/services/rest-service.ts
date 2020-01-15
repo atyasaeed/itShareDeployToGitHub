@@ -14,9 +14,12 @@ export class RestService {
   resource: string = '/';
   type: any;
 
-  constructor(@Inject(HttpClient) private _http: HttpClient,@Inject(APP_CONFIG) private appConfig:IAppConfig) { }
+  constructor(@Inject(HttpClient) private _http: HttpClient,@Inject(APP_CONFIG) private _appConfig:IAppConfig) { }
   get http(){
     return this._http;
+  }
+  get appConfig(){
+    return this._appConfig;
   }
   get url() {
     return this.appConfig.getResourceUrl( this.resource);
