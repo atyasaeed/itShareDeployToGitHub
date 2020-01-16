@@ -229,7 +229,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       function addOrder() {
         const order:Order=body;
 
-        order.id = orders.length ? Math.max(...orders.map(x => x.id)) + 1 : 1;
+        order.id =""+ (orders.length ? Math.max(...orders.map(x => x.id)) + 1 : 1);
         orders.push(order);
         localStorage.setItem('orders', JSON.stringify(orders));
 

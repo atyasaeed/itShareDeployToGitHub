@@ -135,6 +135,7 @@ public class OrderService
 			orderEntity.getLineItems().remove(item);
 			orderRepo.save(orderEntity);
 			lineItemRepo.delete(item);
+			
 		}
 //		if(item.getOrderEntity().getLineItems().contains(item)) {
 //			item.getOrderEntity().getLineItems().remove(item);

@@ -18,7 +18,8 @@ import { APP_CONFIG, IAppConfig } from 'src/app/app.config';
 export class CartItemComponent implements OnInit {
   loading = false;
   item: ShoppingCartItem = new ShoppingCartItem();
-  service ;
+  fileToUpload: File = null;
+  service:Service ;
   // tslint:disable-next-line: max-line-length
   constructor(private route: ActivatedRoute, 
     private shoppingCartService: ShoppingCartService, 
@@ -35,14 +36,25 @@ export class CartItemComponent implements OnInit {
   onSubmit() {
     this.loading = true;
     this.item.service = this.service;
-    this.shoppingCartService.create(this.item).subscribe(
-      res => {this.router.navigateByUrl('/cart') },
-      err => { this.loading = true; }
-    )
+    const formData:FormData=new FormData();
+    formData.append("file",this.fileToUpload,this.fileToUpload.name);
+    const itemBlob = new Blob([JSON.stringify(this.item)], {
+      type: 'application/json', 
+    });
+    formData.append("item",itemBlob);
+    
+    this.shoppingCartService.addCartItem(formData).subscribe(
+      resp=>this.router.navigateByUrl("cart"),
+      err=>this.loading=true);
 
   }
 
   getImageUrl():string{
     return this.appConfig.ASSETS_URL+this.service.id;
+  }
+  handleFileInput(files:FileList){
+    if(files!=null)
+      this.fileToUpload=files.item(0);
+
   }
 }

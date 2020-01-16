@@ -20,10 +20,11 @@
                                 </div>
                                 <div class="form-group col-sm-6 mb-2">
                                     <label>Upload Your Design File</label>
-                                    <input type="file" name="file" [(ngModel)]="item.file" #file="ngModel" class="form-control" required>
-                                    <div *ngIf="userForm.submitted && file.invalid" class="text-danger">
+                                    <input type="file" name="file" class="form-control" required (change)="handleFileInput($event.target.files)">
+                                    <!-- <div *ngIf="userForm.submitted && file.invalid" class="text-danger">
                                         <div *ngIf="file.errors.required">File Is Required</div>
-                                    </div>
+                                    </div> -->
+
                                 </div>
                             </section>
                             <section class="form-row">
@@ -87,11 +88,11 @@
     </section>
     <!--////////////////////////////////////////////////////////////////////////////////////-->
     <hr class="mb-0">
-    <div class="card-body">
+    <div class="card-body" *ngIf="service">
         <h5 class="card-title">Service Description</h5>
         <p class="card-text">
-            {{service?.details}}
+            {{service?.description}}
         </p>
-        <div><img [src]="service?.imageDetails" alt="" width="100%"></div>
+        <div><img [src]="getImageUrl()" alt="" width="100%"></div>
     </div>
 </article>

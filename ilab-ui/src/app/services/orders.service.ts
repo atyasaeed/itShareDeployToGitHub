@@ -25,13 +25,3 @@ export class OrdersService extends RestService {
  
 }
 
-
-// export class TrackOrdersService {
-
-//   constructor(private http: HttpClient) { }
-
-//   getAll() {
-//     return this.http.get<Order[]>(`/orders`);
-//   }
-
-// }

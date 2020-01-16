@@ -23,7 +23,8 @@ class DefaultAppConfig implements IAppConfig{
     }
 }
 class ProdAppConfig extends DefaultAppConfig{
-    public API_END_POINT="http://localhost:8080/";
+    // public API_END_POINT="http://localhost:8080/";
+    public API_END_POINT="http://192.168.0.5:8080/";
 
 }
 class DevAppConfig extends DefaultAppConfig{
