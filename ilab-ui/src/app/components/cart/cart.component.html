@@ -32,7 +32,7 @@
                                                         <div class="product-info">
                                                             <div>Deliver Date: <span class="value">{{item.plannedStartDate |date:"mediumDate" |titlecase}}</span></div>
                                                             <div>Type Of Project: <span class="value">{{item.projectType |titlecase}}</span></div>
-                                                            <div>Digital Material: <span class="value"><a href="">{{item.file}}</a></span></div>
+                                                        <div>Digital Material: <span class="value"><a [href]="getFileUrl(i)">{{item.asset_name}}</a></span></div>
                                                             <div>Units Used In File: <span class="value">{{item.unit |titlecase}}</span></div>
                                                             <div>Color: <span class="value">{{item.color |titlecase}}</span></div>
                                                             <div>Material: <span class="value">{{item.material |titlecase}}</span></div>

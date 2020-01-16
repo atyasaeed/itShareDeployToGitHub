@@ -94,4 +94,8 @@ export class CartComponent implements OnInit {
       return false;
     }
   }
+
+  getFileUrl(index):string{
+    return this.appConfig.FILE_URL+this.items[index].asset_id;
+  }
 }
