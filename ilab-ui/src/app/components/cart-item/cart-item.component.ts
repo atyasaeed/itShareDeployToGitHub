@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Service } from '../../domain/service.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, Inject } from '@angular/core';
-import { ServicesService } from 'src/app/services';
+import { ServicesService, AuthenticationService } from 'src/app/services';
 import { ShoppingCartItem } from 'src/app/domain/shoppingcart-item.model';
 import { ShoppingCartService } from 'src/app/services/shoppingcart.service';
 import { APP_CONFIG, IAppConfig } from 'src/app/app.config';
@@ -21,12 +21,13 @@ export class CartItemComponent implements OnInit {
   fileToUpload: File = null;
   service:Service ;
   // tslint:disable-next-line: max-line-length
-  constructor(private route: ActivatedRoute, 
-    private shoppingCartService: ShoppingCartService, 
-    private servicesService: ServicesService, 
+  constructor(private route: ActivatedRoute,
+    private shoppingCartService: ShoppingCartService,
+    private servicesService: ServicesService,
     private router:Router,
+    private authenticationService: AuthenticationService,
     @Inject(APP_CONFIG) private appConfig:IAppConfig) { }
-  
+
 
   ngOnInit() {
 
@@ -45,7 +46,7 @@ export class CartItemComponent implements OnInit {
     
     this.shoppingCartService.addCartItem(formData).subscribe(
       resp=>this.router.navigateByUrl("cart"),
-      err=>this.loading=true);
+      err=>this.loading=false);
 
   }
 
@@ -57,4 +58,5 @@ export class CartItemComponent implements OnInit {
       this.fileToUpload=files.item(0);
 
   }
+
 }

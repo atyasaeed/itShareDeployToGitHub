@@ -49,10 +49,10 @@
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="fas fa-shopping-cart"></span><span class="caret">
                                 {{items?.length}}- Items</span></a>
                         <ul class="dropdown-menu dropdown-cart" role="menu">
-                            <li *ngFor="let item of items">
+                            <li *ngFor="let item of items ,let i=index">
                                 <span class="item" *ngIf="item">
                                     <span class="item-left">
-                                        <!-- <img [src]="item.service.image" width="50" height="50" alt="" /> -->
+                                         <img [src]="getImageUrl(i)" width="50" height="50" alt="" />
                                         <span class="item-info">
                                             <span>{{item?.service?.name}}</span>
                                 <span>{{item.quantity}}</span>
