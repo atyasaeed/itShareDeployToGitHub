@@ -15,14 +15,17 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
  // model: LoginData;
   model = {
-  username:'',
-  password:'',
+  username: '',
+  password: '',
   isLoggedin: false,
 };
 
 
   // tslint:disable-next-line: max-line-length
-  constructor(private router: Router, private route: ActivatedRoute, private authenticationService: AuthenticationService, private alertService: AlertService) { }
+  constructor(private router: Router,
+              private route: ActivatedRoute,
+              private authenticationService: AuthenticationService,
+              private alertService: AlertService) { }
 
   ngOnInit() {
     // get return url from route parameters or default to '/'

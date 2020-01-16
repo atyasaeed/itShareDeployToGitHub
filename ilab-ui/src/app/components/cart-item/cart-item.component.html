@@ -20,7 +20,7 @@
                                 </div>
                                 <div class="form-group col-sm-6 mb-2">
                                     <label>Upload Your Design File</label>
-                                    <input type="file" name="file" [(ngModel)]="item.file" #file="ngModel" class="form-control" required>
+                                    <input type="file"  name="file" [(ngModel)]="item.file" #file="ngModel" class="form-control" required>
                                     <div *ngIf="userForm.submitted && file.invalid" class="text-danger">
                                         <div *ngIf="file.errors.required">File Is Required</div>
                                     </div>
@@ -90,7 +90,7 @@
     <div class="card-body">
         <h5 class="card-title">Service Description</h5>
         <p class="card-text">
-            {{service?.details}}
+            {{service?.description}}
         </p>
         <div><img [src]="service?.imageDetails" alt="" width="100%"></div>
     </div>

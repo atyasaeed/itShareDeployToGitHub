@@ -6,6 +6,7 @@ import { OrdersService } from 'src/app/services/orders.service';
 import { Order, LineItem } from 'src/app/domain';
 import { OrderItem } from 'src/app/domain/order-item.model';
 import { APP_CONFIG, IAppConfig } from 'src/app/app.config';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
@@ -15,14 +16,14 @@ import { APP_CONFIG, IAppConfig } from 'src/app/app.config';
 export class CartComponent implements OnInit {
   loading = false;
   items: Array<ShoppingCartItem>;
-  constructor(private shoppingCartService: ShoppingCartService, 
-    private ordersService: OrdersService, 
-    private router: Router,
-    @Inject(APP_CONFIG) private appConfig:IAppConfig) { }
- 
-  ngOnInit() {
-    this.refresh();
+  constructor(private shoppingCartService: ShoppingCartService,
+              private ordersService: OrdersService,
+              private router: Router,
+              @Inject(APP_CONFIG) private appConfig: IAppConfig) { }
 
+  ngOnInit() {
+   // this.shoppingCartService.refresh().subscribe(items=>this.items =items);
+    this.refresh();
   }
   deletItem(id) {
     this.loading = true;
@@ -56,9 +57,9 @@ export class CartComponent implements OnInit {
     // this.ordersService.create(order).subscribe(resp=>{
     //   this.refresh();
     // });
-    this.shoppingCartService.checkout().subscribe(resp=>{
+    this.shoppingCartService.checkout().subscribe(resp => {
       this.refresh();
-    })
+    });
 
 
     // this.CartService.addOrder(this.item).subscribe(
@@ -68,21 +69,29 @@ export class CartComponent implements OnInit {
     //   });
   }
   private refresh() {
-    this.shoppingCartService.query<ShoppingCartItem[]>().subscribe(items => this.items = items.sort((obj1,obj2)=>{
-      if(obj1.rank>obj2.rank) return 1;
-      else return -1
-    }));
+    // this.shoppingCartService.query<ShoppingCartItem[]>().subscribe(items => this.items = items.sort((obj1, obj2) => {
+    //   if (obj1.rank > obj2.rank) { return 1; } else { return -1; }
+    // }));
+    this.shoppingCartService.refresh().subscribe(items => this.items = items);
   }
   updateItem(item: ShoppingCartItem) {
     this.loading = true;
     this.shoppingCartService.update<ShoppingCartItem>(item.id, item).subscribe(
   res => {
-     this.refresh();
+    // this.refresh();
      this.loading = false;
     }, err => {this.loading = false; });
 
   }
-  getImageUrl(index:number):string{
-    return this.appConfig.ASSETS_URL+this.items[index].service.id;
+  getImageUrl(index: number): string {
+    return this.appConfig.ASSETS_URL + this.items[index].service.id;
+  }
+
+  checkItems() {
+    if (this.items.length === 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
