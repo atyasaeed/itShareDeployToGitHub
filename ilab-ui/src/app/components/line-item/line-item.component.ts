@@ -18,4 +18,8 @@ export class LineItemComponent implements OnInit {
   getImageUrl():string{
     return this.appConfig.ASSETS_URL+this.lineItem.service.id;
   }
+
+  getFileUrl():string{
+    return this.appConfig.FILE_URL+this.lineItem.asset_id;
+  }
 }
