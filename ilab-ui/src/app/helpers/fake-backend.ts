@@ -34,12 +34,12 @@ const services: Service[] = [
 
   { id: "2", name: '3D Printing',
    description: 'Computer-controlled cutting machine used for cutting various hard materials.',
-  
+
    },
 
   { id: "3", name: '3D scanning',
     description: 'Captures 3D model of medium to large size objects with high efficiency.' ,
-    
+
   }
 ];
 
@@ -103,7 +103,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         let password=body.split("&")[1];
         username=username.split("=")[1];
         password=password.split("=")[1]
-        
+
         // const { username, password } = body;
         const user = users.find(x => x.username === username && x.password === password);
         if (!user) { return error('Username or password is incorrect'); }

@@ -10,11 +10,12 @@ export class LineItem{
   material: string ;
   unit: string ;
   plannedStartDate: Date ;
-  service:Service;  
-
+  service:Service;
+  asset_id:string;
+  asset_name:string;
   file: File ;
 
- 
- 
+
+
 
 }
