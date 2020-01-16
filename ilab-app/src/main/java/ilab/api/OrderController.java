@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import ilab.core.domain.LineItem;
 import ilab.core.domain.OrderEntity;
@@ -52,14 +55,20 @@ public class OrderController
 		return orderService.reject(id,auth);
 	}
 	
-	@PostMapping(path = "cart", consumes = "application/json")
+//	@PostMapping(path = "cart", consumes = "application/json")
+//	@ResponseStatus(HttpStatus.CREATED)
+//	public Iterable<LineItem> postCartItem(@RequestBody LineItem	lineItem,Authentication authentication)
+//	{
+//		Iterable<LineItem> items= orderService.addItemToCart(lineItem,authentication);
+//		return items;
+//	}
+	@PostMapping(path = "cart")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Iterable<LineItem> postCartItem(@RequestBody LineItem	lineItem,Authentication authentication)
+	public LineItem postCartItem(@RequestPart("item") LineItem item,@RequestPart("file") MultipartFile file,Authentication authentication) throws Exception
 	{
-		Iterable<LineItem> items= orderService.addItemToCart(lineItem,authentication);
-		return items;
+		LineItem lineItem= orderService.addItemToCart(item,file,authentication);
+		return lineItem;
 	}
-	
 	@DeleteMapping(path = "cart/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteCartItem(@PathVariable("id") UUID id,Authentication authentication)

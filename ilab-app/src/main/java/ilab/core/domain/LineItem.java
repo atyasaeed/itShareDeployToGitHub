@@ -3,14 +3,17 @@ package ilab.core.domain;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
 @Entity
 public class LineItem extends AbstractEntity<LineItem>
@@ -22,7 +25,9 @@ public class LineItem extends AbstractEntity<LineItem>
 	private OrderEntity orderEntity;
 	@ManyToOne(optional=false)
 	private Service service;
-	private String digtalAssets;
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JsonUnwrapped(prefix = "asset_")
+	private FileAsset digtalAssets;
 	private long quantity;
 	private BigDecimal unitPrice;
 	@Temporal(TemporalType.DATE)
@@ -70,11 +75,11 @@ public class LineItem extends AbstractEntity<LineItem>
 	{
 		this.service = service;
 	}
-	public String getDigtalAssets()
+	public FileAsset getDigtalAssets()
 	{
 		return digtalAssets;
 	}
-	public void setDigtalAssets(String digtalAssets)
+	public void setDigtalAssets(FileAsset digtalAssets)
 	{
 		this.digtalAssets = digtalAssets;
 	}

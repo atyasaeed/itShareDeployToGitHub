@@ -1,9 +1,10 @@
 package ilab.core.service;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -13,11 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import ilab.core.domain.FileAsset;
 import ilab.core.domain.LineItem;
 import ilab.core.domain.OrderEntity;
 import ilab.core.domain.OrderStatus;
 import ilab.core.domain.User;
+import ilab.core.repository.FileAssetRepository;
 import ilab.core.repository.LineItemRepository;
 import ilab.core.repository.OrderRepository;
 import ilab.core.repository.UserRepository;
@@ -32,6 +36,8 @@ public class OrderService
 	private UserRepository userRepo;
 	@Autowired
 	private LineItemRepository lineItemRepo;
+	@Autowired
+	private FileAssetRepository assetsRepo;
 	
 	public Iterable<OrderEntity> getOrders(Authentication auth)
 	{
@@ -65,7 +71,7 @@ public class OrderService
 		{
 			order=result.get();
 			if(order.getAccount().getId().equals(user.getAccounts().iterator().next().getId()) && order.getStatus()==OrderStatus.WAIT_CONFIRMATION) {
-					order.setStatus(OrderStatus.REJECT_QUOTE);
+					order.setStatus(OrderStatus.QUOTE_REJECTED);
 			}
 			else
 			{
@@ -95,14 +101,28 @@ public class OrderService
 		}
 		return order;
 	}
-	public Iterable<LineItem> addItemToCart(LineItem item,Authentication auth)
+	public LineItem addItemToCart(LineItem item,MultipartFile file,Authentication auth) throws Exception
 	{
 		OrderEntity order=getShoppingCart(auth);
 		
 		item.setOrderEntity(order);
 		order.addLineItem(item);
+		FileAsset digitalAsset=new FileAsset();
+		digitalAsset.setName(file.getOriginalFilename());
+		digitalAsset.setAccount(order.getAccount());
+		digitalAsset=assetsRepo.save(digitalAsset);
+		item.setDigtalAssets(digitalAsset);
+		item=lineItemRepo.save(item);
 		order=orderRepo.save(order);
-		return order.getLineItems();
+
+		File destPath=new File("D:\\workspaces\\ilab\\resources\\files\\"+order.getAccount().getId()+"\\"+digitalAsset.getId());
+		System.out.println(destPath.getParentFile().getAbsolutePath());
+		if(! destPath.getParentFile().exists())
+			Files.createDirectory(destPath.getParentFile().toPath());
+		
+		
+		file.transferTo(destPath);
+		return item;
 	}
 	public void deleteCartItem(UUID id,Authentication auth)
 	{
