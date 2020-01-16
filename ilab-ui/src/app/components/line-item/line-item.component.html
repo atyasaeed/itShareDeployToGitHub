@@ -10,24 +10,25 @@
                     <div class="col-md-3">
                         <img class="img-fluid mx-auto d-block image" [src]="getImageUrl()">
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-9">
                         <div class="info">
                             <div class="row">
-                                <div class="col-md-8 product-name">
+                                <div class="col-md-12 product-name">
                                     <h5 class="text-center">{{lineItem.service.name}}</h5>
 
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <div>Deliver Date: <span class="value">{{lineItem.deliveryDate}}</span></div>
-                                            <div>Color: <span class="value">{{lineItem.color}}</span></div>
-                                            <div>Type of project: <span class="value">{{lineItem.projectType}}</span></div>
-                                            <div>Quantity: <span class="value">{{lineItem.quantity}}</span></div>
+                                            <div><span class="col-md-4">Planned Start Date :</span><span class="value ">{{ lineItem.plannedStartDate | date:'dd-MM-yyyy' }}
+                                            </span></div>
+                                            <div><span class="col-md-4">Color :</span><span class="value ">{{lineItem.color}}</span></div>
+                                            <div><span class="col-md-4">Type of project :</span><span class="value ">{{lineItem.projectType}}</span></div>
+                                            <div><span class="col-md-4">Quantity :</span><span class="value ">{{lineItem.quantity}}</span></div>
                                         </div>
                                         <div class="col-md-6">
-                                            <div>Uploaded File: <a href="#">{{lineItem.file}}</a></div>
-                                            <div>Units used in file: <span class="value">{{lineItem.unit}}</span></div>
-                                            <div>Price: <span class="value">{{lineItem.unitPrice}}</span></div>
-                                            <div>Memory: <span class="value">{{lineItem.material}}</span></div>
+                                        <div><span class="col-md-4">Uploaded File :</span><a href="{{getFileUrl()}}">{{lineItem.asset_name}}</a></div>
+                                            <div><span class="col-md-4">Units used in file :</span><span class="value ">{{lineItem.unit}}</span></div>
+                                            <!-- <div><span class="col-md-4"></span>Price: <span class="value ">{{lineItem.unitPrice}}</span></div> -->
+                                            <div><span class="col-md-4">Material :</span><span class="value ">{{lineItem.material}}</span></div>
                                         </div>
 
                                     </div>
