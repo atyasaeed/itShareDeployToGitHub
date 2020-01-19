@@ -83,7 +83,10 @@ export class CartComponent implements OnInit {
     }, err => {this.loading = false; });
 
   }
-  getImageUrl(index: number): string {
+  removeCart(){
+    this.shoppingCartService.removeCart().subscribe()
+  }
+    getImageUrl(index: number): string {
     return this.appConfig.ASSETS_URL + this.items[index].service.id;
   }
 
@@ -94,6 +97,7 @@ export class CartComponent implements OnInit {
       return false;
     }
   }
+
 
   getFileUrl(index):string{
     return this.appConfig.FILE_URL+this.items[index].asset_id;

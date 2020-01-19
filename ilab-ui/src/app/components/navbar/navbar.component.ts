@@ -37,6 +37,7 @@ export class NavbarComponent implements OnInit {
   // }
 
   logout() {
+    this.shoppingCartService.removeCart().subscribe();
     return this.authenticationService.logout().subscribe(res => { this.router.navigateByUrl('/login'); });
   }
 

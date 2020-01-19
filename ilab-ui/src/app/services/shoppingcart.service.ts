@@ -18,6 +18,10 @@ export class ShoppingCartService extends RestService {
   this.query<ShoppingCartItem[]>().subscribe(data => this.ShoppingCartSubject.next(data));
   return this.ShoppingCart;
 }
+removeCart() {
+  this.ShoppingCartSubject.next(null);
+  return this.ShoppingCart ;
+}
 
 
   checkout() {

@@ -1,3 +1,4 @@
+import { ShoppingCartService } from './../../services/shoppingcart.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginData } from './login.model';
@@ -25,7 +26,8 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router,
               private route: ActivatedRoute,
               private authenticationService: AuthenticationService,
-              private alertService: AlertService) { }
+              private alertService: AlertService,
+              private shoppingCartService: ShoppingCartService) { }
 
   ngOnInit() {
     // get return url from route parameters or default to '/'
@@ -38,6 +40,7 @@ export class LoginComponent implements OnInit {
     this.authenticationService.login(this.model.username, this.model.password)
       .pipe(first()).subscribe(data => {
       this.router.navigate([this.returnUrl]);
+      this.shoppingCartService.refresh().subscribe();
       this.alertService.success('welcome' + ' ' + this.authenticationService.currentUserValue.firstName);
     },
     error => {
