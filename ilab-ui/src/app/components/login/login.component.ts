@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     this.authenticationService.login(this.model.username, this.model.password)
       .pipe(first()).subscribe(data => {
-      this.router.navigate([this.returnUrl]);
+      this.router.navigateByUrl(this.returnUrl);
       this.shoppingCartService.refresh().subscribe();
       this.alertService.success('welcome' + ' ' + this.authenticationService.currentUserValue.firstName);
     },
