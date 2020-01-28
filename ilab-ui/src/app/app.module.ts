@@ -22,6 +22,7 @@ import { ServiceItemComponent } from './components/service-item/service-item.com
 import { OrderCardComponent } from './components/order-card/order-card.component';
 import { LineItemComponent } from './components/line-item/line-item.component';
 import { APP_CONFIG, prodConfig, devConfig } from './app.config';
+import { ConfirmEqualValidatorDirective } from './helpers/confirm-Pass';
 
 
 
@@ -42,7 +43,7 @@ import { APP_CONFIG, prodConfig, devConfig } from './app.config';
     AlertComponent,
     ServiceItemComponent,
     OrderCardComponent,
-    LineItemComponent,
+    LineItemComponent,ConfirmEqualValidatorDirective
   ],
   imports: [
     BrowserModule,

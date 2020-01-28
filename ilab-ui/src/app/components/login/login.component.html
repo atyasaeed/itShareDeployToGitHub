@@ -14,7 +14,7 @@
                             <div class="form-group col-lg-6 mb-2">
                                 <label>User Name</label>
                                 <input type="text" class="form-control" formControlName="UserName" UserName>
-                                <div *ngIf="loginUser.controls.Password.touched && !loginUser.controls.UserName.valid"  class="text-danger">
+                                <div *ngIf="loginUser.controls.UserName.touched && !loginUser.controls.UserName.valid"  class="text-danger">
                                   <div *ngIf="loginUser.controls.UserName.errors.required">UserName is required</div>
                                 </div>
                             </div>
@@ -30,7 +30,7 @@
 
                         <section class="form-row">
                             <div class="form-group col-lg-3 mb-2">
-                                <input [disabled]="loading" [disabled]="!loginUser.valid" type="submit" class="btn btn-primary btn-block" value="Log In ">
+                                <input [disabled]="loading"  type="submit" class="btn btn-primary btn-block" value="Log In ">
                             </div>
                             <div class="form-group col-lg-6 mb-2">
                             </div>

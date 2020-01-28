@@ -38,7 +38,7 @@ loginUser: FormGroup;
   }
   createForm() {
     this.loginUser = this.formBuilder.group({
-      UserName: ['', [Validators.required,Validators.maxLength(10)]],
+      UserName: ['', [Validators.required]],
       Password: ['', [Validators.required]]
     });
 
@@ -46,7 +46,12 @@ loginUser: FormGroup;
 
   onSubmit() {
     this.loading = true;
-    this.authenticationService.login(this.loginUser.controls.UserName.value, this.loginUser.controls.Password.value)
+    if (this.loginUser.invalid) {
+      this.validateAllFormFields(this.loginUser);
+      this.loading = false;
+    }
+    else {
+      this.authenticationService.login(this.loginUser.controls.UserName.value, this.loginUser.controls.Password.value)
       .pipe(first()).subscribe(data => {
       this.router.navigateByUrl(this.returnUrl);
       this.shoppingCartService.refresh().subscribe();
@@ -57,6 +62,8 @@ loginUser: FormGroup;
       this.loading = false;
       // this.loading = false;
     });
+    }
+
 
     // if ( this.restservice.login(this.model.userName,this.model.password) ) {
     //   this.router.navigate(['/order']);
@@ -65,5 +72,15 @@ loginUser: FormGroup;
     // }
 
   }
+  validateAllFormFields(formGroup: FormGroup) {         //{1}
+  Object.keys(formGroup.controls).forEach(field => {  //{2}
+    const control = formGroup.get(field);             //{3}
+    if (control instanceof FormControl) {             //{4}
+      control.markAsTouched({ onlySelf: true });
+    } else if (control instanceof FormGroup) {        //{5}
+      this.validateAllFormFields(control);            //{6}
+    }
+  });
+}
 
 }
