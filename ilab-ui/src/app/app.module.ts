@@ -13,7 +13,7 @@ import { ChangePasswordComponent } from './components/change-password/change-pas
 import { ForgetPasswordComponent } from './components/forget-password/forget-password.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { fakeBackendProvider } from './helpers';
 import { AlertComponent } from './components/alert/alert.component';
 import { AuthInterceptor } from './helpers/auth-interceptor';
@@ -48,7 +48,8 @@ import { APP_CONFIG, prodConfig, devConfig } from './app.config';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
