@@ -23,6 +23,9 @@ import { OrderCardComponent } from './components/order-card/order-card.component
 import { LineItemComponent } from './components/line-item/line-item.component';
 import { APP_CONFIG, prodConfig, devConfig } from './app.config';
 import { ConfirmEqualValidatorDirective } from './helpers/confirm-Pass';
+import { LanguageTranslationModule } from './shared/modules/language-translation/language-translation.module';
+import { TranslateModule } from '@ngx-translate/core';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -50,7 +53,10 @@ import { ConfirmEqualValidatorDirective } from './helpers/confirm-Pass';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    LanguageTranslationModule,
+    TranslateModule,
+    NgbDropdownModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

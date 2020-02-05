@@ -1,8 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { AuthenticationService, ShoppingCartService } from 'src/app/services';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { ShoppingCartItem } from 'src/app/domain';
 import { APP_CONFIG, IAppConfig } from 'src/app/app.config';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-navbar',
@@ -10,15 +11,23 @@ import { APP_CONFIG, IAppConfig } from 'src/app/app.config';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+  public pushRightClass: string;
   loggedIn: boolean;
   items: Array<ShoppingCartItem>;
   loading = false;
   // tslint:disable-next-line: max-line-length
   constructor(private authenticationService: AuthenticationService,
-              private router: Router,
-              private shoppingCartService: ShoppingCartService,
-              @Inject(APP_CONFIG) private appConfig:IAppConfig
-  ) { }
+    private router: Router,
+    private shoppingCartService: ShoppingCartService,
+    @Inject(APP_CONFIG) private appConfig: IAppConfig,
+    private translate: TranslateService
+  ) {
+    this.router.events.subscribe(val => {
+      if (val instanceof NavigationEnd && window.innerWidth <= 992 && this.isToggled()) {
+        this.toggleSidebar();
+      }
+    });
+  }
 
 
 
@@ -28,6 +37,9 @@ export class NavbarComponent implements OnInit {
     });
     //this.shoppingCartService.refresh().subscribe(items => this.items = items);
     this.refresh();
+
+
+
   }
 
 
@@ -55,11 +67,33 @@ export class NavbarComponent implements OnInit {
     }, err => { this.loading = false; });
   }
 
-    getImageUrl(index: number): string {
-      return this.appConfig.ASSETS_URL + this.items[index].service.id;
+  getImageUrl(index: number): string {
+    return this.appConfig.ASSETS_URL + this.items[index].service.id;
 
   }
 
+  // language
+  changeLang(language: string) {
+    this.translate.use(language);
+  }
+  ltr() {
+    const dom: any = document.querySelector('body');
+    dom.classList.add('rtl');
+}
+rtl(){
+  const dom: any = document.querySelector('body');
+
+  dom.classList.remove('rtl');
+}
+
+  toggleSidebar() {
+    const dom: any = document.querySelector('body');
+    dom.classList.toggle(this.pushRightClass);
+  }
+  isToggled(): boolean {
+    const dom: Element = document.querySelector('body');
+    return dom.classList.contains(this.pushRightClass);
+  }
 
 
 }

@@ -5,32 +5,32 @@
             <div class="card card-signin my-5">
                 <div class="card-body">
                     <h5 class="card-header info-color white-text text-center py-4">
-                        <strong>Log In</strong>
+                        <strong>{{ 'Log In' | translate }}</strong>
                     </h5>
 
 
                     <form class="container" data-toggle="validator" [formGroup]='loginUser' (ngSubmit)=" onSubmit()" class="form-signin" >
                         <section class="form-row">
                             <div class="form-group col-lg-6 mb-2">
-                                <label>User Name</label>
+                                <label>{{ 'User Name' | translate }}</label>
                                 <input type="text" class="form-control" formControlName="UserName" UserName>
                                 <div *ngIf="loginUser.controls.UserName.touched && !loginUser.controls.UserName.valid"  class="text-danger">
-                                  <div *ngIf="loginUser.controls.UserName.errors.required">UserName is required</div>
+                                  <div *ngIf="loginUser.controls.UserName.errors.required">{{ 'UserName is required' | translate }}</div>
                                 </div>
                             </div>
                             <div class="form-group col-lg-6 mb-2">
-                                <label>Password</label>
+                                <label>{{ 'Password' | translate }}</label>
                                 <input type="password" formControlName="Password" class="form-control"  Password >
                                 <small *ngIf=""></small>
                                 <div *ngIf="loginUser.controls.Password.touched && !loginUser.controls.Password.valid" class="text-danger">
-                                    <div *ngIf="loginUser.controls.Password.errors.required">password is required</div>
+                                    <div *ngIf="loginUser.controls.Password.errors.required">{{ 'password is required' | translate }}</div>
                                 </div>
                             </div>
                         </section>
 
                         <section class="form-row">
                             <div class="form-group col-lg-3 mb-2">
-                                <input [disabled]="loading"  type="submit" class="btn btn-primary btn-block" value="Log In ">
+                                <input [disabled]="loading"  type="submit" class="btn btn-primary btn-block" value="{{'Log In'| translate}} ">
                             </div>
                             <div class="form-group col-lg-6 mb-2">
                             </div>
@@ -38,10 +38,10 @@
                         <hr class="my-4">
                         <section class="row">
                             <div class="sign-up col-lg-6 mb-2">
-                                Create? <a [routerLink]="['/registration']">New Account</a>
+                                 <a [routerLink]="['/registration']">{{ 'New Account' | translate }}</a>
                             </div>
                             <div class="forget-password col-lg-6 mb-2">
-                                If you ? <a [routerLink]="['/forget-password']">Forget Password</a>
+                                 <a [routerLink]="['/forget-password']">{{ 'Forget Password' | translate }}</a>
                             </div>
                         </section>
 

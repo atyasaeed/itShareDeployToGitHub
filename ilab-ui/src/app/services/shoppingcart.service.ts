@@ -28,6 +28,6 @@ removeCart() {
     return this.http.put<Order>(this.appConfig.CHECKOUT_URL, null);
   }
   addCartItem(formData) {
-    return this.http.post<Order>(this.appConfig.getResourceUrl(this.resource),formData);
+    return this.http.post<Order>(this.appConfig.getResourceUrl(this.resource), formData);
   }
 }
