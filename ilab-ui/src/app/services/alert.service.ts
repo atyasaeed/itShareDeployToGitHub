@@ -8,7 +8,7 @@ import { NavigationStart, Router } from '@angular/router';
 export class AlertService {
   private subject = new Subject<any>();
   private keepAfterRouteChange = false;
-  
+
   constructor(private router: Router) {
 
     // clear alert messages on route change unless 'keepAfterRouteChange' flag is true

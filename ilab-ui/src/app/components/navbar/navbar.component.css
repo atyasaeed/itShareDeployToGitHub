@@ -39,8 +39,11 @@ ul.dropdown-cart{
     margin-top:14px;
   }
 
-
-
+  @media  (min-width: 992px) {
+.navbar-collapse{
+display: flex;
+justify-content: space-between;
+}}
   .navbar-nav .dropdown-menu{
     max-width: fit-content;
     padding: 5px;

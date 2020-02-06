@@ -6,7 +6,7 @@
         <p class="card-text">{{service.description}}</p>
         <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group">
-                <a type="" class="btn btn-md btn-success" [routerLink]='["/CartItem"]' [queryParams]="{service:service.id}">Add To Cart</a>
+                <a type="" class="btn btn-md btn-success" [routerLink]='["/CartItem"]' [queryParams]="{service:service.id}">{{ 'Add To Cart' | translate }}</a>
             </div>
         </div>
     </div>

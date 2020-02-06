@@ -1,94 +1,99 @@
 <section class="container">
-    <div class="row">
-      <div class="col-sm-9 col-md-7  mx-auto">
-        <div class="card card-signin my-5">
-          <div class="card-body">
-            <h5 class="card-header info-color white-text text-center py-4">
-              <strong>Create Account</strong>
+  <div class="row">
+    <div class="col-sm-9 col-md-7  mx-auto">
+      <div class="card card-signin my-5">
+        <div class="card-body">
+          <h5 class="card-header info-color white-text text-center py-4">
+            <strong>{{ 'Create Account' | translate }}</strong>
           </h5>
 
 
-  <form #userForm="ngForm" (ngSubmit)="userForm.form.valid && onSubmit()" class="container">
-    <section class="form-row">
-     <div class="form-group col-lg-4 mb-2">
-       <label>First Name</label>
-       <input type="text" name="firstName" class="form-control" [(ngModel)]="model.firstName" #firstName="ngModel"
-         [ngClass]="{ 'is-invalid': userForm.submitted && firstName.invalid }" required>
-       <div class="invalid-feedback" *ngIf="userForm.submitted && firstName.invalid">
-         <p *ngIf="firstName.errors.required">Name Is Required</p>
-       </div>
-     </div>
-     <div class="form-group col-lg-4 mb-2">
-       <label>Last Name</label>
-       <input type="text" name="lastName" class="form-control" [(ngModel)]="model.lastName" #lastName="ngModel"
-         [ngClass]="{ 'is-invalid': userForm.submitted && lastName.invalid }" required>
-       <div class="invalid-feedback" *ngIf="userForm.submitted && lastName.invalid">
-         <p *ngIf="lastName.errors.required">Last Name Is Required</p>
-       </div>
-     </div>
-     <div class="form-group col-lg-4 mb-2">
-      <label>Phone</label>
-      <input type="text" name="phone" class="form-control"  [(ngModel)]="model.phone" #phone="ngModel"
-        [ngClass]="{ 'is-invalid': userForm.submitted && phone.invalid }" required>
-      <div class="invalid-feedback" *ngIf="userForm.submitted && phone.invalid">
-        <p *ngIf="phone.errors.required">Phone Is Required</p>
-      </div>
-    </div>
-    </section>
-   <section class="form-row">
-     <div class="form-group col-lg-6 mb-3">
-       <label>Email</label>
-       <input type="email" class="form-control" name="email" [(ngModel)]="model.email" #email="ngModel"
-         [ngClass]="{ 'is-invalid': userForm.submitted && email.invalid }" email required>
-       <div *ngIf="userForm.submitted && email.invalid" class="invalid-feedback">
-         <div *ngIf="email.errors.required">Email Is Required</div>
-         <div *ngIf="email.errors.email">Must Be A Valid Email Address</div>
-       </div>
-     </div>
-     <div class="form-group col-lg-6 mb-3">
-       <label>User Name</label>
-       <input type="text" name="username" class="form-control" [(ngModel)]="model.username" #username="ngModel"
-         [ngClass]="{ 'is-invalid': userForm.submitted && username.invalid }" required>
-       <div class="invalid-feedback" *ngIf="userForm.submitted && username.invalid">
-         <p *ngIf="username.errors.required">UserName Is Required</p>
-       </div>
-     </div>
-   </section>
+          <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="container">
+            <section class="form-row">
+              <div class="form-group col-lg-4 mb-2">
+                <label>{{ 'First Name' | translate }}</label>
+                <input type="text" class="form-control" formControlName="firstName" firstName>
+                <div *ngIf="registrationForm.controls.firstName.touched && !registrationForm.controls.firstName.valid"
+                  class="text-danger">
+                  <div *ngIf="registrationForm.controls.firstName.errors.required">{{ 'FirstName is required' | translate }}</div>
+                </div>
+              </div>
+              <div class="form-group col-lg-4 mb-2">
+                <label>{{ 'Last Name' | translate }}</label>
+                <input type="text" class="form-control" formControlName="lastName" lastName>
+                <div *ngIf="registrationForm.controls.lastName.touched && !registrationForm.controls.lastName.valid"
+                  class="text-danger">
+                  <div *ngIf="registrationForm.controls.lastName.errors.required">{{ 'LastName is required' | translate }}</div>
+                </div>
+              </div>
+              <div class="form-group col-lg-4 mb-2">
+                <label>{{ 'Phone' | translate }}</label>
+                <input type="text" class="form-control" formControlName="phone" phone>
+                <div *ngIf="registrationForm.controls.phone.touched && !registrationForm.controls.phone.valid"
+                  class="text-danger">
+                  <div *ngIf="registrationForm.controls.phone.errors.required">{{ 'Phone is required' | translate }}</div>
+                  <div *ngIf="registrationForm.controls.phone.errors.maxlength">{{ 'MaxLength(11)' | translate }}</div>
+                </div>
+              </div>
+            </section>
+            <section class="form-row">
+              <div class="form-group col-lg-6 mb-3">
+                <label> {{ 'Email' | translate }}</label>
+                <input type="text" class="form-control" formControlName="email" email>
+                <div *ngIf="registrationForm.controls.email.touched && !registrationForm.controls.email.valid"
+                  class="text-danger">
+                  <div *ngIf="registrationForm.controls.email.errors.required">{{ 'Email is required' | translate }}</div>
+                  <div *ngIf="registrationForm.controls.email.errors.email">{{ 'Must be a valid Email address' | translate }}</div>
+                </div>
+              </div>
+              <div class="form-group col-lg-6 mb-3">
+                <label>{{ 'User Name' | translate }}</label>
+                <input type="text" class="form-control" formControlName="username" username>
+                <div *ngIf="registrationForm.controls.username.touched && !registrationForm.controls.username.valid"
+                  class="text-danger">
+                  <div *ngIf="registrationForm.controls.username.errors.required">{{ 'UserName is required' | translate }}</div>
+                </div>
+              </div>
+            </section>
 
-   <section class="form-row">
-     <div class="form-group col-lg-6 mb-3">
-       <label>Password</label>
-       <input type="password" class="form-control" name="password"  [(ngModel)]="model.password" #password="ngModel"
-         [ngClass]="{ 'is-invalid': userForm.submitted && password.invalid }" minlength="8" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
-       <div *ngIf="userForm.submitted && password.invalid" class="invalid-feedback">
-         <div *ngIf="password.errors.required ">Password Is Required</div>
-         <div *ngIf="password.errors.minlength">Password Should Be At Least 8 Characters Long</div>
-       </div>
+            <section class="form-row">
+              <div class="form-group col-lg-6 mb-3">
+               <label>{{ 'Password' | translate }}</label>
+                <input type="password" formControlName="password" class="form-control" password>
+                <div *ngIf="registrationForm.controls.password.touched && !registrationForm.controls.password.valid"
+                  class ="text-danger">
+                  <div *ngIf="registrationForm.controls.password.errors.required">{{ 'password is required' | translate }}</div>
+                  <div *ngIf="registrationForm.controls.password.errors.pattern">{{ 'Password Should Be have Upper Letter and Number' | translate }}</div>
+                </div>
+                <!-- <div *ngIf="userForm.submitted && password.invalid" class="invalid-feedback">
+                  <div *ngIf="password.errors.required ">Password Is Required</div>
+                  <div *ngIf="password.errors.minlength">Password Should Be At Least 8 Characters Long</div>
+                </div> -->
 
-     </div>
+              </div>
 
-     <div class="form-group col-lg-6 mb-3">
-       <label>Confirm PassWord</label>
-       <input type="password" class="form-control" name="confirmPassword" [(ngModel)]="model.confirmPassword"  #confirmPassword = "ngModel"
-         [ngClass]="{ 'is-invalid': userForm.submitted && confirmPassword.invalid }" minlength="8" required pattern="{{password.value}}">
-       <div *ngIf="userForm.submitted && confirmPassword.invalid" class="invalid-feedback">
-         <div *ngIf="confirmPassword.errors.required">Password is required</div>
-         <div *ngIf="confirmPassword.errors.pattern">Password & Confirm Password does not match</div>
-       </div>
-     </div>
+              <div class="form-group col-lg-6 mb-3">
+                <label>{{ 'Confirm new Password' | translate }}</label>
+                <input type="password" formControlName="confirmPassword"  class="form-control" confirmPassword  appConfirmEqualValidator='password'>
+                <div *ngIf="registrationForm.controls.confirmPassword.touched && !registrationForm.controls.confirmPassword.valid"
+                class="text-danger">
+                <div *ngIf="registrationForm.controls.confirmPassword.errors.required">{{ 'confirmpassword is required' | translate }}</div>
+                <div *ngIf="registrationForm.controls.confirmPassword.errors?.notEqual">{{ 'Password Mismatch' | translate }}</div>
+              </div>
+              </div>
 
 
 
-   </section>
+            </section>
 
-     <input type="submit" [disabled]="loading"  class="btn btn-primary btn-block"  value="Create New Account " >
-     <hr class="my-4">
-   </form>
-  <div class="sign-up">
-    If you have an account? <a [routerLink]="['/login']">Log In</a>
-  </div>
+            <input type="submit" [disabled]="loading"  class="btn btn-primary btn-block" value="{{'Create New Account' | translate}} ">
+            <hr class="my-4">
+          </form>
+          <div class="sign-up">
+            {{'If you have an account?'| translate}} <a [routerLink]="['/login']">{{'Log In'| translate}}</a>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>

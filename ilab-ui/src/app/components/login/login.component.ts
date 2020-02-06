@@ -2,7 +2,7 @@ import { ShoppingCartService } from './../../services/shoppingcart.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginData } from './login.model';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService, AlertService } from 'src/app/services';
 import { first } from 'rxjs/operators';
 
@@ -15,11 +15,12 @@ export class LoginComponent implements OnInit {
   loading = false;
   returnUrl: string;
  // model: LoginData;
-  model = {
-  username: '',
-  password: '',
-  isLoggedin: false,
-};
+//   model = {
+//   username: '',
+//   password: '',
+//   isLoggedin: false,
+// };
+loginUser: FormGroup;
 
 
   // tslint:disable-next-line: max-line-length
@@ -27,19 +28,32 @@ export class LoginComponent implements OnInit {
               private route: ActivatedRoute,
               private authenticationService: AuthenticationService,
               private alertService: AlertService,
-              private shoppingCartService: ShoppingCartService) { }
+              private shoppingCartService: ShoppingCartService,
+              private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     // get return url from route parameters or default to '/'
+    this.createForm();
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
+  }
+  createForm() {
+    this.loginUser = this.formBuilder.group({
+      UserName: ['', [Validators.required]],
+      Password: ['', [Validators.required]]
+    });
 
   }
 
   onSubmit() {
     this.loading = true;
-    this.authenticationService.login(this.model.username, this.model.password)
+    if (this.loginUser.invalid) {
+      this.validateAllFormFields(this.loginUser);
+      this.loading = false;
+    }
+    else {
+      this.authenticationService.login(this.loginUser.controls.UserName.value, this.loginUser.controls.Password.value)
       .pipe(first()).subscribe(data => {
-      this.router.navigate([this.returnUrl]);
+      this.router.navigateByUrl(this.returnUrl);
       this.shoppingCartService.refresh().subscribe();
       this.alertService.success('welcome' + ' ' + this.authenticationService.currentUserValue.firstName);
     },
@@ -48,6 +62,8 @@ export class LoginComponent implements OnInit {
       this.loading = false;
       // this.loading = false;
     });
+    }
+
 
     // if ( this.restservice.login(this.model.userName,this.model.password) ) {
     //   this.router.navigate(['/order']);
@@ -56,5 +72,15 @@ export class LoginComponent implements OnInit {
     // }
 
   }
+  validateAllFormFields(formGroup: FormGroup) {         //{1}
+  Object.keys(formGroup.controls).forEach(field => {  //{2}
+    const control = formGroup.get(field);             //{3}
+    if (control instanceof FormControl) {             //{4}
+      control.markAsTouched({ onlySelf: true });
+    } else if (control instanceof FormGroup) {        //{5}
+      this.validateAllFormFields(control);            //{6}
+    }
+  });
+}
 
 }
