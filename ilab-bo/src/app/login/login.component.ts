@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { first } from 'rxjs/operators';
 import { routerTransition } from '../router.animations';
+import { AlertService } from '../shared/helpers/alert.service';
+import { AuthenticationService } from '../shared/services/authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -8,10 +12,24 @@ import { routerTransition } from '../router.animations';
   animations: [routerTransition()],
 })
 export class LoginComponent implements OnInit {
-  constructor() {}
+  message: string;
+  returnUrl: string;
+  username = '';
+  password = '';
 
-  ngOnInit() {}
+  constructor(private router: Router,
+    private authenticationService: AuthenticationService,
+    private route: ActivatedRoute,
+    private alertService: AlertService) { }
+
+  ngOnInit() {
+    this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
+  }
+
   onLoggedin() {
-    localStorage.setItem('isLoggedin', 'true');
+    this.authenticationService.login(this.username, this.password).pipe(first()).subscribe(
+      data => { this.router.navigateByUrl(this.returnUrl); },
+      err => { this.message = err; this.alertService.error(err); }
+    );
   }
 }
