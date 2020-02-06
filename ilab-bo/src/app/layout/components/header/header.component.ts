@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -30,9 +30,17 @@ export class HeaderComponent implements OnInit {
     dom.classList.toggle(this.pushRightClass);
   }
 
-  rltAndLtr() {
+  // rltAndLtr() {
+  //   const dom: any = document.querySelector('body');
+  //   dom.classList.toggle('rtl');
+  // }
+  ltr() {
     const dom: any = document.querySelector('body');
-    dom.classList.toggle('rtl');
+    dom.classList.add('rtl');
+  }
+  rtl() {
+    const dom: any = document.querySelector('body');
+    dom.classList.remove('rtl');
   }
 
   onLoggedout() {
