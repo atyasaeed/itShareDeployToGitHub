@@ -1,0 +1,10 @@
+@import "spinner";
+@import "node_modules/bootstrap/scss/bootstrap.scss";
+@import "utils";
+@import "rtl";
+@import "responsive";
+@media print {
+    .breadcrumb {
+        display: none !important;
+    }
+}
