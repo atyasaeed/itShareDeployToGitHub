@@ -4,8 +4,12 @@ import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import ilab.core.domain.Account;
 import ilab.core.domain.Authority;
+import ilab.core.domain.OrderEntity;
+import ilab.core.domain.OrderStatus;
 import ilab.core.domain.User;
 import ilab.core.repository.UserRepository;
 
@@ -56,5 +62,9 @@ public class UserService implements UserDetailsService
 		user.setCredentialsNonExpired(true);
 		user.setPassword(encoder.encode(user.getPassword()));
 		return userRepo.save(user);
+	}
+	public Page<User> getUsers(Pageable page)
+	{
+		return userRepo.findAll(page);
 	}
 }
