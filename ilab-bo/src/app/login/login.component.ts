@@ -17,19 +17,29 @@ export class LoginComponent implements OnInit {
   username = '';
   password = '';
 
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     private authenticationService: AuthenticationService,
     private route: ActivatedRoute,
-    private alertService: AlertService) { }
+    private alertService: AlertService
+  ) {}
 
   ngOnInit() {
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
   }
 
   onLoggedin() {
-    this.authenticationService.login(this.username, this.password).pipe(first()).subscribe(
-      data => { this.router.navigateByUrl(this.returnUrl); },
-      err => { this.message = err; this.alertService.error(err); }
-    );
+    this.authenticationService
+      .login(this.username, this.password)
+      .pipe(first())
+      .subscribe(
+        data => {
+          this.router.navigateByUrl(this.returnUrl);
+        },
+        err => {
+          this.message = err;
+          this.alertService.error(err);
+        }
+      );
   }
 }

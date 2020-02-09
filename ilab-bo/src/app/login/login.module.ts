@@ -6,9 +6,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login.component';
 
-
 @NgModule({
   declarations: [LoginComponent],
   imports: [CommonModule, LoginRoutingModule, FormsModule, TranslateModule, NgbAlertModule],
 })
-export class LoginModule { }
+export class LoginModule {}

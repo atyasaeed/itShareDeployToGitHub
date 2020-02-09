@@ -11,9 +11,11 @@ import { AuthenticationService } from 'src/app/shared/services/authentication.se
 export class HeaderComponent implements OnInit {
   username: any;
   public pushRightClass: string;
-  constructor(private translate: TranslateService,
+  constructor(
+    private translate: TranslateService,
     public router: Router,
-    private authenticationService: AuthenticationService) {
+    private authenticationService: AuthenticationService
+  ) {
     this.router.events.subscribe(val => {
       if (val instanceof NavigationEnd && window.innerWidth <= 992 && this.isToggled()) {
         this.toggleSidebar();
@@ -24,7 +26,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.pushRightClass = 'push-right';
     this.username = Object.values(this.authenticationService.CurrentUserValue).toString();
-    console.log(this.username)
+    console.log(this.username);
   }
   isToggled(): boolean {
     const dom: Element = document.querySelector('body');

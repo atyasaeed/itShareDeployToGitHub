@@ -3,13 +3,11 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from
 import { AuthenticationService } from '../services/authentication.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  constructor(private _router: Router, private authenticationservice: AuthenticationService) { }
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): boolean {
+  constructor(private _router: Router, private authenticationservice: AuthenticationService) {}
+  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (this.authenticationservice.CurrentUserValue != null) {
       return true;
     } else {
@@ -22,5 +20,4 @@ export class AuthGuard implements CanActivate {
       return false;
     }
   }
-
 }
