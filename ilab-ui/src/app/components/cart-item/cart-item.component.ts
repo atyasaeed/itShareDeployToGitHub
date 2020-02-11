@@ -17,6 +17,7 @@ import { APP_CONFIG, IAppConfig } from 'src/app/app.config';
 })
 
 export class CartItemComponent implements OnInit {
+  // notes = new FormControl('');
   loading = false;
   item: ShoppingCartItem = new ShoppingCartItem();
   fileToUpload: File = null;
@@ -40,14 +41,13 @@ export class CartItemComponent implements OnInit {
 
   createForm(){
     this.cartForm = this.formBuilder.group({
-      DeliveryDate:['', [Validators.required]],
-      File:['', [Validators.required]],
-      Color:['', [Validators.required]],
-      Material:['', [Validators.required]],
-      ProjectType:['', [Validators.required]],
-      FileUnit:['', [Validators.required]],
-
-
+      plannedStartDate:['', [Validators.required]],
+      file:['', [Validators.required]],
+      color:['', [Validators.required]],
+      material:['', [Validators.required]],
+      projectType:['', [Validators.required]],
+      unit:['', [Validators.required]],
+      notes:['', [Validators.required]],
     })
 
   }
@@ -57,7 +57,10 @@ export class CartItemComponent implements OnInit {
       this.validateAllFormFields(this.cartForm);
       this.loading = false;
     }
+    this.item = Object.assign(this.cartForm.value);
+    this.item.quantity = 1;
     this.item.service = this.service;
+
     const formData: FormData = new FormData();
     formData.append('file', this.fileToUpload, this.fileToUpload.name);
     const itemBlob = new Blob([JSON.stringify(this.item)], {

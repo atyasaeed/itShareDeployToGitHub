@@ -14,8 +14,5 @@ export class LineItem{
   asset_id:string;
   asset_name:string;
   file: File ;
-
-
-
-
+  notes: string;
 }
