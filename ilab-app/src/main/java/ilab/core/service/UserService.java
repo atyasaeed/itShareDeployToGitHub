@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.core.Authentication;
@@ -63,8 +64,8 @@ public class UserService implements UserDetailsService
 		user.setPassword(encoder.encode(user.getPassword()));
 		return userRepo.save(user);
 	}
-	public Page<User> getUsers(Pageable page)
+	public Page<User> getUsers(Pageable page,Specification<User> specs)
 	{
-		return userRepo.findAll(page);
+		return userRepo.findAll(specs,page);
 	}
 }

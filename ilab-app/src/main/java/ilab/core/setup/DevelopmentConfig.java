@@ -87,7 +87,7 @@ public class DevelopmentConfig
 	private User addAdminRoleAuthority(User user)
 	{
 		Authority roleUser=new Authority();
-		roleUser.setAuthority("ROLE_Admin");
+		roleUser.setAuthority("ROLE_ADMIN");
 		roleUser.setUser(user);
 		user.addAuthority(roleUser);
 		return user;
