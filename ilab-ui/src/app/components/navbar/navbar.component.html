@@ -45,7 +45,7 @@
                             <a class="nav-link" [routerLink]="['/change-password']" >change Password</a>
                         </li> -->
                     <li class="dropdown nav-item">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="fas fa-shopping-cart"></span><span class="caret">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="fas fa-cogs"></span><span class="caret">
                                 {{items?.length}}- {{ 'Items' | translate }}</span></a>
                         <ul class="dropdown-menu dropdown-cart" role="menu">
                             <li *ngFor="let item of items ,let i=index">
@@ -66,7 +66,7 @@
 
                             <li class="divider"></li>
                             <div class="dropdown-divider"></div>
-                            <li><a class="col text-center" [routerLink]="['/cart']">View Cart</a></li>
+                            <li><a class="col text-center" [routerLink]="['/cart']">{{ 'View Cart' | translate }}</a></li>
                         </ul>
                     </li>
 

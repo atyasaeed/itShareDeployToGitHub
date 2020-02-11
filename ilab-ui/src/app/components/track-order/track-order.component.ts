@@ -15,7 +15,7 @@ export class TrackOrderComponent implements OnInit {
 
   ngOnInit() {
 
-    this.ordersService.query<Order[]>().subscribe(orders=>this.orders=orders);
+    this.ordersService.query<Order[]>().subscribe(orders=>this.orders= orders);
 }
 
 }

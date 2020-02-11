@@ -36,5 +36,12 @@
     "Password": "Password",
     "Repeat Password": "Repeat Password",
     "Register": "Register",
-    "Log in": "Log in"
+    "Log in": "Log in",
+    "Add To Cart": "Request Service",
+    "Add": "Add",
+    "Checkout": "Request Quotation",
+    "View Cart": "View Manufacturing Request"
+
+
+
 }
