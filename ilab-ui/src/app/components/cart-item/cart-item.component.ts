@@ -47,7 +47,7 @@ export class CartItemComponent implements OnInit {
       material:['', [Validators.required]],
       projectType:['', [Validators.required]],
       unit:['', [Validators.required]],
-      notes:['', [Validators.required]],
+      notes:['', [Validators.required, Validators.maxLength(250)]],
     })
 
   }

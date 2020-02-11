@@ -81,9 +81,10 @@
               <section class="form-row">
                 <div class="form-group col-sm-12 mb-2">
                   <label>Notes </label>
-                  <textarea class="form-control"  formControlName ="notes" notes></textarea>
+                  <textarea class="form-control" maxlength="251" formControlName ="notes" notes maxlength></textarea>
                   <div *ngIf="cartForm.controls.notes.touched && !cartForm.controls.notes.valid"class="text-danger">
                     <div *ngIf="cartForm.controls.notes.errors.required">Notes is required</div>
+                    <div *ngIf="cartForm.controls.notes.errors.maxlength">Notes Max Length is 250</div>
                   </div>
                 </div>
               </section>
