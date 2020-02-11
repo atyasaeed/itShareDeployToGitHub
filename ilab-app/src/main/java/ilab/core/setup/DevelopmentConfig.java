@@ -27,6 +27,7 @@ public class DevelopmentConfig
 	private PasswordEncoder encoder;
 	@Autowired
 	private UserService userService;
+	
 	@Bean
 	public CommandLineRunner dataLoader(ServiceRepository serviceRepo,UserRepository userRepo) {
 		return new CommandLineRunner()
@@ -40,19 +41,24 @@ public class DevelopmentConfig
 					Service service;
 					service=serviceRepo.save(createService("3D Printing","3D Printing Description"));
 					service=serviceRepo.save(service);
-					Files.copy(new File("F:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("F:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));
+					Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));
 					service=serviceRepo.save(createService("Laser Scanning","Laser Cutting Description"));
-					Files.copy(new File("F:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("F:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));		
+					Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));		
 					service=serviceRepo.save(createService("CNC Routers","CNC Routers Description"));
-					Files.copy(new File("F:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("F:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));
+					Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));
 //					userRepo.save(createUser( "hasalem", "12345678"));
 //					userRepo.save(createUser("mosalem", "12345678"));
 					userService.register(createUser("hasalem", "New123456","Hatem","hasalem@gmail.com"));
-					userService.register(createUser("mosalem", "New123456","Hatem","mosalem@gmail.com"));	
+					userService.register(createUser("mosalem", "New123456","Hatem","mosalem@gmail.com"));
+					User user=userService.register(createUser("admin", "New123456","Admin","admin@gmail.com"));
+					user=addAdminRoleAuthority(user);
+					userRepo.save(user);
 				}
 				catch(Exception e)
 				{
+					
 					System.out.println("===========DB Initialization Failed=========");
+					System.out.println(e);
 				}
 				
 			}
@@ -78,19 +84,19 @@ public class DevelopmentConfig
 //		user.addAuthority(createAuthority(user));
 		return user;
 	}
-	private User addUserRoleAuthority(User user)
+	private User addAdminRoleAuthority(User user)
 	{
 		Authority roleUser=new Authority();
-		roleUser.setAuthority("ROLE_USER");
+		roleUser.setAuthority("ROLE_ADMIN");
 		roleUser.setUser(user);
 		user.addAuthority(roleUser);
 		return user;
 	}
-	private Authority createAuthority(User user)
-	{
-		Authority roleUser=new Authority();
-		roleUser.setAuthority("ROLE_USER");
-		roleUser.setUser(user);
-		return roleUser;
-	}
+//	private Authority createAuthority(User user)
+//	{
+//		Authority roleUser=new Authority();
+//		roleUser.setAuthority("ROLE_USER");
+//		roleUser.setUser(user);
+//		return roleUser;
+//	}
 }

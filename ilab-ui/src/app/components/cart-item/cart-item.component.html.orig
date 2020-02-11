@@ -20,10 +20,17 @@
                 </div>
                 <div class="form-group col-sm-6 mb-2">
                   <label>Upload Your Design File</label>
+<<<<<<< HEAD
+                  <input type="file" name="file" class="form-control" formControlName ="file"
+                    (change)="handleFileInput($event.target.files)" File>
+                    <div *ngIf="cartForm.controls.file.touched && !cartForm.controls.file.valid" class="text-danger">
+                      <div *ngIf="cartForm.controls.file.errors.required">File is required</div>
+=======
                   <input type="file" class="form-control" formControlName ="file"
                     (change)="handleFileInput($event.target.files)" file>
                     <div *ngIf="cartForm.controls.file.touched && !cartForm.controls.file.valid" class="text-danger">
                       <div *ngIf="cartForm.controls.file.errors.required">file is required</div>
+>>>>>>> 2be6922c8493c87afa58cc0bdd5c37f3b5de588e
                     </div>
 
                 </div>
@@ -31,43 +38,71 @@
               <section class="form-row">
                 <div class="form-group col-sm-6 mb-2">
                   <label>Color</label>
+<<<<<<< HEAD
+                  <select name="color" class="form-control" class="form-control" formControlName ="color" Color>
+=======
                   <select class="form-control" class="form-control" formControlName ="color" color>
+>>>>>>> 2be6922c8493c87afa58cc0bdd5c37f3b5de588e
                     <option value="red">Red</option>
                     <option value="green">Green</option>
                     <option value="yellow">yellow</option>
                   </select>
                   <div *ngIf="cartForm.controls.color.touched && !cartForm.controls.color.valid"class="text-danger">
+<<<<<<< HEAD
+                    <div *ngIf="cartForm.controls.color.errors.required || cartForm.controls.submit">Color is required</div>
+=======
                     <div *ngIf="cartForm.controls.color.errors.required || cartForm.controls.submit">color is required</div>
+>>>>>>> 2be6922c8493c87afa58cc0bdd5c37f3b5de588e
                   </div>
                 </div>
                 <div class="form-group col-sm-6 mb-2">
                   <label>Material</label>
+<<<<<<< HEAD
+                  <select name="material" class="form-control" formControlName ="material" Material>
+=======
                   <select class="form-control" formControlName ="material" material>
+>>>>>>> 2be6922c8493c87afa58cc0bdd5c37f3b5de588e
                     <option value="Material-1">Material-1</option>
                     <option value="Material-2">Material-2</option>
                     <option value="Material-3">Material-3</option>
                   </select>
                   <div *ngIf="cartForm.controls.material.touched && !cartForm.controls.material.valid"class="text-danger">
+<<<<<<< HEAD
+                    <div *ngIf="cartForm.controls.material.errors.required">Material is required</div>
+=======
                     <div *ngIf="cartForm.controls.material.errors.required">material is required</div>
+>>>>>>> 2be6922c8493c87afa58cc0bdd5c37f3b5de588e
                   </div>
                 </div>
               </section>
               <section class="form-row">
                 <div class="form-group col-sm-6 mb-2">
                   <label>Type Of Project </label>
+<<<<<<< HEAD
+                  <select name="typeProject" class="form-control"formControlName ="projectType" projectType>
+=======
                   <select class="form-control"formControlName ="projectType" projectType>
+>>>>>>> 2be6922c8493c87afa58cc0bdd5c37f3b5de588e
                     <option value="curricular">University -Curricular Project</option>
                     <option value="extraCurricular">University - ExtraCurricular Project
                     </option>
                     <option value="personal">Personal</option>
                   </select>
                   <div *ngIf="cartForm.controls.projectType.touched && !cartForm.controls.projectType.valid"class="text-danger">
+<<<<<<< HEAD
+                    <div *ngIf="cartForm.controls.projectType.errors.required">ProjectType is required</div>
+=======
                     <div *ngIf="cartForm.controls.projectType.errors.required">projectType is required</div>
+>>>>>>> 2be6922c8493c87afa58cc0bdd5c37f3b5de588e
                   </div>
                 </div>
                 <div class="form-group col-sm-6 mb-2">
                   <label>Units Used In File </label>
+<<<<<<< HEAD
+                  <select name="unit" class="form-control"  formControlName ="unit" unit>
+=======
                   <select class="form-control"  formControlName ="unit" unit>
+>>>>>>> 2be6922c8493c87afa58cc0bdd5c37f3b5de588e
                     <option value="cm">CM</option>
                     <option value="mm">MM</option>
                     <option value="inches">Inches</option>

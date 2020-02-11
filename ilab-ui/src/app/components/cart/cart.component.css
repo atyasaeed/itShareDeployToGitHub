@@ -64,6 +64,21 @@
 	font-weight: 400;
 }
 
+/* tempo */
+/* .notes{
+	font-weight: 600;
+} */
+
+.notes{
+	font-size: 14px;
+  margin-top: 15px;
+  font-weight: 600;
+}
+
+.notes .value{
+	font-weight: 400;
+}
+
 .shopping-cart .items .product .info .quantity .quantity-input{
     margin: auto;
     width: 80px;
@@ -128,5 +143,11 @@
 	.shopping-cart .items .product .info .quantity .quantity-input {
 		padding: 4px 10px;
 		text-align: center;
-	}
+  }
+
+
+  /* service image div */
+  .service-image {
+    margin: auto 0;
+  }
 }

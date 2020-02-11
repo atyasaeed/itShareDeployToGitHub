@@ -47,7 +47,10 @@ export class CartItemComponent implements OnInit {
       material:['', [Validators.required]],
       projectType:['', [Validators.required]],
       unit:['', [Validators.required]],
+<<<<<<< HEAD
+=======
       notes:['', [Validators.required, Validators.maxLength(250)]],
+>>>>>>> 2be6922c8493c87afa58cc0bdd5c37f3b5de588e
     })
 
   }
@@ -57,8 +60,11 @@ export class CartItemComponent implements OnInit {
       this.validateAllFormFields(this.cartForm);
       this.loading = false;
     }
+<<<<<<< HEAD
+
+=======
+>>>>>>> 2be6922c8493c87afa58cc0bdd5c37f3b5de588e
     this.item = Object.assign(this.cartForm.value);
-    this.item.quantity = 1;
     this.item.quantity = 1;
     this.item.service = this.service;
 
