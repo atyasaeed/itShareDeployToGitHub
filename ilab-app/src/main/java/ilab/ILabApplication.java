@@ -11,7 +11,6 @@ import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolve
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 @SpringBootApplication
 public class ILabApplication

@@ -10,10 +10,9 @@ import { APP_CONFIG, IAppConfig } from '../app.config';
 })
 export class UserService {
 
-  constructor(private http: HttpClient , 
-    private AuthenticationService: AuthenticationService, 
-    @Inject(APP_CONFIG) private appConfig:IAppConfig) { }
- 
+  constructor(private http: HttpClient ,
+              @Inject(APP_CONFIG) private appConfig: IAppConfig) { }
+
   register(user: User) {
     return this.http.post(this.appConfig.REGISTER_URL, user);
   }
@@ -25,12 +24,11 @@ export class UserService {
   }
 
   forgetPassword(email: any) {
-    return this.http.post<any>('/users/forgetpassword', email);
+    return this.http.post<any>(this.appConfig.RESET_PASSWORD_URL, email);
 
   }
   changePassword(model: any) {
-    const username = this.AuthenticationService.currentUserValue.username;
-    return this.http.post<any>('/users/changePassword', { username, model});
+    return this.http.post<any>(this.appConfig.CHANGE_PASSWORD_URL, model);
 
   }
 }

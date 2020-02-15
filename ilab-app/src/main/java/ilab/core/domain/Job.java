@@ -33,4 +33,56 @@ public class Job extends AbstractEntity<Job>
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable=false)
 	private Date finished;
+
+	public LineItem getLineItem()
+	{
+		return lineItem;
+	}
+
+	public void setLineItem(LineItem lineItem)
+	{
+		this.lineItem = lineItem;
+	}
+
+	public Machine getMachine()
+	{
+		return machine;
+	}
+
+	public void setMachine(Machine machine)
+	{
+		this.machine = machine;
+	}
+
+	public JobStatus getStatus()
+	{
+		return status;
+	}
+
+	public void setStatus(JobStatus status)
+	{
+		this.status = status;
+	}
+
+	public Date getStart()
+	{
+		return start;
+	}
+
+	public void setStart(Date start)
+	{
+		this.start = start;
+	}
+
+	public Date getFinished()
+	{
+		return finished;
+	}
+
+	public void setFinished(Date finished)
+	{
+		this.finished = finished;
+	}
+	
+	
 }

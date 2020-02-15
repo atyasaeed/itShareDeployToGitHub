@@ -33,15 +33,15 @@ export class ChangePasswordComponent implements OnInit {
   }
   createForm() {
     this.changePasswordForm = this.formBuilder.group({
-      oldpassword:['',[Validators.required]],
-      newpassword: ['', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')]],
+      oldPassword:['',[Validators.required]],
+      newPassword: ['', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')]],
       confirmpassword:  ['', [Validators.required]],
     }); }
 
   onSubmit() {
     if (this.changePasswordForm.invalid) {
       this.validateAllFormFields(this.changePasswordForm);
-    }else{
+    } else{
       this.UserService.changePassword(this.changePasswordForm.value).subscribe(
         res => {console.log(res); this.alertService.success('your password is changed'); },
         err => {this.alertService.error('sorry your password is incorrect');}

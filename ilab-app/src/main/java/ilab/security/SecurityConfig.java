@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,10 +15,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
-import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.server.csrf.CookieServerCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -52,9 +48,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 		http
 			.authorizeRequests()
 			.antMatchers(HttpMethod.OPTIONS,"/login").permitAll()
-			.antMatchers("/**").permitAll()
+			.antMatchers(HttpMethod.POST,"/login").permitAll()
+			.antMatchers(HttpMethod.GET,"/api/services/**","/api/users/resetPassword","/api/users/test").permitAll()
+			.antMatchers(HttpMethod.POST,
+					"/api/users",
+					"/api/users/resetPassword").permitAll()
+			.antMatchers(HttpMethod.POST,"/api/users/savePassword").hasAuthority("CHANGE_PASSWORD_PRIVILEGE")
+			.antMatchers("/assets/**").permitAll()
 			.and()
-
 			.authorizeRequests()
 			.anyRequest()
 			.authenticated()
