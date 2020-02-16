@@ -40,10 +40,11 @@ export class RegistrationComponent implements OnInit {
    // this.loading = true;
     if (this.registrationForm.invalid) {
       this.validateAllFormFields(this.registrationForm);
-    }else{
+    } else {
       this.userService.register(this.registrationForm.value).subscribe(
         res => {
           this.router.navigateByUrl('/login');
+          this.alertservice.success('please Login');
         },
         err => {
           this.loading = false;
@@ -56,13 +57,13 @@ export class RegistrationComponent implements OnInit {
 
 
 
-  validateAllFormFields(formGroup: FormGroup) {         //{1}
-  Object.keys(formGroup.controls).forEach(field => {  //{2}
-    const control = formGroup.get(field);             //{3}
-    if (control instanceof FormControl) {             //{4}
+  validateAllFormFields(formGroup: FormGroup) {         // {1}
+  Object.keys(formGroup.controls).forEach(field => {  // {2}
+    const control = formGroup.get(field);             // {3}
+    if (control instanceof FormControl) {             // {4}
       control.markAsTouched({ onlySelf: true });
-    } else if (control instanceof FormGroup) {        //{5}
-      this.validateAllFormFields(control);            //{6}
+    } else if (control instanceof FormGroup) {        // {5}
+      this.validateAllFormFields(control);            // {6}
     }
   });
 }

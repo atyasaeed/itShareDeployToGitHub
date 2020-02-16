@@ -3,6 +3,7 @@ import { UserService } from 'src/app/services/user.service';
 import { AlertService } from 'src/app/services';
 import { AuthenticationService } from 'src/app/services';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 
 
 
@@ -16,7 +17,7 @@ export class ChangePasswordComponent implements OnInit {
 
   constructor(private UserService: UserService,
               private alertService: AlertService,
-              private AuthenticationService: AuthenticationService,
+              private AuthenticationService: AuthenticationService,private router: Router,
               private formBuilder: FormBuilder) { }
 
   username = this.AuthenticationService.currentUserValue.username;
@@ -43,7 +44,10 @@ export class ChangePasswordComponent implements OnInit {
       this.validateAllFormFields(this.changePasswordForm);
     } else{
       this.UserService.changePassword(this.changePasswordForm.value).subscribe(
-        res => {console.log(res); this.alertService.success('your password is changed'); },
+        res => {
+          this.router.navigateByUrl('/landingpage')
+          console.log(res); this.alertService.success('your password is changed');
+         },
         err => {this.alertService.error('sorry your password is incorrect');}
       );
     }
