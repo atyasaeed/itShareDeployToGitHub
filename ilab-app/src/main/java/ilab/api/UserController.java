@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.sipios.springsearch.anotation.SearchSpec;
 
@@ -79,10 +80,10 @@ public class UserController
 	}
 
 	@GetMapping("/resetPassword")
-	public boolean resetPassword(@RequestParam("id") UUID userId, @RequestParam("token") UUID token)
+	public RedirectView resetPassword(@RequestParam("id") UUID userId, @RequestParam("token") UUID token)
 	{
 		userService.resetPassword(userId, token);
-		return true;
+		return new RedirectView("http://localhost:4200/ui/reset-password");
 	}
 
 //	@GetMapping("/test")
