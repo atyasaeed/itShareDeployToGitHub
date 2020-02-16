@@ -6,6 +6,7 @@ export interface IAppConfig {
     LOGOUT_URL: string;
     REGISTER_URL: string;
     CHANGE_PASSWORD_URL: string;
+    SAVE_PASSWORD_URL:string;
     RESET_PASSWORD_URL: string;
     ASSETS_URL: string;
     FILE_URL: string;
@@ -21,6 +22,8 @@ class DefaultAppConfig implements IAppConfig {
     public get REGISTER_URL() {return this.API_END_POINT + 'api/users'; }
     public get CHANGE_PASSWORD_URL() {return this.API_END_POINT + 'api/users/changePassword'; }
     public get RESET_PASSWORD_URL() {return this.API_END_POINT + 'api/users/resetPassword'; }
+    public get SAVE_PASSWORD_URL() {return this.API_END_POINT + 'api/users/savePassword'; }
+
     public get ASSETS_URL() {return this.API_END_POINT + 'assets/images/'; }
     public get FILE_URL() {return this.API_END_POINT + 'assets/files/'; }
     public get CHECKOUT_URL() {return this.getResourceUrl('orders/checkout'); }
@@ -29,9 +32,9 @@ class DefaultAppConfig implements IAppConfig {
     }
 }
 class ProdAppConfig extends DefaultAppConfig {
-    public API_END_POINT = 'http://localhost:8080/';
+    // public API_END_POINT = 'http://localhost:8080/';
     //  public API_END_POINT = 'http://192.168.1.5:8080/';
-    //  public API_END_POINT = 'http://172.16.201.250:8080/';
+     public API_END_POINT = 'http://172.16.201.250:8080/';
 
 }
 class DevAppConfig extends DefaultAppConfig {

@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
@@ -8,6 +9,7 @@ import { TrackOrderComponent } from './components/track-order/track-order.compon
 import { CartItemComponent } from './components/cart-item/cart-item.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { ForgetPasswordComponent } from './components/forget-password/forget-password.component';
+import { ResetPasswordComponent } from './components/rest-password/rest-password.component';
 
 import { AuthGuard } from 'src/app/services/auth-guard.guard';
 import { NonAuthGuard } from './services/non-auth.guard';
@@ -26,6 +28,8 @@ const routes: Routes = [
   {path: 'CartItem', component: CartItemComponent,canActivate: [AuthGuard]},
   {path: 'change-password', component: ChangePasswordComponent, canActivate: [AuthGuard]},
   {path: 'forget-password', component: ForgetPasswordComponent, canActivate: [NonAuthGuard]},
+  {path: 'reset-password', component: ResetPasswordComponent,canActivate: [NonAuthGuard] },
+
   {path: '**' , component: LandingpageComponent},
 
 

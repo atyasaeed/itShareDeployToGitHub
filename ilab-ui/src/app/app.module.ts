@@ -26,6 +26,7 @@ import { ConfirmEqualValidatorDirective } from './helpers/confirm-Pass';
 import { LanguageTranslationModule } from './shared/modules/language-translation/language-translation.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { ResetPasswordComponent } from './components/rest-password/rest-password.component';
 
 
 
@@ -46,7 +47,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
     AlertComponent,
     ServiceItemComponent,
     OrderCardComponent,
-    LineItemComponent,ConfirmEqualValidatorDirective
+    LineItemComponent,ConfirmEqualValidatorDirective, ResetPasswordComponent
   ],
   imports: [
     BrowserModule,

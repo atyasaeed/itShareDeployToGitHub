@@ -29,6 +29,8 @@ export class UserService {
   }
   changePassword(model: any) {
     return this.http.post<any>(this.appConfig.CHANGE_PASSWORD_URL, model);
-
+  }
+  restPassword(password: any) {
+    return this.http.post<any>(this.appConfig.SAVE_PASSWORD_URL, password);
   }
 }
