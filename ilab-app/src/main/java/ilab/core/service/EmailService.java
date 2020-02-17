@@ -44,7 +44,9 @@ public class EmailService
 //	}
 	public void sendTemplateMessage(String to,String subject,String template,Object model) throws Exception
 	{
+
 		Template t = freemarkerConfig.getTemplate(template);
+		
 		String html = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
 		
 		SimpleMailMessage message = new SimpleMailMessage(); 

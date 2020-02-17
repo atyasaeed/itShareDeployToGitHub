@@ -10,7 +10,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
+import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 @SpringBootApplication
 public class ILabApplication
@@ -37,5 +39,23 @@ public class ILabApplication
 			}
 		};
 	}
+
+//	@Bean
+//	public FreeMarkerConfigurer freeMarkerConfigurer()
+//	{
+//		FreeMarkerConfigurer freeMarkerConfigurer = new FreeMarkerConfigurer();
+//		freeMarkerConfigurer.setConfigLocation(resource);
+//		freeMarkerConfigurer.setTemplateLoaderPath("classpath:/templates2"); // defines the classpath location of the
+//																			// freemarker templates
+//		freeMarkerConfigurer.setDefaultEncoding("UTF-8"); // Default encoding of the template files
+//		return freeMarkerConfigurer;
+//	}
+//	@Bean
+//    public FreeMarkerConfigurationFactoryBean getFreeMarkerConfiguration() {
+//        FreeMarkerConfigurationFactoryBean bean = new FreeMarkerConfigurationFactoryBean();
+//        bean.setTemplateLoaderPath("/templates/");
+//        
+//        return bean;
+//    }
 
 }
