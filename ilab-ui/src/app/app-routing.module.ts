@@ -9,7 +9,7 @@ import { TrackOrderComponent } from './components/track-order/track-order.compon
 import { CartItemComponent } from './components/cart-item/cart-item.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { ForgetPasswordComponent } from './components/forget-password/forget-password.component';
-import { ResetPasswordComponent } from './components/rest-password/rest-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 import { AuthGuard } from 'src/app/services/auth-guard.guard';
 import { NonAuthGuard } from './services/non-auth.guard';

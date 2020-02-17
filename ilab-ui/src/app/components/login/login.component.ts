@@ -55,7 +55,7 @@ loginUser: FormGroup;
       .pipe(first()).subscribe(data => {
       this.router.navigateByUrl(this.returnUrl);
       this.shoppingCartService.refresh().subscribe();
-      this.alertService.success('welcome' + ' ' + this.authenticationService.currentUserValue.firstName);
+      this.alertService.success('Welcome' + ' ' + Object.values(this.authenticationService.currentUserValue).toString());
     },
     error => {
       this.alertService.error(error);

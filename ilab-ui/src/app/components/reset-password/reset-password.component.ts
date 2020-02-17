@@ -1,19 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
+import { AlertService } from 'src/app/services/alert.service';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-rest-password',
-  templateUrl: './rest-password.component.html',
-  styleUrls: ['./rest-password.component.css']
+  selector: 'app-reset-password',
+  templateUrl: './reset-password.component.html',
+  styleUrls: ['./reset-password.component.css']
 })
 export class ResetPasswordComponent implements OnInit {
   // restPasswordForm: any;
   // formBuilder: any;
   // UserService: any;
-   alertService: any;
+  //  alertService: any;
+  loading = false;
   restPasswordForm: FormGroup;
-  constructor(private userService: UserService,  private formBuilder: FormBuilder) { }
+  constructor(private userService: UserService,
+              private formBuilder: FormBuilder,
+              private alertService: AlertService,
+              private router: Router
+      ) { }
 
   ngOnInit() {
     this.createForm();
@@ -25,12 +32,17 @@ export class ResetPasswordComponent implements OnInit {
     });
   }
   onSubmit() {
+    this.loading = true;
     if (this.restPasswordForm.invalid) {
       this.validateAllFormFields(this.restPasswordForm);
+      this.loading = false;
     } else {
       this.userService.restPassword(this.restPasswordForm.controls.password.value).subscribe(
-        res => {this.alertService.success('check your email please')},
-          err =>{ console.log(err); }
+        res => {
+          this.router.navigateByUrl('/login');
+          this.alertService.success('Your Password is Changed');
+        },
+          err => { this.alertService.error('Sorry You Can not Change Password');this.loading = false; }
       );
     }
 
