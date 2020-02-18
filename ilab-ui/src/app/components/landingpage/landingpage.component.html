@@ -53,12 +53,28 @@
 <div class="album py-5 bg-light">
     <div class="container">
 
+    <form>
+      <div class="form-group form-inline">
+        Full text search: <input class="form-control ml-2" type="text" name="searchTerm" [(ngModel)]="serviceitem.searchTerm" />
+        <span class="ml-3" *ngIf="serviceitem.loading$ | async">Loading...</span>
+    </div>
         <div class="row">
             <!--service-item-->
-            <div class="col-md-4" *ngFor="let service of services">
+            <div class="col-md-4" *ngFor="let service of services$ | async; let i=index">
                 <app-service-item [service]="service"></app-service-item>
             </div>
         </div>
+        <div class="d-flex justify-content-between p-2">
+          <ngb-pagination [collectionSize]="total$ | async" [(page)]="serviceitem.page" [pageSize]="serviceitem.pageSize">
+          </ngb-pagination>
+
+     <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="serviceitem.pageSize">
+        <option [ngValue]="2">2 items per page</option>
+        <option [ngValue]="4">4 items per page</option>
+        <option [ngValue]="6">6 items per page</option>
+      </select>
+      </div>
+    </form>
         <!-- </div> -->
         <!-- End Service Cards -->
 

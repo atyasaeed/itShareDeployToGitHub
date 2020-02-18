@@ -25,7 +25,7 @@ import { APP_CONFIG, prodConfig, devConfig } from './app.config';
 import { ConfirmEqualValidatorDirective } from './helpers/confirm-Pass';
 import { LanguageTranslationModule } from './shared/modules/language-translation/language-translation.module';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgbDropdownModule, NgbAlert } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 
@@ -57,11 +57,11 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     ReactiveFormsModule,
     LanguageTranslationModule,
     TranslateModule,
-    NgbDropdownModule,
+    NgbDropdownModule,NgbModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true, },
     // fakeBackendProvider,
     {provide:APP_CONFIG,useValue:prodConfig}
   ],

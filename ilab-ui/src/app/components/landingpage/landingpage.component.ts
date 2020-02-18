@@ -1,6 +1,8 @@
-import { Component, OnInit,Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChildren, QueryList } from '@angular/core';
 import { Service } from 'src/app/domain/service.model';
-import { ServicesService } from 'src/app/services';
+import { Observable } from 'rxjs';
+import { NgbdSortableHeader, SortEvent } from 'src/app/helpers/sortable.directive';
+import { ServicesItemService } from '../service-item/servicesitem.service';
 
 @Component({
   selector: 'app-landingpage',
@@ -8,16 +10,26 @@ import { ServicesService } from 'src/app/services';
   styleUrls: ['./landingpage.component.css']
 })
 export class LandingpageComponent implements OnInit {
+  services$: Observable<Service[]>;
+  total$: Observable<number>;
+  @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
 
-  services: Service [];
-  constructor(private service: ServicesService ) { }
-
-
-  ngOnInit() {
-    this.service.query<Service[]>().subscribe(services=>{
-      this.services=services
-    });
-
+  constructor(public serviceitem: ServicesItemService ) {
+    this.services$ =serviceitem.service$;
+    this.total$ = serviceitem.total$;
   }
 
+
+  ngOnInit() { }
+  onSort({ column, direction }: SortEvent) {
+    // resetting other headers
+    this.headers.forEach(header => {
+      if (header.sortable !== column) {
+        header.direction = '';
+      }
+    });
+
+    this.serviceitem.sortColumn = column;
+    this.serviceitem.sortDirection = direction;
+  }
 }

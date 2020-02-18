@@ -1,6 +1,7 @@
 import { Service } from './../../domain/service.model';
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { APP_CONFIG, IAppConfig } from 'src/app/app.config';
+import { ServicesItemService } from './servicesitem.service';
 
 @Component({
   selector: 'app-service-item',
@@ -11,7 +12,7 @@ export class ServiceItemComponent implements OnInit {
 
  @Input() service: Service;
 
- constructor(@Inject(APP_CONFIG) private appConfig:IAppConfig) { }
+ constructor(@Inject(APP_CONFIG) private appConfig:IAppConfig,public serviceitem:ServicesItemService) { }
 
   ngOnInit() {
   }
