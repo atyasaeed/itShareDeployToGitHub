@@ -29,55 +29,44 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
 	@Autowired
 	private UserService userService;
+
 	@Bean
 	public PasswordEncoder encoder()
 	{
 		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
 //		return new StandardPasswordEncoder("53cr3t");
 	}
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception
 	{
 		auth.userDetailsService(userService).passwordEncoder(encoder());
 	}
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception
 	{
-		CookieCsrfTokenRepository csrf=CookieCsrfTokenRepository.withHttpOnlyFalse();
+		CookieCsrfTokenRepository csrf = CookieCsrfTokenRepository.withHttpOnlyFalse();
 		csrf.setCookieHttpOnly(true);
-		http
-			.authorizeRequests()
-			.antMatchers(HttpMethod.OPTIONS,"/login").permitAll()
-			.antMatchers(HttpMethod.POST,"/login").permitAll()
-			.antMatchers(HttpMethod.GET,"/api/services/**","/api/users/resetPassword","/api/users/test").permitAll()
-			.antMatchers(HttpMethod.POST,
-					"/api/users",
-					"/api/users/resetPassword").permitAll()
-			.antMatchers(HttpMethod.POST,"/api/users/savePassword").hasAuthority("CHANGE_PASSWORD_PRIVILEGE")
-			.antMatchers("/assets/**").permitAll()
-			.and()
-			.authorizeRequests()
-			.anyRequest()
-			.authenticated()
-			.and()
-			.formLogin()
-			.failureHandler(customAuthenticationFailureHandler())
-			.successHandler(customAuthenticationSuccessHandler())
+		http.authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/login").permitAll()
+				.antMatchers(HttpMethod.POST, "/login").permitAll()
+				.antMatchers(HttpMethod.GET,"/*","/ui/**", "/api/services/**", "/api/users/resetPassword", "/api/users/test")
+				.permitAll().antMatchers(HttpMethod.POST, "/api/users", "/api/users/resetPassword").permitAll()
+				.antMatchers(HttpMethod.POST, "/api/users/savePassword").hasAuthority("CHANGE_PASSWORD_PRIVILEGE")
+				.antMatchers("/assets/**").permitAll().and().authorizeRequests().anyRequest().authenticated().and()
+				.formLogin().failureHandler(customAuthenticationFailureHandler())
+				.successHandler(customAuthenticationSuccessHandler())
 //			.and()
 //			.exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint())
-		.and()
-		.cors().configurationSource(corsConfigurationSource()).and()
+				.and().cors().configurationSource(corsConfigurationSource()).and()
 
-		.csrf()
-		.disable()
-		
+				.csrf().disable()
+
 //		.ignoringAntMatchers("/login")
 //		.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 //		.and()
-		.headers().frameOptions().sameOrigin()
-					;
-		
-		
+				.headers().frameOptions().sameOrigin();
+
 //		http
 ////		.exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
 //		.csrf().disable()
@@ -94,13 +83,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 //			.cors()
 //		.and()
 //			.formLogin()
-			
 
 //		.and()
 //			.httpBasic()
-			
-			;
-		
+
+		;
 
 //		http
 //			.csrf().disable()
@@ -149,21 +136,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 //
 //				;
 	}
+
 	@Bean
-	public AuthenticationFailureHandler customAuthenticationFailureHandler() {
+	public AuthenticationFailureHandler customAuthenticationFailureHandler()
+	{
 		return new CustomAuthenticationFailureHandler();
 	}
+
 	@Bean
-	public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
+	public AuthenticationSuccessHandler customAuthenticationSuccessHandler()
+	{
 		return new CustomAuthenticationSuccessHandler();
 	}
+
 	@Bean
-	CorsConfigurationSource corsConfigurationSource() {
+	CorsConfigurationSource corsConfigurationSource()
+	{
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200","http://localhost:5000"));
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200", "http://localhost:5000"));
 		configuration.setAllowCredentials(true);
 		configuration.addAllowedHeader("*");
-		configuration.setAllowedMethods(Arrays.asList("POST","OPTIONS","GET","DELETE","PUT"));
+		configuration.setAllowedMethods(Arrays.asList("POST", "OPTIONS", "GET", "DELETE", "PUT"));
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
