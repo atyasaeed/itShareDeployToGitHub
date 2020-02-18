@@ -91,7 +91,7 @@ export class UserService {
     const { sortColumn, sortDirection, pageSize, page, searchTerm } = this._state;
 
     //http://localhost:8080/api/users/search?search=username:hasalem%20OR%20email:mosalem@gmail.com
-    let url = `http://localhost:8080/api/users/search?size=${pageSize}&page=${page - 1}`;
+    let url = this.appConfig.API_END_POINT + `api/users/search?size=${pageSize}&page=${page - 1}`;
     if (searchTerm) {
       url += `&search=username:*${searchTerm}* OR email:*${searchTerm}* OR firstName:*${searchTerm}* OR lastName:*${searchTerm}*`;
     }
