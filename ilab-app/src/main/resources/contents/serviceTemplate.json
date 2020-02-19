@@ -1,0 +1,56 @@
+ [
+	{
+		"name": "Material1",
+		"types": [
+			{
+				"name": "Type1",
+				"colors": [
+					"Red",
+					"Blue"
+				],
+				"dimensions": [
+					"5X5X5",
+					"10X10X10"
+				]
+			},
+			{
+				"name": "Type2",
+				"colors": [
+					"White",
+					"Blue"
+				],
+				"dimensions": [
+					"15X5X5",
+					"20X10X10"
+				]
+			}
+		]
+	},
+	{
+		"name": "Material2",
+		"types": [
+			{
+				"name": "Type3",
+				"colors": [
+					"Red",
+					"Blue"
+				],
+				"dimensions": [
+					"5X5X5",
+					"10X10X10"
+				]
+			},
+			{
+				"name": "Type4",
+				"colors": [
+					"White",
+					"Blue"
+				],
+				"dimensions": [
+					"15X5X5",
+					"20X10X10"
+				]
+			}
+		]
+	}
+]

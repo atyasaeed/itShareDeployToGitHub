@@ -7,9 +7,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import com.google.common.io.Files;
 
+import freemarker.template.Template;
 import ilab.core.domain.Authority;
 import ilab.core.domain.Service;
 import ilab.core.domain.User;
@@ -23,7 +26,8 @@ public class DevelopmentConfig
 {
 	@Autowired
 	private UserService userService;
-	
+	@Autowired
+	public freemarker.template.Configuration freemarkerConfig;
 	@Bean
 	public CommandLineRunner dataLoader(ServiceRepository serviceRepo,UserRepository userRepo) {
 		return new CommandLineRunner()
@@ -35,12 +39,12 @@ public class DevelopmentConfig
 				try
 				{
 					Service service;
-					service=serviceRepo.save(createService("3D Printing","3D Printing Description"));
+					service=serviceRepo.save(createService("3D Printing","3D Printing Description",2,"serviceTemplate.json","Working Area 1"));
 					service=serviceRepo.save(service);
 					Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));
-					service=serviceRepo.save(createService("Laser Scanning","Laser Cutting Description"));
+					service=serviceRepo.save(createService("Laser Scanning","Laser Cutting Description",1,"serviceTemplate.json","Working Area 2"));
 					Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));		
-					service=serviceRepo.save(createService("CNC Routers","CNC Routers Description"));
+					service=serviceRepo.save(createService("CNC Routers","CNC Routers Description",3,"serviceTemplate.json","Working Area 3"));
 					Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));
 //					userRepo.save(createUser( "hasalem", "12345678"));
 //					userRepo.save(createUser("mosalem", "12345678"));
@@ -55,18 +59,33 @@ public class DevelopmentConfig
 					
 					System.out.println("===========DB Initialization Failed=========");
 					System.out.println(e);
+					e.printStackTrace();
 				}
 				
 			}
 		};
 	}
-	private Service createService(String name,String desc)
+	public String getFileContent(String file) throws Exception
+	{
+		File resource = new ClassPathResource("contents/"+file).getFile();
+		String content = new String(java.nio.file.Files.readAllBytes(resource.toPath()));
+		return content;
+		
+	}
+	private Service createService(String name,String desc,int maxFiles,String templateFile,String workingArea) throws Exception
 	{
 		Service service=new Service();
 		service.setName(name);
 		service.setDescription(desc);
+		service.setMaxFiles(maxFiles);
+		service.setWorkingArea(workingArea);
+		
+		service.setTemplate(getFileContent(templateFile).replaceAll("\\s", ""));
+		
+		
 		return service;
 	}
+	
 	private User createUser(String username,String password,String firstName,String email)
 	{
 		User user=new User();
