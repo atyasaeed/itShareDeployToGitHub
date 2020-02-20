@@ -1,7 +1,8 @@
+
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 // import { CartDetails } from '../../domain/cart-details.model';
 import { NgForm, FormBuilder } from '@angular/forms';
-import { Service } from '../../domain/service.model';
+import { Service, Material } from '../../domain/service.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, Inject } from '@angular/core';
 import { ServicesService, AuthenticationService } from 'src/app/services';
@@ -22,6 +23,13 @@ export class CartItemComponent implements OnInit {
   item: ShoppingCartItem = new ShoppingCartItem();
   fileToUpload: File = null;
   service: Service ;
+  materials: any[] = [];
+  sectionMaterial: any[] = [];
+  types: any[] = [];
+  sectionType: any[] = [];
+  materialsName: any ;
+  typesName: any[];
+  colorsName: any [];
   // tslint:disable-next-line: max-line-length
   constructor(private route: ActivatedRoute,
               private shoppingCartService: ShoppingCartService,
@@ -36,19 +44,52 @@ export class CartItemComponent implements OnInit {
   ngOnInit() {
     this.createForm();
     const serviceId = this.route.snapshot.queryParamMap.get('service');
-    this.servicesService.get<Service>(serviceId).subscribe(service => this.service = service );
+    this.servicesService.get<Service>(serviceId).subscribe(service => {
+       this.service = service ;
+       this.getMaterials(); } );
+
+  }
+  getMaterials() {
+     console.log(this.service.materials);
+     for (let index = 0; index < this.service.maxFiles; index++) {
+    this.materials.push(this.service.materials);
+    console.log(this.materials);
+    for (let index = 0; index < this.materials.length; index++) {
+      this.sectionMaterial = this.materials[index];
+      this.materialsName = this.sectionMaterial.map(a => a.name);
+      console.log(this.sectionMaterial);
+      this.types = this.sectionMaterial.map(rr => rr.types);
+      console.log(this.types);
+      for (let index = 0; index < this.types.length; index++) {
+        this.sectionType = this.types[index];
+        this.typesName = this.sectionType.map(a => a.name);
+        console.log(this.sectionType);
+        this.colorsName = this.sectionType.map(rr => rr.colors);
+        console.log(this.colorsName);
+      }
+    }
+    }
+
+  }
+  onChangeMaterial(name, i) {
+
   }
 
-  createForm(){
+  createForm() {
     this.cartForm = this.formBuilder.group({
-      plannedStartDate:['', [Validators.required]],
-      file:['', [Validators.required]],
-      color:['', [Validators.required]],
-      material:['', [Validators.required]],
-      projectType:['', [Validators.required]],
-      unit:['', [Validators.required]],
-      notes:['', [Validators.required, Validators.maxLength(250)]],
-    })
+      file: ['', [Validators.required]],
+      unit: ['', [Validators.required]],
+      material: ['', [Validators.required]],
+      projectType: ['', [Validators.required]],
+      status: ['', [Validators.required]],
+      color: ['', [Validators.required]],
+      dimension: ['', [Validators.required]],
+      quantity: ['', [Validators.required]],
+      attend: ['', [Validators.required]],
+      startingDate: ['', [Validators.required]],
+      deliveryDate: ['', [Validators.required]],
+      notes: ['', [Validators.required, Validators.maxLength(250)]],
+    });
 
   }
   onSubmit() {
@@ -70,7 +111,7 @@ export class CartItemComponent implements OnInit {
     formData.append('item', itemBlob);
 
     this.shoppingCartService.addCartItem(formData).subscribe(
-      resp => {this.router.navigateByUrl('cart'),this.loading = false},
+      resp => {this.router.navigateByUrl('cart'), this.loading = false; },
       err => this.loading = false);
 
   }
@@ -80,7 +121,7 @@ export class CartItemComponent implements OnInit {
   }
   handleFileInput(files: FileList) {
     if (files != null) {
-      this.fileToUpload=files.item(0);
+      this.fileToUpload = files.item(0);
     }
 
   }
@@ -88,13 +129,13 @@ export class CartItemComponent implements OnInit {
 
 
 
-  validateAllFormFields(formGroup: FormGroup) {         //{1}
-  Object.keys(formGroup.controls).forEach(field => {  //{2}
-    const control = formGroup.get(field);             //{3}
-    if (control instanceof FormControl) {             //{4}
+  validateAllFormFields(formGroup: FormGroup) {         // {1}
+  Object.keys(formGroup.controls).forEach(field => {  // {2}
+    const control = formGroup.get(field);             // {3}
+    if (control instanceof FormControl) {             // {4}
       control.markAsTouched({ onlySelf: true });
-    } else if (control instanceof FormGroup) {        //{5}
-      this.validateAllFormFields(control);            //{6}
+    } else if (control instanceof FormGroup) {        // {5}
+      this.validateAllFormFields(control);            // {6}
     }
   });
 }
