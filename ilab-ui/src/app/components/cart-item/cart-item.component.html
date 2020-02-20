@@ -1,5 +1,5 @@
 <article class=" container card">
-  <h4 class="text-center">{{service?.name}}<h6>Maximum Working Area{{service.workingArea}}</h6> </h4>
+  <h4 class="text-center">{{service?.name}}<h6>Maximum Working Area{{service?.workingArea}}</h6> </h4>
   <hr class="mt-0">
   <section class="row">
     <div class=" col-sm-4 my-border">
@@ -7,11 +7,13 @@
     </div>
     <div class="col-sm-8">
       <section>
-        <form class="container" data-toggle="validator" [formGroup]="cartForm" (ngSubmit)="onSubmit()">
+
+         <form class="container" data-toggle="validator" [formGroup]="cartForm" (ngSubmit)="onSubmit()">
           <article class="row">
             <div class="col-md-9">
-              <div *ngFor="let allMaterial of materials;index as i">
-                
+              <div *ngFor="let file of file$.controls;let i = index">
+
+                <div >
               <section class="form-row">
                 <div class="form-group col-sm-6 mb-2">
                   <label>Upload Your Design File</label>
@@ -32,14 +34,14 @@
                     <div *ngIf="cartForm.controls.unit.errors.required">Unit is required</div>
                   </div>
                 </div>
- 
-           
+
+
               </section>
               <section class="form-row">
                 <div class="form-group col-sm-6 mb-2">
                   <label>Material</label>
-                  <select class="form-control" formControlName ="material" (change)="onChangeMaterial($event.target.value,i)" material>
-                    <option *ngFor="let material of materialsName" [value]="material">{{material}}</option>
+                  <select class="form-control" formControlName ="material"  material>
+                    <option *ngFor="let material of service.materials" [value]="material">{{material}}</option>
                   </select>
                   <div *ngIf="cartForm.controls.material.touched && !cartForm.controls.material.valid"class="text-danger">
                     <div *ngIf="cartForm.controls.material.errors.required">material is required</div>
@@ -48,7 +50,7 @@
                 <div class="form-group col-sm-6 mb-2">
                   <label>Type </label>
                   <select class="form-control"formControlName ="projectType" projectType>
-                    <option *ngFor="let type of typesName" [value]="type">{{type}}</option>
+                    <option *ngFor="let type of type" [value]="type">{{type}}</option>
                   </select>
                   <div *ngIf="cartForm.controls.projectType.touched && !cartForm.controls.projectType.valid"class="text-danger">
                     <div *ngIf="cartForm.controls.projectType.errors.required">projectType is required</div>
@@ -62,11 +64,11 @@
                 </div>
               </section>
               <section class="form-row" *ngIf ="cartForm.controls.status.value ==='Using'">
-             
+
                 <div class="form-group col-sm-6 mb-2">
                   <label>Color</label>
                   <select class="form-control" class="form-control" formControlName ="color" color>
-                    <option *ngFor="let color of colorsName" [value]="color.value">{{color}}</option>
+                    <option *ngFor="let color of color" [value]="color.value">{{color}}</option>
                   </select>
                   <div *ngIf="cartForm.controls.color.touched && !cartForm.controls.color.valid"class="text-danger">
                     <div *ngIf="cartForm.controls.color.errors.required || cartForm.controls.submit">color is required</div>
@@ -84,7 +86,7 @@
                   </div>
                 </div>
               </section>
-              
+              </div>
             </div>
             <hr>
 
@@ -108,14 +110,14 @@
               <section class="form-row">
                 <div class="form-group col-sm-6 mb-2">
                   <label>Starting Date </label>
-                  <input type="date" class="form-control" formControlName="startingDate" plannedStartDate>
+                  <input type="date" class="form-control" formControlName="startingDate" startingDate>
                   <div *ngIf="cartForm.controls.startingDate.touched && !cartForm.controls.startingDate.valid"class="text-danger">
                     <div *ngIf="cartForm.controls.startingDate.errors.required">startingDate is required</div>
                   </div>
                 </div>
                 <div class="form-group col-sm-6 mb-2">
                   <label>Delivery Date  </label>
-                  <input type="date" class="form-control" formControlName="deliveryDate" plannedStartDate>
+                  <input type="date" class="form-control" formControlName="deliveryDate" deliveryDate>
                   <div *ngIf="cartForm.controls.deliveryDate.touched && !cartForm.controls.deliveryDate.valid"class="text-danger">
                     <div *ngIf="cartForm.controls.deliveryDate.errors.required">DeliveryDate is required</div>
                   </div>

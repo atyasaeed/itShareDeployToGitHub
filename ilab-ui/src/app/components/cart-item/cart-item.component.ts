@@ -1,8 +1,7 @@
-
-import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormGroup, Validators, FormControl, FormArray } from '@angular/forms';
 // import { CartDetails } from '../../domain/cart-details.model';
 import { NgForm, FormBuilder } from '@angular/forms';
-import { Service, Material } from '../../domain/service.model';
+import { Service } from '../../domain/service.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, Inject } from '@angular/core';
 import { ServicesService, AuthenticationService } from 'src/app/services';
@@ -23,13 +22,6 @@ export class CartItemComponent implements OnInit {
   item: ShoppingCartItem = new ShoppingCartItem();
   fileToUpload: File = null;
   service: Service ;
-  materials: any[] = [];
-  sectionMaterial: any[] = [];
-  types: any[] = [];
-  sectionType: any[] = [];
-  materialsName: any ;
-  typesName: any[];
-  colorsName: any [];
   // tslint:disable-next-line: max-line-length
   constructor(private route: ActivatedRoute,
               private shoppingCartService: ShoppingCartService,
@@ -41,56 +33,48 @@ export class CartItemComponent implements OnInit {
 
   cartForm: FormGroup ;
 
+
   ngOnInit() {
-    this.createForm();
     const serviceId = this.route.snapshot.queryParamMap.get('service');
-    this.servicesService.get<Service>(serviceId).subscribe(service => {
-       this.service = service ;
-       this.getMaterials(); } );
+    this.servicesService.get<Service>(serviceId).subscribe(service => {this.service = service;
+      this.createForm();
+     });
+
 
   }
-  getMaterials() {
-     console.log(this.service.materials);
-     for (let index = 0; index < this.service.maxFiles; index++) {
-    this.materials.push(this.service.materials);
-    console.log(this.materials);
-    for (let index = 0; index < this.materials.length; index++) {
-      this.sectionMaterial = this.materials[index];
-      this.materialsName = this.sectionMaterial.map(a => a.name);
-      console.log(this.sectionMaterial);
-      this.types = this.sectionMaterial.map(rr => rr.types);
-      console.log(this.types);
-      for (let index = 0; index < this.types.length; index++) {
-        this.sectionType = this.types[index];
-        this.typesName = this.sectionType.map(a => a.name);
-        console.log(this.sectionType);
-        this.colorsName = this.sectionType.map(rr => rr.colors);
-        console.log(this.colorsName);
-      }
-    }
-    }
 
-  }
-  onChangeMaterial(name, i) {
-
-  }
+  get cartForm$() { return this.cartForm.controls; }
+  get file$() { return this.cartForm$.files as FormArray; }
 
   createForm() {
     this.cartForm = this.formBuilder.group({
-      file: ['', [Validators.required]],
-      unit: ['', [Validators.required]],
-      material: ['', [Validators.required]],
-      projectType: ['', [Validators.required]],
-      status: ['', [Validators.required]],
-      color: ['', [Validators.required]],
-      dimension: ['', [Validators.required]],
+      plannedStartDate: ['', [Validators.required]],
       quantity: ['', [Validators.required]],
       attend: ['', [Validators.required]],
       startingDate: ['', [Validators.required]],
       deliveryDate: ['', [Validators.required]],
       notes: ['', [Validators.required, Validators.maxLength(250)]],
-    });
 
+      files: new FormArray([]),
+
+      // file:['', [Validators.required]],
+      // material:['', [Validators.required]],
+      // types:['', [Validators.required]],
+      // color:['', [Validators.required]],
+      // dimensions:['', [Validators.required]],
+      // unit:['', [Validators.required]],
+    });
+    for (let i =0 ; i<this.service.maxFiles; i++) {
+      this.file$.push(this.formBuilder.group({
+      file:['', [Validators.required]],
+      material:['', [Validators.required]],
+      type:['', [Validators.required]],
+      colors:['', [Validators.required]],
+      dimensions:['', [Validators.required]],
+      unit:['', [Validators.required]],
+      }));
+  }
+console.log(this.file$.value)
   }
   onSubmit() {
     this.loading = true;
@@ -111,7 +95,7 @@ export class CartItemComponent implements OnInit {
     formData.append('item', itemBlob);
 
     this.shoppingCartService.addCartItem(formData).subscribe(
-      resp => {this.router.navigateByUrl('cart'), this.loading = false; },
+      resp => {this.router.navigateByUrl('cart'), this.loading = false;},
       err => this.loading = false);
 
   }
