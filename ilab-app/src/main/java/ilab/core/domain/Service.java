@@ -20,7 +20,11 @@ public class Service extends AbstractEntity<Service>
 	@JsonRawValue
 	private String template;
 	
-
+	@Lob
+	@JsonProperty("supportedExtensions")
+	@JsonRawValue
+	private String extensions;
+	
 	public String getName()
 	{
 		return name;
@@ -69,6 +73,16 @@ public class Service extends AbstractEntity<Service>
 	public void setTemplate(String template)
 	{
 		this.template = template;
+	}
+
+	public String getExtensions()
+	{
+		return extensions;
+	}
+
+	public void setExtensions(String extensions)
+	{
+		this.extensions = extensions;
 	}
 
 	

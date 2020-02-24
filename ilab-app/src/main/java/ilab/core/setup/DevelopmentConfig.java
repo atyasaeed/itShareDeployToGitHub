@@ -39,12 +39,12 @@ public class DevelopmentConfig
 				try
 				{
 					Service service;
-					service=serviceRepo.save(createService("3D Printing","3D Printing Description",2,"serviceTemplate.json","Working Area 1"));
+					service=serviceRepo.save(createService("3D Printing","3D Printing Description",2,"serviceTemplate.json","serviceFileExtensions.json","Working Area 1"));
 					service=serviceRepo.save(service);
 					Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));
-					service=serviceRepo.save(createService("Laser Scanning","Laser Cutting Description",1,"serviceTemplate.json","Working Area 2"));
+					service=serviceRepo.save(createService("Laser Scanning","Laser Cutting Description",1,"serviceTemplate.json","serviceFileExtensions.json","Working Area 2"));
 					Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));		
-					service=serviceRepo.save(createService("CNC Routers","CNC Routers Description",3,"serviceTemplate.json","Working Area 3"));
+					service=serviceRepo.save(createService("CNC Routers","CNC Routers Description",3,"serviceTemplate.json","serviceFileExtensions.json","Working Area 3"));
 					Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));
 //					userRepo.save(createUser( "hasalem", "12345678"));
 //					userRepo.save(createUser("mosalem", "12345678"));
@@ -72,7 +72,7 @@ public class DevelopmentConfig
 		return content;
 		
 	}
-	private Service createService(String name,String desc,int maxFiles,String templateFile,String workingArea) throws Exception
+	private Service createService(String name,String desc,int maxFiles,String templateFile,String fileExtensions,String workingArea) throws Exception
 	{
 		Service service=new Service();
 		service.setName(name);
@@ -81,6 +81,7 @@ public class DevelopmentConfig
 		service.setWorkingArea(workingArea);
 		
 		service.setTemplate(getFileContent(templateFile).replaceAll("\\s", ""));
+		service.setExtensions(getFileContent(fileExtensions).replaceAll("\\s", ""));
 		
 		
 		return service;

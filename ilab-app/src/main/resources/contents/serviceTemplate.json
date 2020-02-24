@@ -9,7 +9,7 @@
 					"Blue"
 				],
 				"dimensions": [
-					"5X5X5",
+					"15X5X5",
 					"10X10X10"
 				]
 			},
@@ -17,10 +17,10 @@
 				"name": "Type2",
 				"colors": [
 					"White",
-					"Blue"
+					"Orange"
 				],
 				"dimensions": [
-					"15X5X5",
+					"16X5X5",
 					"20X10X10"
 				]
 			}
@@ -32,22 +32,22 @@
 			{
 				"name": "Type3",
 				"colors": [
-					"Red",
-					"Blue"
+					"Black",
+					"Purble"
 				],
 				"dimensions": [
-					"5X5X5",
+					"25X5X5",
 					"10X10X10"
 				]
 			},
 			{
 				"name": "Type4",
 				"colors": [
-					"White",
-					"Blue"
+					"Yellow",
+					"Green"
 				],
 				"dimensions": [
-					"15X5X5",
+					"26X5X5",
 					"20X10X10"
 				]
 			}
