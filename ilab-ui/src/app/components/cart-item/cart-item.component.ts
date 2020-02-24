@@ -19,6 +19,7 @@ import { APP_CONFIG, IAppConfig } from 'src/app/app.config';
 export class CartItemComponent implements OnInit {
   // notes = new FormControl('');
   loading = false;
+  submitted = false ;
   item: ShoppingCartItem = new ShoppingCartItem();
   fileToUpload: File = null;
   service: Service ;
@@ -80,6 +81,7 @@ export class CartItemComponent implements OnInit {
   }
   onSubmit() {
     this.loading = true;
+    this.submitted = true
     if (this.cartForm.invalid) {
       this.validateAllFormFields(this.cartForm);
       this.loading = false;
