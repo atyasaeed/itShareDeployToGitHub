@@ -45,8 +45,8 @@ export class CartItemComponent implements OnInit {
         file: ['', [Validators.required]],
         material: ['', [Validators.required]],
         type: ['', [Validators.required]],
-        colors: ['', [Validators.required]],
-        dimensions: ['', [Validators.required]],
+        color: ['', [Validators.required]],
+        dimension: ['', [Validators.required]],
         unit: ['', [Validators.required]],
         }));
     }
@@ -80,6 +80,7 @@ export class CartItemComponent implements OnInit {
 
   }
   onSubmit() {
+    console.log(this.cartForm.value)
     this.loading = true;
     this.submitted = true
     if (this.cartForm.invalid) {

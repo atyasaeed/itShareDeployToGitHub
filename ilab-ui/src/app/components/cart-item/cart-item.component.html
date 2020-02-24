@@ -83,18 +83,18 @@
                   <select class="form-control" formControlName ="material"  #materialCont>
                     <option *ngFor="let material of service.materials">{{material.name}}</option>
                   </select>
-                  <div *ngIf="aFile.controls.material.touched && !aFile.controls.material.valid"class="text-danger">
+                  <!-- <div *ngIf="aFile.controls.material.touched && !aFile.controls.material.valid"class="text-danger">
                     <div *ngIf="aFile.controls.material.errors.required">material is required</div>
-                  </div>
+                  </div> -->
                 </div>
                 <div class="form-group col-sm-6 mb-2">
                   <label>Type </label>
                   <select class="form-control" formControlName ="type" #typeCont>
                     <option *ngFor="let type of service.materials[materialCont.selectedIndex].types">{{type.name}}</option>
                   </select>
-                  <div *ngIf="aFile.controls.type.touched && !aFile.controls.type.valid"class="text-danger">
+                  <!-- <div *ngIf="aFile.controls.type.touched && !aFile.controls.type.valid"class="text-danger">
                     <div *ngIf="aFile.controls.type.errors.required">Type is required</div>
-                  </div>
+                  </div> -->
                 </div>
               </section>
               <section class="form-row">
@@ -114,15 +114,15 @@
                     <div *ngIf="aFile.controls.color.errors.required || aFile.controls.submit">color is required</div>
                   </div> -->
                 </div>
-               <!-- <div class="form-group col-sm-6 mb-2">
+               <div class="form-group col-sm-6 mb-2">
                   <label>Dimension</label>
                   <select class="form-control" class="form-control" formControlName ="dimension" dimension>
                     <option *ngFor="let dimension of service.materials[materialCont.selectedIndex].types[typeCont.selectedIndex].dimensions">{{dimension}}</option>
                   </select>
-                  <div *ngIf="aFile.controls.dimension.touched && !aFile.controls.dimension.valid"class="text-danger">
+                  <!-- <div *ngIf="aFile.controls.dimension.touched && !aFile.controls.dimension.valid"class="text-danger">
                     <div *ngIf="aFile.controls.dimension.errors.required || aFile.controls.submit">dimension is required</div>
-                  </div>
-                </div> -->
+                  </div> -->
+                </div>
               </section>
               </div>
             </div>
