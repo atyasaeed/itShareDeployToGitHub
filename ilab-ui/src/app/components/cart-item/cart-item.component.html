@@ -11,17 +11,15 @@
          <form class="container" data-toggle="validator" [formGroup]="cartForm" (ngSubmit)="onSubmit()">
           <article class="row">
             <div class="col-md-9">
-              <div *ngFor="let file of file$.controls;let i = index">
-
-                <div >
+              <div *ngFor="let aFile of file$.controls;let i = index" [formGroup]="aFile">
               <section class="form-row">
                 <div class="form-group col-sm-6 mb-2">
                   <label>Upload Your Design File</label>
                   <input type="file" class="form-control" formControlName ="file"
                     (change)="handleFileInput($event.target.files)" file>
-                    <div *ngIf="cartForm.controls.file.touched && !cartForm.controls.file.valid" class="text-danger">
+                    <!-- <div *ngIf="cartForm.controls.file.touched && !cartForm.controls.file.valid" class="text-danger">
                       <div *ngIf="cartForm.controls.file.errors.required">file is required</div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="form-group col-sm-6 mb-2">
                   <label>Units Used In File </label>
@@ -30,9 +28,9 @@
                     <option value="mm">MM</option>
                     <option value="inches">Inches</option>
                   </select>
-                  <div *ngIf="cartForm.controls.unit.touched && !cartForm.controls.unit.valid"class="text-danger">
+                  <!-- <div *ngIf="cartForm.controls.unit.touched && !cartForm.controls.unit.valid"class="text-danger">
                     <div *ngIf="cartForm.controls.unit.errors.required">Unit is required</div>
-                  </div>
+                  </div> -->
                 </div>
 
 
@@ -40,21 +38,21 @@
               <section class="form-row">
                 <div class="form-group col-sm-6 mb-2">
                   <label>Material</label>
-                  <select class="form-control" formControlName ="material"  material>
-                    <option *ngFor="let material of service.materials" [value]="material">{{material}}</option>
+                  <select class="form-control" formControlName ="material"  #materialCont>
+                    <option *ngFor="let material of service.materials">{{material.name}}</option>
                   </select>
-                  <div *ngIf="cartForm.controls.material.touched && !cartForm.controls.material.valid"class="text-danger">
+                  <!-- <div *ngIf="cartForm.controls.material.touched && !cartForm.controls.material.valid"class="text-danger">
                     <div *ngIf="cartForm.controls.material.errors.required">material is required</div>
-                  </div>
+                  </div> -->
                 </div>
                 <div class="form-group col-sm-6 mb-2">
                   <label>Type </label>
-                  <select class="form-control"formControlName ="projectType" projectType>
-                    <option *ngFor="let type of type" [value]="type">{{type}}</option>
+                  <select class="form-control"formControlName ="type" type>
+                    <option *ngFor="let type of service.materials[materialCont.selectedIndex].types">{{type.name}}</option>
                   </select>
-                  <div *ngIf="cartForm.controls.projectType.touched && !cartForm.controls.projectType.valid"class="text-danger">
+                  <!-- <div *ngIf="cartForm.controls.projectType.touched && !cartForm.controls.projectType.valid"class="text-danger">
                     <div *ngIf="cartForm.controls.projectType.errors.required">projectType is required</div>
-                  </div>
+                  </div> -->
                 </div>
               </section>
               <section class="form-row">
@@ -70,9 +68,9 @@
                   <select class="form-control" class="form-control" formControlName ="color" color>
                     <option *ngFor="let color of color" [value]="color.value">{{color}}</option>
                   </select>
-                  <div *ngIf="cartForm.controls.color.touched && !cartForm.controls.color.valid"class="text-danger">
+                  <!-- <div *ngIf="cartForm.controls.color.touched && !cartForm.controls.color.valid"class="text-danger">
                     <div *ngIf="cartForm.controls.color.errors.required || cartForm.controls.submit">color is required</div>
-                  </div>
+                  </div> -->
                 </div>
                 <div class="form-group col-sm-6 mb-2">
                   <label>Dimension</label>
@@ -81,9 +79,9 @@
                     <option value="dimension2">Dimension2 </option>
                     <option value="dimension3">Dimension3</option>
                   </select>
-                  <div *ngIf="cartForm.controls.dimension.touched && !cartForm.controls.dimension.valid"class="text-danger">
+                  <!-- <div *ngIf="cartForm.controls.dimension.touched && !cartForm.controls.dimension.valid"class="text-danger">
                     <div *ngIf="cartForm.controls.dimension.errors.required || cartForm.controls.submit">dimension is required</div>
-                  </div>
+                  </div> -->
                 </div>
               </section>
               </div>
@@ -95,9 +93,9 @@
                 <div class="form-group col-sm-4 mb-2">
                   <label>Quantity </label>
                   <input type="number" formControlName ="quantity" quantity style="width: inherit;">
-                  <div *ngIf="cartForm.controls.quantity.touched && !cartForm.controls.quantity.valid"class="text-danger">
+                  <!-- <div *ngIf="cartForm.controls.quantity.touched && !cartForm.controls.quantity.valid"class="text-danger">
                     <div *ngIf="cartForm.controls.quantity.errors.required || cartForm.controls.submit">quantity is required</div>
-                  </div>
+                  </div> -->
                 </div>
                 <div class="form-group col-sm-7 mb-2">
                   <label>Attend Manufacturing Request</label>
@@ -111,16 +109,16 @@
                 <div class="form-group col-sm-6 mb-2">
                   <label>Starting Date </label>
                   <input type="date" class="form-control" formControlName="startingDate" startingDate>
-                  <div *ngIf="cartForm.controls.startingDate.touched && !cartForm.controls.startingDate.valid"class="text-danger">
+                  <!-- <div *ngIf="cartForm.controls.startingDate.touched && !cartForm.controls.startingDate.valid"class="text-danger">
                     <div *ngIf="cartForm.controls.startingDate.errors.required">startingDate is required</div>
-                  </div>
+                  </div> -->
                 </div>
                 <div class="form-group col-sm-6 mb-2">
                   <label>Delivery Date  </label>
                   <input type="date" class="form-control" formControlName="deliveryDate" deliveryDate>
-                  <div *ngIf="cartForm.controls.deliveryDate.touched && !cartForm.controls.deliveryDate.valid"class="text-danger">
+                  <!-- <div *ngIf="cartForm.controls.deliveryDate.touched && !cartForm.controls.deliveryDate.valid"class="text-danger">
                     <div *ngIf="cartForm.controls.deliveryDate.errors.required">DeliveryDate is required</div>
-                  </div>
+                  </div> -->
                 </div>
                 <div class="form-group col-sm-12 mb-2">
                   <label>Notes </label>
@@ -131,7 +129,6 @@
                   </div>
                 </div>
               </section>
-            </div>
             </div>
             <div class="col-md-3 my-border-left ">
               <input type="submit" [disabled]="loading"data-toggle="tooltip" title="Add to Manufacturing Request" data-placement="top" class="btn btn-primary btn-block" value="{{'Add'| translate}}">

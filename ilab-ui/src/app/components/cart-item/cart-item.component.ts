@@ -33,24 +33,36 @@ export class CartItemComponent implements OnInit {
 
   cartForm: FormGroup ;
 
-
+  get cartForm$() { return this.cartForm.controls; }
+  get file$() { return this.cartForm$.files as FormArray; }
   ngOnInit() {
+    this.createForm();
     const serviceId = this.route.snapshot.queryParamMap.get('service');
     this.servicesService.get<Service>(serviceId).subscribe(service => {this.service = service;
-      this.createForm();
+      for (let i = 0 ; i < this.service.maxFiles; i++) {
+        this.file$.push(this.formBuilder.group({
+        file: ['', [Validators.required]],
+        material: ['', [Validators.required]],
+        type: ['', [Validators.required]],
+        colors: ['', [Validators.required]],
+        dimensions: ['', [Validators.required]],
+        unit: ['', [Validators.required]],
+        }));
+    }
+
      });
 
 
   }
 
-  get cartForm$() { return this.cartForm.controls; }
-  get file$() { return this.cartForm$.files as FormArray; }
+
 
   createForm() {
     this.cartForm = this.formBuilder.group({
       plannedStartDate: ['', [Validators.required]],
       quantity: ['', [Validators.required]],
       attend: ['', [Validators.required]],
+      status: ['', [Validators.required]],
       startingDate: ['', [Validators.required]],
       deliveryDate: ['', [Validators.required]],
       notes: ['', [Validators.required, Validators.maxLength(250)]],
@@ -64,17 +76,7 @@ export class CartItemComponent implements OnInit {
       // dimensions:['', [Validators.required]],
       // unit:['', [Validators.required]],
     });
-    for (let i =0 ; i<this.service.maxFiles; i++) {
-      this.file$.push(this.formBuilder.group({
-      file:['', [Validators.required]],
-      material:['', [Validators.required]],
-      type:['', [Validators.required]],
-      colors:['', [Validators.required]],
-      dimensions:['', [Validators.required]],
-      unit:['', [Validators.required]],
-      }));
-  }
-console.log(this.file$.value)
+
   }
   onSubmit() {
     this.loading = true;
@@ -95,7 +97,7 @@ console.log(this.file$.value)
     formData.append('item', itemBlob);
 
     this.shoppingCartService.addCartItem(formData).subscribe(
-      resp => {this.router.navigateByUrl('cart'), this.loading = false;},
+      resp => {this.router.navigateByUrl('cart'), this.loading = false; },
       err => this.loading = false);
 
   }
