@@ -18,36 +18,38 @@ export class ChartsComponent implements OnInit {
   public barChartLegend: boolean;
 
   public barChartData: any[] = [
-    { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
-    { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' },
+    { data: [65, 59, 80, 81, 56, 55, 40], label: '3D Printing' },
+    { data: [28, 48, 40, 19, 86, 27, 90], label: 'CNC Routing' },
   ];
 
   // Doughnut
-  public doughnutChartLabels: string[] = ['Download Sales', 'In-Store Sales', 'Mail-Order Sales'];
+  public doughnutChartLabels: string[] = ['In progress Jobs', 'Finished Jobs', 'Rejected Jobs'];
   public doughnutChartData: number[] = [350, 450, 100];
   public doughnutChartType: string;
 
   // Radar
-  public radarChartLabels: string[] = ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'];
+  public radarChartLabels: string[] = [
+    'Placed',
+    'Quoted',
+    'Accepteding',
+    'Rejected',
+    'Manufactured',
+    'In Progress',
+    'Waiting Quotation',
+  ];
   public radarChartData: any = [
-    { data: [65, 59, 90, 81, 56, 55, 40], label: 'Series A' },
-    { data: [28, 48, 40, 19, 96, 27, 100], label: 'Series B' },
+    { data: [65, 59, 90, 81, 56, 55, 40], label: '3D Printing' },
+    { data: [28, 48, 40, 19, 96, 27, 100], label: 'CNC Routing' },
   ];
   public radarChartType: string;
 
   // Pie
-  public pieChartLabels: string[] = ['Download Sales', 'In-Store Sales', 'Mail Sales'];
+  public pieChartLabels: string[] = ['3D Printing', 'CNC Routing', 'Laser Scanning'];
   public pieChartData: number[] = [300, 500, 100];
   public pieChartType: string;
 
   // PolarArea
-  public polarAreaChartLabels: string[] = [
-    'Download Sales',
-    'In-Store Sales',
-    'Mail Sales',
-    'Telesales',
-    'Corporate Sales',
-  ];
+  public polarAreaChartLabels: string[] = ['Placed', 'Quoted', 'Accepteding', 'Rejected', 'Manufactured'];
   public polarAreaChartData: number[] = [300, 500, 100, 40, 120];
   public polarAreaLegend: boolean;
 
@@ -55,9 +57,9 @@ export class ChartsComponent implements OnInit {
 
   // lineChart
   public lineChartData: Array<any> = [
-    { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
-    { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' },
-    { data: [18, 48, 77, 9, 100, 27, 40], label: 'Series C' },
+    { data: [65, 59, 80, 81, 56, 55, 40], label: '3D Printing' },
+    { data: [28, 48, 40, 19, 86, 27, 90], label: 'CNC Routing' },
+    { data: [18, 48, 77, 9, 100, 27, 40], label: '3D Scanning' },
   ];
   public lineChartLabels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
   public lineChartOptions: any = {
