@@ -7,6 +7,7 @@ export class Service {
   status:string;
   extension:string[];
   materials:Material [];
+  supportedExtensions:any [];
 }
 export class Material {
   index:number;
@@ -18,6 +19,10 @@ export class Type {
   name:string;
   colors:any[];
   dimensions:any [];
+}
+
+export class SupportedExtensions{
+
 }
 // export const SERVICES: Service[] = [
 //   { id: '1', name: 'Laser Cutting',

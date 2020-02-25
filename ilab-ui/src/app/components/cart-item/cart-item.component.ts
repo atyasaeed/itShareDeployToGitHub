@@ -20,8 +20,14 @@ export class CartItemComponent implements OnInit {
   // notes = new FormControl('');
   loading = false;
   submitted = false ;
+  ext:string[]=[];
+  extFile:string;
+  filename:string ; 
   item: ShoppingCartItem = new ShoppingCartItem();
-  fileToUpload: File = null;
+  // fileToUpload: File = null;
+  public totalfiles: Array<File> =[];
+  public totalFileName = [];
+  public lengthCheckToaddMore =0;
   service: Service ;
   // tslint:disable-next-line: max-line-length
   constructor(private route: ActivatedRoute,
@@ -48,9 +54,13 @@ export class CartItemComponent implements OnInit {
         color: ['', [Validators.required]],
         dimension: ['', [Validators.required]],
         unit: ['', [Validators.required]],
-        }));
-    }
-
+        status: ['', [Validators.required]],
+        }))
+      }
+      for (let index = 0; index < this.service.supportedExtensions.length; index++) {
+          this.ext.push(this.service.supportedExtensions[index].substr(1))    
+      }
+     this.extFile = this.ext.toString() ;
      });
 
 
@@ -60,10 +70,8 @@ export class CartItemComponent implements OnInit {
 
   createForm() {
     this.cartForm = this.formBuilder.group({
-      plannedStartDate: ['', [Validators.required]],
       quantity: ['', [Validators.required]],
       attend: ['', [Validators.required]],
-      status: ['', [Validators.required]],
       startingDate: ['', [Validators.required]],
       deliveryDate: ['', [Validators.required]],
       notes: ['', [Validators.required, Validators.maxLength(250)]],
@@ -88,12 +96,23 @@ export class CartItemComponent implements OnInit {
       this.loading = false;
     }
     this.item = Object.assign(this.cartForm.value);
-    this.item.quantity = 1;
-    this.item.quantity = 1;
+    // this.item.quantity = 1;
+    // this.item.quantity = 1;
     this.item.service = this.service;
+    for (let index = 0; index <this.file$.length ; index++) {
+      this.item.files.push(this.file$[index])
+    }
+    console.log(this.item)
 
     const formData: FormData = new FormData();
-    formData.append('file', this.fileToUpload, this.fileToUpload.name);
+    for(let j=0;j<this.totalfiles.length; j++)
+    {
+      console.log("the values is ",<File>this.totalfiles[j]);
+      console.log("the name is ",this.totalFileName[j]);
+
+      formData.append(this.totalFileName[j]+(j+1),<File>this.totalfiles[j])
+    }
+   // formData.append('file', this.fileToUpload, this.fileToUpload.name);
     const itemBlob = new Blob([JSON.stringify(this.item)], {
       type: 'application/json',
     });
@@ -108,14 +127,41 @@ export class CartItemComponent implements OnInit {
   getImageUrl(): string {
     return this.appConfig.ASSETS_URL + this.service.id;
   }
-  handleFileInput(files: FileList) {
-    if (files != null) {
-      this.fileToUpload = files.item(0);
+  // handleFileInput(files: FileList) {
+  //   if (files != null) {
+  //     this.fileToUpload = files.item(0);
+  //   }
+
+  // }
+   handleFileInput(fileInput: any,oldIndex) {
+
+    console.log("oldIndex is ", oldIndex);
+     this.filename= fileInput.target.files[0].name
+    if (fileInput.target.files && fileInput.target.files[0]) {
+      var reader = new FileReader();
+      reader.onload = (event: any) => {
+      }
+      if(oldIndex==0)
+    {
+      this.totalfiles.unshift((fileInput.target.files[0]))
+      this.totalFileName.unshift(fileInput.target.files[0].name)
+    }
+    else
+    {
+      this.totalfiles[oldIndex]=(fileInput.target.files[0]);
+      this.totalFileName[oldIndex]=fileInput.target.files[0].name
+
+    }
+
+      reader.readAsDataURL(fileInput.target.files[0]);
+    }
+
+    if(this.totalfiles.length == 1)
+    {
+      this.lengthCheckToaddMore=1;
     }
 
   }
-
-
 
 
   validateAllFormFields(formGroup: FormGroup) {         // {1}

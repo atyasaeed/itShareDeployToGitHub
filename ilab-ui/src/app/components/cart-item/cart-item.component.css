@@ -120,3 +120,143 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+
+
+
+/*************************************************************************/
+
+.card-form {
+  width: 100%;
+  border-radius: 10px;
+  background: white;
+  box-shadow: 0 27px 55px 0 rgba(0, 0, 0, 0.3), 0 17px 17px 0 rgba(0, 0, 0, 0.15);
+}
+.card-form .form-title {
+  width: 100%;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+          justify-content: center;
+  height: 30px;
+  font-size: 20px;
+  font-weight: bold;
+  background: #27ae60;
+  border-radius: 10px 10px 0 0;
+}
+.card-form .form-body {
+  padding: 10px;
+  margin-bottom: 5px;
+}
+/* .card-form .form-body .row {
+  display: -webkit-box;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+}
+.card-form .form-body .row input[type="text"] {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  width: 100%;
+  margin: 0 15px;
+  height: 35px;
+  padding: 5px 15px;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  background: #e8ebed;
+  color: #576366;
+  font-size: 14px;
+}
+.card-form .rule {
+  height: 2px;
+  background: #e8ebed;
+  margin: 0px 35px;
+}
+.card-form .form-footer {
+  margin: 0 25px 15px 25px;
+  padding: 15px 10px;
+}
+.card-form .form-footer a {
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 15px;
+  background: #27ae60;
+  margin-right: 10px;
+  font-size: 14px;
+}
+.card-form .form-footer span {
+  margin-left: 8px;
+} */
+
+
+
+/****************************************************************************************/
+.file {
+  position: relative;
+}
+.file span {
+  display: block;
+  background: #39D2B4;
+  padding: 8px 20px;
+  color: #fff;
+  font-weight: bold;
+  font-size: .9em;
+  transition: all .4s;
+  text-align: center;
+}
+.file input {
+  position: absolute;
+  display: inline-block;
+  left: 0;
+  top: 27px;
+  opacity: 0.01;
+  cursor: pointer;
+}
+.file input:hover + span,
+.file input:focus + span {
+  background: #34495E;
+  color: #39D2B4;
+}
+
+
+/**************************************************************************/
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  outline: 0;
+  box-shadow: none;
+  border: 0 !important;
+  background: #2c3e50;
+  background-image: none;
+}
+/* Remove IE arrow */
+select::-ms-expand {
+  display: none;
+}
+/* Custom Select */
+.select {
+  position: relative;
+  display: flex;
+  width: 20em;
+  height: 3em;
+  line-height: 3;
+  background: #2c3e50;
+  overflow: hidden;
+  border-radius: .25em;
+}
+select {
+  flex: 1;
+  padding: 0 .5em;
+  color: #fff;
+  cursor: pointer;
+}
+

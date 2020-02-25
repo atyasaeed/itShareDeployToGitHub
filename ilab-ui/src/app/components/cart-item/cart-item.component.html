@@ -9,8 +9,7 @@
       <section>
 
          <form class="container" data-toggle="validator" [formGroup]="cartForm" (ngSubmit)="onSubmit()">
-          <article class="row">
-            <div class="col-md-9">
+      
               <div>
                 <section class="form-row">
                   <div class="form-group col-sm-6 mb-2">
@@ -53,19 +52,22 @@
                   </div>
                 </section>
               </div>
-              <div *ngFor="let aFile of file$.controls;let i = index" [formGroup]="aFile">
+              <div *ngFor="let aFile of file$.controls;let i = index" [formGroup]="aFile" class="card-form">
+                <div class="form-title">{{filename}}</div>
+                <div class="form-body">
               <section class="form-row">
-                <div class="form-group col-sm-6 mb-2">
+                <div class="form-group col-sm-6 mb-2 file">
                   <label>Upload Your Design File</label>
-                  <input type="file" class="form-control" formControlName ="file"
-                    (change)="handleFileInput($event.target.files)" file>
+                  <input type="file" class="form-control" formControlName ="file" [accept]="extFile"
+                    (change)="handleFileInput($event,i)" #file>
+                    <span for="file">Upload your  Design File</span>
                     <div *ngIf="aFile.controls.file.touched && !aFile.controls.file.valid" class="text-danger">
                       <div *ngIf="aFile.controls.file.errors.required">file is required</div>
                     </div>
                 </div>
                 <div class="form-group col-sm-6 mb-2">
                   <label>Units Used In File </label>
-                  <select class="form-control"  formControlName ="unit" unit>
+                  <select class="form-control"  formControlName ="unit" unit required>
                     <option value="cm">CM</option>
                     <option value="mm">MM</option>
                     <option value="inches">Inches</option>
@@ -79,8 +81,8 @@
               </section>
               <section class="form-row">
                 <div class="form-group col-sm-6 mb-2">
-                  <label>Material</label>
-                  <select class="form-control" formControlName ="material"  #materialCont>
+                  <label>Material</label> 
+                  <select class="form-control" formControlName ="material" #materialCont >
                     <option *ngFor="let material of service.materials">{{material.name}}</option>
                   </select>
                   <!-- <div *ngIf="aFile.controls.material.touched && !aFile.controls.material.valid"class="text-danger">
@@ -124,14 +126,13 @@
                   </div> -->
                 </div>
               </section>
+                </div>
               </div>
+              
+            <div class="my-border-left ">
+              <input type="submit" [disabled]="loading"data-toggle="tooltip" title="Add to Manufacturing Request" data-placement="top" class="btn btn-primary btn-block" value="{{'Add to Manufacturing Request'| translate}}">
             </div>
-            <hr>
-
-            <div class="col-md-3 my-border-left ">
-              <input type="submit" [disabled]="loading"data-toggle="tooltip" title="Add to Manufacturing Request" data-placement="top" class="btn btn-primary btn-block" value="{{'Add'| translate}}">
-            </div>
-          </article>
+   
         </form>
       </section>
     </div>
