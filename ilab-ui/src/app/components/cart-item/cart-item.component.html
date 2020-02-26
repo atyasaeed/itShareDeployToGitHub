@@ -63,7 +63,7 @@
             <div class="form-body">
               <section class="form-row">
                 <div class="form-group col-sm-6 mb-2 file">
-                  <!-- <label>Upload Your Design File</label> -->
+                  <label>Upload Your Design File</label>
                   <input type="file" class="form-control" formControlName="file" [accept]="extFile"
                     (change)="handleFileInput($event,i)" #file>
                   <span for="file">Upload your Design File</span>
@@ -72,9 +72,9 @@
                   </div>
                 </div>
                 <div class="form-group col-sm-6 mb-2">
-                  <!-- <label>Units Used In File </label> -->
+                  <label>Units Used In File </label>
                   <select class="form-control" formControlName="unit" unit required>
-                    <option value="" disabled selected hidden>Choose Unit</option>
+                    <!-- <option value="" disabled selected hidden>Choose Unit</option> -->
                     <option value="cm">CM</option>
                     <option value="mm">MM</option>
                     <option value="inches">Inches</option>
@@ -92,8 +92,9 @@
                   <select class="form-control" formControlName="material" #materialCont>
                     <!-- <option value="" disabled selected hidden>Choose Material</option> -->
                     <option *ngFor="let material of service.materials">{{material.name}}</option>
+                   
                   </select>
-                  <div *ngIf="aFile.controls.material.touched && !aFile.controls.material.valid || !aFile.controls.material.valid && submitted" class="text-danger">
+                  <div *ngIf="aFile.controls.material.touched && !aFile.controls.material.valid " class="text-danger">
                     <div *ngIf="aFile.controls.material.errors.required">material is required</div>
                   </div>
                 </div>
@@ -104,7 +105,7 @@
                     <option *ngFor="let type of service.materials[materialCont.selectedIndex].types">{{type.name}}
                     </option>
                   </select>
-                  <div *ngIf="aFile.controls.type.touched && !aFile.controls.type.valid ||!aFile.controls.type.valid && submitted"class="text-danger">
+                  <div *ngIf="aFile.controls.type.touched && !aFile.controls.type.valid"class="text-danger">
                     <div *ngIf="aFile.controls.type.errors.required">Type is required</div>
                   </div>
                 </div>
@@ -118,26 +119,26 @@
               <section class="form-row">
 
                 <div class="form-group col-sm-6 mb-2">
-                  <!-- <label>Color</label> -->
+                  <label>Color</label>
                   <select class="form-control" class="form-control" formControlName="color">
-                    <option value="" disabled selected hidden>Choose Color</option>
+                    <!-- <option value="" disabled selected hidden>Choose Color</option> -->
                     <option
                       *ngFor="let color of service.materials[materialCont.selectedIndex].types[typeCont.selectedIndex].colors">
                       {{color}}</option>
                   </select>
-                  <div *ngIf="aFile.controls.color.touched && !aFile.controls.color.valid ||!aFile.controls.color.valid && submitted "class="text-danger">
+                  <div *ngIf="aFile.controls.color.touched && !aFile.controls.color.valid"class="text-danger">
                     <div *ngIf="aFile.controls.color.errors.required || aFile.controls.submit">color is required</div>
                   </div>
                 </div>
                 <div class="form-group col-sm-6 mb-2">
-                  <!-- <label>Dimension</label> -->
+                  <label>Dimension</label>
                   <select class="form-control" class="form-control" formControlName="dimension" dimension>
-                    <option value="" disabled selected hidden>Choose Dimension</option>
+                    <!-- <option value="" disabled selected hidden>Choose Dimension</option> -->
                     <option
                       *ngFor="let dimension of service.materials[materialCont.selectedIndex].types[typeCont.selectedIndex].dimensions">
                       {{dimension}}</option>
                   </select>
-                  <div *ngIf="aFile.controls.dimension.touched && !aFile.controls.dimension.valid || !aFile.controls.dimension.valid && submitted"class="text-danger">
+                  <div *ngIf="aFile.controls.dimension.touched && !aFile.controls.dimension.valid "class="text-danger">
                     <div *ngIf="aFile.controls.dimension.errors.required || aFile.controls.submit">dimension is required</div>
                   </div>
                 </div>

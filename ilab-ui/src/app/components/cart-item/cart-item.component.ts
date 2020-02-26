@@ -55,11 +55,11 @@ export class CartItemComponent implements OnInit {
         this.file$.push(
           this.formBuilder.group({
             file: ['', [Validators.required]],
-            material: ['', [Validators.required]],
-            type: ['', [Validators.required]],
-            color: ['', [Validators.required]],
-            dimension: ['', [Validators.required]],
-            unit: ['', [Validators.required]],
+        material: [this.service.materials[0].name, [Validators.required]],
+        type: [this.service.materials[0].types[0].name, [Validators.required]],
+        color: [this.service.materials[0].types[0].colors[0], [Validators.required]],
+        dimension: [this.service.materials[0].types[0].dimensions[0], [Validators.required]],
+        unit: ['cm', [Validators.required]],
             status: ['', [Validators.required]],
           })
         );
@@ -97,6 +97,8 @@ export class CartItemComponent implements OnInit {
       this.validateAllFormFields(this.cartForm);
       this.loading = false;
     }
+
+    
     this.item = Object.assign(this.cartForm.value);
     this.item.service = new Service();
     this.item.service.id = this.service.id;
@@ -112,6 +114,8 @@ export class CartItemComponent implements OnInit {
 
       // formData.append(this.totalFileName[j] + (j + 1), <File>this.totalfiles[j]);
       formData.append('files', this.totalfiles[j] as File);
+
+
     }
     // formData.append('file', this.fileToUpload, this.fileToUpload.name);
     const itemBlob = new Blob([JSON.stringify(this.item)], {
