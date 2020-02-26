@@ -20,7 +20,7 @@ export class CartItemComponent implements OnInit {
   submitted = false;
   ext: string[] = [];
   extFile: string;
-  filename: string;
+  filename:string ;
   item: ShoppingCartItem = new ShoppingCartItem();
   // fileToUpload: File = null;
   public totalfiles: Array<File> = [];
@@ -98,8 +98,6 @@ export class CartItemComponent implements OnInit {
       this.loading = false;
     }
     this.item = Object.assign(this.cartForm.value);
-    // this.item.quantity = 1;
-    // this.item.quantity = 1;
     this.item.service = new Service();
     this.item.service.id = this.service.id;
     for (let index = 0; index < this.file$.length; index++) {
@@ -124,7 +122,7 @@ export class CartItemComponent implements OnInit {
     this.shoppingCartService.addCartItem(formData).subscribe(
       resp => {
         this.router.navigateByUrl('cart'), (this.loading = false);
-      },
+    
       err => (this.loading = false)
     );
   }
@@ -132,12 +130,7 @@ export class CartItemComponent implements OnInit {
   getImageUrl(): string {
     return this.appConfig.ASSETS_URL + this.service.id;
   }
-  // handleFileInput(files: FileList) {
-  //   if (files != null) {
-  //     this.fileToUpload = files.item(0);
-  //   }
 
-  // }
   handleFileInput(fileInput: any, oldIndex) {
     console.log('oldIndex is ', oldIndex);
     //  this.filename= fileInput.target.files[0].name;
@@ -174,4 +167,5 @@ export class CartItemComponent implements OnInit {
       }
     });
   }
+
 }
