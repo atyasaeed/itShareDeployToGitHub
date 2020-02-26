@@ -20,7 +20,7 @@ export class CartItemComponent implements OnInit {
   submitted = false;
   ext: string[] = [];
   extFile: string;
-  filename:string ;
+  filename: string ;
   item: ShoppingCartItem = new ShoppingCartItem();
   // fileToUpload: File = null;
   public totalfiles: Array<File> = [];
@@ -64,7 +64,7 @@ export class CartItemComponent implements OnInit {
           })
         );
       }
-      for (let index = 0; index < this.service.supportedExtensions.length; index++) {
+       for (let index = 0; index < this.service.supportedExtensions.length; index++) {
         this.ext.push(this.service.supportedExtensions[index].substr(1));
       }
       this.extFile = this.ext.toString();
@@ -80,41 +80,27 @@ export class CartItemComponent implements OnInit {
       notes: ['', [Validators.required, Validators.maxLength(250)]],
 
       files: new FormArray([]),
-
-      // file:['', [Validators.required]],
-      // material:['', [Validators.required]],
-      // types:['', [Validators.required]],
-      // color:['', [Validators.required]],
-      // dimensions:['', [Validators.required]],
-      // unit:['', [Validators.required]],
     });
   }
   onSubmit() {
-    console.log(this.cartForm.value);
     this.loading = true;
     this.submitted = true;
     if (this.cartForm.invalid) {
       this.validateAllFormFields(this.cartForm);
       this.loading = false;
     }
-
-    
     this.item = Object.assign(this.cartForm.value);
     this.item.service = new Service();
     this.item.service.id = this.service.id;
     for (let index = 0; index < this.file$.length; index++) {
       this.item.files.push(this.file$[index]);
     }
-    console.log(this.item);
 
     const formData: FormData = new FormData();
     for (let j = 0; j < this.totalfiles.length; j++) {
-      console.log('the values is ', <File>this.totalfiles[j]);
-      console.log('the name is ', this.totalFileName[j]);
 
       // formData.append(this.totalFileName[j] + (j + 1), <File>this.totalfiles[j]);
       formData.append('files', this.totalfiles[j] as File);
-
 
     }
     // formData.append('file', this.fileToUpload, this.fileToUpload.name);
@@ -122,24 +108,22 @@ export class CartItemComponent implements OnInit {
       type: 'application/json',
     });
     formData.append('item', itemBlob);
-
-    this.shoppingCartService.addCartItem(formData).subscribe(
+      this.shoppingCartService.addCartItem(formData).subscribe(
       resp => {
         this.router.navigateByUrl('cart'), (this.loading = false);
-    
+ 
       err => (this.loading = false)
     );
-  }
+}
 
   getImageUrl(): string {
     return this.appConfig.ASSETS_URL + this.service.id;
   }
 
   handleFileInput(fileInput: any, oldIndex) {
-    console.log('oldIndex is ', oldIndex);
     //  this.filename= fileInput.target.files[0].name;
     if (fileInput.target.files && fileInput.target.files[0]) {
-      var reader = new FileReader();
+      let reader = new FileReader();
       reader.onload = (event: any) => {};
       if (oldIndex == 0) {
         this.totalfiles.unshift(fileInput.target.files[0]);
