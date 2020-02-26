@@ -92,7 +92,6 @@ export class ServicesItemService  {
   private _search(): Observable<SearchResult> {
     const { sortColumn, sortDirection, pageSize, page, searchTerm } = this._state;
 
-    // http://localhost:8080/api/users/search?search=username:hasalem%20OR%20email:mosalem@gmail.com
     let url = this.appConfig.API_END_POINT+`api/services/search?size=${pageSize}&page=${page - 1}`;
     if (searchTerm) {
       url += `&search=name:*${searchTerm}* OR description:*${searchTerm}*`;
@@ -103,8 +102,8 @@ export class ServicesItemService  {
       })
     );
 
-
 }
+
 }
 function compare(v1, v2) {
   return v1 < v2 ? -1 : v1 > v2 ? 1 : 0;

@@ -9,8 +9,8 @@ import { ActivatedRoute } from '@angular/router';
 import { LineItem } from '../domain';
 // array in local storage for registered users
 let users = JSON.parse(localStorage.getItem('users')) || [];
-let shoppingCart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
-const orders:any[] = JSON.parse(localStorage.getItem('orders')) || [];
+const shoppingCart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
+const orders: any[] = JSON.parse(localStorage.getItem('orders')) || [];
 
 const lazerDetails = 'Computer-controlled cutting machine used for cutting various hard materials.' +
                      'Performs the tasks of many carpentry shop machines such as the panel saw, the spindle moulder, and the boring machine. ' +
@@ -27,21 +27,54 @@ const scanningDetails = 'Offers an enhanced Handheld HD Scan Mode and enlarged s
                         'Meets demands for wider range of applications' +
                         'Measures the geometry of physical objects by sensing discrete points on the surface of the object with a probe' +
                         'Offers Point-to-point and optional scanning configurations with high resolution scales';
-const services: Service[] = [
-  { id: "1", name: 'Laser Cutting',
-   description: 'Computer-controlled cutting machine used for cutting various hard materials.',
-   },
+// const services: Service[] = [
+//   { id: '1', name: 'Laser Cutting',
+//    description: 'Computer-controlled cutting machine used for cutting various hard materials.',
+//    status: 'available',
+//    workingArea: '',
+//    maxFiles: 2,
+//    extension: ['aaa', 'bb'],
+//    materials: [
+//      {id: '1', name: 'material1', type: {id: 5, name: 'type1', color: ['red', 'green'], dimension: ['2*3', '5*6']}},
+//      {id: '2', name: 'material2', type: {id: 7, name: 'type1', color: ['red', 'green'], dimension: ['2*3', '5*6']}},
+//      {id: '3', name: 'material3', type: {id: 9, name: 'type1', color: ['red', 'green'], dimension: ['2*3', '5*6']}}
+//    ],
+//    },
 
-  { id: "2", name: '3D Printing',
-   description: 'Computer-controlled cutting machine used for cutting various hard materials.',
+//   { id: '2', name: '3D Printing',
+//    description: 'Computer-controlled cutting machine used for cutting various hard materials.',
+//    status: 'available',
+//    workingArea: '',
+//    maxFiles: 2,
+//    extension: ['aaa', 'bb'],
+//    materials: [
+//      tslint:disable-next-line:max-line-length
+//      {id: '1', name: 'material1', type: {id: 5, name: 'type1', color: [{id: 3, name: 'red'}, {id: 5, name: 'green'}], dimension: ['2*3', '5*6']}},
+//      // tslint:disable-next-line:max-line-length
+//      {id: '2', name: 'material2', type: {id: 7, name: 'type1', color: [{id: 3, name: 'blue'}, {id: 5, name: 'black'}], dimension: ['2*3', '5*6']}},
+//      // tslint:disable-next-line:max-line-length
+//      {id: '3', name: 'material3', type: {id: 9, name: 'type1', color: [{id: 3, name: 'yellow'}, {id: 5, name: 'gray'}], dimension: ['2*3', '5*6']}}
+//    ],
 
-   },
+//    },
 
-  { id: "3", name: '3D scanning',
-    description: 'Captures 3D model of medium to large size objects with high efficiency.' ,
+//   { id: '3', name: '3D scanning',
+//     description: 'Captures 3D model of medium to large size objects with high efficiency.' ,
+//     status: 'available',
+//     workingArea: '',
+//     maxFiles: 2,
+//     extension: ['aaa', 'bb'],
+//     materials: [
 
-  }
-];
+//       {id: '1', name: 'material1', type: {id: 5, name: 'type1', color: [{id: 3, name: 'red'}, {id: 5, name: 'green'}], dimension: ['2*3', '5*6']}},
+//       // tslint:disable-next-line:max-line-length
+//       {id: '2', name: 'material2', type: {id: 7, name: 'type1', color:  [{id: 3, name: 'blue'}, {id: 5, name: 'black'}], dimension: ['2*3', '5*6']}},
+//       // tslint:disable-next-line:max-line-length
+//       {id: '3', name: 'material3', type: {id: 9, name: 'type1', color: [{id: 3, name: 'yellow'}, {id: 5, name: 'gray'}], dimension: ['2*3', '5*6']}}
+//     ],
+
+//   }
+// ];
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -67,10 +100,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           return changePassword();
         case url.endsWith('/users/logout') && method === 'POST':
           return logout();
-        case url.endsWith('/services') && method === 'GET':
-          return getServices();
-        case url.match(/\/services\/\d+$/) && method === 'GET':
-          return servicebyid();
+        // case url.endsWith('/services') && method === 'GET':
+        //   return getServices();
+        // case url.match(/\/services\/\d+$/) && method === 'GET':
+        //   return servicebyid();
         case url.endsWith('/cart/items') && method === 'POST':
           return addCartItem();
         case url.endsWith('/cart/items') && method === 'GET':
@@ -99,10 +132,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       // route functions
 
       function authenticate() {
-        let username=body.split("&")[0];
-        let password=body.split("&")[1];
-        username=username.split("=")[1];
-        password=password.split("=")[1]
+        let username = body.split('&')[0];
+        let password = body.split('&')[1];
+        username = username.split('=')[1];
+        password = password.split('=')[1];
 
         // const { username, password } = body;
         const user = users.find(x => x.username === username && x.password === password);
@@ -187,14 +220,14 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
       }
 
-      function getServices() {
-        return ok(services);
-      }
+      // function getServices() {
+      //   return ok(services);
+      // }
 
-      function servicebyid() {
-        const service = services.find(x => x.id === idFromUrl());
-        return ok(service);
-      }
+      // function servicebyid() {
+      //   const service = services.find(x => x.id === idFromUrl());
+      //   return ok(service);
+      // }
 
       function addCartItem() {
         const item = body;
@@ -227,23 +260,23 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       }
 
       function addOrder() {
-        const order:Order=body;
+        const order: Order = body;
 
-        order.id =""+ (orders.length ? Math.max(...orders.map(x => x.id)) + 1 : 1);
+        order.id =''+ (orders.length ? Math.max(...orders.map(x => x.id)) + 1 : 1);
         orders.push(order);
         localStorage.setItem('orders', JSON.stringify(orders));
 
         // return ok(localStorage.getItem('ordersDetalis'));
         const  shoppingCartitem = shoppingCart.find(x => x.id !== idFromUrl());
         shoppingCart.splice(shoppingCartitem);
-        localStorage.removeItem('shoppingCart')
-        //shoppingCart = {};
+        localStorage.removeItem('shoppingCart');
+        // shoppingCart = {};
         return ok();
       }
 
       function updateOrder() {
-        const order:Order=body;
-        const orderitem = orders.find(rr=>rr.id == order.id);
+        const order: Order = body;
+        const orderitem = orders.find(rr => rr.id == order.id);
         orderitem.status = order.status;
         // console.log(order);
         // order.status = 'Canceled';
