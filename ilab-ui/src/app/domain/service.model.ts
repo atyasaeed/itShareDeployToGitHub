@@ -4,10 +4,12 @@ export class Service {
   description: string;
   maxFiles: number;
   workingArea: string;
+  attendance:boolean ;
   status: string;
   extension: string[];
   materials: Material[];
   supportedExtensions: any[];
+  units:any[];
 }
 export class Material {
   index: number;

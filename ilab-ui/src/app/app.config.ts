@@ -1,3 +1,4 @@
+
 import { InjectionToken } from '@angular/core';
 
 export interface IAppConfig {
@@ -54,10 +55,10 @@ class ProdAppConfig extends DefaultAppConfig {
   // public API_END_POINT = '/';
 }
 class DevAppConfig extends DefaultAppConfig {
-  public API_END_POINT = '/test/';
-  public getResourceUrl(resource) {
-    return this.API_END_POINT + resource;
-  }
+  // public API_END_POINT = '/test/';
+  // public getResourceUrl(resource) {
+  //   return this.API_END_POINT + resource;
+  // }
 }
 
 // export const prodConfig:IAppConfig=new DefaultAppConfig();
