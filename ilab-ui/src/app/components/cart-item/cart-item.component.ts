@@ -20,7 +20,7 @@ export class CartItemComponent implements OnInit {
   submitted = false;
   ext: string[] = [];
   extFile: string;
-  filename: string ;
+  filename: string;
   item: ShoppingCartItem = new ShoppingCartItem();
   // fileToUpload: File = null;
   public totalfiles: Array<File> = [];
@@ -55,16 +55,16 @@ export class CartItemComponent implements OnInit {
         this.file$.push(
           this.formBuilder.group({
             file: ['', [Validators.required]],
-        material: [this.service.materials[0].name, [Validators.required]],
-        type: [this.service.materials[0].types[0].name, [Validators.required]],
-        color: [this.service.materials[0].types[0].colors[0], [Validators.required]],
-        dimension: [this.service.materials[0].types[0].dimensions[0], [Validators.required]],
-        unit: ['cm', [Validators.required]],
+            material: [this.service.materials[0].name, [Validators.required]],
+            type: [this.service.materials[0].types[0].name, [Validators.required]],
+            color: [this.service.materials[0].types[0].colors[0], [Validators.required]],
+            dimension: [this.service.materials[0].types[0].dimensions[0], [Validators.required]],
+            unit: ['cm', [Validators.required]],
             status: ['', [Validators.required]],
           })
         );
       }
-       for (let index = 0; index < this.service.supportedExtensions.length; index++) {
+      for (let index = 0; index < this.service.supportedExtensions.length; index++) {
         this.ext.push(this.service.supportedExtensions[index].substr(1));
       }
       this.extFile = this.ext.toString();
@@ -98,23 +98,21 @@ export class CartItemComponent implements OnInit {
 
     const formData: FormData = new FormData();
     for (let j = 0; j < this.totalfiles.length; j++) {
-
       // formData.append(this.totalFileName[j] + (j + 1), <File>this.totalfiles[j]);
       formData.append('files', this.totalfiles[j] as File);
-
     }
     // formData.append('file', this.fileToUpload, this.fileToUpload.name);
     const itemBlob = new Blob([JSON.stringify(this.item)], {
       type: 'application/json',
     });
     formData.append('item', itemBlob);
-      this.shoppingCartService.addCartItem(formData).subscribe(
+    this.shoppingCartService.addCartItem(formData).subscribe(
       resp => {
         this.router.navigateByUrl('cart'), (this.loading = false);
- 
+      },
       err => (this.loading = false)
     );
-}
+  }
 
   getImageUrl(): string {
     return this.appConfig.ASSETS_URL + this.service.id;
@@ -155,5 +153,4 @@ export class CartItemComponent implements OnInit {
       }
     });
   }
-
 }
