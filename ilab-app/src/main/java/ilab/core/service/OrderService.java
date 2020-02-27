@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import ilab.core.domain.FileAsset;
+import ilab.core.domain.HyperFile;
 import ilab.core.domain.LineItem;
 import ilab.core.domain.OrderEntity;
 import ilab.core.domain.OrderStatus;
@@ -107,28 +108,27 @@ public class OrderService
 		
 		item.setOrderEntity(order);
 		order.addLineItem(item);
+		int index=0;
 		for (MultipartFile file : files)
 		{
 			FileAsset digitalAsset=new FileAsset();
 			digitalAsset.setName(file.getOriginalFilename());
 			digitalAsset.setAccount(order.getAccount());
 			digitalAsset=assetsRepo.save(digitalAsset);
-			//TODO: to support multiple files
-			item.setDigtalAssets(digitalAsset);
+			File destPath=new File("D:\\workspaces\\ilab\\resources\\files\\"+order.getAccount().getId()+"\\"+digitalAsset.getId());
+			System.out.println(destPath.getParentFile().getAbsolutePath());
+			if(! destPath.getParentFile().exists())
+				Files.createDirectory(destPath.getParentFile().toPath());
+			file.transferTo(destPath);
+			HyperFile hyperFile=item.getFiles().get(index);
+			hyperFile.setAsset(digitalAsset);
+			index++;
 		}
 		
 		
 
 		item=lineItemRepo.save(item);
 		order=orderRepo.save(order);
-
-		File destPath=new File("D:\\workspaces\\ilab\\resources\\files\\"+order.getAccount().getId()+"\\"+item.getDigtalAssets().getId());
-		System.out.println(destPath.getParentFile().getAbsolutePath());
-		if(! destPath.getParentFile().exists())
-			Files.createDirectory(destPath.getParentFile().toPath());
-		
-		
-		files[0].transferTo(destPath);
 		return item;
 	}
 	public void deleteCartItem(UUID id,Authentication auth)

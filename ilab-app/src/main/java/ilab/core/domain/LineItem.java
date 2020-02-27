@@ -1,9 +1,14 @@
 package ilab.core.domain;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -27,9 +32,7 @@ public class LineItem extends AbstractEntity<LineItem>
 	private OrderEntity orderEntity;
 	@ManyToOne(optional=false)
 	private Service service;
-	@OneToOne(cascade = CascadeType.PERSIST)
-	@JsonUnwrapped(prefix = "asset_")
-	private FileAsset digtalAssets;
+	
 	private long quantity;
 	private BigDecimal unitPrice;
 	@Temporal(TemporalType.DATE)
@@ -40,11 +43,10 @@ public class LineItem extends AbstractEntity<LineItem>
 	private Date estimatedStardDate;
 	@Temporal(TemporalType.DATE)
 	private Date estimatedEndDate;
-	private String color;
-	private String material;
-	private String projectType;
 	private String notes;
-	private String unit;
+	@ElementCollection
+	private List<HyperFile> files=new ArrayList<HyperFile>();
+	
 	public long getQuantity()
 	{
 		return quantity;
@@ -76,14 +78,6 @@ public class LineItem extends AbstractEntity<LineItem>
 	public void setService(Service service)
 	{
 		this.service = service;
-	}
-	public FileAsset getDigtalAssets()
-	{
-		return digtalAssets;
-	}
-	public void setDigtalAssets(FileAsset digtalAssets)
-	{
-		this.digtalAssets = digtalAssets;
 	}
 	public BigDecimal getUnitPrice()
 	{
@@ -118,30 +112,7 @@ public class LineItem extends AbstractEntity<LineItem>
 	{
 		this.estimatedEndDate = estimatedEndDate;
 	}
-	public String getColor()
-	{
-		return color;
-	}
-	public void setColor(String color)
-	{
-		this.color = color;
-	}
-	public String getMaterial()
-	{
-		return material;
-	}
-	public void setMaterial(String material)
-	{
-		this.material = material;
-	}
-	public String getProjectType()
-	{
-		return projectType;
-	}
-	public void setProjectType(String projectType)
-	{
-		this.projectType = projectType;
-	}
+	
 	public String getNotes()
 	{
 		return notes;
@@ -150,14 +121,7 @@ public class LineItem extends AbstractEntity<LineItem>
 	{
 		this.notes = notes;
 	}
-	public String getUnit()
-	{
-		return unit;
-	}
-	public void setUnit(String unit)
-	{
-		this.unit = unit;
-	}
+	
 	public Date getPlannedStartDate()
 	{
 		return plannedStartDate;
@@ -165,5 +129,13 @@ public class LineItem extends AbstractEntity<LineItem>
 	public void setPlannedStartDate(Date plannedStartDate)
 	{
 		this.plannedStartDate = plannedStartDate;
+	}
+	public List<HyperFile> getFiles()
+	{
+		return files;
+	}
+	public void setFiles(List<HyperFile> files)
+	{
+		this.files = files;
 	}
 }
