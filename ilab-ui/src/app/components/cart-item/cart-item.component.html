@@ -14,9 +14,9 @@
 
           <div>
             <section class="form-row">
-              <div class="form-group col-sm-6 mb-2">
-                <label>Quantity </label>
-                <input type="number" formControlName="quantity">
+              <div class="form-group col-md-6 mb-2">
+                <label style="display:block;">Quantity </label>
+                <input type="number" min="1" max="5" class="form-control" formControlName="quantity">
                 <div *ngIf="cartForm.controls.quantity.touched && !cartForm.controls.quantity.valid"
                   class="text-danger">
                   <div *ngIf="cartForm.controls.quantity.errors.required || cartForm.controls.submit">quantity is
@@ -24,9 +24,9 @@
                 </div>
               </div>
               <div class="form-group col-sm-6 mb-2">
-                <label>Attend Manufacturing</label>
+                <label style="display:block;">Attend Manufacturing</label>
                 <label class="switch">
-                  <input type="checkbox" formControlName="attend" attend>
+                  <input type="checkbox"  formControlName="attend" #attend>
                   <span class="slider round"></span>
                 </label>
               </div>
