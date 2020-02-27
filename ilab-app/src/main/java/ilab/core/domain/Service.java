@@ -4,7 +4,6 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Lob;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRawValue;
@@ -19,6 +18,9 @@ public class Service extends AbstractEntity<Service>
 	private String description;
 	private int maxFiles;
 	private String workingArea;
+	private boolean attendance;
+	@JsonRawValue
+	private String units;
 //	@Lob
 	@JsonProperty("materials")
 	@JsonRawValue
@@ -101,6 +103,31 @@ public class Service extends AbstractEntity<Service>
 	public void setExtensions(JsonNode node)
 	{
 		this.extensions=node.toString();
+	}
+
+	public boolean isAttendance()
+	{
+		return attendance;
+	}
+
+	public void setAttendance(boolean attendance)
+	{
+		this.attendance = attendance;
+	}
+
+	public String getUnits()
+	{
+		return units;
+	}
+
+	public void setUnits(String units)
+	{
+		this.units = units;
+	}
+	@JsonSetter("units")
+	public void setUnits(JsonNode node)
+	{
+		this.units=node.toString();
 	}
 	
 }

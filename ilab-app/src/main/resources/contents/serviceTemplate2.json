@@ -1,0 +1,32 @@
+ [
+	{
+		"name": "Material1"
+	},
+	{
+		"name": "Material2",
+		"types": [
+			{
+				"name": "Type3",
+				"colors": [
+					"Black",
+					"Purble"
+				],
+				"dimensions": [
+					"25X5X5",
+					"10X10X10"
+				]
+			},
+			{
+				"name": "Type4",
+				"colors": [
+					"Yellow",
+					"Green"
+				],
+				"dimensions": [
+					"26X5X5",
+					"20X10X10"
+				]
+			}
+		]
+	}
+]

@@ -1,6 +1,7 @@
 package ilab.core.setup;
 
 import java.io.File;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -42,10 +43,14 @@ public class DevelopmentConfig
 					service=serviceRepo.save(createService("3D Printing","3D Printing Description",2,"serviceTemplate.json","serviceFileExtensions.json","Working Area 1"));
 					service=serviceRepo.save(service);
 					Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));
-					service=serviceRepo.save(createService("Laser Scanning","Laser Cutting Description",1,"serviceTemplate.json","serviceFileExtensions.json","Working Area 2"));
+					service=serviceRepo.save(createService("Laser Scanning","Laser Cutting Description",1,"serviceTemplate2.json","serviceFileExtensions.json","Working Area 2"));
 					Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));		
-					service=serviceRepo.save(createService("CNC Routers","CNC Routers Description",3,"serviceTemplate.json","serviceFileExtensions.json","Working Area 3"));
+					service=serviceRepo.save(createService("CNC Routers","CNC Routers Description",3,"serviceTemplate3.json","serviceFileExtensions.json","Working Area 3"));
 					Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));
+					
+					service=serviceRepo.save(createService("Photocopy","ASU, Faculty of Engineering, Notes for the first year",0,"serviceTemplate4.json","serviceFileExtensions.json","Working Area 3"));
+					Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));
+
 //					userRepo.save(createUser( "hasalem", "12345678"));
 //					userRepo.save(createUser("mosalem", "12345678"));
 					userService.register(createUser("hasalem", "New123456","Hatem","hasalem@gmail.com"));
@@ -82,8 +87,9 @@ public class DevelopmentConfig
 		
 		service.setTemplate(getFileContent(templateFile).replaceAll("\\s", ""));
 		service.setExtensions(getFileContent(fileExtensions).replaceAll("\\s", ""));
-		
-		
+		service.setAttendance(new Random().nextInt()%2==0);
+	
+		service.setUnits(getFileContent("serviceFileUnits.json").replaceAll("\\s", ""));
 		return service;
 	}
 	
