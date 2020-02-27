@@ -6,17 +6,15 @@ import { ServicesItemService } from './servicesitem.service';
 @Component({
   selector: 'app-service-item',
   templateUrl: './service-item.component.html',
-  styleUrls: ['./service-item.component.css']
+  styleUrls: ['./service-item.component.css'],
 })
 export class ServiceItemComponent implements OnInit {
+  @Input() service: Service;
 
- @Input() service: Service;
+  constructor(@Inject(APP_CONFIG) private appConfig: IAppConfig, public serviceitem: ServicesItemService) {}
 
- constructor(@Inject(APP_CONFIG) private appConfig:IAppConfig,public serviceitem:ServicesItemService) { }
-
-  ngOnInit() {
-  }
-  getImageUrl():string{
-    return this.appConfig.ASSETS_URL+this.service.id;
+  ngOnInit() {}
+  getImageUrl(): string {
+    return this.appConfig.ASSETS_URL + this.service.id;
   }
 }

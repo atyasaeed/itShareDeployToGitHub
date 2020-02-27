@@ -59,7 +59,7 @@ public class DevelopmentConfig
 					
 					System.out.println("===========DB Initialization Failed=========");
 					System.out.println(e);
-					e.printStackTrace();
+//					e.printStackTrace();
 				}
 				
 			}

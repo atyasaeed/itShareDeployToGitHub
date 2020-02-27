@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, Injectable } from '@angular/core';
-import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -28,8 +28,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgbDropdownModule, NgbAlert, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
-
-
 @Injectable()
 @NgModule({
   declarations: [
@@ -47,7 +45,9 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     AlertComponent,
     ServiceItemComponent,
     OrderCardComponent,
-    LineItemComponent,ConfirmEqualValidatorDirective, ResetPasswordComponent
+    LineItemComponent,
+    ConfirmEqualValidatorDirective,
+    ResetPasswordComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,15 +57,15 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     ReactiveFormsModule,
     LanguageTranslationModule,
     TranslateModule,
-    NgbDropdownModule,NgbModule
+    NgbDropdownModule,
+    NgbModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true, },
-   //  fakeBackendProvider,
-    {provide:APP_CONFIG,useValue:prodConfig}
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    //  fakeBackendProvider,
+    { provide: APP_CONFIG, useValue: prodConfig },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
-
+export class AppModule {}

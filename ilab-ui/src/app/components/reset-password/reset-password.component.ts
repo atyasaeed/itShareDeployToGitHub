@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-reset-password',
   templateUrl: './reset-password.component.html',
-  styleUrls: ['./reset-password.component.css']
+  styleUrls: ['./reset-password.component.css'],
 })
 export class ResetPasswordComponent implements OnInit {
   // restPasswordForm: any;
@@ -16,11 +16,12 @@ export class ResetPasswordComponent implements OnInit {
   //  alertService: any;
   loading = false;
   restPasswordForm: FormGroup;
-  constructor(private userService: UserService,
-              private formBuilder: FormBuilder,
-              private alertService: AlertService,
-              private router: Router
-      ) { }
+  constructor(
+    private userService: UserService,
+    private formBuilder: FormBuilder,
+    private alertService: AlertService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.createForm();
@@ -28,7 +29,7 @@ export class ResetPasswordComponent implements OnInit {
   createForm() {
     this.restPasswordForm = this.formBuilder.group({
       password: ['', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')]],
-      confirmPassword:  ['', [Validators.required]],
+      confirmPassword: ['', [Validators.required]],
     });
   }
   onSubmit() {
@@ -42,22 +43,26 @@ export class ResetPasswordComponent implements OnInit {
           this.router.navigateByUrl('/login');
           this.alertService.success('Your Password is Changed');
         },
-          err => { this.alertService.error('Sorry You Can not Change Password');this.loading = false; }
+        err => {
+          this.alertService.error('Sorry You Can not Change Password');
+          this.loading = false;
+        }
       );
     }
-
   }
 
-
-
-  validateAllFormFields(formGroup: FormGroup) {         // {1}
-  Object.keys(formGroup.controls).forEach(field => {  // {2}
-    const control = formGroup.get(field);             // {3}
-    if (control instanceof FormControl) {             // {4}
-      control.markAsTouched({ onlySelf: true });
-    } else if (control instanceof FormGroup) {        // {5}
-      this.validateAllFormFields(control);            // {6}
-    }
-  });
-}
+  validateAllFormFields(formGroup: FormGroup) {
+    // {1}
+    Object.keys(formGroup.controls).forEach(field => {
+      // {2}
+      const control = formGroup.get(field); // {3}
+      if (control instanceof FormControl) {
+        // {4}
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof FormGroup) {
+        // {5}
+        this.validateAllFormFields(control); // {6}
+      }
+    });
+  }
 }

@@ -1,11 +1,15 @@
 package ilab.core.domain;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Lob;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRawValue;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.databind.JsonNode;
 
 @Entity
 public class Service extends AbstractEntity<Service>
@@ -15,14 +19,18 @@ public class Service extends AbstractEntity<Service>
 	private String description;
 	private int maxFiles;
 	private String workingArea;
-	@Lob
+//	@Lob
 	@JsonProperty("materials")
 	@JsonRawValue
+	@Column(columnDefinition = "TEXT",length = 1024)
+	@Basic(fetch = FetchType.EAGER)
 	private String template;
 	
-	@Lob
+//	@Lob
 	@JsonProperty("supportedExtensions")
 	@JsonRawValue
+	@Column(columnDefinition = "TEXT",length = 1024)
+	@Basic(fetch = FetchType.EAGER)
 	private String extensions;
 	
 	public String getName()
@@ -74,7 +82,11 @@ public class Service extends AbstractEntity<Service>
 	{
 		this.template = template;
 	}
-
+	@JsonSetter("materials")
+	public void setTemplate(JsonNode node)
+	{
+		this.template=node.toString();
+	}
 	public String getExtensions()
 	{
 		return extensions;
@@ -85,5 +97,10 @@ public class Service extends AbstractEntity<Service>
 		this.extensions = extensions;
 	}
 
+	@JsonSetter("supportedExtensions")
+	public void setExtensions(JsonNode node)
+	{
+		this.extensions=node.toString();
+	}
 	
 }

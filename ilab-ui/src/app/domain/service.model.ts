@@ -2,28 +2,26 @@ export class Service {
   id: string;
   name: string;
   description: string;
-  maxFiles:number;
-  workingArea:string;
-  status:string;
-  extension:string[];
-  materials:Material [];
-  supportedExtensions:any [];
+  maxFiles: number;
+  workingArea: string;
+  status: string;
+  extension: string[];
+  materials: Material[];
+  supportedExtensions: any[];
 }
 export class Material {
-  index:number;
-  name:string;
-  types:Type [];
+  index: number;
+  name: string;
+  types: Type[];
 }
 
 export class Type {
-  name:string;
-  colors:any[];
-  dimensions:any [];
+  name: string;
+  colors: any[];
+  dimensions: any[];
 }
 
-export class SupportedExtensions{
-
-}
+export class SupportedExtensions {}
 // export const SERVICES: Service[] = [
 //   { id: '1', name: 'Laser Cutting',
 //    description: 'Computer-controlled cutting machine used for cutting various hard materials.',
@@ -72,6 +70,3 @@ export class SupportedExtensions{
 
 //   }
 // ];
-
-
-

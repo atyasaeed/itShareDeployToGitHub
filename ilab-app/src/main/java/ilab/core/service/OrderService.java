@@ -27,7 +27,7 @@ import ilab.core.repository.OrderRepository;
 import ilab.core.repository.UserRepository;
 
 @Service
-@Transactional(value = TxType.REQUIRED)
+@Transactional
 public class OrderService
 {
 	@Autowired
@@ -101,27 +101,34 @@ public class OrderService
 		}
 		return order;
 	}
-	public LineItem addItemToCart(LineItem item,MultipartFile file,Authentication auth) throws Exception
+	public LineItem addItemToCart(LineItem item,MultipartFile files[],Authentication auth) throws Exception
 	{
 		OrderEntity order=getShoppingCart(auth);
 		
 		item.setOrderEntity(order);
 		order.addLineItem(item);
-		FileAsset digitalAsset=new FileAsset();
-		digitalAsset.setName(file.getOriginalFilename());
-		digitalAsset.setAccount(order.getAccount());
-		digitalAsset=assetsRepo.save(digitalAsset);
-		item.setDigtalAssets(digitalAsset);
+		for (MultipartFile file : files)
+		{
+			FileAsset digitalAsset=new FileAsset();
+			digitalAsset.setName(file.getOriginalFilename());
+			digitalAsset.setAccount(order.getAccount());
+			digitalAsset=assetsRepo.save(digitalAsset);
+			//TODO: to support multiple files
+			item.setDigtalAssets(digitalAsset);
+		}
+		
+		
+
 		item=lineItemRepo.save(item);
 		order=orderRepo.save(order);
 
-		File destPath=new File("D:\\workspaces\\ilab\\resources\\files\\"+order.getAccount().getId()+"\\"+digitalAsset.getId());
+		File destPath=new File("D:\\workspaces\\ilab\\resources\\files\\"+order.getAccount().getId()+"\\"+item.getDigtalAssets().getId());
 		System.out.println(destPath.getParentFile().getAbsolutePath());
 		if(! destPath.getParentFile().exists())
 			Files.createDirectory(destPath.getParentFile().toPath());
 		
 		
-		file.transferTo(destPath);
+		files[0].transferTo(destPath);
 		return item;
 	}
 	public void deleteCartItem(UUID id,Authentication auth)

@@ -1,5 +1,12 @@
 import { Service } from './../domain/service.model';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {
+  HttpInterceptor,
+  HttpRequest,
+  HttpHandler,
+  HttpEvent,
+  HttpResponse,
+  HTTP_INTERCEPTORS,
+} from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { mergeMap, materialize, delay, dematerialize } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
@@ -12,21 +19,24 @@ let users = JSON.parse(localStorage.getItem('users')) || [];
 const shoppingCart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
 const orders: any[] = JSON.parse(localStorage.getItem('orders')) || [];
 
-const lazerDetails = 'Computer-controlled cutting machine used for cutting various hard materials.' +
-                     'Performs the tasks of many carpentry shop machines such as the panel saw, the spindle moulder, and the boring machine. ' +
-                     'CNC equipment that uses laser to engrave and cut metal/non-metal materials.' +
-                     'The machines equipped with high-dynamic step motor and high-accuracy linear guide way,leading to high dynamic response and load capacity. ';
-const PrintingDetails = 'Print with over 15 different print materials or combine two different materials into one single print.' +
-                        'Print anything in 3D with amazing details ' +
-                        'Print quality ranging from 50 micron up to 250 micron.' +
-                        'Provides users with an intuitive, easy-to-use manufacturing tool for every stage of their product development workflow' +
-                        'Print Mechanical parts, Mockups for product design, Robotics parts, and Architecture designs ';
+const lazerDetails =
+  'Computer-controlled cutting machine used for cutting various hard materials.' +
+  'Performs the tasks of many carpentry shop machines such as the panel saw, the spindle moulder, and the boring machine. ' +
+  'CNC equipment that uses laser to engrave and cut metal/non-metal materials.' +
+  'The machines equipped with high-dynamic step motor and high-accuracy linear guide way,leading to high dynamic response and load capacity. ';
+const PrintingDetails =
+  'Print with over 15 different print materials or combine two different materials into one single print.' +
+  'Print anything in 3D with amazing details ' +
+  'Print quality ranging from 50 micron up to 250 micron.' +
+  'Provides users with an intuitive, easy-to-use manufacturing tool for every stage of their product development workflow' +
+  'Print Mechanical parts, Mockups for product design, Robotics parts, and Architecture designs ';
 
-const scanningDetails = 'Offers an enhanced Handheld HD Scan Mode and enlarged scan range.' +
-                        'Captures 3D model of medium to large size objects with high efficiency. ' +
-                        'Meets demands for wider range of applications' +
-                        'Measures the geometry of physical objects by sensing discrete points on the surface of the object with a probe' +
-                        'Offers Point-to-point and optional scanning configurations with high resolution scales';
+const scanningDetails =
+  'Offers an enhanced Handheld HD Scan Mode and enlarged scan range.' +
+  'Captures 3D model of medium to large size objects with high efficiency. ' +
+  'Meets demands for wider range of applications' +
+  'Measures the geometry of physical objects by sensing discrete points on the surface of the object with a probe' +
+  'Offers Point-to-point and optional scanning configurations with high resolution scales';
 // const services: Service[] = [
 //   { id: '1', name: 'Laser Cutting',
 //    description: 'Computer-controlled cutting machine used for cutting various hard materials.',
@@ -78,11 +88,14 @@ const scanningDetails = 'Offers an enhanced Handheld HD Scan Mode and enlarged s
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute) {}
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const { url, method, headers, body, } = request;
-    return of(null).pipe(mergeMap(handleRoute))
-      .pipe(materialize()).pipe(delay(500)).pipe(dematerialize());
+    const { url, method, headers, body } = request;
+    return of(null)
+      .pipe(mergeMap(handleRoute))
+      .pipe(materialize())
+      .pipe(delay(500))
+      .pipe(dematerialize());
 
     function handleRoute() {
       switch (true) {
@@ -108,7 +121,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           return addCartItem();
         case url.endsWith('/cart/items') && method === 'GET':
           return getShoppingCartItems();
-          case url.endsWith('/cart/items/') && method === 'PUT':
+        case url.endsWith('/cart/items/') && method === 'PUT':
           return updateCartItems();
         case url.match(/\/cart\/items\/\d+$/) && method === 'DELETE':
           return deletCartItem();
@@ -119,7 +132,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         case url.match(/\/orders\/\d+$/) && method === 'PUT':
           return updateOrder();
 
-          // retrieve all orders
+        // retrieve all orders
         // case url.match(/\/getServiceDetailsById\/\d+$/) && method === 'GET':
         //   return getServiceDetailsById();
         // case url.endsWith('/editService') && method === 'POST':
@@ -139,13 +152,15 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         // const { username, password } = body;
         const user = users.find(x => x.username === username && x.password === password);
-        if (!user) { return error('Username or password is incorrect'); }
+        if (!user) {
+          return error('Username or password is incorrect');
+        }
         return ok({
           id: user.id,
           username: user.username,
           firstName: user.firstName,
           lastName: user.lastName,
-          token: 'fake-jwt-token'
+          token: 'fake-jwt-token',
         });
       }
       function register() {
@@ -162,11 +177,15 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         return ok();
       }
       function getUsers() {
-        if (!isLoggedIn()) { return unauthorized(); }
+        if (!isLoggedIn()) {
+          return unauthorized();
+        }
         return ok(users);
       }
       function deleteUser() {
-        if (!isLoggedIn()) { return unauthorized(); }
+        if (!isLoggedIn()) {
+          return unauthorized();
+        }
 
         users = users.filter(x => x.id !== idFromUrl());
         localStorage.setItem('users', JSON.stringify(users));
@@ -202,13 +221,11 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         if (user) {
           return ok(user);
         }
-
       }
       function logout() {
         return ok();
       }
       function changePassword() {
-
         const model = body;
         const user = users.find(r => r.username === model.username);
         if (isLoggedIn() && user.password === model.model.oldpassword) {
@@ -216,8 +233,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           localStorage.setItem('users', JSON.stringify(users));
           return ok(user);
         }
-
-
       }
 
       // function getServices() {
@@ -243,7 +258,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       }
 
       function deletCartItem() {
-        const  shoppingCartitem = shoppingCart.find(x => x.id !== idFromUrl());
+        const shoppingCartitem = shoppingCart.find(x => x.id !== idFromUrl());
         shoppingCart.splice(shoppingCartitem, 1);
         localStorage.setItem('shoppingCart', JSON.stringify(shoppingCart));
         return ok();
@@ -252,22 +267,22 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         return ok(orders);
       }
       function updateCartItems() {
-       const item = body;
-       const cartitem = shoppingCart.find(x => x.id === item.id);
-       cartitem.quantity = item.quantity;
-       localStorage.setItem('shoppingCart', JSON.stringify(shoppingCart));
-       return ok(cartitem);
+        const item = body;
+        const cartitem = shoppingCart.find(x => x.id === item.id);
+        cartitem.quantity = item.quantity;
+        localStorage.setItem('shoppingCart', JSON.stringify(shoppingCart));
+        return ok(cartitem);
       }
 
       function addOrder() {
         const order: Order = body;
 
-        order.id =''+ (orders.length ? Math.max(...orders.map(x => x.id)) + 1 : 1);
+        order.id = '' + (orders.length ? Math.max(...orders.map(x => x.id)) + 1 : 1);
         orders.push(order);
         localStorage.setItem('orders', JSON.stringify(orders));
 
         // return ok(localStorage.getItem('ordersDetalis'));
-        const  shoppingCartitem = shoppingCart.find(x => x.id !== idFromUrl());
+        const shoppingCartitem = shoppingCart.find(x => x.id !== idFromUrl());
         shoppingCart.splice(shoppingCartitem);
         localStorage.removeItem('shoppingCart');
         // shoppingCart = {};
@@ -295,18 +310,13 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       //   localStorage.setItem('cartDetails', JSON.stringify(cartDetails));
       //   return ok(serviceDetails);
 
-
       // }
     }
   }
-
-
-
-
 }
 export const fakeBackendProvider = {
   // use fake backend in place of Http service for backend-less development
   provide: HTTP_INTERCEPTORS,
   useClass: FakeBackendInterceptor,
-  multi: true
+  multi: true,
 };

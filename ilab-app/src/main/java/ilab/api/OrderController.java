@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,9 +61,9 @@ public class OrderController
 //	}
 	@PostMapping(path = "cart")
 	@ResponseStatus(HttpStatus.CREATED)
-	public LineItem postCartItem(@RequestPart("item") LineItem item,@RequestPart("file") MultipartFile file,Authentication authentication) throws Exception
+	public LineItem postCartItem(@RequestPart("item") LineItem item,@RequestParam MultipartFile files[],Authentication authentication) throws Exception
 	{
-		LineItem lineItem= orderService.addItemToCart(item,file,authentication);
+		LineItem lineItem= orderService.addItemToCart(item,files,authentication);
 		return lineItem;
 	}
 	@DeleteMapping(path = "cart/{id}")

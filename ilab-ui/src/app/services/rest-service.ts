@@ -14,15 +14,15 @@ export class RestService {
   resource: string = '/';
   type: any;
 
-  constructor(@Inject(HttpClient) private _http: HttpClient,@Inject(APP_CONFIG) private _appConfig:IAppConfig) { }
-  get http(){
+  constructor(@Inject(HttpClient) private _http: HttpClient, @Inject(APP_CONFIG) private _appConfig: IAppConfig) {}
+  get http() {
     return this._http;
   }
-  get appConfig(){
+  get appConfig() {
     return this._appConfig;
   }
   get url() {
-    return this.appConfig.getResourceUrl( this.resource);
+    return this.appConfig.getResourceUrl(this.resource);
   }
 
   query<T>(query?: Query) {
@@ -43,7 +43,7 @@ export class RestService {
   }
 
   update<T>(id: string, body: any) {
-    return this.http.put<T>(this.url + '/' + id , body);
+    return this.http.put<T>(this.url + '/' + id, body);
   }
 
   delete<T>(id: number) {
@@ -51,8 +51,7 @@ export class RestService {
   }
 
   private toQueryString(paramsObject) {
-    return Object
-      .keys(paramsObject)
+    return Object.keys(paramsObject)
       .map(key => `_${encodeURIComponent(key)}=${encodeURIComponent(paramsObject[key])}`)
       .join('&');
   }

@@ -1,4 +1,3 @@
-
 import { Injectable, Inject } from '@angular/core';
 import { BehaviorSubject, Subject, Observable, observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -6,7 +5,6 @@ import { tap, debounceTime, switchMap, delay, map } from 'rxjs/operators';
 import { Service, User } from 'src/app/domain';
 import { SortDirection } from 'src/app/helpers/sortable.directive';
 import { APP_CONFIG, IAppConfig } from 'src/app/app.config';
-
 
 interface SearchResult {
   services: Service[];
@@ -20,9 +18,9 @@ interface State {
   sortDirection: SortDirection;
 }
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class ServicesItemService  {
+export class ServicesItemService {
   private _loading$ = new BehaviorSubject<boolean>(true);
   private _search$ = new Subject<void>();
   private _service$ = new BehaviorSubject<Service[]>([]);
@@ -92,7 +90,7 @@ export class ServicesItemService  {
   private _search(): Observable<SearchResult> {
     const { sortColumn, sortDirection, pageSize, page, searchTerm } = this._state;
 
-    let url = this.appConfig.API_END_POINT+`api/services/search?size=${pageSize}&page=${page - 1}`;
+    let url = this.appConfig.API_END_POINT + `api/services/search?size=${pageSize}&page=${page - 1}`;
     if (searchTerm) {
       url += `&search=name:*${searchTerm}* OR description:*${searchTerm}*`;
     }
@@ -101,9 +99,7 @@ export class ServicesItemService  {
         return { services: result.content, total: result.totalElements };
       })
     );
-
-}
-
+  }
 }
 function compare(v1, v2) {
   return v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
@@ -126,6 +122,4 @@ function matches(user: User, term: string) {
     user.firstName.toLowerCase().includes(term) ||
     user.lastName.toLowerCase().includes(term)
   );
-
 }
-

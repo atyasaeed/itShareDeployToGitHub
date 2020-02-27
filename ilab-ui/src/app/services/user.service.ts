@@ -4,14 +4,11 @@ import { User } from '../domain';
 import { AuthenticationService } from './authentication.service';
 import { APP_CONFIG, IAppConfig } from '../app.config';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-
-  constructor(private http: HttpClient ,
-              @Inject(APP_CONFIG) private appConfig: IAppConfig) { }
+  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: IAppConfig) {}
 
   register(user: User) {
     return this.http.post(this.appConfig.REGISTER_URL, user);
@@ -25,7 +22,6 @@ export class UserService {
 
   forgetPassword(email: any) {
     return this.http.post<any>(this.appConfig.RESET_PASSWORD_URL, email);
-
   }
   changePassword(model: any) {
     return this.http.post<any>(this.appConfig.CHANGE_PASSWORD_URL, model);

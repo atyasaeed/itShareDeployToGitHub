@@ -11,26 +11,33 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.css']
+  styleUrls: ['./cart.component.css'],
 })
 export class CartComponent implements OnInit {
   loading = false;
   items: Array<ShoppingCartItem>;
-  constructor(private shoppingCartService: ShoppingCartService,
-              private ordersService: OrdersService,
-              private router: Router,
-              @Inject(APP_CONFIG) private appConfig: IAppConfig) { }
+  constructor(
+    private shoppingCartService: ShoppingCartService,
+    private ordersService: OrdersService,
+    private router: Router,
+    @Inject(APP_CONFIG) private appConfig: IAppConfig
+  ) {}
 
   ngOnInit() {
-   // this.shoppingCartService.refresh().subscribe(items=>this.items =items);
+    // this.shoppingCartService.refresh().subscribe(items=>this.items =items);
     this.refresh();
   }
   deletItem(id) {
     this.loading = true;
-    this.shoppingCartService.delete<ShoppingCartItem>(id).subscribe(resp => {
-      this.refresh();
-      this.loading = false;
-    }, err => {this.loading = false; });
+    this.shoppingCartService.delete<ShoppingCartItem>(id).subscribe(
+      resp => {
+        this.refresh();
+        this.loading = false;
+      },
+      err => {
+        this.loading = false;
+      }
+    );
   }
 
   checkout() {
@@ -61,7 +68,6 @@ export class CartComponent implements OnInit {
       this.refresh();
     });
 
-
     // this.CartService.addOrder(this.item).subscribe(
     //   res => {
     //     console.log(res);
@@ -72,21 +78,24 @@ export class CartComponent implements OnInit {
     // this.shoppingCartService.query<ShoppingCartItem[]>().subscribe(items => this.items = items.sort((obj1, obj2) => {
     //   if (obj1.rank > obj2.rank) { return 1; } else { return -1; }
     // }));
-    this.shoppingCartService.refresh().subscribe(items => this.items = items);
+    this.shoppingCartService.refresh().subscribe(items => (this.items = items));
   }
   updateItem(item: ShoppingCartItem) {
     this.loading = true;
     this.shoppingCartService.update<ShoppingCartItem>(item.id, item).subscribe(
-  res => {
-    // this.refresh();
-     this.loading = false;
-    }, err => {this.loading = false; });
-
+      res => {
+        // this.refresh();
+        this.loading = false;
+      },
+      err => {
+        this.loading = false;
+      }
+    );
   }
-  removeCart(){
-    this.shoppingCartService.removeCart().subscribe()
+  removeCart() {
+    this.shoppingCartService.removeCart().subscribe();
   }
-    getImageUrl(index: number): string {
+  getImageUrl(index: number): string {
     return this.appConfig.ASSETS_URL + this.items[index].service.id;
   }
 
@@ -98,8 +107,7 @@ export class CartComponent implements OnInit {
     }
   }
 
-
-  getFileUrl(index):string{
-    return this.appConfig.FILE_URL+this.items[index].asset_id;
+  getFileUrl(index): string {
+    return this.appConfig.FILE_URL + this.items[index].asset_id;
   }
 }

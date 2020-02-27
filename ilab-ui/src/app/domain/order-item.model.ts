@@ -1,6 +1,6 @@
 import { LineItem } from './line-item.model';
 
-export class OrderItem extends LineItem{
+export class OrderItem extends LineItem {
   status: string;
 }
 

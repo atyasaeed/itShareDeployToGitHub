@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, IAppConfig } from '../app.config';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ShoppingCartService extends RestService {
   resource = 'orders/cart';
@@ -15,14 +15,13 @@ export class ShoppingCartService extends RestService {
   public ShoppingCart: Observable<ShoppingCartItem[]> = this.ShoppingCartSubject.asObservable();
 
   refresh() {
-  this.query<ShoppingCartItem[]>().subscribe(data => this.ShoppingCartSubject.next(data));
-  return this.ShoppingCart;
-}
-removeCart() {
-  this.ShoppingCartSubject.next(null);
-  return this.ShoppingCart ;
-}
-
+    this.query<ShoppingCartItem[]>().subscribe(data => this.ShoppingCartSubject.next(data));
+    return this.ShoppingCart;
+  }
+  removeCart() {
+    this.ShoppingCartSubject.next(null);
+    return this.ShoppingCart;
+  }
 
   checkout() {
     return this.http.put<Order>(this.appConfig.CHECKOUT_URL, null);

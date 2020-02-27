@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
   public pushRightClass: string;
@@ -16,7 +16,8 @@ export class NavbarComponent implements OnInit {
   items: Array<ShoppingCartItem>;
   loading = false;
   // tslint:disable-next-line: max-line-length
-  constructor(private authenticationService: AuthenticationService,
+  constructor(
+    private authenticationService: AuthenticationService,
     private router: Router,
     private shoppingCartService: ShoppingCartService,
     @Inject(APP_CONFIG) private appConfig: IAppConfig,
@@ -29,20 +30,13 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-
-
   ngOnInit() {
     this.authenticationService.currentUser.subscribe(user => {
       this.loggedIn = user ? true : false;
     });
     //this.shoppingCartService.refresh().subscribe(items => this.items = items);
     this.refresh();
-
-
-
   }
-
-
 
   // islogin() {
   //   return this.authenticationService.currentUserValue != null;
@@ -50,26 +44,31 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this.shoppingCartService.removeCart().subscribe();
-    return this.authenticationService.logout().subscribe(res => { this.router.navigateByUrl('/login'); });
+    return this.authenticationService.logout().subscribe(res => {
+      this.router.navigateByUrl('/login');
+    });
   }
-
 
   private refresh() {
     // this.shoppingCartService.query<ShoppingCartItem[]>().subscribe(items => this.items = items);
-    this.shoppingCartService.refresh().subscribe(items => this.items = items);
+    this.shoppingCartService.refresh().subscribe(items => (this.items = items));
   }
 
   deletItem(id) {
     this.loading = true;
-    this.shoppingCartService.delete(id).subscribe(resp => {
-      this.refresh();
-      this.loading = false;
-    }, err => { this.loading = false; });
+    this.shoppingCartService.delete(id).subscribe(
+      resp => {
+        this.refresh();
+        this.loading = false;
+      },
+      err => {
+        this.loading = false;
+      }
+    );
   }
 
   getImageUrl(index: number): string {
     return this.appConfig.ASSETS_URL + this.items[index].service.id;
-
   }
 
   // language
@@ -79,12 +78,12 @@ export class NavbarComponent implements OnInit {
   ltr() {
     const dom: any = document.querySelector('body');
     dom.classList.add('rtl');
-}
-rtl(){
-  const dom: any = document.querySelector('body');
+  }
+  rtl() {
+    const dom: any = document.querySelector('body');
 
-  dom.classList.remove('rtl');
-}
+    dom.classList.remove('rtl');
+  }
 
   toggleSidebar() {
     const dom: any = document.querySelector('body');
@@ -94,6 +93,4 @@ rtl(){
     const dom: Element = document.querySelector('body');
     return dom.classList.contains(this.pushRightClass);
   }
-
-
 }
