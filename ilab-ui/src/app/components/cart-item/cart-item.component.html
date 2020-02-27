@@ -14,19 +14,20 @@
 
                     <div>
                         <section class="form-row">
-                            <div class="form-group col-sm-6 mb-2">
-                                <label>Quantity </label>
-                                <input type="number" formControlName="quantity">
+                            <div class="form-group col-md-6 mb-2">
+                                <label style="display:block;">Quantity </label>
+                                <input type="number" min="1" max="5" class="form-control" formControlName="quantity">
                                 <div *ngIf="cartForm.controls.quantity.touched && !cartForm.controls.quantity.valid" class="text-danger">
-                                    <div *ngIf="cartForm.controls.quantity.errors.required || cartForm.controls.submit">quantity is required</div>
+                                    <div *ngIf="cartForm.controls.quantity.errors.required || cartForm.controls.submit">quantity is required
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group col-sm-6 mb-2">
-                                <label>Attend Manufacturing</label>
+                                <label style="display:block;">Attend Manufacturing</label>
                                 <label class="switch">
-                      <input type="checkbox"formControlName="attend" attend>
-                      <span class="slider round"></span>
-                    </label>
+                  <input type="checkbox"  formControlName="attend" #attend>
+                  <span class="slider round"></span>
+                </label>
                             </div>
                         </section>
                         <section class="form-row">
@@ -38,7 +39,7 @@
                                 </div>
                             </div>
                             <div class="form-group col-sm-6 mb-2">
-                                <label>Delivery Date  </label>
+                                <label>Delivery Date </label>
                                 <input type="date" class="form-control" formControlName="deliveryDate" deliveryDate>
                                 <div *ngIf="cartForm.controls.deliveryDate.touched && !cartForm.controls.deliveryDate.valid" class="text-danger">
                                     <div *ngIf="cartForm.controls.deliveryDate.errors.required">DeliveryDate is required</div>
@@ -55,25 +56,26 @@
                         </section>
                     </div>
                     <div *ngFor="let aFile of file$.controls;let i = index" [formGroup]="aFile" class="card-form">
-                        <div class="form-title">{{totalFileName[i]}}</div>
+                        <div class="form-title">{{totalFileName[i]||"File "+(i+1)}}</div>
                         <div class="form-body">
                             <section class="form-row">
                                 <div class="form-group col-sm-6 mb-2 file">
                                     <label>Upload Your Design File</label>
                                     <input type="file" class="form-control" formControlName="file" [accept]="extFile" (change)="handleFileInput($event,i)" #file>
-                                    <span for="file">Upload your  Design File</span>
-                                    <div *ngIf="aFile.controls.file.touched && !aFile.controls.file.valid" class="text-danger">
+                                    <span for="file">Upload your Design File</span>
+                                    <div *ngIf="!aFile.controls.file.valid && submitted" class="text-danger">
                                         <div *ngIf="aFile.controls.file.errors.required">file is required</div>
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-6 mb-2">
                                     <label>Units Used In File </label>
                                     <select class="form-control" formControlName="unit" unit required>
+                    <!-- <option value="" disabled selected hidden>Choose Unit</option> -->
                     <option value="cm">CM</option>
                     <option value="mm">MM</option>
                     <option value="inches">Inches</option>
                   </select>
-                                    <div *ngIf="aFile.controls.unit.touched && !aFile.controls.unit.valid" class="text-danger">
+                                    <div *ngIf="aFile.controls.unit.touched && !aFile.controls.unit.valid ||!aFile.controls.unit.valid && submitted" class="text-danger">
                                         <div *ngIf="aFile.controls.unit.errors.required">Unit is required</div>
                                     </div>
                                 </div>
@@ -84,20 +86,24 @@
                                 <div class="form-group col-sm-6 mb-2">
                                     <label>Material</label>
                                     <select class="form-control" formControlName="material" #materialCont>
+                    <!-- <option value="" disabled selected hidden>Choose Material</option> -->
                     <option *ngFor="let material of service.materials">{{material.name}}</option>
+
                   </select>
-                                    <!-- <div *ngIf="aFile.controls.material.touched && !aFile.controls.material.valid"class="text-danger">
-                    <div *ngIf="aFile.controls.material.errors.required">material is required</div>
-                  </div> -->
+                                    <div *ngIf="aFile.controls.material.touched && !aFile.controls.material.valid " class="text-danger">
+                                        <div *ngIf="aFile.controls.material.errors.required">material is required</div>
+                                    </div>
                                 </div>
                                 <div class="form-group col-sm-6 mb-2">
                                     <label>Type </label>
                                     <select class="form-control" formControlName="type" #typeCont>
-                    <option *ngFor="let type of service.materials[materialCont.selectedIndex].types">{{type.name}}</option>
+                    <!-- <option value="" disabled selected>Choose Type</option> -->
+                    <option *ngFor="let type of service.materials[materialCont.selectedIndex].types">{{type.name}}
+                    </option>
                   </select>
-                                    <!-- <div *ngIf="aFile.controls.type.touched && !aFile.controls.type.valid"class="text-danger">
-                    <div *ngIf="aFile.controls.type.errors.required">Type is required</div>
-                  </div> -->
+                                    <div *ngIf="aFile.controls.type.touched && !aFile.controls.type.valid" class="text-danger">
+                                        <div *ngIf="aFile.controls.type.errors.required">Type is required</div>
+                                    </div>
                                 </div>
                             </section>
                             <section class="form-row">
@@ -111,20 +117,26 @@
                                 <div class="form-group col-sm-6 mb-2">
                                     <label>Color</label>
                                     <select class="form-control" class="form-control" formControlName="color">
-                    <option *ngFor="let color of service.materials[materialCont.selectedIndex].types[typeCont.selectedIndex].colors">{{color}}</option>
+                    <!-- <option value="" disabled selected hidden>Choose Color</option> -->
+                    <option
+                      *ngFor="let color of service.materials[materialCont.selectedIndex].types[typeCont.selectedIndex].colors">
+                      {{color}}</option>
                   </select>
-                                    <!-- <div *ngIf="aFile.controls.color.touched && !aFile.controls.color.valid"class="text-danger">
-                    <div *ngIf="aFile.controls.color.errors.required || aFile.controls.submit">color is required</div>
-                  </div> -->
+                                    <div *ngIf="aFile.controls.color.touched && !aFile.controls.color.valid" class="text-danger">
+                                        <div *ngIf="aFile.controls.color.errors.required || aFile.controls.submit">color is required</div>
+                                    </div>
                                 </div>
                                 <div class="form-group col-sm-6 mb-2">
                                     <label>Dimension</label>
                                     <select class="form-control" class="form-control" formControlName="dimension" dimension>
-                    <option *ngFor="let dimension of service.materials[materialCont.selectedIndex].types[typeCont.selectedIndex].dimensions">{{dimension}}</option>
+                    <!-- <option value="" disabled selected hidden>Choose Dimension</option> -->
+                    <option
+                      *ngFor="let dimension of service.materials[materialCont.selectedIndex].types[typeCont.selectedIndex].dimensions">
+                      {{dimension}}</option>
                   </select>
-                                    <!-- <div *ngIf="aFile.controls.dimension.touched && !aFile.controls.dimension.valid"class="text-danger">
-                    <div *ngIf="aFile.controls.dimension.errors.required || aFile.controls.submit">dimension is required</div>
-                  </div> -->
+                                    <div *ngIf="aFile.controls.dimension.touched && !aFile.controls.dimension.valid " class="text-danger">
+                                        <div *ngIf="aFile.controls.dimension.errors.required || aFile.controls.submit">dimension is required</div>
+                                    </div>
                                 </div>
                             </section>
                         </div>

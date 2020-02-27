@@ -55,11 +55,11 @@ export class CartItemComponent implements OnInit {
         this.file$.push(
           this.formBuilder.group({
             file: ['', [Validators.required]],
-            material: ['', [Validators.required]],
-            type: ['', [Validators.required]],
-            color: ['', [Validators.required]],
-            dimension: ['', [Validators.required]],
-            unit: ['', [Validators.required]],
+            material: [this.service.materials[0].name, [Validators.required]],
+            type: [this.service.materials[0].types[0].name, [Validators.required]],
+            color: [this.service.materials[0].types[0].colors[0], [Validators.required]],
+            dimension: [this.service.materials[0].types[0].dimensions[0], [Validators.required]],
+            unit: ['cm', [Validators.required]],
             status: ['', [Validators.required]],
           })
         );
@@ -73,24 +73,16 @@ export class CartItemComponent implements OnInit {
 
   createForm() {
     this.cartForm = this.formBuilder.group({
-      quantity: ['', [Validators.required]],
+      quantity: ['1', [Validators.required]],
       attend: ['', [Validators.required]],
       startingDate: ['', [Validators.required]],
       deliveryDate: ['', [Validators.required]],
       notes: ['', [Validators.required, Validators.maxLength(250)]],
 
       files: new FormArray([]),
-
-      // file:['', [Validators.required]],
-      // material:['', [Validators.required]],
-      // types:['', [Validators.required]],
-      // color:['', [Validators.required]],
-      // dimensions:['', [Validators.required]],
-      // unit:['', [Validators.required]],
     });
   }
   onSubmit() {
-    console.log(this.cartForm.value);
     this.loading = true;
     this.submitted = true;
     if (this.cartForm.invalid) {
@@ -98,20 +90,14 @@ export class CartItemComponent implements OnInit {
       this.loading = false;
     }
     this.item = Object.assign(this.cartForm.value);
-    // this.item.quantity = 1;
-    // this.item.quantity = 1;
     this.item.service = new Service();
     this.item.service.id = this.service.id;
     for (let index = 0; index < this.file$.length; index++) {
       this.item.files.push(this.file$[index]);
     }
-    console.log(this.item);
 
     const formData: FormData = new FormData();
     for (let j = 0; j < this.totalfiles.length; j++) {
-      console.log('the values is ', <File>this.totalfiles[j]);
-      console.log('the name is ', this.totalFileName[j]);
-
       // formData.append(this.totalFileName[j] + (j + 1), <File>this.totalfiles[j]);
       formData.append('files', this.totalfiles[j] as File);
     }
@@ -120,7 +106,6 @@ export class CartItemComponent implements OnInit {
       type: 'application/json',
     });
     formData.append('item', itemBlob);
-
     this.shoppingCartService.addCartItem(formData).subscribe(
       resp => {
         this.router.navigateByUrl('cart'), (this.loading = false);
@@ -132,17 +117,11 @@ export class CartItemComponent implements OnInit {
   getImageUrl(): string {
     return this.appConfig.ASSETS_URL + this.service.id;
   }
-  // handleFileInput(files: FileList) {
-  //   if (files != null) {
-  //     this.fileToUpload = files.item(0);
-  //   }
 
-  // }
   handleFileInput(fileInput: any, oldIndex) {
-    console.log('oldIndex is ', oldIndex);
     //  this.filename= fileInput.target.files[0].name;
     if (fileInput.target.files && fileInput.target.files[0]) {
-      var reader = new FileReader();
+      let reader = new FileReader();
       reader.onload = (event: any) => {};
       if (oldIndex == 0) {
         this.totalfiles.unshift(fileInput.target.files[0]);
