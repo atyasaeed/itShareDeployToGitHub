@@ -48,7 +48,9 @@ public class DevelopmentConfig
 					service=serviceRepo.save(createService("CNC Routers","CNC Routers Description",3,"serviceTemplate3.json","serviceFileExtensions.json","Working Area 3"));
 					Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));
 					
-					service=serviceRepo.save(createService("Photocopy","ASU, Faculty of Engineering, Notes for the first year",0,"serviceTemplate4.json","serviceFileExtensions.json","Working Area 3"));
+					service=createService("Photocopy","ASU, Faculty of Engineering, Notes for the first year",0,"serviceTemplate4.json","serviceFileExtensions.json","Working Area 3");
+					service.setAttendance(false);
+					service=serviceRepo.save(service);
 					Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));
 
 //					userRepo.save(createUser( "hasalem", "12345678"));
