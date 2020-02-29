@@ -74,7 +74,7 @@ export class CartItemComponent implements OnInit {
   createForm() {
     this.cartForm = this.formBuilder.group({
       quantity: ['1', [Validators.required]],
-      // attend: [''],
+      attend: [''],
       startingDate: ['', [Validators.required]],
       deliveryDate: ['', [Validators.required]],
       notes: ['', [Validators.required, Validators.maxLength(250)]],
@@ -85,9 +85,10 @@ export class CartItemComponent implements OnInit {
   onSubmit() {
     this.loading = true;
     this.submitted = true;
-    if (this.cartForm.invalid) {
+    if (!this.cartForm.value.notes || !this.cartForm.value.startingDate || !this.cartForm.value.startingDate) {
       this.validateAllFormFields(this.cartForm);
       this.loading = false;
+      return
     }
     this.item = Object.assign(this.cartForm.value);
     this.item.service = new Service();
@@ -107,13 +108,14 @@ export class CartItemComponent implements OnInit {
     });
     formData.append('item', itemBlob);
 
-
       this.shoppingCartService.addCartItem(formData).subscribe(
         resp => {
           this.router.navigateByUrl('cart'), (this.loading = false);
         },
         err => (this.loading = false)
       );
+
+
 
 
 }
