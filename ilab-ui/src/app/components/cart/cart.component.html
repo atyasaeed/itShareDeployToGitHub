@@ -18,16 +18,16 @@
             <div class="items">
 
               <!-- One Item Row -->
-              <div class="product" *ngFor="let item of items,let i=index ">
+              <div class="product" *ngFor="let item of items,let itemIndex=index ">
                 <div class="row">
                   <div class="col-md-3 service-image">
-                    <img class="img-fluid mx-auto d-block" [src]="getImageUrl(i)">
+                    <img class="img-fluid mx-auto d-block" [src]="getImageUrl(itemIndex)">
                   </div>
                   <div class="col-md-9">
                     <div class="info">
 
                       <div class="row">
-                        <div class="col-md-12 text-center">
+                        <div class="col-md-12 text-center  bg-dark">
                           <h5>
                             <a [routerLink]="['/CartItem']"
                             [queryParams]="{service:item.service.id}">{{item.service.name}}</a>
@@ -41,15 +41,11 @@
                           <div class="product-name">
 
                             <div class="product-info">
-                              <div>Deliver Date: <span
-                                  class="value">{{item.plannedStartDate |date:"mediumDate" |titlecase}}</span></div>
-                              <div>Type Of Project: <span class="value">{{item.projectType |titlecase}}</span></div>
-                              <div>Digital Material: <span class="value"><a
-                                    [href]="getFileUrl(i)">{{item.asset_name}}</a></span></div>
-                              <div>Units Used In File: <span class="value">{{item.unit |titlecase}}</span></div>
-                              <div>Color: <span class="value">{{item.color |titlecase}}</span></div>
-                              <div>Material: <span class="value">{{item.material |titlecase}}</span></div>
-                              <div>Price: <span class="value">NA</span></div>
+                              <div>Start Date: <span class="value">{{item.estimatedStardDate |date:"mediumDate" |titlecase}}</span></div>
+                              <div>End Date: <span class="value">{{item.estimatedEndDate |date:"mediumDate" |titlecase}}</span></div>
+                               <div>Price: <span class="value">{{item.unitPrice}}</span></div>
+                               <div>Notes: <span class="value">{{item.notes}}</span></div>
+
 
                             </div>
                           </div>
@@ -71,10 +67,16 @@
                         </div>
                       </div>
 
-                      <div class="row">
-                        <div class="col-md-12 notes">
-                          <div>Notes: <span class="value">{{item.notes |titlecase}}</span></div>
-                        </div>
+                      <div class="row" *ngFor="let file of item.files ;index as i" class="card-form">
+                        <div class="form-title">Digital Material: <span class="value"><a
+                          [href]="getFileUrl(itemIndex,i)">{{file.asset_name}}</a></span></div>
+                        <div class="form-body">
+                             <div>Type : <span class="value">{{file.type |titlecase}}</span></div>
+                              <div>Material: <span class="value">{{file.material |titlecase}}</span></div>
+                              <div>Dimension: <span class="value">{{file.dimension |titlecase}}</span></div>
+                              <div>Color: <span class="value">{{file.color |titlecase}}</span></div>
+                               <div></div>
+                              </div>
                       </div>
                       <hr>
                     </div>

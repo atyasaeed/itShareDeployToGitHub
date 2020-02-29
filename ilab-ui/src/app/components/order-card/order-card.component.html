@@ -1,7 +1,7 @@
 <div class="card mb-3">
   <div class="card-header">
     <div class="row text-center">
-      <div class="col-md-6 col-sm-12">
+      <div class="col-md-4 col-sm-12">
         <span>Order ID : </span>
         <span> {{order.id.slice(-4)}}</span>
       </div>
@@ -11,11 +11,16 @@
       <div class="col-md-3 col-sm-12">
         Total Payment : <span> {{order.total_payment}}$ </span>
       </div> -->
-      <div class="col-md-6 col-sm-12">
+      <div class="col-md-4 col-sm-12">
         Order Status : <span class="btn order-status"
           [ngClass]="{success: Finished()|| partiallyFinished() || Delivered() || partiallyDelivered() || InProgress(), warning: pending() || WaitingForQuotation() || WaitingForApproval(),danger: Cancelled() || quotationRejected()}">{{order.status}}</span>
       </div>
+          <!-- Stand alone button to cancel all order -->
+          <div class=" col-md-4 col-sm-12  text-center" *ngIf='WaitingForQuotation()'>
+            <input type="submit" class="btn btn-danger" value="Cancel Order" (click)="cancelOrder()">
+          </div>
     </div>
+
 
   </div>
   <div class="card-body">
@@ -37,13 +42,7 @@
 
       </div>
 
-      <!-- Stand alone button to cancel all order -->
-      <div class="mt-2 text-center" *ngIf='WaitingForQuotation()'>
-        <input type="submit" class="btn btn-danger" value="Cancel Order" (click)="cancelOrder()">
-        <!-- <button class="btn btn-danger">
-          Cancel Order
-        </button> -->
-      </div>
+
       <div class="row" style="justify-content: space-around;" *ngIf='WaitingForApproval()'>
       <!-- <div class="row" style="justify-content: space-around;" *ngIf='Cancelled()'> -->
         <div class="mt-2">

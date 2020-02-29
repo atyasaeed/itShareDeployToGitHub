@@ -107,7 +107,7 @@ export class CartComponent implements OnInit {
     }
   }
 
-  getFileUrl(index): string {
-    return this.appConfig.FILE_URL + this.items[index].asset_id;
+  getFileUrl(itemIndex,fileIndex): string {
+    return this.appConfig.FILE_URL + this.items[itemIndex].files[fileIndex].asset_id;
   }
 }

@@ -20,21 +20,39 @@
                                         <div class="col-md-6">
                                             <div><span class="col-md-4">Planned Start Date :</span><span class="value ">{{ lineItem.plannedStartDate | date:'dd-MM-yyyy' }}
                                             </span></div>
-                                            <div><span class="col-md-4">Color :</span><span class="value ">{{lineItem.color}}</span></div>
-                                            <div><span class="col-md-4">Type of project :</span><span class="value ">{{lineItem.projectType}}</span></div>
-                                            <div><span class="col-md-4">Quantity :</span><span class="value ">{{lineItem.quantity}}</span></div>
+                                            <div><span class="col-md-4">Planned End Date :</span><span class="value ">{{ lineItem.plannedEndDate | date:'dd-MM-yyyy' }}
+                                            </span></div>
+                                            <div><span class="col-md-4">Price :</span><span class="value ">{{ lineItem.unitPrice}}
+                                            </span></div>
+
+
                                         </div>
                                         <div class="col-md-6">
-                                        <div><span class="col-md-4">Uploaded File :</span><a href="{{getFileUrl()}}">{{lineItem.asset_name}}</a></div>
-                                            <div><span class="col-md-4">Units used in file :</span><span class="value ">{{lineItem.unit}}</span></div>
-                                            <!-- <div><span class="col-md-4"></span>Price: <span class="value ">{{lineItem.unitPrice}}</span></div> -->
-                                            <div><span class="col-md-4">Material :</span><span class="value ">{{lineItem.material}}</span></div>
+                                          <div><span class="col-md-4">Quantity :</span><span class="value ">{{lineItem.quantity}}</span></div>
+                                            <div><span class="col-md-4">Notes :</span><span class="value ">{{lineItem.notes}}</span></div>
                                         </div>
 
                                     </div>
+                                    <div class="row" *ngFor="let file of lineItem.files ;index as i" class="card-form">
+                                      <div class="form-title">Digital Material: <span class="value"><a
+                                        [href]="getFileUrl(i)">{{file.asset_name}}</a></span></div>
+                                      <div class="form-body">
+                                           <div>Type : <span class="value">{{file.type |titlecase}}</span></div>
+                                            <div>Material: <span class="value">{{file.material |titlecase}}</span></div>
+                                            <div>Dimension: <span class="value">{{file.dimension |titlecase}}</span></div>
+                                            <div>Color: <span class="value">{{file.color |titlecase}}</span></div>
+                                             <div></div>
+                                            </div>
+                                    </div>
+                                    <!-- <div *ngFor="let file of lineItem.files; index as i"class="card-form">
+
+                                    <div>Uploaded File :<a href="{{getFileUrl()}}">{{lineItem.asset_name}}</a></div>
+                                    <div>Units used in file :<span class="value ">{{lineItem.unit}}</span></div>
+                                    <div>Material :<span class="value ">{{lineItem.material}}</span></div>
+                                  </div> -->
                                     <div class="row">
-                                      <div class="col-md-12 notes ">
-                                        <div class="ml-3">Notes: <span class="value">{{lineItem.notes |titlecase}}</span></div>
+                                      <div class="col-md-12">
+
                                       </div>
                                     </div>
                                 </div>

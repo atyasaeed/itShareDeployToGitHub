@@ -74,7 +74,7 @@ export class CartItemComponent implements OnInit {
   createForm() {
     this.cartForm = this.formBuilder.group({
       quantity: ['1', [Validators.required]],
-      attend: ['', [Validators.required]],
+      // attend: [''],
       startingDate: ['', [Validators.required]],
       deliveryDate: ['', [Validators.required]],
       notes: ['', [Validators.required, Validators.maxLength(250)]],

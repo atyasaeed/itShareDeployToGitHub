@@ -5,20 +5,22 @@ export class LineItem {
   rank: number;
   quantity: number;
   attend: boolean;
-  startingDate: Date;
-  deliveryDate: Date;
+  unitPrice:number;
+  plannedStartDate: Date;
+  plannedEndDate: Date;
+  estimatedStardDate:Date;
+  estimatedEndDate:Date
   notes: string;
-  unitPrice: number;
   service: Service;
+  files: FileMaterial[];
   asset_id: string;
   asset_name: string;
-  files: FileMaterial[];
 }
 export class FileMaterial {
-  file: File;
-  material: string;
-  type: string;
-  color: string;
-  dimension: string;
-  unit: string;
+  material:string;
+  type:string;
+  color:string;
+  dimension:string;
+  asset_id:string;
+  asset_name:string;
 }

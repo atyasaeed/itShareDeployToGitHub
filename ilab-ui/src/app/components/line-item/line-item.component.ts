@@ -17,7 +17,7 @@ export class LineItemComponent implements OnInit {
     return this.appConfig.ASSETS_URL + this.lineItem.service.id;
   }
 
-  getFileUrl(): string {
-    return this.appConfig.FILE_URL + this.lineItem.asset_id;
+  getFileUrl(index): string {
+    return this.appConfig.FILE_URL + this.lineItem.files[index].asset_id;
   }
 }
