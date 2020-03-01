@@ -73,10 +73,10 @@ export class CartItemComponent implements OnInit {
 
   createForm() {
     this.cartForm = this.formBuilder.group({
-      quantity: ['1', [Validators.required]],
-      attend: [''],
-      startingDate: ['', [Validators.required]],
-      deliveryDate: ['', [Validators.required]],
+      quantity: ['1', [Validators.required,Validators.minLength(1)]],
+      attend: ['',],
+      startingDate: ['',[Validators.required]],
+      deliveryDate: ['' ,[Validators.required]],
       notes: ['', [Validators.required, Validators.maxLength(250)]],
 
       files: new FormArray([]),
@@ -85,7 +85,7 @@ export class CartItemComponent implements OnInit {
   onSubmit() {
     this.loading = true;
     this.submitted = true;
-    if (!this.cartForm.value.notes || !this.cartForm.value.startingDate || !this.cartForm.value.startingDate) {
+    if (!this.cartForm.value.notes || !this.cartForm.value.quantity) {
       this.validateAllFormFields(this.cartForm);
       this.loading = false;
       return

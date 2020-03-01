@@ -16,7 +16,7 @@
             <section class="form-row">
               <div class="form-group col-md-6 mb-2">
                 <label style="display:block;">Quantity </label>
-                <input type="number" min="1" max="5" class="form-control" formControlName="quantity">
+                <input type="number" min="1" class="form-control" formControlName="quantity">
                 <div *ngIf="cartForm.controls.quantity.touched && !cartForm.controls.quantity.valid"
                   class="text-danger">
 
@@ -25,7 +25,6 @@
                   </div>
                 </div>
               </div>
-               <div class="form-group col-sm-6 mb-2">
                 <div class="form-group col-sm-6 mb-2" *ngIf="service?.attendance">
                   <label style="display:block;">Attend Manufacturing</label>
                   <label class="switch">
@@ -33,18 +32,17 @@
                     <span class="slider round"></span>
                   </label>
                 </div>
-              </div>
             </section>
             <section class="form-row">
-              <div class="form-group col-sm-6 mb-2">
+              <div class="form-group col-sm-6 mb-2" *ngIf="service?.attendance" >
                 <label>Starting Date </label>
                 <input type="date" class="form-control" formControlName="startingDate" startingDate>
-                <div *ngIf="cartForm.controls.startingDate.touched && !cartForm.controls.startingDate.valid"
+                <div  *ngIf="cartForm.controls.startingDate.touched && !cartForm.controls.startingDate.valid"
                   class="text-danger">
                   <div *ngIf="cartForm.controls.startingDate.errors.required">startingDate is required</div>
                 </div>
               </div>
-              <div class="form-group col-sm-6 mb-2">
+              <div class="form-group col-sm-6 mb-2" *ngIf="service?.attendance">
                 <label>Delivery Date </label>
                 <input type="date" class="form-control" formControlName="deliveryDate" deliveryDate>
                 <div *ngIf="cartForm.controls.deliveryDate.touched && !cartForm.controls.deliveryDate.valid"
