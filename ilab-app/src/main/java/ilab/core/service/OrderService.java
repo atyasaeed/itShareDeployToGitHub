@@ -39,7 +39,8 @@ public class OrderService
 	private LineItemRepository lineItemRepo;
 	@Autowired
 	private FileAssetRepository assetsRepo;
-	
+	@Autowired
+	private PricingService pricingService;
 	public Iterable<OrderEntity> getOrders(Authentication auth)
 	{
 		User user=userRepo.findByUsername(auth.getName());
@@ -125,10 +126,16 @@ public class OrderService
 			index++;
 		}
 		
-		
+		pricingService.price(item);		
 
 		item=lineItemRepo.save(item);
 		order=orderRepo.save(order);
+		
+		
+		//TODO: To be refactored
+
+		
+		
 		return item;
 	}
 	public void deleteCartItem(UUID id,Authentication auth)

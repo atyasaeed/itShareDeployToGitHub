@@ -1,5 +1,6 @@
 package ilab.core.domain;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +38,7 @@ public class OrderEntity extends AbstractEntity<OrderEntity>
 	@JsonIgnore
 	private User placedBy;
 	
+	private BigDecimal totalCost;
 	@Enumerated(EnumType.ORDINAL)
 	@NotNull
 	private OrderStatus status;
@@ -75,6 +77,14 @@ public class OrderEntity extends AbstractEntity<OrderEntity>
 	public void setStatus(OrderStatus type)
 	{
 		this.status = type;
+	}
+	public BigDecimal getTotalCost()
+	{
+		return totalCost;
+	}
+	public void setTotalCost(BigDecimal totalCost)
+	{
+		this.totalCost = totalCost;
 	}
 	
 }

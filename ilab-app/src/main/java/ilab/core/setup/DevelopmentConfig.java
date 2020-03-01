@@ -40,15 +40,15 @@ public class DevelopmentConfig
 				try
 				{
 					Service service;
-					service=serviceRepo.save(createService("3D Printing","3D Printing Description",2,"serviceTemplate.json","serviceFileExtensions.json","Working Area 1"));
+					service=serviceRepo.save(createService("3D Printing","3D Printing Description",2,"serviceTemplate.json","serviceFileExtensions.json","Working Area 1","3d"));
 					service=serviceRepo.save(service);
 					Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));
-					service=serviceRepo.save(createService("Laser Scanning","Laser Cutting Description",1,"serviceTemplate2.json","serviceFileExtensions.json","Working Area 2"));
+					service=serviceRepo.save(createService("Laser Scanning","Laser Cutting Description",1,"serviceTemplate2.json","serviceFileExtensions.json","Working Area 2","15"));
 					Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));		
-					service=serviceRepo.save(createService("CNC Routers","CNC Routers Description",3,"serviceTemplate3.json","serviceFileExtensions.json","Working Area 3"));
+					service=serviceRepo.save(createService("CNC Routers","CNC Routers Description",3,"serviceTemplate3.json","serviceFileExtensions.json","Working Area 3","20"));
 					Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));
 					
-					service=createService("Photocopy","ASU, Faculty of Engineering, Notes for the first year",0,"serviceTemplate4.json","serviceFileExtensions.json","Working Area 3");
+					service=createService("Photocopy","ASU, Faculty of Engineering, Notes for the first year",0,"serviceTemplate4.json","serviceFileExtensions.json","Working Area 3","30");
 					service.setAttendance(false);
 					service=serviceRepo.save(service);
 					Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));
@@ -79,7 +79,7 @@ public class DevelopmentConfig
 		return content;
 		
 	}
-	private Service createService(String name,String desc,int maxFiles,String templateFile,String fileExtensions,String workingArea) throws Exception
+	private Service createService(String name,String desc,int maxFiles,String templateFile,String fileExtensions,String workingArea,String pricing) throws Exception
 	{
 		Service service=new Service();
 		service.setName(name);
@@ -92,6 +92,7 @@ public class DevelopmentConfig
 		service.setAttendance(new Random().nextInt()%2==0);
 	
 		service.setUnits(getFileContent("serviceFileUnits.json").replaceAll("\\s", ""));
+		service.setPricing(pricing);
 		return service;
 	}
 	

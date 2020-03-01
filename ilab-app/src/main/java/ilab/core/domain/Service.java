@@ -5,6 +5,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.annotation.JsonSetter;
@@ -19,6 +20,7 @@ public class Service extends AbstractEntity<Service>
 	private int maxFiles;
 	private String workingArea;
 	private boolean attendance;
+	private String pricing;
 	@JsonRawValue
 	private String units;
 //	@Lob
@@ -128,6 +130,16 @@ public class Service extends AbstractEntity<Service>
 	public void setUnits(JsonNode node)
 	{
 		this.units=node.toString();
+	}
+
+	public String getPricing()
+	{
+		return pricing;
+	}
+
+	public void setPricing(String pricing)
+	{
+		this.pricing = pricing;
 	}
 	
 }

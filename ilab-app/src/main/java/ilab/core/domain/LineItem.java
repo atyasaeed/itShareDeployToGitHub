@@ -30,11 +30,12 @@ public class LineItem extends AbstractEntity<LineItem>
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
 	private OrderEntity orderEntity;
-	@ManyToOne(optional=false)
+	@ManyToOne(optional=false,fetch = FetchType.EAGER)
 	private Service service;
 	
 	private long quantity;
 	private BigDecimal unitPrice;
+	
 	@Temporal(TemporalType.DATE)
 	private Date plannedStartDate;
 	@Temporal(TemporalType.DATE)
