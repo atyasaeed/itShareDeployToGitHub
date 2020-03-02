@@ -36,7 +36,6 @@ public class PricingForPrinting implements PricingStrategy
 			}
 			
 		}
-		System.out.println(item.getFiles().size());
 		item.setUnitPrice(new BigDecimal(totalPages*.1));
 	}
 

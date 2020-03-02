@@ -40,11 +40,15 @@ public class DevelopmentConfig
 				try
 				{
 					Service service;
-					service=serviceRepo.save(createService("3D Printing","3D Printing Description",2,"serviceTemplate.json","serviceFileExtensions.json","Working Area 1","3d"));
-					service=serviceRepo.save(service);
+					service=serviceRepo.save(createService("3D Printing","3D Printing Mono Color",1,"serviceTemplate.json","serviceFileExtensions.json","Working Area 1","3d"));
 					Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));
+
+					service=serviceRepo.save(createService("3D Printing","3D Printing Multi Color",2,"serviceTemplate.json","serviceFileExtensions.json","Working Area 2","3d"));
+					Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));
+					
 					service=serviceRepo.save(createService("Laser Scanning","Laser Cutting Description",1,"serviceTemplate2.json","serviceFileExtensions.json","Working Area 2","15"));
 					Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));		
+
 					service=serviceRepo.save(createService("CNC Routers","CNC Routers Description",3,"serviceTemplate3.json","serviceFileExtensions.json","Working Area 3","20"));
 					Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));
 					
