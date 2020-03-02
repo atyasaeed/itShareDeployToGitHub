@@ -93,4 +93,9 @@ export class OrderCardComponent implements OnInit {
   rejectQuotation() {
     this.orderService.reject(this.order.id).subscribe(res => (this.order = res));
   }
+
+
+  public getSubTotal() {
+    return this.order.lineItems.map(rr=>rr.unitPrice * rr.quantity).reduce((a, b) => a + b, 0);
+  }
 }

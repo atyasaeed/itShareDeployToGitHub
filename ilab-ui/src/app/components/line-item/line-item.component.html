@@ -22,7 +22,7 @@
                                             </span></div>
                                             <div *ngIf = "lineItem?.plannedEndDate"><span class="col-md-4">Planned End Date :</span><span class="value ">{{ lineItem.plannedEndDate | date:'dd-MM-yyyy' }}
                                             </span></div>
-                                            <div><span class="col-md-4">Price :</span><span class="value ">{{ lineItem.unitPrice}}
+                                            <div><span class="col-md-4">Price :</span><span class="value ">{{ lineItem.unitPrice *lineItem.quantity}}
                                             </span></div>
 
 
