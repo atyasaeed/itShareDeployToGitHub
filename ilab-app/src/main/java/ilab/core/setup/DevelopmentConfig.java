@@ -52,6 +52,10 @@ public class DevelopmentConfig
 					service.setAttendance(false);
 					service=serviceRepo.save(service);
 					Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));
+					service=createService("Photocopy 2","ASU, Faculty of Engineering, Notes for the first year",1,"serviceTemplate4.json","printFileExtensions.json","Working Area 3","printing");
+					service.setAttendance(false);
+					service=serviceRepo.save(service);
+					Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));
 
 //					userRepo.save(createUser( "hasalem", "12345678"));
 //					userRepo.save(createUser("mosalem", "12345678"));

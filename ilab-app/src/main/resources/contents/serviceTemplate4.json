@@ -1,2 +1,17 @@
 [
+{
+		"name": "80 Gm",
+		"types": [
+			{
+				"name": "Laser",
+				"colors": [
+					"Black & Grey",
+					"Color"
+				],
+				"dimensions": [
+					"A4"
+				]
+			}
+		]
+	}
 ]
