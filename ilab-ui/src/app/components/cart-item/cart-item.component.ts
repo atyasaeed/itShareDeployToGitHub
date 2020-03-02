@@ -36,7 +36,7 @@ export class CartItemComponent implements OnInit {
     private authenticationService: AuthenticationService,
     @Inject(APP_CONFIG) private appConfig: IAppConfig,
     private formBuilder: FormBuilder
-  ) {}
+  ) { }
 
   cartForm: FormGroup;
 
@@ -60,11 +60,11 @@ export class CartItemComponent implements OnInit {
             color: [this.service.materials[0].types[0].colors[0], [Validators.required]],
             dimension: [this.service.materials[0].types[0].dimensions[0], [Validators.required]],
             unit: [this.service.units[0], [Validators.required]],
-            status: ['', [Validators.required]],
           })
         );
       }
-       for (let index = 0; index < this.service.supportedExtensions.length; index++) {
+
+      for (let index = 0; index < this.service.supportedExtensions.length; index++) {
         this.ext.push(this.service.supportedExtensions[index].substr(1));
       }
       this.extFile = this.ext.toString();
@@ -73,29 +73,32 @@ export class CartItemComponent implements OnInit {
 
   createForm() {
     this.cartForm = this.formBuilder.group({
-      quantity: ['1', [Validators.required,Validators.minLength(1)]],
+      quantity: ['1', [Validators.required, Validators.minLength(1)]],
       attend: ['',],
-      startingDate: ['',[Validators.required]],
-      deliveryDate: ['' ,[Validators.required]],
-      notes: ['', [Validators.required, Validators.maxLength(250)]],
+      startingDate: [''],
+      deliveryDate: [''],
+      notes: ['', [Validators.maxLength(250)]],
 
       files: new FormArray([]),
     });
   }
+
   onSubmit() {
     this.loading = true;
     this.submitted = true;
-    if (!this.cartForm.value.notes || !this.cartForm.value.quantity) {
+    if (this.cartForm.invalid) {
       this.validateAllFormFields(this.cartForm);
       this.loading = false;
-      return
+      return ;
     }
     this.item = Object.assign(this.cartForm.value);
     this.item.service = new Service();
     this.item.service.id = this.service.id;
     for (let index = 0; index < this.file$.length; index++) {
-      this.item.files.push(this.file$[index]);
+      // this.item.files.push(this.file$[index]);
+      this.item.files
     }
+
 
     const formData: FormData = new FormData();
     for (let j = 0; j < this.totalfiles.length; j++) {
@@ -106,19 +109,21 @@ export class CartItemComponent implements OnInit {
     const itemBlob = new Blob([JSON.stringify(this.item)], {
       type: 'application/json',
     });
+
     formData.append('item', itemBlob);
 
-      this.shoppingCartService.addCartItem(formData).subscribe(
-        resp => {
-          this.router.navigateByUrl('cart'), (this.loading = false);
-        },
-        err => (this.loading = false)
-      );
+    console.log(this.file$.value)
+    for (let index = 0; index < this.file$.value.length; index++) {
+      console.log(this.file$.value[index].file)
+    }
+    this.shoppingCartService.addCartItem(formData).subscribe(
+      resp => {
+        this.router.navigateByUrl('cart'), (this.loading = false);
+      },
+      err => (this.loading = false)
+    );
 
-
-
-
-}
+  }
 
   getImageUrl(): string {
     return this.appConfig.ASSETS_URL + this.service.id;
@@ -128,7 +133,7 @@ export class CartItemComponent implements OnInit {
     //  this.filename= fileInput.target.files[0].name;
     if (fileInput.target.files && fileInput.target.files[0]) {
       let reader = new FileReader();
-      reader.onload = (event: any) => {};
+      reader.onload = (event: any) => { };
       if (oldIndex == 0) {
         this.totalfiles.unshift(fileInput.target.files[0]);
         this.totalFileName.unshift(fileInput.target.files[0].name);
@@ -146,15 +151,14 @@ export class CartItemComponent implements OnInit {
   }
 
 
-// getType() {
-//   for (let index = 0; index < this.service.materials.length; index++) {
-//     if (this.service.materials[index].types) {
-//       return this.service.materials[index].types[0].name ;
-//     }
 
-//   }
-// }
-
+  // validateArray() {
+  //   for (let index = 0; index < this.file$.value.length; index++) {
+  //     if (this.file$.value[index].file && this.file$.value[index].file.length > 1) {
+  //       return true
+  //     }
+  //   }
+  // }
 
   validateAllFormFields(formGroup: FormGroup) {
     // {1}
@@ -164,11 +168,17 @@ export class CartItemComponent implements OnInit {
       if (control instanceof FormControl) {
         // {4}
         control.markAsTouched({ onlySelf: true });
-      } else if (control instanceof FormGroup) {
+
+      }
+      else if (control instanceof FormGroup) {
         // {5}
         this.validateAllFormFields(control); // {6}
       }
     });
   }
 
+
+  
+
 }
+  

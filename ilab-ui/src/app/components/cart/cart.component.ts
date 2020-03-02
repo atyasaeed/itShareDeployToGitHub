@@ -15,7 +15,7 @@ import { Observable } from 'rxjs';
 })
 export class CartComponent implements OnInit {
   loading = false;
-  items: Array<ShoppingCartItem>;
+  items: Array<ShoppingCartItem> ;
   constructor(
     private shoppingCartService: ShoppingCartService,
     private ordersService: OrdersService,
@@ -23,9 +23,11 @@ export class CartComponent implements OnInit {
     @Inject(APP_CONFIG) private appConfig: IAppConfig
   ) {}
 
+  subTotal:any;
   ngOnInit() {
     // this.shoppingCartService.refresh().subscribe(items=>this.items =items);
     this.refresh();
+  
   }
   deletItem(id) {
     this.loading = true;
@@ -110,4 +112,9 @@ export class CartComponent implements OnInit {
   getFileUrl(itemIndex,fileIndex): string {
     return this.appConfig.FILE_URL + this.items[itemIndex].files[fileIndex].asset_id;
   }
+
+  public getSubTotal() {
+    return this.items.map(rr=>rr.unitPrice * rr.quantity).reduce((a, b) => a + b, 0);
+  }
+
 }
