@@ -62,7 +62,7 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     //  fakeBackendProvider,
     { provide: APP_CONFIG, useValue: prodConfig },
   ],
