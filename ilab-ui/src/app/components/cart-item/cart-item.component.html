@@ -15,7 +15,7 @@
           <div>
             <section class="form-row">
               <div class="form-group col-md-6 mb-2">
-                <label style="display:block;">Quantity </label>
+                <label style="display:block;">{{ 'Quantity' | translate }} </label>
                 <input type="number" min="1" class="form-control" formControlName="quantity">
                 <div *ngIf="cartForm.controls.quantity.touched && !cartForm.controls.quantity.valid"
                   class="text-danger">
@@ -26,7 +26,7 @@
                 </div>
               </div>
                 <div class="form-group col-sm-6 mb-2" *ngIf="service?.attendance">
-                  <label style="display:block;">Attend Manufacturing</label>
+                  <label style="display:block;"> {{ 'Attend Manufacturing' | translate }} </label>
                   <label class="switch">
                     <input type="checkbox" formControlName="attend" #attend>
                     <span class="slider round"></span>
@@ -35,7 +35,7 @@
             </section>
             <section class="form-row">
               <div class="form-group col-sm-6 mb-2" *ngIf="service?.attendance" >
-                <label>Starting Date </label>
+                <label>{{ 'Starting Date' | translate }} </label>
                 <input type="date" class="form-control" formControlName="startingDate" startingDate>
                 <div  *ngIf="cartForm.controls.startingDate.touched && !cartForm.controls.startingDate.valid"
                   class="text-danger">
@@ -43,7 +43,7 @@
                 </div>
               </div>
               <div class="form-group col-sm-6 mb-2" *ngIf="service?.attendance">
-                <label>Delivery Date </label>
+                <label>{{ 'Delivery Date' | translate }} </label>
                 <input type="date" class="form-control" formControlName="deliveryDate" deliveryDate>
                 <div *ngIf="cartForm.controls.deliveryDate.touched && !cartForm.controls.deliveryDate.valid"
                   class="text-danger">
@@ -51,7 +51,7 @@
                 </div>
               </div>
               <div class="form-group col-sm-12 mb-2">
-                <label>Notes </label>
+                <label>{{ 'Notes' | translate }}  </label>
                 <textarea class="form-control" maxlength="251" formControlName="notes" notes maxlength></textarea>
                 <div *ngIf="cartForm.controls.notes.touched && !cartForm.controls.notes.valid" class="text-danger">
                   <div *ngIf="cartForm.controls.notes.errors.required">Notes is required</div>
@@ -65,7 +65,7 @@
             <div class="form-body">
               <section class="form-row">
                 <div class="form-group col-sm-6 mb-2 file">
-                  <label>Upload Your Design File</label>
+                  <label> {{ 'Upload Your Design File' | translate }}</label>
                   <input type="file" class="form-control" formControlName="file" [accept]="extFile"
                     (change)="handleFileInput($event,i)" #file>
                   <span for="file">Upload your Design File</span>
@@ -74,7 +74,7 @@
                   </div>
                 </div>
                 <div class="form-group col-sm-6 mb-2">
-                  <label>Units Used In File </label>
+                  <label>{{ 'Units Used In File' | translate }} </label>
                   <select class="form-control" formControlName="unit" unit required>
                     <!-- <option value="" disabled selected hidden>Choose Unit</option> -->
                     <option *ngFor="let unit of service.units">{{unit}}</option>
@@ -90,7 +90,7 @@
               </section>
               <section class="form-row">
                 <div class="form-group col-sm-6 mb-2">
-                  <label>Material</label>
+                  <label>{{ 'Material' | translate }} </label>
                   <select class="form-control" formControlName="material" #materialCont>
                     <!-- <option value="" disabled selected hidden>Choose Material</option> -->
                     <option *ngFor="let material of service.materials">{{material.name}}</option>
@@ -101,7 +101,7 @@
                   </div>
                 </div>
                 <div class="form-group col-sm-6 mb-2">
-                  <label>Type </label>
+                  <label>{{ 'Type' | translate }}  </label>
                   <select class="form-control" formControlName="type" #typeCont>
                     <option *ngFor="let type of service.materials[materialCont.selectedIndex].types">{{type.name}}
                     </option>
@@ -120,7 +120,7 @@
               <section class="form-row">
 
                 <div class="form-group col-sm-6 mb-2">
-                  <label>Color</label>
+                  <label>{{ 'Color' | translate }}</label>
                   <select class="form-control" class="form-control" formControlName="color">
                     <!-- <option value="" disabled selected hidden>Choose Color</option> -->
                     <option
@@ -132,7 +132,7 @@
                   </div>
                 </div>
                 <div class="form-group col-sm-6 mb-2">
-                  <label>Dimension</label>
+                  <label>{{ 'Dimension' | translate }}</label>
                   <select class="form-control" class="form-control" formControlName="dimension" dimension>
                     <!-- <option value="" disabled selected hidden>Choose Dimension</option> -->
                     <option
@@ -161,7 +161,7 @@
   <!--////////////////////////////////////////////////////////////////////////////////////-->
   <hr class="mb-0">
   <div class="card-body" *ngIf="service">
-    <h5 class="card-title">Service Description</h5>
+    <h5 class="card-title">{{'Service Description' |translate}}</h5>
     <p class="card-text">
       {{service?.description}}
     </p>

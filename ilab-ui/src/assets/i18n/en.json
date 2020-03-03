@@ -40,8 +40,27 @@
     "Add To Cart": "Request Service",
     "Add": "Add",
     "Checkout": "Request Quotation",
-    "View Cart": "View Manufacturing Request"
-
-
+    "View Cart": "View Manufacturing Request",
+    "Quantity": "Quantity",
+    "Attend Manufacturing":"Attend Manufacturing",
+    "Starting Date":"Starting Date",
+    "Delivery Date":"Delivery Date",
+    "Notes":"Notes",
+    "Upload Your Design File":"Upload Your Design File",
+    "Units Used In File":"Units Used In File",
+    "Material":"Material",
+    "Type":"Type",
+    "Color":"Color",
+    "Planned Start Date":"Planned Start Date",
+    "Planned End Date":"Planned End Date",
+    "Price":"Price",
+    "UnitePrice":"UnitePrice",
+    "TotalPrice":"TotalPrice",
+    "Start Date":"Start Date",
+    "End Date":"End Date",
+    "Digital Material":"Digital Material",
+    "total":"total",
+    "Summary":"Summary",
+    "estimatedEndDate":"Delivery Date"
 
 }

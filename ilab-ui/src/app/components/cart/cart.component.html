@@ -27,7 +27,7 @@
                     <div class="info">
 
                       <div class="row">
-                        <div class="col-md-12 text-center  bg-dark">
+                        <div class="col-md-12 text-center">
                           <h5>
                             <a [routerLink]="['/CartItem']"
                             [queryParams]="{service:item.service.id}">{{item.service.name}}</a>
@@ -41,12 +41,12 @@
                           <div class="product-name">
 
                             <div class="product-info">
-                              <div *ngIf = "item?.estimatedStardDate">Start Date: <span class="value">{{item.estimatedStardDate |date:"mediumDate" |titlecase}}</span></div>
-                              <div *ngIf = "item?.estimatedEndDate">End Date: <span class="value">{{item.estimatedEndDate |date:"mediumDate" |titlecase}}</span></div>
-                               <div>Price: <span class="value">{{item.unitPrice}}</span></div>
-                               <div>UnitePrice: <span class="value">{{item.unitPrice}}</span></div>
-                               <div>TotalPrice: <span class="value">{{item.unitPrice * item.quantity}}</span></div>
-                               <div>Notes: <span class="value">{{item.notes}}</span></div>
+                              <div *ngIf = "item?.estimatedStardDate">{{ 'Start Date' | translate }}: <span class="value">{{item.estimatedStardDate | date:'dd-MM-yyyy'}}</span></div>
+                              <div *ngIf = "item?.estimatedEndDate">{{ 'estimatedEndDate' | translate }}: <span class="value">{{item.estimatedEndDate | date:'dd-MM-yyyy'}}</span></div>
+                               <div>{{ 'Price' | translate }}: <span class="value">{{item.unitPrice}}</span></div>
+                               <div>{{ 'UnitePrice' | translate }}: <span class="value">{{item.unitPrice|currency:'EGP'}}</span></div>
+                               <div> {{ 'TotalPrice' | translate }}:<span class="value">{{item.unitPrice * item.quantity}}</span></div>
+                               <div>{{ 'Notes' | translate }}: <span class="value">{{item.notes}}</span></div>
 
 
                             </div>
@@ -54,7 +54,7 @@
                         </div>
 
                         <div class="col-md-4 quantity">
-                          <label for="quantity">Quantity:</label>
+                          <label for="quantity">{{ 'Quantity' | translate }}: </label>
                           <input id="quantity" type="number" min="1" [disabled]="loading" (change)="updateItem(item)"
                             [(ngModel)]="item.quantity" #quantity='ngModel' class="form-control quantity-input">
                         </div>
@@ -70,13 +70,13 @@
                       </div>
 
                       <div class="row" *ngFor="let file of item.files ;index as i" class="card-form">
-                        <div class="form-title">Digital Material: <span class="value"><a
+                        <div class="form-title">{{ 'Digital Material' | translate }}: <span class="value"><a
                           [href]="getFileUrl(itemIndex,i)">{{file.asset_name}}</a></span></div>
                         <div class="form-body">
-                             <div>Type : <span class="value">{{file.type |titlecase}}</span></div>
-                              <div>Material: <span class="value">{{file.material |titlecase}}</span></div>
-                              <div>Dimension: <span class="value">{{file.dimension |titlecase}}</span></div>
-                              <div>Color: <span class="value">{{file.color |titlecase}}</span></div>
+                             <div>{{'Type' | translate }}: <span class="value">{{file.type |titlecase}}</span></div>
+                              <div>{{'Material' | translate }}:  <span class="value">{{file.material |titlecase}}</span></div>
+                              <div>{{'Dimension' | translate }}: <span class="value">{{file.dimension |titlecase}}</span></div>
+                              <div>{{'Color' | translate }}: <span class="value">{{file.color |titlecase}}</span></div>
                                <div></div>
                               </div>
                       </div>
@@ -95,8 +95,8 @@
           <!-- Cart Summary & Checkout -->
           <div class="col-md-12 col-lg-4">
             <div class="summary">
-              <h3>Summary</h3>
-              <div class="summary-item"><span class="text">total</span><span class="price">{{getSubTotal() |currency:'EGP'}}</span></div>
+              <h3>{{'Summary' | translate }}:</h3>
+              <div class="summary-item"><span class="text">{{'total' | translate }}:</span><span class="price">{{getSubTotal() |currency:'EGP'}}</span></div>
               <!-- <div class="summary-item"><span class="text">Discount</span><span class="price">$0</span></div>
                             <div class="summary-item"><span class="text">Shipping</span><span class="price">$0</span></div>
                             <div class="summary-item"><span class="text">Total</span><span class="price">$360</span></div> -->

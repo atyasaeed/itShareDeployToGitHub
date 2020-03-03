@@ -18,18 +18,18 @@
 
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <div *ngIf = "lineItem?.plannedStartDate"><span class="col-md-4">Planned Start Date :</span><span class="value ">{{ lineItem.plannedStartDate | date:'dd-MM-yyyy' }}
+                                            <div><span class="col-md-4">{{ 'estimatedEndDate' | translate }}</span><span class="value ">{{ lineItem.estimatedEndDate | date:'dd-MM-yyyy' }}
                                             </span></div>
-                                            <div *ngIf = "lineItem?.plannedEndDate"><span class="col-md-4">Planned End Date :</span><span class="value ">{{ lineItem.plannedEndDate | date:'dd-MM-yyyy' }}
+                                            <div *ngIf = "lineItem?.plannedEndDate"><span class="col-md-4">{{ 'Planned End Date' | translate }}</span><span class="value ">{{ lineItem.plannedEndDate | date:'dd-MM-yyyy' }}
                                             </span></div>
-                                            <div><span class="col-md-4">Price :</span><span class="value ">{{ lineItem.unitPrice *lineItem.quantity}}
+                                            <div><span class="col-md-4">{{ 'Price' | translate }}:</span><span class="value ">{{lineItem.unitPrice *lineItem.quantity|currency:'EGP'}}
                                             </span></div>
 
 
                                         </div>
                                         <div class="col-md-6">
-                                          <div><span class="col-md-4">Quantity :</span><span class="value ">{{lineItem.quantity}}</span></div>
-                                            <div><span class="col-md-4">Notes :</span><span class="value ">{{lineItem.notes}}</span></div>
+                                          <div><span class="col-md-4">{{ 'Quantity' | translate }}:</span><span class="value ">{{lineItem.quantity}}</span></div>
+                                            <div><span class="col-md-4">{{ 'Notes' | translate }}:</span><span class="value ">{{lineItem.notes}}</span></div>
                                         </div>
 
                                     </div>
@@ -37,10 +37,10 @@
                                       <div class="form-title">Digital Material: <span class="value"><a
                                         [href]="getFileUrl(i)">{{file.asset_name}}</a></span></div>
                                       <div class="form-body">
-                                           <div>Type : <span class="value">{{file.type |titlecase}}</span></div>
-                                            <div>Material: <span class="value">{{file.material |titlecase}}</span></div>
-                                            <div>Dimension: <span class="value">{{file.dimension |titlecase}}</span></div>
-                                            <div>Color: <span class="value">{{file.color |titlecase}}</span></div>
+                                           <div>{{'Type' | translate }}:<span class="value">{{file.type |titlecase}}</span></div>
+                                            <div>{{'Material' | translate }}:<span class="value">{{file.material |titlecase}}</span></div>
+                                            <div>{{'Dimension' | translate }}:<span class="value">{{file.dimension |titlecase}}</span></div>
+                                            <div>{{'Color' | translate }}: <span class="value">{{file.color |titlecase}}</span></div>
                                              <div></div>
                                             </div>
                                     </div>
