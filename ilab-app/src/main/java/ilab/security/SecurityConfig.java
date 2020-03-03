@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,6 +16,8 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -53,19 +56,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 				.antMatchers(HttpMethod.GET,"/*","/ui/**", "/api/services/**", "/api/users/resetPassword", "/api/users/test")
 				.permitAll().antMatchers(HttpMethod.POST, "/api/users", "/api/users/resetPassword").permitAll()
 				.antMatchers(HttpMethod.POST, "/api/users/savePassword").hasAuthority("CHANGE_PASSWORD_PRIVILEGE")
-				.antMatchers("/assets/**").permitAll().and().authorizeRequests().anyRequest().authenticated().and()
-				.formLogin().failureHandler(customAuthenticationFailureHandler())
+				.antMatchers("/assets/**").permitAll().and().authorizeRequests().anyRequest().authenticated()
+				.and().formLogin().failureHandler(customAuthenticationFailureHandler())
 				.successHandler(customAuthenticationSuccessHandler())
+				.and().cors().configurationSource(corsConfigurationSource())
+				.and().csrf().disable()
+//				.and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+//				.and()
+				.headers().frameOptions().sameOrigin()
+				.and().exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
+		
+
+		
+		
 //			.and()
 //			.exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint())
-				.and().cors().configurationSource(corsConfigurationSource()).and()
-
-				.csrf().disable()
 
 //		.ignoringAntMatchers("/login")
 //		.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 //		.and()
-				.headers().frameOptions().sameOrigin();
 
 //		http
 ////		.exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))

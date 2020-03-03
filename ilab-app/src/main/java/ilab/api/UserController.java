@@ -83,7 +83,7 @@ public class UserController
 	public RedirectView resetPassword(@RequestParam("id") UUID userId, @RequestParam("token") UUID token)
 	{
 		userService.resetPassword(userId, token);
-		return new RedirectView("http://192.168.1.201/ui/reset-password");
+		return new RedirectView("http://192.168.1.201:8080/ui/reset-password");
 	}
 
 //	@GetMapping("/test")
