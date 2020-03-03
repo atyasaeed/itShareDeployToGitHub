@@ -22,7 +22,7 @@
       </div>
 
           <!-- Stand alone button to cancel all order -->
-          <div class=" col-md-2 col-sm-12  text-center">
+          <div class=" col-md-2 col-sm-12  text-center" *ngIf ="!Cancelled()">
             <input type="submit" class="btn btn-danger" value="Cancel Order" (click)="cancelOrder()">
           </div>
 
