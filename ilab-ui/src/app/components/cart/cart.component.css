@@ -42,7 +42,7 @@
 
 .shopping-cart .items .product{
   padding-top: 20px;
-  font-weight: bold;
+  font-weight: 500;
   font-size: 80%;
 }
 
@@ -59,8 +59,8 @@
 .shopping-cart .items .product .info .product-name .product-info{
 }
 
-.shopping-cart .items .product .value{
-  font-weight: normal;
+ .value{
+  font-weight: bold;
 }
 
 /* tempo */
@@ -74,9 +74,7 @@
   font-weight: 600;
 }
 
-.notes .value{
-	font-weight: 400;
-}
+
 
 .shopping-cart .items .product .info .quantity .quantity-input{
     margin: auto;

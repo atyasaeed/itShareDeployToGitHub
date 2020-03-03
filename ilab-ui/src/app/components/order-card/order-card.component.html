@@ -2,8 +2,9 @@
   <div class="card-header">
     <div class="row text-center">
       <div class="col-md-3 col-sm-12">
-        <span>Order ID : </span>
-        <span> {{order.id.slice(-4)}}</span>
+        <span>{{'Order ID'|translate}} : </span>
+        <span class="value"> {{order.id.slice(-7)}}</span>
+        <span style="display:block;">{{'TotalPrice'|translate}} :<span class="value">{{getSubTotal()| currency:'EGP'}}</span></span>
       </div>
       <!-- <div class="col-md-3 col-sm-12">
         Order Date : <span> {{order.date | date: 'dd/MM/yyyy'}}</span>
@@ -11,17 +12,21 @@
       <div class="col-md-3 col-sm-12">
         Total Payment : <span> {{order.total_payment}}$ </span>
       </div> -->
+      <div class=" col-md-4 col-sm-12  text-center">
+       <span>{{'estimatedEndDate'|translate}} :</span> <span class="value">{{max|date:'fullDate'}}</span>
+      </div>
+
       <div class="col-md-3 col-sm-12">
          Status : <span class="btn order-status"
           [ngClass]="{success: Finished()|| partiallyFinished() || Delivered() || partiallyDelivered() || InProgress(), warning: pending() || WaitingForQuotation() || WaitingForApproval(),danger: Cancelled() || quotationRejected()}">{{order.status}}</span>
       </div>
+
           <!-- Stand alone button to cancel all order -->
-          <div class=" col-md-3 col-sm-12  text-center" *ngIf='WaitingForQuotation()'>
+          <div class=" col-md-2 col-sm-12  text-center">
             <input type="submit" class="btn btn-danger" value="Cancel Order" (click)="cancelOrder()">
           </div>
-          <div class=" col-md-3 col-sm-12  text-center">
-            <span>Total Price:{{getSubTotal()| currency:'EGP'}}</span>
-          </div>
+
+
     </div>
 
 
