@@ -197,7 +197,7 @@ public class OrderService
 		if(order.getLineItems().isEmpty())
 			order=null;
 		else
-			order.setStatus(OrderStatus.WAIT_QUOTE);
+			order.setStatus(OrderStatus.PENDING);
 		return order;
 	}
 	
