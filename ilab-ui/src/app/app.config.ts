@@ -12,6 +12,7 @@ export interface IAppConfig {
   ASSETS_URL: string;
   FILE_URL: string;
   CHECKOUT_URL: string;
+  FILE_SIZE:any;
   getResourceUrl(resource: string): string;
 }
 class DefaultAppConfig implements IAppConfig {
@@ -43,6 +44,9 @@ class DefaultAppConfig implements IAppConfig {
   }
   public get CHECKOUT_URL() {
     return this.getResourceUrl('orders/checkout');
+  }
+  public get FILE_SIZE() {
+    return 5000000;
   }
   public getResourceUrl(resource) {
     return this.API_END_POINT + 'api/' + resource;

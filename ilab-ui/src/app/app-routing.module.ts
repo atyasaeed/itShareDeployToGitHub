@@ -16,7 +16,7 @@ import { NonAuthGuard } from './services/non-auth.guard';
 const routes: Routes = [
   { path: '', component: LandingpageComponent },
   { path: 'Landingpage', component: LandingpageComponent },
-  { path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginComponent ,canActivate: [NonAuthGuard]},
   { path: 'registration', component: RegistrationComponent, canActivate: [NonAuthGuard] },
   // {path:'signup',component:RegistrationComponent,canActivate:[AuthGuard]},
   { path: 'cart', component: CartComponent, canActivate: [AuthGuard] },

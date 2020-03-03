@@ -129,9 +129,17 @@ export class CartItemComponent implements OnInit {
     return this.appConfig.ASSETS_URL + this.service.id;
   }
 
+  msgFileSize:any;
+
   handleFileInput(fileInput: any, oldIndex) {
     //  this.filename= fileInput.target.files[0].name;
+    this.msgFileSize =fileInput.target.files[0].size;
+    if (this.msgFileSize > this.appConfig.FILE_SIZE) {
+      return ;
+    }
+    
     if (fileInput.target.files && fileInput.target.files[0]) {
+    
       let reader = new FileReader();
       reader.onload = (event: any) => { };
       if (oldIndex == 0) {
