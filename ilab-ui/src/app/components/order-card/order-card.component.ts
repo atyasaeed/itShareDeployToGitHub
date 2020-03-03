@@ -14,9 +14,18 @@ export class OrderCardComponent implements OnInit {
   // orderitem = new Order();
 
   constructor(private orderService: OrdersService, private route: ActivatedRoute, private router: Router) {}
-
+//max:any
   ngOnInit() {}
 
+  // getDeliveryDate(){
+  //   for (let index = 0; index < this.order.lineItems.length; index++) {
+  //     if (this.order.lineItems[index].estimatedEndDate.getTime()>this.order.lineItems[index-1].estimatedEndDate.getTime()) {
+        
+  //     }
+      
+
+  //   }
+  // }
   // Check Order Status Cases
 
   WaitingForQuotation() {
