@@ -15,7 +15,6 @@ export class OrderCardComponent implements OnInit {
 
   constructor(private orderService: OrdersService, private route: ActivatedRoute, private router: Router) {}
 max:any
-
 dateArray:any []=[] ;
   ngOnInit() {
 this.getDeliveryDate()
@@ -95,7 +94,7 @@ this.getDeliveryDate()
 
   // Client actions on his orders
   cancelOrder() {
-    this.orderService.cancel(this.order.id).subscribe(res => (this.order = res));
+    this.orderService.cancel(this.order.id).subscribe(res => {this.order = res});
   }
 
   approveQuotation() {
