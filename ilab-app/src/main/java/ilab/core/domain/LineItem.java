@@ -1,26 +1,19 @@
 package ilab.core.domain;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
 @Entity
 public class LineItem extends AbstractEntity<LineItem>
@@ -36,14 +29,14 @@ public class LineItem extends AbstractEntity<LineItem>
 	private long quantity;
 	private BigDecimal unitPrice;
 	
-	@Temporal(TemporalType.DATE)
-	private Date plannedStartDate;
-	@Temporal(TemporalType.DATE)
-	private Date plannedEndDate;
-	@Temporal(TemporalType.DATE)
-	private Date estimatedStardDate;
-	@Temporal(TemporalType.DATE)
-	private Date estimatedEndDate;
+//	@Temporal(TemporalType.DATE)
+	private LocalDateTime plannedStartDate;
+//	@Temporal(TemporalType.DATE)
+	private LocalDateTime plannedEndDate;
+//	@Temporal(TemporalType.DATE)
+	private LocalDateTime estimatedStardDate;
+//	@Temporal(TemporalType.DATE)
+	private LocalDateTime estimatedEndDate;
 	private String notes;
 	@ElementCollection
 	private List<HyperFile> files=new ArrayList<HyperFile>();
@@ -89,30 +82,6 @@ public class LineItem extends AbstractEntity<LineItem>
 		this.unitPrice = unitPrice;
 	}
 	
-	public Date getPlannedEndDate()
-	{
-		return plannedEndDate;
-	}
-	public void setPlannedEndDate(Date plannedEndDate)
-	{
-		this.plannedEndDate = plannedEndDate;
-	}
-	public Date getEstimatedStardDate()
-	{
-		return estimatedStardDate;
-	}
-	public void setEstimatedStardDate(Date estimatedStardDate)
-	{
-		this.estimatedStardDate = estimatedStardDate;
-	}
-	public Date getEstimatedEndDate()
-	{
-		return estimatedEndDate;
-	}
-	public void setEstimatedEndDate(Date estimatedEndDate)
-	{
-		this.estimatedEndDate = estimatedEndDate;
-	}
 	
 	public String getNotes()
 	{
@@ -123,14 +92,7 @@ public class LineItem extends AbstractEntity<LineItem>
 		this.notes = notes;
 	}
 	
-	public Date getPlannedStartDate()
-	{
-		return plannedStartDate;
-	}
-	public void setPlannedStartDate(Date plannedStartDate)
-	{
-		this.plannedStartDate = plannedStartDate;
-	}
+	
 	public List<HyperFile> getFiles()
 	{
 		return files;
@@ -138,5 +100,37 @@ public class LineItem extends AbstractEntity<LineItem>
 	public void setFiles(List<HyperFile> files)
 	{
 		this.files = files;
+	}
+	public LocalDateTime getPlannedStartDate()
+	{
+		return plannedStartDate;
+	}
+	public void setPlannedStartDate(LocalDateTime plannedStartDate)
+	{
+		this.plannedStartDate = plannedStartDate;
+	}
+	public LocalDateTime getPlannedEndDate()
+	{
+		return plannedEndDate;
+	}
+	public void setPlannedEndDate(LocalDateTime plannedEndDate)
+	{
+		this.plannedEndDate = plannedEndDate;
+	}
+	public LocalDateTime getEstimatedStardDate()
+	{
+		return estimatedStardDate;
+	}
+	public void setEstimatedStardDate(LocalDateTime estimatedStardDate)
+	{
+		this.estimatedStardDate = estimatedStardDate;
+	}
+	public LocalDateTime getEstimatedEndDate()
+	{
+		return estimatedEndDate;
+	}
+	public void setEstimatedEndDate(LocalDateTime estimatedEndDate)
+	{
+		this.estimatedEndDate = estimatedEndDate;
 	}
 }

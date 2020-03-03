@@ -40,7 +40,7 @@ public class OrderService
 	@Autowired
 	private FileAssetRepository assetsRepo;
 	@Autowired
-	private PricingService pricingService;
+	private EstimatorService estomatorService;
 	public Iterable<OrderEntity> getOrders(Authentication auth)
 	{
 		User user=userRepo.findByUsername(auth.getName());
@@ -126,7 +126,7 @@ public class OrderService
 			index++;
 		}
 		
-		pricingService.price(item);		
+		estomatorService.price(item);		
 
 		item=lineItemRepo.save(item);
 		order=orderRepo.save(order);

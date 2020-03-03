@@ -12,13 +12,14 @@ import ilab.core.domain.LineItem;
 import ilab.core.domain.OrderEntity;
 import ilab.core.repository.LineItemRepository;
 import ilab.core.repository.ServiceRepository;
+import ilab.core.services.strategy.DefaultDeliveryDateStrategy;
 import ilab.core.services.strategy.DefaultPricingStrategy;
 import ilab.core.services.strategy.PricingFor3D;
 import ilab.core.services.strategy.PricingForPrinting;
 
 @Service
 @Transactional
-public class PricingService
+public class EstimatorService
 {
 	@Autowired
 	ServiceRepository serviceRepo;
@@ -28,6 +29,8 @@ public class PricingService
 	PricingForPrinting pricingForPrinting;
 	@Autowired
 	DefaultPricingStrategy defaultPricing;
+	@Autowired
+	DefaultDeliveryDateStrategy defaultDeliveryDate;
 	void price(LineItem item)
 	{
 		ilab.core.domain.Service service=serviceRepo.findById(item.getService().getId()).orElse(null);
@@ -46,6 +49,7 @@ public class PricingService
 			defaultPricing.price(item);
 			break;
 		}
+		defaultDeliveryDate.estimate(item);
 	}
 	void price(OrderEntity order)
 	{
