@@ -73,7 +73,7 @@
                   <div *ngIf="!aFile.controls.file.valid && submitted" class="text-danger">
                     <div *ngIf="aFile.controls.file.errors.required">file is required</div>
                   </div>
-                <span *ngIf="msgFileSize>appConfig.FILE_SIZE" class="text-danger" style="background-color:white;">Size must less than  5MG </span>
+                <span *ngIf="msgFileSize>appConfig.FILE_SIZE" class="text-danger" style="background-color:white;">Size must less than  5MB </span>
                 </div>
                 <div class="form-group col-sm-6 mb-2">
                   <label>{{ 'Units Used In File' | translate }} </label>
