@@ -41,8 +41,8 @@
                           <div class="product-name">
 
                             <div class="product-info">
-                              <div *ngIf = "item?.estimatedStardDate">{{ 'Start Date' | translate }}: <span class="value">{{item.estimatedStardDate | date:'dd-MM-yyyy'}}</span></div>
-                              <div *ngIf = "item?.estimatedEndDate">{{ 'estimatedEndDate' | translate }}: <span class="value">{{item.estimatedEndDate | date:'dd-MM-yyyy'}}</span></div>
+                              <div *ngIf = "item?.estimatedStardDate">{{ 'Start Date' | translate }}: <span class="value">{{item.estimatedStardDate |date:'fullDate'}}</span></div>
+                              <div *ngIf = "item?.estimatedEndDate">{{ 'estimatedEndDate' | translate }}: <span class="value">{{item.estimatedEndDate |date:'fullDate'}}</span></div>
                                <div>{{ 'Price' | translate }}: <span class="value">{{item.unitPrice}}</span></div>
                                <div>{{ 'UnitePrice' | translate }}: <span class="value">{{item.unitPrice|currency:'EGP'}}</span></div>
                                <div> {{ 'TotalPrice' | translate }}:<span class="value">{{item.unitPrice * item.quantity}}</span></div>

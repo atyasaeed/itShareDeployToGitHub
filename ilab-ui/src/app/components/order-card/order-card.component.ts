@@ -14,18 +14,21 @@ export class OrderCardComponent implements OnInit {
   // orderitem = new Order();
 
   constructor(private orderService: OrdersService, private route: ActivatedRoute, private router: Router) {}
-//max:any
-  ngOnInit() {}
+max:any
 
-  // getDeliveryDate(){
-  //   for (let index = 0; index < this.order.lineItems.length; index++) {
-  //     if (this.order.lineItems[index].estimatedEndDate.getTime()>this.order.lineItems[index-1].estimatedEndDate.getTime()) {
-        
-  //     }
-      
+dateArray:any []=[] ;
+  ngOnInit() {
+this.getDeliveryDate()
+  }
 
-  //   }
-  // }
+  getDeliveryDate(){
+    for (let index = 0; index < this.order.lineItems.length; index++) {
+
+      this.dateArray.push(this.order.lineItems[index].estimatedEndDate)
+    }
+    console.log(this.dateArray);
+    this.max = this.dateArray.reduce(function (a, b) { return a > b ? a : b; });
+  }
   // Check Order Status Cases
 
   WaitingForQuotation() {

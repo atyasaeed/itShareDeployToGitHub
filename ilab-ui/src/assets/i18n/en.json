@@ -61,6 +61,7 @@
     "Digital Material":"Digital Material",
     "total":"total",
     "Summary":"Summary",
-    "estimatedEndDate":"Delivery Date"
+    "estimatedEndDate":"Delivery By",
+    "Order ID":"Order ID"
 
 }
