@@ -3,11 +3,11 @@ import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { debounceTime, delay, map, switchMap, tap } from 'rxjs/operators';
 import { APP_CONFIG, IAppConfig } from 'src/app/app.config';
-import { User } from 'src/app/shared/domain/user.model';
-import { SortDirection } from './sortable.directive';
+import { Order } from 'src/app/shared/domain';
+import { SortDirection } from '../user/sortable.directive';
 
 interface SearchResult {
-  users: User[];
+  orders: Order[];
   total: number;
 }
 interface State {
@@ -18,12 +18,13 @@ interface State {
   sortDirection: SortDirection;
 }
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
-export class UserService {
+export class OrderService {
+  // resource: string = 'orders/search';
   private _loading$ = new BehaviorSubject<boolean>(true);
   private _search$ = new Subject<void>();
-  private _users$ = new BehaviorSubject<User[]>([]);
+  private _order$ = new BehaviorSubject<Order[]>([]);
   private _total$ = new BehaviorSubject<number>(0);
   private _state: State = {
     page: 1,
@@ -42,15 +43,15 @@ export class UserService {
         tap(() => this._loading$.next(false))
       )
       .subscribe(result => {
-        this._users$.next(result.users);
+        this._order$.next(result.orders);
         this._total$.next(result.total);
       });
 
     this._search$.next();
   }
 
-  get users$() {
-    return this._users$.asObservable();
+  get order$() {
+    return this._order$.asObservable();
   }
   get total$() {
     return this._total$.asObservable();
@@ -90,51 +91,36 @@ export class UserService {
   private _search(): Observable<SearchResult> {
     const { sortColumn, sortDirection, pageSize, page, searchTerm } = this._state;
 
-    //http://localhost:8080/api/users/search?search=username:hasalem%20OR%20email:mosalem@gmail.com
-    let url = this.appConfig.API_END_POINT + `api/admin/users/search?size=${pageSize}&page=${page - 1}`;
+    let url = this.appConfig.API_END_POINT + `api/admin/orders/search?size=${pageSize}&page=${page - 1}`;
     if (searchTerm) {
-      url += `&search=username:*${searchTerm}* OR email:*${searchTerm}* OR firstName:*${searchTerm}* OR lastName:*${searchTerm}*`;
+      url += `&search=name:*${searchTerm}* OR description:*${searchTerm}*`;
     }
-
     return this.http.get<any>(url).pipe(
       map(result => {
-        return { users: result.content, total: result.totalElements };
-
-        // return user;
+        return { orders: result.content, total: result.totalElements };
       })
     );
-
-    // // 1. sort
-    // let users = sort(USERS, sortColumn, sortDirection);
-
-    // // 2. filter
-    // users = users.filter(country => matches(country, searchTerm));
-    // const total = users.length;
-
-    // // 3. paginate
-    // users = users.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
-    // return of({ users, total });
   }
 }
 function compare(v1, v2) {
   return v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 }
 
-function sort(users: User[], column: string, direction: string): User[] {
-  if (direction === '') {
-    return users;
-  } else {
-    return [...users].sort((a, b) => {
-      const res = compare(a[column], b[column]);
-      return direction === 'asc' ? res : -res;
-    });
-  }
-}
+// function sort(users: User[], column: string, direction: string): User[] {
+//   if (direction === '') {
+//     return users;
+//   } else {
+//     return [...users].sort((a, b) => {
+//       const res = compare(a[column], b[column]);
+//       return direction === 'asc' ? res : -res;
+//     });
+//   }
+// }
 
-function matches(user: User, term: string) {
-  return (
-    user.username.toLowerCase().includes(term.toLowerCase()) ||
-    user.firstName.toLowerCase().includes(term) ||
-    user.lastName.toLowerCase().includes(term)
-  );
-}
+// function matches(user: User, term: string) {
+//   return (
+//     user.username.toLowerCase().includes(term.toLowerCase()) ||
+//     user.firstName.toLowerCase().includes(term) ||
+//     user.lastName.toLowerCase().includes(term)
+//   );
+// }

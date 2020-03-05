@@ -1,1 +1,130 @@
-<p>line-item works!</p>
+<main class="page">
+  <section class="tracking-orders ">
+
+    <div class="container">
+
+
+      <div class="card mb-3">
+        <div class="card-header">
+          <div class="row text-center">
+            <div class="col-md-3 col-sm-12">
+              <span>{{'Order ID' |translate}}: </span>
+              <span class="value"> {{order.id?.slice(-7)}}</span>
+              <!-- <span style="display:block;">{{'TotalPrice'|translate}} :<span
+                  class="value">{{getSubTotal()| currency:'EGP'}}</span></span> -->
+            </div>
+            <div class=" col-md-5 col-sm-12  text-center">
+              <!-- <span>{{'estimatedEndDate'|translate}}:</span> <span class="value">{{max|date:'fullDate'}}</span> -->
+            </div>
+
+
+          </div>
+
+        </div>
+        <div class="card-body">
+
+          <div class="row">
+
+            <!-- Cart Items Table -->
+            <div class="col-md-12 col-lg-12">
+              <div class="items">
+
+                <!-- One Item Row -->
+                <div class="product">
+                  <div class="row">
+                    <!-- <div class="col-md-3">
+                      <img class="img-fluid mx-auto d-block image" [src]="getImageUrl()">
+                    </div> -->
+                    <div class="col-md-12">
+                      <div class="info">
+                        <div class="row">
+                          <div class="col-md-12 product-name"
+                            *ngFor="let lineItem of order.lineItems ;index as indexItem ">
+                            <h5 class="text-center">{{lineItem.service.name}}</h5>
+
+                            <div class="row mb-2">
+                              <div class="col-md-5">
+                                <div *ngIf="lineItem?.estimatedEndDate"><span
+                                    class="col-md-4">{{'estimatedEndDate'|translate}}:</span><span
+                                    class="value ">{{ lineItem.estimatedEndDate | date:'fullDate' }}
+                                  </span></div>
+                                <div *ngIf="lineItem?.plannedEndDate"><span
+                                    class="col-md-4">{{'Planned End Date'|translate}}:</span><span
+                                    class="value ">{{ lineItem.plannedEndDate | date:'fullDate' }}
+                                  </span></div>
+                                <div><span class="col-md-4">{{'Price'|translate}} :</span><span
+                                    class="value ">{{lineItem.unitPrice *lineItem.quantity|currency:'EGP'}}
+                                  </span></div>
+
+
+                              </div>
+                              <div class="col-md-5">
+                                <div><span class="col-md-4">{{ 'Quantity' | translate }}Quantity</span><span
+                                    class="value ">{{lineItem.quantity}}</span></div>
+                                <div><span class="col-md-4">{{'Notes'|translate}}</span><span
+                                    class="value ">{{lineItem.notes}}</span>
+                                </div>
+                              </div>
+                              <div class="col-md-2">
+                                <a type="" class="btn btn-md btn-success" (click)="open()">Assign Machines</a>
+                              </div>
+
+                            </div>
+                            <div class="row" *ngFor="let file of lineItem.files ;index as i" class="card-form">
+                              <div class="form-title">{{'Digital Material' |translate}}: <span class="value"><a
+                                    [href]="getFileUrl(indexItem,i)">{{file.asset_name}}</a></span></div>
+                              <div class="form-body">
+                                <div>{{'Type'|translate}} :<span class="value">{{file.type |titlecase}}</span></div>
+                                <div>{{'Material'|translate}} :<span class="value">{{file.material |titlecase}}</span>
+                                </div>
+                                <div>{{'Dimension'|translate}}:<span class="value">{{file.dimension |titlecase}}</span>
+                                </div>
+                                <div>{{'Color'|translate}}:<span class="value">{{file.color |titlecase}}</span>
+                                </div>
+                                <div></div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-12">
+
+                              </div>
+                            </div>
+                          </div>
+
+                          <!-- {{lineItem.status}} -->
+
+                          <!-- <div class="col-md-3 price">
+                          <div class="btn btn-warning"></div>
+                        </div>
+                        <div class="col-md-1 price">
+                          <button type="button" class="btn btn-outline-danger btn-xs">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                          </button>
+                        </div> -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- End One Item Row -->
+
+              </div>
+            </div>
+
+            <!-- End One Item Row -->
+
+          </div>
+
+
+
+
+          <!-- <div> -->
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+</main>
