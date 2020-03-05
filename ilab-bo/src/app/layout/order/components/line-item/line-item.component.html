@@ -8,35 +8,14 @@
         <div class="card-header">
           <div class="row text-center">
             <div class="col-md-3 col-sm-12">
-              <span>Order ID: </span>
+              <span>{{'Order ID' |translate}}: </span>
               <span class="value"> {{order.id?.slice(-7)}}</span>
-              <span style="display:block;">TotalPrice :<span
-                  class="value">{{getSubTotal()| currency:'EGP'}}</span></span>
+              <!-- <span style="display:block;">{{'TotalPrice'|translate}} :<span
+                  class="value">{{getSubTotal()| currency:'EGP'}}</span></span> -->
             </div>
-            <!-- <div class="col-md-3 col-sm-12">
-                  Order Date : <span> {{order.date | date: 'dd/MM/yyyy'}}</span>
-                </div>
-                <div class="col-md-3 col-sm-12">
-                  Total Payment : <span> {{order.total_payment}}$ </span>
-                </div> -->
             <div class=" col-md-5 col-sm-12  text-center">
-              <span>Delivery By:</span> <span class="value">{{max|date:'fullDate'}}</span>
+              <!-- <span>{{'estimatedEndDate'|translate}}:</span> <span class="value">{{max|date:'fullDate'}}</span> -->
             </div>
-            <!-- <div class=" col-md-4 col-sm-12  text-center">
-              <a type="" class="btn btn-md btn-success" [routerLink]='["line-item"]' [state]="order">Show
-                Details</a>
-            </div> -->
-
-
-            <!-- <div class="col-md-3 col-sm-12">
-                  Status : <span class="btn order-status"
-                    [ngClass]="{success: Finished()|| partiallyFinished() || Delivered() || partiallyDelivered() || InProgress(), warning: pending() || WaitingForQuotation() || WaitingForApproval(),danger: Cancelled() || quotationRejected()}">{{order.status}}</span>
-                </div> -->
-
-            <!-- Stand alone button to cancel all order -->
-            <!-- <div class=" col-md-2 col-sm-12  text-center" *ngIf="!Cancelled()">
-                  <input type="submit" class="btn btn-danger" value="Cancel Order" (click)="cancelOrder()">
-                </div> -->
 
 
           </div>
@@ -63,45 +42,48 @@
                             *ngFor="let lineItem of order.lineItems ;index as indexItem ">
                             <h5 class="text-center">{{lineItem.service.name}}</h5>
 
-                            <div class="row">
-                              <div class="col-md-6">
-                                <div *ngIf="lineItem?.estimatedEndDate"><span class="col-md-4">Delivery By</span><span
+                            <div class="row mb-2">
+                              <div class="col-md-5">
+                                <div *ngIf="lineItem?.estimatedEndDate"><span
+                                    class="col-md-4">{{'estimatedEndDate'|translate}}:</span><span
                                     class="value ">{{ lineItem.estimatedEndDate | date:'fullDate' }}
                                   </span></div>
-                                <div *ngIf="lineItem?.plannedEndDate"><span class="col-md-4">Planned End
-                                    Date</span><span class="value ">{{ lineItem.plannedEndDate | date:'fullDate' }}
+                                <div *ngIf="lineItem?.plannedEndDate"><span
+                                    class="col-md-4">{{'Planned End Date'|translate}}:</span><span
+                                    class="value ">{{ lineItem.plannedEndDate | date:'fullDate' }}
                                   </span></div>
-                                <div><span class="col-md-4">Price :</span><span
+                                <div><span class="col-md-4">{{'Price'|translate}} :</span><span
                                     class="value ">{{lineItem.unitPrice *lineItem.quantity|currency:'EGP'}}
                                   </span></div>
 
 
                               </div>
-                              <div class="col-md-6">
-                                <div><span class="col-md-4">Quantity</span><span
+                              <div class="col-md-5">
+                                <div><span class="col-md-4">{{ 'Quantity' | translate }}Quantity</span><span
                                     class="value ">{{lineItem.quantity}}</span></div>
-                                <div><span class="col-md-4">Notes</span><span class="value ">{{lineItem.notes}}</span>
+                                <div><span class="col-md-4">{{'Notes'|translate}}</span><span
+                                    class="value ">{{lineItem.notes}}</span>
                                 </div>
+                              </div>
+                              <div class="col-md-2">
+                                <a type="" class="btn btn-md btn-success" (click)="open()">Assign Machines</a>
                               </div>
 
                             </div>
                             <div class="row" *ngFor="let file of lineItem.files ;index as i" class="card-form">
-                              <div class="form-title">Digital Material: <span class="value"><a
+                              <div class="form-title">{{'Digital Material' |translate}}: <span class="value"><a
                                     [href]="getFileUrl(indexItem,i)">{{file.asset_name}}</a></span></div>
                               <div class="form-body">
-                                <div>Type :<span class="value">{{file.type |titlecase}}</span></div>
-                                <div>Material :<span class="value">{{file.material |titlecase}}</span></div>
-                                <div>Dimension :<span class="value">{{file.dimension |titlecase}}</span></div>
-                                <div>Color : <span class="value">{{file.color |titlecase}}</span></div>
+                                <div>{{'Type'|translate}} :<span class="value">{{file.type |titlecase}}</span></div>
+                                <div>{{'Material'|translate}} :<span class="value">{{file.material |titlecase}}</span>
+                                </div>
+                                <div>{{'Dimension'|translate}}:<span class="value">{{file.dimension |titlecase}}</span>
+                                </div>
+                                <div>{{'Color'|translate}}:<span class="value">{{file.color |titlecase}}</span>
+                                </div>
                                 <div></div>
                               </div>
                             </div>
-                            <!-- <div *ngFor="let file of lineItem.files; index as i"class="card-form">
-
-                                            <div>Uploaded File :<a href="{{getFileUrl()}}">{{lineItem.asset_name}}</a></div>
-                                            <div>Units used in file :<span class="value ">{{lineItem.unit}}</span></div>
-                                            <div>Material :<span class="value ">{{lineItem.material}}</span></div>
-                                          </div> -->
                             <div class="row">
                               <div class="col-md-12">
 
