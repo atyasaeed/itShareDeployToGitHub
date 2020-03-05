@@ -23,8 +23,7 @@ public interface OrderRepository extends PagingAndSortingRepository<OrderEntity,
 {
 	@Query("select o from OrderEntity o where o.status=?1 and o.account.id=?2")
 	List<OrderEntity> findShoppingCart(OrderStatus status,UUID accountId,Pageable page);
-	@Query("select o from OrderEntity o where o.status=?1")
-	Page<OrderEntity> findOrdersWithStatus(OrderStatus status,Pageable page,Specification<OrderEntity> specs);
+	Page<OrderEntity> findByStatus(OrderStatus status,Pageable page);
 	@Query("select o from OrderEntity o where o.status<>?1 and o.account.id=?2")
 	List<OrderEntity> findByAccount(OrderStatus status,UUID accountId,Pageable page);
 }

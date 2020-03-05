@@ -49,10 +49,15 @@ public class OrderService
 		User user=userRepo.findByUsername(auth.getName());
 		return orderRepo.findByAccount(OrderStatus.SHOPPING_CART, user.getAccounts().iterator().next().getId(), PageRequest.of(0, 100));
 	}
+	public OrderEntity getOrder(UUID orderId)
+	{
+		return orderRepo.findById(orderId).orElse(null);
+	}
 	public Page<OrderEntity> getOrders(Pageable page,Specification<OrderEntity> specs)
 	{
-		return orderRepo.findOrdersWithStatus(OrderStatus.PENDING, page, specs);
-//		return orderRepo.findAll( specs,page);
+//		return orderRepo.findByStatus(OrderStatus.PENDING, specs, page);
+		return orderRepo.findByStatus(OrderStatus.PENDING, page);
+//		return orderRepo.findAll( specs,page).filter(order->order.getStatus()==OrderStatus.PENDING);
 		
 	} 
 	public OrderEntity approve(UUID orderId,Authentication auth)
