@@ -11,7 +11,10 @@ import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,6 +49,12 @@ public class OrderService
 		User user=userRepo.findByUsername(auth.getName());
 		return orderRepo.findByAccount(OrderStatus.SHOPPING_CART, user.getAccounts().iterator().next().getId(), PageRequest.of(0, 100));
 	}
+	public Page<OrderEntity> getOrders(Pageable page,Specification<OrderEntity> specs)
+	{
+		return orderRepo.findOrdersWithStatus(OrderStatus.PENDING, page, specs);
+//		return orderRepo.findAll( specs,page);
+		
+	} 
 	public OrderEntity approve(UUID orderId,Authentication auth)
 	{
 		User user=userRepo.findByUsername(auth.getName());

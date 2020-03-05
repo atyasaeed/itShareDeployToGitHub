@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 @Entity
 public class Service extends AbstractEntity<Service>
 {
-	@Column(unique = false)
+	@Column(unique = true)
 	private String name;
 	private String description;
 	private int maxFiles;

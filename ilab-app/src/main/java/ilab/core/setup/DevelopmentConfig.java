@@ -43,7 +43,7 @@ public class DevelopmentConfig
 					service=serviceRepo.save(createService("3D Printing","3D Printing Mono Color",1,"serviceTemplate.json","serviceFileExtensions.json","Working Area 1","3d"));
 					Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));
 
-					service=serviceRepo.save(createService("3D Printing","3D Printing Multi Color",2,"serviceTemplate.json","serviceFileExtensions.json","Working Area 2","3d"));
+					service=serviceRepo.save(createService("3D Printing2","3D Printing Multi Color",2,"serviceTemplate.json","serviceFileExtensions.json","Working Area 2","3d"));
 					Files.copy(new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getName()+".jpg"), new File("D:\\workspaces\\ilab\\resources\\images\\"+service.getId()+".jpg"));
 					
 					service=serviceRepo.save(createService("Laser Scanning","Laser Cutting Description",1,"serviceTemplate2.json","serviceFileExtensions.json","Working Area 2","15"));
