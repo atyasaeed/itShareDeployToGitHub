@@ -32,7 +32,7 @@ class DefaultAppConfig implements IAppConfig {
     return this.API_END_POINT + 'orders/checkout';
   }
   public getResourceUrl(resource) {
-    return this.API_END_POINT + 'api/' + resource;
+    return this.API_END_POINT + 'api/admin/' + resource;
   }
 }
 

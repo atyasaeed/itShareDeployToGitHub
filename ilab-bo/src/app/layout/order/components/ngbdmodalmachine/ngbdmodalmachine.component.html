@@ -1,0 +1,19 @@
+<div class="modal-header">
+  <h4 class="modal-title">Avaliable Machines</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body row">
+  <section class="col-md-8">
+    <div><small>Machine Name</small><span>:Machine1</span></div>
+    <div><small>Time To Start</small><span>:1-5-2020</span></div>
+    <div><small>Expected Time To Finish</small><span>:5-5-2020</span></div>
+  </section>
+  <section class="col-md-4 btn-group">
+    <a style="height: max-content;" class="btn btn-md btn-success" (click)="activeModal.close('Close click')">Assign</a>
+  </section>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+</div>
