@@ -8,9 +8,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
-import javax.transaction.Transactional.TxType;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +34,8 @@ import ilab.core.repository.UserRepository;
 @Transactional
 public class OrderService
 {
+	@Value("${iLab.paths.files}")
+	String filesPath;
 	@Autowired
 	private OrderRepository orderRepo;
 	@Autowired
@@ -130,7 +132,7 @@ public class OrderService
 			digitalAsset.setName(file.getOriginalFilename());
 			digitalAsset.setAccount(order.getAccount());
 			digitalAsset=assetsRepo.save(digitalAsset);
-			File destPath=new File("D:\\workspaces\\ilab\\resources\\files\\"+order.getAccount().getId()+"\\"+digitalAsset.getId());
+			File destPath=new File(filesPath+order.getAccount().getId()+"\\"+digitalAsset.getId());
 			System.out.println(destPath.getParentFile().getAbsolutePath());
 			if(! destPath.getParentFile().exists())
 				Files.createDirectory(destPath.getParentFile().toPath());

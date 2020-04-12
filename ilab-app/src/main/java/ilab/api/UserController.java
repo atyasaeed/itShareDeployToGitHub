@@ -3,6 +3,7 @@ package ilab.api;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +33,9 @@ import ilab.utils.SendEmailEvent;
 @RequestMapping(path = "/api/users", produces = "application/json")
 public class UserController
 {
+	@Value("${iLab.urls.resetPassword}")
+	
+	String resetPasswordUrl;
 	@Autowired
 	UserService userService;
 	
@@ -83,7 +87,7 @@ public class UserController
 	public RedirectView resetPassword(@RequestParam("id") UUID userId, @RequestParam("token") UUID token)
 	{
 		userService.resetPassword(userId, token);
-		return new RedirectView("http://192.168.1.201:8080/ui/reset-password");
+		return new RedirectView(resetPasswordUrl);
 	}
 
 //	@GetMapping("/test")

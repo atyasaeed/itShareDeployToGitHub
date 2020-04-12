@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -23,6 +24,10 @@ import ilab.core.service.AssetService;
 @Controller
 public class AssetsController
 {
+	@Value("${iLab.paths.images}")
+	String imagesPath;
+	@Value("${iLab.paths.files}")
+	String filesPath;
 	@Autowired
 	private AssetService assetsService;
 	@GetMapping(value="assets/images/{id}",produces = MediaType.IMAGE_JPEG_VALUE)
@@ -30,13 +35,13 @@ public class AssetsController
     public ResponseEntity<Resource> getImageAsResource(@PathVariable("id") String id) {
         final HttpHeaders headers = new HttpHeaders();
 //        Resource resource = new ServletContextResource(servletContext, "/WEB-INF/images/image-example.jpg");
-        Resource resource=new FileSystemResource("D:\\workspaces\\ilab\\resources\\images\\"+id+".jpg");
+        Resource resource=new FileSystemResource(imagesPath+id+".jpg");
         return new ResponseEntity<>(resource, headers, HttpStatus.OK);
     }
 	@GetMapping("assets/files/{id}")
     @ResponseBody
     public ResponseEntity<Resource> getFileAsResource(@PathVariable("id") UUID id,Authentication auth) throws Exception{
-        Resource resource=new FileSystemResource("D:\\workspaces\\ilab\\resources\\files\\"+id);
+        Resource resource=new FileSystemResource(filesPath+id);
         String filename=id.toString();
         if(!resource.getFile().exists()&&auth!=null)
         {
@@ -45,7 +50,7 @@ public class AssetsController
         	FileAsset fileAsset=optional.isEmpty()?null:optional.get();
         	if(fileAsset!=null)
         	{
-        		resource=new FileSystemResource("D:\\workspaces\\ilab\\resources\\files\\"+fileAsset.getAccount().getId()+"\\"+id);
+        		resource=new FileSystemResource(filesPath+fileAsset.getAccount().getId()+"\\"+id);
         		filename=fileAsset.getName();
         	}
         }

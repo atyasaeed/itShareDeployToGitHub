@@ -16,6 +16,7 @@ import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import ilab.core.domain.HyperFile;
@@ -23,7 +24,8 @@ import ilab.core.domain.LineItem;
 @Component
 public class PricingFor3D implements PricingStrategy
 {
-
+	@Value("${iLab.paths.files}")
+	String filesPath;
 	@Override
 	public void price(LineItem item)
 	{
@@ -41,7 +43,7 @@ public class PricingFor3D implements PricingStrategy
 		{
 			if(hyperFile==null) continue;
 
-			File file=new File("D:\\workspaces\\ilab\\resources\\files\\"+item.getOrderEntity().getAccount().getId()+"\\"+hyperFile.getAsset().getId());
+			File file=new File(filesPath+item.getOrderEntity().getAccount().getId()+"\\"+hyperFile.getAsset().getId());
 			builder.addBinaryBody("stlFiles[]", file,ContentType.DEFAULT_BINARY,hyperFile.getAsset().getName());
 		}
 		
