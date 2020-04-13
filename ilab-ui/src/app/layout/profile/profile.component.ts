@@ -35,33 +35,9 @@ export class ProfileComponent extends DefaultFormComponent<User, ProfileService>
       id: [''],
       username: [{ value: '', disabled: true }, Validators.required],
       email: [{ value: '', disabled: true }, Validators.required],
-      arName: [{ value: '', disabled: true }],
-      enName: [{ value: '', disabled: true }],
-      nationality: [{ value: '', disabled: true }, [Validators.required]],
-      idNumber: [{ value: '', disabled: true }, Validators.required],
-      // gender: [true, [Validators.required]],
-      birthdate: [{ value: '', disabled: true }, [Validators.required]],
-      department: this.formBuilder.group({
-        id: [''],
-        faculty: this.formBuilder.group({
-          id: [''],
-          university: this.formBuilder.group({
-            id: [''],
-          }),
-        }),
-      }),
-
-      // degree: ['', [Validators.required]],
-      empCase: this.formBuilder.group({
-        id: [''],
-      }),
-
-      degree: this.formBuilder.group({
-        id: ['', Validators.required],
-      }),
-      // file: ['', [Validators.required]],
-      phoneNo: ['', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
-      homePhoneNo: ['', [Validators.pattern('^[0-9]*$')]],
+      firstName: [''],
+      lastName: [''],
+      phone: [''],
     });
   }
   ngOnInit() {
