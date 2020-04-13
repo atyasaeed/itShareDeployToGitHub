@@ -5,12 +5,10 @@
 	<parent>
 		<groupId>ilab</groupId>
 		<artifactId>ilab-parent</artifactId>
-		<version>1.2</version>
+		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>ilab-ui</artifactId>
-
 	<name>iLab UI Project</name>
-	<description>Angular project for iLab UI</description>
 	<properties>
 		<node.version>v12.13.0</node.version>
 		<npm.version>6.13.2</npm.version>
@@ -85,4 +83,5 @@
 			</plugin>
 		</plugins>
 	</build>
+
 </project>

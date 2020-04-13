@@ -8,7 +8,7 @@
     }
     .main-container {
         margin-left: 0 !important;
-       // margin-right: 235px;
+        margin-right: 235px;
     }
     /*rtl dropdown items correction*/
     .dropdown-menu {
@@ -18,17 +18,13 @@
         direction: rtl;
     }
     .navbar * {
-       // direction: ltr;
-        text-align: right;
+        direction: ltr;
     }
-    .navbar-right{
-      direction: rtl;
-    }
-
 
     .sidebar * {
         direction: ltr;
     }
+
     .navbar .dropdown-menu {
         text-align: left;
     }
@@ -76,4 +72,3 @@
         }
     }
 }
-/*******************************************************/

@@ -1,0 +1,93 @@
+<div *tdLoading="'emp-case'" [@routerTransition]>
+    <app-page-header [heading]="'Employee Case'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header>
+    <form *ngIf="entity" [formGroup]='form' (ngSubmit)="save()">
+        <mat-card>
+
+            <mat-card-content>
+                <mat-form-field>
+                    <input matInput type="text" placeholder="{{'User name'|translate}}" required formControlName='username' [disabled]='true'>
+                    <mat-error *ngIf="hasError('arName')">User name is required</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <input name="email" matInput type="text" placeholder="{{'Email'|translate}}" required formControlName='email' [disabled]='true'>
+                    <mat-error *ngIf="hasError('email')">Email name is required</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <input name="arName" matInput type="text" placeholder=" {{'Arabic name '|translate}}" required formControlName='arName' [disabled]='true'>
+                    <mat-error *ngIf="hasError('arName')">Arabic name is required</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <input name="enName" matInput type="text" placeholder="{{'English name'|translate}}" required formControlName='enName'>
+                    <mat-error *ngIf="hasError('enName')">English name is required</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <input name="nationality" matInput type="text" placeholder="{{'Nationality'|translate}}" required formControlName='nationality'>
+                    <mat-error *ngIf="hasError('nationality')">Nationality is required</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <input name="idNumber" matInput type="text" placeholder="{{'Nationality ID'|translate}}" required formControlName='idNumber'>
+                    <mat-error *ngIf="hasError('idNumber')">Arabic name is required</mat-error>
+                </mat-form-field>
+
+
+
+                <!-- <mat-form-field formGroupName="empCase">
+          <mat-label>{{'EmpCase' | translate}}</mat-label>
+          <mat-select place="EmpCase" formControlName="id">
+            <mat-option [value]="empCase.id" *ngFor="let empCase of empCases$|async">{{empCase.arName}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field> -->
+
+                <mat-form-field>
+                    <input name="phoneNo" matInput type="text" placeholder=" {{'phone No'|translate}}" formControlName='phoneNo' [disabled]='true'>
+                    <mat-error *ngIf="hasError('phoneNo')">PhoneNo name is required</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <input name="homePhoneNo" matInput type="text" placeholder=" {{'Home Phone No'|translate}}" formControlName='homePhoneNo' [disabled]='true'>
+                    <mat-error *ngIf="hasError('homePhoneNo')">Home Phone No Name is Required</mat-error>
+                </mat-form-field>
+
+
+                <!-- <div formGroupName="department">
+          <div formGroupName="faculty">
+            <mat-form-field formGroupName="university">
+              <mat-label>{{'University' | translate}}</mat-label>
+              <mat-select place="University" formControlName="id" [disabled]="entity.id" #uniSelect>
+                <mat-option [value]="university.id" *ngFor="let university of universities$|async ">
+                  {{university.arName}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field *ngIf="(universities$|async) as universities">
+              <mat-label>{{'Faculty' | translate}}</mat-label>
+              <mat-select place="Faculty" formControlName="id" [disabled]="entity.id">
+                <mat-option [value]="faculty.id" *ngFor="let faculty of faculties$|async">{{faculty.arName}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field *ngIf="(faculties$|async) as faculties">
+              <mat-label>{{'Department' | translate}}</mat-label>
+              <mat-select place="Department" formControlName="id" [disabled]="entity.id">
+                <mat-option [value]="department.id" *ngFor="let department of faculties$|async">{{department.arName}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div> -->
+
+
+            </mat-card-content>
+            <mat-card-actions>
+                <!-- <div *ngFor="let document of entity?.documents ;index as i">
+          <a [href]="getFileUrl(i)" style="color: #0062cc;">{{document?.name}}</a>
+        </div> -->
+                <button type="button" mat-button (click)="cancel()">Cancel</button>
+                <button type="submit" mat-raised-button color="primary" [disabled]="f().invalid">Save</button>
+
+            </mat-card-actions>
+        </mat-card>
+
+    </form>
+
+</div>

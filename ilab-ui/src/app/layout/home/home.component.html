@@ -1,0 +1,45 @@
+<div [@routerTransition]>
+    <h2 class="text-muted">iLab <small>Top Rated Services</small></h2>
+    <div class="row">
+        <div class="col-md-12">
+            <carousel>
+                <slide ngbSlide *ngFor="let slider of sliders">
+                    <img class="img-fluid mx-auto d-block" [src]="slider.imagePath" alt="Random first slide" width="100%">
+                    <div class="carousel-caption">
+                        <h3>{{slider.label}}</h3>
+                        <p>{{slider.text}}</p>
+                    </div>
+                </slide>
+            </carousel>
+        </div>
+    </div>
+    <hr>
+    <form class="event-color">
+        <div class="form-group form-inline">
+            Full text search: <input class="form-control ml-2" type="text" name="searchTerm" [(ngModel)]="searchTerm" />
+            <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
+        </div>
+        <div class="row upcoming-events">
+            <!--service-item-->
+            <!-- Hello -->
+            <div class="col-md-6" *ngFor="let entity of entities$ | async; let i=index">
+
+                <!-- <app-service-item [service]="service"></app-service-item> -->
+                <!-- {{course|json}} -->
+                <app-service-card [entity]="entity"></app-service-card>
+
+            </div>
+        </div>
+        <!-- <div class="d-flex justify-content-between p-2 ">
+            <ngb-pagination [collectionSize]="total$ | async" [(page)]="eventService.page" [pageSize]="eventService.pageSize">
+            </ngb-pagination>
+
+            <select class="custom-select color-body" style="width: auto" name="pageSize" [(ngModel)]="eventService.pageSize">
+        <option [ngValue]="2">2 items per page</option>
+        <option [ngValue]="4">4 items per page</option>
+        <option [ngValue]="6">6 items per page</option>
+      </select>
+        </div> -->
+    </form>
+
+</div>

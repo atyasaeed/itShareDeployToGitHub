@@ -1,32 +1,32 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LoginComponent } from './components/login/login.component';
-import { LandingpageComponent } from './components/landingpage/landingpage.component';
-import { RegistrationComponent } from './components/registration/registration.component';
-import { CartComponent } from './components/cart/cart.component';
-import { TrackOrderComponent } from './components/track-order/track-order.component';
-import { CartItemComponent } from './components/cart-item/cart-item.component';
-import { ChangePasswordComponent } from './components/change-password/change-password.component';
-import { ForgetPasswordComponent } from './components/forget-password/forget-password.component';
-import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
-
-import { AuthGuard } from 'src/app/services/auth-guard.guard';
-import { NonAuthGuard } from './services/non-auth.guard';
+import { NonAuthGuard } from './shared/guard/non-auth.guard';
+import { AuthGuard } from './shared/guard';
 
 const routes: Routes = [
-  { path: '', component: LandingpageComponent },
-  { path: 'Landingpage', component: LandingpageComponent },
-  { path: 'login', component: LoginComponent ,canActivate: [NonAuthGuard]},
-  { path: 'registration', component: RegistrationComponent, canActivate: [NonAuthGuard] },
-  // {path:'signup',component:RegistrationComponent,canActivate:[AuthGuard]},
-  { path: 'cart', component: CartComponent, canActivate: [AuthGuard] },
-  { path: 'orders', component: TrackOrderComponent, canActivate: [AuthGuard] },
-  { path: 'CartItem', component: CartItemComponent, canActivate: [AuthGuard] },
-  { path: 'change-password', component: ChangePasswordComponent, canActivate: [AuthGuard] },
-  { path: 'forget-password', component: ForgetPasswordComponent, canActivate: [NonAuthGuard] },
-  { path: 'reset-password', component: ResetPasswordComponent, canActivate: [NonAuthGuard] },
-
-  { path: '**', component: LandingpageComponent },
+  { path: '', loadChildren: () => import('./layout/layout.module').then((m) => m.LayoutModule) },
+  { path: 'signup', loadChildren: () => import('./signup/signup.module').then((m) => m.SignupModule) },
+  { path: 'login', loadChildren: () => import('./login/login.module').then((m) => m.LoginModule) },
+  {
+    path: 'forget-password',
+    loadChildren: () => import('./forget-password/forget-password.module').then((m) => m.ForgetPasswordModule),
+    canActivate: [NonAuthGuard],
+  },
+  {
+    path: 'change-password',
+    loadChildren: () => import('./change-password/change-password.module').then((m) => m.ChangePasswordModule),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'reset-password',
+    loadChildren: () => import('./reset-password/reset-password.module').then((m) => m.ResetPasswordModule),
+  },
+  {
+    path: 'access-denied',
+    loadChildren: () => import('./access-denied/access-denied.module').then((m) => m.AccessDeniedModule),
+  },
+  { path: 'not-found', loadChildren: () => import('./not-found/not-found.module').then((m) => m.NotFoundModule) },
+  { path: '**', redirectTo: 'not-found' },
 ];
 
 @NgModule({

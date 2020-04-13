@@ -1,0 +1,29 @@
+<div class="login-page" [@routerTransition]>
+    <div class="row justify-content-md-center">
+        <div class="col-md-4">
+            <div [routerLink]="'/'" class="cursor-pointer">
+                <img src="assets/images/logo.png" width="150px" class="user-avatar" />
+                <h1>{{'Login Page' | translate}}</h1>
+            </div>
+            <form role=" form " [formGroup]="loginForm" (ngSubmit)="onLoggedin()">
+                <div class="form-content ">
+                    <div class="form-group ">
+                    </div>
+
+                    <div class="form-group ">
+                        <input type="text " class="form-control input-underline input-lg " placeholder="{{ 'Username' | translate }} " formControlName="userName">
+                        <div class="text-danger" *ngIf="hasError('userName')">Invalid Username</div>
+
+                    </div>
+
+                    <div class="form-group ">
+                        <input type="password" class="form-control input-underline input-lg" placeholder="{{ 'Password' | translate }} " formControlName="password">
+                        <div class="text-danger" *ngIf="hasError('password')">Invalid Password</div>
+                    </div>
+                </div>
+                <button class="btn rounded-btn " type="submit">{{ 'Log in' | translate }}</button> &nbsp;
+                <button class="btn rounded-btn " [routerLink]="[ '/signup'] ">{{ 'Register' | translate }}</button>
+            </form>
+        </div>
+    </div>
+</div>
