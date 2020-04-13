@@ -1,4 +1,4 @@
-package ilab.api;
+package ilab.api.admin;
 
 import java.util.UUID;
 

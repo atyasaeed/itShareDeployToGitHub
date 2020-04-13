@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,14 +25,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sipios.springsearch.anotation.SearchSpec;
 
 import ilab.core.domain.Service;
-import ilab.core.domain.User;
 import ilab.core.repository.ServiceRepository;
 
 @RestController
-@RequestMapping(path = "/api/services",produces = "application/json")
+@RequestMapping(path = ServiceController.REST_URL,produces = MediaType.APPLICATION_JSON_VALUE)
 
 public class ServiceController
 {
+	static final String REST_URL = "/api/services";
 	@Autowired
 	ServiceRepository serviceRepo;
 

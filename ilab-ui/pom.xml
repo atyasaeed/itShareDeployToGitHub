@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>ilab</groupId>
 		<artifactId>ilab-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.2</version>
 	</parent>
 	<artifactId>ilab-ui</artifactId>
 	<name>iLab UI Project</name>
