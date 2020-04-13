@@ -13,8 +13,8 @@ export class UserService {
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: IAppConfig) {}
 
-  register(formdata: FormData) {
-    return this.http.post(this.appConfig.REGISTER_URL, formdata);
+  register(user: any) {
+    return this.http.post(this.appConfig.REGISTER_URL, user);
   }
 
   getAll() {

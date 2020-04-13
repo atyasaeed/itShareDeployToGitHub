@@ -16,18 +16,8 @@ import { User } from '../shared/domain';
 })
 export class SignupComponent implements OnInit {
   user: User;
-  // department: Department;
-  // degree: Degree;
-  // empCase: EmployeeCase;
-  countries: Country[] = COUNTRIES;
   registrationForm: FormGroup;
   loading = false;
-  ext: string[] = [];
-  fileToUpload: File = null;
-  extFile: string[] = ['.pdf', '.docx'];
-  filename: string;
-  public totalfiles: Array<File> = [];
-  public totalFileName = [];
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -43,24 +33,11 @@ export class SignupComponent implements OnInit {
 
   createForm() {
     this.registrationForm = this.formBuilder.group({
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      phone: ['', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
       email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$')]],
-      username: ['', [Validators.required, Validators.minLength(5)]],
-      arName: ['', [Validators.required, Validators.minLength(20)]], // Validators.pattern("^[\u0621-\u064A]+$")
-      enName: ['', [Validators.required, Validators.minLength(20)]], // Validators.pattern("^[a-zA-Z ]*$")
-      phoneNo: ['', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
-      homePhoneNo: ['', [Validators.pattern('^[0-9]*$')]],
-      nationality: ['Egypt', [Validators.required]],
-      idNumber: ['', [Validators.required, Validators.pattern('^[0-9]{14}$')]],
-      // idNumber: new FormControl(''),
-      // agree: ['', [Validators.required]],
-      gender: [true, [Validators.required]],
-      birthdate: ['', [Validators.required]],
-      university: ['', [Validators.required]],
-      faculty: ['', [Validators.required]],
-      department: ['', [Validators.required]],
-      degree: ['', [Validators.required]],
-      empCase: ['', [Validators.required]],
-      file: ['', [Validators.required]],
+      username: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')]],
       confirmPassword: ['', [Validators.required]],
     });
@@ -84,60 +61,16 @@ export class SignupComponent implements OnInit {
       this.validateAllFormFields(this.registrationForm);
       return;
     }
-    const formData: FormData = new FormData();
-    for (let j = 0; j < this.totalfiles.length; j++) {
-      formData.append('files[]', this.totalfiles[j] as File);
-    }
-    // this.degree.id = this.registrationForm.get('degree').value;
-    // this.empCase.id = this.registrationForm.get('empCase').value;
-    // this.department.id = this.registrationForm.get('department').value;
-    // this.user = this.registrationForm.value;
-    // this.user.degree = this.degree;
-    // this.user.empCase = this.empCase;
-    // this.user.department = this.department;
-    // this.user.degree.id = this.registrationForm.get('degree').value;
-    // this.user.department.id = this.registrationForm.get('department').value;
-    // this.user.empCase.id = this.registrationForm.get('empCase').value;
-
-    const $degree: any = {
-      id: this.registrationForm.get('degree').value,
-    };
-    const $empCase: any = {
-      id: this.registrationForm.get('degree').value,
-    };
-    const $department: any = {
-      id: this.registrationForm.get('degree').value,
-    };
     this.user = this.registrationForm.value;
-
-    /////////////////////
-
     console.log(this.user);
 
-    const itemBlob = new Blob([JSON.stringify(this.user)], {
-      type: 'application/json',
-    });
-    formData.append('user', itemBlob);
-    this.userService.register(formData).subscribe(
+    this.userService.register(this.user).subscribe(
       (res) => {
         this.router.navigateByUrl('/login');
         this.alertservice.success('please check your email');
       },
       (err) => {}
     );
-  }
-
-  handleFileInput(fileInput: any) {
-    //  this.filename= fileInput.target.files[0].name;
-    if (fileInput.target.files && fileInput.target.files[0]) {
-      let reader = new FileReader();
-      reader.onload = (event: any) => {};
-
-      this.totalfiles.unshift(fileInput.target.files[0]);
-      this.totalFileName.unshift(fileInput.target.files[0].name);
-
-      reader.readAsDataURL(fileInput.target.files[0]);
-    }
   }
 
   validateAllFormFields(formGroup: FormGroup) {

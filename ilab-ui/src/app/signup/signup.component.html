@@ -7,6 +7,37 @@
             </div>
             <form role="form" *ngIf="registrationForm" [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="container">
                 <div class="form-content">
+
+
+                    <section class="form-row" style="justify-content: space-around;">
+                        <div class="form-group col-lg-3 mb-3">
+                            <input type="text" formControlName="firstName" class="form-control input-underline input-lg" placeholder="{{'First Name' | translate }}" #firstName>
+                            <div *ngIf="registrationForm.controls.firstName.touched && !registrationForm.controls.firstName.valid" class="text-danger">
+                                <div *ngIf="registrationForm.controls.firstName.errors.required">
+                                    {{ 'First Name is required' | translate }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-lg-3 mb-3">
+                            <input type="text" formControlName="lastName" class="form-control input-underline input-lg" placeholder="{{'lastName' | translate }}" #lastName>
+                            <div *ngIf="registrationForm.controls.lastName.touched && !registrationForm.controls.lastName.valid" class="text-danger">
+                                <div *ngIf="registrationForm.controls.lastName.errors.required">
+                                    {{ 'Name is required' | translate }}</div>
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-3 mb-3">
+                            <input type="text" formControlName="phone" class="form-control input-underline input-lg" placeholder="{{'Phone' | translate }}" #phone>
+                            <div *ngIf="registrationForm.controls.phone.touched && !registrationForm.controls.phone.valid" class="text-danger">
+                                <div *ngIf="registrationForm.controls.phone.errors.required">
+                                    {{ 'Phone Number is required' | translate }}</div>
+                                <div *ngIf="registrationForm.controls.phone.errors.pattern">
+                                    {{ 'Must be a valid Phone Number' | translate }}</div>
+                            </div>
+                        </div>
+                    </section>
+
+
                     <section class="form-row" style="justify-content: space-around;">
                         <div class="form-group col-lg-5 mb-3">
                             <input type="email" class="form-control input-underline input-lg" placeholder="{{ 'Email' | translate }}" formControlName="email" #email>
@@ -15,6 +46,7 @@
                                 </div>
                                 <div *ngIf="registrationForm.controls.email.errors.pattern">
                                     {{ 'Must be a valid Email address' | translate }}</div>
+
                             </div>
                         </div>
                         <div class="form-group col-lg-5 mb-3">
@@ -28,97 +60,6 @@
 
                         </div>
                     </section>
-
-                    <section class="form-row" style="justify-content: space-around;">
-                        <div class="form-group col-lg-5 mb-3">
-                            <input type="text" formControlName="arName" class="form-control input-underline input-lg" placeholder="{{'Full Name in Arabic' | translate }}" #arabicName>
-                            <div *ngIf="registrationForm.controls.arName.touched && !registrationForm.controls.arName.valid" class="text-danger">
-                                <div *ngIf="registrationForm.controls.arName.errors.required">{{ 'Name is required' | translate }}
-                                </div>
-                                <div *ngIf="registrationForm.controls.arName.errors.minlength">
-                                    {{ 'Must be a valid Name' | translate }}</div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-lg-5 mb-3">
-                            <input type="text" formControlName="enName" class="form-control input-underline input-lg" placeholder="{{'Full Name in English' | translate }}" #englishName>
-                            <div *ngIf="registrationForm.controls.enName.touched && !registrationForm.controls.enName.valid" class="text-danger">
-                                <div *ngIf="registrationForm.controls.enName.errors.required">
-                                    {{ 'Name is required' | translate }}</div>
-                                <div *ngIf="registrationForm.controls.enName.errors.minlength">
-                                    {{ 'Must be a valid Name' | translate }}</div>
-                                <!-- <div *ngIf="registrationForm.controls.englishName.errors.minlength">{{ 'Must be a valid Name' | translate }}</div> -->
-                            </div>
-                        </div>
-                    </section>
-                    <section class="form-row" style="justify-content: space-around;">
-                        <div class="form-group col-lg-5 mb-3">
-                            <input type="text" class="form-control input-underline input-lg" formControlName="phoneNo" #phoneNo placeholder="{{ ' Personal Phone Number' | translate }}">
-                            <div *ngIf="registrationForm.controls.phoneNo.touched && !registrationForm.controls.phoneNo.valid" class="text-danger">
-                                <div *ngIf="registrationForm.controls.phoneNo.errors.required">
-                                    {{ 'Phone Number is required' | translate }}</div>
-                                <div *ngIf="registrationForm.controls.phoneNo.errors.pattern">
-                                    {{ 'Must be a valid Phone Number' | translate }}</div>
-                            </div>
-                        </div>
-                        <div class="form-group col-lg-5 mb-3">
-                            <input type="text" class="form-control input-underline input-lg" formControlName="homePhoneNo" #homePhoneNo placeholder="{{ 'Home Phone Number' | translate }}">
-                            <div *ngIf="registrationForm.controls.homePhoneNo.touched && !registrationForm.controls.homePhoneNo.valid" class="text-danger">
-                                <!-- <div *ngIf="registrationForm.controls.homePhoneNo.errors.required">{{ ' is required' | translate }}</div> -->
-                                <div *ngIf="registrationForm.controls.homePhoneNo.errors.pattern">
-                                    {{ 'Must be a valid Phone Number' | translate }}</div>
-                            </div>
-                        </div>
-                    </section>
-                    <section class="form-row" style="justify-content: space-around;">
-                        <div class="form-group col-lg-5 mb-3">
-                            <select class="form-control input-underline input-lg" formControlName="nationality" (change)="onChange($event.target.value)" #nationality>
-                <option *ngFor="let country of countries">{{country.name}}</option>
-              </select>
-                            <div *ngIf="registrationForm.controls.nationality.touched && !registrationForm.controls.nationality.valid" class="text-danger">
-                                <div *ngIf="registrationForm.controls.nationality.errors.required">
-                                    {{ 'Nationality is required' | translate }}</div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-lg-5 mb-3">
-                            <input type="text" class="form-control input-underline input-lg" formControlName="idNumber" #idNumber placeholder="{{'Nationality is required' | translate }}">
-                            <div *ngIf="registrationForm.controls.idNumber.touched && !registrationForm.controls.idNumber.valid &&nationality.value ==='Egypt'" class="text-danger">
-                                <div *ngIf="registrationForm.controls.idNumber.errors.required">
-                                    {{ 'National ID Number is required' | translate }}</div>
-                                <div *ngIf="nationality.value ==='Egypt'">
-                                    <div *ngIf="registrationForm.controls.idNumber.errors.pattern ">
-                                        {{ 'Must be a valid National ID Number' | translate }}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    <section class="form-row" style="justify-content: space-around;">
-                        <div class="form-group col-lg-5 mb-3">
-                            <select class="form-control input-underline input-lg" formControlName="gender" #gender>
-                <option [ngValue]="true">{{'Male' | translate}}</option>
-                <option [ngValue]='false' selected>{{'Femal' | translate}}</option>
-
-              </select>
-                            <div *ngIf="registrationForm.controls.gender.touched && !registrationForm.controls.gender.valid" class="text-danger">
-                                <div *ngIf="registrationForm.controls.gender.errors.required">{{ 'Gender is required' | translate }}
-                                </div>
-                                <!-- <div *ngIf="registrationForm.controls.gender.errors.gender">{{ 'Must be a valid Phone Number' | translate }}</div> -->
-                            </div>
-                        </div>
-
-                        <div class="form-group col-lg-5 mb-3">
-                            <input type="date" class="form-control input-underline input-lg" formControlName="birthdate" #birthDate>
-                            <div *ngIf="registrationForm.controls.birthdate.touched && !registrationForm.controls.birthdate.valid" class="text-danger">
-                                <div *ngIf="registrationForm.controls.birthdate.errors.required">
-                                    {{ 'Birth Date is required' | translate }}</div>
-                                <!-- <div *ngIf="registrationForm.controls.birthdate.errors.birthdate">{{ 'Must be a valid Birth Date' | translate }}</div> -->
-                            </div>
-                        </div>
-                    </section>
-
-
-
                     <section class="form-row" style="justify-content: space-around;">
                         <div class="form-group col-lg-5 mb-3">
                             <input type="password" formControlName="password" class="form-control input-underline input-lg" placeholder="{{ 'Password' | translate }}" #password>
