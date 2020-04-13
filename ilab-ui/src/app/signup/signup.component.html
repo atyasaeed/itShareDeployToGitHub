@@ -10,7 +10,7 @@
 
 
                     <section class="form-row" style="justify-content: space-around;">
-                        <div class="form-group col-lg-3 mb-3">
+                        <div class="form-group col-lg-5 mb-3">
                             <input type="text" formControlName="firstName" class="form-control input-underline input-lg" placeholder="{{'First Name' | translate }}" #firstName>
                             <div *ngIf="registrationForm.controls.firstName.touched && !registrationForm.controls.firstName.valid" class="text-danger">
                                 <div *ngIf="registrationForm.controls.firstName.errors.required">
@@ -19,20 +19,11 @@
                             </div>
                         </div>
 
-                        <div class="form-group col-lg-3 mb-3">
+                        <div class="form-group col-lg-5 mb-3">
                             <input type="text" formControlName="lastName" class="form-control input-underline input-lg" placeholder="{{'lastName' | translate }}" #lastName>
                             <div *ngIf="registrationForm.controls.lastName.touched && !registrationForm.controls.lastName.valid" class="text-danger">
                                 <div *ngIf="registrationForm.controls.lastName.errors.required">
                                     {{ 'Name is required' | translate }}</div>
-                            </div>
-                        </div>
-                        <div class="form-group col-lg-3 mb-3">
-                            <input type="text" formControlName="phone" class="form-control input-underline input-lg" placeholder="{{'Phone' | translate }}" #phone>
-                            <div *ngIf="registrationForm.controls.phone.touched && !registrationForm.controls.phone.valid" class="text-danger">
-                                <div *ngIf="registrationForm.controls.phone.errors.required">
-                                    {{ 'Phone Number is required' | translate }}</div>
-                                <div *ngIf="registrationForm.controls.phone.errors.pattern">
-                                    {{ 'Must be a valid Phone Number' | translate }}</div>
                             </div>
                         </div>
                     </section>
@@ -50,18 +41,27 @@
                             </div>
                         </div>
                         <div class="form-group col-lg-5 mb-3">
+                            <input type="text" formControlName="phone" class="form-control input-underline input-lg" placeholder="{{'Phone' | translate }}" #phone>
+                            <div *ngIf="registrationForm.controls.phone.touched && !registrationForm.controls.phone.valid" class="text-danger">
+                                <div *ngIf="registrationForm.controls.phone.errors.required">
+                                    {{ 'Phone Number is required' | translate }}</div>
+                                <div *ngIf="registrationForm.controls.phone.errors.pattern">
+                                    {{ 'Must be a valid Phone Number' | translate }}</div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="form-row" style="justify-content: space-around;">
+                        <div class="form-group col-lg-3 mb-3">
                             <input type="text" class="form-control input-underline input-lg" placeholder="{{ 'User Name' | translate }}" formControlName="username" #username>
                             <div *ngIf="registrationForm.controls.username.touched && !registrationForm.controls.username.valid" class="text-danger">
                                 <div *ngIf="registrationForm.controls.username.errors.required">
-                                    {{ 'UserName is required' | translate }}</div>
+                                    {{ 'User Name is required' | translate }}</div>
                                 <div *ngIf="registrationForm.controls.username.errors.minlength">
                                     {{ 'Must be more than 5 character' | translate }}</div>
                             </div>
 
                         </div>
-                    </section>
-                    <section class="form-row" style="justify-content: space-around;">
-                        <div class="form-group col-lg-5 mb-3">
+                        <div class="form-group col-lg-3 mb-3">
                             <input type="password" formControlName="password" class="form-control input-underline input-lg" placeholder="{{ 'Password' | translate }}" #password>
                             <div *ngIf="registrationForm.controls.password.touched && !registrationForm.controls.password.valid" class="text-danger">
                                 <div *ngIf="registrationForm.controls.password.errors.required">
@@ -72,11 +72,11 @@
 
                         </div>
 
-                        <div class="form-group col-lg-5 mb-3">
+                        <div class="form-group col-lg-3 mb-3">
                             <input type="password" formControlName="confirmPassword" class="form-control input-underline input-lg" #confirmPassword appConfirmEqualValidator='password' placeholder="{{ 'Confirm Password' | translate }}">
                             <div *ngIf="registrationForm.controls.confirmPassword.touched && !registrationForm.controls.confirmPassword.valid" class="text-danger">
                                 <div *ngIf="registrationForm.controls.confirmPassword.errors.required">
-                                    {{ 'confirmpassword is required' | translate }}</div>
+                                    {{ 'Confirm Password is required' | translate }}</div>
                                 <div *ngIf="registrationForm.controls.confirmPassword.errors?.notEqual">
                                     {{ 'Password Mismatch' | translate }}</div>
                             </div>
