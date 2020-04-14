@@ -138,5 +138,15 @@ public class UserService implements UserDetailsService
 		throw new ResponseStatusException(HttpStatus.CONFLICT,"Invalid Reset Password Token");
 		
 	}
-	
+	public User findUser(Authentication auth)
+	{
+		return userRepo.findByUsername(auth.getName());
+	}
+	public User update(User user,Authentication auth)
+	{
+		User theUser=findUser(auth);
+		theUser.setFirstName(user.getFirstName());
+		theUser.setLastName(user.getLastName());
+		return theUser;
+	}
 }

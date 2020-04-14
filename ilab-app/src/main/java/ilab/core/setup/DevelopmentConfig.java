@@ -148,11 +148,5 @@ public class DevelopmentConfig
 		user.addAuthority(roleUser);
 		return user;
 	}
-//	private Authority createAuthority(User user)
-//	{
-//		Authority roleUser=new Authority();
-//		roleUser.setAuthority("ROLE_USER");
-//		roleUser.setUser(user);
-//		return roleUser;
-//	}
+
 }
