@@ -90,7 +90,7 @@ export class ShoppingCartFormComponent implements OnInit {
       return;
     }
     this.item = Object.assign(this.cartForm.value);
-    // this.item.service = new Service();
+    this.item.service = {} as Service;
     this.item.service.id = this.service.id;
     for (let index = 0; index < this.file$.length; index++) {
       // this.item.files.push(this.file$[index]);
@@ -113,7 +113,7 @@ export class ShoppingCartFormComponent implements OnInit {
     for (let index = 0; index < this.file$.value.length; index++) {
       console.log(this.file$.value[index].file);
     }
-    this.shoppingCartService.addCartItem(formData).subscribe(
+    this.shoppingCartService.create(formData).subscribe(
       (resp) => {
         this.router.navigateByUrl('cart'), (this.loading = false);
       },

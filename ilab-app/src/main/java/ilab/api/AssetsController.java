@@ -16,21 +16,24 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ilab.core.domain.FileAsset;
 import ilab.core.service.AssetService;
 
 @Controller
+@RequestMapping(path = AssetsController.REST_URL)
 public class AssetsController
 {
+	static final String REST_URL="/digital-assets";
 	@Value("${iLab.paths.images}")
 	String imagesPath;
 	@Value("${iLab.paths.files}")
 	String filesPath;
 	@Autowired
 	private AssetService assetsService;
-	@GetMapping(value="assets/images/{id}",produces = MediaType.IMAGE_JPEG_VALUE)
+	@GetMapping(value="images/{id}",produces = MediaType.IMAGE_JPEG_VALUE)
     @ResponseBody
     public ResponseEntity<Resource> getImageAsResource(@PathVariable("id") String id) {
         final HttpHeaders headers = new HttpHeaders();
@@ -38,7 +41,7 @@ public class AssetsController
         Resource resource=new FileSystemResource(imagesPath+id+".jpg");
         return new ResponseEntity<>(resource, headers, HttpStatus.OK);
     }
-	@GetMapping("assets/files/{id}")
+	@GetMapping("files/{id}")
     @ResponseBody
     public ResponseEntity<Resource> getFileAsResource(@PathVariable("id") UUID id,Authentication auth) throws Exception{
         Resource resource=new FileSystemResource(filesPath+id);

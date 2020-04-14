@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,8 +23,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.sipios.springsearch.SearchCriteria;
-import com.sipios.springsearch.SpecificationImpl;
 import com.sipios.springsearch.anotation.SearchSpec;
 
 import ilab.core.domain.LineItem;
@@ -32,34 +31,20 @@ import ilab.core.repository.LineItemRepository;
 import ilab.core.service.OrderService;
 
 @RestController
-@RequestMapping(path = "/api/orders",produces = "application/json")
+@RequestMapping(path = ShoppingCartController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 
-public class OrderController
+public class ShoppingCartController
 {
+	static final String REST_URL="/api/cart";
 	@Autowired
 	private OrderService orderService;
 	@Autowired
 	private LineItemRepository lineItemRepo;
 	@GetMapping()
-	public Iterable<OrderEntity> getOrders(Authentication auth)
+	@Secured("ROLE_USER")
+	public OrderEntity getShoppingCart(Authentication auth)
 	{
-		return orderService.getOrders(auth);
-	}
-	
-	@PutMapping(path="/{id}/approve")
-	public OrderEntity approve(@PathVariable("id") UUID id,Authentication auth)
-	{
-		return orderService.approve(id,auth);
-	}
-	@PutMapping(path="/{id}/cancel")
-	public OrderEntity cancel(@PathVariable("id") UUID id,Authentication auth)
-	{
-		return orderService.cancel(id,auth);
-	}
-	@PutMapping(path="/{id}/reject")
-	public OrderEntity reject(@PathVariable("id") UUID id,Authentication auth)
-	{
-		return orderService.reject(id,auth);
+		return orderService.getShoppingCart(auth);
 	}
 	
 //	@PostMapping(path = "cart", consumes = "application/json")
@@ -69,47 +54,44 @@ public class OrderController
 //		Iterable<LineItem> items= orderService.addItemToCart(lineItem,authentication);
 //		return items;
 //	}
-	@PostMapping(path = "cart")
+	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
 	public LineItem postCartItem(@RequestPart("item") LineItem item,@RequestParam MultipartFile files[],Authentication authentication) throws Exception
 	{
 		LineItem lineItem= orderService.addItemToCart(item,files,authentication);
 		return lineItem;
 	}
-	@DeleteMapping(path = "cart/{id}")
+	@DeleteMapping(path = "/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteCartItem(@PathVariable("id") UUID id,Authentication authentication)
 	{
 		orderService.deleteCartItem(id,authentication);
 	}
 
-	@GetMapping(path = "cart")
-	@Secured("ROLE_USER")
-	public Iterable<LineItem> getShoppingCart(Authentication authentication)
-	{
-		return orderService.getShoppingCart(authentication).getLineItems();
-	}
 	
-	@PutMapping(path="cart/{id}")
-	public LineItem updateCartItem(@RequestBody LineItem item,@PathVariable("id") UUID id,Authentication auth)
+	
+	@PutMapping()
+	public LineItem updateCartItem(@RequestBody LineItem item,Authentication auth)
 	{
-		return orderService.updateItem(id, item, auth);
+		return orderService.updateItem(item.getId(), item, auth);
 	}
 	@PutMapping(path="checkout")
 	public OrderEntity checkoutCart(Authentication auth)
 	{
 		return orderService.checkout(auth);
 	}
-	@GetMapping("cart/search")
+	@GetMapping("search")
 	public Page<LineItem> getPageable(Pageable page, @SearchSpec Specification<LineItem> specs,Authentication auth)
 	{
+		
+		//TODO: Fix the issue of the authentication !!!Important/Urgent
 		OrderEntity order=orderService.getShoppingCart(auth);
 //		return orderService.getShoppingCart(auth)
 //		Specification<LineItem> combined=new SpecificationImpl<LineItem>(new SearchCriteria("orderEntity.id",":", "", order.getId().toString(), "")).and(specs);
 //		
 //		return lineItemRepo.findAll(combined, page);
 		return lineItemRepo.findAll(specs, page);
-//		return null;
+
 		
 	}
 }

@@ -7,24 +7,24 @@ import { ShoppingCartItem, Order } from 'src/app/shared/domain';
   providedIn: 'root',
 })
 export class ShoppingCartService extends RestService<ShoppingCartItem> {
-  resource = 'orders/cart';
+  resource = 'cart';
 
-  private ShoppingCartSubject: BehaviorSubject<ShoppingCartItem[]> = new BehaviorSubject<ShoppingCartItem[]>([]);
-  public ShoppingCart: Observable<ShoppingCartItem[]> = this.ShoppingCartSubject.asObservable();
+  // private ShoppingCartSubject: BehaviorSubject<ShoppingCartItem[]> = new BehaviorSubject<ShoppingCartItem[]>([]);
+  // public ShoppingCart: Observable<ShoppingCartItem[]> = this.ShoppingCartSubject.asObservable();
 
-  refresh() {
-    // this.ShoppingCartItem[]>().subscribe((data) => this.ShoppingCartSubject.next(data));
-    return this.ShoppingCart;
-  }
-  removeCart() {
-    this.ShoppingCartSubject.next(null);
-    return this.ShoppingCart;
-  }
+  // refresh() {
+  //   // this.ShoppingCartItem[]>().subscribe((data) => this.ShoppingCartSubject.next(data));
+  //   return this.ShoppingCart;
+  // }
+  // removeCart() {
+  //   this.ShoppingCartSubject.next(null);
+  //   return this.ShoppingCart;
+  // }
 
-  checkout() {
-    return this.http.put<Order>(this.appConfig.CHECKOUT_URL, null);
-  }
-  addCartItem(formData) {
-    return this.http.post<Order>(this.appConfig.getResourceUrl(this.resource), formData);
-  }
+  // checkout() {
+  //   return this.http.put<Order>(this.appConfig.CHECKOUT_URL, null);
+  // }
+  // addCartItem(formData) {
+  //   return this.http.post<Order>(this.appConfig.getResourceUrl(this.resource), formData);
+  // }
 }
