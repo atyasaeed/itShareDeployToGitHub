@@ -6,6 +6,7 @@ import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -16,6 +17,8 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
   implements OnInit {
   lang: string;
   loading = false;
+  subTotal = 0;
+
   // items: Array<ShoppingCartItem>;
   constructor(
     service: ShoppingCartService,
@@ -29,10 +32,12 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     });
   }
 
-  subTotal: any;
+  // subTotal: any;
   ngOnInit() {
     super.ngOnInit();
-
+    this.entities$.subscribe((res) => {
+      this.subTotal = res.map((rr) => rr.unitPrice * rr.quantity).reduce((a, b) => a + b, 0);
+    });
     // this.refresh();
   }
   // deletItem(id) {
@@ -66,7 +71,6 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     this.loading = true;
     this.service.update(item).subscribe(
       (res) => {
-        // this.refresh();
         this.loading = false;
       },
       (err) => {
@@ -93,8 +97,12 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     return this.appConfig.FILE_URL + entity.files[fileIndex].asset_id;
   }
 
-  public getSubTotal() {
-    // return this.items.map((rr) => rr.unitPrice * rr.quantity).reduce((a, b) => a + b, 0);
-    return 0;
-  }
+  // public getSubTotal(): Observable<number> {
+  //   // return this.items.map((rr) => rr.unitPrice * rr.quantity).reduce((a, b) => a + b, 0);
+  //   let subTotal;
+  //   this.entities$.subscribe((res) => {
+  //     subTotal = res.map((rr) => rr.unitPrice * rr.quantity).reduce((a, b) => a + b, 0);
+  //   });
+  //   return subTotal;
+  // }
 }
