@@ -35,8 +35,8 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
   // subTotal: any;
   ngOnInit() {
     super.ngOnInit();
-    this.entities$.subscribe((res) => {
-      this.subTotal = res.map((rr) => rr.unitPrice * rr.quantity).reduce((a, b) => a + b, 0);
+    this.entities$.subscribe((items) => {
+      this.subTotal = items.map((item) => item.unitPrice * item.quantity).reduce((a, b) => a + b, 0);
     });
     // this.refresh();
   }
@@ -60,18 +60,18 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
   }
 
   checkout() {
-    //   this.service.checkout().subscribe((resp) => {
-    //     this.refresh();
-    //   });
-    // }
-    // private refresh() {
-    //   this.service.refresh().subscribe((items) => (this.items = items));
+    this.service.checkout().subscribe((resp) => {
+      this.service.searchTerm = '';
+      // this.refresh();
+    });
   }
+
   updateItem(item: ShoppingCartItem) {
     this.loading = true;
     this.service.update(item).subscribe(
       (res) => {
         this.loading = false;
+        this.service.searchTerm = '';
       },
       (err) => {
         this.loading = false;

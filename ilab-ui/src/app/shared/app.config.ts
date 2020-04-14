@@ -43,7 +43,7 @@ class DefaultAppConfig implements IAppConfig {
     return this.API_END_POINT + 'digital-assets/files/';
   }
   public get CHECKOUT_URL() {
-    return this.getResourceUrl('orders/checkout');
+    return this.getResourceUrl('cart/checkout');
   }
   public get INIT_STATE_URL() {
     return this.getResourceUrl('utils/initState');

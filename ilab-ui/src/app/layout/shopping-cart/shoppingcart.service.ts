@@ -21,9 +21,9 @@ export class ShoppingCartService extends RestService<ShoppingCartItem> {
   //   return this.ShoppingCart;
   // }
 
-  // checkout() {
-  //   return this.http.put<Order>(this.appConfig.CHECKOUT_URL, null);
-  // }
+  checkout() {
+    return this.http.put<Order>(this.appConfig.CHECKOUT_URL, null);
+  }
   // addCartItem(formData) {
   //   return this.http.post<Order>(this.appConfig.getResourceUrl(this.resource), formData);
   // }
