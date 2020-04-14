@@ -31,6 +31,11 @@ const routes: Routes = [
         loadChildren: () => import('./profile/profile.module').then((m) => m.ProfileModule),
         canActivate: [AuthGuard],
       },
+      {
+        path: 'shopping-cart',
+        loadChildren: () => import('./shopping-cart/shopping-cart.module').then((m) => m.ShoppingCartModule),
+        canActivate: [AuthGuard],
+      },
     ],
   },
 ];
