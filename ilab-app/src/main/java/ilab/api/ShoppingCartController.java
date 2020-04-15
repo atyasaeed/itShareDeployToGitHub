@@ -1,6 +1,14 @@
 package ilab.api;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Predicate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,10 +31,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.sipios.springsearch.SearchCriteria;
+import com.sipios.springsearch.SpecificationImpl;
 import com.sipios.springsearch.anotation.SearchSpec;
 
 import ilab.core.domain.LineItem;
 import ilab.core.domain.OrderEntity;
+import ilab.core.domain.OrderStatus;
 import ilab.core.repository.LineItemRepository;
 import ilab.core.service.OrderService;
 
@@ -80,18 +91,26 @@ public class ShoppingCartController
 	{
 		return orderService.checkout(auth);
 	}
+	
 	@GetMapping("search")
 	public Page<LineItem> getPageable(Pageable page, @SearchSpec Specification<LineItem> specs,Authentication auth)
 	{
 		
-		//TODO: Fix the issue of the authentication !!!Important/Urgent
 		OrderEntity order=orderService.getShoppingCart(auth);
-//		return orderService.getShoppingCart(auth)
-//		Specification<LineItem> combined=new SpecificationImpl<LineItem>(new SearchCriteria("orderEntity.id",":", "", order.getId().toString(), "")).and(specs);
-//		
-//		return lineItemRepo.findAll(combined, page);
-		return lineItemRepo.findAll(specs, page);
+		Specification<LineItem> combined=filterByOrderId( order.getId()).and(specs);
+		return lineItemRepo.findAll(combined, page);
 
 		
+	}
+	
+	public  Specification<LineItem> filterByOrderId(UUID value) {
+		return  (Root<LineItem> root, CriteriaQuery<?> query, CriteriaBuilder cb)->{
+			List<Predicate> predicates = new ArrayList<>();
+			
+			Path<OrderEntity> orderPath=root.<OrderEntity>get("orderEntity");
+			predicates.add(cb.equal(orderPath.<UUID>get("id"), value));
+			predicates.add(cb.equal(orderPath.<OrderStatus>get("status"), OrderStatus.SHOPPING_CART));
+			return cb.and(predicates.toArray(new Predicate[predicates.size()]));
+		};
 	}
 }

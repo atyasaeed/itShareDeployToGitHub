@@ -2,11 +2,17 @@ package ilab.core.service;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +25,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import ilab.core.domain.Account;
 import ilab.core.domain.FileAsset;
 import ilab.core.domain.HyperFile;
 import ilab.core.domain.LineItem;
@@ -55,13 +62,29 @@ public class OrderService
 	{
 		return orderRepo.findById(orderId).orElse(null);
 	}
-	public Page<OrderEntity> getOrders(Pageable page,Specification<OrderEntity> specs)
+	public Page<OrderEntity> getOrders(Pageable page,Specification<OrderEntity> specs,Authentication auth)
 	{
+		User user= userRepo.findByUsername(auth.getName());
+		Account account=user.getAccounts().iterator().next();
+		return orderRepo.findAll(filterByAccountId(account.getId()).and(specs),page);
+		
 //		return orderRepo.findByStatus(OrderStatus.PENDING, specs, page);
-		return orderRepo.findByStatus(OrderStatus.PENDING, page);
+//		return orderRepo.findByStatus(OrderStatus.PENDING, page);
 //		return orderRepo.findAll( specs,page).filter(order->order.getStatus()==OrderStatus.PENDING);
 		
 	} 
+	public Specification<OrderEntity> filterByAccountId(UUID accountId)
+	{
+		return (Root<OrderEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) ->
+		{
+			List<Predicate> predicates = new ArrayList<>();
+
+			Path<Account> accountPath = root.<Account>get("account");
+			predicates.add(cb.equal(accountPath.<UUID>get("id"), accountId));
+			predicates.add(cb.equal(root.<OrderStatus>get("status"), OrderStatus.PENDING));
+			return cb.and(predicates.toArray(new Predicate[predicates.size()]));
+		};
+	}
 	public OrderEntity approve(UUID orderId,Authentication auth)
 	{
 		User user=userRepo.findByUsername(auth.getName());
