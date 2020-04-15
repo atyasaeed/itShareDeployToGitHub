@@ -29,7 +29,7 @@ export class OrderCardComponent implements OnInit {
     // tslint:disable-next-line:only-arrow-functions
     this.max = this.dateArray.reduce(function (a, b) {
       return a > b ? a : b;
-    });
+    }, 0);
   }
   // Check Order Status Cases
 
