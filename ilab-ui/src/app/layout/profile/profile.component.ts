@@ -18,7 +18,7 @@ import { User } from 'src/app/shared/domain';
   animations: [routerTransition()],
 })
 export class ProfileComponent extends DefaultFormComponent<User, ProfileService> implements OnInit {
-  breadcrumbs = [{ heading: 'Update Profile', icon: 'fa-tasks', link: '/home' }];
+  breadcrumbs = [{ heading: 'Update Profile', icon: 'fa-tasks', link: '/profile' }];
 
   constructor(
     formBuilder: FormBuilder,

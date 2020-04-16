@@ -12,7 +12,7 @@
             <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;
             <span>{{ 'Charts' | translate }}</span>
         </a>
-        <div class="nested-menu" *ngIf="hasAdminRole">
+        <!-- <div class="nested-menu" *ngIf="hasAdminRole">
             <a class="list-group-item" (click)="addExpandClass('lookups')">
                 <i class="fa fa-plus"></i>&nbsp;
                 <span>{{ 'Lookups Admin' | translate }}</span>
@@ -63,7 +63,7 @@
                     </li>
                 </ul>
             </li>
-        </div>
+        </div> -->
         <div class="nested-menu" *ngIf="hasAdminRole">
             <a class="list-group-item" (click)="addExpandClass('dashboard')">
                 <i class="fa fa-plus"></i>&nbsp;
@@ -80,33 +80,33 @@
                     <li>
                         <a routerLink="/booking" [routerLinkActive]="['router-link-active']">
                             <i class="fa fa-monument"></i>&nbsp;
-                            <span>{{ 'Bookings' | translate }}</span>
+                            <span>{{ 'Orders' | translate }}</span>
                         </a>
                     </li>
                     <li>
                         <a routerLink="/courses" [routerLinkActive]="['router-link-active']">
                             <i class="fa fa-monument"></i>&nbsp;
-                            <span>{{ 'Courses' | translate }}</span>
+                            <span>{{ 'Machines' | translate }}</span>
                         </a>
                     </li>
                     <li>
                         <a href="javascript:void(0)">
                             <i class="fa fa-monument"></i>&nbsp;
-                            <span>{{ 'Requests' | translate }}</span>
+                            <span>{{ 'Jobs' | translate }}</span>
                         </a>
                     </li>
 
                 </ul>
             </li>
         </div>
-        <a class="list-group-item">
+        <!-- <a class="list-group-item">
             <i class="fa fa-fw fa-table"></i>&nbsp;
             <span>{{ 'My Courses' | translate }}</span>
-        </a>
-        <a class="list-group-item">
+        </a> -->
+        <!-- <a class="list-group-item">
             <i class="fa fa-fw fa-edit"></i>&nbsp;
             <span>{{ 'My Requests' | translate }}</span>
-        </a>
+        </a> -->
         <a class="list-group-item" routerLink="/shopping-cart">
             <i class="fa fa-fw fa-edit"></i>&nbsp;
             <span>{{ 'Shopping Cart' | translate }}</span>

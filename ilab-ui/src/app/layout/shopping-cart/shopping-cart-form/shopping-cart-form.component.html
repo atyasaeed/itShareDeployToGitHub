@@ -1,6 +1,6 @@
-<article class=" container card">
+<article class=" container card form-rtl">
     <h4 class="text-center">{{service?.name}}
-        <h6>Maximum Working Area{{service?.workingArea}}</h6>
+        <h6>'Maximum Working Area'{{service?.workingArea}}</h6>
     </h4>
     <hr class="mt-0">
     <section class="row">
@@ -19,7 +19,8 @@
                                 <input type="number" min="1" class="form-control" formControlName="quantity">
                                 <div *ngIf="cartForm.controls.quantity.touched && !cartForm.controls.quantity.valid" class="text-danger">
 
-                                    <div *ngIf="cartForm.controls.quantity.errors.required || cartForm.controls.submit">quantity is required
+                                    <div *ngIf="cartForm.controls.quantity.errors.required || cartForm.controls.submit">
+                                        {{'quantity is required'|translate}}
                                     </div>
                                 </div>
                             </div>
@@ -36,22 +37,24 @@
                                 <label>{{ 'Starting Date' | translate }} </label>
                                 <input type="date" class="form-control" formControlName="startingDate" startingDate>
                                 <div *ngIf="cartForm.controls.startingDate.touched && !cartForm.controls.startingDate.valid" class="text-danger">
-                                    <div *ngIf="cartForm.controls.startingDate.errors.required">startingDate is required</div>
+                                    <div *ngIf="cartForm.controls.startingDate.errors.required">{{'Starting Date is required'|translate}}
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group col-sm-6 mb-2" *ngIf="service?.attendance">
                                 <label>{{ 'Delivery Date' | translate }} </label>
                                 <input type="date" class="form-control" formControlName="deliveryDate" deliveryDate>
                                 <div *ngIf="cartForm.controls.deliveryDate.touched && !cartForm.controls.deliveryDate.valid" class="text-danger">
-                                    <div *ngIf="cartForm.controls.deliveryDate.errors.required">DeliveryDate is required</div>
+                                    <div *ngIf="cartForm.controls.deliveryDate.errors.required">{{'Delivery Date is required'|translate}}
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group col-sm-12 mb-2">
                                 <label>{{ 'Notes' | translate }} </label>
                                 <textarea class="form-control" maxlength="251" formControlName="notes" notes maxlength></textarea>
                                 <div *ngIf="cartForm.controls.notes.touched && !cartForm.controls.notes.valid" class="text-danger">
-                                    <div *ngIf="cartForm.controls.notes.errors.required">Notes is required</div>
-                                    <div *ngIf="cartForm.controls.notes.errors.maxlength">Notes Max Length is 250</div>
+                                    <div *ngIf="cartForm.controls.notes.errors.required">{{'Notes is required'|translate}}</div>
+                                    <div *ngIf="cartForm.controls.notes.errors.maxlength">{{'Notes Max Length is 250'|translate}}</div>
                                 </div>
                             </div>
                         </section>
@@ -63,13 +66,13 @@
                                 <div class="form-group col-sm-6 mb-2 file">
                                     <label> {{ 'Upload Your Design File' | translate }}</label>
                                     <input type="file" class="form-control" formControlName="file" [accept]="extFile" (change)="handleFileInput($event,i)" #file>
-                                    <span for="file">Upload your Design File</span>
+                                    <span for="file">{{'Upload your Design File'|translate}}</span>
 
                                     <div *ngIf="!aFile.controls.file.valid && submitted" class="text-danger">
-                                        <div *ngIf="aFile.controls.file.errors.required">file is required</div>
+                                        <div *ngIf="aFile.controls.file.errors.required">{{'file is required'|translate}}</div>
                                     </div>
-                                    <span *ngIf="msgFileSize>appConfig.FILE_SIZE" class="text-danger" style="background-color:white;">Size
-                    must less than 5MB </span>
+                                    <span *ngIf="msgFileSize>appConfig.FILE_SIZE" class="text-danger" style="background-color:white;">
+                    {{'Size must less than 5MB'|translate}} </span>
                                 </div>
                                 <div class="form-group col-sm-6 mb-2">
                                     <label>{{ 'Units Used In File' | translate }} </label>
@@ -78,7 +81,7 @@
                     <option *ngFor="let unit of service.units">{{unit}}</option>
                   </select>
                                     <div *ngIf="aFile.controls.unit.touched && !aFile.controls.unit.valid ||!aFile.controls.unit.valid && submitted" class="text-danger">
-                                        <div *ngIf="aFile.controls.unit.errors.required">Unit is required</div>
+                                        <div *ngIf="aFile.controls.unit.errors.required">{{'Unit is required'|translate}}</div>
                                     </div>
                                 </div>
 
@@ -93,7 +96,7 @@
 
                   </select>
                                     <div *ngIf="aFile.controls.material.touched && !aFile.controls.material.valid " class="text-danger">
-                                        <div *ngIf="aFile.controls.material.errors.required">material is required</div>
+                                        <div *ngIf="aFile.controls.material.errors.required">{{'material is required'|translate}}</div>
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-6 mb-2">
@@ -103,7 +106,7 @@
                     </option>
                   </select>
                                     <div *ngIf="aFile.controls.type.touched && !aFile.controls.type.valid" class="text-danger">
-                                        <div *ngIf="aFile.controls.type.errors.required">Type is required</div>
+                                        <div *ngIf="aFile.controls.type.errors.required">{{'Type is required'|translate}}</div>
                                     </div>
                                 </div>
                             </section>
@@ -124,7 +127,8 @@
                       {{color}}</option>
                   </select>
                                     <div *ngIf="aFile.controls.color.touched && !aFile.controls.color.valid" class="text-danger">
-                                        <div *ngIf="aFile.controls.color.errors.required || aFile.controls.submit">color is required</div>
+                                        <div *ngIf="aFile.controls.color.errors.required || aFile.controls.submit">
+                                            {{'Color is required'|translate}}</div>
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-6 mb-2">
@@ -136,7 +140,8 @@
                       {{dimension}}</option>
                   </select>
                                     <div *ngIf="aFile.controls.dimension.touched && !aFile.controls.dimension.valid " class="text-danger">
-                                        <div *ngIf="aFile.controls.dimension.errors.required || aFile.controls.submit">dimension is required
+                                        <div *ngIf="aFile.controls.dimension.errors.required || aFile.controls.submit">
+                                            {{'Dimension is required'|translate}}
                                         </div>
                                     </div>
                                 </div>
@@ -159,6 +164,6 @@
         <p class="card-text">
             {{service?.description}}
         </p>
-        <div><img [src]="getImageUrl()" alt="" width="100%"></div>
+        <!-- <div><img [src]="getImageUrl()" alt="" width="100%"></div> -->
     </div>
 </article>

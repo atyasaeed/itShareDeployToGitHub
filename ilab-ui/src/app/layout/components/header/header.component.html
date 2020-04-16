@@ -92,7 +92,8 @@
                             </li>
                             <li role="menuitem">
                                 <a class="dropdown-item" [routerLink]="'/change-password'">
-                                    <i class="fa fa-fw fa-gear"></i>{{ 'ChangePassword' | translate }}
+                                    <!-- <i class="fa fa-fw fa-gear"></i> -->
+                                    <i class="fa fa-key"></i>{{ 'Change Password' | translate }}
                                 </a>
                             </li>
                             <li role="menuitem" style="cursor: pointer;">
@@ -113,17 +114,18 @@
                         <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="button-basic">
                             <li role="menuitem">
                                 <a class="dropdown-item" [routerLink]="'/login'">
-                                    <i class="fa fa-fw fa-user"></i>{{ 'Login' | translate }}
+                                    <i class="fa fa-sign-in fa-user"></i> {{ 'Log In' | translate }}
                                 </a>
                             </li>
                             <li role="menuitem">
                                 <a class="dropdown-item" [routerLink]="'/signup'">
-                                    <i class="fa fa-fw fa-gear"></i> {{ 'Register' | translate }}
+                                    <i class="fa fa-user-plus"></i><span>{{ 'Register' | translate }}</span>
+                                    <!-- <i class="fa fa-user"></i> -->
                                 </a>
                             </li>
                             <li role="menuitem">
                                 <a class="dropdown-item" [routerLink]="'/forget-password'">
-                                    <i class="fa fa-fw fa-gear"></i> {{ 'Forget Password' | translate }}
+                                    <i class="fa fa-key fa-gear"></i> {{ 'Forget Password' | translate }}
                                 </a>
                             </li>
                         </ul>

@@ -1,8 +1,13 @@
 .rtl {
+    a,
+    i {
+        text-align: right;
+        direction: rtl !important;
+    }
     .sidebar {
         left: auto !important;
         right: 0 !important;
-        > ul.list-group {
+        >ul.list-group {
             padding: 0;
         }
     }
@@ -20,39 +25,39 @@
     .navbar * {
         direction: ltr;
     }
-
     .sidebar * {
         direction: ltr;
     }
-
     .navbar .dropdown-menu {
         text-align: left;
     }
-
     .breadcrumb {
         direction: ltr;
         justify-content: flex-end;
-
         * {
             direction: ltr;
         }
+        .breadcrumb-item-right {
+            direction: rtl;
+        }
     }
-
     .datepicker-input {
         direction: ltr;
         .dropdown-menu {
             direction: ltr;
-
             * {
                 direction: ltr;
             }
         }
     }
-
     .input-group {
         direction: ltr;
     }
+    .form-rtl {
+        text-align: right;
+    }
 }
+
 @media screen and (max-width: 992px) {
     .rtl {
         .navbar-brand {

@@ -3,7 +3,7 @@
         <div class="col-md-12">
             <div [routerLink]="'/'" role="button" class="cursor-pointer">
                 <img class="user-avatar" src="assets/images/logo.png" width="150px" />
-                <h1>iLab Registration</h1>
+                <h1>{{'ILab Registration'|translate}}</h1>
             </div>
             <form role="form" *ngIf="registrationForm" [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="container">
                 <div class="form-content">
@@ -23,7 +23,7 @@
                             <input type="text" formControlName="lastName" class="form-control input-underline input-lg" placeholder="{{'lastName' | translate }}" #lastName>
                             <div *ngIf="registrationForm.controls.lastName.touched && !registrationForm.controls.lastName.valid" class="text-danger">
                                 <div *ngIf="registrationForm.controls.lastName.errors.required">
-                                    {{ 'Name is required' | translate }}</div>
+                                    {{ 'lastName is required' | translate }}</div>
                             </div>
                         </div>
                     </section>
