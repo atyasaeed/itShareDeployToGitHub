@@ -4,7 +4,7 @@
             <div class="col-md-3 col-sm-12">
                 <span>{{'Order ID'|translate}} : </span>
                 <span class="value"> {{order.id.slice(-7)}}</span>
-                <span style="display:block;">{{'TotalPrice'|translate}} :<span
+                <span style="display:block;">{{'Total Price'|translate}} :<span
             class="value">{{getSubTotal()| currency:'EGP'}}</span></span>
             </div>
             <!-- <div class="col-md-3 col-sm-12">
@@ -18,12 +18,12 @@
             </div>
 
             <div class="col-md-3 col-sm-12">
-                Status : <span class="btn order-status" [ngClass]="{success: Finished()|| partiallyFinished() || Delivered() || partiallyDelivered() || InProgress(), warning: pending() || WaitingForQuotation() || WaitingForApproval(),danger: Cancelled() || quotationRejected()}">{{order.status}}</span>
+                {{'Status'|translate}} : <span class="btn order-status" [ngClass]="{success: Finished()|| partiallyFinished() || Delivered() || partiallyDelivered() || InProgress(), warning: pending() || WaitingForQuotation() || WaitingForApproval(),danger: Cancelled() || quotationRejected()}">{{order.status}}</span>
             </div>
 
             <!-- Stand alone button to cancel all order -->
             <div class=" col-md-2 col-sm-12  text-center" *ngIf="!Cancelled()">
-                <input type="submit" class="btn btn-danger" value="Cancel Order" (click)="cancelOrder()">
+                <input type="submit" class="btn btn-danger" value="{{'Cancel Order'|translate}}" (click)="cancelOrder()">
             </div>
 
 
@@ -54,13 +54,13 @@
             <div class="row" style="justify-content: space-around;" *ngIf='WaitingForApproval()'>
                 <!-- <div class="row" style="justify-content: space-around;" *ngIf='Cancelled()'> -->
                 <div class="mt-2">
-                    <input type="submit" class="btn btn-success" value="Approve" (click)="approveQuotation()">
+                    <input type="submit" class="btn btn-success" value="{{'Approve'|translate}}" (click)="approveQuotation()">
                     <!-- <button class="btn btn-success">
             Approve
           </button> -->
                 </div>
                 <div class="mt-2">
-                    <input type="submit" class="btn btn-danger" value="Reject" (click)="rejectQuotation()">
+                    <input type="submit" class="btn btn-danger" value="{{'Reject'|translate}}" (click)="rejectQuotation()">
                 </div>
             </div>
         </section>

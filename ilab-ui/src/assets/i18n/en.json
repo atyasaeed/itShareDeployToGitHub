@@ -91,6 +91,26 @@
     "Color is required": "Color is required",
     "Dimension": "Dimension",
     "Dimension is required": "Dimension is required",
-    "Add to Manufacturing Request": "Add to Manufacturing Request"
+    "Add to Manufacturing Request": "Add to Manufacturing Request",
+    "I Lab Manufacturing Request": "I Lab Manufacturing Request",
+    "Turn your Ideas Into Reality And Change Your Future": "Turn your Ideas Into Reality And Change Your Future",
+    "Start Date": "Start Date",
+    "Estimated End Date": "Estimated End Date",
+    "Price": "Price",
+    "Unite Price": "Unite Price",
+    "Total Price": "Total Price",
+    "Digital Material": "Digital Material",
+    "Summary": "Summary",
+    "Checkout": "Checkout",
+    "please Select Service To Create Your ShoppingCart": "please Select Service To Create Your ShoppingCart",
+    "Total": "Total",
+    "My Orders": "My Orders",
+    "You can track and manage all of your orders": "You Can Track and Manage All Of Your Orders",
+    "Approve": "Approve",
+    "Reject": "Reject",
+    "Cancel Order": "Cancel Order",
+    "Status": "Status",
+    "Order ID": "Order ID"
+
 
 }

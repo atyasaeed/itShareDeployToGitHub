@@ -3,8 +3,8 @@
         <div class="container">
             <!-- page Head -->
             <div class="block-heading">
-                <h2>I Lab Manufacturing Request</h2>
-                <p>Turn your Ideas Into Reality And Change Your Future </p>
+                <h2>{{'I Lab Manufacturing Request'|translate}}</h2>
+                <p>{{'Turn your Ideas Into Reality And Change Your Future'|translate}}</p>
             </div>
             <!-- End page Head -->
 
@@ -42,10 +42,10 @@
 
                                                             <div class="product-info">
                                                                 <div *ngIf="entity?.estimatedStardDate">{{ 'Start Date' | translate }}: <span class="value">{{entity.estimatedStardDate |date:'fullDate'}}</span></div>
-                                                                <div *ngIf="entity?.estimatedEndDate">{{ 'estimatedEndDate' | translate }}: <span class="value">{{entity.estimatedEndDate |date:'fullDate'}}</span></div>
+                                                                <div *ngIf="entity?.estimatedEndDate">{{ 'Estimated End Date' | translate }}: <span class="value">{{entity.estimatedEndDate |date:'fullDate'}}</span></div>
                                                                 <div>{{ 'Price' | translate }}: <span class="value">{{entity.unitPrice}}</span></div>
-                                                                <div>{{ 'UnitePrice' | translate }}: <span class="value">{{entity.unitPrice|currency:'EGP'}}</span></div>
-                                                                <div> {{ 'TotalPrice' | translate }}:<span class="value">{{entity.unitPrice * entity.quantity}}</span></div>
+                                                                <div>{{ 'Unite Price' | translate }}: <span class="value">{{entity.unitPrice|currency:'EGP'}}</span></div>
+                                                                <div> {{ 'Total Price' | translate }}:<span class="value">{{entity.unitPrice * entity.quantity}}</span></div>
                                                                 <div>{{ 'Notes' | translate }}: <span class="value">{{entity.notes}}</span></div>
 
 
@@ -96,7 +96,7 @@
                         <div class="col-md-12 col-lg-4">
                             <div class="summary">
                                 <h3>{{'Summary' | translate }}:</h3>
-                                <div class="summary-item"><span class="text">{{'total' | translate }}:</span><span class="price">{{subTotal  |currency:'EGP'}}</span></div>
+                                <div class="summary-item"><span class="text">{{'Total' | translate }}:</span><span class="price">{{subTotal  |currency:'EGP'}}</span></div>
                                 <!-- <div class="summary-item"><span class="text">Discount</span><span class="price">$0</span></div>
                             <div class="summary-item"><span class="text">Shipping</span><span class="price">$0</span></div>
                             <div class="summary-item"><span class="text">Total</span><span class="price">$360</span></div> -->
@@ -110,7 +110,10 @@
             </ng-container>
             <!-- End Page Content -->
             <ng-template #anonymous>
-                please Select Service To Create Your ShoppingCart
+                <div style="text-align: center;">
+                    {{'please Select Service To Create Your ShoppingCart'|translate}}
+
+                </div>
             </ng-template>
 
         </div>

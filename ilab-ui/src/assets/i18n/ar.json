@@ -95,7 +95,26 @@
     "Color is required": "يجب اختيار اللون",
     "Dimension": "البعد",
     "Dimension is required": "يجب اختيار البعد",
-    "Add to Manufacturing Request": "أضف إلى طلب التصنيع"
+    "Add to Manufacturing Request": "أضف إلى طلب التصنيع",
+    "I Lab Manufacturing Request": "I Lab Manufacturing Request",
+    "Turn your Ideas Into Reality And Change Your Future": "Turn your Ideas Into Reality And Change Your Future",
+    "Start Date": "تاريخ البدء",
+    "Estimated End Date": "تاريخ الانتهاء المقدر",
+    "Price": "التكلفه",
+    "Unite Price": "تكلفة الوحده",
+    "Total Price": "التكلفه الكامله",
+    "Digital Material": "الماده",
+    "Summary": "الملخص",
+    "Checkout": "Checkout",
+    "please Select Service To Create Your ShoppingCart": "يرجى تحديد خدمة لإنشاء عربة التسوق الخاصة بك",
+    "Total": "المجموع",
+    "My Orders": "طلباتى",
+    "You can track and manage all of your orders": "يمكنك تتبع وإدارة جميع طلباتك",
+    "Approve": "موافقة",
+    "Reject": "رفض",
+    "Cancel Order": "إلغاء الطلب",
+    "Status": "الحاله",
+    "Order ID": "الرقم التعريفى"
 
 
 

@@ -34,7 +34,7 @@
 
                                     </div>
                                     <div class="row" *ngFor="let file of lineItem.files ;index as i" class="card-form">
-                                        <div class="form-title">Digital Material: <span class="value"><a
+                                        <div class="form-title">{{'Digital Material'|translate}}: <span class="value"><a
                           [href]="getFileUrl(i)">{{file.asset_name}}</a></span></div>
                                         <div class="form-body">
                                             <div>{{'Type' | translate }}:<span class="value">{{file.type |titlecase}}</span></div>

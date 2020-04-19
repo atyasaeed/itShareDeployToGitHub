@@ -56,6 +56,15 @@
     .form-rtl {
         text-align: right;
     }
+    .shopping-cart .summary {
+        text-align: initial;
+    }
+    .shopping-cart .summary .price {
+        float: left !important;
+    }
+    .card-form .form-body {
+        text-align: right;
+    }
 }
 
 @media screen and (max-width: 992px) {
