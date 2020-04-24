@@ -7,6 +7,7 @@ import { Entity } from '../domain';
 
 export class DefaultListComponent<T extends Entity, K extends RestService<T>> implements OnInit {
   entities$: Observable<T[]>;
+  entities: any;
   total$: Observable<number>;
   service: K;
   @ViewChildren(SortableHeaderDirective) headers: QueryList<SortableHeaderDirective>;
