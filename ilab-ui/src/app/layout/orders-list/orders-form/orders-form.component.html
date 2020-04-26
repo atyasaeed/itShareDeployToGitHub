@@ -1,1 +1,131 @@
-<p>orders-form works!</p>
+<div *tdLoading="'loading'" [@routerTransition]>
+    <!-- <app-page-header [heading]="'Employee Case'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header> -->
+    <form *ngIf="entity" [formGroup]='form' (ngSubmit)="save()">
+        <div class="card mb-3">
+            <div class="card-header">
+                <div class="row text-left">
+                    <div class="col-sm-12">
+                        <span>{{'Order ID'|translate}} : </span>
+                        <span class="value"> {{entity.id}}</span>
+                        <span style="display:block;">{{'Status'|translate}} :<span class="value"> {{entity.status}}</span> </span>
+                        <span style="display:block;">{{'Total Price'|translate}} :<span
+                class="value">{{getSubTotal(entity.lineItems)| currency:'EGP'}}</span></span>
+                    </div>
+
+                </div>
+
+
+            </div>
+            <div class="card-body">
+                <div class="product">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="info">
+                                <div class="row" *ngFor="let lineItem of entity.lineItems">
+
+                                    <div class="col-md-12 product-name">
+                                        <h5 class="text-center">{{lineItem.service.name}}</h5>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div *ngIf="lineItem?.estimatedEndDate"><span class="col-md-4">{{ 'Estimated End Date' | translate }}
+                            :</span>
+                                                    <span class="value ">{{ lineItem.estimatedEndDate | date:'fullDate' }}
+                          </span>
+                                                </div>
+                                                <!-- <div *ngIf="lineItem?.plannedEndDate"><span class="col-md-4">{{ 'Planned End Date' | translate }}</span><span class="value ">{{ lineItem.plannedEndDate | date:'fullDate' }}
+                          </span></div> -->
+                                                <div><span class="col-md-4">{{ 'Price' | translate }} :</span>
+
+
+                                                    <span class="value ">{{lineItem.unitPrice *lineItem.quantity|currency:'EGP'}} </span>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div><span class="col-md-4">{{ 'Quantity' | translate }}:</span><span class="value ">{{lineItem.quantity}}</span></div>
+                                                <div><span class="col-md-4">{{ 'Notes' | translate }}:</span><span class="value ">{{lineItem.notes}}</span></div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row" *ngFor="let file of lineItem.files ;index as i" class="card-form">
+                                            <div class="form-title">{{'Digital Material'|translate}}: <span class="value"><a
+                            [href]="getFileUrl(file)">{{file.asset_name}}</a></span></div>
+                                            <div class="form-body">
+                                                <div>{{'Type' | translate }}:<span class="value">{{file.type |titlecase}}</span></div>
+                                                <div>{{'Material' | translate }}:<span class="value">{{file.material |titlecase}}</span></div>
+                                                <div>{{'Dimension' | translate }}:<span class="value">{{file.dimension |titlecase}}</span></div>
+                                                <div>{{'Color' | translate }}: <span class="value">{{file.color |titlecase}}</span></div>
+                                                <div></div>
+                                            </div>
+                                        </div>
+                                        <mat-card-actions class="form-rtl text-right">
+                                            <button type="submit" mat-raised-button color="primary" [disabled]="f().invalid">{{'Save'|translate}}</button>
+                                        </mat-card-actions>
+
+                                        <hr>
+
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+                <!-- <section class="shopping-cart dark">
+                    <div class="container">
+                        <div class="content">
+                            <app-line-item *ngFor="let lineItem of order.lineItems" [lineItem]="lineItem"></app-line-item>
+                        </div>
+                        End Page Content
+
+                    </div>
+
+
+                </section> -->
+
+            </div>
+
+        </div>
+        <!-- <mat-card>
+
+            <mat-card-content>
+                <mat-form-field class="form-rtl">
+                    <input name="id" matInput type="text" placeholder="{{'ID'|translate}}" required formControlName='id'>
+                    <mat-error *ngIf="hasError('id')">{{'ID is required'|translate}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="form-rtl">
+                    <input name="status" matInput type="text" placeholder="{{'Status'|translate}}" required formControlName='status'>
+                    <mat-error *ngIf="hasError('status')">{{'Status is required'|translate}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="form-rtl">
+                    <input name="totalCost" matInput type="text" placeholder="{{'Total Cost'|translate}}" required formControlName='totalCost'>
+                    <mat-error *ngIf="hasError('totalCost')">{{'Total Cost is required'|translate}}</mat-error>
+                </mat-form-field>
+                <mat-form-field formGroupName="competency" class="form-rtl">
+                    <mat-label>{{'Competency' | translate}}</mat-label>
+                    <mat-select name="competency.id" place="Competency" formControlName="id" [disabled]="entity.id">
+                        <mat-option class="form-rtl" [value]="competency.id" *ngFor="let competency of competencies$|async">
+                            <span *ngIf="lang =='en'">{{competency.enName}}</span>
+                            <span *ngIf="lang !=='en'">{{competency.arName}}</span>
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </mat-card-content>
+            <mat-card-actions class="form-rtl">
+                <button type="button" mat-button (click)="delete()" *ngIf="entity.id">{{'Delete'|translate}}</button>
+                <button type="button" mat-button (click)="cancel()">{{'Cancel'|translate}}</button>
+                <button type="submit" mat-raised-button color="primary" [disabled]="f().invalid">{{'Save'|translate}}</button>
+            </mat-card-actions>
+        </mat-card> -->
+
+    </form>
+
+</div>

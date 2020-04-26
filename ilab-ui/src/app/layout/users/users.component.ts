@@ -4,7 +4,8 @@ import { User } from 'src/app/shared/domain';
 import { Observable } from 'rxjs';
 import { SortableHeaderDirective, SortEvent } from 'src/app/shared/directives/sortable.directive';
 import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
-
+import * as fromStore from 'src/app/store';
+import { Store } from '@ngrx/store';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -13,7 +14,7 @@ import { DefaultListComponent } from 'src/app/shared/helpers/default.list.compon
 export class UsersComponent extends DefaultListComponent<User, UserService> {
   private _searchTerm = '';
 
-  constructor(service: UserService) {
+  constructor(service: UserService, private appStore: Store<fromStore.AppState>) {
     super(service);
   }
 
@@ -27,5 +28,11 @@ export class UsersComponent extends DefaultListComponent<User, UserService> {
   }
   get searchTerm() {
     return this._searchTerm;
+  }
+  delete(entity) {
+    // this.purge(entity).subscribe((result) => {
+    //   this.appStore.dispatch(new fromStore.LoadInitState());
+    // });
+    this.service.delete(entity.id);
   }
 }

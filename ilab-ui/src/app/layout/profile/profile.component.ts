@@ -40,15 +40,6 @@ export class ProfileComponent extends DefaultFormComponent<User, ProfileService>
       phone: [''],
     });
   }
-  ngOnInit() {
-    this.loadingService.register(this.key);
-    this.service.get('').subscribe((entity) => {
-      this.form.patchValue(entity);
-      this.entity = entity;
-      console.log(this.entity);
-      this.loadingService.resolve(this.key);
-    });
-  }
   onCreate(): void {
     // this.breadcrumbs.push({ heading: 'Update Profile', icon: 'fa-tasks', link: null });
   }
