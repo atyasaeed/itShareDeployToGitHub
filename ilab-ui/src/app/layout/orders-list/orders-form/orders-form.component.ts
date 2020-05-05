@@ -9,6 +9,8 @@ import { ProfileService } from '../../profile/profile.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { routerTransition } from 'src/app/router.animations';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
+import { AlertService } from 'src/app/shared/services';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-orders-form',
@@ -24,11 +26,14 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
     service: OrdersListService,
     route: ActivatedRoute,
     router: Router,
+    private alertService: AlertService,
+    private toastr: ToastrService,
+
     @Inject(APP_CONFIG) private appConfig: IAppConfig
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
     this.form = this.formBuilder.group({
-      id: [{ value: '', disabled: true }],
+      // id: [{ value: '', disabled: true }],
     });
   }
   public getSubTotal(lineItems) {
@@ -45,5 +50,12 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
   }
   cancel(): void {
     // this.router.navigateByUrl(this.breadcrumbs[0].link);
+  }
+  updateItem(lineItem) {
+    if (lineItem.unitPrice) {
+      console.log(lineItem);
+    } else {
+      this.toastr.error('Please Enter Price For This Item');
+    }
   }
 }

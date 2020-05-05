@@ -1,3 +1,4 @@
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -17,6 +18,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { OrdersFormComponent } from './orders-form/orders-form.component';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 @NgModule({
   declarations: [OrdersListComponent, OrdersFormComponent],
@@ -38,6 +41,9 @@ import { OrdersFormComponent } from './orders-form/orders-form.component';
     MatIconModule,
     MatButtonModule,
     MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatMomentDateModule,
   ],
 })
 export class OrdersListModule {}

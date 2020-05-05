@@ -11,6 +11,8 @@ import { AlertComponent } from './shared/components/alert/alert.component';
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers, effects } from './store';
 import { EffectsModule } from '@ngrx/effects';
+import { ToastrModule } from 'ngx-toastr';
+
 @NgModule({
   declarations: [AppComponent, AlertComponent],
   imports: [
@@ -19,6 +21,12 @@ import { EffectsModule } from '@ngrx/effects';
     LanguageTranslationModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      // timeOut: 2500,
+      progressBar: true,
+      progressAnimation: 'increasing',
+      preventDuplicates: true,
+    }),
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {

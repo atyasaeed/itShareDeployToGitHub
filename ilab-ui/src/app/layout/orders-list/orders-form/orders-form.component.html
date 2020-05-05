@@ -1,85 +1,114 @@
 <div *tdLoading="'loading'" [@routerTransition]>
     <!-- <app-page-header [heading]="'Employee Case'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header> -->
-    <form *ngIf="entity" [formGroup]='form' (ngSubmit)="save()">
-        <div class="card mb-3">
-            <div class="card-header">
-                <div class="row text-left">
-                    <div class="col-sm-12">
-                        <span>{{'Order ID'|translate}} : </span>
-                        <span class="value"> {{entity.id}}</span>
-                        <span style="display:block;">{{'Status'|translate}} :<span class="value"> {{entity.status}}</span> </span>
-                        <span style="display:block;">{{'Total Price'|translate}} :<span
-                class="value">{{getSubTotal(entity.lineItems)| currency:'EGP'}}</span></span>
-                    </div>
 
+    <div class="card mb-3" *ngIf="entity">
+        <div class="card-header">
+            <div class="row text-left">
+                <div class="col-sm-12">
+                    <span>{{'Order ID'|translate}} : </span>
+                    <span class="value"> {{entity?.id}}</span>
+                    <span style="display:block;">{{'Status'|translate}} :<span class="value"> {{entity?.status}}</span> </span>
+                    <span style="display:block;">{{'Total Price'|translate}} :<span
+              class="value">{{getSubTotal(entity.lineItems)| currency:'EGP'}}</span></span>
                 </div>
 
-
             </div>
-            <div class="card-body">
-                <div class="product">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="info">
-                                <div class="row" *ngFor="let lineItem of entity.lineItems">
-
-                                    <div class="col-md-12 product-name">
-                                        <h5 class="text-center">{{lineItem.service.name}}</h5>
-
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div *ngIf="lineItem?.estimatedEndDate"><span class="col-md-4">{{ 'Estimated End Date' | translate }}
-                            :</span>
-                                                    <span class="value ">{{ lineItem.estimatedEndDate | date:'fullDate' }}
-                          </span>
-                                                </div>
-                                                <!-- <div *ngIf="lineItem?.plannedEndDate"><span class="col-md-4">{{ 'Planned End Date' | translate }}</span><span class="value ">{{ lineItem.plannedEndDate | date:'fullDate' }}
-                          </span></div> -->
-                                                <div><span class="col-md-4">{{ 'Price' | translate }} :</span>
 
 
-                                                    <span class="value ">{{lineItem.unitPrice *lineItem.quantity|currency:'EGP'}} </span>
-                                                </div>
+        </div>
+        <div class="card-body">
+            <div class="product">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="info">
+                            <div class="row" *ngFor="let lineItem of entity?.lineItems">
 
+                                <div class="col-md-12 product-name">
+                                    <h5 class="text-center service-item">{{lineItem.service.name}}</h5>
 
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div *ngIf="lineItem?.estimatedEndDate">
+                                                <mat-form-field>
+                                                    <mat-label>{{ 'Estimated End Date' | translate }}</mat-label>
+                                                    <input matInput [matDatepicker]="picker" [(ngModel)]="lineItem.estimatedEndDate" #estimatedEndDate='ngModel' disabled>
+                                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                                    <mat-datepicker #picker disabled="false"></mat-datepicker>
+                                                </mat-form-field>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div><span class="col-md-4">{{ 'Quantity' | translate }}:</span><span class="value ">{{lineItem.quantity}}</span></div>
-                                                <div><span class="col-md-4">{{ 'Notes' | translate }}:</span><span class="value ">{{lineItem.notes}}</span></div>
+
+                                            <div>
+                                                <mat-form-field class="form-rtl">
+                                                    <input matInput type="number" placeholder="{{'Quantity'|translate}}" [(ngModel)]="lineItem.quantity" #quantity='ngModel' disabled>
+                                                </mat-form-field>
                                             </div>
 
                                         </div>
-                                        <div class="row" *ngFor="let file of lineItem.files ;index as i" class="card-form">
-                                            <div class="form-title">{{'Digital Material'|translate}}: <span class="value"><a
-                            [href]="getFileUrl(file)">{{file.asset_name}}</a></span></div>
-                                            <div class="form-body">
-                                                <div>{{'Type' | translate }}:<span class="value">{{file.type |titlecase}}</span></div>
-                                                <div>{{'Material' | translate }}:<span class="value">{{file.material |titlecase}}</span></div>
-                                                <div>{{'Dimension' | translate }}:<span class="value">{{file.dimension |titlecase}}</span></div>
-                                                <div>{{'Color' | translate }}: <span class="value">{{file.color |titlecase}}</span></div>
-                                                <div></div>
+                                        <div class="col-md-6">
+                                            <div>
+
+                                                <mat-form-field class="form-rtl">
+
+                                                    <input matInput type="number" min="1" placeholder="{{'Unit Price'|translate}}" [(ngModel)]="lineItem.unitPrice" #unitPrice='ngModel' required>
+                                                    <mat-error *ngIf="unitPrice.hasError('required')">
+                                                    </mat-error>
+                                                </mat-form-field>
+
+
+
+                                            </div>
+
+                                            <div>
+                                                <mat-form-field class="form-rtl">
+                                                    <input matInput type="text" placeholder="{{'Notes'|translate}}" [(ngModel)]="lineItem.notes" #note='ngModel' disabled>
+                                                </mat-form-field>
+                                                <!-- <span class="col-md-4">{{ 'Notes' | translate }}:</span><span class="value ">{{lineItem.notes}}</span> -->
                                             </div>
                                         </div>
-                                        <mat-card-actions class="form-rtl text-right">
-                                            <button type="submit" mat-raised-button color="primary" [disabled]="f().invalid">{{'Save'|translate}}</button>
-                                        </mat-card-actions>
-
-                                        <hr>
-
 
                                     </div>
+                                    <div class="row" *ngFor="let file of lineItem.files ;index as i" class="card-form">
+                                        <div class="form-title">{{'Digital Material'|translate}}: <span class="value"><a
+                          [href]="getFileUrl(file)">{{file.asset_name}}</a></span></div>
+                                        <div class="form-body">
+                                            <div class="row">
+                                                <mat-form-field class="form-rtl col-md-6">
+                                                    <input matInput type="text" placeholder="{{'Type'|translate}}" [(ngModel)]="file.type" #type='ngModel' disabled>
+                                                </mat-form-field>
+                                                <mat-form-field class="form-rtl col-md-6">
+                                                    <input matInput type="text" placeholder="{{'Material'|translate}}" [(ngModel)]="file.material" #material='ngModel' disabled>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="row">
+                                                <mat-form-field class="form-rtl col-md-6">
+                                                    <input matInput type="text" placeholder="{{'Dimension'|translate}}" [(ngModel)]="file.dimension" #dimension='ngModel' disabled>
+                                                </mat-form-field>
+                                                <mat-form-field class="form-rtl col-md-6">
+                                                    <input matInput type="text" placeholder="{{'Color'|translate}}" [(ngModel)]="file.color" #color='ngModel' disabled>
+                                                </mat-form-field>
+
+                                            </div>
+                                            <div></div>
+                                        </div>
+                                    </div>
+                                    <mat-card-actions class="form-rtl text-right">
+                                        <button (click)="updateItem(lineItem)" mat-raised-button color="primary" [disabled]="f().invalid">{{'Save'|translate}}</button>
+                                    </mat-card-actions>
 
 
                                 </div>
+
+
                             </div>
                         </div>
-
-
-
-
                     </div>
+
+
+
+
                 </div>
-                <!-- <section class="shopping-cart dark">
+            </div>
+            <!-- <section class="shopping-cart dark">
                     <div class="container">
                         <div class="content">
                             <app-line-item *ngFor="let lineItem of order.lineItems" [lineItem]="lineItem"></app-line-item>
@@ -91,10 +120,10 @@
 
                 </section> -->
 
-            </div>
-
         </div>
-        <!-- <mat-card>
+
+    </div>
+    <!-- <mat-card>
 
             <mat-card-content>
                 <mat-form-field class="form-rtl">
@@ -126,6 +155,6 @@
             </mat-card-actions>
         </mat-card> -->
 
-    </form>
+
 
 </div>

@@ -16,6 +16,8 @@ mat-card-actions {
 :host .product-name {
     font-weight: normal;
     font-size: 80%;
+    margin-bottom: 5px;
+    box-shadow: 5px 5px 5px -5px #888888;
 }
 
 .value {
@@ -52,4 +54,14 @@ mat-card-actions {
 .card-form .form-body {
     padding: 10px;
     margin-bottom: 5px;
+}
+
+.service-item {
+    color: #3f51b5;
+    padding-bottom: 10px;
+}
+
+mat-card-actions {
+    margin-bottom: 5px;
+    margin-top: 5px;
 }

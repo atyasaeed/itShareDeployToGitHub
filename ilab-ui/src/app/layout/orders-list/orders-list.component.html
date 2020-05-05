@@ -13,7 +13,7 @@
                     <!-- <th scope="col">#</th> -->
                     <th scope="col" sortable="id" (sort)="onSort($event)">{{'Id'|translate}}</th>
                     <th scope="col" sortable="total_payment" (sort)="onSort($event)">{{'Total Cost'|translate}}</th>
-                    <th scope="col" sortable="entity.lineItems.length" (sort)="onSort($event)">{{'Number Of Items'|translate}}
+                    <th scope="col" sortable="length" (sort)="onSort($event)">{{'Number Of Items'|translate}}
                         <th scope="col" sortable="status" (sort)="onSort($event)">{{'Status'|translate}}
                         </th>
 
@@ -62,8 +62,8 @@
         </div>
 
     </form>
-    <button mat-fab class="mat-fab-top-right fixed mat-accent mat-fab button-left" routerLink="create">
+    <!-- <button mat-fab class="mat-fab-top-right fixed mat-accent mat-fab button-left" routerLink="create">
     <mat-icon>{{'add'|translate}}</mat-icon>
-  </button>
+  </button> -->
 
 </div>
