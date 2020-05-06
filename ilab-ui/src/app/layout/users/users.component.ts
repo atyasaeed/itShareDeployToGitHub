@@ -35,4 +35,8 @@ export class UsersComponent extends DefaultListComponent<User, UserService> {
     // });
     this.service.delete(entity.id);
   }
+
+  status(entity) {
+    entity.enabled = !entity.enabled;
+  }
 }

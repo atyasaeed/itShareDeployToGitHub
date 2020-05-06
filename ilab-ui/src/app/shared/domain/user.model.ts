@@ -1,11 +1,13 @@
 import { Entity } from './entity';
 
 export interface User extends Entity {
-  arName: string;
-  enName: string;
+  firstName: string;
+  middleName: string;
+  lastName: string;
   phoneNo: number;
   email: string;
   username: string;
   password: string;
+  enabled: boolean;
   roles: string[];
 }

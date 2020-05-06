@@ -8,7 +8,7 @@
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col" sortable="arName" (sort)="onSort($event)">Name</th>
+                <th scope="col" sortable="firstName" (sort)="onSort($event)">First Name</th>
                 <th scope="col" sortable="email" (sort)="onSort($event)">email</th>
                 <th scope="col">Phone</th>
                 <th scope="col" sortable="username" (sort)="onSort($event)">Username</th>
@@ -17,24 +17,28 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let user of entities$ | async; let i=index">
+            <tr *ngFor="let entity of entities$ | async; let i=index">
                 <th scope="row">{{ i+1 }}</th>
                 <td>
-                    <ngb-highlight [result]="user.arName" [term]="searchTerm"></ngb-highlight>
+                    <ngb-highlight [result]="entity.firstName" [term]="searchTerm"></ngb-highlight>
                 </td>
+                <td>
+                    <ngb-highlight [result]="entity.email" [term]="searchTerm"></ngb-highlight>
+                </td>
+                <td>
+                    <ngb-highlight [result]="entity.phoneNo" [term]="searchTerm"></ngb-highlight>
+                </td>
+                <td>
+                    <ngb-highlight [result]="entity.username" [term]="searchTerm"></ngb-highlight>
+                </td>
+                <td>
 
-                <td>
-                    <ngb-highlight [result]="user.email" [term]="searchTerm"></ngb-highlight>
-                </td>
-                <td>
-                    <ngb-highlight [result]="user.phoneNo" [term]="searchTerm"></ngb-highlight>
-                </td>
-                <td>
-                    <ngb-highlight [result]="user.username" [term]="searchTerm"></ngb-highlight>
-                </td>
-                <td>
+                    <a [routerLink]="entity.id" title="{{'View User' | translate}}"><i class="fa fa-fw fa-edit"></i></a>&nbsp;
+                    <button type="button" *ngIf="!entity.enabled" (click)="status(entity)" mat-stroked-button color="primary">{{'Enable'|translate}}</button>
+                    <button type="button" *ngIf="entity.enabled" (click)="status(entity)" mat-stroked-button color="warn">{{'Disable'|translate}}</button>
 
-                    <a><i class="fa fa-fw fa-edit"></i></a>&nbsp;
+
+                    <!-- <a><i class="fa fa-fw fa-edit"></i></a>&nbsp; -->
                     <!-- <a (click)="delete(entity)" href="javascript:void(0)"><i class="fa fa-fw fa-trash"></i></a> -->
 
                     <!-- <a><i class="fa fa-fw fa-trash"></i></a> -->
