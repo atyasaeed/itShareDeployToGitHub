@@ -1,6 +1,6 @@
 <div *tdLoading="'emp-case'" [@routerTransition]>
-    <!-- <app-page-header [heading]="'Update Profile'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs">
-    </app-page-header> -->
+    <app-page-header [heading]="'Update Profile'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs">
+    </app-page-header>
     <form *ngIf="entity" [formGroup]='form' (ngSubmit)="save()">
         <mat-card>
 
@@ -32,7 +32,7 @@
             </mat-card-content>
             <button type="button" mat-button (click)="cancel()">{{'Back'|translate}}</button> &nbsp;
             <button type="button" *ngIf="!entity.enabled" (click)="status(entity)" mat-raised-button color="primary">{{'Enable'|translate}}</button>
-            <button type="button" *ngIf="entity.enabled" (click)="status(entity)" mat-raised-button color="warn">{{'Disable'|translate}}</button>
+            <!-- <button type="button" *ngIf="entity.enabled" (click)="status(entity)" mat-raised-button color="warn">{{'Disable'|translate}}</button> -->
 
         </mat-card>
     </form>

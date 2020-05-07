@@ -1,3 +1,4 @@
+import { routerTransition } from 'src/app/router.animations';
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { UserService } from './user.service';
 import { User } from 'src/app/shared/domain';
@@ -10,8 +11,11 @@ import { Store } from '@ngrx/store';
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
+  animations: [routerTransition()],
 })
 export class UsersComponent extends DefaultListComponent<User, UserService> {
+  breadcrumbs = [{ heading: 'Users', icon: 'fa-tasks' }];
+
   private _searchTerm = '';
 
   constructor(service: UserService, private appStore: Store<fromStore.AppState>) {
@@ -37,6 +41,7 @@ export class UsersComponent extends DefaultListComponent<User, UserService> {
   }
 
   status(entity) {
-    entity.enabled = !entity.enabled;
+    this.service.userState(entity.id);
+    // entity.enabled = !entity.enabled;
   }
 }

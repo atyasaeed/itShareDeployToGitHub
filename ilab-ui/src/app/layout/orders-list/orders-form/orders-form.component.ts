@@ -19,6 +19,11 @@ import { ToastrService } from 'ngx-toastr';
   animations: [routerTransition()],
 })
 export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListService> {
+  breadcrumbs = [
+    { heading: 'Orders', icon: 'fa-tasks', link: '/orders-list' },
+    { heading: 'Order-Details', icon: 'fa-tasks' },
+  ];
+
   constructor(
     formBuilder: FormBuilder,
     loadingService: TdLoadingService,
@@ -53,7 +58,9 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
   }
   updateItem(lineItem) {
     if (lineItem.unitPrice) {
-      console.log(lineItem);
+      this.service.updateLineItem(lineItem).subscribe((res) => {
+        this.toastr.success('Update Successful');
+      });
     } else {
       this.toastr.error('Please Enter Price For This Item');
     }

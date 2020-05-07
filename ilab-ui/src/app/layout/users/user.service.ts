@@ -6,4 +6,9 @@ import { User } from 'src/app/shared/domain';
 })
 export class UserService extends RestService<User> {
   resource = 'admin/users';
+
+  userState(id) {
+    this.resource = `admin/users/${id}/enable`;
+    this.update('').subscribe((res) => console.log(res));
+  }
 }

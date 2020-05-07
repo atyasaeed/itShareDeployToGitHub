@@ -12,7 +12,7 @@ import { routerTransition } from 'src/app/router.animations';
   animations: [routerTransition()],
 })
 export class OrdersListComponent extends DefaultListComponent<Order, OrdersListService> implements OnInit {
-  breadcrumbs = [{ heading: 'Programs', icon: 'fa-tasks' }];
+  breadcrumbs = [{ heading: 'Orders', icon: 'fa-tasks' }];
   private _searchTerm = '';
   lang: string;
   constructor(service: OrdersListService) {

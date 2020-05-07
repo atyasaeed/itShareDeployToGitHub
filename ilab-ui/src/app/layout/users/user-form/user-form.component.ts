@@ -17,6 +17,10 @@ import { User } from 'src/app/shared/domain';
   animations: [routerTransition()],
 })
 export class UserFormComponent extends DefaultFormComponent<User, UserService> implements OnInit {
+  breadcrumbs = [
+    { heading: 'Users', icon: 'fa-tasks', link: '/users' },
+    { heading: 'User-Details', icon: 'fa-tasks' },
+  ];
   constructor(
     formBuilder: FormBuilder,
     loadingService: TdLoadingService,
@@ -61,6 +65,7 @@ export class UserFormComponent extends DefaultFormComponent<User, UserService> i
   }
 
   status(entity) {
-    entity.enabled = !entity.enabled;
+    this.service.userState(entity.id);
+    // entity.enabled = !entity.enabled;
   }
 }

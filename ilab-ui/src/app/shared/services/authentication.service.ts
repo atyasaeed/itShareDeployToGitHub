@@ -42,7 +42,7 @@ export class AuthenticationService {
     localStorage.removeItem('currentUser');
     // this.currentUserSubject.next(null);
     this.appStore.dispatch(new fromStore.UpdateAuthUser(null));
-    this.router.navigate(['']);
+    this.router.navigate(['login']);
     //  to call backend logout
     return this.http
       .get<any>(this.appConfig.LOGOUT_URL)

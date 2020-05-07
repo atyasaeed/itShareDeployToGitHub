@@ -110,7 +110,8 @@
     "Reject": "Reject",
     "Cancel Order": "Cancel Order",
     "Status": "Status",
-    "Order ID": "Order ID"
+    "Order ID": "Order ID",
+    "Order Details": "Order-Details"
 
 
 }
