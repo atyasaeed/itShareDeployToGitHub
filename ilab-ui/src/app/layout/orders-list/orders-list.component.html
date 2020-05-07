@@ -3,7 +3,7 @@
 
     <form>
         <div class="form-group form-inline">
-            Full text search: <input class="form-control ml-2" type="text" name="searchTerm" [(ngModel)]="searchTerm" />
+            <input class="form-control ml-2" type="text" placeholder="{{'Search'|translate}}" name="searchTerm" [(ngModel)]="searchTerm" />
             <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
         </div>
 

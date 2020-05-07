@@ -15,7 +15,9 @@
     "Change Password": "Change Password",
     "Welcome": "Welcome",
     "User name": "User Name",
+    "User Name": "User Name",
     "Email": "Email",
+    "email": "Email",
     "Arabic name": "Arabic Name",
     "English name": "English Name ",
     "Nationality": "Nationality",
@@ -99,7 +101,9 @@
     "Price": "Price",
     "Unite Price": "Unite Price",
     "Total Price": "Total Price",
+    "Total Cost": "Total Cost",
     "Digital Material": "Digital Material",
+    "Number Of Items": "Number Of Items",
     "Summary": "Summary",
     "Checkout": "Checkout",
     "please Select Service To Create Your ShoppingCart": "please Select Service To Create Your ShoppingCart",
@@ -111,7 +115,12 @@
     "Cancel Order": "Cancel Order",
     "Status": "Status",
     "Order ID": "Order ID",
-    "Order Details": "Order-Details"
+    "Order Details": "Order-Details",
+    "User-Details": "User-Details",
+    "phoneNo": "phoneNo",
+    "Back": "Back",
+    "Search": "Search"
+
 
 
 }

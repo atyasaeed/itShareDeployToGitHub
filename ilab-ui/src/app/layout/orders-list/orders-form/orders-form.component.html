@@ -1,10 +1,10 @@
 <div *tdLoading="'loading'" [@routerTransition]>
     <app-page-header [heading]="'Employee Case'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header>
 
-    <div class="card mb-3" *ngIf="entity">
+    <div class="card mb-3" class="form-rtl" *ngIf="entity">
         <div class="card-header">
             <div class="row text-left">
-                <div class="col-sm-12">
+                <div class="col-sm-12" class="form-rtl">
                     <span>{{'Order ID'|translate}} : </span>
                     <span class="value"> {{entity?.id}}</span>
                     <span style="display:block;">{{'Status'|translate}} :<span class="value"> {{entity?.status}}</span> </span>
@@ -29,7 +29,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div *ngIf="lineItem?.estimatedEndDate">
-                                                <mat-form-field>
+                                                <mat-form-field class="form-rtl">
                                                     <mat-label>{{ 'Estimated End Date' | translate }}</mat-label>
                                                     <input matInput [matDatepicker]="picker" [(ngModel)]="lineItem.estimatedEndDate" #estimatedEndDate='ngModel' disabled>
                                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>

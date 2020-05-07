@@ -33,12 +33,16 @@
     }
     .breadcrumb {
         direction: ltr;
-        justify-content: flex-end;
-        * {
-            direction: ltr;
+        flex-direction: row-reverse;
+        // .breadcrumb-item {
+        //   direction: ltr;
+        // }
+        .bread-item {
+            direction: initial;
         }
-        .breadcrumb-item-right {
-            direction: rtl;
+        * {
+            // direction: ltr;
+            // justify-content: right;
         }
     }
     .datepicker-input {

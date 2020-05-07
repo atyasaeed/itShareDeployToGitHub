@@ -15,7 +15,9 @@
     "Forget Password": "هل نسيت كلمة المرور",
     "Register": "التسجيل",
     "User name": "اسم المستخدم",
+    "User Name": "اسم المستخدم",
     "Email": "البريد الالكترونى",
+    "email": "البريد الالكترونى",
     "Arabic name": "الاسم باللغه العربيه",
     "English name ": "الاسم باللغه الانجليزيه ",
     "Nationality": "الجنسيه",
@@ -103,6 +105,8 @@
     "Price": "التكلفه",
     "Unite Price": "تكلفة الوحده",
     "Total Price": "التكلفه الكامله",
+    "Total Cost": "التكلفه الكامله",
+    "Number Of Items": "عدد العناصر",
     "Digital Material": "الماده",
     "Summary": "الملخص",
     "Checkout": "Checkout",
@@ -115,7 +119,12 @@
     "Cancel Order": "إلغاء الطلب",
     "Status": "الحاله",
     "Order ID": "الرقم التعريفى",
-    "Order-Details": "تفاصيل الطلب"
+    "Order-Details": "تفاصيل الطلب",
+    "User-Details": "تفاصيل المستخدم",
+    "phoneNo": "رقم التليفون",
+    "Back": "العوده",
+    "Search": "بحث",
+    "Id": "الرقم التعريفى"
 
 
 
