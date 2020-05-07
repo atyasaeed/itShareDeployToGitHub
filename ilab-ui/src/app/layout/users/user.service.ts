@@ -9,6 +9,8 @@ export class UserService extends RestService<User> {
 
   userState(id) {
     this.resource = `admin/users/${id}/enable`;
-    this.update('').subscribe((res) => console.log(res));
+    this.update('').subscribe((res) => {
+      this.resource = 'admin/users';
+    });
   }
 }

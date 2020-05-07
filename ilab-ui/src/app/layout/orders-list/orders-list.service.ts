@@ -8,7 +8,7 @@ export class OrdersListService extends RestService<Order> {
   resource = 'admin/orders';
 
   updateLineItem(lineItem) {
-    this.resource = 'admin/orders/lineItem';
-    return this.update(lineItem);
+    // return this.http.put('http://18.215.58.131:8080/api/admin/orders/lineItem', lineItem);
+    return this.http.put(this.appConfig.getResourceUrl(this.resource) + '/lineItem', lineItem);
   }
 }

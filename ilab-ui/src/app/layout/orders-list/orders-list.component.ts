@@ -25,7 +25,7 @@ export class OrdersListComponent extends DefaultListComponent<Order, OrdersListS
   set searchTerm(searchTerm: string) {
     this._searchTerm = searchTerm;
     if (searchTerm) {
-      this.service.searchTerm = `status:'*${searchTerm}*' OR total_payment:'*${searchTerm}*'`;
+      this.service.searchTerm = `status:'*${searchTerm}*' OR id:'*${searchTerm}*'`;
     } else {
       this.service.searchTerm = '';
     }
