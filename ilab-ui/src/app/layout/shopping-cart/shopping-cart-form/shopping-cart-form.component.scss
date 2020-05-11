@@ -284,3 +284,19 @@ select:required:invalid {
 option[value=""][disabled] {
     display: none;
 }
+
+///////////////@extend
+:host {
+    padding: 20px;
+}
+
+input,
+mat-form-field,
+mat-select {
+    width: 100%;
+}
+
+mat-card-actions {
+    margin-top: 20px;
+    display: block;
+}

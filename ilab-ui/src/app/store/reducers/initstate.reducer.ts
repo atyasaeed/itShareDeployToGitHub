@@ -1,11 +1,12 @@
 import * as fromInitState from '../actions';
 import { initState } from '.';
-import { Order, User } from 'src/app/shared/domain';
+import { Order, User, Service } from 'src/app/shared/domain';
 
 export interface InitState {
   shoppingCart: Order;
   lang: string;
   user: User;
+  services: Service;
   loaded: boolean;
   loading: boolean;
 }
@@ -32,6 +33,7 @@ export const getInitStateLoaded = (state: InitState) => state.loaded;
 
 export const isAuthenitcated = (state: InitState) => state.user !== null;
 export const getAuthUser = (state: InitState) => state.user;
+export const getAuthServices = (state: InitState) => state.services;
 
 export const getLang = (state: InitState) => {
   return state.lang;

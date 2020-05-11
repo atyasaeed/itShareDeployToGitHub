@@ -1,4 +1,15 @@
-<article class=" container card form-rtl">
+<div class="row">
+    <mat-form-field class="form-rtl col-12">
+        <mat-label>{{' Select Service' | translate}}</mat-label>
+        <mat-select (selectionChange)="bulidForm($event.value)" #val>
+            <mat-option class="form-rtl" *ngFor="let service of services[0]" [value]="service">
+                {{service?.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+<article class=" container card form-rtl" *ngIf="val.value">
+
     <h4 class="text-center">{{service?.name}}
         <h6>'Maximum Working Area'{{service?.workingArea}}</h6>
     </h4>
@@ -9,7 +20,6 @@
         </div>
         <div class="col-sm-8">
             <section>
-
                 <form class="container" data-toggle="validator" *ngIf="cartForm" [formGroup]="cartForm" (ngSubmit)="onSubmit()">
 
                     <div>

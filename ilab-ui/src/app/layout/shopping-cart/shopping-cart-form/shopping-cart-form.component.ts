@@ -6,6 +6,8 @@ import { AuthenticationService } from 'src/app/shared/services';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { ServicesService } from './services.service';
+import * as fromStore from 'src/app/store';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-shopping-cart-form',
@@ -13,6 +15,7 @@ import { ServicesService } from './services.service';
   styleUrls: ['./shopping-cart-form.component.scss'],
 })
 export class ShoppingCartFormComponent implements OnInit {
+  services;
   loading = false;
   submitted = false;
   ext: string[] = [];
@@ -33,8 +36,15 @@ export class ShoppingCartFormComponent implements OnInit {
     private router: Router,
     private authenticationService: AuthenticationService,
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
-    private formBuilder: FormBuilder
-  ) {}
+    private formBuilder: FormBuilder,
+    private appStore: Store<fromStore.AppState>
+  ) {
+    this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
+      console.log(res);
+      this.services = new Array(res);
+      console.log(this.services);
+    });
+  }
 
   cartForm: FormGroup;
 
@@ -161,6 +171,28 @@ export class ShoppingCartFormComponent implements OnInit {
   //   }
   // }
 
+  bulidForm(event) {
+    console.log(event);
+    this.file$.clear();
+    this.service = event;
+    for (let i = 0; i < this.service.maxFiles; i++) {
+      this.file$.push(
+        this.formBuilder.group({
+          file: ['', [Validators.required]],
+          material: [this.service?.materials[0]?.name, [Validators.required]],
+          type: [this.service?.materials[0]?.types[0]?.name, [Validators.required]],
+          color: [this.service.materials[0].types[0].colors[0], [Validators.required]],
+          dimension: [this.service.materials[0].types[0].dimensions[0], [Validators.required]],
+          unit: [this.service.units[0], [Validators.required]],
+        })
+      );
+    }
+
+    for (let index = 0; index < this.service.supportedExtensions.length; index++) {
+      this.ext.push(this.service.supportedExtensions[index].substr(1));
+    }
+    this.extFile = this.ext.toString();
+  }
   validateAllFormFields(formGroup: FormGroup) {
     // {1}
     Object.keys(formGroup.controls).forEach((field) => {

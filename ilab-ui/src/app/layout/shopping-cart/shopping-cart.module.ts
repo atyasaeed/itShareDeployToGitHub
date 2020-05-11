@@ -8,6 +8,14 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ShoppingCartFormComponent } from './shopping-cart-form/shopping-cart-form.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { CovalentLoadingModule } from '@covalent/core/loading';
+import { CovalentDialogsModule } from '@covalent/core/dialogs';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [ShoppingCartComponent, ShoppingCartFormComponent],
@@ -19,6 +27,14 @@ import { ShoppingCartFormComponent } from './shopping-cart-form/shopping-cart-fo
     ReactiveFormsModule,
     SharedModule,
     TranslateModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    CovalentLoadingModule,
+    CovalentDialogsModule,
+    MatIconModule,
+    MatButtonModule,
+    MatSelectModule,
   ],
 })
 export class ShoppingCartModule {}

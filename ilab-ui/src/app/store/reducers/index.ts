@@ -19,4 +19,5 @@ export const reducers: ActionReducerMap<AppState> = {
 export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [] : [];
 export const initState = createFeatureSelector('initState');
 export const getAuthUser = createSelector(initState, fromInitstate.getAuthUser);
+export const getAuthServices = createSelector(initState, fromInitstate.getAuthServices);
 export const getLang = createSelector(initState, fromInitstate.getLang);

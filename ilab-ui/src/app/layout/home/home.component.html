@@ -14,32 +14,37 @@
         </div>
     </div>
     <hr>
-    <form class="event-color">
+    <!-- <form class="event-color">
         <div class="form-group form-inline">
             Full text search: <input class="form-control ml-2" type="text" name="searchTerm" [(ngModel)]="searchTerm" />
             <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
         </div>
         <div class="row upcoming-events">
-            <!--service-item-->
-            <!-- Hello -->
-            <div class="col-md-4" *ngFor="let entity of entities$ | async; let i=index">
 
-                <!-- <app-service-item [service]="service"></app-service-item> -->
-                <!-- {{course|json}} -->
+            <div class="col-md-4" *ngFor="let entity of entities$ | async; let i=index">
                 <app-service-card [entity]="entity"></app-service-card>
 
             </div>
         </div>
-        <!-- <div class="d-flex justify-content-between p-2 ">
-            <ngb-pagination [collectionSize]="total$ | async" [(page)]="eventService.page" [pageSize]="eventService.pageSize">
-            </ngb-pagination>
-
-            <select class="custom-select color-body" style="width: auto" name="pageSize" [(ngModel)]="eventService.pageSize">
-        <option [ngValue]="2">2 items per page</option>
-        <option [ngValue]="4">4 items per page</option>
-        <option [ngValue]="6">6 items per page</option>
-      </select>
-        </div> -->
-    </form>
-
+    </form> -->
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Service</h5>
+                    <p class="card-text">You Can Create New Service And Add It To Your Cart</p>
+                    <a [routerLink]='["/shopping-cart/CartItem"]' class="btn btn-primary">Add Service</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Gallery</h5>
+                    <p class="card-text">You Can Choose Order And Add It To Your Cart Direct </p>
+                    <a href="#" class="btn btn-primary">Gallery</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
