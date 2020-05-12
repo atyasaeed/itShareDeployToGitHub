@@ -36,6 +36,7 @@ import ilab.core.repository.FileAssetRepository;
 import ilab.core.repository.LineItemRepository;
 import ilab.core.repository.OrderRepository;
 import ilab.core.repository.UserRepository;
+import ilab.utils.exception.NotFoundException;
 
 @Service
 @Transactional
@@ -73,6 +74,11 @@ public class OrderService
 //		return orderRepo.findAll( specs,page).filter(order->order.getStatus()==OrderStatus.PENDING);
 		
 	} 
+	public Page<OrderEntity> getOrders(Pageable page,Specification<OrderEntity> specs)
+	{
+		return orderRepo.findAll( filterByOrderStatus(OrderStatus.SHOPPING_CART).and(specs),page);
+		
+	}
 	public Specification<OrderEntity> filterByAccountId(UUID accountId)
 	{
 		return (Root<OrderEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) ->
@@ -82,6 +88,16 @@ public class OrderService
 			Path<Account> accountPath = root.<Account>get("account");
 			predicates.add(cb.equal(accountPath.<UUID>get("id"), accountId));
 			predicates.add(cb.equal(root.<OrderStatus>get("status"), OrderStatus.PENDING));
+			return cb.and(predicates.toArray(new Predicate[predicates.size()]));
+		};
+	}
+	public Specification<OrderEntity> filterByOrderStatus(OrderStatus status)
+	{
+		return (Root<OrderEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) ->
+		{
+			List<Predicate> predicates = new ArrayList<>();
+
+			predicates.add(cb.notEqual(root.<OrderStatus>get("status"), status));
 			return cb.and(predicates.toArray(new Predicate[predicates.size()]));
 		};
 	}
@@ -227,6 +243,17 @@ public class OrderService
 		LineItem item= lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id, user.getAccounts().iterator().next().getId());
 		if(item!=null)
 			item.setQuantity(newItem.getQuantity());
+			
+		return item;
+	}
+	public LineItem updateItem(LineItem newItem)
+	{
+		LineItem item= lineItemRepo.findById(newItem.getId()).orElseThrow(()-> new NotFoundException("Line item was not found"));
+		if(item!=null)
+		{
+			item.setEstimatedEndDate(newItem.getEstimatedEndDate());
+			item.setUnitPrice(newItem.getUnitPrice());
+		}
 			
 		return item;
 	}

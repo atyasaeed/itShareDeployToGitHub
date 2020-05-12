@@ -56,7 +56,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 				.antMatchers(HttpMethod.GET,"/*","/ui/**", "/api/services/**", "/api/users/resetPassword","/api/utils/initState")
 				.permitAll().antMatchers(HttpMethod.POST, "/api/users", "/api/users/resetPassword").permitAll()
 				.antMatchers(HttpMethod.POST, "/api/users/savePassword").hasAuthority("CHANGE_PASSWORD_PRIVILEGE")
+				.antMatchers("/assets/**").permitAll()	
 				.antMatchers("/digital-assets/**").permitAll().and().authorizeRequests().anyRequest().authenticated()
+				
 				.and().formLogin().failureHandler(customAuthenticationFailureHandler())
 				.successHandler(customAuthenticationSuccessHandler())
 				.and().cors().configurationSource(corsConfigurationSource())

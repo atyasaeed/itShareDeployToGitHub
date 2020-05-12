@@ -1,9 +1,7 @@
 package ilab.core.domain;
 
 import java.util.Date;
-import java.util.UUID;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
@@ -15,10 +13,6 @@ public class PasswordResetToken extends AbstractEntity<PasswordResetToken>
 	private boolean used;
 	private boolean sent;
 	private Date expiryDate;
-
-	
-
-
 	public User getUser()
 	{
 		return user;

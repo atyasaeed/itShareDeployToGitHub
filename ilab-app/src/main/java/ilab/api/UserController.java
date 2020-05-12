@@ -5,10 +5,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.web.PageableDefault;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
-
-import com.sipios.springsearch.anotation.SearchSpec;
 
 import ilab.core.domain.PasswordResetToken;
 import ilab.core.domain.User;
@@ -39,7 +34,8 @@ public class UserController
 	
 	@Value("${iLab.urls.resetPassword}")
 	String resetPasswordUrl;
-
+	@Value("${iLab.urls.selfProvisionResult}")
+	String selfProvisionResultUrl;
 	@Autowired
 	UserService userService;
 	
@@ -50,13 +46,24 @@ public class UserController
 	@ResponseStatus(HttpStatus.CREATED)
 	public User postUser(@RequestBody User user)
 	{
-		User aUser = userService.register(user);
-		eventPublisher.publishEvent(new SendEmailEvent(user.getEmail(), "iLab Account Activation", "activation-email.ftl", user));
+		User aUser;
+		try
+		{
+			aUser = userService.register(user);
+		} catch (DataIntegrityViolationException e)
+		{
+			throw e;
+		}
+		eventPublisher.publishEvent(
+				new SendEmailEvent(user.getEmail(), "iLab Account Activation", "activation-email.ftl", user));
 		return aUser;
+
+		
 	}
 
 	
 	@PostMapping("/changePassword")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	public boolean changePassword(Authentication auth, @RequestBody ChangePasswordDTO dto)
 	{
 		dto.setUsername(auth.getName());
@@ -74,7 +81,7 @@ public class UserController
 	}
 
 	@PostMapping("/savePassword")
-	public boolean savePassword(@RequestBody String newPassword)
+	public boolean savePassword(@RequestBody String newPassword,Authentication auth)
 	{
 		userService.changePassword(newPassword);
 		return true;
@@ -99,5 +106,10 @@ public class UserController
 	{
 		return userService.update(user, auth);
 	}
-
+	@GetMapping("selfProvision")
+	public RedirectView provisionUser(@RequestParam("id") UUID userId, @RequestParam("token") UUID token)
+	{
+		userService.enableUser(userId, true, null);
+		return new RedirectView(selfProvisionResultUrl);
+	}
 }

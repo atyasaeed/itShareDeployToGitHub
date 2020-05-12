@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ilab.core.repository.ServiceRepository;
 import ilab.core.service.OrderService;
 import ilab.dto.InitStateDTO;
 
@@ -23,11 +24,14 @@ public class UtilsController
 
 	@Autowired
 	private OrderService orderService;
+	@Autowired
+	private ServiceRepository serviceRepository;
 
 	@GetMapping("/initState")
 	public InitStateDTO getInitState(Authentication auth)
 	{
 		InitStateDTO initState = new InitStateDTO();
+		initState.setServices(serviceRepository.findAll());
 		if (auth != null)
 		{
 			UserDetails user = (UserDetails) auth.getPrincipal();

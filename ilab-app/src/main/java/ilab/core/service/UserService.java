@@ -31,6 +31,8 @@ import ilab.core.domain.User;
 import ilab.core.repository.PasswordTokenRepository;
 import ilab.core.repository.UserRepository;
 import ilab.dto.ChangePasswordDTO;
+import ilab.utils.exception.IllegalRequestDataException;
+import ilab.utils.exception.NotFoundException;
 
 @Service
 @Transactional
@@ -142,11 +144,33 @@ public class UserService implements UserDetailsService
 	{
 		return userRepo.findByUsername(auth.getName());
 	}
+	public Optional<User> findUser(UUID id)
+	{
+		return userRepo.findById(id);
+	}
 	public User update(User user,Authentication auth)
 	{
 		User theUser=findUser(auth);
 		theUser.setFirstName(user.getFirstName());
 		theUser.setLastName(user.getLastName());
 		return theUser;
+	}
+	public User enableUser(UUID userId,boolean isEnabled,Authentication auth)
+	{
+		User user = userRepo.findById(userId).orElseThrow(() -> new NotFoundException("User Not Found"));
+		if(user.getUsername().equals(auth.getName()))
+			throw new IllegalRequestDataException("Can't disable the current logged user");
+		user.setEnabled(isEnabled);
+		return user;
+	}
+
+	public User setUserNonBlocked(UUID userId,boolean isNonBlocked,Authentication auth)
+	{
+		User user = userRepo.findById(userId).orElseThrow(() -> new NotFoundException("User Not Found"));
+		if(user.getUsername().equals(auth.getName()))
+			throw new IllegalRequestDataException("Can't block the current logged user");
+
+		user.setAccountNonLocked(isNonBlocked);
+		return user;
 	}
 }

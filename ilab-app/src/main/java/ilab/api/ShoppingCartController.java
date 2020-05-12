@@ -31,8 +31,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.sipios.springsearch.SearchCriteria;
-import com.sipios.springsearch.SpecificationImpl;
 import com.sipios.springsearch.anotation.SearchSpec;
 
 import ilab.core.domain.LineItem;
@@ -103,7 +101,7 @@ public class ShoppingCartController
 		
 	}
 	
-	public  Specification<LineItem> filterByOrderId(UUID value) {
+	private  Specification<LineItem> filterByOrderId(UUID value) {
 		return  (Root<LineItem> root, CriteriaQuery<?> query, CriteriaBuilder cb)->{
 			List<Predicate> predicates = new ArrayList<>();
 			
