@@ -38,13 +38,7 @@ export class ShoppingCartFormComponent implements OnInit {
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
     private formBuilder: FormBuilder,
     private appStore: Store<fromStore.AppState>
-  ) {
-    this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
-      console.log(res);
-      this.services = new Array(res);
-      console.log(this.services);
-    });
-  }
+  ) {}
 
   cartForm: FormGroup;
 
@@ -56,26 +50,11 @@ export class ShoppingCartFormComponent implements OnInit {
   }
   ngOnInit() {
     this.createForm();
-    const serviceId = this.route.snapshot.queryParamMap.get('service');
-    this.servicesService.get(serviceId).subscribe((service) => {
-      this.service = service;
-      for (let i = 0; i < this.service.maxFiles; i++) {
-        this.file$.push(
-          this.formBuilder.group({
-            file: ['', [Validators.required]],
-            material: [this.service.materials[0].name, [Validators.required]],
-            type: [this.service.materials[0].types[0].name, [Validators.required]],
-            color: [this.service.materials[0].types[0].colors[0], [Validators.required]],
-            dimension: [this.service.materials[0].types[0].dimensions[0], [Validators.required]],
-            unit: [this.service.units[0], [Validators.required]],
-          })
-        );
-      }
 
-      for (let index = 0; index < this.service.supportedExtensions.length; index++) {
-        this.ext.push(this.service.supportedExtensions[index].substr(1));
-      }
-      this.extFile = this.ext.toString();
+    this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
+      this.services = new Array(res);
+      this.service = this.services[0][0];
+      this.bulidForm(this.service);
     });
   }
 
@@ -163,14 +142,6 @@ export class ShoppingCartFormComponent implements OnInit {
     }
   }
 
-  // validateArray() {
-  //   for (let index = 0; index < this.file$.value.length; index++) {
-  //     if (this.file$.value[index].file && this.file$.value[index].file.length > 1) {
-  //       return true
-  //     }
-  //   }
-  // }
-
   bulidForm(event) {
     console.log(event);
     this.file$.clear();
@@ -188,11 +159,12 @@ export class ShoppingCartFormComponent implements OnInit {
       );
     }
 
-    for (let index = 0; index < this.service.supportedExtensions.length; index++) {
+    for (let index = 0; index < this.service?.supportedExtensions?.length; index++) {
       this.ext.push(this.service.supportedExtensions[index].substr(1));
     }
     this.extFile = this.ext.toString();
   }
+
   validateAllFormFields(formGroup: FormGroup) {
     // {1}
     Object.keys(formGroup.controls).forEach((field) => {
