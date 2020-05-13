@@ -7,8 +7,18 @@ import { HeaderComponent } from './components/header/header.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { MatIconModule } from '@angular/material/icon';
+import { MatBadgeModule } from '@angular/material/badge';
+
 @NgModule({
   declarations: [LayoutComponent, HeaderComponent, SidebarComponent],
-  imports: [CommonModule, LayoutRoutingModule, TranslateModule, BsDropdownModule.forRoot()],
+  imports: [
+    CommonModule,
+    LayoutRoutingModule,
+    TranslateModule,
+    MatIconModule,
+    MatBadgeModule,
+    BsDropdownModule.forRoot(),
+  ],
 })
 export class LayoutModule {}

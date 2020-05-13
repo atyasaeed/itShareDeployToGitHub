@@ -19,6 +19,7 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
   loading = false;
   subTotal = 0;
   items$;
+  // quantitiesCount;
 
   // items: Array<ShoppingCartItem>;
   constructor(
@@ -37,12 +38,17 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
   ngOnInit() {
     // super.ngOnInit();
     // this.entities$.subscribe((items) => {
+    //   console.log(items);
     //   this.subTotal = items.map((item) => item.unitPrice * item.quantity).reduce((a, b) => a + b, 0);
     // });
 
     this.appStore.select(fromStore.getShoppingCart).subscribe((res) => {
       console.log(res);
       this.items$ = Object.assign(res);
+      // this.subTotal = this.items$.map();
+      this.subTotal = res.lineItems.map((item) => item.unitPrice * item.quantity).reduce((a, b) => a + b, 0);
+      // this.quantitiesCount = res.lineItems.map((item) => item.quantity).reduce((a, b) => a + b, 0);
+      // console.log(this.quantitiesCount);
     });
 
     // this.items$ = this.appStore.select(fromStore.getShoppingCart);
@@ -60,6 +66,7 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     this.service.checkout().subscribe((resp) => {
       this.service.searchTerm = '';
       // this.refresh();
+      this.appStore.dispatch(new fromStore.LoadInitState());
     });
   }
 

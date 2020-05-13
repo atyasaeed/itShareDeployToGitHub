@@ -105,6 +105,7 @@ export class ShoppingCartFormComponent implements OnInit {
     this.shoppingCartService.create(formData).subscribe(
       (resp) => {
         this.router.navigateByUrl('shopping-cart'), (this.loading = false);
+        this.appStore.dispatch(new fromStore.LoadInitState());
       },
       (err) => (this.loading = false)
     );

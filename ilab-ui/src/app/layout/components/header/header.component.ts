@@ -19,6 +19,7 @@ export class HeaderComponent extends DefaultListComponent<ShoppingCartItem, Shop
   public pushRightClass: string;
   lang: string;
   items$;
+  quantitiesCount;
 
   constructor(
     private translate: TranslateService,
@@ -37,8 +38,11 @@ export class HeaderComponent extends DefaultListComponent<ShoppingCartItem, Shop
     console.log(`${this.translate.getBrowserLang()},${this.translate.getDefaultLang()}`);
 
     this.appStore.select(fromStore.getShoppingCart).subscribe((res) => {
-      console.log(res);
+      // console.log(res);
       this.items$ = Object.assign(res);
+
+      this.quantitiesCount = res.lineItems.map((item) => item.quantity).reduce((a, b) => a + b, 0);
+      console.log(this.quantitiesCount);
     });
   }
   toggleSidebar() {
@@ -61,6 +65,7 @@ export class HeaderComponent extends DefaultListComponent<ShoppingCartItem, Shop
     this.service.checkout().subscribe((resp) => {
       this.service.searchTerm = '';
       // this.refresh();
+      this.appStore.dispatch(new fromStore.LoadInitState());
     });
   }
 
