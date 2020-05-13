@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/modules/shared/shared.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [GalleryComponent],
@@ -18,6 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
     SharedModule,
     TranslateModule,
     MatButtonModule,
+    NgbModule,
   ],
 })
 export class GalleryModule {}
