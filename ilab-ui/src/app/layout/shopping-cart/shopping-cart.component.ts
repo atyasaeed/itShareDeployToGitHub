@@ -18,6 +18,7 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
   lang: string;
   loading = false;
   subTotal = 0;
+  items$;
 
   // items: Array<ShoppingCartItem>;
   constructor(
@@ -34,24 +35,20 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
 
   // subTotal: any;
   ngOnInit() {
-    super.ngOnInit();
-    this.entities$.subscribe((items) => {
-      this.subTotal = items.map((item) => item.unitPrice * item.quantity).reduce((a, b) => a + b, 0);
+    // super.ngOnInit();
+    // this.entities$.subscribe((items) => {
+    //   this.subTotal = items.map((item) => item.unitPrice * item.quantity).reduce((a, b) => a + b, 0);
+    // });
+
+    this.appStore.select(fromStore.getShoppingCart).subscribe((res) => {
+      console.log(res);
+      this.items$ = Object.assign(res);
     });
+
+    // this.items$ = this.appStore.select(fromStore.getShoppingCart);
+    // console.log(this.items$);
     // this.refresh();
   }
-  // deletItem(id) {
-  //   this.loading = true;
-  //   this.service.delete<ShoppingCartItem>(id).subscribe(
-  //     (resp) => {
-  //       this.refresh();
-  //       this.loading = false;
-  //     },
-  //     (err) => {
-  //       this.loading = false;
-  //     }
-  //   );
-  // }
 
   delete(entity) {
     this.purge(entity).subscribe((result) => {

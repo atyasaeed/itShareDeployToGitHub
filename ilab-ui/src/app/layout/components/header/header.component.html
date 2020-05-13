@@ -1,137 +1,148 @@
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark">
-    <a class="navbar-brand" href="#">{{ 'Brand' | translate }}</a>
-    <button class="navbar-toggler" type="button" (click)="toggleSidebar()">
+  <a class="navbar-brand" href="#">{{ 'Brand' | translate }}</a>
+  <button class="navbar-toggler" type="button" (click)="toggleSidebar()">
     <!-- <span class="navbar-toggler-icon"></span> -->
     <i class="fa fa-bars text-muted" aria-hidden="true"></i>
   </button>
-    <div class="collapse navbar-collapse">
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="{{ 'Search' | translate }}">
-        </form>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <div class="btn-group" dropdown>
-                    <a dropdownToggle class="  dropdown-toggle nav-link">
-                        <i class="fa fa-language"></i> {{ 'Language' | translate }}
-                    </a>
-                    <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="button-basic">
-                        <li role="menuitem"><a class="dropdown-item" (click)="changeLang('en')">{{ 'English' | translate }}</a>
-                        </li>
-                        <li role="menuitem"><a class="dropdown-item" (click)="changeLang('ar')">{{ 'Arabic' | translate }}</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>&nbsp;
-            <ng-container *ngIf="authUser$ |async as user; else anonymous">
-                <li class="nav-item">
-                    <div class="btn-group" dropdown>
-                        <a dropdownToggle class="dropdown-toggle nav-link">
-                            <i class="fa fa-bell"></i> <b class="caret"></b><span class="sr-only">(current)</span>
-                        </a>
-                        <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="button-basic">
-                            <li role="menuitem">
-                                <a class="dropdown-item" href="#">
+  <div class="collapse navbar-collapse">
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="text" placeholder="{{ 'Search' | translate }}">
+    </form>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <div class="btn-group" dropdown>
+          <a dropdownToggle class="  dropdown-toggle nav-link">
+            <i class="fa fa-language"></i> {{ 'Language' | translate }}
+          </a>
+          <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="button-basic">
+            <li role="menuitem"><a class="dropdown-item" (click)="changeLang('en')">{{ 'English' | translate }}</a>
+            </li>
+            <li role="menuitem"><a class="dropdown-item" (click)="changeLang('ar')">{{ 'Arabic' | translate }}</a>
+            </li>
+          </ul>
+        </div>
+      </li>&nbsp;
+      <ng-container *ngIf="authUser$ |async as user; else anonymous">
+
+        <!-- <li class="nav-item">
+          <div class="btn-group" dropdown>
+            <a dropdownToggle class="dropdown-toggle nav-link">
+              <i class="fa fa-bell"></i> <b class="caret"></b><span class="sr-only">(current)</span>
+            </a>
+            <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="button-basic">
+              <li role="menuitem">
+                <a class="dropdown-item" href="#">
                   {{ 'Pending Task' | translate }} <span class="badge badge-info">6</span>
                 </a>
-                            </li>
-                            <li role="menuitem">
-                                <a class="dropdown-item" href="#">
+              </li>
+              <li role="menuitem">
+                <a class="dropdown-item" href="#">
                   {{ 'In queue' | translate }} <span class="badge badge-info"> 13</span>
                 </a>
-                            </li>
-                            <li role="menuitem">
-                                <a class="dropdown-item" href="#">
+              </li>
+              <li role="menuitem">
+                <a class="dropdown-item" href="#">
                   {{ 'Mail' | translate }} <span class="badge badge-info"> 45</span>
                 </a>
-                            </li>
-                            <li role="menuitem">
-                                <a class="dropdown-item" href="#">
+              </li>
+              <li role="menuitem">
+                <a class="dropdown-item" href="#">
                   {{ 'View All' | translate }}
                 </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <div class="btn-group" dropdown>
-                        <a dropdownToggle class="dropdown-toggle nav-link">
-                            <i class="fa fa-envelope"></i> <b class="caret"></b><span class="sr-only">(current)</span>
-                        </a>
-                        <ul *dropdownMenu class="dropdown-menu dropdown-menu-right  messages" role="menu" aria-labelledby="button-basic">
-                            <li role="menuitem" class="media">
-                                <img class="d-flex align-self-center mr-3" src="http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg" alt="Generic placeholder image">
-                                <div class="media-body">
-                                    <h5 class="mt-0 mb-1">{{user.username}}</h5>
-                                    <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                    <p class="last"> Lorem ipsum dolor sit amet, consectetur...</p>
-                                </div>
-                            </li>
-                            <li role="menuitem" class="media">
-                                <img class="d-flex align-self-center mr-3" src="http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg" alt="Generic placeholder image">
-                                <div class="media-body">
-                                    <h5 class="mt-0 mb-1">{{user.username}}</h5>
-                                    <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                    <p class="last"> Lorem ipsum dolor sit amet, consectetur...</p>
-                                </div>
-                            </li>
+              </li>
+            </ul>
+          </div>
+        </li> -->
 
-                        </ul>
-                    </div>
-                </li>&nbsp;
-                <li class="nav-item">
-                    <div class="btn-group" dropdown>
-                        <a dropdownToggle class="dropdown-toggle nav-link">
-                            <i class="fa fa-user"></i> {{user.username}}<span class="caret"></span>
-                        </a>
+        <li class="nav-item">
+          <div class="btn-group" dropdown>
+            <a dropdownToggle class="dropdown-toggle nav-link">
+              <i class="fa fa-cart-plus"></i> <b class="caret"></b><span class="sr-only">(current)</span>
+            </a>
+            <ul *dropdownMenu class="dropdown-menu dropdown-menu-right  messages" role="menu"
+              aria-labelledby="button-basic">
 
-                        <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="button-basic">
-                            <li role="menuitem">
-                                <a class="dropdown-item" routerLink='/profile'>
-                                    <i class="fa fa-fw fa-user"></i>{{ 'Profile' | translate }}
-                                </a>
-                            </li>
-                            <li role="menuitem">
-                                <a class="dropdown-item" [routerLink]="'/change-password'">
-                                    <!-- <i class="fa fa-fw fa-gear"></i> -->
-                                    <i class="fa fa-key"></i>{{ 'Change Password' | translate }}
-                                </a>
-                            </li>
-                            <li role="menuitem" style="cursor: pointer;">
-                                <a class="dropdown-item" (click)="authenticationService.logout()">
-                                    <i class="fa fa-fw fa-power-off"></i> {{ 'Log Out' | translate }}
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-            </ng-container>
-            <ng-template #anonymous>
-                <li class="nav-item">
-                    <div class="btn-group" dropdown>
-                        <a dropdownToggle class="dropdown-toggle nav-link">
-                            <i class="fa fa-user"></i> {{'Welcome'| translate }}<span class="caret"></span>
-                        </a>
-                        <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="button-basic">
-                            <li role="menuitem">
-                                <a class="dropdown-item" [routerLink]="'/login'">
-                                    <i class="fa fa-sign-in fa-user"></i> {{ 'Log In' | translate }}
-                                </a>
-                            </li>
-                            <li role="menuitem">
-                                <a class="dropdown-item" [routerLink]="'/signup'">
-                                    <i class="fa fa-user-plus"></i><span>{{ 'Register' | translate }}</span>
-                                    <!-- <i class="fa fa-user"></i> -->
-                                </a>
-                            </li>
-                            <li role="menuitem">
-                                <a class="dropdown-item" [routerLink]="'/forget-password'">
-                                    <i class="fa fa-key fa-gear"></i> {{ 'Forget Password' | translate }}
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-            </ng-template>
-        </ul>
-    </div>
+              <li role="menuitem" class="media" *ngFor="let entity of items$.lineItems">
+                <!-- <img class="d-flex align-self-center mr-3"
+                  src="http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg"
+                  alt="Generic placeholder image"> -->
+                <img class="d-flex align-self-center mr-3" style="width: 60px; height: 50px;"
+                  [src]="getImageUrl(entity)">
+
+                <div class="media-body">
+                  <h5 class="mt-0 mb-1">{{ entity.service.name }}</h5>
+                  <p class="last"> Quantity: {{ entity.quantity }} </p>
+                </div>
+
+                <button type="button" class="btn btn-outline-danger btn-xs" (click)="delete(entity)">
+                  <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
+
+              </li>
+
+              <div class="cart-btns">
+                <button class="btn btn-info" routerLink="/shopping-cart">View Cart</button>
+                <button class="btn btn-success" (click)="checkout()">{{ 'Checkout' | translate }}</button>
+              </div>
+
+
+            </ul>
+          </div>
+        </li>&nbsp;
+        <li class="nav-item">
+          <div class="btn-group" dropdown>
+            <a dropdownToggle class="dropdown-toggle nav-link">
+              <i class="fa fa-user"></i> {{user.username}}<span class="caret"></span>
+            </a>
+
+            <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="button-basic">
+              <li role="menuitem">
+                <a class="dropdown-item" routerLink='/profile'>
+                  <i class="fa fa-fw fa-user"></i>{{ 'Profile' | translate }}
+                </a>
+              </li>
+              <li role="menuitem">
+                <a class="dropdown-item" [routerLink]="'/change-password'">
+                  <!-- <i class="fa fa-fw fa-gear"></i> -->
+                  <i class="fa fa-key"></i>{{ 'Change Password' | translate }}
+                </a>
+              </li>
+              <li role="menuitem" style="cursor: pointer;">
+                <a class="dropdown-item" (click)="authenticationService.logout()">
+                  <i class="fa fa-fw fa-power-off"></i> {{ 'Log Out' | translate }}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ng-container>
+      <ng-template #anonymous>
+        <li class="nav-item">
+          <div class="btn-group" dropdown>
+            <a dropdownToggle class="dropdown-toggle nav-link">
+              <i class="fa fa-user"></i> {{'Welcome'| translate }}<span class="caret"></span>
+            </a>
+            <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="button-basic">
+              <li role="menuitem">
+                <a class="dropdown-item" [routerLink]="'/login'">
+                  <i class="fa fa-sign-in fa-user"></i> {{ 'Log In' | translate }}
+                </a>
+              </li>
+              <li role="menuitem">
+                <a class="dropdown-item" [routerLink]="'/signup'">
+                  <i class="fa fa-user-plus"></i><span>{{ 'Register' | translate }}</span>
+                  <!-- <i class="fa fa-user"></i> -->
+                </a>
+              </li>
+              <li role="menuitem">
+                <a class="dropdown-item" [routerLink]="'/forget-password'">
+                  <i class="fa fa-key fa-gear"></i> {{ 'Forget Password' | translate }}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ng-template>
+    </ul>
+  </div>
 </nav>

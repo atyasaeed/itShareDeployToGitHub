@@ -34,6 +34,7 @@ export const getInitStateLoaded = (state: InitState) => state.loaded;
 export const isAuthenitcated = (state: InitState) => state.user !== null;
 export const getAuthUser = (state: InitState) => state.user;
 export const getAuthServices = (state: InitState) => state.services;
+export const getShoppingCart = (state: InitState) => state.shoppingCart;
 
 export const getLang = (state: InitState) => {
   return state.lang;
