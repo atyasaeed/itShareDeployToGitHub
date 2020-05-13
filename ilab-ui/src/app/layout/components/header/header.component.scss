@@ -35,4 +35,10 @@ $topnav-background-color: #222;
             }
         }
     }
+
+    .cart-btns {
+      display: flex;
+      justify-content: space-around;
+      margin: 10px 0;
+    }
 }

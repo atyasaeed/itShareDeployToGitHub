@@ -1,121 +1,132 @@
 <main class="page">
-    <section class="shopping-cart dark">
-        <div class="container">
-            <!-- page Head -->
-            <div class="block-heading">
-                <h2>{{'I Lab Manufacturing Request'|translate}}</h2>
-                <p>{{'Turn your Ideas Into Reality And Change Your Future'|translate}}</p>
-            </div>
-            <!-- End page Head -->
+  <section class="shopping-cart dark">
+    <div class="container">
+      <!-- page Head -->
+      <div class="block-heading">
+        <h2>{{'I Lab Manufacturing Request'|translate}}</h2>
+        <p>{{'Turn your Ideas Into Reality And Change Your Future'|translate}}</p>
+      </div>
+      <!-- End page Head -->
 
-            <!-- Page Content -->
-            <ng-container *ngIf="(entities$|async)?.length!=0 else anonymous">
-                <div class="content">
+      <!-- Page Content -->
+      <!-- <ng-container *ngIf="(entities$|async)?.length!=0 else anonymous"> -->
+      <ng-container>
+        <div class="content">
 
-                    <div class="row">
+          <div class="row">
 
-                        <!-- Cart Items Table -->
-                        <div class="col-md-12 col-lg-8">
-                            <div class="items">
+            <!-- Cart Items Table -->
+            <div class="col-md-12 col-lg-8">
+              <div class="items">
 
-                                <!-- One Item Row -->
-                                <div class="product" *ngFor="let entity of entities$ | async">
-                                    <div class="row">
-                                        <div class="col-md-3 service-image">
-                                            <img class="img-fluid mx-auto d-block" [src]="getImageUrl(entity)">
-                                        </div>
-                                        <div class="col-md-9">
-                                            <div class="info">
+                <!-- One Item Row -->
+                <div class="product" *ngFor="let entity of items$.lineItems">
+                  <div class="row">
+                    <div class="col-md-3 service-image">
+                      <img class="img-fluid mx-auto d-block" [src]="getImageUrl(entity)">
+                    </div>
+                    <div class="col-md-9">
+                      <div class="info">
 
-                                                <div class="row">
-                                                    <div class="col-md-12 text-center">
-                                                        <h5>
-                                                            <a [routerLink]="['/CartItem']" [queryParams]="{service:entity.service.id}">{{entity.service.name}}</a>
-                                                        </h5>
+                        <div class="row">
+                          <div class="col-md-12 text-center">
+                            <h5>
+                              <a [routerLink]="['/CartItem']"
+                                [queryParams]="{service:entity.service.id}">{{entity.service.name}}</a>
+                            </h5>
 
-                                                    </div>
-                                                </div>
+                          </div>
+                        </div>
 
-                                                <div class="row">
-                                                    <div class="col-md-6 product-name">
-                                                        <div class="product-name">
+                        <div class="row">
+                          <div class="col-md-6 product-name">
+                            <div class="product-name">
 
-                                                            <div class="product-info">
-                                                                <div *ngIf="entity?.estimatedStardDate">{{ 'Start Date' | translate }}: <span class="value">{{entity.estimatedStardDate |date:'fullDate'}}</span></div>
-                                                                <div *ngIf="entity?.estimatedEndDate">{{ 'Estimated End Date' | translate }}: <span class="value">{{entity.estimatedEndDate |date:'fullDate'}}</span></div>
-                                                                <div>{{ 'Price' | translate }}: <span class="value">{{entity.unitPrice}}</span></div>
-                                                                <div>{{ 'Unite Price' | translate }}: <span class="value">{{entity.unitPrice|currency:'EGP'}}</span></div>
-                                                                <div> {{ 'Total Price' | translate }}:<span class="value">{{entity.unitPrice * entity.quantity}}</span></div>
-                                                                <div>{{ 'Notes' | translate }}: <span class="value">{{entity.notes}}</span></div>
+                              <div class="product-info">
+                                <div *ngIf="entity?.estimatedStardDate">{{ 'Start Date' | translate }}: <span
+                                    class="value">{{entity.estimatedStardDate |date:'fullDate'}}</span></div>
+                                <div *ngIf="entity?.estimatedEndDate">{{ 'Estimated End Date' | translate }}: <span
+                                    class="value">{{entity.estimatedEndDate |date:'fullDate'}}</span></div>
+                                <div>{{ 'Price' | translate }}: <span class="value">{{entity.unitPrice}}</span></div>
+                                <div>{{ 'Unite Price' | translate }}: <span
+                                    class="value">{{entity.unitPrice|currency:'EGP'}}</span></div>
+                                <div> {{ 'Total Price' | translate }}:<span
+                                    class="value">{{entity.unitPrice * entity.quantity}}</span></div>
+                                <div>{{ 'Notes' | translate }}: <span class="value">{{entity.notes}}</span></div>
 
 
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                              </div>
+                            </div>
+                          </div>
 
-                                                    <div class="col-md-4 quantity">
-                                                        <label for="quantity">{{ 'Quantity' | translate }}: </label>
-                                                        <input id="quantity" type="number" min="1" [disabled]="loading" (change)="updateItem(entity)" [(ngModel)]="entity.quantity" #quantity='ngModel' class="form-control quantity-input">
-                                                    </div>
+                          <div class="col-md-4 quantity">
+                            <label for="quantity">{{ 'Quantity' | translate }}: </label>
+                            <input id="quantity" type="number" min="1" [disabled]="loading"
+                              (change)="updateItem(entity)" [(ngModel)]="entity.quantity" #quantity='ngModel'
+                              class="form-control quantity-input">
+                          </div>
 
-                                                    <div class="col-md-2 price">
-                                                        <!-- <span>$120</span> -->
-                                                        <button type="button" [disabled]="loading" class="btn btn-outline-danger btn-xs" (click)="delete(entity)">
+                          <div class="col-md-2 price">
+                            <!-- <span>$120</span> -->
+                            <button type="button" [disabled]="loading" class="btn btn-outline-danger btn-xs"
+                              (click)="delete(entity)">
                               <i class="fa fa-trash" aria-hidden="true"></i>
                             </button>
 
-                                                    </div>
-                                                </div>
+                          </div>
+                        </div>
 
-                                                <div class="row" *ngFor="let file of entity.files ;index as j" class="card-form">
-                                                    <div class="form-title">{{ 'Digital Material' | translate }}: <span class="value"><a
+                        <div class="row" *ngFor="let file of entity.files ;index as j" class="card-form">
+                          <div class="form-title">{{ 'Digital Material' | translate }}: <span class="value"><a
                                 [href]="getFileUrl(entity,j)">{{file.asset_name}}</a></span></div>
-                                                    <div class="form-body">
-                                                        <div>{{'Type' | translate }}: <span class="value">{{file.type |titlecase}}</span></div>
-                                                        <div>{{'Material' | translate }}: <span class="value">{{file.material |titlecase}}</span>
-                                                        </div>
-                                                        <div>{{'Dimension' | translate }}: <span class="value">{{file.dimension |titlecase}}</span>
-                                                        </div>
-                                                        <div>{{'Color' | translate }}: <span class="value">{{file.color |titlecase}}</span></div>
-                                                        <div></div>
-                                                    </div>
-                                                </div>
-                                                <hr>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- End One Item Row -->
-
+                          <div class="form-body">
+                            <div>{{'Type' | translate }}: <span class="value">{{file.type |titlecase}}</span></div>
+                            <div>{{'Material' | translate }}: <span class="value">{{file.material |titlecase}}</span>
                             </div>
-                        </div>
-                        <!-- End Cart Items Table -->
-
-                        <!-- Cart Summary & Checkout -->
-                        <div class="col-md-12 col-lg-4">
-                            <div class="summary">
-                                <h3>{{'Summary' | translate }}:</h3>
-                                <div class="summary-item"><span class="text">{{'Total' | translate }}:</span><span class="price">{{subTotal  |currency:'EGP'}}</span></div>
-                                <!-- <div class="summary-item"><span class="text">Discount</span><span class="price">$0</span></div>
-                            <div class="summary-item"><span class="text">Shipping</span><span class="price">$0</span></div>
-                            <div class="summary-item"><span class="text">Total</span><span class="price">$360</span></div> -->
-                                <button type="button" class="btn btn-primary btn-lg btn-block" (click)="checkout()">{{ 'Checkout' | translate }}</button>
+                            <div>{{'Dimension' | translate }}: <span class="value">{{file.dimension |titlecase}}</span>
                             </div>
+                            <div>{{'Color' | translate }}: <span class="value">{{file.color |titlecase}}</span></div>
+                            <div></div>
+                          </div>
                         </div>
-                        <!-- End Cart Summary & Checkout -->
+                        <hr>
+                      </div>
 
                     </div>
+                  </div>
                 </div>
-            </ng-container>
-            <!-- End Page Content -->
-            <ng-template #anonymous>
-                <div style="text-align: center;">
-                    {{'please Select Service To Create Your ShoppingCart'|translate}}
+                <!-- End One Item Row -->
 
-                </div>
-            </ng-template>
+              </div>
+            </div>
+            <!-- End Cart Items Table -->
+
+            <!-- Cart Summary & Checkout -->
+            <div class="col-md-12 col-lg-4">
+              <div class="summary">
+                <h3>{{'Summary' | translate }}:</h3>
+                <div class="summary-item"><span class="text">{{'Total' | translate }}:</span><span
+                    class="price">{{subTotal  |currency:'EGP'}}</span></div>
+                <!-- <div class="summary-item"><span class="text">Discount</span><span class="price">$0</span></div>
+                            <div class="summary-item"><span class="text">Shipping</span><span class="price">$0</span></div>
+                            <div class="summary-item"><span class="text">Total</span><span class="price">$360</span></div> -->
+                <button type="button" class="btn btn-primary btn-lg btn-block"
+                  (click)="checkout()">{{ 'Checkout' | translate }}</button>
+              </div>
+            </div>
+            <!-- End Cart Summary & Checkout -->
+
+          </div>
+        </div>
+      </ng-container>
+      <!-- End Page Content -->
+      <ng-template #anonymous>
+        <div style="text-align: center;">
+          {{'please Select Service To Create Your ShoppingCart'|translate}}
 
         </div>
-    </section>
+      </ng-template>
+
+    </div>
+  </section>
 </main>

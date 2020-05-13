@@ -12,6 +12,8 @@ import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers, effects } from './store';
 import { EffectsModule } from '@ngrx/effects';
 import { ToastrModule } from 'ngx-toastr';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [AppComponent, AlertComponent],
@@ -35,6 +37,7 @@ import { ToastrModule } from 'ngx-toastr';
       },
     }),
     EffectsModule.forRoot(effects),
+    StoreDevtoolsModule.instrument({ logOnly: environment.production }),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
