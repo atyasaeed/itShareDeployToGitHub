@@ -16,6 +16,7 @@ import { CovalentDialogsModule } from '@covalent/core/dialogs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
+import { PageHeaderModule } from 'src/app/shared/modules/page-header/page-header.module';
 
 @NgModule({
   declarations: [ShoppingCartComponent, ShoppingCartFormComponent],
@@ -26,6 +27,7 @@ import { MatSelectModule } from '@angular/material/select';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
+    PageHeaderModule,
     TranslateModule,
     MatCardModule,
     MatFormFieldModule,

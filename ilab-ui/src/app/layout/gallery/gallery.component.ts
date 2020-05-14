@@ -7,13 +7,16 @@ import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { GalleryService } from './gallery.service';
 import { ToastrService } from 'ngx-toastr';
+import { routerTransition } from 'src/app/router.animations';
 
 @Component({
   selector: 'app-gallery',
   templateUrl: './gallery.component.html',
   styleUrls: ['./gallery.component.scss'],
+  animations: [routerTransition()],
 })
 export class GalleryComponent extends DefaultListComponent<ShoppingCartItem, GalleryService> implements OnInit {
+  breadcrumbs = [{ heading: 'Gallery', icon: 'fa-tasks' }];
   lang: string;
   loading = false;
   subTotal = 0;
@@ -60,6 +63,7 @@ export class GalleryComponent extends DefaultListComponent<ShoppingCartItem, Gal
     console.log(entity);
     this.service.cloneItem(entity).subscribe((res) => {
       this.toastr.success('Successful Addition To Your Cart');
+      this.appStore.dispatch(new fromStore.LoadInitState());
     });
   }
 }

@@ -9,6 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/modules/shared/shared.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { PageHeaderModule } from 'src/app/shared/modules/page-header/page-header.module';
 
 @NgModule({
   declarations: [OrderComponent, OrderCardComponent, LineItemComponent],
@@ -17,6 +18,7 @@ import { TranslateModule } from '@ngx-translate/core';
     OrderRoutingModule,
     NgbModule,
     FormsModule,
+    PageHeaderModule,
     ReactiveFormsModule,
     SharedModule,
     TranslateModule,

@@ -8,6 +8,7 @@ import { SharedModule } from 'src/app/shared/modules/shared/shared.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { PageHeaderModule } from 'src/app/shared/modules/page-header/page-header.module';
 
 @NgModule({
   declarations: [GalleryComponent],
@@ -17,6 +18,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
+    PageHeaderModule,
     TranslateModule,
     MatButtonModule,
     NgbModule,

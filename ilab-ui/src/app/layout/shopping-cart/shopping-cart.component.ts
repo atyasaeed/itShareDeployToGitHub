@@ -7,14 +7,17 @@ import { DefaultListComponent } from 'src/app/shared/helpers/default.list.compon
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { routerTransition } from 'src/app/router.animations';
 
 @Component({
   selector: 'app-shopping-cart',
   templateUrl: './shopping-cart.component.html',
   styleUrls: ['./shopping-cart.component.scss'],
+  animations: [routerTransition()],
 })
 export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem, ShoppingCartService>
   implements OnInit {
+  breadcrumbs = [{ heading: 'Cart', icon: 'fa-tasks' }];
   lang: string;
   loading = false;
   subTotal = 0;
@@ -43,9 +46,7 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     // });
 
     this.appStore.select(fromStore.getShoppingCart).subscribe((res) => {
-      console.log(res);
       this.items$ = Object.assign(res);
-      // this.subTotal = this.items$.map();
       this.subTotal = res.lineItems.map((item) => item.unitPrice * item.quantity).reduce((a, b) => a + b, 0);
       // this.quantitiesCount = res.lineItems.map((item) => item.quantity).reduce((a, b) => a + b, 0);
       // console.log(this.quantitiesCount);

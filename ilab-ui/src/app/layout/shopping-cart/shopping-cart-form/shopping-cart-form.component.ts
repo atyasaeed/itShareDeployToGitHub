@@ -8,13 +8,16 @@ import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@ang
 import { ServicesService } from './services.service';
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
+import { routerTransition } from 'src/app/router.animations';
 
 @Component({
   selector: 'app-shopping-cart-form',
   templateUrl: './shopping-cart-form.component.html',
   styleUrls: ['./shopping-cart-form.component.scss'],
+  animations: [routerTransition()],
 })
 export class ShoppingCartFormComponent implements OnInit {
+  breadcrumbs = [{ heading: 'Add-Service', icon: 'fa-tasks' }];
   services;
   loading = false;
   submitted = false;
@@ -104,8 +107,8 @@ export class ShoppingCartFormComponent implements OnInit {
     }
     this.shoppingCartService.create(formData).subscribe(
       (resp) => {
-        this.router.navigateByUrl('shopping-cart'), (this.loading = false);
         this.appStore.dispatch(new fromStore.LoadInitState());
+        this.router.navigateByUrl('shopping-cart'), (this.loading = false);
       },
       (err) => (this.loading = false)
     );
