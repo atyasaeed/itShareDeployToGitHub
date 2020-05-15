@@ -1,16 +1,21 @@
 <div [@routerTransition]>
   <app-page-header [heading]="'Programs'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header>
-<div class="row">
-    <mat-form-field class="form-rtl col-12">
+<div class="form-group text-center">
+    <!-- <mat-form-field class="form-rtl col-12">
         <mat-label>{{' Select Service' | translate}}</mat-label>
-        <mat-select (selectionChange)="bulidForm($event.value)" [(value)]="service" #selectionVal>
-            <mat-option class="form-rtl" *ngFor="let service of services[0]" [value]="service">
+        <mat-select (selectionChange)="bulidForm($event.value)"  [(value)]="service" #selectionVal>
+            <mat-option class="form-rtl" *ngFor="let service of services" [value]="service">
                 {{service?.name}}
             </mat-option>
         </mat-select>
-    </mat-form-field>
+    </mat-form-field> -->
+       <label style="display:block;">{{ 'Select Service' | translate }} </label>
+      <select  class="form-rtl col-10 m-auto" [ngModel]="service" (ngModelChange)="bulidForm($event)">
+        <option [ngValue]="i" *ngFor="let i of services">{{i.name}}</option>
+      </select>
+
 </div>
-<article class=" container card form-rtl" *ngIf="selectionVal.value">
+<article class=" container card form-rtl" >
 
     <h4 class="text-center">{{service?.name}}
         <h6>Maximum Working Area{{service?.workingArea}}</h6>

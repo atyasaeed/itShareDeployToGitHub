@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, AfterViewInit, ViewChild } from '@angular/core';
 import { ShoppingCartItem, Service } from 'src/app/shared/domain';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ShoppingCartService } from '../shoppingcart.service';
@@ -16,7 +16,7 @@ import { routerTransition } from 'src/app/router.animations';
   styleUrls: ['./shopping-cart-form.component.scss'],
   animations: [routerTransition()],
 })
-export class ShoppingCartFormComponent implements OnInit {
+export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
   breadcrumbs = [{ heading: 'Add-Service', icon: 'fa-tasks' }];
   services;
   loading = false;
@@ -53,13 +53,14 @@ export class ShoppingCartFormComponent implements OnInit {
   }
   ngOnInit() {
     this.createForm();
-
     this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
-      this.services = new Array(res);
-      this.service = this.services[0][0];
+      // this.services = new Array(res);
+      this.services = Object.assign(res);
+      this.service = this.services[0];
       this.bulidForm(this.service);
     });
   }
+  ngAfterViewInit() {}
 
   createForm() {
     this.cartForm = this.formBuilder.group({
@@ -76,6 +77,7 @@ export class ShoppingCartFormComponent implements OnInit {
   onSubmit() {
     this.loading = true;
     this.submitted = true;
+    console.log(this.cartForm.value);
     if (this.cartForm.invalid) {
       this.validateAllFormFields(this.cartForm);
       this.loading = false;
@@ -145,7 +147,9 @@ export class ShoppingCartFormComponent implements OnInit {
       this.lengthCheckToaddMore = 1;
     }
   }
-
+  onChangeObj(event) {
+    console.log(event);
+  }
   bulidForm(event) {
     console.log(event);
     this.file$.clear();

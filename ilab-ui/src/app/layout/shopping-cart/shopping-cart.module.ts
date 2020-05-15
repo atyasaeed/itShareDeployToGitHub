@@ -17,6 +17,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { PageHeaderModule } from 'src/app/shared/modules/page-header/page-header.module';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 @NgModule({
   declarations: [ShoppingCartComponent, ShoppingCartFormComponent],
@@ -37,6 +40,19 @@ import { PageHeaderModule } from 'src/app/shared/modules/page-header/page-header
     MatIconModule,
     MatButtonModule,
     MatSelectModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CovalentLoadingModule,
+    CovalentDialogsModule,
+    MatIconModule,
+    MatButtonModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatMomentDateModule,
   ],
 })
 export class ShoppingCartModule {}
