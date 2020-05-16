@@ -63,9 +63,9 @@
             <ul *dropdownMenu class="dropdown-menu dropdown-menu-right  messages" role="menu"
               aria-labelledby="button-basic">
 
-              <ng-container *ngIf="(items$.lineItems)?.length!=0 else anonymous">
+              <ng-container *ngIf="(items$)?.length!=0 else anonymous">
 
-                <li role="menuitem" class="media" *ngFor="let entity of items$.lineItems">
+                <li role="menuitem" class="media" *ngFor="let entity of items$">
                   <!-- <img class="d-flex align-self-center mr-3"
                   src="http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg"
                   alt="Generic placeholder image"> -->

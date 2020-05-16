@@ -1,12 +1,13 @@
 import { Action } from 'ngx-bootstrap';
 import { InitState } from '../reducers/initstate.reducer';
-import { User } from 'src/app/shared/domain';
+import { User, ShoppingCartItem } from 'src/app/shared/domain';
 
 export const LOAD_INIT_STATE = '[InitState] Load';
 export const LOAD_INIT_STATE_SUCCESS = '[InitState] Load Success';
 export const LOAD_INIT_STATE_FAIL = '[InitState] Load Fail';
 export const UPDATE_AUTH_USER = '[AuthService] Update User';
 export const UPDATE_LANG = '[Translate] update language';
+export const UPDATE_LINE_ITEM_QUANTITY = '[InitState] Update Quantity';
 
 export class LoadInitState implements Action {
   readonly type = LOAD_INIT_STATE;
@@ -28,4 +29,15 @@ export class UpdateLang implements Action {
   constructor(public payload: string) {}
 }
 
-export type InitStateAction = LoadInitState | LoadInitStateFail | LoadInitStateSuccess | UpdateAuthUser | UpdateLang;
+export class UpdateLineItemQuantity implements Action {
+  readonly type = UPDATE_LINE_ITEM_QUANTITY;
+  constructor(public payload: { index: number; shoppingCartItem: ShoppingCartItem }) {}
+}
+
+export type InitStateAction =
+  | LoadInitState
+  | LoadInitStateFail
+  | LoadInitStateSuccess
+  | UpdateAuthUser
+  | UpdateLang
+  | UpdateLineItemQuantity;

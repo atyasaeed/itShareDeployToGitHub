@@ -1,9 +1,10 @@
 import * as fromInitState from '../actions';
 import { initState } from '.';
-import { Order, User, Service } from 'src/app/shared/domain';
+import { Order, User, Service, ShoppingCartItem } from 'src/app/shared/domain';
 
 export interface InitState {
   shoppingCart: Order;
+  shoppingCartItem: ShoppingCartItem;
   lang: string;
   user: User;
   services: Service;
@@ -23,6 +24,19 @@ export function reducer(state: InitState, action: fromInitState.InitStateAction)
       return { ...state, user: action.payload };
     case fromInitState.UPDATE_LANG:
       return { ...state, lang: action.payload };
+    // case fromInitState.UPDATE_LINE_ITEM_QUANTITY:
+    //   const shoppingCartItem = state.shoppingCart[action.payload.index];
+    //   const updatedShoppingCartItem = {
+    //     ...shoppingCartItem,
+    //     ...action.payload.shoppingCartItem,
+    //   };
+    //   const updatedShoppingCart = [...state.shoppingCartItem];
+    //   updatedShoppingCart[action.payload.index] = updatedShoppingCartItem;
+
+    //   return {
+    //     ...state,
+    //     shoppingCartItem: updatedShoppingCart,
+    //   };
     default:
       return state;
   }
