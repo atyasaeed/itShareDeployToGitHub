@@ -60,7 +60,7 @@ export class GalleryComponent extends DefaultListComponent<ShoppingCartItem, Gal
   }
 
   addLineItem(entity) {
-    console.log(entity);
+    // console.log(entity);
     this.service.cloneItem(entity).subscribe((res) => {
       this.toastr.success('Successful Addition To Your Cart');
       this.appStore.dispatch(new fromStore.LoadInitState());

@@ -24,19 +24,21 @@ export function reducer(state: InitState, action: fromInitState.InitStateAction)
       return { ...state, user: action.payload };
     case fromInitState.UPDATE_LANG:
       return { ...state, lang: action.payload };
-    // case fromInitState.UPDATE_LINE_ITEM_QUANTITY:
-    //   const shoppingCartItem = state.shoppingCart[action.payload.index];
-    //   const updatedShoppingCartItem = {
-    //     ...shoppingCartItem,
-    //     ...action.payload.shoppingCartItem,
-    //   };
-    //   const updatedShoppingCart = [...state.shoppingCartItem];
-    //   updatedShoppingCart[action.payload.index] = updatedShoppingCartItem;
+    case fromInitState.UPDATE_LINE_ITEM_QUANTITY:
+      // const shoppingCartItem = state.shoppingCart[action.payload.id];
+      // const updatedShoppingCartItem = {
+      //   ...shoppingCartItem,
+      //   ...action.payload.shoppingCartItem,
+      // };
+      // const updatedShoppingCart = [...state.shoppingCart.lineItems];
+      // updatedShoppingCart[action.payload.id] = updatedShoppingCartItem;
 
-    //   return {
-    //     ...state,
-    //     shoppingCartItem: updatedShoppingCart,
-    //   };
+      // return {
+      //   ...state,
+      //   // shoppingCartItem: updatedShoppingCart,
+      // };
+      return { ...state, shoppingCartItem: action.payload };
+
     default:
       return state;
   }

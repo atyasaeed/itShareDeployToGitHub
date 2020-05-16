@@ -1,6 +1,6 @@
 import { Action } from 'ngx-bootstrap';
 import { InitState } from '../reducers/initstate.reducer';
-import { User, ShoppingCartItem } from 'src/app/shared/domain';
+import { User, ShoppingCartItem, Order } from 'src/app/shared/domain';
 
 export const LOAD_INIT_STATE = '[InitState] Load';
 export const LOAD_INIT_STATE_SUCCESS = '[InitState] Load Success';
@@ -31,7 +31,7 @@ export class UpdateLang implements Action {
 
 export class UpdateLineItemQuantity implements Action {
   readonly type = UPDATE_LINE_ITEM_QUANTITY;
-  constructor(public payload: { index: number; shoppingCartItem: ShoppingCartItem }) {}
+  constructor(public payload: ShoppingCartItem) {}
 }
 
 export type InitStateAction =

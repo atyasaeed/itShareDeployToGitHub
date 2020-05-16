@@ -30,7 +30,7 @@ export class ForgetPasswordComponent implements OnInit {
       this.service.forgetPassword(this.forgetPasswordForm.controls.Email.value).subscribe(
         (res) => {
           this.alertService.success('check your email please');
-          console.log(res);
+          // console.log(res);
         },
         (err) => {
           this.alertService.error('this email incorrect');

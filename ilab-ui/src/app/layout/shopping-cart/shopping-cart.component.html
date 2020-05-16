@@ -65,7 +65,7 @@
                             <div class="col-md-4 quantity">
                               <label for="quantity">{{ 'Quantity' | translate }}: </label>
                               <input id="quantity" type="number" min="1" [disabled]="loading"
-                                (change)="updateItem(entity)" [(ngModel)]="entity.quantity" #quantity='ngModel'
+                                (change)="updateItem(entity, quantity.value)" value="{{entity.quantity}}" #quantity
                                 class="form-control quantity-input">
                             </div>
 

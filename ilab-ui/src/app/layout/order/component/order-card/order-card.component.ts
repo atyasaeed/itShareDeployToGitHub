@@ -25,7 +25,7 @@ export class OrderCardComponent implements OnInit {
     for (let index = 0; index < this.order.lineItems.length; index++) {
       this.dateArray.push(this.order.lineItems[index].estimatedEndDate);
     }
-    console.log(this.dateArray);
+    // console.log(this.dateArray);
     // tslint:disable-next-line:only-arrow-functions
     this.max = this.dateArray.reduce(function (a, b) {
       return a > b ? a : b;

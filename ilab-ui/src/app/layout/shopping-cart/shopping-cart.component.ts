@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { ShoppingCartItem } from 'src/app/shared/domain';
+import { ShoppingCartItem, Order } from 'src/app/shared/domain';
 import { ShoppingCartService } from './shoppingcart.service';
 import { Router } from '@angular/router';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
@@ -22,6 +22,7 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
   loading = false;
   subTotal = 0;
   items$;
+  newCart: Order;
   // quantitiesCount;
 
   // items: Array<ShoppingCartItem>;
@@ -37,7 +38,7 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     });
 
     this.appStore.select(fromStore.getShoppingCart).subscribe((res) => {
-      console.log(res);
+      // console.log(res);
       this.items$ = res.lineItems;
       this.subTotal = res.lineItems.map((item) => item.unitPrice * item.quantity).reduce((a, b) => a + b, 0);
       // this.quantitiesCount = res.lineItems.map((item) => item.quantity).reduce((a, b) => a + b, 0);
@@ -68,18 +69,24 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     });
   }
 
-  updateItem(item: ShoppingCartItem) {
+  updateItem(item: ShoppingCartItem, quantity) {
+    let newItem = Object.assign({}, item);
+    newItem.quantity = quantity;
+    // console.log(newItem);
+    // console.log(this.items$);
     this.loading = true;
-    this.service.update(item).subscribe(
+    this.service.update(newItem).subscribe(
       (res) => {
         this.loading = false;
         this.service.searchTerm = '';
-        // this.appStore.dispatch(new fromStore.LoadInitState());
+        this.appStore.dispatch(new fromStore.LoadInitState());
       },
       (err) => {
         this.loading = false;
       }
     );
+
+    // this.appStore.dispatch(new fromStore.UpdateLineItemQuantity(newItem));
   }
   // removeCart() {
   //   this.service.removeCart().subscribe();
