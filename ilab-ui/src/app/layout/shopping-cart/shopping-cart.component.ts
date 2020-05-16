@@ -35,6 +35,14 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     this.appStore.select(fromStore.getLang).subscribe((lang) => {
       this.lang = lang;
     });
+
+    this.appStore.select(fromStore.getShoppingCart).subscribe((res) => {
+      console.log(res);
+      this.items$ = res.lineItems;
+      this.subTotal = res.lineItems.map((item) => item.unitPrice * item.quantity).reduce((a, b) => a + b, 0);
+      // this.quantitiesCount = res.lineItems.map((item) => item.quantity).reduce((a, b) => a + b, 0);
+      // console.log(this.quantitiesCount);
+    });
   }
 
   // subTotal: any;
@@ -44,17 +52,6 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     //   console.log(items);
     //   this.subTotal = items.map((item) => item.unitPrice * item.quantity).reduce((a, b) => a + b, 0);
     // });
-
-    this.appStore.select(fromStore.getShoppingCart).subscribe((res) => {
-      this.items$ = Object.assign(res);
-      this.subTotal = res.lineItems.map((item) => item.unitPrice * item.quantity).reduce((a, b) => a + b, 0);
-      // this.quantitiesCount = res.lineItems.map((item) => item.quantity).reduce((a, b) => a + b, 0);
-      // console.log(this.quantitiesCount);
-    });
-
-    // this.items$ = this.appStore.select(fromStore.getShoppingCart);
-    // console.log(this.items$);
-    // this.refresh();
   }
 
   delete(entity) {
@@ -77,6 +74,7 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
       (res) => {
         this.loading = false;
         this.service.searchTerm = '';
+        // this.appStore.dispatch(new fromStore.LoadInitState());
       },
       (err) => {
         this.loading = false;

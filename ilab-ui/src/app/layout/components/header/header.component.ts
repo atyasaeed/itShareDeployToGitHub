@@ -30,20 +30,22 @@ export class HeaderComponent extends DefaultListComponent<ShoppingCartItem, Shop
     private router: Router
   ) {
     super(service);
+    this.appStore.dispatch(new fromStore.LoadInitState());
+
+    this.appStore.select(fromStore.getShoppingCart).subscribe((res) => {
+      // console.log(res.lineItems);
+      // this.items$ = Object.assign(res.lineItems);
+      this.items$ = res?.lineItems;
+
+      this.quantitiesCount = res?.lineItems.map((item) => item.quantity).reduce((a, b) => a + b, 0);
+      // console.log(this.quantitiesCount);
+    });
   }
 
   ngOnInit() {
     this.pushRightClass = 'push-right';
     this.authUser$ = this.appStore.select(fromStore.getAuthUser);
     console.log(`${this.translate.getBrowserLang()},${this.translate.getDefaultLang()}`);
-
-    this.appStore.select(fromStore.getShoppingCart).subscribe((res) => {
-      // console.log(res);
-      this.items$ = Object.assign(res);
-
-      this.quantitiesCount = res.lineItems.map((item) => item.quantity).reduce((a, b) => a + b, 0);
-      console.log(this.quantitiesCount);
-    });
   }
   toggleSidebar() {
     const dom: any = document.querySelector('body');
