@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
-import { ShoppingCartItem } from 'src/app/shared/domain';
+import { ShoppingCartItem, User } from 'src/app/shared/domain';
 import { ShoppingCartService } from '../shopping-cart/shoppingcart.service';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import * as fromStore from 'src/app/store';
@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { GalleryService } from './gallery.service';
 import { ToastrService } from 'ngx-toastr';
 import { routerTransition } from 'src/app/router.animations';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-gallery',
@@ -20,6 +21,8 @@ export class GalleryComponent extends DefaultListComponent<ShoppingCartItem, Gal
   lang: string;
   loading = false;
   subTotal = 0;
+  authUser$: Observable<User>;
+  hasAdminRole = false;
   private _searchTerm = '';
   constructor(
     service: GalleryService,
@@ -28,7 +31,7 @@ export class GalleryComponent extends DefaultListComponent<ShoppingCartItem, Gal
     private toastr: ToastrService
   ) {
     super(service);
-
+    this.authUser$ = this.appStore.select(fromStore.getAuthUser);
     this.appStore.select(fromStore.getLang).subscribe((lang) => {
       this.lang = lang;
     });
@@ -36,6 +39,9 @@ export class GalleryComponent extends DefaultListComponent<ShoppingCartItem, Gal
 
   ngOnInit() {
     super.ngOnInit();
+    this.authUser$.subscribe((user) => {
+      this.hasAdminRole = user && user.roles.includes('ROLE_ADMIN');
+    });
     this.entities$.subscribe((items) => {
       this.subTotal = items.map((item) => item.unitPrice * item.quantity).reduce((a, b) => a + b, 0);
     });
@@ -64,6 +70,21 @@ export class GalleryComponent extends DefaultListComponent<ShoppingCartItem, Gal
     this.service.cloneItem(entity).subscribe((res) => {
       this.toastr.success('Successful Addition To Your Cart');
       this.appStore.dispatch(new fromStore.LoadInitState());
+    });
+  }
+  removeItem(id) {
+    this.entities$.subscribe((res) => {
+      res = res.splice(
+        res
+          .map(function (x) {
+            return x.id;
+          })
+          .indexOf(id),
+        1
+      );
+    });
+    this.service.removeItem(id).subscribe((res) => {
+      this.toastr.success('Removed Successfully');
     });
   }
 }

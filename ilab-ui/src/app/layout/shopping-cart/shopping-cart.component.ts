@@ -1,3 +1,5 @@
+import { ToastrService } from 'ngx-toastr';
+import { User } from '../../shared/domain/user.model';
 import { Component, OnInit, Inject } from '@angular/core';
 import { ShoppingCartItem, Order } from 'src/app/shared/domain';
 import { ShoppingCartService } from './shoppingcart.service';
@@ -23,15 +25,19 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
   subTotal = 0;
   items$;
   newCart: Order;
+  authUser$: Observable<User>;
+  hasAdminRole = false;
   // quantitiesCount;
 
   // items: Array<ShoppingCartItem>;
   constructor(
     service: ShoppingCartService,
     private appStore: Store<fromStore.AppState>,
+    private toastr: ToastrService,
     @Inject(APP_CONFIG) private appConfig: IAppConfig
   ) {
     super(service);
+    this.authUser$ = this.appStore.select(fromStore.getAuthUser);
 
     this.appStore.select(fromStore.getLang).subscribe((lang) => {
       this.lang = lang;
@@ -53,6 +59,9 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     //   console.log(items);
     //   this.subTotal = items.map((item) => item.unitPrice * item.quantity).reduce((a, b) => a + b, 0);
     // });
+    this.authUser$.subscribe((user) => {
+      this.hasAdminRole = user && user.roles.includes('ROLE_ADMIN');
+    });
   }
 
   delete(entity) {
@@ -65,6 +74,12 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     this.service.checkout().subscribe((resp) => {
       this.service.searchTerm = '';
       // this.refresh();
+      this.appStore.dispatch(new fromStore.LoadInitState());
+    });
+  }
+  convertToGallery() {
+    this.service.convertToGallery().subscribe((res) => {
+      this.toastr.success('Successful Addition To Gallery');
       this.appStore.dispatch(new fromStore.LoadInitState());
     });
   }

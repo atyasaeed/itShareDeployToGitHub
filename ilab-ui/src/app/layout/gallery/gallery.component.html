@@ -92,6 +92,9 @@
                                                     <div class="text-right mt-2">
                                                         <button mat-raised-button color="primary" class=" pos-but" (click)="addLineItem(entity)">Add
                               to Cart</button>
+                              <button mat-fab color="warn" *ngIf="hasAdminRole" (click)="removeItem(entity.id)" aria-label="Example icon button with a delete icon">
+                                <mat-icon>delete</mat-icon>
+                              </button>
 
                                                     </div>
 

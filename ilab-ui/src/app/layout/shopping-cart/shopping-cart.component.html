@@ -116,6 +116,8 @@
                             <div class="summary-item"><span class="text">Total</span><span class="price">$360</span></div> -->
                   <button type="button" class="btn btn-primary btn-lg btn-block"
                     (click)="checkout()">{{ 'Checkout' | translate }}</button>
+                    <button type="button" *ngIf="hasAdminRole" class="btn btn-success btn-lg btn-block"
+                      (click)="convertToGallery()">{{ 'Convert To Gallery' | translate }}</button>
                 </div>
               </div>
               <!-- End Cart Summary & Checkout -->

@@ -12,4 +12,7 @@ export class GalleryService extends RestService<ShoppingCartItem> {
   cloneItem(entity) {
     return this.http.post(this.appConfig.API_END_POINT + `api/gallery/${entity.id}/clone`, entity);
   }
+  removeItem(entityId) {
+    return this.http.delete(this.appConfig.API_END_POINT + `api/admin/gallery/${entityId}`);
+  }
 }

@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/modules/shared/shared.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PageHeaderModule } from 'src/app/shared/modules/page-header/page-header.module';
 
@@ -21,6 +22,7 @@ import { PageHeaderModule } from 'src/app/shared/modules/page-header/page-header
     PageHeaderModule,
     TranslateModule,
     MatButtonModule,
+    MatIconModule,
     NgbModule,
   ],
 })
