@@ -4,6 +4,7 @@ import { APP_CONFIG, IAppConfig } from '../app.config';
 import { BehaviorSubject, Subject, Observable } from 'rxjs';
 import { SortDirection } from '../directives/sortable.directive';
 import { tap, debounceTime, switchMap, delay, map } from 'rxjs/operators';
+import { AuthenticationService } from './authentication.service';
 
 // interface Query {
 //   limit?: number;
@@ -39,7 +40,11 @@ export class RestService<T> {
   resource = '/';
   type: any;
 
-  constructor(@Inject(HttpClient) private httpClient: HttpClient, @Inject(APP_CONFIG) private config: IAppConfig) {
+  constructor(
+    @Inject(HttpClient) private httpClient: HttpClient,
+    @Inject(APP_CONFIG) private config: IAppConfig,
+    auth: AuthenticationService
+  ) {
     this._search$
       .pipe(
         tap(() => this._loading$.next(true)),
@@ -52,8 +57,6 @@ export class RestService<T> {
         this._model$.next(result.entities);
         this._total$.next(result.total);
       });
-    //TODO: to be removed
-    this._search$.next();
   }
   get http() {
     return this.httpClient;

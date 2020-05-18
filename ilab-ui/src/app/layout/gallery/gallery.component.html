@@ -27,7 +27,7 @@
                                 <div class="items">
 
                                     <!-- One Item Row -->
-                                    <div class="product" *ngFor="let entity of entities$ | async">
+                                    <div class="product" *ngFor="let entity of entities$ | async ; index as i">
                                         <div class="row">
                                             <div class="col-md-3 service-image">
                                                 <img class="img-fluid mx-auto d-block" [src]="getImageUrl(entity)">
@@ -92,7 +92,7 @@
                                                     <div class="text-right mt-2">
                                                         <button mat-raised-button color="primary" class=" pos-but" (click)="addLineItem(entity)">Add
                               to Cart</button>
-                              <button mat-fab color="warn" *ngIf="hasAdminRole" (click)="removeItem(entity.id)" aria-label="Example icon button with a delete icon">
+                              <button mat-fab color="warn" *ngIf="hasAdminRole" (click)="removeItem(entity.id,i)" aria-label="Example icon button with a delete icon">
                                 <mat-icon>delete</mat-icon>
                               </button>
 

@@ -65,7 +65,7 @@ export class HeaderComponent extends DefaultListComponent<ShoppingCartItem, Shop
 
   checkout() {
     this.service.checkout().subscribe((resp) => {
-      this.service.searchTerm = '';
+      // this.service.searchTerm = '';
       // this.refresh();
       this.appStore.dispatch(new fromStore.LoadInitState());
     });

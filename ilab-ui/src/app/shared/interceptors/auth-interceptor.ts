@@ -12,14 +12,19 @@ import { catchError, tap } from 'rxjs/operators';
 import { AuthenticationService } from '../services';
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
+import { Router, ActivatedRoute } from '@angular/router';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authenticationService: AuthenticationService, private appStore: Store<fromStore.AppState>) {}
+  constructor(
+    private authenticationService: AuthenticationService,
+    private appStore: Store<fromStore.AppState>,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     request = request.clone({
       withCredentials: true,
     });
-
     return next.handle(request).pipe(
       tap(
         () => {},

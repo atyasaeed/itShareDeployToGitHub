@@ -39,6 +39,6 @@ export class OrdersListComponent extends DefaultListComponent<Order, OrdersListS
     // });
   }
   public getSubTotal(lineItems) {
-    return lineItems.map((rr) => rr.unitPrice * rr.quantity).reduce((a, b) => a + b, 0);
+    return lineItems?.map((rr) => rr?.unitPrice * rr?.quantity).reduce((a, b) => a + b, 0);
   }
 }

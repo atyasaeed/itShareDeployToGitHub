@@ -45,8 +45,8 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
 
     this.appStore.select(fromStore.getShoppingCart).subscribe((res) => {
       // console.log(res);
-      this.items$ = res.lineItems;
-      this.subTotal = res.lineItems.map((item) => item.unitPrice * item.quantity).reduce((a, b) => a + b, 0);
+      this.items$ = res?.lineItems;
+      this.subTotal = res?.lineItems.map((item) => item.unitPrice * item.quantity).reduce((a, b) => a + b, 0);
       // this.quantitiesCount = res.lineItems.map((item) => item.quantity).reduce((a, b) => a + b, 0);
       // console.log(this.quantitiesCount);
     });
@@ -93,7 +93,7 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     this.service.update(newItem).subscribe(
       (res) => {
         this.loading = false;
-        this.service.searchTerm = '';
+        // this.service.searchTerm = '';
         this.appStore.dispatch(new fromStore.LoadInitState());
       },
       (err) => {
