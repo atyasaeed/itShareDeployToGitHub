@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,15 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sipios.springsearch.anotation.SearchSpec;
 
-import ilab.core.domain.OrderEntity;
 import ilab.core.domain.User;
-import ilab.core.service.OrderService;
 import ilab.core.service.UserService;
 import ilab.utils.exception.NotFoundException;
 
 @RestController
 @RequestMapping(path = "/api/admin/users", produces = "application/json")
-@Secured("ROLE_ADMIN")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class AdminUserController
 {
 	@Autowired

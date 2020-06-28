@@ -1,7 +1,9 @@
 package ilab.core.service;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -36,6 +38,7 @@ import ilab.core.repository.FileAssetRepository;
 import ilab.core.repository.LineItemRepository;
 import ilab.core.repository.OrderRepository;
 import ilab.core.repository.UserRepository;
+import ilab.utils.exception.IllegalRequestDataException;
 import ilab.utils.exception.NotFoundException;
 
 @Service
@@ -223,6 +226,10 @@ public class OrderService
 		
 		return order;
 	}
+	public Iterable<LineItem> getGalleryItems()
+	{
+		return null;
+	}
 	public OrderEntity getShoppingCart(Authentication auth)
 	{
 		User user=userRepo.findByUsername(auth.getName());
@@ -236,6 +243,28 @@ public class OrderService
 			order=orderRepo.save(order);
 		}
 		return order;
+	}
+	public OrderEntity getGalleryCart(Authentication auth)
+	{
+		List<OrderEntity> orders= orderRepo.findGalleryCart(OrderStatus.GALLERY_CART,PageRequest.of(0, 1));
+		OrderEntity gallery=null;
+		if(!orders.isEmpty()) {
+			gallery=orders.get(0);
+		}
+
+		
+		if(gallery==null) {
+
+			User user=userRepo.findByUsername(auth.getName());
+			UUID accountId=user.getAccounts().iterator().next().getId();
+			
+			gallery=new OrderEntity();
+			gallery.setStatus(OrderStatus.GALLERY_CART);
+			gallery.setPlacedBy(user);
+			gallery.setAccount(user.getAccounts().iterator().next());
+			gallery=orderRepo.save(gallery);
+		}
+		return gallery;
 	}
 	public LineItem updateItem(UUID id,LineItem newItem, Authentication auth)
 	{
@@ -266,6 +295,52 @@ public class OrderService
 			order.setStatus(OrderStatus.PENDING);
 		return order;
 	}
-	
-
+	public void convertCartToGallery(Authentication auth)
+	{
+		OrderEntity cart=getShoppingCart(auth);
+		OrderEntity gallery=getGalleryCart(auth);
+		for(LineItem item:cart.getLineItems())
+		{
+			
+			item.setOrderEntity(gallery);
+			gallery.addLineItem(item);
+			
+		}
+		cart.getLineItems().clear();
+	}
+	public LineItem cloneGalleryItemToCart(UUID id, Authentication authentication) throws IOException
+	{
+		LineItem item= lineItemRepo.findById(id).orElseThrow(()-> new NotFoundException("Line item was not found"));
+		if(item.getOrderEntity().getStatus()!=OrderStatus.GALLERY_CART)
+			throw new IllegalRequestDataException("This item is not a gallery item");
+		OrderEntity cart=getShoppingCart(authentication);
+		LineItem newItem=new LineItem();
+		newItem.setOrderEntity(cart);
+		cart.addLineItem(newItem);
+		newItem.setNotes(item.getNotes());
+		newItem.setQuantity(item.getQuantity());
+		newItem.setService(item.getService());
+		newItem.setUnitPrice(item.getUnitPrice());
+		for(HyperFile hyperFile:item.getFiles())
+		{
+			FileAsset digitalAsset=new FileAsset();
+			digitalAsset.setName(hyperFile.getAsset().getName());
+			digitalAsset.setAccount(cart.getAccount());
+			digitalAsset=assetsRepo.save(digitalAsset);
+			File sourcePath=new File(filesPath+item.getOrderEntity().getAccount().getId()+"\\"+hyperFile.getAsset().getId());
+			File destPath=new File(filesPath+cart.getAccount().getId()+"\\"+digitalAsset.getId());
+			if(! destPath.getParentFile().exists())
+				Files.createDirectory(destPath.getParentFile().toPath());
+			Files.copy(sourcePath.toPath(), destPath.toPath(),StandardCopyOption.REPLACE_EXISTING);
+			HyperFile newHyperFile=new HyperFile();
+			newHyperFile.setAsset(digitalAsset);
+			newHyperFile.setColor(hyperFile.getColor());
+			newHyperFile.setDimension(hyperFile.getDimension());
+			newHyperFile.setMaterial(hyperFile.getMaterial());
+			newHyperFile.setType(hyperFile.getType());
+			newItem.getFiles().add(newHyperFile);
+			
+		}
+		return newItem;
+	}
 }

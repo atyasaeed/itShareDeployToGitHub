@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import ilab.core.domain.HyperFile;
@@ -13,7 +14,8 @@ import ilab.core.domain.LineItem;
 @Component
 public class PricingForPrinting implements PricingStrategy
 {
-
+	@Value("${iLab.paths.files}")
+	String filesPath;
 	@Override
 	public void price(LineItem item)
 	{
@@ -21,7 +23,7 @@ public class PricingForPrinting implements PricingStrategy
 		for(HyperFile hyperFile:item.getFiles())
 		{
 			if(hyperFile==null) continue;
-			File destPath=new File("D:\\workspaces\\ilab\\resources\\files\\"+item.getOrderEntity().getAccount().getId()+"\\"+hyperFile.getAsset().getId());
+			File destPath=new File(filesPath+item.getOrderEntity().getAccount().getId()+"\\"+hyperFile.getAsset().getId());
 			PDDocument doc;
 			try
 			{

@@ -3,6 +3,7 @@ package ilab.core.domain;
 public enum OrderStatus
 {
 	SHOPPING_CART,
+	GALLERY_CART,
 	WISH_LIST,
 	WAIT_QUOTE,
 	WAIT_CONFIRMATION,
