@@ -213,6 +213,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
     this.form.reset({
       quantity: 1,
       materials: 'undefined',
+      thickness: 'undefined',
     });
     this.form.markAsUntouched();
     this.form.markAsPristine();
@@ -270,7 +271,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
       if (key === 'file') {
         formData.append('file', this.filename);
       } else {
-        if (this.form.value != null) {
+        if (this.form.value[key] != null) {
           d[key] = this.form.value[key];
         }
       }
