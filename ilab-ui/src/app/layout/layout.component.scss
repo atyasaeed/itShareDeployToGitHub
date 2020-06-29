@@ -10,15 +10,25 @@
     margin-top: 56px;
     margin-left: 235px;
     padding: 15px;
-    -ms-overflow-x: hidden;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    position: relative;
-    overflow: hidden;
+    // -ms-overflow-x: hidden;
+    // overflow-x: hidden;
+    // overflow-y: scroll;
+    // position: relative;
+    // overflow: hidden;
 }
+.main-container-rtl{
+   width: calc(100% - 60px);
 
+}
+.sidebar[_ngcontent-lqq-c29]{
+
+  right: 235;
+}
 .collapsed {
     margin-left: 60px;
+}
+.collapsed[_ngcontent-xvm-c30]{
+  margin-right: 60px;
 }
 
 @media screen and (max-width: 992px) {

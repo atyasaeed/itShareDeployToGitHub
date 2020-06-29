@@ -1,20 +1,20 @@
 <div [@routerTransition]>
-    <h2 class="text-muted">iLab <small>Top Rated Services</small></h2>
-    <div class="row">
-        <div class="col-md-12">
-            <carousel>
-                <slide ngbSlide *ngFor="let slider of sliders">
-                    <img class="img-fluid mx-auto d-block" [src]="slider.imagePath" alt="Random first slide" width="100%">
-                    <div class="carousel-caption">
-                        <h3>{{slider.label}}</h3>
-                        <p>{{slider.text}}</p>
-                    </div>
-                </slide>
-            </carousel>
-        </div>
+  <h2 class="text-muted">iLab <small>Top Rated Services</small></h2>
+  <div class="row" style="margin-left: -5px; margin-right:-5px;">
+    <div class="col-md-12">
+      <carousel>
+        <slide ngbSlide *ngFor="let slider of sliders">
+          <img class="img-fluid mx-auto d-block" [src]="slider.imagePath" alt="Random first slide" width="100%">
+          <div class="carousel-caption">
+            <h3>{{slider.label}}</h3>
+            <p>{{slider.text}}</p>
+          </div>
+        </slide>
+      </carousel>
     </div>
-    <hr>
-    <!-- <form class="event-color">
+  </div>
+  <hr>
+  <!-- <form class="event-color">
         <div class="form-group form-inline">
             Full text search: <input class="form-control ml-2" type="text" name="searchTerm" [(ngModel)]="searchTerm" />
             <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
@@ -27,24 +27,24 @@
             </div>
         </div>
     </form> -->
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Service</h5>
-                    <p class="card-text">You Can Create New Service And Add It To Your Cart</p>
-                    <a [routerLink]='["/shopping-cart/CartItem"]' class="btn btn-primary">Add Service</a>
-                </div>
-            </div>
+  <div class="row" style="margin-right: -5px; margin-left: -5px;">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Service</h5>
+          <p class="card-text">You Can Create New Service And Add It To Your Cart</p>
+          <a [routerLink]='["/shopping-cart/CartItem"]' class="btn btn-primary">Add Service</a>
         </div>
-        <div class="col-sm-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Gallery</h5>
-                    <p class="card-text">You Can Choose Order And Add It To Your Cart Direct </p>
-                    <a [routerLink]='["/gallery"]' class="btn btn-primary">Gallery</a>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Gallery</h5>
+          <p class="card-text">You Can Choose Order And Add It To Your Cart Direct </p>
+          <a [routerLink]='["/gallery"]' class="btn btn-primary">Gallery</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
