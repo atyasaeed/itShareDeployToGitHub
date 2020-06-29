@@ -34,45 +34,22 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
   //public lengthCheckToaddMore = 0;
   //service: Service;
   form: FormGroup;
+  //AWSUrl: string;
   //dropdownList = [];
   //selectedItems = [];
   dropdownSettings: IDropdownSettings = {};
-  activeService: any = {};
-  test = {
-    services: [
-      {
-        id: '1',
-        name: '3D Printing',
-        image: 'assets/images/3d.jpg',
-        description: '3D Printing Mono Color',
-        maxFiles: 1,
-        process: {
-          multi: true,
-          values: ['Cut', 'Engrave'],
-        },
-        materials: ['Mat3', 'Mat4'],
-        //thickness: ['1.0mm', '2.0mm'],
-        supportedExtensions: ['*.stl', '*.jpg'],
-        type: ['type1', 'type2'],
-        color: ['color1', 'color2'],
-        unit: ['das', 'sda'],
-      },
-      {
-        id: '2',
-        name: 'Laser Cutting',
-        image: 'assets/images/laser.jpg',
-        description: 'Laser Cutting',
-        maxFiles: 1,
-        process: {
-          multi: false,
-          values: ['SLA', 'FDA'],
-        },
-        materials: ['Mat1', 'Mat2'],
-        thickness: ['6.0mm', '5.0mm'],
-        supportedExtensions: ['*.stl', '*.pdf'],
-      },
-    ],
+  activeService: Service = {
+    id: null,
+    name: null,
+    description: null,
+    maxFiles: null,
+    image: null,
+    width: null,
+    height: null,
+    materials: null,
+    supportedExtensions: null,
   };
+  services: Service[];
   // tslint:disable-next-line: max-line-length
   constructor(
     private route: ActivatedRoute,
@@ -93,12 +70,15 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
   // }
   ngOnInit() {
     this.createForm();
-    // this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
-    //   // this.services = new Array(res);
-    //   this.services = Object.assign(res);
-    //   this.service = this.services[0];
-    //   //this.bulidForm(this.service);
-    // });
+    this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
+      // this.services = new Array(res);
+      // this.services = Object.assign(res);
+      // this.service = this.services[0];
+      //this.bulidForm(this.service);
+
+      this.services = res;
+      console.log(res);
+    });
 
     this.dropdownSettings = {
       singleSelection: false,
@@ -121,7 +101,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
       notes: [''],
       file: ['', Validators.required],
       // files: new FormArray([]),
-      materials: ['undefined', [Validators.required]],
+      materials: ['undefined', this.selectValidator],
       width: ['', [Validators.required, this.numberValidator]],
       height: ['', [Validators.required, this.numberValidator]],
     });
@@ -132,7 +112,12 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
 
   //   return null;
   // }
-
+  selectValidator(control: AbstractControl): { [key: string]: any } | null {
+    if (control.value == 'undefined') {
+      return { required: true };
+    }
+    return null;
+  }
   numberValidator(control: AbstractControl): { [key: string]: any } | null {
     //console.log(control.value);
     //const value: string = control.value || '';
@@ -231,28 +216,28 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
     });
     this.form.markAsUntouched();
     this.form.markAsPristine();
-    this.activeService = this.test.services.find((e) => e.id === event.target.value);
+    this.activeService = this.services.find((e) => e.id === event.target.value);
     //   this.file$.clear();
     //console.log(this.activeService);
     if (this.activeService.thickness != undefined) {
-      this.form.addControl('thickness', new FormControl('undefined', Validators.required));
+      this.form.addControl('thickness', new FormControl('undefined', this.selectValidator));
     } else {
       this.form.removeControl('thickness');
     }
     if (this.activeService.color != undefined) {
-      this.form.addControl('color', new FormControl('undefined', Validators.required));
+      this.form.addControl('color', new FormControl('undefined', this.selectValidator));
     } else {
       this.form.removeControl('color');
     }
     if (this.activeService.type != undefined) {
-      this.form.addControl('type', new FormControl('undefined', Validators.required));
+      this.form.addControl('type', new FormControl('undefined', this.selectValidator));
     } else {
       this.form.removeControl('type');
     }
-    if (this.activeService.process != undefined) {
-      this.form.addControl('process', new FormControl('', Validators.required));
+    if (this.activeService.processes != undefined) {
+      this.form.addControl('processes', new FormControl('', Validators.required));
     } else {
-      this.form.removeControl('process');
+      this.form.removeControl('processes');
     }
 
     //   this.service = event;
@@ -275,19 +260,45 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
   }
 
   submit() {
-    console.log(this.form);
-    console.log(this.filename);
+    const formData: FormData = new FormData();
+    //console.log(this.form.value);
+
+    //console.log(this.form.value);
+    let d = {};
+
+    for (let key in this.form.value) {
+      if (key === 'file') {
+        formData.append('file', this.filename);
+      } else {
+        if (this.form.value != null) {
+          d[key] = this.form.value[key];
+        }
+      }
+    }
+    console.log(d);
+    const itemBlob = new Blob([JSON.stringify(d)], {
+      type: 'application/json',
+    });
+    console.log(formData.get('file'));
+    formData.append('item', itemBlob);
+    console.log(itemBlob);
+    this.shoppingCartService.create(formData).subscribe((res) => {
+      this.appStore.dispatch(new fromStore.LoadInitState());
+      //this.router.navigateByUrl('shopping-cart'), (this.loading = false);
+    });
+    //console.log(this.filename);
   }
 
-  handleFileInput(fileInput: any) {
+  handleFileInput(fileInput) {
     this.filename = fileInput.target.files[0];
 
     let fileExtension = this.filename.name.split('.');
     if (this.activeService.supportedExtensions != undefined) {
       let found = false;
       this.activeService.supportedExtensions.forEach((e) => {
-        e = e.split('.');
-        if (e[1] == fileExtension[fileExtension.length - 1].toLowerCase()) {
+        let arr = e.split('.');
+        console.log(e);
+        if (arr[1] == fileExtension[fileExtension.length - 1].toLowerCase()) {
           found = true;
         }
       });

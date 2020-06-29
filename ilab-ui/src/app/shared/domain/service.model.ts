@@ -18,7 +18,11 @@ export interface Service extends Entity {
   type?: string[];
   color?: string[];
   thickness?: string[];
-  process?: any[];
+  processes?: Processes;
+}
+export class Processes {
+  multi: boolean;
+  values: string[];
 }
 export class Material {
   index: number;

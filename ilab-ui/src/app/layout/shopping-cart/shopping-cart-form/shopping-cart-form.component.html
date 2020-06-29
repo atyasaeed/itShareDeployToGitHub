@@ -15,7 +15,7 @@
             <select  class="form-control "   (change)="buildForm($event)">
 
                 <option disabled selected value="undefined">Please Select Service</option>
-                <ng-container *ngFor="let i of test.services">
+                <ng-container *ngFor="let i of services">
                     <option  [value]="i.id" >{{i.name}}</option>
                 </ng-container>
 
@@ -24,22 +24,25 @@
     </div>
 </div>
 <article class=" container card form-rtl" >
-
-    <h4 class="text-center">{{activeService.name}}
-        <h6>{{activeService.description}}</h6>
-    </h4>
+    <!-- <div *ngIf="activeService != undefined"> -->
+        <h4 class="text-center">{{activeService.name}}
+            <h6>{{activeService.description}}</h6>
+        </h4>
+    <!-- </div> -->
     <form [formGroup]='form' (ngSubmit)="submit()" >
         <div class="container-fluid">
             <div class="row">
 
 
                 <div class="col-md-6 mb-3">
-                    <img class="img-fluid" [src]="activeService.image" alt="" *ngIf="activeService.image != undefined;else defaultImage">
+                    <img class="img-fluid" [src]="appConfig.AWSUrl+activeService.image" alt="" *ngIf="activeService.image != undefined;else defaultImage">
                     <ng-template #defaultImage>
                         <img src="assets/images/ilab.png" alt="" class="img-fluid">
                     </ng-template>
-                    <label class="mt-3">notes :</label>
-                    <textarea class="form-control" rows="3" formControlName="notes"></textarea>
+                    <div class="mt-3">
+                        <label >notes :</label>
+                        <textarea class="form-control" rows="3" formControlName="notes"></textarea>
+                    </div>
                 </div>
                 <div class="col-md-6 ">
 
@@ -117,23 +120,23 @@
                             </ng-container>
                         </select>
                     </div>
-                    <div  *ngIf="activeService.process != undefined" class="mb-3">
-                        <label >process :</label>
-                        <span class="text-danger" *ngIf="!form.controls.process.valid && form.controls.process.dirty || form.controls.process.touched"> *process is required</span>
-                        <div *ngIf="activeService.process.multi==true;else processSingle">
+                    <div  *ngIf="activeService.processes != undefined" class="mb-3">
+                        <label >processes :</label>
+                        <span class="text-danger" *ngIf="!form.controls.processes.valid && form.controls.processes.dirty || form.controls.processes.touched"> *processes is required</span>
+                        <div *ngIf="activeService.processes.multi==true;else processesSingle">
                             <ng-multiselect-dropdown
-                            formControlName="process"
-                            [placeholder]="'please select process'"
+                            formControlName="processes"
+                            [placeholder]="'please select processes'"
                             [settings]="dropdownSettings"
-                            [data]="activeService.process.values"
+                            [data]="activeService.processes.values"
 
                             >
                             </ng-multiselect-dropdown>
                         </div>
-                        <ng-template #processSingle>
-                            <select formControlName="process" class="form-control" >
+                        <ng-template #processesSingle>
+                            <select formControlName="processes" class="form-control" >
                             <!-- <option disabled selected value="undefined">please select process</option> -->
-                                <ng-container *ngFor="let v of activeService.process.values">
+                                <ng-container *ngFor="let v of activeService.processes.values">
                                     <option  [value]="v" >{{v}}</option>
                                 </ng-container>
                             </select>
@@ -142,7 +145,7 @@
                 </div>
 
                 <div class="col-md-12 text-center">
-                    <button type="submit"  class="btn btn-primary" [disabled]="!form.valid">Add To Cart</button>
+                    <button type="submit"  class="btn btn-primary" [disabled]="!form.valid || activeService.id==null">Add To Cart</button>
                 </div>
             </div>
         </div>

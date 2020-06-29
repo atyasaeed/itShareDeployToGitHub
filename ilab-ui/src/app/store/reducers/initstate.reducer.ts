@@ -7,7 +7,7 @@ export interface InitState {
   shoppingCartItem: ShoppingCartItem;
   lang: string;
   user: User;
-  services: Service;
+  services: Service[];
   loaded: boolean;
   loading: boolean;
 }
