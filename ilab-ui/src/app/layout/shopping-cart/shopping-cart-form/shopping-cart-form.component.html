@@ -1,6 +1,6 @@
 <div [@routerTransition]>
   <app-page-header [heading]="'Programs'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header>
-<div class="form-group container ">
+<div class="container-fluid ">
     <!-- <mat-form-field class="form-rtl col-12">
         <mat-label>{{' Select Service' | translate}}</mat-label>
         <mat-select (selectionChange)="bulidForm($event.value)"  [(value)]="service" #selectionVal>
@@ -9,130 +9,140 @@
             </mat-option>
         </mat-select>
     </mat-form-field> -->
-       <label class="">{{ 'Select Service' | translate }} </label> :
-      <select  class="form-control "   (change)="bulidForm($event)">
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label >{{'Select Service' | translate }} </label> :
+            <select  class="form-control "   (change)="buildForm($event)">
 
-        <option disabled selected value="undefined">please select service</option>
-        <ng-container *ngFor="let i of test.services">
-            <option  [value]="i.id" >{{i.name}}</option>
-        </ng-container>
+                <option disabled selected value="undefined">Please Select Service</option>
+                <ng-container *ngFor="let i of test.services">
+                    <option  [value]="i.id" >{{i.name}}</option>
+                </ng-container>
 
-      </select>
-
+            </select>
+        </div>
+    </div>
 </div>
 <article class=" container card form-rtl" >
 
-    <h4 class="text-center">{{activeTest.name}}
-        <h6>{{activeTest.description}}</h6>
+    <h4 class="text-center">{{activeService.name}}
+        <h6>{{activeService.description}}</h6>
     </h4>
     <form [formGroup]='form' (ngSubmit)="submit()" >
         <div class="container-fluid">
             <div class="row">
 
 
-                <div class="col-md-6">
-                    <label>notes :</label>
+                <div class="col-md-6 mb-3">
+                    <img class="img-fluid" [src]="activeService.image" alt="" *ngIf="activeService.image != undefined;else defaultImage">
+                    <ng-template #defaultImage>
+                        <img src="assets/images/ilab.png" alt="" class="img-fluid">
+                    </ng-template>
+                    <label class="mt-3">notes :</label>
                     <textarea class="form-control" rows="3" formControlName="notes"></textarea>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 ">
 
-                    <label>height :</label>
-                    <span *ngIf="form.controls.height.errors != null">
-                        <span class="text-danger" *ngIf="form.controls.height.errors.required && form.controls.height.touched"> *height is required</span>
-                        <span class="text-danger" *ngIf="form.controls.height.errors.NaN && form.controls.height.dirty"> | *value is not a number</span>
+                    <label>file :</label>
+                    <span *ngIf="form.controls.file.errors != null">
+                        <span class="text-danger" *ngIf="form.controls.file.errors.required && form.controls.file.touched"> *file is required</span>
+                        <span class="text-danger" *ngIf="form.controls.file.errors.extension "> | *availble extensions are {{form.controls.file.errors.extension}} </span>
                     </span>
-                    <input type="number" formControlName="height" class="form-control" >
+                    <input type="file" formControlName="file" class="form-control mb-3" (change)="handleFileInput($event)">
 
-                    <label>width :</label>
-                    <span *ngIf="form.controls.width.errors != null">
-                        <span class="text-danger" *ngIf="form.controls.width.errors.required && form.controls.width.touched"> *width is required</span>
-                        <span class="text-danger" *ngIf="form.controls.width.errors.NaN && form.controls.width.dirty"> | *value is not a number</span>
-                    </span>
-                    <input type="number" formControlName="width" class="form-control">
-                </div>
-                <div class="col-md-6">
                     <label>quantity :</label>
                     <span *ngIf="form.controls.quantity.errors != null">
                         <span class="text-danger" *ngIf="form.controls.quantity.errors.required && form.controls.quantity.touched"> *quantity is required</span>
                         <span class="text-danger" *ngIf="form.controls.quantity.errors.min && form.controls.quantity.touched"> | *min value is 1</span>
                          <span class="text-danger" *ngIf="form.controls.quantity.errors.NaN && form.controls.quantity.dirty"> | *value is not a number</span>
                     </span>
-                    <input type="number" formControlName="quantity" class="form-control">
+                    <input type="number" formControlName="quantity" class="form-control mb-3">
 
-                </div>
-                <div class="col-md-6">
-                    <label>file :</label>
-                    <input type="file" formControlName="file" class="form-control">
-                </div>
-                <div class="col-md-6" *ngIf="activeTest.materials != undefined">
-                    <label >material :</label>
-                    <span class="text-danger" *ngIf="!form.controls.materials.valid && form.controls.materials.touched"> *materials is required</span>
-                     <select formControlName="materials" class="form-control" >
+                    <label>height :</label>
+                    <span *ngIf="form.controls.height.errors != null">
+                        <span class="text-danger" *ngIf="form.controls.height.errors.required && form.controls.height.touched"> *height is required</span>
+                        <span class="text-danger" *ngIf="form.controls.height.errors.NaN && form.controls.height.dirty"> | *value is not a number</span>
+                    </span>
+                    <input type="number" formControlName="height" class="form-control mb-3" >
 
-                        <option disabled selected value="undefined">please select material</option>
-                        <ng-container *ngFor="let x of activeTest.materials">
-                            <option  [value]="x" >{{x}}</option>
-                        </ng-container>
-                    </select>
-                </div>
-                <div class="col-md-6" *ngIf="activeTest.thickness != undefined">
-                    <label >thickness :</label>
-                    <span class="text-danger" *ngIf="!form.controls.thickness.valid && form.controls.thickness.touched"> *thickness is required</span>
-                     <select formControlName="thickness" class="form-control">
+                    <label>width :</label>
+                    <span *ngIf="form.controls.width.errors != null">
+                        <span class="text-danger" *ngIf="form.controls.width.errors.required && form.controls.width.touched"> *width is required</span>
+                        <span class="text-danger" *ngIf="form.controls.width.errors.NaN && form.controls.width.dirty"> | *value is not a number</span>
+                    </span>
+                    <input type="number" formControlName="width" class="form-control mb-3">
 
-                        <option disabled selected value="undefined">please select thickness</option>
-                        <ng-container *ngFor="let y of activeTest.thickness">
-                            <option  [value]="y" >{{y}}</option>
-                        </ng-container>
-                    </select>
-                </div>
-                 <div class="col-md-6" *ngIf="activeTest.color != undefined">
-                    <label >color :</label>
-                    <span class="text-danger" *ngIf="!form.controls.color.valid && form.controls.color.touched"> *color is required</span>
-                    <select formControlName="color" class="form-control">
+                    <div  *ngIf="activeService.materials != undefined" class="mb-3">
+                        <label >material :</label>
+                        <span class="text-danger" *ngIf="!form.controls.materials.valid && form.controls.materials.touched"> *materials is required</span>
+                        <select formControlName="materials" class="form-control" >
 
-                        <option disabled selected value="undefined">please select color</option>
-                        <ng-container *ngFor="let y of activeTest.color">
-                            <option  [value]="y" >{{y}}</option>
-                        </ng-container>
-                    </select>
-                </div>
-
-                 <div class="col-md-6" *ngIf="activeTest.type != undefined">
-                    <label >type :</label>
-                    <span class="text-danger" *ngIf="!form.controls.type.valid && form.controls.type.touched"> *type is required</span>
-                    <select formControlName="type" class="form-control">
-
-                        <option disabled selected value="undefined">please select type</option>
-                        <ng-container *ngFor="let y of activeTest.type">
-                            <option  [value]="y" >{{y}}</option>
-                        </ng-container>
-                    </select>
-                </div>
-                   <div class="col-md-6" *ngIf="activeTest.process != undefined">
-                    <label >process :</label>
-                    <span class="text-danger" *ngIf="!form.controls.process.valid && form.controls.process.dirty || form.controls.process.touched"> *process is required</span>
-                    <div *ngIf="activeTest.process.multi==true;else processSingle">
-                        <ng-multiselect-dropdown
-                        formControlName="process"
-                        [placeholder]="'custom placeholder'"
-                        [settings]="dropdownSettings"
-                        [data]="activeTest.process.values"
-
-                        >
-                        </ng-multiselect-dropdown>
-                    </div>
-                    <ng-template #processSingle>
-                        <select formControlName="process" class="form-control">
-                        <option disabled selected value="undefined">please select process</option>
-                            <ng-container *ngFor="let v of activeTest.process.values">
-                                <option  [value]="v" >{{v}}</option>
+                            <option disabled selected value="undefined">please select material</option>
+                            <ng-container *ngFor="let x of activeService.materials">
+                                <option  [value]="x" >{{x}}</option>
                             </ng-container>
                         </select>
-                    </ng-template>
+                    </div>
+                     <div  *ngIf="activeService.thickness != undefined" class="mb-3">
+                    <label >thickness :</label>
+                        <span class="text-danger" *ngIf="!form.controls.thickness.valid && form.controls.thickness.touched"> *thickness is required</span>
+                        <select formControlName="thickness" class="form-control">
+
+                            <option disabled selected value="undefined">please select thickness</option>
+                            <ng-container *ngFor="let y of activeService.thickness">
+                                <option  [value]="y" >{{y}}</option>
+                            </ng-container>
+                        </select>
+                    </div>
+
+                    <div  *ngIf="activeService.color != undefined" class="mb-3">
+                        <label >color :</label>
+                        <span class="text-danger" *ngIf="!form.controls.color.valid && form.controls.color.touched"> *color is required</span>
+                        <select formControlName="color" class="form-control">
+
+                            <option disabled selected value="undefined">please select color</option>
+                            <ng-container *ngFor="let y of activeService.color">
+                                <option  [value]="y" >{{y}}</option>
+                            </ng-container>
+                        </select>
+                    </div>
+                    <div  *ngIf="activeService.type != undefined" class="mb-3">
+                        <label >type :</label>
+                        <span class="text-danger" *ngIf="!form.controls.type.valid && form.controls.type.touched"> *type is required</span>
+                        <select formControlName="type" class="form-control">
+
+                            <option disabled selected value="undefined">please select type</option>
+                            <ng-container *ngFor="let y of activeService.type">
+                                <option  [value]="y" >{{y}}</option>
+                            </ng-container>
+                        </select>
+                    </div>
+                    <div  *ngIf="activeService.process != undefined" class="mb-3">
+                        <label >process :</label>
+                        <span class="text-danger" *ngIf="!form.controls.process.valid && form.controls.process.dirty || form.controls.process.touched"> *process is required</span>
+                        <div *ngIf="activeService.process.multi==true;else processSingle">
+                            <ng-multiselect-dropdown
+                            formControlName="process"
+                            [placeholder]="'please select process'"
+                            [settings]="dropdownSettings"
+                            [data]="activeService.process.values"
+
+                            >
+                            </ng-multiselect-dropdown>
+                        </div>
+                        <ng-template #processSingle>
+                            <select formControlName="process" class="form-control" >
+                            <!-- <option disabled selected value="undefined">please select process</option> -->
+                                <ng-container *ngFor="let v of activeService.process.values">
+                                    <option  [value]="v" >{{v}}</option>
+                                </ng-container>
+                            </select>
+                        </ng-template>
+                    </div>
                 </div>
-                <div class="col-md-12">
-                    <button type="submit"  class="btn btn-primary">submit</button>
+
+                <div class="col-md-12 text-center">
+                    <button type="submit"  class="btn btn-primary" [disabled]="!form.valid">Add To Cart</button>
                 </div>
             </div>
         </div>

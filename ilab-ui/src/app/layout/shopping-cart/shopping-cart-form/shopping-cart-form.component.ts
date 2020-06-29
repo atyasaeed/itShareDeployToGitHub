@@ -18,10 +18,11 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 })
 export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
   breadcrumbs = [{ heading: 'Add-Service', icon: 'fa-tasks' }];
-  services;
+  //services;
   loading = false;
   submitted = false;
   msgFileSize: any;
+  filename;
   //ext: string[] = [];
   //extFile: string;
   //filename: string;
@@ -31,16 +32,18 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
   //public totalfiles: Array<File> = [];
   //public totalFileName = [];
   //public lengthCheckToaddMore = 0;
-  service: Service;
+  //service: Service;
+  form: FormGroup;
   //dropdownList = [];
   //selectedItems = [];
   dropdownSettings: IDropdownSettings = {};
-  activeTest: any = {};
+  activeService: any = {};
   test = {
     services: [
       {
         id: '1',
         name: '3D Printing',
+        image: 'assets/images/3d.jpg',
         description: '3D Printing Mono Color',
         maxFiles: 1,
         process: {
@@ -49,7 +52,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
         },
         materials: ['Mat3', 'Mat4'],
         //thickness: ['1.0mm', '2.0mm'],
-        supportedExtensions: ['*.stl'],
+        supportedExtensions: ['*.stl', '*.jpg'],
         type: ['type1', 'type2'],
         color: ['color1', 'color2'],
         unit: ['das', 'sda'],
@@ -57,6 +60,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
       {
         id: '2',
         name: 'Laser Cutting',
+        image: 'assets/images/laser.jpg',
         description: 'Laser Cutting',
         maxFiles: 1,
         process: {
@@ -65,7 +69,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
         },
         materials: ['Mat1', 'Mat2'],
         thickness: ['6.0mm', '5.0mm'],
-        supportedExtensions: ['*.stl'],
+        supportedExtensions: ['*.stl', '*.pdf'],
       },
     ],
   };
@@ -81,8 +85,6 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
     private appStore: Store<fromStore.AppState>
   ) {}
 
-  form: FormGroup;
-
   // get cartForm$() {
   //   return this.cartForm.controls;
   // }
@@ -91,12 +93,12 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
   // }
   ngOnInit() {
     this.createForm();
-    this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
-      // this.services = new Array(res);
-      this.services = Object.assign(res);
-      this.service = this.services[0];
-      //this.bulidForm(this.service);
-    });
+    // this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
+    //   // this.services = new Array(res);
+    //   this.services = Object.assign(res);
+    //   this.service = this.services[0];
+    //   //this.bulidForm(this.service);
+    // });
 
     this.dropdownSettings = {
       singleSelection: false,
@@ -124,6 +126,12 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
       height: ['', [Validators.required, this.numberValidator]],
     });
   }
+
+  // extensionValidator(control: AbstractControl, arr): { [key: string]: any } | null {
+  //   //console.log(control.value);
+
+  //   return null;
+  // }
 
   numberValidator(control: AbstractControl): { [key: string]: any } | null {
     //console.log(control.value);
@@ -215,32 +223,33 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
   // onChangeObj(event) {
   //   //console.log(event);
   // }
-  bulidForm(event) {
-    console.log(event.target.value);
+  buildForm(event) {
+    //console.log(event.target.value);
     this.form.reset({
       quantity: 1,
+      materials: 'undefined',
     });
     this.form.markAsUntouched();
     this.form.markAsPristine();
-    this.activeTest = this.test.services.find((e) => e.id === event.target.value);
+    this.activeService = this.test.services.find((e) => e.id === event.target.value);
     //   this.file$.clear();
-    console.log(this.activeTest);
-    if (this.activeTest.thickness != undefined) {
-      this.form.addControl('thickness', new FormControl('', Validators.required));
+    //console.log(this.activeService);
+    if (this.activeService.thickness != undefined) {
+      this.form.addControl('thickness', new FormControl('undefined', Validators.required));
     } else {
       this.form.removeControl('thickness');
     }
-    if (this.activeTest.color != undefined) {
-      this.form.addControl('color', new FormControl('', Validators.required));
+    if (this.activeService.color != undefined) {
+      this.form.addControl('color', new FormControl('undefined', Validators.required));
     } else {
       this.form.removeControl('color');
     }
-    if (this.activeTest.type != undefined) {
-      this.form.addControl('type', new FormControl('', Validators.required));
+    if (this.activeService.type != undefined) {
+      this.form.addControl('type', new FormControl('undefined', Validators.required));
     } else {
       this.form.removeControl('type');
     }
-    if (this.activeTest.process != undefined) {
+    if (this.activeService.process != undefined) {
       this.form.addControl('process', new FormControl('', Validators.required));
     } else {
       this.form.removeControl('process');
@@ -267,6 +276,25 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
 
   submit() {
     console.log(this.form);
+    console.log(this.filename);
+  }
+
+  handleFileInput(fileInput: any) {
+    this.filename = fileInput.target.files[0];
+
+    let fileExtension = this.filename.name.split('.');
+    if (this.activeService.supportedExtensions != undefined) {
+      let found = false;
+      this.activeService.supportedExtensions.forEach((e) => {
+        e = e.split('.');
+        if (e[1] == fileExtension[fileExtension.length - 1].toLowerCase()) {
+          found = true;
+        }
+      });
+      if (found == false) {
+        this.form.get('file').setErrors({ extension: this.activeService.supportedExtensions.toString() });
+      }
+    }
   }
 
   // validateAllFormFields(formGroup: FormGroup) {

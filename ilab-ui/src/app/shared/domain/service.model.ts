@@ -1,17 +1,24 @@
 import { Entity } from './entity';
 
 export interface Service extends Entity {
-  id: string;
+  //id: string;
   name: string;
   description: string;
   maxFiles: number;
-  workingArea: string;
-  attendance: boolean;
-  status: string;
-  extension: string[];
+  image: string;
+  //workingArea: string;
+  //attendance: boolean;
+  //status: string;
+  //extension: string[];
+  width: number;
+  height: number;
   materials: Material[];
-  supportedExtensions: any[];
-  units: any[];
+  supportedExtensions: string[];
+  units?: string[];
+  type?: string[];
+  color?: string[];
+  thickness?: string[];
+  process?: any[];
 }
 export class Material {
   index: number;
