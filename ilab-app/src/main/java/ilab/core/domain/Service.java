@@ -5,7 +5,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.annotation.JsonSetter;
@@ -21,21 +20,38 @@ public class Service extends AbstractEntity<Service>
 	private String workingArea;
 	private boolean attendance;
 	private String pricing;
+	private String image;
 	@JsonRawValue
 	private String units;
-//	@Lob
-	@JsonProperty("materials")
-	@JsonRawValue
-	@Column(columnDefinition = "TEXT",length = 1024)
-	@Basic(fetch = FetchType.EAGER)
-	private String template;
-	
 //	@Lob
 	@JsonProperty("supportedExtensions")
 	@JsonRawValue
 	@Column(columnDefinition = "TEXT",length = 1024)
 	@Basic(fetch = FetchType.EAGER)
 	private String extensions;
+	
+	
+//	@Lob
+//	@JsonProperty("materials")
+	@JsonRawValue
+	@Column(columnDefinition = "TEXT",length = 1024)
+	@Basic(fetch = FetchType.EAGER)
+	private String materials;
+	
+	@JsonRawValue
+	@Column(columnDefinition = "TEXT",length = 1024)
+	@Basic(fetch = FetchType.EAGER)
+	private String thickness;
+
+	@JsonRawValue
+	@Column(columnDefinition = "TEXT",length = 1024)
+	@Basic(fetch = FetchType.EAGER)
+	private String colors;
+	
+	@JsonRawValue
+	@Column(columnDefinition = "TEXT",length = 1024)
+	@Basic(fetch = FetchType.EAGER)
+	private String processes;;
 	
 	public String getName()
 	{
@@ -77,19 +93,19 @@ public class Service extends AbstractEntity<Service>
 		this.workingArea = workingArea;
 	}
 
-	public String getTemplate()
+	public String getMaterials()
 	{
-		return template;
+		return materials;
 	}
 
-	public void setTemplate(String template)
+	public void setMaterials(String materials)
 	{
-		this.template = template;
+		this.materials = materials;
 	}
 	@JsonSetter("materials")
-	public void setTemplate(JsonNode node)
+	public void setMaterials(JsonNode node)
 	{
-		this.template=node.toString();
+		this.materials=node.toString();
 	}
 	public String getExtensions()
 	{
@@ -141,5 +157,57 @@ public class Service extends AbstractEntity<Service>
 	{
 		this.pricing = pricing;
 	}
-	
+
+	public String getThickness()
+	{
+		return thickness;
+	}
+	@JsonSetter("thickness")
+	public void setThickness(JsonNode node)
+	{
+		this.thickness=node.toString();
+	}
+	public void setThickness(String thickness)
+	{
+		this.thickness = thickness;
+	}
+
+	public String getColors()
+	{
+		return colors;
+	}
+
+	public void setColors(String colors)
+	{
+		this.colors = colors;
+	}
+	@JsonSetter("colors")
+	public void setColors(JsonNode node)
+	{
+		this.colors=node.toString();
+	}
+	public String getProcesses()
+	{
+		return processes;
+	}
+
+	public void setProcesses(String processes)
+	{
+		this.processes = processes;
+	}
+	@JsonSetter("processes")
+	public void setProcesses(JsonNode node)
+	{
+		this.processes=node.toString();
+	}
+
+	public String getImage()
+	{
+		return image;
+	}
+
+	public void setImage(String image)
+	{
+		this.image = image;
+	}
 }
