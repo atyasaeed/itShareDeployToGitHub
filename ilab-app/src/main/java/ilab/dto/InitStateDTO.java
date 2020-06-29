@@ -2,9 +2,12 @@ package ilab.dto;
 
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import ilab.core.domain.OrderEntity;
 import ilab.core.domain.Service;
-
+@JsonInclude(value = Include.NON_NULL)
 public class InitStateDTO
 {
 	private OrderEntity shoppingCart;
