@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg fixed-top navbar-dark">
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark nav-rtl">
   <a class="navbar-brand" href="#">{{ 'Brand' | translate }}</a>
   <button class="navbar-toggler" type="button" (click)="toggleSidebar()">
     <!-- <span class="navbar-toggler-icon"></span> -->
@@ -72,7 +72,7 @@
                   <img class="d-flex align-self-center mr-3" style="width: 60px; height: 50px;"
                     [src]="getImageUrl(entity)">
 
-                  <div class="media-body">
+                  <div class="media-body cart-rtl">
                     <h5 class="mt-0 mb-1">{{ entity.service.name }}</h5>
                     <p class="last"> Quantity: {{ entity.quantity }} </p>
                   </div>
