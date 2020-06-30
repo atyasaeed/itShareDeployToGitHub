@@ -26,7 +26,7 @@
                   <div class="product" *ngFor="let entity of items$">
                     <div class="row">
                       <div class="col-md-3 service-image">
-                        <img class="img-fluid mx-auto d-block" [src]="getImageUrl(entity)">
+                        <img class="img-fluid " [src]="appConfig.AWSUrl+entity.service.image">
                       </div>
                       <div class="col-md-9">
                         <div class="info">
@@ -46,10 +46,10 @@
                               <div class="product-name">
 
                                 <div class="product-info">
-                                  <div *ngIf="entity?.estimatedStardDate">{{ 'Start Date' | translate }}: <span
+                                  <!-- <div *ngIf="entity?.estimatedStardDate">{{ 'Start Date' | translate }}: <span
                                       class="value">{{entity.estimatedStardDate |date:'fullDate'}}</span></div>
                                   <div *ngIf="entity?.estimatedEndDate">{{ 'Estimated End Date' | translate }}: <span
-                                      class="value">{{entity.estimatedEndDate |date:'fullDate'}}</span></div>
+                                      class="value">{{entity.estimatedEndDate |date:'fullDate'}}</span></div> -->
                                   <div>{{ 'Price' | translate }}: <span class="value">{{entity.unitPrice}}</span></div>
                                   <div>{{ 'Unite Price' | translate }}: <span
                                       class="value">{{entity.unitPrice|currency:'EGP'}}</span></div>
@@ -84,7 +84,11 @@
                                   [href]="getFileUrl(entity,j)">{{file.asset_name}}</a></span></div>
                             <div class="form-body">
                               <div>{{'Type' | translate }}: <span class="value">{{file.type |titlecase}}</span></div>
-                              <div>{{'Material' | translate }}: <span class="value">{{file.material |titlecase}}</span>
+                              <div>{{'Material' | translate }}:
+                                <span class="value">{{file.material |titlecase}}</span>
+                                <select class="form-control"   [ngModel]="file.material" (change)="materialChange(entity,$event)">
+                                  <option *ngFor="let mat of entity.service.materials" [ngValue]="mat" >{{mat}}</option>
+                                </select>
                               </div>
                               <div>{{'Dimension' | translate }}: <span
                                   class="value">{{file.dimension |titlecase}}</span>

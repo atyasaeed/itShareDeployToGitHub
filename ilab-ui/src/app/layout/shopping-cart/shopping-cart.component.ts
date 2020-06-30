@@ -1,7 +1,7 @@
 import { ToastrService } from 'ngx-toastr';
 import { User } from '../../shared/domain/user.model';
 import { Component, OnInit, Inject } from '@angular/core';
-import { ShoppingCartItem, Order } from 'src/app/shared/domain';
+import { ShoppingCartItem, Order, LineItem } from 'src/app/shared/domain';
 import { ShoppingCartService } from './shoppingcart.service';
 import { Router } from '@angular/router';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
@@ -10,6 +10,7 @@ import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { routerTransition } from 'src/app/router.animations';
+import { ListItem } from 'ng-multiselect-dropdown/multiselect.model';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -34,11 +35,11 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     service: ShoppingCartService,
     private appStore: Store<fromStore.AppState>,
     private toastr: ToastrService,
-    @Inject(APP_CONFIG) private appConfig: IAppConfig
+    @Inject(APP_CONFIG) public appConfig: IAppConfig
   ) {
     super(service);
     this.authUser$ = this.appStore.select(fromStore.getAuthUser);
-
+    console.log(this.appConfig);
     this.appStore.select(fromStore.getLang).subscribe((lang) => {
       this.lang = lang;
     });
@@ -130,4 +131,21 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
   //   });
   //   return subTotal;
   // }
+  materialChange(item: LineItem, event) {
+    console.log(event);
+    let newItem = Object.assign({}, item);
+    // console.log(newItem);
+    // console.log(this.items$);
+    //newItem.files.
+    this.service.update(newItem).subscribe(
+      (res) => {
+        this.loading = false;
+        // this.service.searchTerm = '';
+        this.appStore.dispatch(new fromStore.LoadInitState());
+      },
+      (err) => {
+        this.loading = false;
+      }
+    );
+  }
 }
