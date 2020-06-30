@@ -40,20 +40,20 @@
                         <img src="assets/images/ilab.png" alt="" class="img-fluid">
                     </ng-template>
                     <div class="mt-3">
-                        <label >notes :</label>
+                        <label >Notes :</label>
                         <textarea class="form-control" rows="3" formControlName="notes"></textarea>
                     </div>
                 </div>
                 <div class="col-md-6 ">
 
-                    <label>file :</label>
+                    <label>File :</label>
                     <span *ngIf="form.controls.file.errors != null">
                         <span class="text-danger" *ngIf="form.controls.file.errors.required && form.controls.file.touched"> *file is required</span>
                         <span class="text-danger" *ngIf="form.controls.file.errors.extension "> | *availble extensions are {{form.controls.file.errors.extension}} </span>
                     </span>
                     <input type="file" formControlName="file" class="form-control mb-3 border" (change)="handleFileInput($event)">
 
-                    <label>quantity :</label>
+                    <label>Quantity :</label>
                     <span *ngIf="form.controls.quantity.errors != null">
                         <span class="text-danger" *ngIf="form.controls.quantity.errors.required && form.controls.quantity.touched"> *quantity is required</span>
                         <span class="text-danger" *ngIf="form.controls.quantity.errors.min && form.controls.quantity.touched"> | *min value is 1</span>
@@ -61,14 +61,14 @@
                     </span>
                     <input type="number" formControlName="quantity" class="form-control mb-3">
 
-                    <label>height :</label>
+                    <label>Height :</label>
                     <span *ngIf="form.controls.height.errors != null">
                         <span class="text-danger" *ngIf="form.controls.height.errors.required && form.controls.height.touched"> *height is required</span>
                         <span class="text-danger" *ngIf="form.controls.height.errors.NaN && form.controls.height.dirty"> | *value is not a number</span>
                     </span>
                     <input type="number" formControlName="height" class="form-control mb-3" >
 
-                    <label>width :</label>
+                    <label>Width :</label>
                     <span *ngIf="form.controls.width.errors != null">
                         <span class="text-danger" *ngIf="form.controls.width.errors.required && form.controls.width.touched"> *width is required</span>
                         <span class="text-danger" *ngIf="form.controls.width.errors.NaN && form.controls.width.dirty"> | *value is not a number</span>
@@ -76,53 +76,64 @@
                     <input type="number" formControlName="width" class="form-control mb-3">
 
                     <div  *ngIf="activeService.materials != undefined" class="mb-3">
-                        <label >material :</label>
+                        <label >Material :</label>
                         <span class="text-danger" *ngIf="!form.controls.material.valid && form.controls.material.touched"> *material is required</span>
                         <select formControlName="material" class="form-control" >
 
-                            <option disabled selected value="undefined">please select material</option>
+                            <option disabled selected value="undefined">Please Select Material</option>
                             <ng-container *ngFor="let x of activeService.materials">
                                 <option  [value]="x" >{{x}}</option>
                             </ng-container>
                         </select>
                     </div>
                      <div  *ngIf="activeService.thickness != undefined" class="mb-3">
-                    <label >thickness :</label>
+                    <label >Thickness :</label>
                         <span class="text-danger" *ngIf="!form.controls.thickness.valid && form.controls.thickness.touched"> *thickness is required</span>
                         <select formControlName="thickness" class="form-control">
 
-                            <option disabled selected value="undefined">please select thickness</option>
+                            <option disabled selected value="undefined">Please Select Thickness</option>
                             <ng-container *ngFor="let y of activeService.thickness">
                                 <option  [value]="y" >{{y}}</option>
                             </ng-container>
                         </select>
                     </div>
 
-                    <div  *ngIf="activeService.color != undefined" class="mb-3">
-                        <label >color :</label>
+                    <div  *ngIf="activeService.colors != undefined" class="mb-3">
+                        <label >Color :</label>
                         <span class="text-danger" *ngIf="!form.controls.color.valid && form.controls.color.touched"> *color is required</span>
                         <select formControlName="color" class="form-control">
 
-                            <option disabled selected value="undefined">please select color</option>
-                            <ng-container *ngFor="let y of activeService.color">
+                            <option disabled selected value="undefined">Please Select Color</option>
+                            <ng-container *ngFor="let y of activeService.colors">
                                 <option  [value]="y" >{{y}}</option>
                             </ng-container>
                         </select>
                     </div>
-                    <div  *ngIf="activeService.type != undefined" class="mb-3">
-                        <label >type :</label>
+                    <div  *ngIf="activeService.types != undefined" class="mb-3">
+                        <label >Type :</label>
                         <span class="text-danger" *ngIf="!form.controls.type.valid && form.controls.type.touched"> *type is required</span>
                         <select formControlName="type" class="form-control">
 
-                            <option disabled selected value="undefined">please select type</option>
-                            <ng-container *ngFor="let y of activeService.type">
+                            <option disabled selected value="undefined">Please Select Type</option>
+                            <ng-container *ngFor="let y of activeService.types">
+                                <option  [value]="y" >{{y}}</option>
+                            </ng-container>
+                        </select>
+                    </div>
+                    <div  *ngIf="activeService.units != undefined" class="mb-3">
+                        <label >Units :</label>
+                        <span class="text-danger" *ngIf="!form.controls.unit.valid && form.controls.unit.touched"> *unit is required</span>
+                        <select formControlName="unit" class="form-control">
+
+                            <option disabled selected value="undefined">Please Select Unit</option>
+                            <ng-container *ngFor="let y of activeService.units">
                                 <option  [value]="y" >{{y}}</option>
                             </ng-container>
                         </select>
                     </div>
                     <div  *ngIf="activeService.processes != undefined" class="mb-3">
-                        <label >processes :</label>
-                        <span class="text-danger" *ngIf="!form.controls.processes.valid && form.controls.processes.dirty || form.controls.processes.touched"> *processes is required</span>
+                        <label >Processes :</label>
+                        <span class="text-danger" *ngIf="(!form.controls.processes.valid && form.controls.processes.dirty) || ( !form.controls.processes.valid && form.controls.processes.touched )"> *processes is required</span>
                         <div *ngIf="activeService.processes.multi==true;else processesSingle">
                             <ng-multiselect-dropdown
                             formControlName="processes"
@@ -134,8 +145,8 @@
                             </ng-multiselect-dropdown>
                         </div>
                         <ng-template #processesSingle>
-                            <select formControlName="processes" class="form-control" >
-                            <!-- <option disabled selected value="undefined">please select process</option> -->
+                            <select formControlName="processes" class="form-control" [ngModel]="undefined">
+                            <option disabled  value="undefined">Please Select Process</option>
                                 <ng-container *ngFor="let v of activeService.processes.values">
                                     <option  [value]="v" >{{v}}</option>
                                 </ng-container>

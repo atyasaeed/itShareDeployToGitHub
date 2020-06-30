@@ -15,8 +15,8 @@ export interface Service extends Entity {
   materials: Material[];
   supportedExtensions: string[];
   units?: string[];
-  type?: string[];
-  color?: string[];
+  types?: string[];
+  colors?: string[];
   thickness?: string[];
   processes?: Processes;
 }

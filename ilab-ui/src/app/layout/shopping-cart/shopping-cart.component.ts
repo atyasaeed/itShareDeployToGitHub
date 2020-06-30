@@ -132,20 +132,25 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
   //   return subTotal;
   // }
   materialChange(item: LineItem, event) {
-    console.log(event);
-    let newItem = Object.assign({}, item);
+    //console.log(event.target.value);
+    let newItem = JSON.parse(JSON.stringify(item));
+    //let newItem = { ...item };
     // console.log(newItem);
     // console.log(this.items$);
     //newItem.files.
-    this.service.update(newItem).subscribe(
-      (res) => {
-        this.loading = false;
-        // this.service.searchTerm = '';
-        this.appStore.dispatch(new fromStore.LoadInitState());
-      },
-      (err) => {
-        this.loading = false;
-      }
-    );
+    //item.quantity = 5;
+    newItem.files[0].material = 'metal';
+    //console.log(newItem);
+    //console.log(newItem);
+    console.log(JSON.stringify(newItem));
+    //console.log(newItem);
+    //newItem.files[0].material = event.target.value;
+    console.log(newItem);
+    this.service.update(newItem).subscribe((res) => {
+      //this.loading = false;
+      // this.service.searchTerm = '';
+      //console.log(res);
+      this.appStore.dispatch(new fromStore.LoadInitState());
+    });
   }
 }

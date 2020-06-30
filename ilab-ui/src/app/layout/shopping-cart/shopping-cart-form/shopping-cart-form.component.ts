@@ -77,7 +77,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
       //this.bulidForm(this.service);
 
       this.services = res;
-      console.log(res);
+      //console.log(res);
     });
 
     this.dropdownSettings = {
@@ -225,15 +225,20 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
     } else {
       this.form.removeControl('thickness');
     }
-    if (this.activeService.color != undefined) {
+    if (this.activeService.colors != undefined) {
       this.form.addControl('color', new FormControl('undefined', this.selectValidator));
     } else {
       this.form.removeControl('color');
     }
-    if (this.activeService.type != undefined) {
+    if (this.activeService.types != undefined) {
       this.form.addControl('type', new FormControl('undefined', this.selectValidator));
     } else {
       this.form.removeControl('type');
+    }
+    if (this.activeService.units != undefined) {
+      this.form.addControl('unit', new FormControl('undefined', this.selectValidator));
+    } else {
+      this.form.removeControl('unit');
     }
     if (this.activeService.processes != undefined) {
       this.form.addControl('processes', new FormControl('', Validators.required));
@@ -262,7 +267,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
 
   submit() {
     const formData: FormData = new FormData();
-    //console.log(this.form.value);
+    console.log(this.form.value);
     //this.item.service = {} as Service;
     //this.item.service.id = this.service.id;
     //console.log(this.form.value);
@@ -296,8 +301,8 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
     });
     //console.log(formData.get('file'));
     formData.append('item', itemBlob);
-    console.log(formData.get('files'));
-    console.log(formData.get('item'));
+    //console.log(formData.get('files'));
+    //console.log(formData.get('item'));
     //console.log(itemBlob);
     this.shoppingCartService.create(formData).subscribe((res) => {
       this.appStore.dispatch(new fromStore.LoadInitState());
@@ -314,7 +319,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
       let found = false;
       this.activeService.supportedExtensions.forEach((e) => {
         let arr = e.split('.');
-        console.log(e);
+        //console.log(e);
         if (arr[1] == fileExtension[fileExtension.length - 1].toLowerCase()) {
           found = true;
         }
