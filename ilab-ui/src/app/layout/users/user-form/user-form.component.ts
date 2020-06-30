@@ -32,14 +32,11 @@ export class UserFormComponent extends DefaultFormComponent<User, UserService> i
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
     this.form = this.formBuilder.group({
-      firstName: [{ value: '', disabled: true }, [Validators.required]],
-      lastName: [{ value: '', disabled: true }, [Validators.required]],
+      firstName: [{ value: '' }, [Validators.required]],
+      lastName: [{ value: '' }, [Validators.required]],
       phoneNo: [{ value: '', disabled: true }, [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
-      email: [
-        { value: '', disabled: true },
-        [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$')],
-      ],
-      username: [{ value: '', disabled: true }, [Validators.required]],
+      email: [{ value: '' }, [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$')]],
+      username: [{ value: '' }, [Validators.required]],
     });
   }
 
