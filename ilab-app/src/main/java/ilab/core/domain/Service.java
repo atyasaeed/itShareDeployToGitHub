@@ -26,6 +26,8 @@ public class Service extends AbstractEntity<Service>
 	private String image;
 	@JsonRawValue
 	private String units;
+	
+	
 //	@Lob
 	@JsonProperty("supportedExtensions")
 	@JsonRawValue
@@ -40,6 +42,13 @@ public class Service extends AbstractEntity<Service>
 	@Column(columnDefinition = "TEXT",length = 1024)
 	@Basic(fetch = FetchType.EAGER)
 	private String materials;
+	
+//	@Lob
+//	@JsonProperty("materials")
+	@JsonRawValue
+	@Column(columnDefinition = "TEXT",length = 1024)
+	@Basic(fetch = FetchType.EAGER)
+	private String types;
 	
 	@JsonRawValue
 	@Column(columnDefinition = "TEXT",length = 1024)
@@ -212,5 +221,20 @@ public class Service extends AbstractEntity<Service>
 	public void setImage(String image)
 	{
 		this.image = image;
+	}
+
+	public String getTypes()
+	{
+		return types;
+	}
+
+	public void setTypes(String types)
+	{
+		this.types = types;
+	}
+	@JsonSetter("types")
+	public void setTypes(JsonNode node)
+	{
+		this.types=node.toString();
 	}
 }

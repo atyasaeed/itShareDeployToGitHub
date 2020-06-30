@@ -334,10 +334,16 @@ public class OrderService
 			Files.copy(sourcePath.toPath(), destPath.toPath(),StandardCopyOption.REPLACE_EXISTING);
 			HyperFile newHyperFile=new HyperFile();
 			newHyperFile.setAsset(digitalAsset);
-			newHyperFile.setColor(hyperFile.getColor());
-			newHyperFile.setDimension(hyperFile.getDimension());
+			
 			newHyperFile.setMaterial(hyperFile.getMaterial());
 			newHyperFile.setType(hyperFile.getType());
+			newHyperFile.setColor(hyperFile.getColor());
+			newHyperFile.setHeight(hyperFile.getHeight());
+			newHyperFile.setWidth(hyperFile.getWidth());
+			
+			newHyperFile.setThickness(hyperFile.getThickness());
+			newHyperFile.setUnits(hyperFile.getUnits());
+			
 			newItem.getFiles().add(newHyperFile);
 			
 		}
