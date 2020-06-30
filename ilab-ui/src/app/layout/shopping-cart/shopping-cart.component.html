@@ -2,7 +2,7 @@
   <app-page-header [heading]="'Programs'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header>
 
   <main class="page">
-    <section class="shopping-cart dark">
+    <section class="shopping-cart dark ">
       <div class="container">
         <!-- page Head -->
         <div class="block-heading">
@@ -16,10 +16,10 @@
           <!-- <ng-container> -->
           <div class="content">
 
-            <div class="row">
+            <div class="row ">
 
               <!-- Cart Items Table -->
-              <div class="col-md-12 col-lg-8">
+              <div class="col-md-12 col-lg-8 light-grey-background">
                 <div class="items">
 
                   <!-- One Item Row -->
@@ -83,13 +83,24 @@
                             <div class="form-title">{{ 'Digital Material' | translate }}: <span class="value"><a
                                   [href]="getFileUrl(entity,j)">{{file.asset_name}}</a></span></div>
                             <div class="form-body">
-                              <div>{{'Type' | translate }}: <span class="value">{{file.type |titlecase}}</span></div>
-                              <div>{{'Material' | translate }}:
-                                <span class="value">{{file.material |titlecase}}</span>
-                                <select class="form-control"   [ngModel]="file.material" (change)="materialChange(entity,$event)">
-                                  <option *ngFor="let mat of entity.service.materials" [ngValue]="mat" >{{mat}}</option>
-                                </select>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div>{{'Material' | translate }}:
+                                    <span class="value">{{file.material |titlecase}}</span>
+                                    <select class="form-control " [ngModel]="file.material" (change)="materialChange(entity,$event)">
+                                      <option *ngFor="let mat of entity.service.materials" [value]="mat" >{{mat}}</option>
+                                    </select>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div>{{'Type' | translate }}: <span class="value">{{file.type |titlecase}}</span></div>
+                                   <select class="form-control " [ngModel]="file.type" (change)="materialChange(entity,$event)">
+                                      <option *ngFor="let t of entity.service.types" [value]="t" >{{t}}</option>
+                                    </select>
+                                </div>
                               </div>
+
+
                               <div>{{'Dimension' | translate }}: <span
                                   class="value">{{file.dimension |titlecase}}</span>
                               </div>

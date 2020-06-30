@@ -24,7 +24,8 @@ export class hyperFile {
   thickness?: string;
   type?: string;
   color?: string;
-  processes: string[];
+  unit?: string;
+  processes?: string[];
   //dimension: string;
   asset_id: string;
   asset_name: string;

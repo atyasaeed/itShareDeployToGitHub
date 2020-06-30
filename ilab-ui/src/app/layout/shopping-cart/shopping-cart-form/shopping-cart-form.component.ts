@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, AfterViewInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { ShoppingCartItem, Service, LineItem, hyperFile } from 'src/app/shared/domain';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ShoppingCartService } from '../shoppingcart.service';
@@ -59,7 +59,8 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
     private authenticationService: AuthenticationService,
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
     private formBuilder: FormBuilder,
-    private appStore: Store<fromStore.AppState>
+    private appStore: Store<fromStore.AppState>,
+    private cdr: ChangeDetectorRef
   ) {}
 
   // get cartForm$() {
@@ -78,6 +79,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
 
       this.services = res;
       //console.log(res);
+      this.cdr.detectChanges();
     });
 
     this.dropdownSettings = {
@@ -306,7 +308,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
     //console.log(itemBlob);
     this.shoppingCartService.create(formData).subscribe((res) => {
       this.appStore.dispatch(new fromStore.LoadInitState());
-      //this.router.navigateByUrl('shopping-cart'), (this.loading = false);
+      this.router.navigateByUrl('shopping-cart'), (this.loading = false);
     });
     //console.log(this.filename);
   }

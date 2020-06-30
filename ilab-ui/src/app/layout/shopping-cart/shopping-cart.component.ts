@@ -134,18 +134,19 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
   materialChange(item: LineItem, event) {
     //console.log(event.target.value);
     let newItem = JSON.parse(JSON.stringify(item));
+    console.log(event.target.value);
     //let newItem = { ...item };
     // console.log(newItem);
     // console.log(this.items$);
     //newItem.files.
     //item.quantity = 5;
-    newItem.files[0].material = 'metal';
+    //newItem.files[0].material = 'metal';
     //console.log(newItem);
     //console.log(newItem);
-    console.log(JSON.stringify(newItem));
+    //console.log(JSON.stringify(newItem));
     //console.log(newItem);
     //newItem.files[0].material = event.target.value;
-    console.log(newItem);
+    //console.log(newItem);
     this.service.update(newItem).subscribe((res) => {
       //this.loading = false;
       // this.service.searchTerm = '';
