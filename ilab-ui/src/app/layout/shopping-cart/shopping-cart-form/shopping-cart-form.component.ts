@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, AfterViewInit, ViewChild } from '@angular/core';
-import { ShoppingCartItem, Service } from 'src/app/shared/domain';
+import { ShoppingCartItem, Service, LineItem, hyperFile } from 'src/app/shared/domain';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ShoppingCartService } from '../shoppingcart.service';
 import { AuthenticationService } from 'src/app/shared/services';
@@ -263,26 +263,42 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
   submit() {
     const formData: FormData = new FormData();
     //console.log(this.form.value);
-
+    //this.item.service = {} as Service;
+    //this.item.service.id = this.service.id;
     //console.log(this.form.value);
-    let d = {};
-
+    let item = {} as LineItem;
+    item.service = {} as Service;
+    item.files = [] as hyperFile[];
+    let hyperFile = {} as hyperFile;
     for (let key in this.form.value) {
       if (key === 'file') {
-        formData.append('file', this.filename);
+        formData.append('files', this.filename);
+      } else if (key === 'quantity') {
+        item.quantity = this.form.value['quantity'];
+      } else if (key === 'notes') {
+        item.notes = this.form.value['notes'];
       } else {
-        if (this.form.value[key] != null) {
-          d[key] = this.form.value[key];
-        }
+        //if (this.form.value[key] != null) {
+        hyperFile[key] = this.form.value[key];
+        //console.log(item.files[key]);
+        //console.log(item.files[]);
+        //hyperFile[key] = this.form.value[key];
+        //}
       }
     }
-    console.log(d);
-    const itemBlob = new Blob([JSON.stringify(d)], {
+    //console.log(hyperFile);
+    item.files.push(hyperFile);
+    item.service.id = this.activeService.id;
+    //item.service.id = this.activeService.id;
+    //console.log(JSON.stringify(item));
+    const itemBlob = new Blob([JSON.stringify(item)], {
       type: 'application/json',
     });
-    console.log(formData.get('file'));
+    //console.log(formData.get('file'));
     formData.append('item', itemBlob);
-    console.log(itemBlob);
+    console.log(formData.get('files'));
+    console.log(formData.get('item'));
+    //console.log(itemBlob);
     this.shoppingCartService.create(formData).subscribe((res) => {
       this.appStore.dispatch(new fromStore.LoadInitState());
       //this.router.navigateByUrl('shopping-cart'), (this.loading = false);

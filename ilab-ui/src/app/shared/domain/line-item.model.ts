@@ -11,17 +11,21 @@ export interface LineItem extends Entity {
   plannedEndDate: Date;
   estimatedStardDate: Date;
   estimatedEndDate: Date;
-  notes: string;
+  notes?: string;
   service: Service;
-  files: FileMaterial[];
+  files: hyperFile[];
   asset_id: string;
   asset_name: string;
 }
-export class FileMaterial {
-  material: string;
-  type: string;
-  color: string;
-  dimension: string;
-  asset_id: string;
-  asset_name: string;
+export class hyperFile {
+  materials: string;
+  width: number;
+  height: number;
+  thickness?: string;
+  type?: string;
+  color?: string;
+  processes: string[];
+  //dimension: string;
+  //asset_id: string;
+  //asset_name: string;
 }
