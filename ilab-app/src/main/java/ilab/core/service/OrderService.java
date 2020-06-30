@@ -184,7 +184,7 @@ public class OrderService
 			index++;
 		}
 		
-		estomatorService.price(item);		
+//		estomatorService.price(item);		
 
 		item=lineItemRepo.save(item);
 		order=orderRepo.save(order);
