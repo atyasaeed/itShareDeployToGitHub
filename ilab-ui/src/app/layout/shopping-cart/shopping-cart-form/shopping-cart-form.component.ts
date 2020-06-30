@@ -101,7 +101,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
       notes: [''],
       file: ['', Validators.required],
       // files: new FormArray([]),
-      materials: ['undefined', this.selectValidator],
+      material: ['undefined', this.selectValidator],
       width: ['', [Validators.required, this.numberValidator]],
       height: ['', [Validators.required, this.numberValidator]],
     });
@@ -212,7 +212,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
     //console.log(event.target.value);
     this.form.reset({
       quantity: 1,
-      materials: 'undefined',
+      material: 'undefined',
       thickness: 'undefined',
     });
     this.form.markAsUntouched();

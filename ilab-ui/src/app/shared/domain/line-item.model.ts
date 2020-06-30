@@ -18,7 +18,7 @@ export interface LineItem extends Entity {
   asset_name: string;
 }
 export class hyperFile {
-  materials: string;
+  material: string;
   width: number;
   height: number;
   thickness?: string;
@@ -26,6 +26,6 @@ export class hyperFile {
   color?: string;
   processes: string[];
   //dimension: string;
-  //asset_id: string;
-  //asset_name: string;
+  asset_id: string;
+  asset_name: string;
 }

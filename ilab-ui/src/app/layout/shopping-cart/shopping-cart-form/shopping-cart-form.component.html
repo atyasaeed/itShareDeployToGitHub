@@ -77,8 +77,8 @@
 
                     <div  *ngIf="activeService.materials != undefined" class="mb-3">
                         <label >material :</label>
-                        <span class="text-danger" *ngIf="!form.controls.materials.valid && form.controls.materials.touched"> *materials is required</span>
-                        <select formControlName="materials" class="form-control" >
+                        <span class="text-danger" *ngIf="!form.controls.material.valid && form.controls.material.touched"> *material is required</span>
+                        <select formControlName="material" class="form-control" >
 
                             <option disabled selected value="undefined">please select material</option>
                             <ng-container *ngFor="let x of activeService.materials">
