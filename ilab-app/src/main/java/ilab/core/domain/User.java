@@ -33,6 +33,7 @@ public class User extends AbstractEntity<User>
 	private String firstName;
 	private String middleName;
 	private String lastName;
+	private String mobileNo;
 	private boolean enabled;
 	private boolean accountNonLocked;
 	private boolean accountNonExpired;
@@ -141,6 +142,14 @@ public class User extends AbstractEntity<User>
 	public void addAccount(Account account)
 	{
 		this.accounts.add(account);
+	}
+	public String getMobileNo()
+	{
+		return mobileNo;
+	}
+	public void setMobileNo(String mobileNo)
+	{
+		this.mobileNo = mobileNo;
 	}
 	
 

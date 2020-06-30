@@ -155,6 +155,15 @@ public class UserService implements UserDetailsService
 		theUser.setLastName(user.getLastName());
 		return theUser;
 	}
+	public User update(User user)
+	{
+		User existUser=findUser(user.getId()).orElseThrow();
+		existUser.setEmail(user.getEmail());
+		existUser.setFirstName(user.getFirstName());
+		existUser.setLastName(user.getLastName());
+		existUser.setMobileNo(user.getMobileNo());
+		return existUser;
+	}
 	public User enableUser(UUID userId,boolean isEnabled,Authentication auth)
 	{
 		User user = userRepo.findById(userId).orElseThrow(() -> new NotFoundException("User Not Found"));

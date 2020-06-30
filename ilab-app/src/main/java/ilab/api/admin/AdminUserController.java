@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,6 +29,7 @@ public class AdminUserController
 {
 	@Autowired
 	UserService userService;
+	
 	
 	@GetMapping("search")
 	public Page<User> getUsersPageable(@PageableDefault(value = 10, sort =
@@ -50,6 +52,11 @@ public class AdminUserController
 	public User getUser(@PathVariable("id") UUID id)
 	{
 		return userService.findUser(id).orElseThrow(()->new NotFoundException("User Not Found"));
+	}
+	@PutMapping()
+	public User update(@RequestBody User user,Authentication auth)
+	{
+		return userService.update(user);
 	}
 }
 
