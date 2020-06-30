@@ -1,18 +1,18 @@
 <nav class="sidebar" [ngClass]="{collapsed: collapsed}">
-    <div class="list-group">
-        <a class="list-group-item" routerLink="/home" [routerLinkActive]="['router-link-active']">
-            <i class="fa fa-fw fa-home"></i>&nbsp;
-            <span>{{ 'Home' | translate }}</span>
-        </a>
-        <a class="list-group-item" *ngIf="hasAdminRole" routerLink="/dashboard" [routerLinkActive]="['router-link-active']">
-            <i class="fa fa-fw fa-dashboard"></i>&nbsp;
-            <span>{{ 'Dashboard' | translate }}</span>
-        </a>
-        <a class="list-group-item" *ngIf="hasAdminRole" routerLink="/charts" [routerLinkActive]="['router-link-active']">
-            <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;
-            <span>{{ 'Charts' | translate }}</span>
-        </a>
-        <!-- <div class="nested-menu" *ngIf="hasAdminRole">
+  <div class="list-group">
+    <a class="list-group-item" routerLink="/home" [routerLinkActive]="['router-link-active']">
+      <i class="fa fa-fw fa-home"></i>&nbsp;
+      <span>{{ 'Home' | translate }}</span>
+    </a>
+    <a class="list-group-item" *ngIf="hasAdminRole" routerLink="/dashboard" [routerLinkActive]="['router-link-active']">
+      <i class="fa fa-fw fa-dashboard"></i>&nbsp;
+      <span>{{ 'Dashboard' | translate }}</span>
+    </a>
+    <a class="list-group-item" *ngIf="hasAdminRole" routerLink="/charts" [routerLinkActive]="['router-link-active']">
+      <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;
+      <span>{{ 'Charts' | translate }}</span>
+    </a>
+    <!-- <div class="nested-menu" *ngIf="hasAdminRole">
             <a class="list-group-item" (click)="addExpandClass('lookups')">
                 <i class="fa fa-plus"></i>&nbsp;
                 <span>{{ 'Lookups Admin' | translate }}</span>
@@ -64,150 +64,156 @@
                 </ul>
             </li>
         </div> -->
-        <div class="nested-menu" *ngIf="hasAdminRole">
-            <a class="list-group-item" (click)="addExpandClass('dashboard')">
-                <i class="fa fa-plus"></i>&nbsp;
-                <span>{{ 'Admin Dashboard' | translate }}</span>
+    <div class="nested-menu" *ngIf="hasAdminRole">
+      <a class="list-group-item" (click)="addExpandClass('dashboard')">
+        <i class="fa fa-plus"></i>&nbsp;
+        <span>{{ 'Admin Dashboard' | translate }}</span>
+      </a>
+      <li class="nested" [class.expand]="showMenu === 'dashboard'">
+        <ul class="submenu">
+          <li>
+            <a routerLink="/users" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-monument"></i>&nbsp;
+              <span>{{ 'Users' | translate }}</span>
             </a>
-            <li class="nested" [class.expand]="showMenu === 'dashboard'">
-                <ul class="submenu">
-                    <li>
-                        <a routerLink="/users" [routerLinkActive]="['router-link-active']">
-                            <i class="fa fa-monument"></i>&nbsp;
-                            <span>{{ 'Users' | translate }}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a routerLink="/orders-list" [routerLinkActive]="['router-link-active']">
-                            <i class="fa fa-monument"></i>&nbsp;
-                            <span>{{ 'Orders' | translate }}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a routerLink="/courses" [routerLinkActive]="['router-link-active']">
-                            <i class="fa fa-monument"></i>&nbsp;
-                            <span>{{ 'Machines' | translate }}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)">
-                            <i class="fa fa-monument"></i>&nbsp;
-                            <span>{{ 'Jobs' | translate }}</span>
-                        </a>
-                    </li>
+          </li>
+          <li>
+            <a routerLink="/orders-list" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-monument"></i>&nbsp;
+              <span>{{ 'Orders' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/courses" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-monument"></i>&nbsp;
+              <span>{{ 'Machines' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">
+              <i class="fa fa-monument"></i>&nbsp;
+              <span>{{ 'Jobs' | translate }}</span>
+            </a>
+          </li>
 
-                </ul>
-            </li>
-        </div>
-        <!-- <a class="list-group-item">
+        </ul>
+      </li>
+    </div>
+    <!-- <a class="list-group-item">
             <i class="fa fa-fw fa-table"></i>&nbsp;
             <span>{{ 'My Courses' | translate }}</span>
         </a> -->
-        <!-- <a class="list-group-item">
+    <!-- <a class="list-group-item">
             <i class="fa fa-fw fa-edit"></i>&nbsp;
             <span>{{ 'My Requests' | translate }}</span>
         </a> -->
-        <a class="list-group-item" routerLink="/shopping-cart">
-            <i class="fa fa-fw fa-edit"></i>&nbsp;
-            <span>{{ 'Shopping Cart' | translate }}</span>
-        </a>
-        <a class="list-group-item" routerLink="/order">
-            <i class="fa fa-fw fa-edit"></i>&nbsp;
-            <span>{{ 'Track-Order' | translate }}</span>
-        </a>
-          <a class="list-group-item" routerLink="/gallery">
-            <i class="fa fa-fw fa-edit"></i>&nbsp;
-            <span>{{ 'Gallery' | translate }}</span>
-          </a>
+    <a class="list-group-item" routerLink="/shopping-cart">
+      <i class="fa fa-fw fa-edit"></i>&nbsp;
+      <span>{{ 'Shopping Cart' | translate }}</span>
+    </a>
+    <a class="list-group-item" routerLink="/order">
+      <i class="fa fa-fw fa-edit"></i>&nbsp;
+      <span>{{ 'Track-Order' | translate }}</span>
+    </a>
+    <a class="list-group-item" routerLink="/gallery">
+      <i class="fa fa-fw fa-edit"></i>&nbsp;
+      <span>{{ 'Gallery' | translate }}</span>
+    </a>
 
-        <div class="header-fields">
+    <div class="header-fields">
 
-            <div class="nested-menu">
-                <a class="list-group-item" (click)="addExpandClass('languages')">
+      <div class="nested-menu">
+        <a class="list-group-item" (click)="addExpandClass('languages')">
 
-                    <span> <i class="fa fa-language"></i> &nbsp;{{ 'Language' | translate }} &nbsp; <i
+          <span> <i class="fa fa-language"></i> &nbsp;{{ 'Language' | translate }} &nbsp; <i
               class="fa fa-caret-down"></i></span>
+        </a>
+        <li class="nested" [class.expand]="showMenu === 'languages'">
+          <ul class="submenu">
+            <li>
+              <a (click)="changeLang('en')">
+                <span>{{ 'English' | translate }}</span>
+              </a>
+            </li>
+            <li>
+              <a (click)="changeLang('ar')">
+                <span>{{ 'Arabic' | translate }}</span>
+              </a>
+            </li>
+
+          </ul>
+        </li>
+      </div>
+      <ng-container *ngIf="authUser$ |async as user; else anonymous">
+        <div class="nested-menu">
+          <a class="list-group-item" (click)="addExpandClass('profile')">
+            <span><i class="fa fa-user"></i>&nbsp; {{user.username}} &nbsp; <i class="fa fa-caret-down"></i></span>
+          </a>
+          <li class="nested" [class.expand]="showMenu === 'profile'">
+            <ul class="submenu">
+              <li>
+                <a href="javascript:void(0)">
+                  <span><i class="fa fa-fw fa-user"></i> {{ 'Profile' | translate }}</span>
                 </a>
-                <li class="nested" [class.expand]="showMenu === 'languages'">
-                    <ul class="submenu">
-                        <li>
-                            <a (click)="changeLang('en')">
-                                <span>{{ 'English' | translate }}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a (click)="changeLang('ar')">
-                                <span>{{ 'Arabic' | translate }}</span>
-                            </a>
-                        </li>
-
-                    </ul>
-                </li>
-            </div>
-            <ng-container *ngIf="authUser$ |async as user; else anonymous">
-                <div class="nested-menu">
-                    <a class="list-group-item" (click)="addExpandClass('profile')">
-                        <span><i class="fa fa-user"></i>&nbsp; {{user.username}} &nbsp; <i class="fa fa-caret-down"></i></span>
-                    </a>
-                    <li class="nested" [class.expand]="showMenu === 'profile'">
-                        <ul class="submenu">
-                            <li>
-                                <a href="javascript:void(0)">
-                                    <span><i class="fa fa-fw fa-user"></i> {{ 'Profile' | translate }}</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0)">
-                                    <span><i class="fa fa-fw fa-gear"></i> {{ 'Settings' | translate }}</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a (click)="authenticationService.logout()">
-                                    <span><i class="fa fa-fw fa-power-off"></i> {{ 'Log Out' | translate }}</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </div>
-            </ng-container>
-            <ng-template #anonymous>
-                <div class="nested-menu">
-                    <a class="list-group-item" (click)="addExpandClass('anonymous')">
-                        <span><i class="fa fa-user"></i>&nbsp; {{'Welcome'| translate }} &nbsp; <i
-                class="fa fa-caret-down"></i></span>
-                    </a>
-                    <li class="nested" [class.expand]="showMenu === 'anonymous'">
-                        <ul class="submenu">
-                            <li>
-                                <a [routerLink]="'/login'">
-                                    <span><i class="fa fa-fw fa-user"></i> {{ 'Login' | translate }}</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a [routerLink]="'/signup'">
-                                    <span><i class="fa fa-fw fa-envelope"></i> {{ 'Register' | translate }}</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a [routerLink]="'/forgetPassword'">
-                                    <span><i class="fa fa-fw fa-gear"></i> {{ 'Forget Password' | translate }}</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a (click)="authenticationService.logout()">
-                                    <span><i class="fa fa-fw fa-power-off"></i> {{ 'Log Out' | translate }}</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </div>
-            </ng-template>
-
+              </li>
+              <li>
+                <a href="javascript:void(0)">
+                  <span><i class="fa fa-fw fa-gear"></i> {{ 'Settings' | translate }}</span>
+                </a>
+              </li>
+              <li>
+                <a (click)="authenticationService.logout()">
+                  <span><i class="fa fa-fw fa-power-off"></i> {{ 'Log Out' | translate }}</span>
+                </a>
+              </li>
+            </ul>
+          </li>
         </div>
-    </div>
+      </ng-container>
+      <ng-template #anonymous>
+        <div class="nested-menu">
+          <a class="list-group-item" (click)="addExpandClass('anonymous')">
+            <span><i class="fa fa-user"></i>&nbsp; {{'Welcome'| translate }} &nbsp; <i
+                class="fa fa-caret-down"></i></span>
+          </a>
+          <li class="nested" [class.expand]="showMenu === 'anonymous'">
+            <ul class="submenu">
+              <li>
+                <a [routerLink]="'/login'">
+                  <span><i class="fa fa-fw fa-user"></i> {{ 'Login' | translate }}</span>
+                </a>
+              </li>
+              <li>
+                <a [routerLink]="'/signup'">
+                  <span><i class="fa fa-fw fa-envelope"></i> {{ 'Register' | translate }}</span>
+                </a>
+              </li>
+              <li>
+                <a [routerLink]="'/forgetPassword'">
+                  <span><i class="fa fa-fw fa-gear"></i> {{ 'Forget Password' | translate }}</span>
+                </a>
+              </li>
+              <li>
+                <a (click)="authenticationService.logout()">
+                  <span><i class="fa fa-fw fa-power-off"></i> {{ 'Log Out' | translate }}</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+        </div>
+      </ng-template>
 
-    <div class="toggle-button" [ngClass]="{collapsed: collapsed}" (click)="toggleCollapsed()">
-        <i class="fa fa-fw fa-angle-double-{{collapsed?'right':'left'}}"></i>&nbsp;
-        <span>{{ 'Collapse Sidebar' | translate }}</span>
     </div>
+  </div>
+
+  <div *ngIf="lang == 'en'" class="toggle-button" [ngClass]="{collapsed: collapsed}" (click)="toggleCollapsed()">
+    <i class="fa fa-fw fa-angle-double-{{collapsed?'right':'left'}}"></i>
+    <span>{{ 'collapseSidebar' | translate }}</span>
+  </div>
+  <div *ngIf="lang == 'ar'" dir="rtl" class="toggle-button"
+    style="display: flex; justify-content: space-around; direction: rtl;" [ngClass]="{collapsed: collapsed}"
+    (click)="toggleCollapsed()">
+    <i class="fa fa-fw fa-angle-double-{{collapsed?'left':'right'}}"></i>
+    <span>{{ 'collapseSidebar' | translate }}</span>
+  </div>
 </nav>

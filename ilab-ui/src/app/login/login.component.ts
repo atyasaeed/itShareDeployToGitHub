@@ -5,6 +5,8 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { combineLatest } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +22,9 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private alertService: AlertService,
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private translate: TranslateService,
+    private toastr: ToastrService
   ) {
     this.loginForm = this.formBuilder.group({
       userName: ['', Validators.required],
@@ -41,9 +45,11 @@ export class LoginComponent implements OnInit {
       .subscribe(
         (data) => {
           this.router.navigateByUrl(this.returnUrl);
+          this.toastr.success(this.translate.instant('logIn.success'));
         },
         (err) => {
-          this.alertService.error('Sorry Your Username or Password Is Incorrect');
+          // this.alertService.error('Sorry Your Username or Password Is Incorrect');
+          this.alertService.error(this.translate.instant('badCredential'));
         }
       );
   }

@@ -16,6 +16,8 @@ export class SidebarComponent implements OnInit {
   showMenu: string;
   authUser$: Observable<User>;
   hasAdminRole = false;
+  lang: string;
+
   @Output() collapsedEvent = new EventEmitter<boolean>();
   constructor(
     private translate: TranslateService,
@@ -23,6 +25,9 @@ export class SidebarComponent implements OnInit {
     private appStore: Store<fromStore.AppState>
   ) {
     this.authUser$ = this.appStore.select(fromStore.getAuthUser);
+    this.appStore.select(fromStore.getLang).subscribe((res) => {
+      this.lang = res;
+    });
   }
 
   ngOnInit(): void {

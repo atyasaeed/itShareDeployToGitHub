@@ -5,6 +5,7 @@ import { AlertService } from '../shared/services';
 import { Router } from '@angular/router';
 import { UserService } from '../signup/user.service';
 import { routerTransition } from '../router.animations';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-reset-password',
@@ -19,7 +20,8 @@ export class ResetPasswordComponent implements OnInit {
     private service: UserService,
     private formBuilder: FormBuilder,
     private alertService: AlertService,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService
   ) {}
 
   ngOnInit() {
@@ -40,10 +42,10 @@ export class ResetPasswordComponent implements OnInit {
       this.service.restPassword(this.restPasswordForm.controls.password.value).subscribe(
         (res) => {
           this.router.navigateByUrl('/login');
-          this.alertService.success('Your Password is Changed');
+          this.alertService.success(this.translate.instant('changePassword.success'));
         },
         (err) => {
-          this.alertService.error('Sorry You Can not Change Password');
+          this.alertService.error(this.translate.instant('changePassword.error'));
           this.loading = false;
         }
       );

@@ -3,6 +3,7 @@ import { AlertService } from '../shared/services';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { UserService } from '../signup/user.service';
 import { routerTransition } from '../router.animations';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-forget-password',
@@ -11,7 +12,12 @@ import { routerTransition } from '../router.animations';
   animations: [routerTransition()],
 })
 export class ForgetPasswordComponent implements OnInit {
-  constructor(private service: UserService, private alertService: AlertService, private formBuilder: FormBuilder) {}
+  constructor(
+    private service: UserService,
+    private alertService: AlertService,
+    private formBuilder: FormBuilder,
+    private translate: TranslateService
+  ) {}
   forgetPasswordForm: FormGroup;
 
   ngOnInit() {
@@ -29,11 +35,11 @@ export class ForgetPasswordComponent implements OnInit {
     } else {
       this.service.forgetPassword(this.forgetPasswordForm.controls.Email.value).subscribe(
         (res) => {
-          this.alertService.success('check your email please');
+          this.alertService.success(this.translate.instant('email.check'));
           // console.log(res);
         },
         (err) => {
-          this.alertService.error('this email incorrect');
+          this.alertService.error(this.translate.instant('email.incorrect'));
         }
       );
     }

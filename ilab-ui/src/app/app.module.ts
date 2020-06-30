@@ -24,10 +24,13 @@ import { environment } from 'src/environments/environment';
     HttpClientModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
-      // timeOut: 2500,
+      timeOut: 4000,
+      disableTimeOut: true,
       progressBar: true,
       progressAnimation: 'increasing',
       preventDuplicates: true,
+      closeButton: true,
+      tapToDismiss: true,
     }),
     StoreModule.forRoot(reducers, {
       metaReducers,

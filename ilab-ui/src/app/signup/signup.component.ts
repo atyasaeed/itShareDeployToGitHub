@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { AlertService } from '../shared/services';
 import { UserService } from './user.service';
 import { User } from '../shared/domain';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-signup',
@@ -24,7 +25,8 @@ export class SignupComponent implements OnInit {
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
     private userService: UserService,
-    private alertservice: AlertService
+    private alertservice: AlertService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -67,7 +69,8 @@ export class SignupComponent implements OnInit {
     this.userService.register(this.user).subscribe(
       (res) => {
         this.router.navigateByUrl('/login');
-        this.alertservice.success('please check your email');
+        this.alertservice.error(this.translate.instant('registeration.success.verify'));
+        // this.alertservice.success('please check your email');
       },
       (err) => {}
     );

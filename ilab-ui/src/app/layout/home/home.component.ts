@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { HomeService } from './home.service';
 import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
 import { Service } from 'src/app/shared/domain';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -19,25 +20,12 @@ export class HomeComponent extends DefaultListComponent<Service, HomeService> im
   entities$: Observable<Service[]>;
   total$: Observable<number>;
   // @ViewChildren(SortableHeaderDirective) headers: QueryList<SortableHeaderDirective>;
-  constructor(public service: HomeService) {
+
+  constructor(public service: HomeService, private http: HttpClient) {
     super(service);
-    this.sliders.push(
-      {
-        imagePath: 'assets/images/slider1.jpg',
-        label: 'First slide label',
-        text: 'Nulla vitae elit libero, a pharetra augue mollis interdum.',
-      },
-      {
-        imagePath: 'assets/images/slider2.jpg',
-        label: 'Second slide label',
-        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      },
-      {
-        imagePath: 'assets/images/slider3.jpg',
-        label: 'Third slide label',
-        text: 'Praesent commodo cursus magna, vel scelerisque nisl consectetur.',
-      }
-    );
+    this.http.get('https://gedoabdo.s3.us-east-2.amazonaws.com/slides.json').subscribe((res) => {
+      this.sliders = res as any;
+    });
   }
 
   ngOnInit(): void {
