@@ -64,7 +64,7 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
       this.selectedItemsArray = Array(this.items$.length);
       //console.log(this.items$);
       this.items$.forEach((e, index) => {
-        if (e.service.processes.multi) {
+        if (e.service.processes != undefined && e.service.processes.multi) {
           this.selectedItemsArray[index] = e.files[0].processes;
         }
       });
@@ -168,12 +168,9 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     //console.log(newItem);
     //newItem.files[0].material = event.target.value;
     //console.log(newItem);
-    // this.service.update(newItem).subscribe((res) => {
-    //   //this.loading = false;
-    //   // this.service.searchTerm = '';
-    //   //console.log(res);
-    //   this.appStore.dispatch(new fromStore.LoadInitState());
-    // });
+    this.service.update(newItem).subscribe((res) => {
+      this.appStore.dispatch(new fromStore.LoadInitState());
+    });
   }
 
   // heightChanged(value) {
@@ -183,34 +180,61 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
   //     console.log('unvalid');
   //   }
   // }
-  inputNumberChanged(item: LineItem, event, type: string) {
+  inputNumberChanged(item: LineItem, event, type: string, element: HTMLElement) {
     //console.log(event.target.value);
-    let newItem = JSON.parse(JSON.stringify(item));
-    newItem.files[0][type] = event.target.value;
-    //console.log(event.target.value);
-    console.log(newItem);
-    // if (event.target.value == '') {
-    //   ele.value = 5;
-    // } else {
-    // }
+    if (event.target.value == '') {
+      element.innerText = '*number is required';
+    } else if (event.target.value < 1) {
+      element.innerText = '*min value is 1';
+    } else {
+      element.innerText = '';
+      let newItem = JSON.parse(JSON.stringify(item));
+      newItem.files[0][type] = event.target.value;
+      //console.log(event.target.value);
+      console.log(newItem);
+      // if (event.target.value == '') {
+      //   ele.value = 5;
+      // } else {
+      // }
+      this.service.update(newItem).subscribe((res) => {
+        this.appStore.dispatch(new fromStore.LoadInitState());
+      });
+    }
   }
 
-  onItemSelect(item: LineItem, event, i) {
+  onItemSelect(item: LineItem, i, element: HTMLElement) {
+    element.innerText = '';
     let newItem = JSON.parse(JSON.stringify(item));
     newItem.files[0]['processes'] = this.selectedItemsArray[i];
     console.log(newItem);
+    this.service.update(newItem).subscribe((res) => {
+      this.appStore.dispatch(new fromStore.LoadInitState());
+    });
   }
-  onItemDeSelect(item: LineItem, event, i) {
-    let newItem = JSON.parse(JSON.stringify(item));
-    newItem.files[0]['processes'] = this.selectedItemsArray[i];
-    console.log(newItem);
+  onItemDeSelect(item: LineItem, i, element: HTMLElement) {
+    if (this.selectedItemsArray[i].length == 0) {
+      element.innerText = '*processes is required';
+    } else {
+      element.innerText = '';
+      let newItem = JSON.parse(JSON.stringify(item));
+      newItem.files[0]['processes'] = this.selectedItemsArray[i];
+      console.log(newItem);
+      this.service.update(newItem).subscribe((res) => {
+        this.appStore.dispatch(new fromStore.LoadInitState());
+      });
+    }
   }
-  onSelectAll(item: LineItem, event) {
+  onSelectAll(item: LineItem, event, element: HTMLElement) {
+    element.innerText = '';
     let newItem = JSON.parse(JSON.stringify(item));
     newItem.files[0]['processes'] = event;
     console.log(newItem);
+    this.service.update(newItem).subscribe((res) => {
+      this.appStore.dispatch(new fromStore.LoadInitState());
+    });
   }
-  onDeSelectAll(item: LineItem, event) {
+  onDeSelectAll(element: HTMLElement) {
     //console.log(this.selectedItemsArray[i]);
+    element.innerText = '*processes is required';
   }
 }

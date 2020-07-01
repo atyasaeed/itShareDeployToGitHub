@@ -104,8 +104,8 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
       file: ['', Validators.required],
       // files: new FormArray([]),
       material: ['undefined', this.selectValidator],
-      width: ['', [Validators.required, this.numberValidator]],
-      height: ['', [Validators.required, this.numberValidator]],
+      width: ['', [Validators.required, Validators.min(1), this.numberValidator]],
+      height: ['', [Validators.required, Validators.min(1), this.numberValidator]],
     });
   }
 

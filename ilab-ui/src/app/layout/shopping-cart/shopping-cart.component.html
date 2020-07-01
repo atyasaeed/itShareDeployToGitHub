@@ -86,14 +86,14 @@
                               <div class="row">
                                 <div class="col-md-6">
                                   <div>{{'Height' | translate }}:
-                                    <span class="value">{{file.height |titlecase}}</span>
-                                    <input type="number" [value]="file.height" class="form-control"  (keyup)="inputNumberChanged(entity,$event,'height')" >
+                                    <span class="text-danger" #heightErr></span>
+                                    <input type="number" [value]="file.height" class="form-control"  (keyup)="inputNumberChanged(entity,$event,'height',heightErr)" >
                                   </div>
                                 </div>
                                 <div class="col-md-6">
                                   <div>{{'Width' | translate }}:
-                                    <span class="value">{{file.width |titlecase}}</span>
-                                    <input type="number" [value]="file.width" class="form-control" (keyup)="inputNumberChanged(entity,$event,'width')">
+                                    <span class="text-danger" #widthErr></span>
+                                    <input type="number" [value]="file.width" class="form-control" (keyup)="inputNumberChanged(entity,$event,'width',widthErr)">
                                   </div>
                                 </div>
                                 <div class="col-md-6">
@@ -129,22 +129,23 @@
                                     </select>
                                 </div>
                                 <div class="col-md-6" *ngIf="file.processes != undefined">
-                                  <div>{{'Processes' | translate }}: </div>
+                                  <div>{{'Processes' | translate }}: <span class="text-danger" #multiSelectErr></span></div>
                                   <div *ngIf="!entity.service.processes.multi ; else multiDrop">
                                     <select class="form-control " [ngModel]="file.processes" (change)="selectChange(entity,$event,'processes')">
                                       <option *ngFor="let v of entity.service.processes.values" [value]="v" >{{v}}</option>
                                     </select>
                                   </div>
                                   <ng-template #multiDrop>
+
                                     <ng-multiselect-dropdown
                                       [settings]="dropdownSettings"
                                       [data]="entity.service.processes.values"
                                       [(ngModel)]="selectedItemsArray[i]"
-                                      (onSelect)="onItemSelect(entity,$event,i)"
-                                      (onDeSelect)="onItemDeSelect(entity,$event,i)"
-                                      (onSelectAll)="onSelectAll(entity,$event)"
-                                      (onDeSelectAll)="onDeSelectAll(entity,$event)"
-                                    >
+                                      (onSelect)="onItemSelect(entity,i,multiSelectErr)"
+                                      (onDeSelect)="onItemDeSelect(entity,i,multiSelectErr)"
+                                      (onSelectAll)="onSelectAll(entity,$event,multiSelectErr)"
+                                      (onDeSelectAll)="onDeSelectAll(multiSelectErr)"
+                                      >
                                     </ng-multiselect-dropdown>
                                   </ng-template>
                                 </div>

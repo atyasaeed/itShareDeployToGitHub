@@ -64,6 +64,7 @@
                     <label>Height :</label>
                     <span *ngIf="form.controls.height.errors != null">
                         <span class="text-danger" *ngIf="form.controls.height.errors.required && form.controls.height.touched"> *height is required</span>
+                        <span class="text-danger" *ngIf="form.controls.height.errors.min && form.controls.height.touched"> | *min value is 1</span>
                         <span class="text-danger" *ngIf="form.controls.height.errors.NaN && form.controls.height.dirty"> | *value is not a number</span>
                     </span>
                     <input type="number" formControlName="height" class="form-control mb-3" >
@@ -71,6 +72,7 @@
                     <label>Width :</label>
                     <span *ngIf="form.controls.width.errors != null">
                         <span class="text-danger" *ngIf="form.controls.width.errors.required && form.controls.width.touched"> *width is required</span>
+                        <span class="text-danger" *ngIf="form.controls.width.errors.min && form.controls.width.touched"> | *min value is 1</span>
                         <span class="text-danger" *ngIf="form.controls.width.errors.NaN && form.controls.width.dirty"> | *value is not a number</span>
                     </span>
                     <input type="number" formControlName="width" class="form-control mb-3">
