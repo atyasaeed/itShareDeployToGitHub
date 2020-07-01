@@ -1,6 +1,6 @@
 import { ToastrService } from 'ngx-toastr';
 import { User } from '../../shared/domain/user.model';
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ElementRef } from '@angular/core';
 import { ShoppingCartItem, Order, LineItem } from 'src/app/shared/domain';
 import { ShoppingCartService } from './shoppingcart.service';
 import { Router } from '@angular/router';
@@ -10,8 +10,8 @@ import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { routerTransition } from 'src/app/router.animations';
-import { ListItem } from 'ng-multiselect-dropdown/multiselect.model';
 
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 @Component({
   selector: 'app-shopping-cart',
   templateUrl: './shopping-cart.component.html',
@@ -24,12 +24,13 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
   lang: string;
   loading = false;
   subTotal = 0;
-  items$;
+  items$: LineItem[];
   newCart: Order;
   authUser$: Observable<User>;
   hasAdminRole = false;
+  dropdownSettings: IDropdownSettings = {};
   // quantitiesCount;
-
+  selectedItemsArray;
   // items: Array<ShoppingCartItem>;
   constructor(
     service: ShoppingCartService,
@@ -44,13 +45,32 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
       this.lang = lang;
     });
 
+    this.dropdownSettings = {
+      singleSelection: false,
+      //idField: 'item_id',
+      textField: 'item_text',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true,
+    };
+
     this.appStore.select(fromStore.getShoppingCart).subscribe((res) => {
       // console.log(res);
       this.items$ = res?.lineItems;
       this.subTotal = res?.lineItems.map((item) => item.unitPrice * item.quantity).reduce((a, b) => a + b, 0);
       // this.quantitiesCount = res.lineItems.map((item) => item.quantity).reduce((a, b) => a + b, 0);
       // console.log(this.quantitiesCount);
+      this.selectedItemsArray = Array(this.items$.length);
+      //console.log(this.items$);
+      this.items$.forEach((e, index) => {
+        if (e.service.processes.multi) {
+          this.selectedItemsArray[index] = e.files[0].processes;
+        }
+      });
     });
+
+    console.log(this.selectedItemsArray);
   }
 
   // subTotal: any;
@@ -131,7 +151,7 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
   //   });
   //   return subTotal;
   // }
-  materialChange(item: LineItem, event) {
+  selectChange(item: LineItem, event, type: string) {
     //console.log(event.target.value);
     let newItem = JSON.parse(JSON.stringify(item));
     console.log(event.target.value);
@@ -140,18 +160,57 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     // console.log(this.items$);
     //newItem.files.
     //item.quantity = 5;
-    //newItem.files[0].material = 'metal';
+    newItem.files[0][type] = event.target.value;
     //console.log(newItem);
     //console.log(newItem);
+    console.log(newItem);
     //console.log(JSON.stringify(newItem));
     //console.log(newItem);
     //newItem.files[0].material = event.target.value;
     //console.log(newItem);
-    this.service.update(newItem).subscribe((res) => {
-      //this.loading = false;
-      // this.service.searchTerm = '';
-      //console.log(res);
-      this.appStore.dispatch(new fromStore.LoadInitState());
-    });
+    // this.service.update(newItem).subscribe((res) => {
+    //   //this.loading = false;
+    //   // this.service.searchTerm = '';
+    //   //console.log(res);
+    //   this.appStore.dispatch(new fromStore.LoadInitState());
+    // });
+  }
+
+  // heightChanged(value) {
+  //   if (value > 1) {
+  //     console.log('number');
+  //   } else {
+  //     console.log('unvalid');
+  //   }
+  // }
+  inputNumberChanged(item: LineItem, event, type: string) {
+    //console.log(event.target.value);
+    let newItem = JSON.parse(JSON.stringify(item));
+    newItem.files[0][type] = event.target.value;
+    //console.log(event.target.value);
+    console.log(newItem);
+    // if (event.target.value == '') {
+    //   ele.value = 5;
+    // } else {
+    // }
+  }
+
+  onItemSelect(item: LineItem, event, i) {
+    let newItem = JSON.parse(JSON.stringify(item));
+    newItem.files[0]['processes'] = this.selectedItemsArray[i];
+    console.log(newItem);
+  }
+  onItemDeSelect(item: LineItem, event, i) {
+    let newItem = JSON.parse(JSON.stringify(item));
+    newItem.files[0]['processes'] = this.selectedItemsArray[i];
+    console.log(newItem);
+  }
+  onSelectAll(item: LineItem, event) {
+    let newItem = JSON.parse(JSON.stringify(item));
+    newItem.files[0]['processes'] = event;
+    console.log(newItem);
+  }
+  onDeSelectAll(item: LineItem, event) {
+    //console.log(this.selectedItemsArray[i]);
   }
 }
