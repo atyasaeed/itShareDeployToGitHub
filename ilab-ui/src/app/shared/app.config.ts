@@ -14,9 +14,11 @@ export interface IAppConfig {
   FILE_SIZE: any;
   INIT_STATE_URL: string;
   getResourceUrl(resource: string): string;
+  AWSUrl: string;
 }
 class DefaultAppConfig implements IAppConfig {
   public API_END_POINT = '/';
+  public AWSUrl = 'https://ihub-tdc.s3.amazonaws.com/static-assets/';
   public get LOGIN_URL() {
     return this.API_END_POINT + 'login';
   }

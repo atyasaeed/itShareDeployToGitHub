@@ -10,11 +10,11 @@
     margin-top: 56px;
     margin-left: 235px;
     padding: 15px;
-    // -ms-overflow-x: hidden;
-    // overflow-x: hidden;
-    // overflow-y: scroll;
-    // position: relative;
-    // overflow: hidden;
+    //-ms-overflow-x: hidden;
+    //overflow-x: hidden;
+    //overflow-y: scroll;
+    position: relative;
+    //overflow: hidden;
 }
 .main-container-rtl{
    width: calc(100% - 60px);
@@ -43,3 +43,4 @@
         margin-left: 0px !important;
     }
 }
+

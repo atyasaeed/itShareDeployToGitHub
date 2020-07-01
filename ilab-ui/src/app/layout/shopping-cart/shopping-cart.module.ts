@@ -20,11 +20,13 @@ import { PageHeaderModule } from 'src/app/shared/modules/page-header/page-header
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [ShoppingCartComponent, ShoppingCartFormComponent],
   imports: [
     CommonModule,
+    NgMultiSelectDropDownModule.forRoot(),
     ShoppingCartRoutingModule,
     NgbModule,
     FormsModule,
