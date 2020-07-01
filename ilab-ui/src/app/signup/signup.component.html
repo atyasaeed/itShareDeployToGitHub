@@ -54,13 +54,13 @@
           </section>
           <section class="form-row" style="justify-content: space-around;">
             <div class="form-group col-lg-6 mb-3">
-              <input type="text" formControlName="phone" class="form-control input-underline input-lg"
-                placeholder="{{'personalPhoneNumber' | translate }}" #phone>
-              <div *ngIf="registrationForm.controls.phone.touched && !registrationForm.controls.phone.valid"
+              <input type="text" formControlName="mobileNo" class="form-control input-underline input-lg"
+                placeholder="{{'personalPhoneNumber' | translate }}" #mobileNo>
+              <div *ngIf="registrationForm.controls.mobileNo.touched && !registrationForm.controls.mobileNo.valid"
                 class="text-danger">
-                <div *ngIf="registrationForm.controls.phone.errors.required">
+                <div *ngIf="registrationForm.controls.mobileNo.errors.required">
                   {{ 'personalPhoneNumber.error.required' | translate }}</div>
-                <div *ngIf="registrationForm.controls.phone.errors.pattern">
+                <div *ngIf="registrationForm.controls.mobileNo.errors.pattern">
                   {{ 'personalPhoneNumber.error.invalid' | translate }}</div>
               </div>
             </div>

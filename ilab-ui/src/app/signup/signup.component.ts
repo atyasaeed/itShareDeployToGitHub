@@ -37,7 +37,7 @@ export class SignupComponent implements OnInit {
     this.registrationForm = this.formBuilder.group({
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
-      phone: ['', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
+      mobileNo: ['', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
       email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$')]],
       username: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')]],
@@ -69,7 +69,7 @@ export class SignupComponent implements OnInit {
     this.userService.register(this.user).subscribe(
       (res) => {
         this.router.navigateByUrl('/login');
-        this.alertservice.error(this.translate.instant('registeration.success.verify'));
+        this.alertservice.success(this.translate.instant('registeration.success.verify'));
         // this.alertservice.success('please check your email');
       },
       (err) => {}

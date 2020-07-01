@@ -28,9 +28,9 @@
           <mat-error *ngIf="hasError('lastName')">{{'Last Name is required'|translate}}</mat-error>
         </mat-form-field>
         <mat-form-field class="form-rtl">
-          <input name="phone" matInput type="text" placeholder="{{'phoneNo'|translate}}" required
-            formControlName='phoneNo'>
-          <mat-error *ngIf="hasError('phoneNo')">{{'Phone is required'|translate}}</mat-error>
+          <input name="phone" matInput type="text" placeholder="{{'mobileNo'|translate}}" required
+            formControlName='mobileNo'>
+          <mat-error *ngIf="hasError('mobileNo')">{{'Phone is required'|translate}}</mat-error>
         </mat-form-field>
       </mat-card-content>
       <mat-card-actions class="form-rtl">
@@ -48,3 +48,4 @@
 
 </div>
 <!--////////////////////////-->
+<app-linkable></app-linkable>

@@ -9,6 +9,8 @@ import { Store } from '@ngrx/store';
 import * as fromStore from 'src/app/store';
 import { DefaultFormComponent } from 'src/app/shared/helpers/default.form.component';
 import { User } from 'src/app/shared/domain';
+import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
+import { OrdersListService } from '../../orders-list/orders-list.service';
 
 @Component({
   selector: 'app-user-form',
@@ -21,6 +23,8 @@ export class UserFormComponent extends DefaultFormComponent<User, UserService> i
     { heading: 'Users', icon: 'fa-tasks', link: '/users' },
     { heading: 'User-Details', icon: 'fa-tasks' },
   ];
+  lang: string;
+  private _searchTerm = '';
   constructor(
     formBuilder: FormBuilder,
     loadingService: TdLoadingService,
@@ -28,13 +32,14 @@ export class UserFormComponent extends DefaultFormComponent<User, UserService> i
     service: UserService,
     route: ActivatedRoute,
     router: Router,
-    private appStore: Store<fromStore.AppState>
+    private appStore: Store<fromStore.AppState>,
+    private orderservice: OrdersListService
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
     this.form = this.formBuilder.group({
       firstName: [{ value: '' }, [Validators.required]],
       lastName: [{ value: '' }, [Validators.required]],
-      phoneNo: [{ value: '', disabled: true }, [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
+      mobileNo: [{ value: '' }, [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
       email: [{ value: '' }, [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$')]],
       username: [{ value: '' }, [Validators.required]],
     });

@@ -21,11 +21,14 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { LinkableModule } from '../linkable/linkable.module';
+
 @NgModule({
   declarations: [UsersComponent, UserFormComponent],
   imports: [
     CommonModule,
     UsersRoutingModule,
+    LinkableModule,
     NgbModule,
     FormsModule,
     SharedModule,

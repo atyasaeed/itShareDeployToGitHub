@@ -4,7 +4,7 @@ export interface User extends Entity {
   firstName: string;
   middleName: string;
   lastName: string;
-  phoneNo: number;
+  mobileNo: number;
   email: string;
   username: string;
   password: string;
