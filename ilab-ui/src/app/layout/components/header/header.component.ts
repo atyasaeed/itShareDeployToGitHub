@@ -26,7 +26,7 @@ export class HeaderComponent extends DefaultListComponent<ShoppingCartItem, Shop
     public authenticationService: AuthenticationService,
     service: ShoppingCartService,
     private appStore: Store<fromStore.AppState>,
-    @Inject(APP_CONFIG) private appConfig: IAppConfig,
+    @Inject(APP_CONFIG) public appConfig: IAppConfig,
     private router: Router
   ) {
     super(service);

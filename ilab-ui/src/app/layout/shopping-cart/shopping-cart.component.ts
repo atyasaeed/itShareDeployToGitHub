@@ -139,8 +139,9 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
   //   }
   // }
 
-  getFileUrl(entity: ShoppingCartItem, fileIndex): string {
-    return this.appConfig.FILE_URL + entity.files[fileIndex].asset_id;
+  getFileUrl(entity: ShoppingCartItem): string {
+    //return this.appConfig.FILE_URL + entity.files[fileIndex].asset_id;
+    return this.appConfig.FILE_URL + entity.files[0].asset_id;
   }
 
   // public getSubTotal(): Observable<number> {

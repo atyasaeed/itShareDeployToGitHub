@@ -56,9 +56,9 @@
 
         <li class="nav-item">
           <div class="btn-group" dropdown>
-            <a dropdownToggle class="dropdown-toggle nav-link" matBadge="{{ quantitiesCount }}" matBadgeColor="warn"
+            <a dropdownToggle class="dropdown-toggle nav-link" matBadge="{{ quantitiesCount }}" [matBadgeColor]="quantitiesCount > 0 ? 'primary':'warn'"
               matBadgePosition="after" matBadgeSize="small">
-              <i class="fa fa-cart-plus"></i> <b class="caret"></b><span class="sr-only">(current)</span>
+              <i class="fa fa-cart-plus"></i> <b class="caret"></b><span class="sr-only" >(current)</span>
             </a>
             <ul *dropdownMenu class="dropdown-menu dropdown-menu-right  messages" role="menu"
               aria-labelledby="button-basic">
@@ -69,17 +69,25 @@
                   <!-- <img class="d-flex align-self-center mr-3"
                   src="http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg"
                   alt="Generic placeholder image"> -->
-                  <img class="d-flex align-self-center mr-3" style="width: 60px; height: 50px;"
-                    [src]="getImageUrl(entity)">
+                  <div class="row">
+                    <div class="col-md-4 text-center my-auto">
+                      <img class=" img-fluid"
+                    [src]="appConfig.AWSUrl+entity.service.image">
 
-                  <div class="media-body">
-                    <h5 class="mt-0 mb-1">{{ entity.service.name }}</h5>
-                    <p class="last"> Quantity: {{ entity.quantity }} </p>
+                    </div>
+                    <div class="col-md-4 text-center my-auto">
+                      <div class="media-body">
+                        <h5 class="mt-0 mb-1">{{ entity.service.name }}</h5>
+                        <p class="last"> Quantity: {{ entity.quantity }} </p>
+                      </div>
+                    </div>
+                    <div class="col-md-4 text-center my-auto">
+                      <button type="button" class="btn btn-outline-danger btn-xs" (click)="delete(entity)">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                      </button>
+                    </div>
                   </div>
 
-                  <button type="button" class="btn btn-outline-danger btn-xs" (click)="delete(entity)">
-                    <i class="fa fa-trash" aria-hidden="true"></i>
-                  </button>
 
                 </li>
 

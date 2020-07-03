@@ -1,6 +1,10 @@
 @import "spinner";
 @import "_rtl";
 @import "_responsive";
+
+
+
+
 th[sortable] {
     cursor: pointer;
     user-select: none;
@@ -31,4 +35,18 @@ th[sortable].desc:before {
 
 .light-grey-background{
     background: #e9ecef !important;
+}
+
+
+
+
+
+a:hover{
+    text-decoration: none !important;
+}
+
+.ellipsis{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
