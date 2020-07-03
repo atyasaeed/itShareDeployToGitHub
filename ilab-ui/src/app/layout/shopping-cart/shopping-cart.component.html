@@ -25,7 +25,7 @@
                   <!-- One Item Row -->
                   <div class="product  pb-3" *ngFor="let entity of items$;let i =index">
                     <div class="row">
-                      <div class="col-md-3 service-image">
+                      <div class="col-md-3 service-image mb-2">
                         <img class="img-fluid " [src]="appConfig.AWSUrl+entity.service.image">
                       </div>
                       <div class="col-md-9">
@@ -42,7 +42,7 @@
                           </div>
 
                           <div class="row">
-                            <div class="col-md-9 product-name">
+                            <div class="col-md-9 product-name mb-2 mb-md-0">
                               <div class="product-name">
 
                                 <div class="product-info">
@@ -55,7 +55,7 @@
                                       class="value">{{entity.unitPrice|currency:'EGP'}}</span></div>
                                   <div> {{ 'Total Price' | translate }}:<span
                                       class="value">{{entity.unitPrice * entity.quantity}}</span></div> -->
-                                  <div *ngIf="entity.notes != null"><label >{{ 'Notes' | translate }} :&nbsp;</label><span >{{entity.notes}}</span></div>
+                                  <div *ngIf="entity.notes != null"><label >{{ 'Notes' | translate }} :&nbsp;</label><span >{{(entity.notes.length>40)? (entity.notes | slice:0:40)+'....':(entity.notes)}}</span></div>
                                   <div class=" quantity">
                                       <label for="quantity">{{ 'Quantity' | translate }} :&nbsp;</label>
                                       <input id="quantity" type="number" min="1" [disabled]="loading"

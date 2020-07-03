@@ -110,6 +110,9 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     newItem.quantity = quantity;
     // console.log(newItem);
     // console.log(this.items$);
+    if (quantity < 1 || quantity == '') {
+      return;
+    }
     this.loading = true;
     this.service.update(newItem).subscribe(
       (res) => {
