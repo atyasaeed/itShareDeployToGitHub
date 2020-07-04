@@ -158,7 +158,9 @@
                 </div>
 
                 <div class="col-md-12 text-center">
-                    <button #flyToCart  type="submit"  class="btn btn-primary " [disabled]="!form.valid || activeService.id==null">Add To Cart</button>
+                    <button   type="submit"  class="btn btn-primary " [disabled]="!form.valid || activeService.id==null">
+                        Add To Cart <i class="fa fa-cart-plus " aria-hidden="true" #flyToCart></i>
+                    </button>
                 </div>
             </div>
         </div>

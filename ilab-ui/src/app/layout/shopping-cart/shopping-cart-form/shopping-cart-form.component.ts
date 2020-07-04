@@ -95,7 +95,9 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
       allowSearchFilter: true,
     };
   }
-  ngAfterViewInit() {}
+  ngAfterViewInit() {
+    //this.flyToCartAnimation();
+  }
 
   createForm() {
     this.form = this.formBuilder.group({
@@ -321,7 +323,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
       this.flyToCartAnimation();
       setTimeout(() => {
         this.router.navigateByUrl('shopping-cart'), (this.loading = false);
-      }, 900);
+      }, 1100);
     });
     //console.log(this.filename);
   }
@@ -350,18 +352,28 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
 
     let top = this.flyToCart.nativeElement.getBoundingClientRect().top;
     let left = this.flyToCart.nativeElement.getBoundingClientRect().left;
-
+    this.flyToCart.nativeElement.style.color = '#007bff';
     this.flyToCart.nativeElement.animate(
       [
-        { position: 'fixed', top: `${top}px`, left: `${left}px`, zIndex: '5000', opacity: 1 },
-        { position: 'fixed', top: `10px`, left: `85%`, opacity: 0.1 },
+        {
+          position: 'fixed',
+          top: `${top}px`,
+          left: `${left}px`,
+          zIndex: '5000',
+          opacity: 1,
+          transform: 'scale(1) rotate(0)',
+        },
+        { position: 'fixed', top: `10px`, left: `90%`, opacity: 0.4, transform: 'scale(4) rotate(720deg)' },
       ],
       {
-        duration: 800,
+        duration: 1000,
         delay: 0,
         easing: 'ease-in-out',
       }
     );
+    setTimeout(() => {
+      this.flyToCart.nativeElement.style.color = 'white';
+    }, 1000);
   }
 
   // validateAllFormFields(formGroup: FormGroup) {
