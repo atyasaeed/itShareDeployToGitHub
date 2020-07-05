@@ -37,7 +37,11 @@ export class ProfileComponent extends DefaultFormComponent<User, ProfileService>
       email: [{ value: '', disabled: true }, Validators.required],
       firstName: [''],
       lastName: [''],
-      phone: [''],
+      mobileNo: [''],
+    });
+    this.service.getUser().subscribe((res) => {
+      console.log(res);
+      this.form.patchValue(res);
     });
   }
   onCreate(): void {

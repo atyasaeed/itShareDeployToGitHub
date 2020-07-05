@@ -40,7 +40,7 @@
           </td>
           <td>
 
-            <a [routerLink]="entity.id" title="{{'View User' | translate}}"><i class="fa fa-fw fa-edit"></i></a>&nbsp;
+            <a [routerLink]="entity.id" title="{{'user.view' | translate}}"><i class="fa fa-fw fa-edit"></i></a>&nbsp;
             <button type="button" *ngIf="!entity.enabled" (click)="status(entity)" mat-stroked-button
               color="primary">{{'Enable'|translate}}</button>
             <a *ngIf="entity.enabled" href="javascript:void(0)" title="{{'enabled' | translate}}">

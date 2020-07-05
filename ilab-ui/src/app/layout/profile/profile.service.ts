@@ -6,4 +6,8 @@ import { User } from 'src/app/shared/domain';
 })
 export class ProfileService extends RestService<User> {
   resource = 'users';
+
+  getUser() {
+    return this.http.get(this.appConfig.getResourceUrl(this.resource));
+  }
 }
