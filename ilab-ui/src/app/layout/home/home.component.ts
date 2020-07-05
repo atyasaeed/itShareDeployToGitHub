@@ -23,7 +23,7 @@ export class HomeComponent extends DefaultListComponent<Service, HomeService> im
 
   constructor(public service: HomeService, private http: HttpClient) {
     super(service);
-    this.http.get('https://gedoabdo.s3.us-east-2.amazonaws.com/slides.json').subscribe((res) => {
+    this.http.get('https://ihub-tdc.s3.amazonaws.com/static-assets/sliders.json').subscribe((res) => {
       this.sliders = res as any;
     });
   }
