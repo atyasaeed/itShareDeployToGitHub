@@ -26,7 +26,10 @@
                   <div class="product  pb-3" *ngFor="let entity of items$;let i =index">
                     <div class="row">
                       <div class="col-md-3 service-image mb-2">
-                        <img class="img-fluid " [src]="appConfig.AWSUrl+entity.service.image">
+                        <img class="img-fluid " [src]="getFileExtension(entity)" *ngIf="getFileExtension(entity) != false;else serviceImage">
+                        <ng-template #serviceImage>
+                          <img class="img-fluid " [src]="appConfig.AWSUrl+entity.service.image">
+                        </ng-template>
                       </div>
                       <div class="col-md-9">
                         <div class="info">

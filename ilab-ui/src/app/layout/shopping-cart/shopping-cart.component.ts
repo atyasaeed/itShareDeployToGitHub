@@ -57,6 +57,7 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
 
     this.appStore.select(fromStore.getShoppingCart).subscribe((res) => {
       // console.log(res);
+      console.log(res?.lineItems);
       this.items$ = res?.lineItems;
       this.subTotal = res?.lineItems.map((item) => item.unitPrice * item.quantity).reduce((a, b) => a + b, 0);
       // this.quantitiesCount = res.lineItems.map((item) => item.quantity).reduce((a, b) => a + b, 0);
@@ -69,8 +70,6 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
         }
       });
     });
-
-    console.log(this.selectedItemsArray);
   }
 
   // subTotal: any;
@@ -147,6 +146,18 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     return this.appConfig.FILE_URL + entity.files[0].asset_id;
   }
 
+  getFileExtension(entity: ShoppingCartItem) {
+    //return this.appConfig.FILE_URL + entity.files[fileIndex].asset_id;
+    let extension = entity.files[0].asset_name.split('.');
+    if (
+      extension[extension.length - 1].toLowerCase() == 'png' ||
+      extension[extension.length - 1].toLowerCase() == 'jpg'
+    ) {
+      return this.appConfig.FILE_URL + entity.files[0].asset_id;
+    } else {
+      return false;
+    }
+  }
   // public getSubTotal(): Observable<number> {
   //   // return this.items.map((rr) => rr.unitPrice * rr.quantity).reduce((a, b) => a + b, 0);
   //   let subTotal;
