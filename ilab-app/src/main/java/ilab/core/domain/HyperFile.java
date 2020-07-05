@@ -21,7 +21,7 @@ public class HyperFile
 	private String height;
 	private String width;
 	private String thickness;
-	private String units;
+	private String unit;
 	@JsonRawValue
 	private String processes;
 	
@@ -86,13 +86,13 @@ public class HyperFile
 	{
 		this.thickness = thickness;
 	}
-	public String getUnits()
+	public String getUnit()
 	{
-		return units;
+		return unit;
 	}
-	public void setUnits(String units)
+	public void setUnit(String unit)
 	{
-		this.units = units;
+		this.unit = unit;
 	}
 	public String getProcesses()
 	{

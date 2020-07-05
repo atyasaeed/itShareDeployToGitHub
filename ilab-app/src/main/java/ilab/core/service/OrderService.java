@@ -284,7 +284,7 @@ public class OrderService
 				hf.setType(newHf.getType());
 				hf.setColor(newHf.getColor());
 				hf.setMaterial(newHf.getMaterial());
-				hf.setUnits(newHf.getUnits());
+				hf.setUnit(newHf.getUnit());
 				hf.setProcesses((String)newHf.getProcesses());
 			}
 		}
@@ -358,7 +358,7 @@ public class OrderService
 			newHyperFile.setWidth(hyperFile.getWidth());
 			
 			newHyperFile.setThickness(hyperFile.getThickness());
-			newHyperFile.setUnits(hyperFile.getUnits());
+			newHyperFile.setUnit(hyperFile.getUnit());
 			
 			newItem.getFiles().add(newHyperFile);
 			
