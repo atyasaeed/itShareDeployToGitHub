@@ -8,7 +8,12 @@
             <div class="product">
                 <div class="row">
                     <div class="col-md-3">
-                        <img class="img-fluid mx-auto d-block image" [src]="getImageUrl()">
+                        <!-- <img class="img-fluid mx-auto d-block image" [src]="getImageUrl()"> -->
+                        <img class="img-fluid " [src]="getFileExtension()"
+                          *ngIf="getFileExtension() != false;else serviceImage">
+                        <ng-template #serviceImage>
+                          <img class="img-fluid " [src]="appConfig.AWSUrl+lineItem.service.image">
+                        </ng-template>
                     </div>
                     <div class="col-md-9">
                         <div class="info">
