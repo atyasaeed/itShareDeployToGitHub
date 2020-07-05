@@ -273,6 +273,7 @@ public class OrderService
 		if(item!=null)
 		{
 			item.setQuantity(newItem.getQuantity());
+			item.setNotes(newItem.getNotes());
 			//TODO: need support for multiple files
 			if(item.getFiles().size()>0&&newItem.getFiles().size()>0)
 			{
