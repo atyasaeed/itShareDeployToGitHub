@@ -63,7 +63,7 @@ public class Service extends AbstractEntity<Service>
 	@JsonRawValue
 	@Column(columnDefinition = "TEXT",length = 1024)
 	@Basic(fetch = FetchType.EAGER)
-	private String processes;;
+	private String processes;
 	
 	public String getName()
 	{

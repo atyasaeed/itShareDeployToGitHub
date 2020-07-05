@@ -39,6 +39,7 @@ public class LineItem extends AbstractEntity<LineItem>
 //	@Temporal(TemporalType.DATE)
 	private LocalDateTime estimatedEndDate;
 	private String notes;
+	
 	@ElementCollection
 	private List<HyperFile> files=new ArrayList<HyperFile>();
 	

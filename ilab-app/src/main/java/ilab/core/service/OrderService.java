@@ -271,7 +271,23 @@ public class OrderService
 		User user=userRepo.findByUsername(auth.getName());
 		LineItem item= lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id, user.getAccounts().iterator().next().getId());
 		if(item!=null)
+		{
 			item.setQuantity(newItem.getQuantity());
+			//TODO: need support for multiple files
+			if(item.getFiles().size()>0&&newItem.getFiles().size()>0)
+			{
+				HyperFile hf=item.getFiles().get(0);
+				HyperFile newHf=newItem.getFiles().get(0);
+				hf.setHeight(newHf.getHeight());
+				hf.setWidth(newHf.getWidth());
+				hf.setThickness(newHf.getThickness());
+				hf.setType(newHf.getType());
+				hf.setColor(newHf.getColor());
+				hf.setMaterial(newHf.getMaterial());
+				hf.setUnits(newHf.getUnits());
+				hf.setProcesses((String)newHf.getProcesses());
+			}
+		}
 			
 		return item;
 	}
