@@ -27,7 +27,7 @@ export class GalleryComponent extends DefaultListComponent<ShoppingCartItem, Gal
   constructor(
     service: GalleryService,
     private appStore: Store<fromStore.AppState>,
-    @Inject(APP_CONFIG) private appConfig: IAppConfig,
+    @Inject(APP_CONFIG) public appConfig: IAppConfig,
     private toastr: ToastrService
   ) {
     super(service);
@@ -89,5 +89,17 @@ export class GalleryComponent extends DefaultListComponent<ShoppingCartItem, Gal
       });
       this.toastr.success('Removed Successfully');
     });
+  }
+  getFileExtension(entity: ShoppingCartItem) {
+    //return this.appConfig.FILE_URL + entity.files[fileIndex].asset_id;
+    let extension = entity.files[0].asset_name.split('.');
+    if (
+      extension[extension.length - 1].toLowerCase() == 'png' ||
+      extension[extension.length - 1].toLowerCase() == 'jpg'
+    ) {
+      return this.appConfig.FILE_URL + entity.files[0].asset_id;
+    } else {
+      return false;
+    }
   }
 }

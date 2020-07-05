@@ -32,7 +32,12 @@
                     <div class="product" *ngFor="let entity of entities$ | async ; index as i">
                       <div class="row">
                         <div class="col-md-3 service-image">
-                          <img class="img-fluid mx-auto d-block" [src]="getImageUrl(entity)">
+                          <!-- <img class="img-fluid mx-auto d-block" [src]="getImageUrl(entity)"> -->
+                            <img class="img-fluid " [src]="getFileExtension(entity)"
+                              *ngIf="getFileExtension(entity) != false;else serviceImage">
+                            <ng-template #serviceImage>
+                              <img class="img-fluid " [src]="appConfig.AWSUrl+entity.service.image">
+                            </ng-template>
                         </div>
                         <div class="col-md-9">
                           <div class="info">
