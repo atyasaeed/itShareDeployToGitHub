@@ -25,7 +25,7 @@ import { environment } from 'src/environments/environment';
     BrowserAnimationsModule,
     ToastrModule.forRoot({
       timeOut: 4000,
-      disableTimeOut: true,
+      // disableTimeOut: true,
       progressBar: true,
       progressAnimation: 'increasing',
       preventDuplicates: true,
