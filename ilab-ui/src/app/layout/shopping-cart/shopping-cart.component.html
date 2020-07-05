@@ -30,6 +30,11 @@
                         <ng-template #serviceImage>
                           <img class="img-fluid " [src]="appConfig.AWSUrl+entity.service.image">
                         </ng-template>
+                         <div class="mt-3">
+                              <label >{{ 'Notes' | translate }} :&nbsp;</label>
+                              <!-- <span >{{(entity.notes.length>40)? (entity.notes | slice:0:40)+'....':(entity.notes)}}</span> -->
+                              <textarea [value]="entity.notes ? entity.notes : ''" rows="4" class="form-control" (keyup)="textAreaChange(entity,notes.value)" #notes></textarea>
+                          </div>
                       </div>
                       <div class="col-md-9">
                         <div class="info">
@@ -45,7 +50,7 @@
                           </div>
 
                           <div class="row">
-                            <div class="col-md-9 product-name mb-2 mb-md-0">
+                            <div class="col-md-8 product-name mb-2 mb-md-0">
                               <div class="product-name">
 
                                 <div class="product-info">
@@ -58,7 +63,7 @@
                                       class="value">{{entity.unitPrice|currency:'EGP'}}</span></div>
                                   <div> {{ 'Total Price' | translate }}:<span
                                       class="value">{{entity.unitPrice * entity.quantity}}</span></div> -->
-                                  <div *ngIf="entity.notes != null"><label >{{ 'Notes' | translate }} :&nbsp;</label><span >{{(entity.notes.length>40)? (entity.notes | slice:0:40)+'....':(entity.notes)}}</span></div>
+
                                   <div class=" quantity">
                                       <label for="quantity">{{ 'Quantity' | translate }} :&nbsp;</label>
                                       <input id="quantity" type="number" min="1" [disabled]="loading"
@@ -72,7 +77,7 @@
 
 
 
-                            <div class="col-md-3 price my-auto">
+                            <div class="col-md-4 price my-auto">
                               <!-- <span>$120</span> -->
                               <a   class="btn btn-outline-success btn-xs"
                                 [href]="getFileUrl(entity)">
@@ -98,14 +103,14 @@
                                   <div>
                                     <label >{{'Height' | translate }} :&nbsp;</label>
                                     <span class="text-danger" #heightErr></span>
-                                    <input type="number" [value]="file.height" class="form-control"  (keyup)="inputNumberChanged(entity,$event,'height',heightErr)" >
+                                    <input type="number" [value]="file.height" class="form-control"  (change)="inputNumberChanged(entity,$event,'height',heightErr)" >
                                   </div>
                                 </div>
                                 <div class="col-md-6 mb-2">
                                   <div>
                                     <label >{{'Width' | translate }} :&nbsp;</label>
                                     <span class="text-danger" #widthErr></span>
-                                    <input type="number" [value]="file.width" class="form-control" (keyup)="inputNumberChanged(entity,$event,'width',widthErr)">
+                                    <input type="number" [value]="file.width" class="form-control" (change)="inputNumberChanged(entity,$event,'width',widthErr)">
                                   </div>
                                 </div>
                                 <div class="col-md-6 mb-2">

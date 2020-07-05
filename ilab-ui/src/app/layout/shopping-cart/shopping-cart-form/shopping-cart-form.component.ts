@@ -27,8 +27,8 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
   filename;
   @ViewChild('flyToCart') private flyToCart: ElementRef;
 
-  //ext: string[] = [];
-  //extFile: string;
+  ext: string[] = [];
+  extFile: string;
   //filename: string;
   // item: ShoppingCartItem = new ShoppingCartItem();
   //item: ShoppingCartItem;
@@ -255,6 +255,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
       this.form.removeControl('processes');
     }
 
+    this.acceptedExtensions();
     //   this.service = event;
     //   for (let i = 0; i < this.service.maxFiles; i++) {
     //     this.file$.push(
@@ -275,7 +276,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
   }
 
   submit() {
-    this.flyToCartAnimation();
+    //this.flyToCartAnimation();
     const formData: FormData = new FormData();
     console.log(this.form.value);
     //this.item.service = {} as Service;
@@ -324,9 +325,9 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
       this.form.markAsPristine();
       this.appStore.dispatch(new fromStore.LoadInitState());
 
-      setTimeout(() => {
-        this.router.navigateByUrl('shopping-cart'), (this.loading = false);
-      }, 1100);
+      //setTimeout(() => {
+      this.router.navigateByUrl('shopping-cart'), (this.loading = false);
+      //}, 1100);
     });
     //console.log(this.filename);
   }
@@ -393,4 +394,22 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
   //     }
   //   });
   // }
+  acceptedExtensions() {
+    if (this.activeService.supportedExtensions != null) {
+      //let acceptedExtensions: string[];
+      // activeService.supportedExtensions.forEach((e) => {
+      //   //this.ext.push(e.substr(1));
+      //   console.log(e);
+      // });
+      this.extFile = '';
+      this.ext = [];
+      for (let index = 0; index < this.activeService?.supportedExtensions?.length; index++) {
+        this.ext.push(this.activeService.supportedExtensions[index].substr(1));
+      }
+      //   this.extFile = this.ext.toString();
+      //console.log(this.ext.toString());
+      console.log(this.ext);
+      this.extFile = this.ext.toString();
+    }
+  }
 }
