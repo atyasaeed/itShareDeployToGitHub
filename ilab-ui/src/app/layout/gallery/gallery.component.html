@@ -11,15 +11,16 @@
         <!-- End page Head -->
 
         <!-- Page Content -->
+        <div class="form-group form-inline">
+          <input class="form-control ml-2 mt-2" type="text" placeholder="{{'Search'|translate}}" name="searchTerm"
+            [(ngModel)]="searchTerm" />
+          <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
+        </div>
         <ng-container *ngIf="(entities$|async)?.length!=0 else anonymous">
           <div class="content">
             <form>
 
-              <div class="form-group form-inline">
-                <input class="form-control ml-2 mt-2" type="text" placeholder="{{'Search'|translate}}" name="searchTerm"
-                  [(ngModel)]="searchTerm" />
-                <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
-              </div>
+
 
               <div class="row">
 
@@ -88,7 +89,7 @@
                                 </section>
                                 <section class="col-6">
                                   <div>{{'Dimension' | translate }}: <span
-                                      class="value">{{file.dimension |titlecase}}</span>
+                                      class="value">{{file.processes |titlecase}}</span>
                                   </div>
                                   <div>{{'Color' | translate }}: <span class="value">{{file.color |titlecase}}</span>
                                   </div>
