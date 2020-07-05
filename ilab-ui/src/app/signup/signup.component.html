@@ -3,7 +3,7 @@
     <div class="col-md-12">
       <div [routerLink]="'/'" role="button" class="cursor-pointer">
         <img class="user-avatar" src="assets/images/logo.png" width="150px" />
-        <h1>{{'registration.title'|translate}}</h1>
+        <h1>{{'brand.registration'|translate}}</h1>
       </div>
       <form role="form" *ngIf="registrationForm" [formGroup]="registrationForm" (ngSubmit)="onSubmit()"
         class="container">

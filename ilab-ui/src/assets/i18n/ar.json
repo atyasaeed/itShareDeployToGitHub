@@ -3,7 +3,12 @@
     "language": "اللغة",
     "english": "الإنجليزية",
     "arabic": "العربية",
-    "Brand": "iLab Manufacturing",
+    "Brand": "FabriHub",
+    "brand.gallery": "FabriHub Gallery",
+    "brand.manufacturingRequest": "FabriHub Manufacturing Request",
+    "brand.login": "تسجيل الدخول",
+    "brand.registration": "انشاء حساب",
+
     "Profile": "الملف الشخصي",
     "Settings": "الإعدادات",
     "Log Out": "خروج",

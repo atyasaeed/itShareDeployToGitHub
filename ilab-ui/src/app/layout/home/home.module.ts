@@ -8,9 +8,19 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ServiceCardComponent } from './service-card/service-card.component';
 import { MatCardModule } from '@angular/material/card';
 import { StatModule } from 'src/app/shared/modules/stat/stat.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [HomeComponent, ServiceCardComponent],
-  imports: [CommonModule, HomeRoutingModule, CarouselModule, FormsModule, ReactiveFormsModule, NgbModule, StatModule],
+  imports: [
+    CommonModule,
+    HomeRoutingModule,
+    CarouselModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgbModule,
+    StatModule,
+    TranslateModule,
+  ],
 })
 export class HomeModule {}
