@@ -276,12 +276,8 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
   }
 
   submit() {
-    //this.flyToCartAnimation();
+    this.flyToCartAnimation();
     const formData: FormData = new FormData();
-    console.log(this.form.value);
-    //this.item.service = {} as Service;
-    //this.item.service.id = this.service.id;
-    //console.log(this.form.value);
     let item = {} as LineItem;
     item.service = {} as Service;
     item.files = [] as hyperFile[];
@@ -296,38 +292,29 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
       } else {
         //if (this.form.value[key] != null) {
         hyperFile[key] = this.form.value[key];
-        //console.log(item.files[key]);
-        //console.log(item.files[]);
-        //hyperFile[key] = this.form.value[key];
-        //}
       }
     }
-    //console.log(hyperFile);
+
     item.files.push(hyperFile);
     item.service.id = this.activeService.id;
-    //item.service.id = this.activeService.id;
-    //console.log(JSON.stringify(item));
     const itemBlob = new Blob([JSON.stringify(item)], {
       type: 'application/json',
     });
-    //console.log(formData.get('file'));
-    formData.append('item', itemBlob);
-    //console.log(formData.get('files'));
-    //console.log(formData.get('item'));
-    //console.log(itemBlob);
-    this.shoppingCartService.create(formData).subscribe((res) => {
-      this.form.reset({
-        quantity: 1,
-        material: 'undefined',
-        thickness: 'undefined',
-      });
-      this.form.markAsUntouched();
-      this.form.markAsPristine();
-      this.appStore.dispatch(new fromStore.LoadInitState());
 
-      //setTimeout(() => {
-      this.router.navigateByUrl('shopping-cart'), (this.loading = false);
-      //}, 1100);
+    formData.append('item', itemBlob);
+    this.form.reset({
+      quantity: 1,
+      material: 'undefined',
+      thickness: 'undefined',
+    });
+    this.form.markAsUntouched();
+    this.form.markAsPristine();
+
+    this.shoppingCartService.create(formData).subscribe((res) => {
+      this.appStore.dispatch(new fromStore.LoadInitState());
+      setTimeout(() => {
+        this.router.navigateByUrl('shopping-cart'), (this.loading = false);
+      }, 1100);
     });
     //console.log(this.filename);
   }
@@ -352,18 +339,17 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
   }
 
   flyToCartAnimation() {
-    //let startPos = dir === 'RIGHT' ? '-100%' : '100%';
-
     let top = this.flyToCart.nativeElement.getBoundingClientRect().top;
     let left = this.flyToCart.nativeElement.getBoundingClientRect().left;
     this.flyToCart.nativeElement.style.color = '#007bff';
+
     this.flyToCart.nativeElement.animate(
       [
         {
           position: 'fixed',
           top: `${top}px`,
           left: `${left}px`,
-          zIndex: '5000',
+          //zIndex: '5000',
           opacity: 1,
           transform: 'scale(1) rotate(0)',
         },
@@ -396,19 +382,11 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
   // }
   acceptedExtensions() {
     if (this.activeService.supportedExtensions != null) {
-      //let acceptedExtensions: string[];
-      // activeService.supportedExtensions.forEach((e) => {
-      //   //this.ext.push(e.substr(1));
-      //   console.log(e);
-      // });
       this.extFile = '';
       this.ext = [];
       for (let index = 0; index < this.activeService?.supportedExtensions?.length; index++) {
         this.ext.push(this.activeService.supportedExtensions[index].substr(1));
       }
-      //   this.extFile = this.ext.toString();
-      //console.log(this.ext.toString());
-      console.log(this.ext);
       this.extFile = this.ext.toString();
     }
   }

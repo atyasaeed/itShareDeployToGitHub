@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 import { routerTransition } from 'src/app/router.animations';
 
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { debounce, debounceTime, switchMap, delay } from 'rxjs/operators';
 @Component({
   selector: 'app-shopping-cart',
   templateUrl: './shopping-cart.component.html',
@@ -57,7 +58,7 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
 
     this.appStore.select(fromStore.getShoppingCart).subscribe((res) => {
       // console.log(res);
-      console.log(res?.lineItems);
+      //console.log(res?.lineItems);
       this.items$ = res?.lineItems;
       this.subTotal = res?.lineItems.map((item) => item.unitPrice * item.quantity).reduce((a, b) => a + b, 0);
       // this.quantitiesCount = res.lineItems.map((item) => item.quantity).reduce((a, b) => a + b, 0);
@@ -128,10 +129,9 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
   }
 
   textAreaChange(item: ShoppingCartItem, notes) {
-    console.log(notes);
     let newItem = Object.assign({}, item);
     newItem.notes = notes;
-    console.log(newItem);
+
     this.service.update(newItem).subscribe((res) => {
       this.appStore.dispatch(new fromStore.LoadInitState());
     });
@@ -177,34 +177,13 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
   //   return subTotal;
   // }
   selectChange(item: LineItem, event, type: string) {
-    //console.log(event.target.value);
     let newItem = JSON.parse(JSON.stringify(item));
-    console.log(event.target.value);
-    //let newItem = { ...item };
-    // console.log(newItem);
-    // console.log(this.items$);
-    //newItem.files.
-    //item.quantity = 5;
     newItem.files[0][type] = event.target.value;
-    //console.log(newItem);
-    //console.log(newItem);
-    console.log(newItem);
-    //console.log(JSON.stringify(newItem));
-    //console.log(newItem);
-    //newItem.files[0].material = event.target.value;
-    //console.log(newItem);
     this.service.update(newItem).subscribe((res) => {
       this.appStore.dispatch(new fromStore.LoadInitState());
     });
   }
 
-  // heightChanged(value) {
-  //   if (value > 1) {
-  //     console.log('number');
-  //   } else {
-  //     console.log('unvalid');
-  //   }
-  // }
   inputNumberChanged(item: LineItem, event, type: string, element: HTMLElement) {
     //console.log(event.target.value);
     if (event.target.value == '') {
@@ -215,15 +194,18 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
       element.innerText = '';
       let newItem = JSON.parse(JSON.stringify(item));
       newItem.files[0][type] = event.target.value;
-      //console.log(event.target.value);
-      console.log(newItem);
-      // if (event.target.value == '') {
-      //   ele.value = 5;
-      // } else {
-      // }
-      this.service.update(newItem).subscribe((res) => {
-        this.appStore.dispatch(new fromStore.LoadInitState());
-      });
+      this.service
+        .update(newItem)
+        .pipe(
+          debounceTime(500),
+          switchMap(() => {
+            return this.service.update(newItem);
+          }),
+          delay(500)
+        )
+        .subscribe((res) => {
+          this.appStore.dispatch(new fromStore.LoadInitState());
+        });
     }
   }
 
