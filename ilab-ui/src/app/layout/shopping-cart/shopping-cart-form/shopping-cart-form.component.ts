@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, AfterViewInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Inject, AfterViewInit, ViewChild, ChangeDetectorRef, ElementRef } from '@angular/core';
 import { ShoppingCartItem, Service, LineItem, hyperFile } from 'src/app/shared/domain';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ShoppingCartService } from '../shoppingcart.service';
@@ -10,6 +10,8 @@ import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { routerTransition } from 'src/app/router.animations';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { delay } from 'rxjs/operators';
+
 @Component({
   selector: 'app-shopping-cart-form',
   templateUrl: './shopping-cart-form.component.html',
@@ -23,6 +25,8 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
   submitted = false;
   msgFileSize: any;
   filename;
+  @ViewChild('flyToCart') private flyToCart: ElementRef;
+
   //ext: string[] = [];
   //extFile: string;
   //filename: string;
@@ -79,6 +83,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
 
       this.services = res;
       //console.log(res);
+
       this.cdr.detectChanges();
     });
 
@@ -92,7 +97,9 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
       allowSearchFilter: true,
     };
   }
-  ngAfterViewInit() {}
+  ngAfterViewInit() {
+    //this.flyToCartAnimation();
+  }
 
   createForm() {
     this.form = this.formBuilder.group({
@@ -268,6 +275,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
   }
 
   submit() {
+    this.flyToCartAnimation();
     const formData: FormData = new FormData();
     console.log(this.form.value);
     //this.item.service = {} as Service;
@@ -307,8 +315,18 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
     //console.log(formData.get('item'));
     //console.log(itemBlob);
     this.shoppingCartService.create(formData).subscribe((res) => {
+      this.form.reset({
+        quantity: 1,
+        material: 'undefined',
+        thickness: 'undefined',
+      });
+      this.form.markAsUntouched();
+      this.form.markAsPristine();
       this.appStore.dispatch(new fromStore.LoadInitState());
-      this.router.navigateByUrl('shopping-cart'), (this.loading = false);
+
+      setTimeout(() => {
+        this.router.navigateByUrl('shopping-cart'), (this.loading = false);
+      }, 1100);
     });
     //console.log(this.filename);
   }
@@ -330,6 +348,35 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
         this.form.get('file').setErrors({ extension: this.activeService.supportedExtensions.toString() });
       }
     }
+  }
+
+  flyToCartAnimation() {
+    //let startPos = dir === 'RIGHT' ? '-100%' : '100%';
+
+    let top = this.flyToCart.nativeElement.getBoundingClientRect().top;
+    let left = this.flyToCart.nativeElement.getBoundingClientRect().left;
+    this.flyToCart.nativeElement.style.color = '#007bff';
+    this.flyToCart.nativeElement.animate(
+      [
+        {
+          position: 'fixed',
+          top: `${top}px`,
+          left: `${left}px`,
+          zIndex: '5000',
+          opacity: 1,
+          transform: 'scale(1) rotate(0)',
+        },
+        { position: 'fixed', top: `10px`, left: `90%`, opacity: 0.4, transform: 'scale(4) rotate(720deg)' },
+      ],
+      {
+        duration: 1000,
+        delay: 0,
+        easing: 'ease-in-out',
+      }
+    );
+    setTimeout(() => {
+      this.flyToCart.nativeElement.style.color = 'white';
+    }, 1000);
   }
 
   // validateAllFormFields(formGroup: FormGroup) {

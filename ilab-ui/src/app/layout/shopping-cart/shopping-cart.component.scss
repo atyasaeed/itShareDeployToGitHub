@@ -13,8 +13,8 @@
 }
 
 .shopping-cart .block-heading {
-    padding-top: 50px;
-    margin-bottom: 40px;
+    //padding-top: 50px;
+    //margin-bottom: 40px;
     text-align: center;
 }
 
@@ -32,7 +32,7 @@
 .shopping-cart .block-heading h1,
 .shopping-cart .block-heading h2,
 .shopping-cart .block-heading h3 {
-    margin-bottom: 1.2rem;
+    //margin-bottom: 1.2rem;
     color: #3b99e0;
 }
 
@@ -46,6 +46,10 @@
     font-size: 80%;
 }
 
+.shopping-cart .items .product:not(:last-child){
+    border-bottom: 3px solid white;
+}
+
 .shopping-cart .items .product .info {
     padding-top: 0px;
     text-align: center;
@@ -57,8 +61,8 @@
 
 // .shopping-cart .items .product .info .product-name .product-info {}
 
-.value {
-    font-weight: bold;
+label {
+    font-weight: 600;
 }
 
 
@@ -76,12 +80,12 @@
 }
 
 .shopping-cart .items .product .info .quantity .quantity-input {
-    margin: auto;
+    //margin: auto;
     width: 80px;
 }
 
 .shopping-cart .items .product .info .price {
-    margin-top: 15px;
+    //margin-top: 15px;
     font-weight: bold;
     font-size: 22px;
 }
@@ -125,35 +129,35 @@
 
 @media (min-width: 768px) {
     .shopping-cart .items .product .info {
-        padding-top: 25px;
+        //padding-top: 25px;
         text-align: left;
     }
     .shopping-cart .items .product .info .price {
         font-weight: bold;
         font-size: 22px;
-        top: 17px;
+        //top: 17px;
     }
-    .shopping-cart .items .product .info .quantity {
-        text-align: center;
-    }
+    // .shopping-cart .items .product .info .quantity {
+    //     text-align: center;
+    // }
     .shopping-cart .items .product .info .quantity .quantity-input {
         padding: 4px 10px;
         text-align: center;
     }
     /* service image div */
-    .service-image {
-        margin: auto 0;
-    }
+    // .service-image {
+    //     margin: auto 0;
+    // }
 }
 
 
 /********************************/
 
 .card-form {
-    width: 100%;
-    border-radius: 10px;
+    //width: 100%;
+    border-radius: 5px;
     background: white;
-    box-shadow: 0 27px 55px 0 rgba(0, 0, 0, 0.3), 0 17px 17px 0 rgba(0, 0, 0, 0.15);
+    //box-shadow: 0 27px 55px 0 rgba(0, 0, 0, 0.3), 0 17px 17px 0 rgba(0, 0, 0, 0.15);
 }
 
 .card-form .form-title {
