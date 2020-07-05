@@ -10,6 +10,8 @@ import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { routerTransition } from 'src/app/router.animations';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { delay } from 'rxjs/operators';
+
 @Component({
   selector: 'app-shopping-cart-form',
   templateUrl: './shopping-cart-form.component.html',
@@ -273,6 +275,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
   }
 
   submit() {
+    this.flyToCartAnimation();
     const formData: FormData = new FormData();
     console.log(this.form.value);
     //this.item.service = {} as Service;
@@ -320,7 +323,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
       this.form.markAsUntouched();
       this.form.markAsPristine();
       this.appStore.dispatch(new fromStore.LoadInitState());
-      this.flyToCartAnimation();
+
       setTimeout(() => {
         this.router.navigateByUrl('shopping-cart'), (this.loading = false);
       }, 1100);
