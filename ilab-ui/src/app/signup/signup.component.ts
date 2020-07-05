@@ -69,7 +69,7 @@ export class SignupComponent implements OnInit {
     this.userService.register(this.user).subscribe(
       (res) => {
         this.router.navigateByUrl('/login');
-        this.alertservice.success(this.translate.instant('registeration.success.verify'));
+        this.alertservice.success(this.translate.instant('registeration.success'));
         // this.alertservice.success('please check your email');
       },
       (err) => {}

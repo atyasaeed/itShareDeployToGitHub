@@ -23,14 +23,7 @@
     "Welcome": "Welcome",
 "viewCart":"View Cart",
     "Email": "Email",
-    "Nationality": "Nationality",
-    "Nationality ID": "Nationality ID",
     "Birthdate": "Birthdate",
-    "Degree": "Degree",
-    "Emoloyee Case": "Emoloyee Case",
-    "University": "University",
-    "Faculty": "Faculty",
-    "Department": "Department",
     "Documents": "Documents",
     "badCredential": "Your Username or Password Is Incorrect",
       "userName": "User Name",
@@ -77,10 +70,6 @@
     "Password": "Password",
     "Invalid Password": "Invalid Password",
     "ILab Registration": "ILab Registration",
-    "First Name": "First Name",
-    "First Name is required": "First Name is required",
-    "Last Name": "Last Name",
-    "lastName is required": "lastName is required",
     "Phone": "Phone",
     "Phone Number is required": "Phone Number is required",
     "Must be a valid Phone Number": "Must be a valid Phone Number",
@@ -150,7 +139,13 @@
     "firstName":"First Name",
     "firstName.error.required":"First Name Is Required",
     "lastName":"Last Name",
-    "lastName.error.required": "Last Name Is Required"
+    "lastName.error.required": "Last Name Is Required",
+    "user.view":"View User",
+    "service":"Service",
+    "service.title":"You Can Create New Service And Add It To Your Cart",
+    "service.add":"Add Service",
+    "gallery":"Gallery",
+    "gallery.choose":"You Can Choose Order And Add It To Your Cart Direct"
 
 
 

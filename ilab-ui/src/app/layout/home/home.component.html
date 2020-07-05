@@ -31,19 +31,19 @@
   <div class="row" style="margin-right: -8px; margin-left: -8px;">
     <div class="col-sm-6">
       <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Service</h5>
-          <p class="card-text">You Can Create New Service And Add It To Your Cart</p>
-          <a [routerLink]='["/shopping-cart/CartItem"]' class="btn btn-primary">Add Service</a>
+        <div class="card-body home-rtl">
+          <h5 class="card-title">{{'service'|translate}}</h5>
+          <p class="card-text">{{'service.title'|translate}}</p>
+          <a [routerLink]='["/shopping-cart/CartItem"]' class="btn btn-primary">{{'service.add'|translate}}</a>
         </div>
       </div>
     </div>
     <div class="col-sm-6">
       <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Gallery</h5>
-          <p class="card-text">You Can Choose Order And Add It To Your Cart Direct </p>
-          <a [routerLink]='["/gallery"]' class="btn btn-primary">Gallery</a>
+        <div class="card-body home-rtl">
+          <h5 class="card-title">{{'gallery'|translate}}</h5>
+          <p class="card-text">{{'gallery.choose'|translate}} </p>
+          <a [routerLink]='["/gallery"]' class="btn btn-primary">{{'gallery'|translate}}</a>
         </div>
       </div>
     </div>

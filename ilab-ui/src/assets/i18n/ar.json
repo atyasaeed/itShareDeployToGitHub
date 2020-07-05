@@ -87,11 +87,7 @@
     "Password": "كلمة المرور",
     "Invalid Password": "يجب ادخال كلمة المرور",
     "ILab Registration": "انشاء حساب",
-    "First Name": "الأسم الأول",
-    "First Name is required": "يجب ادخال الأسم الأول",
-    "lastName": "الأسم الأخير",
-    "Last Name": "الأسم الأخير",
-    "lastName is required": "يجب ادخال الأسم الأخير",
+
     "Phone": "رقم الهاتف",
     "Phone Number is required": "يجب ادخال رقم الهاتف",
     "Must be a valid Phone Number": "يجب أن يكون رقم هاتف صالحًا",
@@ -161,9 +157,13 @@
     "Id": "الرقم التعريفى",
     "firstName": "الأسم الأول",
     "firstName.error.required": "يجب ادخال الأسم الأول",
+    "lastName.error.required": "يجب ادخال الأسم الأخير",
     "lastName": "الأسم الأخير",
-    "lastName.error.required": "يجب ادخال الأسم الأخير"
-
+    "service": "الخدمات",
+    "service.title": "يمكنك إنشاء خدمة جديدة وإضافتها إلى سلة التسوق الخاصة بك",
+    "service.add": "أضف خدمة",
+    "gallery": "المعرض",
+    "gallery.choose": "يمكنك اختيار الطلب وإضافته إلى سلة التسوق الخاصة بك مباشرة"
 
 
 }
