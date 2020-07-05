@@ -126,6 +126,16 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
 
     // this.appStore.dispatch(new fromStore.UpdateLineItemQuantity(newItem));
   }
+
+  textAreaChange(item: ShoppingCartItem, notes) {
+    console.log(notes);
+    let newItem = Object.assign({}, item);
+    newItem.notes = notes;
+    console.log(newItem);
+    this.service.update(newItem).subscribe((res) => {
+      this.appStore.dispatch(new fromStore.LoadInitState());
+    });
+  }
   // removeCart() {
   //   this.service.removeCart().subscribe();
   // }

@@ -51,7 +51,7 @@
                         <span class="text-danger" *ngIf="form.controls.file.errors.required && form.controls.file.touched"> *file is required</span>
                         <span class="text-danger" *ngIf="form.controls.file.errors.extension "> | *availble extensions are {{form.controls.file.errors.extension}} </span>
                     </span>
-                    <input type="file" formControlName="file" class="form-control mb-3 border" (change)="handleFileInput($event)">
+                    <input type="file" [accept]="extFile" formControlName="file" class="form-control mb-3 border" (change)="handleFileInput($event)">
 
                     <label>Quantity :</label>
                     <span *ngIf="form.controls.quantity.errors != null">
