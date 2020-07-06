@@ -21,12 +21,11 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-import { StlModelViewerModule } from 'angular-stl-model-viewer';
+
 @NgModule({
   declarations: [ShoppingCartComponent, ShoppingCartFormComponent],
   imports: [
     CommonModule,
-    StlModelViewerModule,
     NgMultiSelectDropDownModule.forRoot(),
     ShoppingCartRoutingModule,
     NgbModule,
