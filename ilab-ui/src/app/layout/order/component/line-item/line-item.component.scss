@@ -1,17 +1,18 @@
-:host .product-name {
-    font-weight: normal;
-    font-size: 80%;
-}
+// :host .product-name {
+//     //font-weight: normal;
+//     //font-size: 80%;
+// }
 
-.value {
-    font-weight: bold;
+label {
+    font-weight: 600;
 }
 
 .card-form {
-    width: 100%;
-    border-radius: 10px;
+    //width: 100%;
+    border-radius: 5px;
     background: white;
-    box-shadow: 0 27px 55px 0 rgba(0, 0, 0, 0.3), 0 17px 17px 0 rgba(0, 0, 0, 0.15);
+    padding: 10px;
+    //box-shadow: 0 27px 55px 0 rgba(0, 0, 0, 0.3), 0 17px 17px 0 rgba(0, 0, 0, 0.15);
 }
 
 .card-form .form-title {
@@ -37,4 +38,9 @@
 .card-form .form-body {
     padding: 10px;
     margin-bottom: 5px;
+}
+
+.dropdown-divider{
+    height: 3px;
+    background: white;
 }

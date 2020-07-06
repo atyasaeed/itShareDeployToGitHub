@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Order } from 'src/app/shared/domain';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrdersService } from '../../orders.service';
@@ -10,7 +10,7 @@ import { OrdersService } from '../../orders.service';
 })
 export class OrderCardComponent implements OnInit {
   @Input() order: Order;
-
+  //@ViewChild('statusBtn') statusBtn: HTMLElement;
   // orderitem = new Order();
 
   constructor(private orderService: OrdersService, private route: ActivatedRoute, private router: Router) {}
@@ -18,6 +18,7 @@ export class OrderCardComponent implements OnInit {
   dateArray: any[] = [];
   ngOnInit() {
     this.getDeliveryDate();
+    //console.log(this.order);
   }
 
   getDeliveryDate() {
@@ -99,6 +100,7 @@ export class OrderCardComponent implements OnInit {
   cancelOrder() {
     this.orderService.cancel(this.order.id).subscribe((res) => {
       this.order = res;
+      //console.log(res);
     });
   }
 
@@ -112,5 +114,34 @@ export class OrderCardComponent implements OnInit {
 
   public getSubTotal() {
     return this.order.lineItems.map((rr) => rr.unitPrice * rr.quantity).reduce((a, b) => a + b, 0);
+  }
+
+  checkStatus() {
+    let result = '';
+    //this.order.status = 'IN_PROGRESS';
+    switch (this.order.status) {
+      case 'PENDING':
+        result = 'PENDING';
+        break;
+      case 'CANCELLED':
+        result = 'CANCELLED';
+        break;
+      case 'QUOTED':
+        //this.statusBtn.innerText = 'aprove';
+        result = 'QUOTED';
+        break;
+      case 'IN_PROGRESS':
+        result = 'IN_PROGRESS';
+        break;
+      case 'READY':
+        result = 'READY';
+        break;
+      case 'DELIVERED':
+        result = 'DELIVERED';
+        break;
+      default:
+        result = '';
+    }
+    return result;
   }
 }

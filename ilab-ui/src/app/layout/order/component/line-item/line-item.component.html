@@ -19,35 +19,61 @@
                         <div class="info">
                             <div class="row">
                                 <div class="col-md-12 product-name">
-                                    <h5 class="text-center">{{lineItem.service.name}}</h5>
+                                    <h5 class="text-center text-md-left text-primary">{{lineItem.service.name}}</h5>
 
                                     <div class="row">
-                                        <div class="col-md-6">
-                                            <div *ngIf="lineItem?.estimatedEndDate"><span class="col-md-4">{{ 'Estimated End Date' | translate }} :</span><span class="value ">{{ lineItem.estimatedEndDate | date:'fullDate' }}
-                        </span></div>
-                                            <div *ngIf="lineItem?.plannedEndDate"><span class="col-md-4">{{ 'Planned End Date' | translate }}</span><span class="value ">{{ lineItem.plannedEndDate | date:'fullDate' }}
-                        </span></div>
-                                            <div><span class="col-md-4">{{ 'Price' | translate }} :</span><span class="value ">{{lineItem.unitPrice *lineItem.quantity|currency:'EGP'}}
-                        </span></div>
-
-
+                                        <div class="col-md-6" *ngIf="checkStatus() != 'PENDING' && checkStatus() != 'CANCELLED'">
+                                            <div ><label >{{ 'Estimated End Date' | translate }} :&nbsp;</label><span >{{ lineItem.estimatedEndDate | date:'fullDate' }}
+                                                </span></div>
+                                            <!-- <div *ngIf="lineItem?.plannedEndDate"><span class="col-md-4">{{ 'Planned End Date' | translate }}</span><span class="value ">{{ lineItem.plannedEndDate | date:'fullDate' }}
+                                                </span></div> -->
+                                            <div ><label >{{ 'Price' | translate }} :&nbsp;</label><span >{{lineItem.unitPrice *lineItem.quantity|currency:'EGP'}}
+                                                </span></div>
                                         </div>
                                         <div class="col-md-6">
-                                            <div><span class="col-md-4">{{ 'Quantity' | translate }}:</span><span class="value ">{{lineItem.quantity}}</span></div>
-                                            <div><span class="col-md-4">{{ 'Notes' | translate }}:</span><span class="value ">{{lineItem.notes}}</span></div>
+                                            <div><label >{{ 'Quantity' | translate }} :&nbsp;</label><span >{{lineItem.quantity}}</span></div>
+                                            <div *ngIf="lineItem.notes"><label >{{ 'Notes' | translate }} :&nbsp;</label><span >{{(lineItem.notes.length>40)? (lineItem.notes | slice:0:40)+'....':(lineItem.notes)}}</span></div>
                                         </div>
 
                                     </div>
-                                    <div class="row" *ngFor="let file of lineItem.files ;index as i" class="card-form">
-                                        <div class="form-title">{{'Digital Material'|translate}}: <span class="value"><a
-                          [href]="getFileUrl(i)">{{file.asset_name}}</a></span></div>
-                                        <div class="form-body">
-                                            <div>{{'Type' | translate }}:<span class="value">{{file.type |titlecase}}</span></div>
-                                            <div>{{'Material' | translate }}:<span class="value">{{file.material |titlecase}}</span></div>
-                                            <div>{{'Dimension' | translate }}:<span class="value">{{file.dimension |titlecase}}</span></div>
-                                            <div>{{'Color' | translate }}: <span class="value">{{file.color |titlecase}}</span></div>
-                                            <div></div>
-                                        </div>
+                                    <div class="row card-form" *ngFor="let file of lineItem.files ;index as i" >
+                                        <!-- <div class="form-title">{{'Digital Material'|translate}}: <span class="value"><a
+                                            [href]="getFileUrl(i)">{{file.asset_name}}</a></span></div> -->
+
+                                            <div class="col-md-6" *ngIf="file.height">
+                                                <label > {{'Height' | translate }} :&nbsp;</label>
+                                                <span>{{file.height}}</span>
+                                            </div>
+                                            <div class="col-md-6" *ngIf="file.width">
+                                                <label > {{'Width' | translate }} :&nbsp;</label>
+                                                <span>{{file.width}}</span>
+                                            </div>
+                                            <div class="col-md-6" *ngIf="file.material">
+                                                <label > {{'Material' | translate }} :&nbsp;</label>
+                                                <span>{{file.material}}</span>
+                                            </div>
+                                            <div class="col-md-6" *ngIf="file.type">
+                                                <label > {{'Type' | translate }} :&nbsp;</label>
+                                                <span>{{file.type}}</span>
+                                            </div>
+                                            <div class="col-md-6" *ngIf="file.color">
+                                                <label > {{'Color' | translate }} :&nbsp;</label>
+                                                <span>{{file.color}}</span>
+                                            </div>
+                                            <div class="col-md-6" *ngIf="file.unit">
+                                                <label > {{'Unit' | translate }} :&nbsp;</label>
+                                                <span>{{file.unit}}</span>
+                                            </div>
+                                            <div class="col-md-6" *ngIf="file.thickness">
+                                                <label > {{'Thickness' | translate }} :&nbsp;</label>
+                                                <span>{{file.thickness}}</span>
+                                            </div>
+                                            <div class="col-md-6" *ngIf="file.processes">
+                                                <label > {{'Processes' | translate }} :&nbsp;</label>
+                                                <span>{{file.processes}}</span>
+                                            </div>
+                                            <!-- <div></div> -->
+
                                     </div>
                                     <!-- <div *ngFor="let file of lineItem.files; index as i"class="card-form">
 
@@ -55,11 +81,11 @@
                                     <div>Units used in file :<span class="value ">{{lineItem.unit}}</span></div>
                                     <div>Material :<span class="value ">{{lineItem.material}}</span></div>
                                   </div> -->
-                                    <div class="row">
+                                    <!-- <div class="row">
                                         <div class="col-md-12">
 
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
 
                                 <!-- {{lineItem.status}} -->
@@ -85,4 +111,5 @@
     <!-- End One Item Row -->
 
 </div>
-<div class="dropdown-divider"></div>
+<div class="dropdown-divider my-3">
+</div>

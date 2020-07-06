@@ -3,11 +3,11 @@
 <main class="page">
     <section class="tracking-orders ">
 
-        <div class="container">
+        <!-- <div class="container"> -->
 
             <!-- Page Head -->
             <div class="block-heading text-center">
-                <h2>{{'My Orders'|translate}}</h2>
+                <h2 class="text-primary">{{'My Orders'|translate}}</h2>
                 <p>{{'You can track and manage all of your orders'|translate}} </p>
             </div>
             <!-- End Page Head -->
@@ -17,9 +17,9 @@
             <!-- <div class="card mb-3" *ngFor='let order of orders'>
           <app-order-card ></app-order-card>
         </div> -->
-            <app-order-card class="col-md-4" *ngFor="let entity of entities$ | async" [order]="entity"></app-order-card>
+            <app-order-card   *ngFor="let entity of entities$ | async" [order]="entity"></app-order-card>
 
-        </div>
+        <!-- </div> -->
     </section>
 
 </main>

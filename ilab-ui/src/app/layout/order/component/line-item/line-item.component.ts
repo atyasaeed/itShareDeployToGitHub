@@ -9,10 +9,17 @@ import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 })
 export class LineItemComponent implements OnInit {
   @Input() lineItem: LineItem;
+  @Input() status: string;
 
   constructor(@Inject(APP_CONFIG) public appConfig: IAppConfig) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    //console.log(this.lineItem);
+    //console.log(this.status);
+  }
+  ngAfterViewInit() {
+    //console.log(this.status);
+  }
   getImageUrl(): string {
     return this.appConfig.ASSETS_URL + this.lineItem.service.id;
   }
@@ -32,5 +39,33 @@ export class LineItemComponent implements OnInit {
     } else {
       return false;
     }
+  }
+
+  checkStatus() {
+    let result = '';
+
+    switch (this.status) {
+      case 'PENDING':
+        result = 'PENDING';
+        break;
+      case 'CANCELLED':
+        result = 'CANCELLED';
+        break;
+      case 'QUOTED':
+        result = 'QUOTED';
+        break;
+      case 'IN_PROGRESS':
+        result = 'IN_PROGRESS';
+        break;
+      case 'READY':
+        result = 'READY';
+        break;
+      case 'DELIVERED':
+        result = 'DELIVERED';
+        break;
+      default:
+        result = '';
+    }
+    return result;
   }
 }

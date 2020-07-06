@@ -13,6 +13,7 @@ import { routerTransition } from 'src/app/router.animations';
 
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { debounce, debounceTime, switchMap, delay } from 'rxjs/operators';
+import * as THREE from 'three';
 @Component({
   selector: 'app-shopping-cart',
   templateUrl: './shopping-cart.component.html',
@@ -32,6 +33,7 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
   dropdownSettings: IDropdownSettings = {};
   // quantitiesCount;
   selectedItemsArray;
+  //test: string[] = ['assets/images/teapot.stl'];
   // items: Array<ShoppingCartItem>;
   constructor(
     service: ShoppingCartService,
@@ -163,6 +165,8 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
       extension[extension.length - 1].toLowerCase() == 'png' ||
       extension[extension.length - 1].toLowerCase() == 'jpg'
     ) {
+      return this.appConfig.FILE_URL + entity.files[0].asset_id;
+    } else if (extension[extension.length - 1].toLowerCase() == 'stl') {
       return this.appConfig.FILE_URL + entity.files[0].asset_id;
     } else {
       return false;

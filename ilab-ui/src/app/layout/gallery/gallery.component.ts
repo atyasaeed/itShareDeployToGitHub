@@ -43,6 +43,7 @@ export class GalleryComponent extends DefaultListComponent<ShoppingCartItem, Gal
       this.hasAdminRole = user && user.roles.includes('ROLE_ADMIN');
     });
     this.entities$.subscribe((items) => {
+      console.log(items);
       this.subTotal = items.map((item) => item.unitPrice * item.quantity).reduce((a, b) => a + b, 0);
     });
   }
@@ -61,8 +62,8 @@ export class GalleryComponent extends DefaultListComponent<ShoppingCartItem, Gal
   getImageUrl(entity: ShoppingCartItem): string {
     return this.appConfig.ASSETS_URL + entity.service.id;
   }
-  getFileUrl(entity: ShoppingCartItem, fileIndex): string {
-    return this.appConfig.FILE_URL + entity.files[fileIndex].asset_id;
+  getFileUrl(entity: ShoppingCartItem): string {
+    return this.appConfig.FILE_URL + entity.files[0].asset_id;
   }
 
   addLineItem(entity) {

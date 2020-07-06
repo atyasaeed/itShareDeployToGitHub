@@ -2,7 +2,7 @@
 @import "_rtl";
 @import "_responsive";
 
-
+$lightGreyBackground:#e9ecef;
 
 
 th[sortable] {
@@ -33,12 +33,6 @@ th[sortable].desc:before {
     border: 1px solid #ced4da !important;
 }
 
-.light-grey-background{
-    background: #e9ecef !important;
-}
-
-
-
 
 
 a:hover{
@@ -49,4 +43,10 @@ a:hover{
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.light-grey-background{
+    background-color:$lightGreyBackground ;
+    border-radius: 5px;
+    border:none;
 }

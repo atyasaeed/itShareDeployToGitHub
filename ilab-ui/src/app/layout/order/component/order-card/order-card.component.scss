@@ -2,12 +2,12 @@
       background: #28a745;
       color: #fff;
   }
-  
+
    :host .order-status.danger {
       background: #dc3545;
       color: #fff;
   }
-  
+
    :host .order-status.warning {
       background: #ffc107;
       color: #212529;
@@ -15,7 +15,16 @@
   /* .row.WFA {
     justify-content: space-around;
   } */
-  
-  .value {
-      font-weight: bold;
+
+  label {
+      font-weight: 600;
   }
+
+  .card-header{
+    border: 2px solid #0000000f;
+    background: rgba(0,0,0,0.03);
+  }
+
+  // app-line-item{
+  //   border-bottom: 3px solid white;
+  // }
