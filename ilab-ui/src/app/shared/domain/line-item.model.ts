@@ -6,7 +6,7 @@ export interface LineItem extends Entity {
   rank: number;
   quantity: number;
   attend: boolean;
-  unitPrice: number;
+  unitPrice?: number;
   plannedStartDate: Date;
   plannedEndDate: Date;
   estimatedStardDate: Date;
