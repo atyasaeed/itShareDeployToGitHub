@@ -136,7 +136,7 @@
     "Unite Price": "تكلفة الوحده",
     "Total Price": "التكلفه الكامله",
     "Total Cost": "التكلفه الكامله",
-    "Number Of Items": "عدد العناصر",
+    "order.item.number": "عدد العناصر",
     "Digital Material": "الماده",
     "Summary": "الملخص",
     "checkOut": "الدفع",

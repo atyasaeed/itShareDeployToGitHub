@@ -14,14 +14,16 @@
         </div>
         <div class="col-md-4 form-rtl">
           <div class="row text-right">
+            <div class="col-md-12  row" style="justify-content: flex-end;">
+              <div *ngIf="entity.status === 'PENDING'" style="margin-right: 10px;"><button (click)="orderReject(entity)"
+                  class="btn btn-danger">{{'order.status.reject'|translate}}</button>
+              </div>
+              <div *ngIf="found && entity.status === 'PENDING'">
+                <button (click)="orderStatus(entity,statusBtn)" #statusBtn
+                  class="btn btn-info">{{"order.status.quate"|translate}}</button>
+              </div>
+            </div>
 
-            <div class="col-md-8" *ngIf="entity.status === 'PENDING'"><button (click)="orderReject(entity)"
-                class="btn btn-danger">{{'order.status.reject'|translate}}</button>
-            </div>
-            <div class="col-md-4" *ngIf="found && entity.status === 'PENDING'">
-              <button (click)="orderStatus(entity,statusBtn)" #statusBtn
-                class="btn btn-info">{{"order.status.quate"|translate}}</button>
-            </div>
             <div class="col-md-12" (click)="orderStatus(entity,statusBtn)" #statusBtn
               *ngIf="entity.status === 'QUOTE_ACCEPTED'">
               <button class="btn btn-info">{{'order.status.progress'|translate}}</button>
@@ -72,11 +74,24 @@
                   <div class="info">
 
                     <div class="row">
-                      <div class="col-md-12 ">
+                      <div class="col-md-10">
                         <h5>
                           <a [routerLink]="['/CartItem']"
                             [queryParams]="{service:lineItem.service.id}">{{lineItem.service.name}}</a>
                         </h5>
+
+                      </div>
+                      <div class="col-md-2 row price text-center text-md-right my-auto"
+                        style="justify-content: space-between;">
+                        <!-- <span>$120</span> -->
+                        <a class="btn btn-outline-success btn-xs" [href]="getFileUrl(lineItem)">
+                          <i class="fa fa-download" aria-hidden="true"></i>
+                        </a>
+                        <button class="btn btn-outline-primary btn-xs" (click)="updateItem(entity,lineItem)"
+                          [disabled]="f().invalid">
+                          <i class="fa fa-save"></i>
+                        </button>
+
 
                       </div>
                     </div>
@@ -133,27 +148,7 @@
 
 
 
-                      <div class="col-md-2 price text-center text-md-right my-auto button-position button-position-rtl">
-                        <!-- <span>$120</span> -->
-                        <a class="btn btn-outline-success btn-xs" [href]="getFileUrl(lineItem)">
-                          <i class="fa fa-download" aria-hidden="true"></i>
-                        </a>
-                        <button class="btn btn-outline-primary btn-xs" (click)="updateItem(entity,lineItem)"
-                          [disabled]="f().invalid">
-                          <i class="fa fa-save"></i>
-                        </button>
-                        <!-- <mat-card-actions class="form-rtl text-right ">
-                          <button (click)="updateItem(lineItem)" mat-raised-button color="primary"
-                            [disabled]="f().invalid"><i class="icon-save"></i></button>
-                        </mat-card-actions> -->
 
-                        <!-- <button type="button"  class="btn btn-outline-danger btn-xs ml-3"
-                          (click)="delete(entity)">
-                          <i class="fa fa-trash" aria-hidden="true"></i>
-                        </button> -->
-
-
-                      </div>
                     </div>
 
                     <div class="row" *ngFor="let file of lineItem.files ;index as j" class="card-form mt-3">
