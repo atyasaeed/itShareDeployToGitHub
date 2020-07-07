@@ -137,7 +137,7 @@
     "order.status.quate": "Quote",
     "order.status.reject":"Reject",
     "order.status.progress":"In Progress",
-    "order.status.ready":"Ready For Delivery",
+    "order.status.ready":"Finished",
     "order.status.delivered":"Delivered",
      "file.height":"Height",
      "file.width":"Width",

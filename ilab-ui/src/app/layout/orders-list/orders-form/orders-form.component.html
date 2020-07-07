@@ -12,26 +12,26 @@
           <span style="display:block;">{{'order.totalPrice'|translate}} :<span
               class="value">{{getSubTotal(entity.lineItems)| currency:'EGP'}}</span></span>
         </div>
-        <div class="col-md-6 form-rtl">
+        <div class="col-md-4 form-rtl">
           <div class="row text-right">
 
-            <div class="col-md-6" *ngIf="entity.status === 'PENDING'"><button
+            <div class="col-md-8" *ngIf="entity.status === 'PENDING'"><button (click)="orderReject(entity)"
                 class="btn btn-danger">{{'order.status.reject'|translate}}</button>
             </div>
-            <div class="col-md-6" *ngIf="found && entity.status === 'PENDING'">
-              <button (click)="orderStatus(entity.status,statusBtn)" #statusBtn
+            <div class="col-md-4" *ngIf="found && entity.status === 'PENDING'">
+              <button (click)="orderStatus(entity,statusBtn)" #statusBtn
                 class="btn btn-info">{{"order.status.quate"|translate}}</button>
             </div>
-            <div class="col-md-6" (click)="orderStatus(entity.status,statusBtn)" #statusBtn
-              *ngIf="entity.status === 'APPROVED'">
+            <div class="col-md-12" (click)="orderStatus(entity,statusBtn)" #statusBtn
+              *ngIf="entity.status === 'QUOTE_ACCEPTED'">
               <button class="btn btn-info">{{'order.status.progress'|translate}}</button>
             </div>
-            <div class="col-md-6" (click)="orderStatus(entity.status,statusBtn)" #statusBtn
+            <div class="col-md-12" (click)="orderStatus(entity,statusBtn)" #statusBtn
               *ngIf="entity.status === 'IN_PROGRESS'">
               <button class="btn btn-info">{{'order.status.ready'|translate}}</button>
             </div>
-            <div class="col-md-6" (click)="orderStatus(entity.status,statusBtn)" #statusBtn
-              *ngIf="entity.status === 'Ready_For_Delivery'">
+            <div class="col-md-12" (click)="orderStatus(entity,statusBtn)" #statusBtn
+              *ngIf="entity.status === 'FINISHED'">
               <button class="btn btn-info">{{'order.status.delivered'|translate}}</button>
             </div>
             <!-- <div class="col-md-6" (click)="orderStatus(entity.status,statusBtn)" #statusBtn

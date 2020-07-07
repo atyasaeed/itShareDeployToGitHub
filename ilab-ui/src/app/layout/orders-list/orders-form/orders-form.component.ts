@@ -24,7 +24,6 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
     { heading: 'Orders', icon: 'fa-tasks', link: '/orders-list' },
     { heading: 'Order-Details', icon: 'fa-tasks' },
   ];
-  order: Order;
   orderId;
   found: boolean = true;
   constructor(
@@ -124,24 +123,35 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
     return found;
   }
 
-  orderStatus(status: string, statusBtn: HTMLElement) {
-    switch (status) {
+  orderStatus(order: Order, statusBtn: HTMLElement) {
+    switch (order.status) {
       case 'PENDING':
-        statusBtn.innerText = 'WATTING_FOR_APPROVE';
-        // this.entity.status = 'WATTING_FOR_APPROVEL';
-        this.entity.status = 'APPROVED';
+        this.service.orderStatus(order.id, 'quote').subscribe((res) => {
+          this.entity.status = 'QUOTED';
+          // this.entity.status = 'QUOTE_ACCEPTED';
+
+          this.toastr.success('QUOTED Successful');
+        });
         break;
-      case 'APPROVED':
-        statusBtn.innerText = 'In Progress';
-        this.entity.status = 'IN_PROGRESS';
+      case 'QUOTE_ACCEPTED':
+        this.service.orderStatus(order.id, 'process').subscribe((res) => {
+          this.entity.status = 'IN_PROGRESS';
+          this.toastr.success('In Progress Successful');
+        });
         break;
       case 'IN_PROGRESS':
-        statusBtn.innerText = 'In Progress';
-        this.entity.status = 'Ready_For_Delivery';
+        // statusBtn.innerText = 'In Progress';
+        this.service.orderStatus(order.id, 'finish').subscribe((res) => {
+          this.entity.status = 'FINISHED';
+          this.toastr.success('Finished Successful');
+        });
+
         break;
-      case 'Ready_For_Delivery':
-        statusBtn.innerText = 'Delivered';
-        this.entity.status = 'Delivered';
+      case 'FINISHED':
+        this.service.orderStatus(order.id, 'deliver').subscribe((res) => {
+          this.entity.status = 'DELIVERED';
+          this.toastr.success('DELIVERED Successful');
+        });
         break;
       case 'Delivered':
         // statusBtn.innerText = '';
@@ -150,5 +160,11 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
       default:
         break;
     }
+  }
+  orderReject(order: Order) {
+    this.service.orderReject(order.id).subscribe((res) => {
+      this.entity.status = 'ORDER_REJECTED';
+      this.toastr.success('ORDER_REJECTED Successful');
+    });
   }
 }
