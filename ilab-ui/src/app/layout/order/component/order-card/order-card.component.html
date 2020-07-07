@@ -49,7 +49,7 @@
             </ng-template>
 
             <!-- Stand alone button to cancel all order -->
-            <div class=" col-md-4 col-sm-12  text-right  my-auto" *ngIf="checkStatus() != 'CANCELLED'">
+            <div class=" col-md-4 col-sm-12  text-right  my-auto" *ngIf="checkStatus() != 'CANCELLED' && checkStatus() != 'QUOTE_REJECTED'">
 
                 <button   class="btn btn-primary btn-sm" *ngIf="checkStatus() == 'QUOTED'" (click)="approveQuotation()" >approve </button>
                 <button   class="btn btn-primary btn-sm ml-3" *ngIf="checkStatus() == 'QUOTED'" (click)="rejectQuotation()" >reject </button>

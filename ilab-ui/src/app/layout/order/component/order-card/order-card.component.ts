@@ -34,6 +34,9 @@ export class OrderCardComponent implements OnInit {
     let v = 100 / (this.statusArr.length - 1);
     //console.log(v);
     this.activesStatusIndex = this.statusArr.indexOf(this.order.status);
+    if (this.order.status == 'QUOTE_ACCEPTED' || this.order.status == 'QUOTE_REJECTED') {
+      this.activesStatusIndex = this.statusArr.indexOf('QUOTED');
+    }
     //console.log(this.activesStatusIndex);
     // if (this.activesStatusIndex == 0) {
     //   this.barValue = 0;
@@ -152,6 +155,14 @@ export class OrderCardComponent implements OnInit {
       case 'QUOTED':
         //this.statusBtn.innerText = 'aprove';
         result = 'QUOTED';
+        break;
+      case 'QUOTE_ACCEPTED':
+        //this.statusBtn.innerText = 'aprove';
+        result = 'QUOTE_ACCEPTED';
+        break;
+      case 'QUOTE_REJECTED':
+        //this.statusBtn.innerText = 'aprove';
+        result = 'QUOTE_REJECTED';
         break;
       case 'IN_PROGRESS':
         result = 'IN_PROGRESS';
