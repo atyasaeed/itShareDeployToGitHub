@@ -43,7 +43,7 @@ export class LineItemComponent implements OnInit {
 
   checkStatus() {
     let result = '';
-
+    //this.order.status = 'FINISHED';
     switch (this.status) {
       case 'PENDING':
         result = 'PENDING';
@@ -52,7 +52,20 @@ export class LineItemComponent implements OnInit {
         result = 'CANCELLED';
         break;
       case 'QUOTED':
+        //this.statusBtn.innerText = 'aprove';
         result = 'QUOTED';
+        break;
+      case 'QUOTE_ACCEPTED':
+        //this.statusBtn.innerText = 'aprove';
+        result = 'QUOTE_ACCEPTED';
+        break;
+      case 'QUOTE_REJECTED':
+        //this.statusBtn.innerText = 'aprove';
+        result = 'QUOTE_REJECTED';
+        break;
+      case 'ORDER_REJECTED':
+        //this.statusBtn.innerText = 'aprove';
+        result = 'ORDER_REJECTED';
         break;
       case 'IN_PROGRESS':
         result = 'IN_PROGRESS';
