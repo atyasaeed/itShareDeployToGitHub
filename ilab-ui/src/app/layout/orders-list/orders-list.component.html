@@ -11,10 +11,10 @@
       <thead>
         <tr>
           <!-- <th scope="col">#</th> -->
-          <th scope="col" sortable="id" (sort)="onSort($event)">{{'Id'|translate}}</th>
-          <th scope="col" sortable="total_payment" (sort)="onSort($event)">{{'Total Cost'|translate}}</th>
-          <th scope="col" sortable="length" (sort)="onSort($event)">{{'Number Of Items'|translate}}
-          <th scope="col" sortable="status" (sort)="onSort($event)">{{'Status'|translate}}
+          <th scope="col" sortable="id" (sort)="onSort($event)">{{'order.id'|translate}}</th>
+          <th scope="col" sortable="total_payment" (sort)="onSort($event)">{{'order.totalPrice'|translate}}</th>
+          <th scope="col" sortable="length" (sort)="onSort($event)">{{'order.item.number'|translate}}
+          <th scope="col" sortable="status" (sort)="onSort($event)">{{'order.status'|translate}}
           </th>
 
           <th></th>

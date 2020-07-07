@@ -130,27 +130,27 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
           this.entity.status = 'QUOTED';
           // this.entity.status = 'QUOTE_ACCEPTED';
 
-          this.toastr.success('QUOTED Successful');
+          this.toastr.success('Successful');
         });
         break;
       case 'QUOTE_ACCEPTED':
         this.service.orderStatus(order.id, 'process').subscribe((res) => {
           this.entity.status = 'IN_PROGRESS';
-          this.toastr.success('In Progress Successful');
+          this.toastr.success('Successful');
         });
         break;
       case 'IN_PROGRESS':
         // statusBtn.innerText = 'In Progress';
         this.service.orderStatus(order.id, 'finish').subscribe((res) => {
           this.entity.status = 'FINISHED';
-          this.toastr.success('Finished Successful');
+          this.toastr.success('Successful');
         });
 
         break;
       case 'FINISHED':
         this.service.orderStatus(order.id, 'deliver').subscribe((res) => {
           this.entity.status = 'DELIVERED';
-          this.toastr.success('DELIVERED Successful');
+          this.toastr.success('Successful');
         });
         break;
       case 'Delivered':
@@ -164,7 +164,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
   orderReject(order: Order) {
     this.service.orderReject(order.id).subscribe((res) => {
       this.entity.status = 'ORDER_REJECTED';
-      this.toastr.success('ORDER_REJECTED Successful');
+      this.toastr.success('Successful');
     });
   }
 }
