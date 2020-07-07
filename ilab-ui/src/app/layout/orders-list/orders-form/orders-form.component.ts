@@ -24,7 +24,9 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
     { heading: 'Orders', icon: 'fa-tasks', link: '/orders-list' },
     { heading: 'Order-Details', icon: 'fa-tasks' },
   ];
-
+  order: Order;
+  orderId;
+  found: boolean = true;
   constructor(
     formBuilder: FormBuilder,
     loadingService: TdLoadingService,
@@ -34,12 +36,25 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
     router: Router,
     private alertService: AlertService,
     private toastr: ToastrService,
+    private activatedRoute: ActivatedRoute,
 
     @Inject(APP_CONFIG) public appConfig: IAppConfig
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
     this.form = this.formBuilder.group({
       // id: [{ value: '', disabled: true }],
+    });
+    this.activatedRoute.params.subscribe((paramsId) => {
+      this.orderId = paramsId.entityId;
+      console.log(this.orderId);
+    });
+    this.service.get(this.orderId).subscribe((res: Order) => {
+      // this.checkLineItems(this.orderId, res.lineItems);
+      res.lineItems.forEach((e) => {
+        if (!e.unitPrice || !e.estimatedEndDate) {
+          this.found = false;
+        }
+      });
     });
   }
 
@@ -50,7 +65,6 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
         sum += e.unitPrice;
       }
     });
-    console.log(sum);
 
     return sum;
     // return lineItems.map((rr) => rr.unitPrice * rr.quantity).reduce((a, b) => a + b, 0);
@@ -68,10 +82,20 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
   cancel(): void {
     // this.router.navigateByUrl(this.breadcrumbs[0].link);
   }
-  updateItem(lineItem: LineItem) {
+  updateItem(order: Order, lineItem: LineItem) {
     if (lineItem.unitPrice && lineItem.estimatedEndDate) {
       this.service.updateLineItem(lineItem).subscribe((res) => {
         this.toastr.success('Update Successful');
+        this.service.get(this.orderId).subscribe((res: Order) => {
+          // this.checkLineItems(this.orderId, res.lineItems);
+          res.lineItems.forEach((e) => {
+            if (!e.unitPrice || !e.estimatedEndDate) {
+              this.found = false;
+            } else {
+              this.found = true;
+            }
+          });
+        });
       });
     } else {
       this.toastr.error('Please Enter Price and Estimated End Date For This Item');
@@ -90,7 +114,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
       return false;
     }
   }
-  checkLineItems(lineItems: LineItem[]) {
+  checkLineItems(id, lineItems: LineItem[]) {
     let found = true;
     lineItems.forEach((e) => {
       if (!e.unitPrice || !e.estimatedEndDate) {
