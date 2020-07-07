@@ -57,8 +57,8 @@ export class LineItemComponent implements OnInit {
       case 'IN_PROGRESS':
         result = 'IN_PROGRESS';
         break;
-      case 'READY':
-        result = 'READY';
+      case 'FINISHED':
+        result = 'FINISHED';
         break;
       case 'DELIVERED':
         result = 'DELIVERED';
