@@ -164,6 +164,10 @@ export class OrderCardComponent implements OnInit {
         //this.statusBtn.innerText = 'aprove';
         result = 'QUOTE_REJECTED';
         break;
+      case 'ORDER_REJECTED':
+        //this.statusBtn.innerText = 'aprove';
+        result = 'ORDER_REJECTED';
+        break;
       case 'IN_PROGRESS':
         result = 'IN_PROGRESS';
         break;
