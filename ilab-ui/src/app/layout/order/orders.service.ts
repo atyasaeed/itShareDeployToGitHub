@@ -9,12 +9,12 @@ import { RestService } from 'src/app/shared/services';
 export class OrdersService extends RestService<Order> {
   resource: string = 'orders';
   approve(id: string) {
-    return this.http.put<Order>(this.appConfig.getResourceUrl('orders') + '/' + id + '/approve', null);
+    return this.http.put<Order>(this.appConfig.getResourceUrl('orders') + '/' + id + '/approveQuote', null);
   }
   cancel(id: string) {
     return this.http.put<Order>(this.appConfig.getResourceUrl('orders') + '/' + id + '/cancel', null);
   }
   reject(id: string) {
-    return this.http.put<Order>(this.appConfig.getResourceUrl('orders') + '/' + id + '/reject', null);
+    return this.http.put<Order>(this.appConfig.getResourceUrl('orders') + '/' + id + '/rejectQuote', null);
   }
 }
