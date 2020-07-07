@@ -56,7 +56,7 @@ public class OrderController
 		return orderService.cancel(id, auth);
 	}
 
-	@PutMapping(path = "/{id}/reject")
+	@PutMapping(path = "/{id}/rejectQuote")
 	public OrderEntity rejectQuote(@PathVariable("id") UUID id, Authentication auth)
 	{
 		return orderService.rejectQuote(id, auth);
