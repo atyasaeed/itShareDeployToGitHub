@@ -139,7 +139,7 @@ public class OrderService
 	public OrderEntity cancel(UUID orderId, Authentication auth)
 	{
 		List<OrderStatus> eligibleStatus = Arrays.asList(OrderStatus.QUOTED, OrderStatus.WAIT_QUOTE,
-				OrderStatus.PENDING);
+				OrderStatus.PENDING,OrderStatus.QUOTE_ACCEPTED);
 		User user = userRepo.findByUsername(auth.getName());
 		OrderEntity order = orderRepo.findById(orderId).orElseThrow();
 		if (order.getAccount().getId().equals(user.getAccounts().iterator().next().getId())
