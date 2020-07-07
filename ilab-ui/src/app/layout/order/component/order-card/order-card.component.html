@@ -60,7 +60,7 @@
                 <button   class="btn btn-primary btn-sm ml-3" *ngIf="checkStatus() == 'QUOTED'" (click)="rejectQuotation()" >{{'REJECT' | translate}}</button>
 
 
-                <input type="submit" class="btn btn-sm btn-danger ml-3" *ngIf="checkStatus() != 'FINISHED' && checkStatus() != 'DELIVERED' " value="{{'Cancel Order'|translate}}" (click)="cancelOrder()">
+                <input type="submit" class="btn btn-sm btn-danger ml-3" *ngIf="checkStatus() != 'IN_PROGRESS' && checkStatus() != 'FINISHED' && checkStatus() != 'DELIVERED' " value="{{'Cancel Order'|translate}}" (click)="cancelOrder()">
             </div>
 
 
