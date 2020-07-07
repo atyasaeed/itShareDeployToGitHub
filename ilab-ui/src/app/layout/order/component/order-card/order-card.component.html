@@ -33,14 +33,18 @@
                     <span class="status-section">
                         <p class="position-absolute status-progress-bar"><ngb-progressbar type="success" [value]="barValue" height="5px"></ngb-progressbar></p>
                         <span class="status " *ngFor="let s of statusArr;let i = index" [class.activestatus]="i <= activesStatusIndex">
-                            {{s}}
+                            {{i+1}}
+                            <span class="status-name">
+                                {{s}}
+                            </span>
                         </span>
+
                     </span>
                 </div>
             </div>
             <ng-template #cancelledOrder>
-                <div class="col-md-12 text-center">
-                    order cancelled
+                <div class="col-md-12  text-center">
+                    <span class="cancelled">{{'Order Cancelled' | translate}}</span>
                 </div>
             </ng-template>
 

@@ -31,15 +31,15 @@ export class OrderCardComponent implements OnInit {
 
   ngAfterViewInit() {
     //console.log(this.order.status);
-    let v = 100 / this.statusArr.length;
+    let v = 100 / (this.statusArr.length - 1);
     //console.log(v);
     this.activesStatusIndex = this.statusArr.indexOf(this.order.status);
     //console.log(this.activesStatusIndex);
-    if (this.activesStatusIndex == 0) {
-      this.barValue = 0;
-    } else {
-      this.barValue = (this.activesStatusIndex + 1) * v - 10;
-    }
+    // if (this.activesStatusIndex == 0) {
+    //   this.barValue = 0;
+    // } else {
+    this.barValue = this.activesStatusIndex * v;
+    //s}
 
     this.cdr.detectChanges();
   }
@@ -141,7 +141,7 @@ export class OrderCardComponent implements OnInit {
 
   checkStatus() {
     let result = '';
-    //this.order.status = 'DELIVERED';
+    //this.order.status = 'FINISHED';
     switch (this.order.status) {
       case 'PENDING':
         result = 'PENDING';
