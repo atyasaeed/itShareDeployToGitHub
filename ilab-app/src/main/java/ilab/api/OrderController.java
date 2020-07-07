@@ -44,10 +44,10 @@ public class OrderController
 		return orderService.getOrders(auth);
 	}
 
-	@PutMapping(path = "/{id}/approve")
-	public OrderEntity approve(@PathVariable("id") UUID id, Authentication auth)
+	@PutMapping(path = "/{id}/approveQuote")
+	public OrderEntity approveQuote(@PathVariable("id") UUID id, Authentication auth)
 	{
-		return orderService.approve(id, auth);
+		return orderService.acceptQuote(id, auth);
 	}
 
 	@PutMapping(path = "/{id}/cancel")
@@ -57,9 +57,9 @@ public class OrderController
 	}
 
 	@PutMapping(path = "/{id}/reject")
-	public OrderEntity reject(@PathVariable("id") UUID id, Authentication auth)
+	public OrderEntity rejectQuote(@PathVariable("id") UUID id, Authentication auth)
 	{
-		return orderService.reject(id, auth);
+		return orderService.rejectQuote(id, auth);
 	}
 
 //	@PostMapping(path = "cart", consumes = "application/json")

@@ -45,5 +45,31 @@ public class AdminOrderController
 	{
 		return orderService.updateItem( item);
 	}
+	@PutMapping(path = "/{id}/quote")
+	public OrderEntity quote(@PathVariable("id") UUID id, Authentication auth)
+	{
+		return orderService.quote(id, auth);
+	}
+	@PutMapping(path = "/{id}/rejectOrder")
+	public OrderEntity rejectOrder(@PathVariable("id") UUID id, Authentication auth)
+	{
+		return orderService.rejectOrder(id, auth);
+	}
+	@PutMapping(path = "/{id}/finish")
+	public OrderEntity finishOrder(@PathVariable("id") UUID id, Authentication auth)
+	{
+		return orderService.finishOrder(id, auth);
+	}
+	@PutMapping(path = "/{id}/deliver")
+	public OrderEntity deliverOrder(@PathVariable("id") UUID id, Authentication auth)
+	{
+		return orderService.deliverOrder(id, auth);
+	}
+	@PutMapping(path = "/{id}/process")
+	public OrderEntity processOrder(@PathVariable("id") UUID id, Authentication auth)
+	{
+		return orderService.processOrder(id, auth);
+	}
+
 }
 
