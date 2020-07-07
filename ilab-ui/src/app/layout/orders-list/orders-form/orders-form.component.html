@@ -18,7 +18,7 @@
             <div class="col-md-6" *ngIf="entity.status === 'PENDING'"><button
                 class="btn btn-danger">{{'order.status.reject'|translate}}</button>
             </div>
-            <div class="col-md-6" *ngIf="checkLineItems(entity.lineItems) && entity.status === 'PENDING'">
+            <div class="col-md-6" *ngIf="found && entity.status === 'PENDING'">
               <button (click)="orderStatus(entity.status,statusBtn)" #statusBtn
                 class="btn btn-info">{{"order.status.quate"|translate}}</button>
             </div>
@@ -53,88 +53,6 @@
             <div class="info">
               <div class="row line-item light-grey-background" *ngFor="let lineItem of entity?.lineItems">
 
-                <!-- <div class="col-md-12 product-name">
-                  <h5 class="text-center service-item">{{lineItem.service.name}}</h5>
-
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div *ngIf="lineItem?.estimatedEndDate">
-                        <mat-form-field class="form-rtl">
-                          <mat-label>{{ 'Estimated End Date' | translate }}</mat-label>
-                          <input matInput [matDatepicker]="picker" [(ngModel)]="lineItem.estimatedEndDate"
-                            #estimatedEndDate='ngModel'>
-                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                          <mat-datepicker #picker disabled="false"></mat-datepicker>
-                        </mat-form-field>
-                      </div>
-
-                      <div>
-                        <mat-form-field class="form-rtl">
-                          <input matInput type="number" placeholder="{{'Quantity'|translate}}"
-                            [(ngModel)]="lineItem.quantity" #quantity='ngModel'>
-                        </mat-form-field>
-                      </div>
-
-                    </div>
-                    <div class="col-md-6">
-                      <div>
-
-                        <mat-form-field class="form-rtl">
-
-                          <input matInput type="number" min="1" placeholder="{{'Unit Price'|translate}}"
-                            [(ngModel)]="lineItem.unitPrice" #unitPrice='ngModel' required>
-                          <mat-error *ngIf="unitPrice.hasError('required')">
-                          </mat-error>
-                        </mat-form-field>
-
-
-
-                      </div>
-
-                      <div>
-                        <mat-form-field class="form-rtl">
-                          <input matInput type="text" placeholder="{{'Notes'|translate}}" [(ngModel)]="lineItem.notes"
-                            #note='ngModel'>
-                        </mat-form-field>
-                      </div>
-                    </div>
-
-                  </div>
-                  <div class="row" *ngFor="let file of lineItem.files ;index as i" class="card-form">
-                    <div class="form-title">{{'Digital Material'|translate}}: <span class="value"><a
-                          [href]="getFileUrl(file)">{{file.asset_name}}</a></span></div>
-                    <div class="form-body">
-                      <div class="row">
-                        <mat-form-field class="form-rtl col-md-6">
-                          <input matInput type="text" placeholder="{{'Type'|translate}}" [(ngModel)]="file.type"
-                            #type='ngModel' disabled>
-                        </mat-form-field>
-                        <mat-form-field class="form-rtl col-md-6">
-                          <input matInput type="text" placeholder="{{'Material'|translate}}" [(ngModel)]="file.material"
-                            #material='ngModel' disabled>
-                        </mat-form-field>
-                      </div>
-                      <div class="row">
-                        <mat-form-field class="form-rtl col-md-6">
-                          <input matInput type="text" placeholder="{{'Dimension'|translate}}"
-                            [(ngModel)]="file.processes" #dimension='ngModel' disabled>
-                        </mat-form-field>
-                        <mat-form-field class="form-rtl col-md-6">
-                          <input matInput type="text" placeholder="{{'Color'|translate}}" [(ngModel)]="file.color"
-                            #color='ngModel' disabled>
-                        </mat-form-field>
-
-                      </div>
-                      <div></div>
-                    </div>
-                  </div>
-                  <mat-card-actions class="form-rtl text-right">
-                    <button (click)="updateItem(lineItem)" mat-raised-button color="primary"
-                      [disabled]="f().invalid">{{'Save'|translate}}</button>
-                  </mat-card-actions>
-
-
-                </div> -->
 
                 <div class="col-md-3 service-image mb-2">
                   <img class="img-fluid " [src]="getFileExtension(lineItem)"
@@ -220,7 +138,7 @@
                         <a class="btn btn-outline-success btn-xs" [href]="getFileUrl(lineItem)">
                           <i class="fa fa-download" aria-hidden="true"></i>
                         </a>
-                        <button class="btn btn-outline-primary btn-xs" (click)="updateItem(lineItem)"
+                        <button class="btn btn-outline-primary btn-xs" (click)="updateItem(entity,lineItem)"
                           [disabled]="f().invalid">
                           <i class="fa fa-save"></i>
                         </button>

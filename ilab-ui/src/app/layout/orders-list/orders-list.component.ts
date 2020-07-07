@@ -45,7 +45,6 @@ export class OrdersListComponent extends DefaultListComponent<Order, OrdersListS
         sum += e.unitPrice;
       }
     });
-    console.log(sum);
     //return lineItems?.map((rr) => rr?.unitPrice * rr?.quantity).reduce((a, b) => a + b, 0);
     return sum;
   }
