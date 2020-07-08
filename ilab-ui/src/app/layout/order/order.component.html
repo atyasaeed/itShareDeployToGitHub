@@ -1,6 +1,8 @@
 <div [@routerTransition]>
   <app-page-header [heading]="'Programs'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header>
-<main class="page">
+
+
+  <main class="page container">
     <section class="tracking-orders ">
 
         <!-- <div class="container"> -->
@@ -18,6 +20,17 @@
           <app-order-card ></app-order-card>
         </div> -->
             <app-order-card   *ngFor="let entity of entities$ | async" [order]="entity"></app-order-card>
+            <div class="d-flex justify-content-between p-2">
+                <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="service.page"
+                  [pageSize]="service.pageSize">
+                </ngb-pagination>
+
+                <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
+                  <option [ngValue]="10">10 items per page</option>
+                  <option [ngValue]="25">25 items per page</option>
+                  <option [ngValue]="50">50 items per page</option>
+                </select>
+            </div>
 
         <!-- </div> -->
     </section>
