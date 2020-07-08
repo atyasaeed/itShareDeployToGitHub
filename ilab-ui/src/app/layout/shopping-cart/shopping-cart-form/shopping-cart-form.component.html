@@ -9,17 +9,19 @@
             </mat-option>
         </mat-select>
     </mat-form-field> -->
-    <div class="row">
-        <div class="col-md-6 mb-3">
-            <label >{{'Select Service' | translate }} </label> :
-            <select  class="form-control "   (change)="buildForm($event)">
+    <div class="container px-0">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label >{{'Select Service' | translate }} </label> :
+                <select  class="form-control "   (change)="buildForm($event)">
 
-                <option disabled selected value="undefined">{{'Please Select Service' | translate}}</option>
-                <ng-container *ngFor="let i of services">
-                    <option  [value]="i.id" >{{i.name}}</option>
-                </ng-container>
+                    <option disabled selected value="undefined">{{'Please Select Service' | translate}}</option>
+                    <ng-container *ngFor="let i of services">
+                        <option  [value]="i.id" >{{i.name}}</option>
+                    </ng-container>
 
-            </select>
+                </select>
+            </div>
         </div>
     </div>
 

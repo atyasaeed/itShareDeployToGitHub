@@ -11,11 +11,14 @@
         <!-- End page Head -->
 
         <!-- Page Content -->
-        <div class="form-group form-inline">
-          <input class="form-control  mt-2" type="text" placeholder="{{'Search'|translate}}" name="searchTerm"
-            [(ngModel)]="searchTerm" />
-          <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
-        </div>
+        <!-- <div class="container">
+          <div class="form-group form-inline">
+            <input class="form-control  mt-2" type="text" placeholder="{{'Search'|translate}}" name="searchTerm"
+              [(ngModel)]="searchTerm" />
+            <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
+          </div>
+        </div> -->
+
       <div class="container">
         <ng-container *ngIf="(entities$|async)?.length!=0 else anonymous">
           <div class="content">
@@ -32,7 +35,7 @@
                     <!-- One Item Row -->
                     <div class="product mt-3 pb-3" *ngFor="let entity of entities$ | async ; index as i">
                       <div class="row">
-                        <div class="col-md-3 service-image mb-3">
+                        <div class="col-md-3 service-image mb-3 mb-md-0">
                           <!-- <img class="img-fluid mx-auto d-block" [src]="getImageUrl(entity)"> -->
                             <img class="img-fluid " [src]="getFileExtension(entity)"
                               *ngIf="getFileExtension(entity) != false;else serviceImage">
