@@ -1,96 +1,106 @@
 <div class="card mb-3 light-grey-background">
-    <div class="card-header">
-        <div class="row ">
-            <div class="col-md-4 col-sm-12 my-auto">
-                <div>
-                    <label>{{'Order ID'|translate}} :&nbsp;</label>
-                    <span >{{order.id.slice(-7)}}</span>
-                </div>
+  <div class="card-header">
+    <div class="row ">
+      <div class="col-md-4 col-sm-12 my-auto">
+        <div>
+          <label>{{'Order ID'|translate}} :&nbsp;</label>
+          <span>{{order.id.slice(-7)}}</span>
+        </div>
 
-            </div>
-            <!-- <div class="col-md-3 col-sm-12">
+      </div>
+      <!-- <div class="col-md-3 col-sm-12">
         Order Date : <span> {{order.date | date: 'dd/MM/yyyy'}}</span>
       </div>
       <div class="col-md-3 col-sm-12">
         Total Payment : <span> {{order.total_payment}}$ </span>
       </div> -->
-            <div class="col-md-4">
-                 <div *ngIf="checkStatus() != 'PENDING' && checkStatus() != 'CANCELLED' && checkStatus() != 'ORDER_REJECTED'">
-                    <label > {{'Total Price'|translate}} :&nbsp;</label>
-                    <span>{{getSubTotal()| currency:'EGP'}}</span>
-                </div>
-            </div>
-            <div class=" col-md-4 col-sm-12   my-auto" >
-                <div *ngIf="checkStatus() != 'PENDING' && checkStatus() != 'CANCELLED' && checkStatus() != 'ORDER_REJECTED'">
-                    <label>{{'Estimated End Date'|translate}} :&nbsp;</label> <span>{{max|date:'fullDate'}}</span>
-                </div>
-            </div>
-
-            <div class="col-md-8  my-auto" *ngIf="checkStatus() != 'CANCELLED' && checkStatus() != 'ORDER_REJECTED';else rejectedOrder" >
-                <!-- <label >{{'Status'|translate}} : </label><span class="btn order-status" [ngClass]="{success: Finished()|| partiallyFinished() || Delivered() || partiallyDelivered() || InProgress(), warning: pending() || WaitingForQuotation() || WaitingForApproval(),danger: Cancelled() || quotationRejected()}">{{order.status}}</span> -->
-                <!-- <label >{{'Status'|translate}} : </label><span >{{order.status}}</span> -->
-                <div class="py-3">
-                    <span class="status-section">
-                        <p class="position-absolute status-progress-bar"><ngb-progressbar type="success" [value]="barValue" height="5px"></ngb-progressbar></p>
-                        <span class="status " *ngFor="let s of statusArr;let i = index" [class.activestatus]="i <= activesStatusIndex">
-                            {{i+1}}
-                            <span class="status-name">
-                                {{s}}
-                            </span>
-                        </span>
-
-                    </span>
-                </div>
-            </div>
-            <ng-template #rejectedOrder>
-                <div class="col-md-12  text-center" *ngIf="checkStatus() == 'ORDER_REJECTED';else cancelledOrder">
-                    <span class="cancelled">{{'Order Rejected' | translate}}</span>
-                </div>
-            </ng-template>
-            <ng-template #cancelledOrder>
-                <div class="col-md-12  text-center" >
-                    <span class="cancelled">{{'Order Cancelled' | translate}}</span>
-                </div>
-            </ng-template>
-
-            <!-- Stand alone button to cancel all order -->
-            <div class=" col-md-4 col-sm-12  text-right  my-auto" *ngIf="checkStatus() != 'CANCELLED' && checkStatus() != 'QUOTE_REJECTED' && checkStatus() != 'ORDER_REJECTED' ">
-
-                <button   class="btn btn-primary btn-sm" *ngIf="checkStatus() == 'QUOTED'" (click)="approveQuotation()" >{{'APPROVE' | translate}} </button>
-                <button   class="btn btn-primary btn-sm ml-3" *ngIf="checkStatus() == 'QUOTED'" (click)="rejectQuotation()" >{{'REJECT' | translate}}</button>
-
-
-                <input type="submit" class="btn btn-sm btn-danger ml-3" *ngIf="checkStatus() != 'FINISHED' && checkStatus() != 'DELIVERED' " value="{{'Cancel Order'|translate}}" (click)="cancelOrder()">
-            </div>
-
-
+      <div class="col-md-4">
+        <div *ngIf="checkStatus() != 'PENDING' && checkStatus() != 'CANCELLED' && checkStatus() != 'ORDER_REJECTED'">
+          <label> {{'Total Price'|translate}} :&nbsp;</label>
+          <span>{{getSubTotal()| currency:'EGP'}}</span>
         </div>
+      </div>
+      <div class=" col-md-4 col-sm-12   my-auto">
+        <div *ngIf="checkStatus() != 'PENDING' && checkStatus() != 'CANCELLED' && checkStatus() != 'ORDER_REJECTED'">
+          <label>{{'Estimated End Date'|translate}} :&nbsp;</label> <span>{{max|date:'fullDate'}}</span>
+        </div>
+      </div>
+
+      <div class="col-md-8  my-auto"
+        *ngIf="checkStatus() != 'CANCELLED' && checkStatus() != 'ORDER_REJECTED';else rejectedOrder">
+        <!-- <label >{{'Status'|translate}} : </label><span class="btn order-status" [ngClass]="{success: Finished()|| partiallyFinished() || Delivered() || partiallyDelivered() || InProgress(), warning: pending() || WaitingForQuotation() || WaitingForApproval(),danger: Cancelled() || quotationRejected()}">{{order.status}}</span> -->
+        <!-- <label >{{'Status'|translate}} : </label><span >{{order.status}}</span> -->
+        <div class="py-3">
+          <span class="status-section">
+            <p class="position-absolute status-progress-bar">
+              <ngb-progressbar type="success" [value]="barValue" height="5px"></ngb-progressbar>
+            </p>
+            <span class="status " *ngFor="let s of statusArr;let i = index"
+              [class.activestatus]="i <= activesStatusIndex">
+              {{i+1}}
+              <span class="status-name">
+                {{s}}
+              </span>
+            </span>
+
+          </span>
+        </div>
+      </div>
+      <ng-template #rejectedOrder>
+        <div class="col-md-12  text-center" *ngIf="checkStatus() == 'ORDER_REJECTED';else cancelledOrder">
+          <span class="cancelled">{{'Order Rejected' | translate}}</span>
+        </div>
+      </ng-template>
+      <ng-template #cancelledOrder>
+        <div class="col-md-12  text-center">
+          <span class="cancelled">{{'Order Cancelled' | translate}}</span>
+        </div>
+      </ng-template>
+
+      <!-- Stand alone button to cancel all order -->
+      <div class=" col-md-4 col-sm-12  text-right  my-auto"
+        *ngIf="checkStatus() != 'CANCELLED' && checkStatus() != 'QUOTE_REJECTED' && checkStatus() != 'ORDER_REJECTED' ">
+
+        <button class="btn btn-primary btn-sm" *ngIf="checkStatus() == 'QUOTED'"
+          (click)="approveQuotation()">{{'APPROVE' | translate}} </button>
+        <button class="btn btn-primary btn-sm ml-3" *ngIf="checkStatus() == 'QUOTED'"
+          (click)="rejectQuotation()">{{'REJECT' | translate}}</button>
+
+
+        <input type="submit" class="btn btn-sm btn-danger ml-3"
+          *ngIf="checkStatus() != 'FINISHED' && checkStatus() != 'DELIVERED' " value="{{'Cancel Order'|translate}}"
+          (click)="cancelOrder()">
+      </div>
 
 
     </div>
-    <div class="card-body">
-        <!-- <h5 class="card-title text-center">Order Details</h5> -->
-
-        <!-- The Section tag hold all order body even the cancel button -->
-        <section class="shopping-cart dark">
-
-            <!-- container tag hold all order elements or all line items -->
-            <div class="container">
-                <!-- page Head -->
-                <!-- End page Head -->
-
-                <!-- Page Content -->
-                <div class="content">
-                    <app-line-item *ngFor="let lineItem of order.lineItems"  [lineItem]="lineItem" status='{{order.status}}'></app-line-item>
-                </div>
-                <!-- End Page Content -->
-
-            </div>
 
 
+  </div>
+  <div class="card-body">
+    <!-- <h5 class="card-title text-center">Order Details</h5> -->
 
-        </section>
+    <!-- The Section tag hold all order body even the cancel button -->
+    <section class="shopping-cart dark">
 
-    </div>
+      <!-- container tag hold all order elements or all line items -->
+      <div class="container">
+        <!-- page Head -->
+        <!-- End page Head -->
+
+        <!-- Page Content -->
+        <div class="content">
+          <app-line-item *ngFor="let lineItem of order.lineItems" [lineItem]="lineItem" status='{{order.status}}'>
+          </app-line-item>
+        </div>
+        <!-- End Page Content -->
+
+      </div>
+
+
+
+    </section>
+
+  </div>
 
 </div>

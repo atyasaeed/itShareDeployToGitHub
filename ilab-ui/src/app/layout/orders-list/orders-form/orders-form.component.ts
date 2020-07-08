@@ -12,6 +12,8 @@ import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import { AlertService } from 'src/app/shared/services';
 import { ToastrService } from 'ngx-toastr';
 import { LineItem } from 'src/app/shared/domain';
+import { TranslateService } from '@ngx-translate/core';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-orders-form',
@@ -26,6 +28,8 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
   ];
   orderId;
   found: boolean = true;
+  minDate: Date;
+  maxDate: Date;
   constructor(
     formBuilder: FormBuilder,
     loadingService: TdLoadingService,
@@ -36,13 +40,14 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
     private alertService: AlertService,
     private toastr: ToastrService,
     private activatedRoute: ActivatedRoute,
-
+    private translate: TranslateService,
     @Inject(APP_CONFIG) public appConfig: IAppConfig
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
     this.form = this.formBuilder.group({
       // id: [{ value: '', disabled: true }],
     });
+    this.minDate = new Date();
     this.activatedRoute.params.subscribe((paramsId) => {
       this.orderId = paramsId.entityId;
       console.log(this.orderId);
@@ -82,22 +87,35 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
     // this.router.navigateByUrl(this.breadcrumbs[0].link);
   }
   updateItem(order: Order, lineItem: LineItem) {
+    console.log(lineItem.estimatedEndDate);
+    let arrLineItems: boolean[] = new Array();
+    let d = new Date(lineItem.estimatedEndDate);
+    d.setMinutes(d.getMinutes() + 480);
+    lineItem.estimatedEndDate = d;
     if (lineItem.unitPrice && lineItem.estimatedEndDate) {
       this.service.updateLineItem(lineItem).subscribe((res) => {
-        this.toastr.success('Update Successful');
+        this.toastr.success(this.translate.instant('update.Successful'));
+
         this.service.get(this.orderId).subscribe((res: Order) => {
           // this.checkLineItems(this.orderId, res.lineItems);
           res.lineItems.forEach((e) => {
             if (!e.unitPrice || !e.estimatedEndDate) {
-              this.found = false;
+              arrLineItems.push(false);
             } else {
-              this.found = true;
+              arrLineItems.push(true);
             }
           });
+
+          console.log(arrLineItems);
+          if (arrLineItems.indexOf(false) == -1) {
+            this.found = true;
+          } else {
+            this.found = false;
+          }
         });
       });
     } else {
-      this.toastr.error('Please Enter Price and Estimated End Date For This Item');
+      this.toastr.error(this.translate.instant('order.item.error.required'));
     }
   }
 
@@ -130,27 +148,27 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
           this.entity.status = 'QUOTED';
           // this.entity.status = 'QUOTE_ACCEPTED';
 
-          this.toastr.success('Successful');
+          // this.toastr.success('Successful');
         });
         break;
       case 'QUOTE_ACCEPTED':
         this.service.orderStatus(order.id, 'process').subscribe((res) => {
           this.entity.status = 'IN_PROGRESS';
-          this.toastr.success('Successful');
+          // this.toastr.success('Successful');
         });
         break;
       case 'IN_PROGRESS':
         // statusBtn.innerText = 'In Progress';
         this.service.orderStatus(order.id, 'finish').subscribe((res) => {
           this.entity.status = 'FINISHED';
-          this.toastr.success('Successful');
+          // this.toastr.success('Successful');
         });
 
         break;
       case 'FINISHED':
         this.service.orderStatus(order.id, 'deliver').subscribe((res) => {
           this.entity.status = 'DELIVERED';
-          this.toastr.success('Successful');
+          // this.toastr.success('Successful');
         });
         break;
       case 'Delivered':

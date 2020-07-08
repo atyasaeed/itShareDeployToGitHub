@@ -4,7 +4,7 @@
   <div class="card mb-3" class="form-rtl" *ngIf="entity">
     <div class="card-header">
       <div class="row text-left" style="justify-content: space-between;">
-        <div class="col-md-6" class="form-rtl">
+        <div class="col-md-6 form-rtl">
           <span>{{'order.id'|translate}} : </span>
           <span class="value"> {{entity?.id.slice(-7)}}</span>
           <span style="display:block;">{{'order.status'|translate}} :<span class="value"> {{entity?.status}}</span>
@@ -74,17 +74,17 @@
                   <div class="info">
 
                     <div class="row">
-                      <div class="col-md-10">
+                      <div class="col-md-8">
                         <h5>
                           <a [routerLink]="['/CartItem']"
                             [queryParams]="{service:lineItem.service.id}">{{lineItem.service.name}}</a>
                         </h5>
 
                       </div>
-                      <div class="col-md-2 row price text-center text-md-right my-auto"
-                        style="justify-content: space-between;">
+                      <div class="col-md-4 row price text-center text-md-right my-auto"
+                        style="justify-content: flex-end;">
                         <!-- <span>$120</span> -->
-                        <a class="btn btn-outline-success btn-xs" [href]="getFileUrl(lineItem)">
+                        <a class="btn btn-outline-success btn-xs mr-2" [href]="getFileUrl(lineItem)">
                           <i class="fa fa-download" aria-hidden="true"></i>
                         </a>
                         <button class="btn btn-outline-primary btn-xs" (click)="updateItem(entity,lineItem)"
@@ -100,11 +100,11 @@
                         <div>
                           <mat-form-field class="form-rtl">
                             <mat-label>{{ 'estimatedEndDate' | translate }}</mat-label>
-                            <input matInput [matDatepicker]="picker" [(ngModel)]="lineItem.estimatedEndDate"
-                              #estimatedEndDate='ngModel'>
+                            <input matInput [matDatepicker]="picker" [min]="minDate" [max]="maxDate"
+                              [(ngModel)]="lineItem.estimatedEndDate" #estimatedEndDate='ngModel'>
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker disabled="false"></mat-datepicker>
-                            <mat-error *ngIf="estimatedEndDate.hasError('required')">Your date of birth is required
+                            <mat-error *ngIf="estimatedEndDate.hasError('required')">
                             </mat-error>
                           </mat-form-field>
                         </div>
