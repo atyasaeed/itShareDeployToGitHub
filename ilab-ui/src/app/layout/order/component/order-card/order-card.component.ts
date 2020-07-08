@@ -13,8 +13,7 @@ export class OrderCardComponent implements OnInit {
   //@ViewChild('statusBtn') statusBtn: HTMLElement;
   // orderitem = new Order();
   statusArr: string[] = ['PENDING', 'QUOTED', 'IN_PROGRESS', 'FINISHED', 'DELIVERED'];
-  activesStatusIndex: number;
-  barValue: number;
+
   constructor(
     private orderService: OrdersService,
     private route: ActivatedRoute,
@@ -30,20 +29,6 @@ export class OrderCardComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    //console.log(this.order.status);
-    let v = 100 / (this.statusArr.length - 1);
-    //console.log(v);
-    this.activesStatusIndex = this.statusArr.indexOf(this.order.status);
-    if (this.order.status == 'QUOTE_ACCEPTED' || this.order.status == 'QUOTE_REJECTED') {
-      this.activesStatusIndex = this.statusArr.indexOf('QUOTED');
-    }
-    //console.log(this.activesStatusIndex);
-    // if (this.activesStatusIndex == 0) {
-    //   this.barValue = 0;
-    // } else {
-    this.barValue = this.activesStatusIndex * v;
-    //s}
-
     this.cdr.detectChanges();
   }
 

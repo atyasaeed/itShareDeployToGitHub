@@ -29,18 +29,8 @@
             <div class="col-md-8  my-auto" *ngIf="checkStatus() != 'CANCELLED' && checkStatus() != 'ORDER_REJECTED';else rejectedOrder" >
                 <!-- <label >{{'Status'|translate}} : </label><span class="btn order-status" [ngClass]="{success: Finished()|| partiallyFinished() || Delivered() || partiallyDelivered() || InProgress(), warning: pending() || WaitingForQuotation() || WaitingForApproval(),danger: Cancelled() || quotationRejected()}">{{order.status}}</span> -->
                 <!-- <label >{{'Status'|translate}} : </label><span >{{order.status}}</span> -->
-                <div class="py-3">
-                    <span class="status-section">
-                        <p class="position-absolute status-progress-bar"><ngb-progressbar type="success" [value]="barValue" height="5px"></ngb-progressbar></p>
-                        <span class="status " *ngFor="let s of statusArr;let i = index" [class.activestatus]="i <= activesStatusIndex">
-                            {{i+1}}
-                            <span class="status-name">
-                                {{s | translate}}
-                            </span>
-                        </span>
 
-                    </span>
-                </div>
+                <app-steps [stepsArr]="statusArr" activeStep="{{order.status}}"></app-steps>
             </div>
             <ng-template #rejectedOrder>
                 <div class="col-md-12  text-center" *ngIf="checkStatus() == 'ORDER_REJECTED';else cancelledOrder">

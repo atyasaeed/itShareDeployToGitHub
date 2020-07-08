@@ -1,0 +1,45 @@
+  .step{
+    //padding: 10px;
+    border-radius: 50%;
+    position: relative;
+    background-color: white;
+    z-index: 20;
+    width:30px;
+    height:30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  // .status:not(:last-child){
+  //   margin-right: 20px;
+  // }
+
+  .activeStep{
+    background-color: green !important;
+    color: white;
+  }
+
+.steps-section{
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  font-size: 10px;
+}
+
+.step-progress-bar{
+  margin: auto;
+  height: 5px;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+//transform: translateY(-50%);
+  //z-index: -10;
+}
+
+.step-name{
+  position: absolute;
+  bottom: -16px;
+  color: black;
+}
