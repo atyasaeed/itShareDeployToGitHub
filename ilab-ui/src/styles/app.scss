@@ -50,3 +50,25 @@ a:hover{
     border-radius: 5px;
     border:none;
 }
+
+.text-truncate{
+  overflow: hidden;
+  height: 20px;
+  text-overflow: ellipsis ;
+  white-space: nowrap;
+}
+.text-truncate:hover{
+  height: initial;
+  position: absolute;
+  background-color: #fff;
+  text-align: left;
+  overflow: visible;
+  // overflow-wrap: break-word;
+  z-index: 1000;
+   white-space: initial;
+  padding: 10px;
+  color:  black !important;
+  border-radius: 5px;
+  box-shadow: 0px 0px 20px 7px rgba(0, 0, 0, 0.089);
+
+}

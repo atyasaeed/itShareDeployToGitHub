@@ -62,9 +62,9 @@
                   <ng-template #serviceImage>
                     <img class="img-fluid " [src]="appConfig.AWSUrl+lineItem.service.image">
                   </ng-template>
-                  <div class="mt-3">
-                    <label>{{ 'notes' | translate }} :&nbsp;</label>
-                    <span class="text-danger" #heightErr>{{lineItem.notes}}</span>
+                  <div class="mt-3 text-truncate">
+                    <label class="mb-0">{{ 'notes' | translate }} :&nbsp;</label>
+                    <span #heightErr>{{lineItem.notes}}</span>
                     <!-- <span >{{(entity.notes.length>40)? (entity.notes | slice:0:40)+'....':(entity.notes)}}</span> -->
                     <!-- <textarea [value]="lineItem.notes ? lineItem.notes : ''" rows="4" class="form-control" #notes
                       disabled></textarea> -->

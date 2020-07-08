@@ -41,7 +41,7 @@ export class OrdersListComponent extends DefaultListComponent<Order, OrdersListS
   public getSubTotal(lineItems: LineItem[]) {
     let sum = 0;
     lineItems.forEach((e) => {
-      if (e.unitPrice) {
+      if (e?.unitPrice) {
         sum += e.unitPrice;
       }
     });
