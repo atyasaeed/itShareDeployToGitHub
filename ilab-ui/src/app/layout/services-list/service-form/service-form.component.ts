@@ -1,5 +1,6 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { FormGroup, FormControl, FormArray } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-service-form',
@@ -10,15 +11,20 @@ export class ServiceFormComponent implements OnInit {
   form: FormGroup;
   @ViewChild('stepTwo') stepTwo: ElementRef;
   @ViewChild('stepOne') stepOne: ElementRef;
-  constructor() {}
+  @ViewChildren('optionalRef', { read: ElementRef }) optionalRef: QueryList<ElementRef<HTMLParagraphElement>>;
+  optionalArr: string[] = ['materials', 'thickness', 'types', 'colors', 'units', 'processes'];
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.form = new FormGroup({
       name: new FormControl(null),
       description: new FormControl(null),
       image: new FormControl(null),
-      supportedExtensions: new FormArray([new FormControl()]),
+      supportedExtensions: new FormArray([new FormControl(null)]),
     });
+    // if (this.route.snapshot.params['entityId']) {
+    //   console.log('edit');
+    // }
   }
 
   ngAfterViewInit() {
@@ -28,6 +34,10 @@ export class ServiceFormComponent implements OnInit {
   addControlArray(type: string) {
     const control = new FormControl(null);
     (<FormArray>this.form.get(type)).push(control);
+  }
+
+  deleteControlArray(type: string, index) {
+    (<FormArray>this.form.get(type)).removeAt(index);
   }
 
   uploadImage(event) {
@@ -44,7 +54,7 @@ export class ServiceFormComponent implements OnInit {
   }
 
   addAttribute(event, type: string) {
-    console.log(event.target.checked);
+    //console.log(type);
     if (event.target.checked) {
       this.form.addControl(type, new FormArray([new FormControl()]));
     } else {

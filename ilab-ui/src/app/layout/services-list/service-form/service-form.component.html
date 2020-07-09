@@ -18,11 +18,17 @@
         <button type="button" (click)="addControlArray('supportedExtensions')">add extension</button>
         <div *ngFor="let s of form.get('supportedExtensions')['controls'];let i = index">
           <input type="text" [formControlName]="i" class="form-control">
+          <button type="button" (click)="deleteControlArray('supportedExtensions',i)">delete</button>
         </div>
       </div>
-      <div class="col-md-6">
-        <label >material</label>
-        <input type="checkbox" (change)="addAttribute($event,'materials')" >
+      <div class="col-md-6" *ngFor="let o of optionalArr">
+        <label [for]="o">{{o}}</label>
+        <input type="checkbox" [id]="o" (change)="addAttribute($event,o)" #optionalRef>
+        <div *ngIf="o == 'processes'">
+          <label >multi</label>
+          <input type="radio"  value="true" name="multi">
+          <input type="radio"  value="false" name="multi">
+        </div>
       </div>
       <div class="col-md-12">
         <button type="button" (click)="next()">next</button>
@@ -35,6 +41,7 @@
         <button type="button" (click)="addControlArray('materials')">add material</button>
         <div *ngFor="let s of form.get('materials')['controls'];let i = index">
           <input type="text" [formControlName]="i" class="form-control">
+          <button type="button" (click)="deleteControlArray('materials',i)">delete</button>
         </div>
       </div>
       <div class="col-md-6" formArrayName="thickness" *ngIf="form.get('thickness')">
@@ -42,6 +49,7 @@
         <button type="button" (click)="addControlArray('thickness')">add thickness</button>
         <div *ngFor="let s of form.get('thickness')['controls'];let i = index">
           <input type="text" [formControlName]="i" class="form-control">
+          <button type="button" (click)="deleteControlArray('thickness',i)">delete</button>
         </div>
       </div>
       <div class="col-md-6" formArrayName="types" *ngIf="form.get('types')">
@@ -49,6 +57,7 @@
         <button type="button" (click)="addControlArray('types')">add type</button>
         <div *ngFor="let s of form.get('types')['controls'];let i = index">
           <input type="text" [formControlName]="i" class="form-control">
+          <button type="button" (click)="deleteControlArray('types',i)">delete</button>
         </div>
       </div>
       <div class="col-md-6" formArrayName="colors" *ngIf="form.get('colors')">
@@ -56,6 +65,7 @@
         <button color="button" (click)="addControlArray('colors')">add color</button>
         <div *ngFor="let s of form.get('colors')['controls'];let i = index">
           <input type="text" [formControlName]="i" class="form-control">
+          <button type="button" (click)="deleteControlArray('colors',i)">delete</button>
         </div>
       </div>
       <div class="col-md-6" formArrayName="units" *ngIf="form.get('units')">
@@ -63,6 +73,7 @@
         <button unit="button" (click)="addControlArray('units')">add unit</button>
         <div *ngFor="let s of form.get('units')['controls'];let i = index">
           <input type="text" [formControlName]="i" class="form-control">
+          <button type="button" (click)="deleteControlArray('units',i)">delete</button>
         </div>
       </div>
       <div class="col-md-6" formArrayName="processes" *ngIf="form.get('processes')">
@@ -70,6 +81,7 @@
         <button unit="button" (click)="addControlArray('processes')">add processes</button>
         <div *ngFor="let s of form.get('processes')['controls'];let i = index">
           <input type="text" [formControlName]="i" class="form-control">
+          <button type="button" (click)="deleteControlArray('processes',i)">delete</button>
         </div>
       </div>
       <div class="col-md-12">
