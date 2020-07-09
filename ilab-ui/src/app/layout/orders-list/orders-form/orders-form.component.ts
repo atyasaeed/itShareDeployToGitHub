@@ -30,6 +30,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
   found: boolean = true;
   minDate: Date;
   maxDate: Date;
+  isEnabled: boolean = true;
   constructor(
     formBuilder: FormBuilder,
     loadingService: TdLoadingService,
@@ -54,6 +55,9 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
     });
     this.service.get(this.orderId).subscribe((res: Order) => {
       // this.checkLineItems(this.orderId, res.lineItems);
+      if (res.status == 'PENDING') {
+        this.isEnabled = false;
+      }
       res.lineItems.forEach((e) => {
         if (!e.unitPrice || !e.estimatedEndDate) {
           this.found = false;
@@ -92,31 +96,32 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
     let d = new Date(lineItem.estimatedEndDate);
     d.setMinutes(d.getMinutes() + 480);
     lineItem.estimatedEndDate = d;
-    if (lineItem.unitPrice && lineItem.estimatedEndDate) {
-      this.service.updateLineItem(lineItem).subscribe((res) => {
-        this.toastr.success(this.translate.instant('update.Successful'));
 
-        this.service.get(this.orderId).subscribe((res: Order) => {
-          // this.checkLineItems(this.orderId, res.lineItems);
-          res.lineItems.forEach((e) => {
-            if (!e.unitPrice || !e.estimatedEndDate) {
-              arrLineItems.push(false);
-            } else {
-              arrLineItems.push(true);
-            }
-          });
+    this.service.updateLineItem(lineItem).subscribe((res) => {
+      this.toastr.success(this.translate.instant('update.Successful'));
 
-          console.log(arrLineItems);
-          if (arrLineItems.indexOf(false) == -1) {
-            this.found = true;
+      this.service.get(this.orderId).subscribe((res: Order) => {
+        // this.checkLineItems(this.orderId, res.lineItems);
+        res.lineItems.forEach((e) => {
+          if (!e.unitPrice || !e.estimatedEndDate) {
+            arrLineItems.push(false);
           } else {
-            this.found = false;
+            arrLineItems.push(true);
           }
         });
+
+        console.log(arrLineItems);
+        if (arrLineItems.indexOf(false) == -1) {
+          this.found = true;
+        } else {
+          this.found = false;
+        }
       });
-    } else {
-      this.toastr.error(this.translate.instant('order.item.error.required'));
-    }
+    });
+
+    //  else {
+    //   this.toastr.error(this.translate.instant('order.item.error.required'));
+    // }
   }
 
   getFileExtension(entity: LineItem) {
@@ -146,6 +151,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
       case 'PENDING':
         this.service.orderStatus(order.id, 'quote').subscribe((res) => {
           this.entity.status = 'QUOTED';
+          this.isEnabled = true;
           // this.entity.status = 'QUOTE_ACCEPTED';
 
           // this.toastr.success('Successful');
@@ -183,6 +189,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
     this.service.orderReject(order.id).subscribe((res) => {
       this.entity.status = 'ORDER_REJECTED';
       this.toastr.success('Successful');
+      this.isEnabled = true;
     });
   }
 }
