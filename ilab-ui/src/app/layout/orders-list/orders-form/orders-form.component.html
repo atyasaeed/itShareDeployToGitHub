@@ -36,10 +36,7 @@
               *ngIf="entity.status === 'FINISHED'">
               <button class="btn btn-info">{{'order.status.delivered'|translate}}</button>
             </div>
-            <!-- <div class="col-md-6" (click)="orderStatus(entity.status,statusBtn)" #statusBtn
-              *ngIf="entity.status === 'Delivered'">
-              <button class="btn btn-info">{{'order.status.delivered'|translate}}</button>
-            </div> -->
+
 
           </div>
         </div>
@@ -65,9 +62,7 @@
                   <div class="mt-3 text-truncate">
                     <label class="mb-0">{{ 'notes' | translate }} :&nbsp;</label>
                     <span #heightErr>{{lineItem.notes}}</span>
-                    <!-- <span >{{(entity.notes.length>40)? (entity.notes | slice:0:40)+'....':(entity.notes)}}</span> -->
-                    <!-- <textarea [value]="lineItem.notes ? lineItem.notes : ''" rows="4" class="form-control" #notes
-                      disabled></textarea> -->
+
                   </div>
                 </div>
                 <div class="col-md-9">
@@ -137,9 +132,7 @@
                             <div class=" quantity">
                               <label for="quantity">{{ 'quantity' | translate }} :&nbsp;</label>
                               <span class="text-color" #heightErr>{{lineItem.quantity}}</span>
-                              <!-- <input id="quantity" type="number" min="1" (change)="updateItem(lineItem)"
-                                value="{{lineItem.quantity}}" #quantity
-                                class="d-inline-block form-control quantity-input"> -->
+
                             </div>
 
                           </div>
@@ -152,8 +145,7 @@
                     </div>
 
                     <div class="row" *ngFor="let file of lineItem.files ;index as j" class="card-form mt-3">
-                      <!-- <div class="form-title">{{ 'Digital Material' | translate }}: <span class="value"><a
-                                                      [href]="getFileUrl(entity,j)">{{file.asset_name}}</a></span></div> -->
+
 
                       <div class="form-body">
                         <div class="row">
@@ -161,14 +153,14 @@
                             <div>
                               <label>{{'file.height' | translate }} :&nbsp;</label>
                               <span class="text-color" #heightErr>{{file.height}}</span>
-                              <!-- <input type="number" [value]="file.height" class="form-control"> -->
+
                             </div>
                           </div>
                           <div class="col-md-6 mb-2">
                             <div>
                               <label>{{'file.width' | translate }} :&nbsp;</label>
                               <span class="text-color" #widthErr> {{file.width}}</span>
-                              <!-- <input type="number" [value]="file.width" class="form-control"> -->
+
                             </div>
                           </div>
                           <div class="col-md-6 mb-2">
@@ -176,67 +168,38 @@
                               <label>{{'file.material' | translate }} :&nbsp;</label>
                               <span class="text-color" #widthErr> {{file.material}}</span>
 
-                              <!-- <select class="form-control " [ngModel]="file.material">
-                                <option *ngFor="let mat of lineItem.service.materials" [value]="mat">{{mat}}
-                                </option>
-                              </select> -->
+
                             </div>
                           </div>
                           <div class="col-md-6 mb-2" *ngIf="file.type != undefined">
 
                             <label>{{'file.type' | translate }} :&nbsp;</label>
                             <span class="text-color" #widthErr> {{file.type}}</span>
-                            <!-- <select class="form-control " [ngModel]="file.type">
-                              <option *ngFor="let t of lineItem.service.types" [value]="t">{{t}}</option>
-                            </select> -->
+
                           </div>
                           <div class="col-md-6 mb-2" *ngIf="file.thickness != undefined">
 
                             <label>{{'file.thickness' | translate }} :&nbsp;</label>
                             <span class="text-color" #widthErr> {{file.thickness}}</span>
-                            <!-- <select class="form-control " [ngModel]="file.thickness">
-                              <option *ngFor="let thick of lineItem.service.thickness" [value]="thick">{{thick}}
-                              </option>
-                            </select> -->
+
                           </div>
                           <div class="col-md-6 mb-2" *ngIf="file.color != undefined">
 
                             <label>{{'file.color' | translate }} :&nbsp;</label>
                             <span class="text-color" #widthErr> {{file.color}}</span>
-                            <!-- <select class="form-control " [ngModel]="file.color">
-                              <option *ngFor="let c of lineItem.service.colors" [value]="c">{{c}}</option>
-                            </select> -->
+
                           </div>
                           <div class="col-md-6 mb-2" *ngIf="file.unit != undefined">
 
                             <label>{{'file.unit' | translate }} :&nbsp;</label>
                             <span class="text-color" #widthErr> {{file.unit}}</span>
 
-                            <!-- <select class="form-control " [ngModel]="file.unit">
-                              <option *ngFor="let c of lineItem.service.units" [value]="c">{{c}}</option>
-                            </select> -->
+
                           </div>
-                          <div class="col-md-6 mb-2" *ngIf="lineItem.service.processes">
+                          <div class="col-md-6 mb-2" *ngIf="file.processes">
                             <label>{{'file.processes' | translate }} :&nbsp;</label>
-                            <span class="text-color" #multiSelectErr>{{lineItem.service.processes.values}}</span>
-                            <div *ngIf="!lineItem.service.processes">
-                              <span class="text-color" #widthErr> {{file.processes}}</span>
+                            <span class="text-color" #multiSelectErr>{{file.processes}}</span>
 
-                              <!-- <select class="form-control" [ngModel]="file.processes">
-                                <option *ngFor="let v of lineItem.service.processes.values" [value]="v">{{v}}
-                                </option>
-                              </select> -->
-                            </div>
-                            <!-- <ng-template #multiDrop>
-
-                              <ng-multiselect-dropdown [settings]="dropdownSettings"
-                                [data]="entity.service.processes.values" [(ngModel)]="selectedItemsArray[i]"
-                                (onSelect)="onItemSelect(entity,i,multiSelectErr)"
-                                (onDeSelect)="onItemDeSelect(entity,i,multiSelectErr)"
-                                (onSelectAll)="onSelectAll(entity,$event,multiSelectErr)"
-                                (onDeSelectAll)="onDeSelectAll(multiSelectErr)">
-                              </ng-multiselect-dropdown>
-                            </ng-template> -->
                           </div>
                         </div>
 
