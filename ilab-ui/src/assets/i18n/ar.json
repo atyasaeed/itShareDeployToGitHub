@@ -163,5 +163,6 @@
   "service.add": "أضف خدمة",
   "gallery": "المعرض",
   "gallery.choose": "يمكنك اختيار الطلب وإضافته إلى سلة التسوق الخاصة بك مباشرة",
-  "brand.topRatedServices": "Top Rated Services"
+  "brand.topRatedServices": "Top Rated Services",
+  "order.Created": "طلب في"
 }
