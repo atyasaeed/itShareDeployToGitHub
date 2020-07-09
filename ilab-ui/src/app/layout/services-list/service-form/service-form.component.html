@@ -1,1 +1,80 @@
-<p>service-form works!</p>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="container">
+    <div class="row " #stepOne>
+      <div class="col-md-6">
+        <label >name</label>
+        <input type="text" formControlName="name" class="form-control">
+      </div>
+      <div class="col-md-6">
+        <label >description</label>
+        <textarea formControlName="description" class="form-control"></textarea>
+      </div>
+      <div class="col-md-6">
+        <label >image</label>
+        <input type="file" class="form-control" formControlName="image" (change)="uploadImage($event)">
+      </div>
+      <div class="col-md-6" formArrayName="supportedExtensions">
+        <label >extensions</label>
+        <button type="button" (click)="addControlArray('supportedExtensions')">add extension</button>
+        <div *ngFor="let s of form.get('supportedExtensions')['controls'];let i = index">
+          <input type="text" [formControlName]="i" class="form-control">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label >material</label>
+        <input type="checkbox" (change)="addAttribute($event,'materials')" >
+      </div>
+      <div class="col-md-12">
+        <button type="button" (click)="next()">next</button>
+      </div>
+
+    </div>
+    <div class="row " #stepTwo>
+       <div class="col-md-6" formArrayName="materials" *ngIf="form.get('materials')">
+        <label >materials</label>
+        <button type="button" (click)="addControlArray('materials')">add material</button>
+        <div *ngFor="let s of form.get('materials')['controls'];let i = index">
+          <input type="text" [formControlName]="i" class="form-control">
+        </div>
+      </div>
+      <div class="col-md-6" formArrayName="thickness" *ngIf="form.get('thickness')">
+        <label >thickness</label>
+        <button type="button" (click)="addControlArray('thickness')">add thickness</button>
+        <div *ngFor="let s of form.get('thickness')['controls'];let i = index">
+          <input type="text" [formControlName]="i" class="form-control">
+        </div>
+      </div>
+      <div class="col-md-6" formArrayName="types" *ngIf="form.get('types')">
+        <label >types</label>
+        <button type="button" (click)="addControlArray('types')">add type</button>
+        <div *ngFor="let s of form.get('types')['controls'];let i = index">
+          <input type="text" [formControlName]="i" class="form-control">
+        </div>
+      </div>
+      <div class="col-md-6" formArrayName="colors" *ngIf="form.get('colors')">
+        <label >colors</label>
+        <button color="button" (click)="addControlArray('colors')">add color</button>
+        <div *ngFor="let s of form.get('colors')['controls'];let i = index">
+          <input type="text" [formControlName]="i" class="form-control">
+        </div>
+      </div>
+      <div class="col-md-6" formArrayName="units" *ngIf="form.get('units')">
+        <label >units</label>
+        <button unit="button" (click)="addControlArray('units')">add unit</button>
+        <div *ngFor="let s of form.get('units')['controls'];let i = index">
+          <input type="text" [formControlName]="i" class="form-control">
+        </div>
+      </div>
+      <div class="col-md-6" formArrayName="processes" *ngIf="form.get('processes')">
+        <label >processes</label>
+        <button unit="button" (click)="addControlArray('processes')">add processes</button>
+        <div *ngFor="let s of form.get('processes')['controls'];let i = index">
+          <input type="text" [formControlName]="i" class="form-control">
+        </div>
+      </div>
+      <div class="col-md-12">
+        <button type="submit">submit</button>
+      </div>
+    </div>
+  </div>
+</form>
