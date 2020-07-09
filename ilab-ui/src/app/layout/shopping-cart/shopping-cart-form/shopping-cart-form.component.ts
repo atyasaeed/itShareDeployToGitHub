@@ -342,6 +342,9 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
     let top = this.flyToCart.nativeElement.getBoundingClientRect().top;
     let left = this.flyToCart.nativeElement.getBoundingClientRect().left;
     this.flyToCart.nativeElement.style.color = '#007bff';
+    this.flyToCart.nativeElement.style.position = 'relative';
+    this.flyToCart.nativeElement.style.zIndex = '5000';
+    //console.log(this.flyToCart.nativeElement.style.zIndex);
 
     this.flyToCart.nativeElement.animate(
       [

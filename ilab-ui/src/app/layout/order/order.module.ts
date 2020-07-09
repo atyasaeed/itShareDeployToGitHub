@@ -11,11 +11,12 @@ import { SharedModule } from 'src/app/shared/modules/shared/shared.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { PageHeaderModule } from 'src/app/shared/modules/page-header/page-header.module';
 import { StepsModule } from 'src/app/shared/modules/steps/steps.module';
-
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 @NgModule({
   declarations: [OrderComponent, OrderCardComponent, LineItemComponent],
   imports: [
     CommonModule,
+    NgMultiSelectDropDownModule.forRoot(),
     OrderRoutingModule,
     NgbModule,
     FormsModule,
