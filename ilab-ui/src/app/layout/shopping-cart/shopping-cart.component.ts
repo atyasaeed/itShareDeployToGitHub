@@ -13,7 +13,7 @@ import { routerTransition } from 'src/app/router.animations';
 
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { debounce, debounceTime, switchMap, delay } from 'rxjs/operators';
-
+import * as THREE from 'three/build/three.module.js';
 @Component({
   selector: 'app-shopping-cart',
   templateUrl: './shopping-cart.component.html',
