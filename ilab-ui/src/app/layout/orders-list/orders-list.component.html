@@ -9,9 +9,9 @@
       </div>
 
       <div class="col-md-6">
-        <ng-multiselect-dropdown [placeholder]="'Status'" [settings]="dropdownSettings" [data]="dropdownList"
-          [settings]="dropdownSettings" [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)"
-          (onDeSelect)="onItemDeSelect($event)" (onSelectAll)="onSelectAll($event)"
+        <ng-multiselect-dropdown placeholder="{{'order.status'|translate}}" [settings]="dropdownSettings"
+          [data]="dropdownList" [settings]="dropdownSettings" [(ngModel)]="selectedItems"
+          (onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeSelect($event)" (onSelectAll)="onSelectAll($event)"
           [ngModelOptions]="{standalone: true}">
         </ng-multiselect-dropdown>
       </div>
@@ -21,10 +21,12 @@
       <thead>
         <tr>
           <!-- <th scope="col">#</th> -->
-          <th scope="col" sortable="id" (sort)="onSort($event)">{{'order.id'|translate}}</th>
-          <th scope="col" sortable="total_payment" (sort)="onSort($event)">{{'order.totalPrice'|translate}}</th>
-          <th scope="col" sortable="length" (sort)="onSort($event)">{{'order.item.number'|translate}}
+          <th scope="col">{{'order.id'|translate}}</th>
+          <th scope="col">{{'order.totalPrice'|translate}}</th>
+          <th scope="col">{{'order.item.number'|translate}}
           <th scope="col" sortable="status" (sort)="onSort($event)">{{'order.status'|translate}}
+          </th>
+          <th scope="col" sortable="created" (sort)="onSort($event)">{{'order.Created'|translate}}
           </th>
 
           <th></th>
@@ -48,6 +50,10 @@
           </td>
           <td>
             <ngb-highlight [result]="entity.status" [term]="searchTerm"></ngb-highlight>
+
+          </td>
+          <td>
+            <ngb-highlight [result]="entity.created" [term]="searchTerm"></ngb-highlight>
 
           </td>
 
