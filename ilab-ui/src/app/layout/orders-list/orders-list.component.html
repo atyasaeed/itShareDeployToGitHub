@@ -1,10 +1,20 @@
 <div [@routerTransition]>
   <app-page-header [heading]="'Programs'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header>
   <form>
-    <div class="form-group form-inline">
-      <input class="form-control ml-2" type="text" placeholder="{{'Search'|translate}}" name="searchTerm"
-        [(ngModel)]="searchTerm" />
-      <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
+    <div class="form-group form-inline row">
+      <div class="col-md-6">
+        <input class="form-control ml-2" type="text" placeholder="{{'Search'|translate}}" name="searchTerm"
+          [(ngModel)]="searchTerm" />
+        <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
+      </div>
+
+      <div class="col-md-6">
+        <ng-multiselect-dropdown [placeholder]="'Status'" [settings]="dropdownSettings" [data]="dropdownList"
+          [settings]="dropdownSettings" [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)"
+          (onDeSelect)="onItemDeSelect($event)" (onSelectAll)="onSelectAll($event)"
+          [ngModelOptions]="{standalone: true}">
+        </ng-multiselect-dropdown>
+      </div>
     </div>
 
     <table class="table table-striped">

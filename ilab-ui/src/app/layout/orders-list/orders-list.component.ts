@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
 import { OrdersListService } from './orders-list.service';
 import { routerTransition } from 'src/app/router.animations';
-
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 @Component({
   selector: 'app-orders-list',
   templateUrl: './orders-list.component.html',
@@ -15,11 +15,46 @@ export class OrdersListComponent extends DefaultListComponent<Order, OrdersListS
   breadcrumbs = [{ heading: 'Orders', icon: 'fa-tasks' }];
   private _searchTerm = '';
   lang: string;
+  dropdownList: string[] = [];
+  selectedItems = [];
+  // dropdownSettings = {};
+  dropdownSettings: IDropdownSettings = {};
   constructor(service: OrdersListService) {
     super(service);
     // this.appStore.select(fromStore.getLang).subscribe((lang) => {
     //   this.lang = lang;
     // });
+    this.dropdownList = [
+      'PENDING',
+      'QUOTED',
+      'QUOTE_ACCEPTED',
+      'IN_PROGRESS',
+      'FINISHED',
+      'DELIVERED',
+      'CANCELLED',
+      'QUOTE_REJECTED',
+    ];
+    this.dropdownSettings = {
+      // idField: 'item_id',
+      // textField: 'item_text',
+      singleSelection: false,
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true,
+    };
+  }
+  onItemSelect(item: any) {
+    console.log(item);
+    console.log(this.selectedItems.toString());
+  }
+  onItemDeSelect(item) {
+    console.log(item);
+    console.log(this.selectedItems.toString());
+  }
+  onSelectAll(items: any) {
+    console.log(items);
+    console.log(items.toString());
   }
 
   set searchTerm(searchTerm: string) {

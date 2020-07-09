@@ -20,10 +20,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { OrdersFormComponent } from './orders-form/orders-form.component';
 import { MatNativeDateModule, MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
-
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 @NgModule({
   declarations: [OrdersListComponent, OrdersFormComponent],
   imports: [
+    NgMultiSelectDropDownModule.forRoot(),
     CommonModule,
     OrdersListRoutingModule,
     TranslateModule,

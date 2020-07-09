@@ -1,96 +1,100 @@
 <div class="row">
 
-    <!-- Cart Items Table -->
-    <div class="col-md-12 col-lg-12">
-        <div class="items">
+  <!-- Cart Items Table -->
+  <div class="col-md-12 col-lg-12">
+    <div class="items">
 
-            <!-- One Item Row -->
-            <div class="product">
-                <div class="row">
-                    <div class="col-md-3 mb-2 mb-md-0">
-                        <!-- <img class="img-fluid mx-auto d-block image" [src]="getImageUrl()"> -->
-                        <img class="img-fluid " [src]="getFileExtension()"
-                          *ngIf="getFileExtension() != false;else serviceImage">
-                        <ng-template #serviceImage>
-                          <img class="img-fluid " [src]="appConfig.AWSUrl+lineItem.service.image">
-                        </ng-template>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="info">
-                            <div class="row">
-                                <div class="col-md-12 product-name">
-                                    <h5 class="text-center text-md-left text-primary">{{lineItem.service.name}}</h5>
+      <!-- One Item Row -->
+      <div class="product">
+        <div class="row">
+          <div class="col-md-3 mb-2 mb-md-0">
+            <!-- <img class="img-fluid mx-auto d-block image" [src]="getImageUrl()"> -->
+            <img class="img-fluid " [src]="getFileExtension()" *ngIf="getFileExtension() != false;else serviceImage">
+            <ng-template #serviceImage>
+              <img class="img-fluid " [src]="appConfig.AWSUrl+lineItem.service.image">
+            </ng-template>
+          </div>
+          <div class="col-md-9">
+            <div class="info">
+              <div class="row">
+                <div class="col-md-12 product-name">
+                  <h5 class="text-center text-md-left text-primary">{{lineItem.service.name}}</h5>
 
-                                    <div class="row">
-                                        <div class="col-md-6" *ngIf="checkStatus() != 'PENDING' && checkStatus() != 'CANCELLED' && checkStatus() != 'ORDER_REJECTED'">
-                                            <div ><label >{{ 'Estimated End Date' | translate }} :&nbsp;</label><span >{{ lineItem.estimatedEndDate | date:'fullDate' }}
-                                                </span></div>
-                                            <!-- <div *ngIf="lineItem?.plannedEndDate"><span class="col-md-4">{{ 'Planned End Date' | translate }}</span><span class="value ">{{ lineItem.plannedEndDate | date:'fullDate' }}
+                  <div class="row">
+                    <div class="col-md-6"
+                      *ngIf="checkStatus() != 'PENDING' && checkStatus() != 'CANCELLED' && checkStatus() != 'ORDER_REJECTED'">
+                      <div><label>{{ 'Estimated End Date' | translate }}
+                          :&nbsp;</label><span>{{ lineItem.estimatedEndDate | date:'fullDate' }}
+                        </span></div>
+                      <!-- <div *ngIf="lineItem?.plannedEndDate"><span class="col-md-4">{{ 'Planned End Date' | translate }}</span><span class="value ">{{ lineItem.plannedEndDate | date:'fullDate' }}
                                                 </span></div> -->
-                                            <div ><label >{{ 'Price' | translate }} :&nbsp;</label><span >{{lineItem.unitPrice *lineItem.quantity|currency:'EGP'}}
-                                                </span></div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div><label >{{ 'Quantity' | translate }} :&nbsp;</label><span >{{lineItem.quantity}}</span></div>
-                                            <div *ngIf="lineItem.notes"><label >{{ 'Notes' | translate }} :&nbsp;</label><span >{{(lineItem.notes.length>40)? (lineItem.notes | slice:0:40)+'....':(lineItem.notes)}}</span></div>
-                                        </div>
+                      <div><label>{{ 'Price' | translate }}
+                          :&nbsp;</label><span>{{lineItem.unitPrice *lineItem.quantity|currency:'EGP'}}
+                        </span></div>
+                    </div>
+                    <div class="col-md-6">
+                      <div><label>{{ 'Quantity' | translate }} :&nbsp;</label><span>{{lineItem.quantity}}</span></div>
+                      <div *ngIf="lineItem.notes"><label>{{ 'Notes' | translate }}
+                          :&nbsp;</label><span>{{(lineItem.notes.length>40)? (lineItem.notes | slice:0:40)+'....':(lineItem.notes)}}</span>
+                      </div>
+                    </div>
 
-                                    </div>
-                                    <div class="row card-form" *ngFor="let file of lineItem.files ;index as i" >
-                                        <!-- <div class="form-title">{{'Digital Material'|translate}}: <span class="value"><a
+                  </div>
+                  <div class="row card-form" *ngFor="let file of lineItem.files ;index as i">
+                    <!-- <div class="form-title">{{'Digital Material'|translate}}: <span class="value"><a
                                             [href]="getFileUrl(i)">{{file.asset_name}}</a></span></div> -->
 
-                                            <div class="col-md-6" *ngIf="file.height">
-                                                <label > {{'Height' | translate }} :&nbsp;</label>
-                                                <span>{{file.height}}</span>
-                                            </div>
-                                            <div class="col-md-6" *ngIf="file.width">
-                                                <label > {{'Width' | translate }} :&nbsp;</label>
-                                                <span>{{file.width}}</span>
-                                            </div>
-                                            <div class="col-md-6" *ngIf="file.material">
-                                                <label > {{'Material' | translate }} :&nbsp;</label>
-                                                <span>{{file.material}}</span>
-                                            </div>
-                                            <div class="col-md-6" *ngIf="file.type">
-                                                <label > {{'Type' | translate }} :&nbsp;</label>
-                                                <span>{{file.type}}</span>
-                                            </div>
-                                            <div class="col-md-6" *ngIf="file.color">
-                                                <label > {{'Color' | translate }} :&nbsp;</label>
-                                                <span>{{file.color}}</span>
-                                            </div>
-                                            <div class="col-md-6" *ngIf="file.unit">
-                                                <label > {{'Unit' | translate }} :&nbsp;</label>
-                                                <span>{{file.unit}}</span>
-                                            </div>
-                                            <div class="col-md-6" *ngIf="file.thickness">
-                                                <label > {{'Thickness' | translate }} :&nbsp;</label>
-                                                <span>{{file.thickness}}</span>
-                                            </div>
-                                            <div class="col-md-6" *ngIf="file.processes">
-                                                <label > {{'Processes' | translate }} :&nbsp;</label>
-                                                <span>{{file.processes}}</span>
-                                            </div>
-                                            <!-- <div></div> -->
+                    <div class="col-md-6" *ngIf="file.height">
+                      <label> {{'Height' | translate }} :&nbsp;</label>
+                      <span>{{file.height}}</span>
+                    </div>
+                    <div class="col-md-6" *ngIf="file.width">
+                      <label> {{'Width' | translate }} :&nbsp;</label>
+                      <span>{{file.width}}</span>
+                    </div>
+                    <div class="col-md-6" *ngIf="file.material">
+                      <label> {{'Material' | translate }} :&nbsp;</label>
+                      <span>{{file.material}}</span>
+                    </div>
+                    <div class="col-md-6" *ngIf="file.type">
+                      <label> {{'Type' | translate }} :&nbsp;</label>
+                      <span>{{file.type}}</span>
+                    </div>
+                    <div class="col-md-6" *ngIf="file.color">
+                      <label> {{'Color' | translate }} :&nbsp;</label>
+                      <span>{{file.color}}</span>
+                    </div>
+                    <div class="col-md-6" *ngIf="file.unit">
+                      <label> {{'Unit' | translate }} :&nbsp;</label>
+                      <span>{{file.unit}}</span>
+                    </div>
+                    <div class="col-md-6" *ngIf="file.thickness">
+                      <label> {{'Thickness' | translate }} :&nbsp;</label>
+                      <span>{{file.thickness}}</span>
+                    </div>
+                    <div class="col-md-6" *ngIf="lineItem.service.processes">
+                      <label> {{'Processes' | translate }} :&nbsp;</label>
+                      <span>{{lineItem.service.processes.values}}</span>
+                    </div>
+                    <!-- <div></div> -->
 
-                                    </div>
-                                    <!-- <div *ngFor="let file of lineItem.files; index as i"class="card-form">
+                  </div>
+                  <!-- <div *ngFor="let file of lineItem.files; index as i"class="card-form">
 
                                     <div>Uploaded File :<a href="{{getFileUrl()}}">{{lineItem.asset_name}}</a></div>
                                     <div>Units used in file :<span class="value ">{{lineItem.unit}}</span></div>
                                     <div>Material :<span class="value ">{{lineItem.material}}</span></div>
                                   </div> -->
-                                    <!-- <div class="row">
+                  <!-- <div class="row">
                                         <div class="col-md-12">
 
                                         </div>
                                     </div> -->
-                                </div>
+                </div>
 
-                                <!-- {{lineItem.status}} -->
+                <!-- {{lineItem.status}} -->
 
-                                <!-- <div class="col-md-3 price">
+                <!-- <div class="col-md-3 price">
                   <div class="btn btn-warning"></div>
                 </div>
                 <div class="col-md-1 price">
@@ -98,17 +102,17 @@
                     <i class="fa fa-trash" aria-hidden="true"></i>
                   </button>
                 </div> -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              </div>
             </div>
-            <!-- End One Item Row -->
-
+          </div>
         </div>
-    </div>
+      </div>
+      <!-- End One Item Row -->
 
-    <!-- End One Item Row -->
+    </div>
+  </div>
+
+  <!-- End One Item Row -->
 
 </div>
 <div class="dropdown-divider my-3">

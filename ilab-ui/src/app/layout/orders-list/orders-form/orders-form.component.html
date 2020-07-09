@@ -216,10 +216,10 @@
                               <option *ngFor="let c of lineItem.service.units" [value]="c">{{c}}</option>
                             </select> -->
                           </div>
-                          <div class="col-md-6 mb-2" *ngIf="file.processes != undefined">
+                          <div class="col-md-6 mb-2" *ngIf="lineItem.service.processes">
                             <label>{{'file.processes' | translate }} :&nbsp;</label>
-                            <span class="text-danger" #multiSelectErr></span>
-                            <div *ngIf="!lineItem.service.processes.multi">
+                            <span class="text-color" #multiSelectErr>{{lineItem.service.processes.values}}</span>
+                            <div *ngIf="!lineItem.service.processes">
                               <span class="text-color" #widthErr> {{file.processes}}</span>
 
                               <!-- <select class="form-control" [ngModel]="file.processes">
