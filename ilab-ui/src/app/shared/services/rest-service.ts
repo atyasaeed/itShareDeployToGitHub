@@ -24,6 +24,7 @@ interface State {
   search?: string;
   sortColumn?: string;
   sortDirection?: SortDirection;
+  advSearch?: string;
 }
 @Injectable({
   providedIn: 'root',
@@ -39,6 +40,7 @@ export class RestService<T> {
   };
   resource = '/';
   type: any;
+  searchUrl = 'search';
 
   constructor(
     @Inject(HttpClient) private httpClient: HttpClient,
@@ -98,13 +100,26 @@ export class RestService<T> {
     return this.http.delete<T>(this.url + '/' + id);
   }
   private _search(): Observable<SearchResult<T>> {
-    const { sortColumn, sortDirection, pageSize, page, search } = this._state;
+    const { sortColumn, sortDirection, pageSize, page, search, advSearch } = this._state;
 
-    let url = this.url + `/search?size=${pageSize}&page=${page - 1}`;
+    // let url = this.url + `/search?size=${pageSize}&page=${page - 1}`;
+    // if (search) {
+    //   url += `&search=${encodeURIComponent(search)}`;
+    //   // url += `&search=${search}`;
+    // }
+    // if (sortColumn) {
+    //   url += `&sort=${sortColumn},${sortDirection}`;
+    // }
+    let url;
+
+    url = this.url + `/${this.searchUrl}?size=${pageSize}&page=${page - 1}`;
+    if (advSearch) {
+      url += `&${advSearch}`;
+    }
     if (search) {
       url += `&search=${encodeURIComponent(search)}`;
-      // url += `&search=${search}`;
     }
+
     if (sortColumn) {
       url += `&sort=${sortColumn},${sortDirection}`;
     }
@@ -141,6 +156,10 @@ export class RestService<T> {
 
   set searchTerm(search: string) {
     this._set({ search });
+  }
+
+  set advSearch(advSearch: string) {
+    this._set({ advSearch });
   }
   set sortColumn(sortColumn: string) {
     this._set({ sortColumn });

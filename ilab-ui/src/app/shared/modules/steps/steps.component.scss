@@ -25,8 +25,18 @@
   justify-content: space-between;
   position: relative;
   font-size: 10px;
-  //min-width: 300px;
+  //min-width: 600px;
 }
+
+@media(max-width:600px){
+  .steps-section{
+    min-width: 600px !important;
+  }
+  .overflow-mobile{
+    overflow-x: auto;
+  }
+}
+
 
 .step-progress-bar{
   margin: auto;

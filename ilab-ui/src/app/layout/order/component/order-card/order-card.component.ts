@@ -12,7 +12,7 @@ export class OrderCardComponent implements OnInit {
   @Input() order: Order;
   //@ViewChild('statusBtn') statusBtn: HTMLElement;
   // orderitem = new Order();
-  statusArr: string[] = ['PENDING', 'QUOTED', 'IN_PROGRESS', 'FINISHED', 'DELIVERED'];
+  statusArr: string[] = ['PENDING', 'QUOTED', 'QUOTE_ACCEPTED', 'IN_PROGRESS', 'FINISHED', 'DELIVERED'];
 
   constructor(
     private orderService: OrdersService,

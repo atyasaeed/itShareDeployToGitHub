@@ -8,6 +8,7 @@ import { RestService } from 'src/app/shared/services';
 })
 export class OrdersService extends RestService<Order> {
   resource: string = 'orders';
+  //searchUrl = 'advSearch';
   approve(id: string) {
     return this.http.put<Order>(this.appConfig.getResourceUrl('orders') + '/' + id + '/approveQuote', null);
   }

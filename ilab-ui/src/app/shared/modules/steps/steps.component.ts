@@ -15,14 +15,15 @@ export class StepsComponent implements OnInit {
   ngOnInit(): void {}
 
   ngAfterViewInit() {
-    //console.log(this.order.status);
-    let v = 100 / (this.stepsArr.length - 1);
-    //console.log(v);
-    this.activeStepIndex = this.stepsArr.indexOf(this.activeStep);
-    if (this.activeStep == 'QUOTE_ACCEPTED' || this.activeStep == 'QUOTE_REJECTED') {
-      this.activeStepIndex = this.stepsArr.indexOf('QUOTED');
-    }
+    this.initStep();
+  }
 
+  ngOnChanges() {
+    this.initStep();
+  }
+  initStep() {
+    let v = 100 / (this.stepsArr.length - 1);
+    this.activeStepIndex = this.stepsArr.indexOf(this.activeStep);
     this.barValue = this.activeStepIndex * v;
   }
 }
