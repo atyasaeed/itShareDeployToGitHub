@@ -13,6 +13,9 @@ export class ServiceFormComponent implements OnInit {
   @ViewChild('stepOne') stepOne: ElementRef;
   @ViewChildren('optionalRef', { read: ElementRef }) optionalRef: QueryList<ElementRef<HTMLParagraphElement>>;
   optionalArr: string[] = ['materials', 'thickness', 'types', 'colors', 'units', 'processes'];
+  multiProcesses: boolean = false;
+  stepsArr: string[] = ['step 1', 'step 2'];
+  activeStep = 'step 1';
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
@@ -51,10 +54,26 @@ export class ServiceFormComponent implements OnInit {
   next() {
     this.stepOne.nativeElement.style.display = 'none';
     this.stepTwo.nativeElement.style.display = 'block';
+    this.activeStep = 'step 2';
+  }
+
+  back() {
+    this.stepTwo.nativeElement.style.display = 'none';
+    this.stepOne.nativeElement.style.display = 'block';
+    this.activeStep = 'step 1';
   }
 
   addAttribute(event, type: string) {
     //console.log(type);
+    if (type == 'processes') {
+      if (event.target.checked) {
+        this.multiProcesses = true;
+        this.form.addControl('multi', new FormControl('true'));
+      } else {
+        this.multiProcesses = false;
+        this.form.removeControl('multi');
+      }
+    }
     if (event.target.checked) {
       this.form.addControl(type, new FormArray([new FormControl()]));
     } else {

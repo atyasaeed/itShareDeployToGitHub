@@ -54,3 +54,7 @@
   bottom: -16px;
   color: black;
 }
+
+::ng-deep .progress {
+  background-color: white !important;
+}
