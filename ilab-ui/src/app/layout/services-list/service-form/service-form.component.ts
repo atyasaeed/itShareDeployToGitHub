@@ -1,18 +1,46 @@
 import { Component, OnInit, ElementRef, ViewChild, ViewChildren, QueryList } from '@angular/core';
-import { FormGroup, FormControl, FormArray } from '@angular/forms';
+import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'app-service-form',
   templateUrl: './service-form.component.html',
   styleUrls: ['./service-form.component.scss'],
+  animations: [
+    trigger('inputIn', [
+      state(
+        'in',
+        style({
+          opacity: 1,
+          transform: 'translateX(0)',
+        })
+      ),
+      transition('void => *', [
+        style({
+          opacity: 0,
+          transform: 'translateX(-100px)',
+        }),
+        animate(300),
+      ]),
+      transition('* => void', [
+        animate(
+          300,
+          style({
+            transform: 'translateX(100px)',
+            opacity: 0,
+          })
+        ),
+      ]),
+    ]),
+  ],
 })
 export class ServiceFormComponent implements OnInit {
   form: FormGroup;
   @ViewChild('stepTwo') stepTwo: ElementRef;
   @ViewChild('stepOne') stepOne: ElementRef;
   @ViewChildren('optionalRef', { read: ElementRef }) optionalRef: QueryList<ElementRef<HTMLParagraphElement>>;
-  optionalArr: string[] = ['materials', 'thickness', 'types', 'colors', 'units', 'processes'];
+  optionalArr: string[] = ['Materials', 'Thickness', 'Types', 'Colors', 'Units', 'Processes'];
   multiProcesses: boolean = false;
   stepsArr: string[] = ['step 1', 'step 2'];
   activeStep = 'step 1';
@@ -20,10 +48,10 @@ export class ServiceFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = new FormGroup({
-      name: new FormControl(null),
-      description: new FormControl(null),
-      image: new FormControl(null),
-      supportedExtensions: new FormArray([new FormControl(null)]),
+      name: new FormControl(null, Validators.required),
+      description: new FormControl(null, Validators.required),
+      image: new FormControl(null, Validators.required),
+      supportedExtensions: new FormArray([new FormControl(null, Validators.required)]),
     });
     // if (this.route.snapshot.params['entityId']) {
     //   console.log('edit');
@@ -35,7 +63,7 @@ export class ServiceFormComponent implements OnInit {
   }
 
   addControlArray(type: string) {
-    const control = new FormControl(null);
+    const control = new FormControl(null, Validators.required);
     (<FormArray>this.form.get(type)).push(control);
   }
 
@@ -65,19 +93,19 @@ export class ServiceFormComponent implements OnInit {
 
   addAttribute(event, type: string) {
     //console.log(type);
-    if (type == 'processes') {
+    if (type == 'Processes') {
       if (event.target.checked) {
         this.multiProcesses = true;
-        this.form.addControl('multi', new FormControl('true'));
+        this.form.addControl('multi', new FormControl('true', Validators.required));
       } else {
         this.multiProcesses = false;
         this.form.removeControl('multi');
       }
     }
     if (event.target.checked) {
-      this.form.addControl(type, new FormArray([new FormControl()]));
+      this.form.addControl(type.toLowerCase(), new FormArray([new FormControl(null, Validators.required)]));
     } else {
-      this.form.removeControl(type);
+      this.form.removeControl(type.toLowerCase());
     }
   }
 }

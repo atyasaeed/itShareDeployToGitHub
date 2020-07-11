@@ -1,6 +1,6 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
   <div class="container light-grey-background p-3">
-    <div class="row">
+    <div class="row mb-3">
       <div class="offset-md-4 col-md-4">
         <app-steps [stepsArr]="stepsArr" [activeStep]="activeStep"></app-steps>
       </div>
@@ -9,116 +9,155 @@
       <div class="row " >
       <div class="col-md-4">
         <div class="form-group">
-          <label >name</label>
+          <label >{{'Name' | translate}} : </label>
           <input type="text" formControlName="name" class="form-control">
         </div>
         <div class="form-group">
-          <label >image</label>
+          <label >{{'Image' | translate}} : </label>
           <input type="file" class="form-control" formControlName="image" (change)="uploadImage($event)">
         </div>
         <div class="form-group">
-          <label >description</label>
+          <label >{{'Description' | translate}} : </label>
           <textarea formControlName="description" class="form-control"></textarea>
         </div>
       </div>
 
       <div class="col-md-4" formArrayName="supportedExtensions">
-        <label >extensions</label>
-        <button type="button" (click)="addControlArray('supportedExtensions')" class="btn-sm btn btn-outline-success ">
+        <label >{{'Extensions' | translate}} : </label>
+        <button type="button" (click)="addControlArray('supportedExtensions')" class="btn-sm btn btn-outline-success float-right">
           <i class="fa fa-plus" aria-hidden="true"></i>
         </button>
-        <div *ngFor="let s of form.get('supportedExtensions')['controls'];let i = index">
+        <div class="input-group mt-2" [@inputIn] *ngFor="let s of form.get('supportedExtensions')['controls'];let i = index">
           <input type="text" [formControlName]="i" class="form-control">
-          <button *ngIf="i != 0" type="button" (click)="deleteControlArray('supportedExtensions',i)">delete</button>
+          <div class="input-group-append">
+            <button *ngIf="i != 0" type="button" class="btn btn-danger" (click)="deleteControlArray('supportedExtensions',i)">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+          </div>
         </div>
       </div>
       <div class="col-md-4" >
         <div *ngFor="let o of optionalArr">
-          <label [for]="o">{{o}}</label>
-          <input type="checkbox" [id]="o" (change)="addAttribute($event,o)" #optionalRef>
-          <div *ngIf="o == 'processes' && multiProcesses">
-            <label >multi</label>
-            <div>
-              <label for="true">true</label>
-              <input type="radio" id="true"  formControlName="multi" value="true" >
-              <label for="false">false</label>
-              <input type="radio" id="false" value="false"  formControlName="multi">
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" [id]="o" (change)="addAttribute($event,o)" class="custom-control-input" #optionalRef>
+            <label class="custom-control-label" [for]="o">{{o | translate}}</label>
+          </div>
+
+
+          <div *ngIf="o == 'Processes' && multiProcesses" class="ml-4">
+            <label >{{'Multi' | translate}} : </label>
+            <div class="ml-3">
+              <div class="custom-control custom-radio">
+                <input class="custom-control-input" type="radio" id="true"  formControlName="multi" value="true" >
+                <label for="true" class="custom-control-label">{{'True' | translate}} </label>
+              </div>
+              <div class="custom-control custom-radio">
+                <input class="custom-control-input" type="radio" id="false" value="false"  formControlName="multi">
+                <label for="false" class="custom-control-label">{{'False' | translate}} </label>
+              </div>
             </div>
           </div>
         </div>
 
       </div>
-      <div class="col-md-12">
-        <button type="button" class="btn btn-primary" (click)="next()">next</button>
+      <div class="col-md-12 text-center">
+        <button type="button" class="btn btn-primary" (click)="next()">{{'Next' | translate}}</button>
       </div>
 
     </div>
     </div>
     <div #stepTwo>
        <div class="row " >
-       <div class="col-md-3" formArrayName="materials" *ngIf="form.get('materials')">
-        <label >materials</label>
-        <button type="button"  (click)="addControlArray('materials')" class="btn-sm btn btn-outline-success ">
+       <div class="col-md-3 mb-3" formArrayName="materials" *ngIf="form.get('materials')">
+        <label >{{'Materials' | translate}} : </label>
+        <button type="button"  (click)="addControlArray('materials')" class="btn-sm btn btn-outline-success float-right">
           <i class="fa fa-plus" aria-hidden="true"></i>
         </button>
-        <div *ngFor="let s of form.get('materials')['controls'];let i = index">
+        <div class="input-group mt-2" [@inputIn] *ngFor="let s of form.get('materials')['controls'];let i = index">
           <input type="text" [formControlName]="i" class="form-control">
-          <button type="button" (click)="deleteControlArray('materials',i)" *ngIf="i != 0">delete</button>
+          <div class="input-group-append">
+            <button type="button" (click)="deleteControlArray('materials',i)" class="btn btn-danger" *ngIf="i != 0">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+          </div>
         </div>
       </div>
-      <div class="col-md-3" formArrayName="thickness" *ngIf="form.get('thickness')">
-        <label >thickness</label>
-        <button type="button" (click)="addControlArray('thickness')" class="btn-sm btn btn-outline-success ">
+      <div class="col-md-3 mb-3" formArrayName="thickness" *ngIf="form.get('thickness')">
+        <label >{{'Thickness' | translate}} : </label>
+        <button type="button" (click)="addControlArray('thickness')" class="btn-sm btn btn-outline-success float-right">
           <i class="fa fa-plus" aria-hidden="true"></i>
         </button>
-        <div *ngFor="let s of form.get('thickness')['controls'];let i = index">
+        <div class="input-group mt-2" [@inputIn] *ngFor="let s of form.get('thickness')['controls'];let i = index">
           <input type="text" [formControlName]="i" class="form-control">
-          <button type="button" (click)="deleteControlArray('thickness',i)" *ngIf="i != 0">delete</button>
+          <div class="input-group-append">
+              <button type="button" (click)="deleteControlArray('thickness',i)" class="btn btn-danger" *ngIf="i != 0">
+                <i class="fa fa-trash" aria-hidden="true"></i>
+              </button>
+          </div>
         </div>
       </div>
-      <div class="col-md-3" formArrayName="types" *ngIf="form.get('types')">
-        <label >types</label>
-        <button type="button" (click)="addControlArray('types')" class="btn-sm btn btn-outline-success ">
+      <div class="col-md-3 mb-3" formArrayName="types" *ngIf="form.get('types')">
+        <label >{{'Types' | translate}} : </label>
+        <button type="button" (click)="addControlArray('types')" class="btn-sm btn btn-outline-success float-right">
           <i class="fa fa-plus" aria-hidden="true"></i>
         </button>
-        <div *ngFor="let s of form.get('types')['controls'];let i = index">
+        <div class="input-group mt-2" [@inputIn] *ngFor="let s of form.get('types')['controls'];let i = index">
           <input type="text" [formControlName]="i" class="form-control">
-          <button type="button" (click)="deleteControlArray('types',i)" *ngIf="i != 0">delete</button>
+          <div class="input-group-append">
+            <button type="button" (click)="deleteControlArray('types',i)" *ngIf="i != 0" class="btn btn-danger">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+          </div>
         </div>
       </div>
-      <div class="col-md-3" formArrayName="colors" *ngIf="form.get('colors')">
-        <label >colors</label>
-        <button type="button" (click)="addControlArray('colors')" class="btn-sm btn btn-outline-success ">
+      <div class="col-md-3 mb-3" formArrayName="colors" *ngIf="form.get('colors')">
+        <label >{{'Colors' | translate}} : </label>
+        <button type="button" (click)="addControlArray('colors')" class="btn-sm btn btn-outline-success float-right">
           <i class="fa fa-plus" aria-hidden="true"></i>
         </button>
-        <div *ngFor="let s of form.get('colors')['controls'];let i = index">
+        <div class="input-group mt-2" [@inputIn] *ngFor="let s of form.get('colors')['controls'];let i = index">
           <input type="text" [formControlName]="i" class="form-control">
-          <button type="button" (click)="deleteControlArray('colors',i)" *ngIf="i != 0">delete</button>
+          <div class="input-group-append">
+            <button type="button" (click)="deleteControlArray('colors',i)" *ngIf="i != 0" class="btn btn-danger">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+          </div>
+
         </div>
       </div>
-      <div class="col-md-3" formArrayName="units" *ngIf="form.get('units')">
-        <label >units</label>
-        <button type="button" class="btn-sm btn btn-outline-success " (click)="addControlArray('units')">
+      <div class="col-md-3 mb-3" formArrayName="units" *ngIf="form.get('units')">
+        <label >{{'Units' | translate}} : </label>
+        <button type="button" class="btn-sm btn btn-outline-success float-right" (click)="addControlArray('units')">
           <i class="fa fa-plus" aria-hidden="true"></i>
         </button>
-        <div *ngFor="let s of form.get('units')['controls'];let i = index">
+        <div class="input-group mt-2" [@inputIn] *ngFor="let s of form.get('units')['controls'];let i = index">
           <input type="text" [formControlName]="i" class="form-control">
-          <button type="button" (click)="deleteControlArray('units',i)" *ngIf="i != 0">delete</button>
+          <div class="input-group-append">
+            <button type="button" (click)="deleteControlArray('units',i)" *ngIf="i != 0" class="btn btn-danger">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+          </div>
+
         </div>
       </div>
-      <div class="col-md-3" formArrayName="processes" *ngIf="form.get('processes')">
-        <label >processes</label>
-        <button type="button" class="btn-sm btn btn-outline-success " (click)="addControlArray('processes')">
+      <div class="col-md-3 mb-3" formArrayName="processes" *ngIf="form.get('processes')">
+        <label >{{'Processes' | translate}} : </label>
+        <button type="button" class="btn-sm btn btn-outline-success float-right" (click)="addControlArray('processes')">
           <i class="fa fa-plus" aria-hidden="true"></i>
         </button>
-        <div *ngFor="let s of form.get('processes')['controls'];let i = index">
+        <div class="input-group mt-2" [@inputIn] *ngFor="let s of form.get('processes')['controls'];let i = index">
           <input type="text" [formControlName]="i" class="form-control">
-          <button type="button" (click)="deleteControlArray('processes',i)" *ngIf="i != 0">delete</button>
+          <div class="input-group-append">
+            <button type="button" (click)="deleteControlArray('processes',i)" *ngIf="i != 0" class="btn btn-danger">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+          </div>
+
         </div>
       </div>
-      <div class="col-md-12">
-        <button type="button" (click)="back()">back</button>
-        <button type="submit">submit</button>
+      <div class="col-md-12 text-center">
+        <button type="button" class="btn btn-warning mr-2" (click)="back()">{{'Back' | translate}}</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">{{'Submit' | translate}}</button>
       </div>
     </div>
     </div>

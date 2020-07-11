@@ -1,5 +1,5 @@
-   <div class="py-3 overflow-mobile">
-      <span class="steps-section">
+   <div class="py-3 " [class.overflow-mobile]="stepsArr.length > 4">
+      <span class="steps-section" [class.min-width]="stepsArr.length > 4">
           <p class="position-absolute step-progress-bar"><ngb-progressbar  type="success" [value]="barValue" height="5px"></ngb-progressbar></p>
           <span class="step " *ngFor="let s of stepsArr;let i = index" [class.activeStep]="i <= activeStepIndex">
               {{i+1}}
