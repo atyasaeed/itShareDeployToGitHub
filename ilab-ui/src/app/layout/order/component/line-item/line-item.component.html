@@ -8,7 +8,7 @@
       <div class="product">
         <div class="row">
           <div class="col-md-3 mb-2 mb-md-0">
-            <!-- <img class="img-fluid mx-auto d-block image" [src]="getImageUrl()"> -->
+
             <img class="img-fluid " [src]="getFileExtension()" *ngIf="getFileExtension() != false;else serviceImage">
             <ng-template #serviceImage>
               <img class="img-fluid " [src]="appConfig.AWSUrl+lineItem.service.image">
@@ -18,7 +18,16 @@
             <div class="info">
               <div class="row">
                 <div class="col-md-12 product-name">
-                  <h5 class="text-center text-md-left text-primary">{{lineItem.service.name}}</h5>
+                  <div class="row">
+                    <div class="col-md-10">
+                      <h5 class="text-center text-md-left text-primary">{{lineItem.service.name}}</h5>
+                    </div>
+                    <div class="col-md-2 text-center text-md-right">
+                        <a class="btn btn-outline-success btn-xs" [href]="getFileUrl()">
+                          <i class="fa fa-download" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                  </div>
 
                   <div class="row">
                     <div class="col-md-6"

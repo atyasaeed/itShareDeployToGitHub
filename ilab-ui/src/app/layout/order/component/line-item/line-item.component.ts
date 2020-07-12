@@ -20,12 +20,9 @@ export class LineItemComponent implements OnInit {
   ngAfterViewInit() {
     //console.log(this.status);
   }
-  getImageUrl(): string {
-    return this.appConfig.ASSETS_URL + this.lineItem.service.id;
-  }
 
-  getFileUrl(index): string {
-    return this.appConfig.FILE_URL + this.lineItem.files[index].asset_id;
+  getFileUrl(): string {
+    return this.appConfig.FILE_URL + this.lineItem.files[0].asset_id;
   }
 
   getFileExtension() {

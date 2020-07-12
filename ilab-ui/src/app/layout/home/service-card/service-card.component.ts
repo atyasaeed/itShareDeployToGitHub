@@ -14,7 +14,4 @@ export class ServiceCardComponent implements OnInit {
   constructor(@Inject(APP_CONFIG) private appConfig: IAppConfig) {}
 
   ngOnInit(): void {}
-  getImageUrl(): string {
-    return this.appConfig.ASSETS_URL + this.entity.id;
-  }
 }

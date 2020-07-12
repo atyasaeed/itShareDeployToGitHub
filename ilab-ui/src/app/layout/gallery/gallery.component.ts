@@ -59,9 +59,6 @@ export class GalleryComponent extends DefaultListComponent<ShoppingCartItem, Gal
     return this._searchTerm;
   }
 
-  getImageUrl(entity: ShoppingCartItem): string {
-    return this.appConfig.ASSETS_URL + entity.service.id;
-  }
   getFileUrl(entity: ShoppingCartItem): string {
     return this.appConfig.FILE_URL + entity.files[0].asset_id;
   }

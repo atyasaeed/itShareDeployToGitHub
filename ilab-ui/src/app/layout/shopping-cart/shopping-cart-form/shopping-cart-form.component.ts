@@ -184,10 +184,6 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
   //   );
   // }
 
-  // getImageUrl(): string {
-  //   return this.appConfig.ASSETS_URL + this.service.id;
-  // }
-
   // handleFileInput(fileInput: any, oldIndex) {
   //   //  this.filename= fileInput.target.files[0].name;
   //   this.msgFileSize = fileInput.target.files[0].size;

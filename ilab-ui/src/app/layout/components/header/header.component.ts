@@ -71,8 +71,5 @@ export class HeaderComponent extends DefaultListComponent<ShoppingCartItem, Shop
     });
   }
 
-  getImageUrl(entity: ShoppingCartItem): string {
-    return this.appConfig.ASSETS_URL + entity.service.id;
-  }
   // Shopping Cart Icon
 }

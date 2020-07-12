@@ -141,9 +141,6 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
   // removeCart() {
   //   this.service.removeCart().subscribe();
   // }
-  getImageUrl(entity: ShoppingCartItem): string {
-    return this.appConfig.ASSETS_URL + entity.service.id;
-  }
 
   // checkItems() {
   //   if (this.items.length === 0) {
