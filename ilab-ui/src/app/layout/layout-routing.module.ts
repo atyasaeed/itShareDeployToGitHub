@@ -50,6 +50,10 @@ const routes: Routes = [
         path: 'gallery',
         loadChildren: () => import('./gallery/gallery.module').then((m) => m.GalleryModule),
       },
+      {
+        path: 'space',
+        loadChildren: () => import('./my-space/my-space.module').then((m) => m.MySpaceModule),
+      },
     ],
   },
 ];
