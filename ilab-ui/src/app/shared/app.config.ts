@@ -39,10 +39,10 @@ class DefaultAppConfig implements IAppConfig {
   }
 
   public get ASSETS_URL() {
-    return this.API_END_POINT + 'digital-assets/images/';
+    return this.API_END_POINT + 'api/digital-assets/images/';
   }
   public get FILE_URL() {
-    return this.API_END_POINT + 'digital-assets/files/';
+    return this.API_END_POINT + 'api/digital-assets/files/';
   }
   public get CHECKOUT_URL() {
     return this.getResourceUrl('cart/checkout');

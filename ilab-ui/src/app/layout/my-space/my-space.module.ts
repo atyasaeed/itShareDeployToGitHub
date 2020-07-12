@@ -8,7 +8,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/modules/shared/shared.module';
 import { PageHeaderModule } from 'src/app/shared/modules/page-header/page-header.module';
-
+import { ModalModule } from 'ngx-bootstrap/modal';
 @NgModule({
   declarations: [MySpaceComponent],
 
@@ -20,6 +20,7 @@ import { PageHeaderModule } from 'src/app/shared/modules/page-header/page-header
     NgbModule,
     SharedModule,
     PageHeaderModule,
+    ModalModule.forRoot(),
   ],
 })
 export class MySpaceModule {}

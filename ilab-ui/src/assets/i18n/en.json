@@ -164,5 +164,8 @@
   "gallery": "Gallery",
   "gallery.choose": "You Can Choose Order And Add It To Your Cart Direct",
   "Id": "Id",
-  "order.Created":"Ordered At"
+  "order.Created":"Ordered At",
+  "id":"Id",
+  "name": "Name",
+  "created":"Created At"
 }
