@@ -30,7 +30,7 @@ import ilab.core.service.AssetService;
 @RequestMapping(path = AssetsController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class AssetsController implements AbstractRestController<FileAsset, UUID>
 {
-	static final String REST_URL="/digital-assets";
+	static final String REST_URL="/api/digital-assets";
 	@Value("${iLab.paths.images}")
 	String imagesPath;
 	@Value("${iLab.paths.files}")
