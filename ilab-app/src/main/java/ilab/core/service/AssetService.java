@@ -39,6 +39,11 @@ public class AssetService
 			return assetsRepo.findByIdAndAccount(assetId,account);
 
 	}
+	public Optional<FileAsset> getAssetFile(UUID assetId)
+	{
+			return assetsRepo.findById(assetId);
+
+	}
 	public Page<FileAsset> getFiles(Pageable page, Specification<FileAsset> specs, Authentication auth)
 	{
 		User user = userRepo.findByUsername(auth.getName());
