@@ -1,7 +1,7 @@
 <div [@routerTransition]>
   <app-page-header [heading]="'Programs'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header>
 
-    <!-- <mat-form-field class="form-rtl col-12">
+  <!-- <mat-form-field class="form-rtl col-12">
         <mat-label>{{' Select Service' | translate}}</mat-label>
         <mat-select (selectionChange)="bulidForm($event.value)"  [(value)]="service" #selectionVal>
             <mat-option class="form-rtl" *ngFor="let service of services" [value]="service">
@@ -9,163 +9,179 @@
             </mat-option>
         </mat-select>
     </mat-form-field> -->
-    <div class="container px-0">
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label >{{'Select Service' | translate }} </label> :
-                <select  class="form-control "   (change)="buildForm($event)">
+  <div class="container px-0">
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label>{{'Select Service' | translate }} </label> :
+        <select class="form-control " (change)="buildForm($event)">
 
-                    <option disabled selected value="undefined">{{'Please Select Service' | translate}}</option>
-                    <ng-container *ngFor="let i of services">
-                        <option  [value]="i.id" >{{i.name}}</option>
-                    </ng-container>
+          <option disabled selected value="undefined">{{'Please Select Service' | translate}}</option>
+          <ng-container *ngFor="let i of services">
+            <option [value]="i.id">{{i.name}}</option>
+          </ng-container>
 
-                </select>
-            </div>
-        </div>
+        </select>
+      </div>
     </div>
+  </div>
 
-<article class=" container card form-rtl" >
+  <article class=" container card form-rtl">
     <!-- <div *ngIf="activeService != undefined"> -->
-        <h4 class="text-center text-primary">{{activeService.name}} </h4>
-            <h6 class="text-center">{{activeService.description}}</h6>
+    <h4 class="text-center text-primary">{{activeService.name}} </h4>
+    <h6 class="text-center">{{activeService.description}}</h6>
 
     <!-- </div> -->
-    <form [formGroup]='form' (ngSubmit)="submit()" >
-        <div class="container-fluid mt-4">
-            <div class="row">
+    <form [formGroup]='form' (ngSubmit)="submit()">
+      <div class="container-fluid mt-4">
+        <div class="row">
 
 
-                <div class="col-md-6 mb-3">
-                    <img  class="img-fluid" [src]="appConfig.AWSUrl+activeService.image" alt="" *ngIf="activeService.image != undefined;else defaultImage">
-                    <ng-template #defaultImage>
-                        <img src="assets/images/ilab.png" alt="" class="img-fluid">
-                    </ng-template>
-                    <div  class="mt-3">
-                        <label >{{'Notes'|translate}} :</label>
-                        <textarea class="form-control" rows="3" formControlName="notes"></textarea>
-                    </div>
-                </div>
-                <div class="col-md-6 ">
-
-                    <label >{{'File'|translate}} :</label>
-                    <span *ngIf="form.controls.file.errors != null">
-                        <span class="text-danger" *ngIf="form.controls.file.errors.required && form.controls.file.touched"> *{{'file.errors.required'|translate}}</span>
-                        <span class="text-danger" *ngIf="form.controls.file.errors.extension "> | *{{'file.errors.extensions'|translate}} {{form.controls.file.errors.extension}} </span>
-                    </span>
-                    <input type="file" [accept]="extFile" formControlName="file" class="form-control mb-3 border" (change)="handleFileInput($event)">
-
-                    <label>{{'Quantity'|translate}} :</label>
-                    <span *ngIf="form.controls.quantity.errors != null">
-                        <span class="text-danger" *ngIf="form.controls.quantity.errors.required && form.controls.quantity.touched"> *{{'quantity.errors.required'|translate}}</span>
-                        <span class="text-danger" *ngIf="form.controls.quantity.errors.min && form.controls.quantity.touched"> | *{{'quantity.errors.min'|translate}}</span>
-                         <span class="text-danger" *ngIf="form.controls.quantity.errors.NaN && form.controls.quantity.dirty"> | *{{'quantity.errors.nan'|translate}}</span>
-                    </span>
-                    <input type="number" formControlName="quantity" class="form-control mb-3">
-
-                    <label>{{'Height'|translate}} :</label>
-                    <span *ngIf="form.controls.height.errors != null">
-                        <span class="text-danger" *ngIf="form.controls.height.errors.required && form.controls.height.touched"> *{{'height.errors.required' | translate}}</span>
-                        <span class="text-danger" *ngIf="form.controls.height.errors.min && form.controls.height.touched"> | *{{'height.errors.required' | translate}}</span>
-                        <span class="text-danger" *ngIf="form.controls.height.errors.NaN && form.controls.height.dirty"> | *{{'height.errors.nan' | translate}}</span>
-                    </span>
-                    <input type="number" formControlName="height" class="form-control mb-3" >
-
-                    <label>{{'Width' | translate}} :</label>
-                    <span *ngIf="form.controls.width.errors != null">
-                        <span class="text-danger" *ngIf="form.controls.width.errors.required && form.controls.width.touched"> *{{'width.errors.required' | translate}}</span>
-                        <span class="text-danger" *ngIf="form.controls.width.errors.min && form.controls.width.touched"> | *{{'width.errors.min' | translate}}</span>
-                        <span class="text-danger" *ngIf="form.controls.width.errors.NaN && form.controls.width.dirty"> | *{{'width.errors.nan' | translate}}</span>
-                    </span>
-                    <input type="number" formControlName="width" class="form-control mb-3">
-
-                    <div  *ngIf="activeService.materials != undefined" class="mb-3">
-                        <label >{{'Material' | translate}} :</label>
-                        <span class="text-danger" *ngIf="!form.controls.material.valid && form.controls.material.touched"> *{{'material.errors.required' | translate}}</span>
-                        <select formControlName="material" class="form-control" >
-
-                            <option disabled selected value="undefined">{{'Please Select Material' | translate}}</option>
-                            <ng-container *ngFor="let x of activeService.materials">
-                                <option  [value]="x" >{{x}}</option>
-                            </ng-container>
-                        </select>
-                    </div>
-                     <div  *ngIf="activeService.thickness != undefined" class="mb-3">
-                    <label >{{'Thickness' | translate}} :</label>
-                        <span class="text-danger" *ngIf="!form.controls.thickness.valid && form.controls.thickness.touched"> *{{'thickness.errors.required' | translate}}</span>
-                        <select formControlName="thickness" class="form-control">
-
-                            <option disabled selected value="undefined">{{'Please Select Thickness' | translate}}</option>
-                            <ng-container *ngFor="let y of activeService.thickness">
-                                <option  [value]="y" >{{y}}</option>
-                            </ng-container>
-                        </select>
-                    </div>
-
-                    <div  *ngIf="activeService.colors != undefined" class="mb-3">
-                        <label >{{'Color' | translate}} :</label>
-                        <span class="text-danger" *ngIf="!form.controls.color.valid && form.controls.color.touched"> *{{'color.errors.required' | translate}}</span>
-                        <select formControlName="color" class="form-control">
-
-                            <option disabled selected value="undefined">{{'Please Select Color' | translate}}</option>
-                            <ng-container *ngFor="let y of activeService.colors">
-                                <option  [value]="y" >{{y}}</option>
-                            </ng-container>
-                        </select>
-                    </div>
-                    <div  *ngIf="activeService.types != undefined" class="mb-3">
-                        <label >{{'Type' | translate}} :</label>
-                        <span class="text-danger" *ngIf="!form.controls.type.valid && form.controls.type.touched"> *{{'type.errors.required' | translate}}</span>
-                        <select formControlName="type" class="form-control">
-
-                            <option disabled selected value="undefined">{{'Please Select Type' | translate}}</option>
-                            <ng-container *ngFor="let y of activeService.types">
-                                <option  [value]="y" >{{y}}</option>
-                            </ng-container>
-                        </select>
-                    </div>
-                    <div  *ngIf="activeService.units != undefined" class="mb-3">
-                        <label >{{'Units' | translate}} :</label>
-                        <span class="text-danger" *ngIf="!form.controls.unit.valid && form.controls.unit.touched"> *{{'unit.errors.required' | translate}}</span>
-                        <select formControlName="unit" class="form-control">
-
-                            <option disabled selected value="undefined">{{'Please Select Unit' | translate}}</option>
-                            <ng-container *ngFor="let y of activeService.units">
-                                <option  [value]="y" >{{y}}</option>
-                            </ng-container>
-                        </select>
-                    </div>
-                    <div  *ngIf="activeService.processes != undefined" class="mb-3">
-                        <label >{{'Processes' | translate}} :</label>
-                        <span class="text-danger" *ngIf="(!form.controls.processes.valid && form.controls.processes.dirty) || ( !form.controls.processes.valid && form.controls.processes.touched )"> *{{'processes.errors.required' | translate}}</span>
-                        <div *ngIf="activeService.processes.multi==true;else processesSingle">
-                            <ng-multiselect-dropdown
-                            formControlName="processes"
-                            [placeholder]="'please select processes'"
-                            [settings]="dropdownSettings"
-                            [data]="activeService.processes.values"
-
-                            >
-                            </ng-multiselect-dropdown>
-                        </div>
-                        <ng-template #processesSingle>
-                            <select formControlName="processes" class="form-control" [ngModel]="undefined">
-                            <option disabled  value="undefined">{{'Please Select Process' | translate}}</option>
-                                <ng-container *ngFor="let v of activeService.processes.values">
-                                    <option  [value]="v" >{{v}}</option>
-                                </ng-container>
-                            </select>
-                        </ng-template>
-                    </div>
-                </div>
-
-                <div class="col-md-12 text-center">
-                    <button   type="submit"  class="btn btn-primary " [disabled]="!form.valid || activeService.id==null">
-                        {{'Add To Cart' | translate}} <i class="fa fa-cart-plus " aria-hidden="true" #flyToCart></i>
-                    </button>
-                </div>
+          <div class="col-md-6 mb-3">
+            <img class="img-fluid" [src]="appConfig.AWSUrl+activeService.image" alt=""
+              *ngIf="activeService.image != undefined;else defaultImage">
+            <ng-template #defaultImage>
+              <img src="assets/images/ilab.png" alt="" class="img-fluid">
+            </ng-template>
+            <div class="mt-3">
+              <label>{{'Notes'|translate}} :</label>
+              <textarea class="form-control" rows="3" formControlName="notes"></textarea>
             </div>
+          </div>
+          <div class="col-md-6 ">
+
+            <label>{{'File'|translate}} :</label>
+            <span *ngIf="form.controls.file.errors != null">
+              <span class="text-danger" *ngIf="form.controls.file.errors.required && form.controls.file.touched">
+                *{{'file.errors.required'|translate}}</span>
+              <span class="text-danger" *ngIf="form.controls.file.errors.extension "> |
+                *{{'file.errors.extensions'|translate}} {{form.controls.file.errors.extension}} </span>
+            </span>
+            <input type="file" [accept]="extFile" formControlName="file" class="form-control mb-3 border"
+              (change)="handleFileInput($event)">
+
+            <label>{{'Quantity'|translate}} :</label>
+            <span *ngIf="form.controls.quantity.errors != null">
+              <span class="text-danger"
+                *ngIf="form.controls.quantity.errors.required && form.controls.quantity.touched">
+                *{{'quantity.errors.required'|translate}}</span>
+              <span class="text-danger" *ngIf="form.controls.quantity.errors.min && form.controls.quantity.touched"> |
+                *{{'quantity.errors.min'|translate}}</span>
+              <span class="text-danger" *ngIf="form.controls.quantity.errors.NaN && form.controls.quantity.dirty"> |
+                *{{'quantity.errors.nan'|translate}}</span>
+            </span>
+            <input type="number" formControlName="quantity" class="form-control mb-3">
+
+            <label>{{'Height'|translate}} :</label>
+            <span *ngIf="form.controls.height.errors != null">
+              <span class="text-danger" *ngIf="form.controls.height.errors.required && form.controls.height.touched">
+                *{{'height.errors.required' | translate}}</span>
+              <span class="text-danger" *ngIf="form.controls.height.errors.min && form.controls.height.touched"> |
+                *{{'height.errors.required' | translate}}</span>
+              <span class="text-danger" *ngIf="form.controls.height.errors.NaN && form.controls.height.dirty"> |
+                *{{'height.errors.nan' | translate}}</span>
+            </span>
+            <input type="number" formControlName="height" class="form-control mb-3">
+
+            <label>{{'Width' | translate}} :</label>
+            <span *ngIf="form.controls.width.errors != null">
+              <span class="text-danger" *ngIf="form.controls.width.errors.required && form.controls.width.touched">
+                *{{'width.errors.required' | translate}}</span>
+              <span class="text-danger" *ngIf="form.controls.width.errors.min && form.controls.width.touched"> |
+                *{{'width.errors.min' | translate}}</span>
+              <span class="text-danger" *ngIf="form.controls.width.errors.NaN && form.controls.width.dirty"> |
+                *{{'width.errors.nan' | translate}}</span>
+            </span>
+            <input type="number" formControlName="width" class="form-control mb-3">
+
+            <div *ngIf="activeService.materials != undefined" class="mb-3">
+              <label>{{'Material' | translate}} :</label>
+              <span class="text-danger" *ngIf="!form.controls.material.valid && form.controls.material.touched">
+                *{{'material.errors.required' | translate}}</span>
+              <select formControlName="material" class="form-control">
+
+                <option disabled selected value="undefined">{{'Please Select Material' | translate}}</option>
+                <ng-container *ngFor="let x of activeService.materials">
+                  <option [value]="x">{{x}}</option>
+                </ng-container>
+              </select>
+            </div>
+            <div *ngIf="activeService.thickness != undefined" class="mb-3">
+              <label>{{'Thickness' | translate}} :</label>
+              <span class="text-danger" *ngIf="!form.controls.thickness.valid && form.controls.thickness.touched">
+                *{{'thickness.errors.required' | translate}}</span>
+              <select formControlName="thickness" class="form-control">
+
+                <option disabled selected value="undefined">{{'Please Select Thickness' | translate}}</option>
+                <ng-container *ngFor="let y of activeService.thickness">
+                  <option [value]="y">{{y}}</option>
+                </ng-container>
+              </select>
+            </div>
+
+            <div *ngIf="activeService.colors != undefined" class="mb-3">
+              <label>{{'Color' | translate}} :</label>
+              <span class="text-danger" *ngIf="!form.controls.color.valid && form.controls.color.touched">
+                *{{'color.errors.required' | translate}}</span>
+              <select formControlName="color" class="form-control">
+
+                <option disabled selected value="undefined">{{'Please Select Color' | translate}}</option>
+                <ng-container *ngFor="let y of activeService.colors">
+                  <option [value]="y">{{y}}</option>
+                </ng-container>
+              </select>
+            </div>
+            <div *ngIf="activeService.types != undefined" class="mb-3">
+              <label>{{'Type' | translate}} :</label>
+              <span class="text-danger" *ngIf="!form.controls.type.valid && form.controls.type.touched">
+                *{{'type.errors.required' | translate}}</span>
+              <select formControlName="type" class="form-control">
+
+                <option disabled selected value="undefined">{{'Please Select Type' | translate}}</option>
+                <ng-container *ngFor="let y of activeService.types">
+                  <option [value]="y">{{y}}</option>
+                </ng-container>
+              </select>
+            </div>
+            <div *ngIf="activeService.units != undefined" class="mb-3">
+              <label>{{'Units' | translate}} :</label>
+              <span class="text-danger" *ngIf="!form.controls.unit.valid && form.controls.unit.touched">
+                *{{'unit.errors.required' | translate}}</span>
+              <select formControlName="unit" class="form-control">
+
+                <option disabled selected value="undefined">{{'Please Select Unit' | translate}}</option>
+                <ng-container *ngFor="let y of activeService.units">
+                  <option [value]="y">{{y}}</option>
+                </ng-container>
+              </select>
+            </div>
+            <div *ngIf="activeService.processes != undefined" class="mb-3">
+              <label>{{'Processes' | translate}} :</label>
+              <span class="text-danger"
+                *ngIf="(!form.controls.processes.valid && form.controls.processes.dirty) || ( !form.controls.processes.valid && form.controls.processes.touched )">
+                *{{'processes.errors.required' | translate}}</span>
+              <div *ngIf="activeService.processes.multi==true;else processesSingle">
+                <ng-multiselect-dropdown formControlName="processes" [placeholder]="'please select processes'"
+                  [settings]="dropdownSettings" [data]="activeService.processes.values">
+                </ng-multiselect-dropdown>
+              </div>
+              <ng-template #processesSingle>
+                <select formControlName="processes" class="form-control" [ngModel]="undefined">
+                  <option disabled value="undefined">{{'Please Select Process' | translate}}</option>
+                  <ng-container *ngFor="let v of activeService.processes.values">
+                    <option [value]="v">{{v}}</option>
+                  </ng-container>
+                </select>
+              </ng-template>
+            </div>
+          </div>
+
+          <div class="col-md-12 text-center">
+            <button type="submit" class="btn btn-primary " [disabled]="!form.valid || activeService.id==null">
+              {{'Add To Cart' | translate}} <i class="fa fa-cart-plus " aria-hidden="true" #flyToCart></i>
+            </button>
+          </div>
         </div>
+      </div>
 
     </form>
 
@@ -179,5 +195,5 @@
         </p>
         <div><img [src]="getImageUrl()" alt="" width="100%"></div>
     </div> -->
-</article>
+  </article>
 </div>

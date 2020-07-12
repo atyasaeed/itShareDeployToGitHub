@@ -164,5 +164,8 @@
   "gallery": "المعرض",
   "gallery.choose": "يمكنك اختيار الطلب وإضافته إلى سلة التسوق الخاصة بك مباشرة",
   "brand.topRatedServices": "Top Rated Services",
-  "order.Created": "طلب في"
+  "order.Created": "طلب في",
+    "id": "الرقم التعريفى",
+    "name": "الاسم",
+    "created": "تاريخ االانشاء"
 }

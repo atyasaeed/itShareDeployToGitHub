@@ -14,9 +14,10 @@
       <thead>
         <tr>
           <!-- <th scope="col">#</th> -->
-          <th scope="col">{{'assetFile.id'|translate}}</th>
-          <th scope="col">{{'assetFile.name'|translate}}</th>
-          <th scope="col">{{'assetFile.created'|translate}}</th>
+          <th scope="col">{{'id'|translate}}</th>
+          <th scope="col">{{'name'|translate}}</th>
+          <th scope="col" sortable="created" (sort)="onSort($event)">{{'created'|translate}}</th>
+          <th scope="col">{{'Image'|translate}}</th>
 
           <th></th>
 
@@ -34,14 +35,45 @@
 
           </td>
           <td>
-            <ngb-highlight [result]="entity.created" [term]="searchTerm"></ngb-highlight>
+            <ngb-highlight [result]="entity.created  | date: 'dd/MM/yyyy'" [term]="searchTerm"></ngb-highlight>
+
+          </td>
+          <td>
+            <!-- <ngb-highlight [result]="getImageUrl(entity.id)" [term]="searchTerm"></ngb-highlight> -->
+            <img [src]="getImageUrl(entity.id)" class="zoom" width="50px" alt="">
 
           </td>
 
           <td>
 
-            <a [routerLink]="entity.id"><i class="fa fa-fw fa-edit"></i></a>&nbsp;
+
+            <a class="btn btn-outline-success btn-xs" [href]="getFileUrl(entity.id)">
+              <i class="fa fa-download" aria-hidden="true"></i>
+            </a>
+            <button type="button" class="btn btn-primary" (click)="getServices(entity)"
+              (click)="openModal(template)">Add-Service</button>
             <!-- <a (click)="delete(entity)" href="javascript:void(0)"><i class="fa fa-fw fa-trash"></i></a> -->
+            <!-- <button type="button" class="btn btn-primary" (click)="openModal(template)">Create template modal</button> -->
+
+            <ng-template #template>
+              <!-- <div class="modal-header">
+                <h4 class="modal-title pull-left">Add-Service</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div> -->
+              <div class="modal-body">
+                <!-- {{filterService |json}} -->
+                <select class="form-control ">
+
+                  <option disabled selected value="undefined">{{'Please Select Service' | translate}}</option>
+                  <ng-container *ngFor="let i of filterService">
+                    <option [value]="i.id">{{i.name}}</option>
+                  </ng-container>
+
+                </select>
+              </div>
+            </ng-template>
           </td>
         </tr>
       </tbody>
