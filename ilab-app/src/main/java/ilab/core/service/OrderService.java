@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -139,7 +140,7 @@ public class OrderService
 	public OrderEntity cancel(UUID orderId, Authentication auth)
 	{
 		List<OrderStatus> eligibleStatus = Arrays.asList(OrderStatus.QUOTED, OrderStatus.WAIT_QUOTE,
-				OrderStatus.PENDING,OrderStatus.QUOTE_ACCEPTED);
+				OrderStatus.PENDING, OrderStatus.QUOTE_ACCEPTED);
 		User user = userRepo.findByUsername(auth.getName());
 		OrderEntity order = orderRepo.findById(orderId).orElseThrow();
 		if (order.getAccount().getId().equals(user.getAccounts().iterator().next().getId())
@@ -293,8 +294,11 @@ public class OrderService
 	public LineItem updateItem(LineItem newItem)
 	{
 		LineItem item = lineItemRepo.findById(newItem.getId()).orElseThrow();
-		item.setEstimatedEndDate(newItem.getEstimatedEndDate());
-		item.setUnitPrice(newItem.getUnitPrice());
+		if (item.getOrderEntity().getStatus() == OrderStatus.PENDING)
+		{
+			item.setEstimatedEndDate(newItem.getEstimatedEndDate());
+			item.setUnitPrice(newItem.getUnitPrice());
+		}
 		return item;
 	}
 
@@ -304,7 +308,10 @@ public class OrderService
 		if (order.getLineItems().isEmpty())
 			order = null;
 		else
+		{
 			order.setStatus(OrderStatus.PENDING);
+			order.setCreated(new Date());
+		}
 		return order;
 	}
 
@@ -358,6 +365,7 @@ public class OrderService
 
 			newHyperFile.setThickness(hyperFile.getThickness());
 			newHyperFile.setUnit(hyperFile.getUnit());
+			newHyperFile.setProcesses(hyperFile.getProcesses());
 
 			newItem.getFiles().add(newHyperFile);
 

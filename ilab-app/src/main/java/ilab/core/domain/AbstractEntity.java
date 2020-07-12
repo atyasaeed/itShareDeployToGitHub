@@ -18,7 +18,7 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @MappedSuperclass
-@JsonIgnoreProperties({  "created","updated","version" })
+@JsonIgnoreProperties({  	"updated","version" })
 public abstract class AbstractEntity<T extends AbstractEntity<?>>
 {
 	@Id
