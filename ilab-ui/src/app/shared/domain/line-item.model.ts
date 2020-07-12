@@ -30,3 +30,8 @@ export class hyperFile {
   asset_id: string;
   asset_name: string;
 }
+export class assetFile {
+  id: string;
+  name: string;
+  created?: Date | string;
+}
