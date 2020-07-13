@@ -47,9 +47,7 @@ public class AdminServiceController
 		Service aService= serviceService.createService(service,file);
 		return aService;
 	}
-	@PutMapping(consumes = "application/json")
-	@ResponseStatus(HttpStatus.CREATED)
-	
+	@PutMapping
 	public Service updateService(@RequestPart("service") Service service, @RequestParam(name = "file",required = false) MultipartFile file)
 	{
 		Service aService= serviceService.updateService(service, file);
