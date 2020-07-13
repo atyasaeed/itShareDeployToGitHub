@@ -22,6 +22,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { StlModelViewerModule } from 'angular-stl-model-viewer';
+import { MatRadioModule } from '@angular/material/radio';
 @NgModule({
   declarations: [ShoppingCartComponent, ShoppingCartFormComponent],
   imports: [
@@ -56,6 +57,8 @@ import { StlModelViewerModule } from 'angular-stl-model-viewer';
     MatDatepickerModule,
     MatNativeDateModule,
     MatMomentDateModule,
+    MatRadioModule,
+    MatInputModule,
   ],
 })
 export class ShoppingCartModule {}

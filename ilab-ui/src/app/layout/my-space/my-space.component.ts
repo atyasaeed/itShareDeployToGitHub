@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, TemplateRef } from '@angular/core';
 import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
-import { mySpaceService } from './my-space.service';
-import { assetFile, Service } from 'src/app/shared/domain';
+import { MySpaceService } from './my-space.service';
+import { AssetFile, Service } from 'src/app/shared/domain';
 import { routerTransition } from 'src/app/router.animations';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import * as fromStore from 'src/app/store';
@@ -14,14 +14,21 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
   styleUrls: ['./my-space.component.scss'],
   animations: [routerTransition()],
 })
-export class MySpaceComponent extends DefaultListComponent<assetFile, mySpaceService> implements OnInit {
+export class MySpaceComponent extends DefaultListComponent<AssetFile, MySpaceService> implements OnInit {
   breadcrumbs = [{ heading: 'Spaces', icon: 'fa-tasks' }];
   private _searchTerm = '';
   Authservices: Service[];
   filterService: Service[] = new Array();
   modalRef: BsModalRef;
+  config = {
+    animated: true,
+    keyboard: true,
+    backdrop: true,
+    ignoreBackdropClick: false,
+    class: 'my-modal',
+  };
   constructor(
-    service: mySpaceService,
+    service: MySpaceService,
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
     private appStore: Store<fromStore.AppState>,
     private modalService: BsModalService
@@ -51,7 +58,7 @@ export class MySpaceComponent extends DefaultListComponent<assetFile, mySpaceSer
   getFileUrl(id): string {
     return this.appConfig.FILE_URL + id;
   }
-  getServices(entity: assetFile) {
+  getServices(entity: AssetFile) {
     // console.log(entity);
     // console.log(entity.name.split('.').pop());
     // let filterService: Service[] = new Array();
@@ -70,7 +77,7 @@ export class MySpaceComponent extends DefaultListComponent<assetFile, mySpaceSer
     console.log(this.filterService);
   }
   openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+    this.modalRef = this.modalService.show(template, this.config);
     console.log(this.filterService);
   }
 }

@@ -49,16 +49,35 @@
           </div>
           <div class="col-md-6 ">
 
-            <label>{{'File'|translate}} :</label>
-            <span *ngIf="form.controls.file.errors != null">
-              <span class="text-danger" *ngIf="form.controls.file.errors.required && form.controls.file.touched">
-                *{{'file.errors.required'|translate}}</span>
-              <span class="text-danger" *ngIf="form.controls.file.errors.extension "> |
-                *{{'file.errors.extensions'|translate}} {{form.controls.file.errors.extension}} </span>
-            </span>
-            <input type="file" [accept]="extFile" formControlName="file" class="form-control mb-3 border"
-              (change)="handleFileInput($event)">
+            <div>
+              <mat-radio-group class="row" formControlName='selection' #radioGroup="matRadioGroup">
+                <mat-radio-button class="col-6" value="option1">{{"Upload File" |translate}}</mat-radio-button>
+                <mat-radio-button class="col-6" value="option2">{{"Choose File" |translate}}</mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div *ngIf="radioGroup.value =='option1'">
+              <label>{{'File'|translate}} :</label>
+              <span *ngIf="form.controls.file.errors != null">
+                <span class="text-danger" *ngIf="form.controls.file.errors.required && form.controls.file.touched">
+                  *{{'file.errors.required'|translate}}</span>
+                <span class="text-danger" *ngIf="form.controls.file.errors.extension "> |
+                  *{{'file.errors.extensions'|translate}} {{form.controls.file.errors.extension}} </span>
+              </span>
+              <input type="file" [accept]="extFile" formControlName="file" class="form-control mb-3 border"
+                (change)="handleFileInput($event)">
+            </div>
+            <div *ngIf="radioGroup.value =='option2'">
+              <label>{{'Choose File' | translate}} :</label>
+              <span class="text-danger" *ngIf="!form.controls.asset_id.valid && form.controls.asset_id.touched">
+                *{{'file.errors.required' | translate}}</span>
+              <select formControlName="asset_id" class="form-control">
 
+                <option disabled selected value='undefined'>{{'Please Select File' | translate}}</option>
+                <ng-container *ngFor="let x of filterFiles">
+                  <option [value]="x.id">{{x.name}}</option>
+                </ng-container>
+              </select>
+            </div>
             <label>{{'Quantity'|translate}} :</label>
             <span *ngIf="form.controls.quantity.errors != null">
               <span class="text-danger"
