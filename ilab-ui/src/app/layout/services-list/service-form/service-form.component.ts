@@ -49,6 +49,7 @@ export class ServiceFormComponent extends DefaultFormComponent<Service, Services
   form: FormGroup;
   @ViewChild('stepTwo') stepTwo: ElementRef;
   @ViewChild('stepOne') stepOne: ElementRef;
+  @ViewChild('submitBtn') submitBtn: ElementRef;
   @ViewChildren('optionalRef', { read: ElementRef }) optionalRef: QueryList<ElementRef<HTMLParagraphElement>>;
   optionalArr: string[] = ['Materials', 'Thickness', 'Types', 'Colors', 'Units', 'Processes'];
   multiProcesses: boolean = false;
@@ -85,9 +86,11 @@ export class ServiceFormComponent extends DefaultFormComponent<Service, Services
         res.supportedExtensions.forEach((e, index) => {
           if (index == 0) {
             const control = (<FormArray>this.form.get('supportedExtensions')).at(index);
-            control.setValue(e);
+            let updatedValue = e.split('.');
+            control.setValue(updatedValue[updatedValue.length - 1]);
           } else {
-            const control = new FormControl(e, Validators.required);
+            let updatedValue = e.split('.');
+            const control = new FormControl(updatedValue[updatedValue.length - 1], Validators.required);
             (<FormArray>this.form.get('supportedExtensions')).push(control);
           }
         });
@@ -141,6 +144,7 @@ export class ServiceFormComponent extends DefaultFormComponent<Service, Services
   }
 
   save() {
+    this.submitBtn.nativeElement.disabled = true;
     let formData = new FormData();
     let service = {} as Service;
     let processes = {} as Processes;
@@ -149,7 +153,9 @@ export class ServiceFormComponent extends DefaultFormComponent<Service, Services
         processes.multi = this.form.value[key];
         service.processes = processes;
       } else if (key == 'image') {
-        formData.append('file', this.file);
+        if (this.form.value[key] != null) {
+          formData.append('file', this.file);
+        }
       } else if (key == 'processes') {
         processes.values = this.form.value[key];
         service.processes = processes;
@@ -163,12 +169,20 @@ export class ServiceFormComponent extends DefaultFormComponent<Service, Services
         service[key] = this.form.value[key];
       }
     }
-    //console.log(JSON.stringify(service));
-    formData.append('service', JSON.stringify(service));
-    this.service.create(service).subscribe((res) => {
-      //console.log(res);
-      this.router.navigate(['/services-list']);
+
+    const blob = new Blob([JSON.stringify(service)], {
+      type: 'application/json',
     });
+    formData.append('service', blob);
+    if (this.route.snapshot.params['entityId']) {
+      this.service.update(formData).subscribe((res) => {
+        this.router.navigate(['/services-list']);
+      });
+    } else {
+      this.service.create(formData).subscribe((res) => {
+        this.router.navigate(['/services-list']);
+      });
+    }
   }
 
   next() {

@@ -8,7 +8,12 @@
           [(ngModel)]="searchTerm" />
         <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
       </div>
-<a routerLink="service-form">add service</a>;
+      <div class="col-md-6 text-right">
+        <a routerLink="service-form" class="btn btn-success">
+          <i class="fa fa-plus" aria-hidden="true"></i>
+        </a>
+      </div>
+
       <!-- <div class="col-md-6">
         <ng-multiselect-dropdown placeholder="{{'order.status'|translate}}" [settings]="dropdownSettings"
           [data]="dropdownList" [settings]="dropdownSettings" [(ngModel)]="selectedItems"

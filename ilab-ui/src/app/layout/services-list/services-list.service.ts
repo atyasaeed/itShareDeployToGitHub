@@ -8,5 +8,5 @@ import { Service } from 'src/app/shared/domain';
 export class ServicesListService extends RestService<Service> {
   //constructor() {}
   //resource = 'hfhhf';
-  resource = 'services';
+  resource = 'admin/services';
 }
