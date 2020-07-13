@@ -1,5 +1,7 @@
 package ilab.core.service;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -10,6 +12,7 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 
 @Component
+@Transactional
 public class EmailService
 {
 	@Autowired

@@ -57,8 +57,6 @@ public class UserController
 		eventPublisher.publishEvent(
 				new SendEmailEvent(user.getEmail(), "iLab Account Activation", "activation-email.ftl", user));
 		return aUser;
-
-		
 	}
 
 	

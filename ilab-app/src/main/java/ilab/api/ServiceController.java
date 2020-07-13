@@ -50,13 +50,6 @@ public class ServiceController
 			return new ResponseEntity<Service>(optService.get(), HttpStatus.OK);
 		return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
 	}
-	@PostMapping(consumes = "application/json")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Service postService(@RequestBody Service service)
-	{
-		Service aService= serviceRepo.save(service);
-		return aService;
-	}
 	@GetMapping("/search")
 	public Page<Service> getUsersPageable(@PageableDefault(value = 10, sort =
 	{ "name" }) Pageable page, @SearchSpec Specification<Service> specs)
