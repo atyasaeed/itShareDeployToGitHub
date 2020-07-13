@@ -24,6 +24,8 @@ import { CovalentDialogsModule } from '@covalent/core/dialogs';
     PageHeaderModule,
     CovalentLoadingModule,
     CovalentDialogsModule,
+    FormsModule,
+    SharedModule,
   ],
 })
 export class ServicesListModule {}

@@ -57,6 +57,7 @@ export class ServiceFormComponent extends DefaultFormComponent<Service, Services
   true: boolean = true;
   false: boolean = false;
   file: File;
+  //editModeMulti: boolean = false;
   constructor(
     formBuilder: FormBuilder,
     loadingService: TdLoadingService,
@@ -75,13 +76,53 @@ export class ServiceFormComponent extends DefaultFormComponent<Service, Services
       image: new FormControl(null, Validators.required),
       supportedExtensions: new FormArray([new FormControl(null, Validators.required)]),
     });
-    // if (this.route.snapshot.params['entityId']) {
-    //   console.log('edit');
-    // }
+    if (this.route.snapshot.params['entityId']) {
+      this.service.get(this.route.snapshot.params['entityId']).subscribe((res) => {
+        //console.log(res);
+        this.form.controls.image.clearValidators();
+        this.form.controls.name.setValue(res.name);
+        this.form.controls.description.setValue(res.description);
+        res.supportedExtensions.forEach((e, index) => {
+          if (index == 0) {
+            const control = (<FormArray>this.form.get('supportedExtensions')).at(index);
+            control.setValue(e);
+          } else {
+            const control = new FormControl(e, Validators.required);
+            (<FormArray>this.form.get('supportedExtensions')).push(control);
+          }
+        });
+      });
+    }
   }
 
   ngAfterViewInit() {
     this.stepTwo.nativeElement.style.display = 'none';
+    if (this.route.snapshot.params['entityId']) {
+      this.service.get(this.route.snapshot.params['entityId']).subscribe((res) => {
+        this.optionalRef.forEach((e) => {
+          for (const key in res) {
+            if (key == e.nativeElement.getAttribute('id').toLowerCase()) {
+              //console.log(key + ' = ' + res[key]);
+              e.nativeElement['checked'] = true;
+              this.form.addControl(key, new FormArray([]));
+              if (key == 'processes') {
+                this.form.addControl('multi', new FormControl(res.processes.multi, Validators.required));
+                this.multiProcesses = true;
+                res.processes.values.forEach((x) => {
+                  const control = new FormControl(x, Validators.required);
+                  (<FormArray>this.form.get(key)).push(control);
+                });
+              } else {
+                res[key].forEach((element) => {
+                  const control = new FormControl(element, Validators.required);
+                  (<FormArray>this.form.get(key)).push(control);
+                });
+              }
+            }
+          }
+        });
+      });
+    }
   }
 
   addControlArray(type: string) {
@@ -89,7 +130,6 @@ export class ServiceFormComponent extends DefaultFormComponent<Service, Services
       const control = new FormControl(null, Validators.required);
       (<FormArray>this.form.get(type)).push(control);
     }
-    //console.log();
   }
 
   deleteControlArray(type: string, index) {
@@ -98,10 +138,9 @@ export class ServiceFormComponent extends DefaultFormComponent<Service, Services
 
   uploadImage(event) {
     this.file = event.target.files[0];
-    console.log(this.file);
   }
 
-  submit() {
+  save() {
     let formData = new FormData();
     let service = {} as Service;
     let processes = {} as Processes;
@@ -124,7 +163,12 @@ export class ServiceFormComponent extends DefaultFormComponent<Service, Services
         service[key] = this.form.value[key];
       }
     }
-    console.log(service);
+    //console.log(JSON.stringify(service));
+    formData.append('service', JSON.stringify(service));
+    this.service.create(service).subscribe((res) => {
+      //console.log(res);
+      this.router.navigate(['/services-list']);
+    });
   }
 
   next() {
@@ -140,7 +184,6 @@ export class ServiceFormComponent extends DefaultFormComponent<Service, Services
   }
 
   addAttribute(event, type: string) {
-    //console.log(type);
     if (type == 'Processes') {
       if (event.target.checked) {
         this.multiProcesses = true;
