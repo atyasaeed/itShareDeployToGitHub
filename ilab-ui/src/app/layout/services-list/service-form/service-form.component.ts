@@ -8,7 +8,8 @@ import { DefaultFormComponent } from 'src/app/shared/helpers/default.form.compon
 import { ServicesListService } from '../services-list.service';
 import { TdLoadingService } from '@covalent/core/loading';
 import { TdDialogService } from '@covalent/core/dialogs';
-
+import * as fromStore from 'src/app/store';
+import { Store } from '@ngrx/store';
 @Component({
   selector: 'app-service-form',
   templateUrl: './service-form.component.html',
@@ -65,7 +66,8 @@ export class ServiceFormComponent extends DefaultFormComponent<Service, Services
     dialogService: TdDialogService,
     route: ActivatedRoute,
     router: Router,
-    service: ServicesListService
+    service: ServicesListService,
+    private appStore: Store<fromStore.AppState>
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
   }
@@ -169,17 +171,21 @@ export class ServiceFormComponent extends DefaultFormComponent<Service, Services
         service[key] = this.form.value[key];
       }
     }
-
+    if (this.route.snapshot.params['entityId']) {
+      service.id = this.route.snapshot.params['entityId'];
+    }
     const blob = new Blob([JSON.stringify(service)], {
       type: 'application/json',
     });
     formData.append('service', blob);
     if (this.route.snapshot.params['entityId']) {
       this.service.update(formData).subscribe((res) => {
+        this.appStore.dispatch(new fromStore.LoadInitState());
         this.router.navigate(['/services-list']);
       });
     } else {
       this.service.create(formData).subscribe((res) => {
+        this.appStore.dispatch(new fromStore.LoadInitState());
         this.router.navigate(['/services-list']);
       });
     }
