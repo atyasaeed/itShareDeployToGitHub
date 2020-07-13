@@ -326,6 +326,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
         item.quantity = this.form.value['quantity'];
       } else if (key === 'notes') {
         item.notes = this.form.value['notes'];
+      } else if (key === 'selection') {
       } else {
         //if (this.form.value[key] != null) {
         hyperFile[key] = this.form.value[key];
@@ -339,11 +340,11 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit {
     });
 
     formData.append('item', itemBlob);
-    this.form.reset({
-      quantity: 1,
-      material: 'undefined',
-      thickness: 'undefined',
-    });
+    // this.form.reset({
+    //   quantity: 1,
+    //   material: 'undefined',
+    //   thickness: 'undefined',
+    // });
     this.form.markAsUntouched();
     this.form.markAsPristine();
 
