@@ -9,7 +9,7 @@
           </div>
           <div class="col-md-6 my-auto">
               <label>{{'Ordered At'|translate}} :&nbsp;</label>
-              <span>{{order.created}}</span>
+              <span>{{order.created | date:'fullDate'}}</span>
           </div>
           <div class="col-md-6 my-auto">
                 <div *ngIf="checkStatus() != 'PENDING' && checkStatus() != 'CANCELLED' && checkStatus() != 'ORDER_REJECTED'">
@@ -37,11 +37,11 @@
             <!-- Stand alone button to cancel all order -->
             <div class=" col-md-2  text-center   my-auto" *ngIf="checkStatus() == 'PENDING' || checkStatus() == 'QUOTE_ACCEPTED' || checkStatus() == 'QUOTED' ">
 
-                <button   class="btn btn-primary btn-sm m-1" *ngIf="checkStatus() == 'QUOTED'" (click)="approveQuotation()" >{{'APPROVE' | translate}} </button>
-                <button   class="btn btn-primary btn-sm  m-1" *ngIf="checkStatus() == 'QUOTED'" (click)="rejectQuotation()" >{{'REJECT' | translate}}</button>
+                <button   class="btn btn-primary btn-block btn-sm m-1" *ngIf="checkStatus() == 'QUOTED'" (click)="approveQuotation()" >{{'APPROVE' | translate}} </button>
+                <button   class="btn btn-primary btn-block btn-sm  m-1" *ngIf="checkStatus() == 'QUOTED'" (click)="rejectQuotation()" >{{'REJECT' | translate}}</button>
 
 
-                <input type="submit" class="btn btn-sm btn-danger  m-1" *ngIf="checkStatus() != 'IN_PROGRESS' && checkStatus() != 'FINISHED' && checkStatus() != 'DELIVERED' " value="{{'Cancel Order'|translate}}" (click)="cancelOrder()">
+                <input type="submit" class="btn btn-sm btn-danger btn-block m-1" *ngIf="checkStatus() != 'IN_PROGRESS' && checkStatus() != 'FINISHED' && checkStatus() != 'DELIVERED' " value="{{'Cancel Order'|translate}}" (click)="cancelOrder()">
             </div>
 
 
