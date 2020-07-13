@@ -79,7 +79,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
   }
   getFileUrl(entity: LineItem): string {
     //return this.appConfig.FILE_URL + entity.files[fileIndex].asset_id;
-    return this.appConfig.FILE_URL + entity.files[0].asset_id;
+    return this.appConfig.FILE_URL_ADMIN + entity.files[0].asset_id;
   }
   onCreate(): void {
     // this.breadcrumbs.push({ heading: 'Update Profile', icon: 'fa-tasks', link: null });
@@ -131,7 +131,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
       extension[extension.length - 1].toLowerCase() == 'png' ||
       extension[extension.length - 1].toLowerCase() == 'jpg'
     ) {
-      return this.appConfig.FILE_URL + entity.files[0].asset_id;
+      return this.appConfig.FILE_URL_ADMIN + entity.files[0].asset_id;
     } else {
       return false;
     }

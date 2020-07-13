@@ -10,6 +10,7 @@ export interface IAppConfig {
   RESET_PASSWORD_URL: string;
   ASSETS_URL: string;
   FILE_URL: string;
+  FILE_URL_ADMIN: string;
   CHECKOUT_URL: string;
   FILE_SIZE: any;
   INIT_STATE_URL: string;
@@ -43,6 +44,9 @@ class DefaultAppConfig implements IAppConfig {
   }
   public get FILE_URL() {
     return this.API_END_POINT + 'api/digital-assets/files/';
+  }
+  public get FILE_URL_ADMIN() {
+    return this.API_END_POINT + 'api/digital-assets/files/admin/';
   }
   public get CHECKOUT_URL() {
     return this.getResourceUrl('cart/checkout');
