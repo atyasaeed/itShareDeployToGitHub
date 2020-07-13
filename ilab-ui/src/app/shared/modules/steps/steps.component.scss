@@ -29,7 +29,7 @@
 }
 
 @media(max-width:600px){
-  .steps-section{
+  .steps-section.min-width{
     min-width: 600px !important;
   }
   .overflow-mobile{
@@ -53,4 +53,8 @@
   position: absolute;
   bottom: -16px;
   color: black;
+}
+
+::ng-deep .progress {
+  background-color: white !important;
 }

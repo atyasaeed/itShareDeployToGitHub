@@ -54,6 +54,10 @@ const routes: Routes = [
         path: 'space',
         loadChildren: () => import('./my-space/my-space.module').then((m) => m.MySpaceModule),
       },
+      {
+        path: 'services-list',
+        loadChildren: () => import('./services-list/services-list.module').then((m) => m.ServicesListModule),
+      },
     ],
   },
 ];

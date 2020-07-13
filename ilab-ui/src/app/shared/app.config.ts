@@ -8,7 +8,7 @@ export interface IAppConfig {
   CHANGE_PASSWORD_URL: string;
   SAVE_PASSWORD_URL: string;
   RESET_PASSWORD_URL: string;
-  ASSETS_URL: string;
+  //ASSETS_URL: string;
   FILE_URL: string;
   FILE_URL_ADMIN: string;
   CHECKOUT_URL: string;
@@ -39,9 +39,9 @@ class DefaultAppConfig implements IAppConfig {
     return this.API_END_POINT + 'api/users/savePassword';
   }
 
-  public get ASSETS_URL() {
-    return this.API_END_POINT + 'api/digital-assets/images/';
-  }
+  // public get ASSETS_URL() {
+  //   return this.API_END_POINT + 'digital-assets/images/';
+  // }
   public get FILE_URL() {
     return this.API_END_POINT + 'api/digital-assets/files/';
   }

@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -8,13 +8,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthInterceptor } from './shared/interceptors/auth-interceptor';
 import { APP_CONFIG, prodConfig } from './shared/app.config';
 import { AlertComponent } from './shared/components/alert/alert.component';
-import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers, effects } from './store';
+import { StoreModule, Store } from '@ngrx/store';
+import { reducers, metaReducers, effects, initState } from './store';
 import { EffectsModule } from '@ngrx/effects';
 import { ToastrModule } from 'ngx-toastr';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
-
+import * as fromStore from './store';
 @NgModule({
   declarations: [AppComponent, AlertComponent],
   imports: [
@@ -47,7 +47,23 @@ import { environment } from 'src/environments/environment';
     // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     //  fakeBackendProvider,
     { provide: APP_CONFIG, useValue: prodConfig },
+    // {
+    //   provide: APP_INITIALIZER,
+    //   useFactory: initApplication,
+    //   multi: true,
+    //   deps: [Store],
+    // },
   ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
+
+// export function initApplication(appStore: Store<fromStore.AppState>): Function {
+//   return () =>
+//     new Promise((resolve) => {
+//       appStore.select(fromStore.getAuthUser).subscribe((res) => {
+//         console.log(res);
+//         resolve(true);
+//       });
+//     });
+// }
