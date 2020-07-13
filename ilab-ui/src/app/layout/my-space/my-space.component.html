@@ -45,13 +45,14 @@
           </td>
 
           <td>
+            <div>
+              <a class="btn btn-outline-success btn-xs" [href]="getFileUrl(entity.id)">
+                <i class="fa fa-download" aria-hidden="true"></i>
+              </a>
+              <button type="button" class="btn btn-outline-primary ml-2" (click)="getServices(entity)"
+                (click)="openModal(template)">Add-Service</button>
+            </div>
 
-
-            <a class="btn btn-outline-success btn-xs" [href]="getFileUrl(entity.id)">
-              <i class="fa fa-download" aria-hidden="true"></i>
-            </a>
-            <button type="button" class="btn btn-primary" (click)="getServices(entity)"
-              (click)="openModal(template)">Add-Service</button>
             <!-- <a (click)="delete(entity)" href="javascript:void(0)"><i class="fa fa-fw fa-trash"></i></a> -->
             <!-- <button type="button" class="btn btn-primary" (click)="openModal(template)">Create template modal</button> -->
 
@@ -62,8 +63,8 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div> -->
-              <div class="modal-body">
-                <!-- {{filterService |json}} -->
+              <div class="modal-body" style="min-height: 200px;">
+
                 <select class="form-control ">
 
                   <option disabled selected value="undefined">{{'Please Select Service' | translate}}</option>
