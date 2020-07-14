@@ -7,6 +7,7 @@ import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-space',
@@ -31,7 +32,8 @@ export class MySpaceComponent extends DefaultListComponent<AssetFile, MySpaceSer
     service: MySpaceService,
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
     private appStore: Store<fromStore.AppState>,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private router: Router
   ) {
     super(service);
     this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
@@ -79,5 +81,11 @@ export class MySpaceComponent extends DefaultListComponent<AssetFile, MySpaceSer
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, this.config);
     console.log(this.filterService);
+  }
+
+  chooseService($event, entity) {
+    this.router.navigate(['shopping-cart/CartItem', { id: $event.target.value }], {
+      state: entity,
+    });
   }
 }

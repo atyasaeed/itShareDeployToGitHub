@@ -266,3 +266,13 @@ label{
     font-weight: 600;
     color: black;
 }
+.form-control:disabled{
+  background-color: #fff;
+}
+.remove-arow {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+    width: 100%;
+}
