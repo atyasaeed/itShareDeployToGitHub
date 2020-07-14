@@ -65,7 +65,7 @@ public class ShoppingCartController
 //	}
 	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
-	public LineItem postCartItem(@RequestPart("item") LineItem item,@RequestParam MultipartFile files[],Authentication authentication) throws Exception
+	public LineItem postCartItem(@RequestPart("item") LineItem item,@RequestParam(required = false) MultipartFile files[],Authentication authentication) throws Exception
 	{
 		LineItem lineItem= orderService.addItemToCart(item,files,authentication);
 		return lineItem;
