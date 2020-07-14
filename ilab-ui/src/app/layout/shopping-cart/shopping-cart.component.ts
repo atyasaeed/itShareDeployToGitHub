@@ -162,11 +162,11 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
       extension[extension.length - 1].toLowerCase() == 'png' ||
       extension[extension.length - 1].toLowerCase() == 'jpg'
     ) {
-      return this.appConfig.FILE_URL + entity.files[0].asset_id;
+      return 'image';
     } else if (extension[extension.length - 1].toLowerCase() == 'stl') {
-      return this.appConfig.FILE_URL + entity.files[0].asset_id;
+      return 'stl';
     } else {
-      return false;
+      return null;
     }
   }
   // public getSubTotal(): Observable<number> {

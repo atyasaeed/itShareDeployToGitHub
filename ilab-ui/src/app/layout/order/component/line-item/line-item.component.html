@@ -11,7 +11,7 @@
 
             <img class="img-fluid " [src]="getFileExtension()" *ngIf="getFileExtension() != false;else serviceImage">
             <ng-template #serviceImage>
-              <img class="img-fluid " [src]="appConfig.AWSUrl+lineItem.service.image">
+              <img class="img-fluid " [src]="appConfig.serviceImage(lineItem)">
             </ng-template>
           </div>
           <div class="col-md-9">

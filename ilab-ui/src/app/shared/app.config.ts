@@ -1,5 +1,6 @@
 import { InjectionToken } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { Service, LineItem } from './domain';
 export interface IAppConfig {
   API_END_POINT: string;
   LOGIN_URL: string;
@@ -16,10 +17,13 @@ export interface IAppConfig {
   INIT_STATE_URL: string;
   getResourceUrl(resource: string): string;
   AWSUrl: string;
+  serviceImage(entity: LineItem): string;
 }
 class DefaultAppConfig implements IAppConfig {
   public API_END_POINT = '/';
-  public AWSUrl = 'https://ihub-tdc.s3.amazonaws.com/static-assets/';
+  //public AWSUrl = 'https://ihub-tdc.s3.amazonaws.com/static-assets/';
+  public AWSUrl = 'https://ihub-tdc.s3.amazonaws.com/services/';
+
   public get LOGIN_URL() {
     return this.API_END_POINT + 'login';
   }
@@ -59,6 +63,9 @@ class DefaultAppConfig implements IAppConfig {
   }
   public getResourceUrl(resource) {
     return this.API_END_POINT + 'api/' + resource;
+  }
+  public serviceImage(entity: LineItem) {
+    return this.AWSUrl + entity.service.id + '/' + entity.service.image;
   }
 }
 class ProdAppConfig extends DefaultAppConfig {
