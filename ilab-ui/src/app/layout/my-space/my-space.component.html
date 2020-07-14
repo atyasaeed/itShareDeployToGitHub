@@ -65,7 +65,7 @@
               </div> -->
               <div class="modal-body" style="min-height: 200px;">
 
-                <select class="form-control ">
+                <select class="form-control" (change)="modalRef.hide();chooseService($event,entity)">
 
                   <option disabled selected value="undefined">{{'Please Select Service' | translate}}</option>
                   <ng-container *ngFor="let i of filterService">

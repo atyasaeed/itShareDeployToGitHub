@@ -13,7 +13,7 @@
     <div class="row">
       <div class="col-md-6 mb-3">
         <label>{{'Select Service' | translate }} </label> :
-        <select class="form-control " (change)="buildForm($event)">
+        <select class="form-control " (change)="buildForm($event.target.value)">
 
           <option disabled selected value="undefined">{{'Please Select Service' | translate}}</option>
           <ng-container *ngFor="let i of services">
@@ -48,35 +48,39 @@
             </div>
           </div>
           <div class="col-md-6 ">
-
             <div>
-              <mat-radio-group class="row" [formControl]='selection' #radioGroup="matRadioGroup">
-                <mat-radio-button class="col-6" value="option1" #refop>{{"Upload File" |translate}}</mat-radio-button>
-                <mat-radio-button class="col-6" value="option2">{{"Choose File" |translate}}</mat-radio-button>
-              </mat-radio-group>
-            </div>
-            <div *ngIf="radioGroup.value =='option1'">
-              <label>{{'File'|translate}} :</label>
-              <span *ngIf="form.controls.file.errors != null">
-                <span class="text-danger" *ngIf="form.controls.file.errors.required && form.controls.file.touched">
-                  *{{'file.errors.required'|translate}}</span>
-                <span class="text-danger" *ngIf="form.controls.file.errors.extension "> |
-                  *{{'file.errors.extensions'|translate}} {{form.controls.file.errors.extension}} </span>
-              </span>
-              <input type="file" [accept]="extFile" formControlName="file" class="form-control mb-3 border"
-                (change)="handleFileInput($event)">
-            </div>
-            <div *ngIf="radioGroup.value =='option2'">
-              <label>{{'Choose File' | translate}} :</label>
-              <span class="text-danger" *ngIf="!form.controls.asset_id.valid && form.controls.asset_id.touched">
-                *{{'file.errors.required' | translate}}</span>
-              <select formControlName="asset_id" class="form-control mb-3 border">
+              <div>
+                <mat-radio-group class="row" [formControl]='selection' #radioGroup="matRadioGroup">
+                  <mat-radio-button class="col-6" value="option1" #refop *ngIf="!objAsset">{{"Upload File" |translate}}
+                  </mat-radio-button>
+                  <mat-radio-button class="col-6" value="option2" (click)="lgModal.show()" *ngIf="!objAsset">
+                    {{"Choose File" |translate}}</mat-radio-button>
+                </mat-radio-group>
+              </div>
+              <div *ngIf="radioGroup.value =='option1'">
+                <label>{{'File'|translate}} :</label>
+                <span *ngIf="form.controls.file.errors != null">
+                  <span class="text-danger" *ngIf="form.controls.file.errors.required && form.controls.file.touched">
+                    *{{'file.errors.required'|translate}}</span>
+                  <span class="text-danger" *ngIf="form.controls.file.errors.extension "> |
+                    *{{'file.errors.extensions'|translate}} {{form.controls.file.errors.extension}} </span>
+                </span>
+                <input type="file" [accept]="extFile" formControlName="file" class="form-control mb-3 border"
+                  (change)="handleFileInput($event)">
+              </div>
+              <div *ngIf="radioGroup.value =='option2'">
+                <label>{{'File' | translate}} :</label>
+                <span class="text-danger" *ngIf="!form.controls.asset_id.valid ">
+                  *{{'file.errors.required' | translate}}</span>
+                <!-- <input type="text" formControlName="asset_id" class="form-control mb-3 border" disabled> -->
+                <select formControlName="asset_id" class="form-control mb-3 border remove-arow" disabled>
 
-                <option disabled selected value='undefined'>{{'Please Select File' | translate}}</option>
-                <ng-container *ngFor="let x of filterFiles">
-                  <option [value]="x.id">{{x.name}}</option>
-                </ng-container>
-              </select>
+                  <option disabled selected value='undefined'>{{'Please Select File' | translate}}</option>
+                  <ng-container *ngFor="let x of filterFiles">
+                    <option [value]="x.id">{{x.name}}</option>
+                  </ng-container>
+                </select>
+              </div>
             </div>
             <label>{{'Quantity'|translate}} :</label>
             <span *ngIf="form.controls.quantity.errors != null">
@@ -126,7 +130,7 @@
             </div>
             <div *ngIf="activeService.thickness != undefined" class="mb-3">
               <label>{{'Thickness' | translate}} :</label>
-              <span class="text-danger" *ngIf="!form.controls.thickness.valid && form.controls.thickness.touched">
+              <span class="text-danger" *ngIf="!form.controls?.thickness?.valid && form.controls?.thickness?.touched">
                 *{{'thickness.errors.required' | translate}}</span>
               <select formControlName="thickness" class="form-control">
 
@@ -139,7 +143,7 @@
 
             <div *ngIf="activeService.colors != undefined" class="mb-3">
               <label>{{'Color' | translate}} :</label>
-              <span class="text-danger" *ngIf="!form.controls.color.valid && form.controls.color.touched">
+              <span class="text-danger" *ngIf="!form.controls?.color?.valid && form.controls?.color?.touched">
                 *{{'color.errors.required' | translate}}</span>
               <select formControlName="color" class="form-control">
 
@@ -151,7 +155,7 @@
             </div>
             <div *ngIf="activeService.types != undefined" class="mb-3">
               <label>{{'Type' | translate}} :</label>
-              <span class="text-danger" *ngIf="!form.controls.type.valid && form.controls.type.touched">
+              <span class="text-danger" *ngIf="!form.controls?.type?.valid && form.controls?.type?.touched">
                 *{{'type.errors.required' | translate}}</span>
               <select formControlName="type" class="form-control">
 
@@ -163,7 +167,7 @@
             </div>
             <div *ngIf="activeService.units != undefined" class="mb-3">
               <label>{{'Units' | translate}} :</label>
-              <span class="text-danger" *ngIf="!form.controls.unit.valid && form.controls.unit.touched">
+              <span class="text-danger" *ngIf="!form.controls?.unit?.valid && form.controls?.unit?.touched">
                 *{{'unit.errors.required' | translate}}</span>
               <select formControlName="unit" class="form-control">
 
@@ -176,7 +180,7 @@
             <div *ngIf="activeService.processes != undefined" class="mb-3">
               <label>{{'Processes' | translate}} :</label>
               <span class="text-danger"
-                *ngIf="(!form.controls.processes.valid && form.controls.processes.dirty) || ( !form.controls.processes.valid && form.controls.processes.touched )">
+                *ngIf="(!form.controls?.processes?.valid && form.controls?.processes?.dirty) || ( !form.controls?.processes?.valid && form.controls?.processes?.touched )">
                 *{{'processes.errors.required' | translate}}</span>
               <div *ngIf="activeService.processes.multi==true;else processesSingle">
                 <ng-multiselect-dropdown formControlName="processes" [placeholder]="'please select processes'"
@@ -216,4 +220,84 @@
 
     </div> -->
   </article>
+</div>
+<!--modal-->
+<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form>
+        <div class="modal-header">
+          <div class="form-group form-inline row">
+            <div class="col-md-6">
+              <input class="form-control ml-2" type="text" placeholder="{{'Search'|translate}}" name="searchTerm"
+                [(ngModel)]="searchTerm" />
+              <span class="ml-3" *ngIf="spaceService.loading$ | async">Loading...</span>
+            </div>
+
+          </div>
+          <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <!-- <th scope="col">#</th> -->
+                <th scope="col">{{'id'|translate}}</th>
+                <th scope="col">{{'name'|translate}}</th>
+                <th scope="col" sortable="created">{{'created'|translate}}</th>
+                <!-- <th scope="col">{{'Image'|translate}}</th> -->
+
+                <th></th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let entity of filterFiles; let i=index">
+                <!-- <th scope="row">{{ i+1 }}</th> -->
+                <td>
+                  <ngb-highlight [result]="entity.id.slice(-7)" [term]="searchTerm" #id></ngb-highlight>
+                </td>
+
+                <td>
+                  <ngb-highlight [result]="entity.name" [term]="searchTerm"></ngb-highlight>
+
+                </td>
+                <td>
+                  <ngb-highlight [result]="entity.created  | date: 'dd/MM/yyyy'" [term]="searchTerm"></ngb-highlight>
+
+                </td>
+
+                <td>
+                  <div>
+                    <button type="button" class="btn btn-outline-primary ml-2"
+                      (click)="fileId(entity) ;lgModal.hide()">Add-File</button>
+                    <!-- <a class="btn btn-outline-success btn-xs">
+                      <i class="fa fa-download" aria-hidden="true"></i>
+                    </a> -->
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+
+
+
+          <div class="d-flex justify-content-between p-2">
+            <ngb-pagination [collectionSize]="(spaceService.total$ | async)!" [(page)]="spaceService.page"
+              [pageSize]="spaceService.pageSize">
+            </ngb-pagination>
+
+            <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="spaceService.pageSize">
+              <option [ngValue]="10">10 items per page</option>
+              <option [ngValue]="25">25 items per page</option>
+              <option [ngValue]="50">50 items per page</option>
+            </select>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>

@@ -7,6 +7,7 @@ import {
   ChangeDetectorRef,
   ElementRef,
   AfterContentChecked,
+  TemplateRef,
 } from '@angular/core';
 import { ShoppingCartItem, Service, LineItem, hyperFile, AssetFile } from 'src/app/shared/domain';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -21,6 +22,7 @@ import { routerTransition } from 'src/app/router.animations';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { delay } from 'rxjs/operators';
 import { MySpaceService } from '../../my-space/my-space.service';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-shopping-cart-form',
@@ -31,17 +33,24 @@ import { MySpaceService } from '../../my-space/my-space.service';
 export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterContentChecked {
   breadcrumbs = [{ heading: 'Add-Service', icon: 'fa-tasks' }];
   //services;
+  private _searchTerm = '';
   loading = false;
   submitted = false;
   msgFileSize: any;
   filename;
   @ViewChild('flyToCart') private flyToCart: ElementRef;
+  @ViewChild('myVar') myVar: ElementRef;
   // public selection: string;
   selection = new FormControl(Validators.required);
+  selectService = new FormControl();
   ext: string[] = [];
   extFile: string;
   filesAsset: AssetFile[] = new Array();
   filterFiles: AssetFile[] = new Array();
+  modalRef: BsModalRef;
+  serviceId: string;
+  objAsset: AssetFile = {} as AssetFile;
+
   //filename: string;
   // item: ShoppingCartItem = new ShoppingCartItem();
   //item: ShoppingCartItem;
@@ -78,13 +87,21 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
     private formBuilder: FormBuilder,
     private appStore: Store<fromStore.AppState>,
     private cdr: ChangeDetectorRef,
-    private spaceService: MySpaceService
+    public spaceService: MySpaceService,
+    private modalService: BsModalService
   ) {
     this.spaceService.searchTerm = '';
     this.spaceService.model$.subscribe((res) => {
       console.log(res);
       this.filesAsset = res;
     });
+
+    this.serviceId = this.route.snapshot.paramMap.get('id');
+
+    // console.log(this.router.getCurrentNavigation().extras.state);
+    // Object.assign(this.objAsset, this.router.getCurrentNavigation().extras.state);
+    this.objAsset = this.router.getCurrentNavigation().extras.state as AssetFile;
+    // console.log(this.objAsset);
   }
 
   // get cartForm$() {
@@ -95,7 +112,21 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
   // }
   ngOnInit() {
     this.createForm();
+    if (this.serviceId) {
+      this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
+        this.services = res;
+        this.activeService = this.services.find((item) => item.id === this.serviceId);
+        console.log(this.activeService);
+        // this.selectService.patchValue(this.activeService);
+        // this.myVar.nativeElement['selected'] = this.activeService.id;
+        // console.log(this.myVar.nativeElement['selected']);
 
+        this.buildForm(this.activeService.id);
+      });
+    }
+    this.selectService.valueChanges.subscribe((res) => {
+      console.log(res);
+    });
     this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
       this.services = res;
     });
@@ -109,21 +140,28 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
       itemsShowLimit: 3,
       allowSearchFilter: true,
     };
-    this.selection.valueChanges.subscribe((res) => {
+    if (!this.objAsset) {
+      this.selection.valueChanges.subscribe((res) => {
+        this.loading = true;
+        console.log(res);
+        if (res == 'option1') {
+          this.form.addControl('file', new FormControl('', Validators.required));
+          this.form.removeControl('asset_id');
+        } else {
+          this.form.addControl('asset_id', new FormControl('', Validators.required));
+          this.form.get('asset_id').patchValue(undefined);
+          this.form.removeControl('file');
+        }
+      });
+    } else if (this.objAsset) {
       this.loading = true;
-      console.log(res);
-      if (res == 'option1') {
-        this.form.addControl('file', new FormControl('', Validators.required));
-        this.form.removeControl('asset_id');
-      } else {
-        this.form.addControl('asset_id', new FormControl('', Validators.required));
-        this.form.get('asset_id').patchValue(undefined);
-        this.form.removeControl('file');
-      }
-    });
+      this.form.addControl('asset_id', new FormControl('', Validators.required));
+      this.form.get('asset_id').patchValue(this.objAsset.id);
+    }
   }
   ngAfterViewInit() {
     //this.flyToCartAnimation();
+    this.cdr.detectChanges();
   }
   ngAfterContentChecked() {
     this.cdr.detectChanges();
@@ -242,9 +280,10 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
   // onChangeObj(event) {
   //   //console.log(event);
   // }
-  buildForm(event) {
+  buildForm(id) {
     //console.log(event.target.value);
     this.selection.patchValue(null);
+    // this.objAsset = null;
 
     this.filterFiles = [];
     this.form.reset({
@@ -254,7 +293,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
     });
     this.form.markAsUntouched();
     this.form.markAsPristine();
-    this.activeService = this.services.find((e) => e.id === event.target.value);
+    this.activeService = this.services.find((e) => e.id === id);
     // for (let index = 0; index < this.filesAsste.length; index++) {
     //   for (let i = 0; i < this.activeService.supportedExtensions.length; i++) {
     //     if (this.filesAsste[index].name == this.activeService.supportedExtensions[index]) {
@@ -346,11 +385,11 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
     });
 
     formData.append('item', itemBlob);
-    // this.form.reset({
-    //   quantity: 1,
-    //   material: 'undefined',
-    //   thickness: 'undefined',
-    // });
+    this.form.reset({
+      quantity: 1,
+      material: 'undefined',
+      thickness: 'undefined',
+    });
     this.form.markAsUntouched();
     this.form.markAsPristine();
 
@@ -436,5 +475,35 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
       }
       this.extFile = this.ext.toString();
     }
+  }
+
+  set searchTerm(searchTerm: string) {
+    this.filterFiles = [];
+    this._searchTerm = searchTerm;
+    if (searchTerm) {
+      this.spaceService.searchTerm = `name:'*${searchTerm}*'`;
+      this.spaceService.model$.subscribe((res) => {
+        this.filterFiles = [];
+
+        for (let index = 0; index < this.activeService.supportedExtensions.length; index++) {
+          for (let i = 0; i < res.length; i++) {
+            if (this.activeService.supportedExtensions[index].split('.').pop() == res[i].name.split('.').pop()) {
+              this.filterFiles.push(res[i]);
+            }
+          }
+        }
+        // this.filterFiles = res;
+      });
+    } else {
+      this.spaceService.searchTerm = '';
+      this.filterFiles = [];
+    }
+  }
+  get searchTerm() {
+    return this._searchTerm;
+  }
+
+  fileId(entity) {
+    this.form.get('asset_id').patchValue(entity.id);
   }
 }
