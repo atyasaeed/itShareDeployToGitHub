@@ -40,7 +40,7 @@
                             <img class="img-fluid " [src]="getFileExtension(entity)"
                               *ngIf="getFileExtension(entity) != false;else serviceImage">
                             <ng-template #serviceImage>
-                              <img class="img-fluid " [src]="appConfig.AWSUrl+entity.service.image">
+                              <img class="img-fluid " [src]="appConfig.serviceImage(entity)">
                             </ng-template>
                         </div>
                         <div class="col-md-9">
