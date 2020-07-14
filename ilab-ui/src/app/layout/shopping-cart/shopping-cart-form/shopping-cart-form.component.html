@@ -50,8 +50,8 @@
           <div class="col-md-6 ">
 
             <div>
-              <mat-radio-group class="row" formControlName='selection' #radioGroup="matRadioGroup">
-                <mat-radio-button class="col-6" value="option1">{{"Upload File" |translate}}</mat-radio-button>
+              <mat-radio-group class="row" [formControl]='selection' #radioGroup="matRadioGroup">
+                <mat-radio-button class="col-6" value="option1" #refop>{{"Upload File" |translate}}</mat-radio-button>
                 <mat-radio-button class="col-6" value="option2">{{"Choose File" |translate}}</mat-radio-button>
               </mat-radio-group>
             </div>
@@ -70,7 +70,7 @@
               <label>{{'Choose File' | translate}} :</label>
               <span class="text-danger" *ngIf="!form.controls.asset_id.valid && form.controls.asset_id.touched">
                 *{{'file.errors.required' | translate}}</span>
-              <select formControlName="asset_id" class="form-control">
+              <select formControlName="asset_id" class="form-control mb-3 border">
 
                 <option disabled selected value='undefined'>{{'Please Select File' | translate}}</option>
                 <ng-container *ngFor="let x of filterFiles">
@@ -195,7 +195,8 @@
           </div>
 
           <div class="col-md-12 text-center">
-            <button type="submit" class="btn btn-primary " [disabled]="!form.valid || activeService.id==null">
+            <button type="submit" class="btn btn-primary "
+              [disabled]="!form.valid || activeService.id==null || loading == false">
               {{'Add To Cart' | translate}} <i class="fa fa-cart-plus " aria-hidden="true" #flyToCart></i>
             </button>
           </div>
