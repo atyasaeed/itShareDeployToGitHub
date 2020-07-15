@@ -42,7 +42,7 @@ public class LineItem extends AbstractEntity<LineItem>
 	private List<HyperFile> files=new ArrayList<HyperFile>();
 	@Enumerated(EnumType.ORDINAL)
 	@NotNull
-	private LineItemStatus status;
+	private LineItemStatus status=LineItemStatus.PENDING;
 	public long getQuantity()
 	{
 		return quantity;
