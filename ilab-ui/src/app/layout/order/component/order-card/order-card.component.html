@@ -4,46 +4,56 @@
       <div class="col">
         <div class="row">
           <div class="col-md-6 my-auto">
-              <label>{{'Order ID'|translate}} :&nbsp;</label>
-              <span>{{order.id.slice(-7)}}</span>
+            <label>{{'Order ID'|translate}} :&nbsp;</label>
+            <span>{{order.id.slice(-7)}}</span>
           </div>
           <div class="col-md-6 my-auto">
-              <label>{{'Ordered At'|translate}} :&nbsp;</label>
-              <span>{{order.created | date:'fullDate'}}</span>
+            <label>{{'Ordered At'|translate}} :&nbsp;</label>
+            <span>{{order.created | date:'fullDate'}}</span>
           </div>
           <div class="col-md-6 my-auto">
-                <div *ngIf="checkStatus() != 'PENDING' && checkStatus() != 'CANCELLED' && checkStatus() != 'ORDER_REJECTED'">
-                    <label > {{'Total Price'|translate}} :&nbsp;</label>
-                    <span>{{getSubTotal()| currency:'EGP'}}</span>
-                </div>
+            <div
+              *ngIf="checkStatus() != 'PENDING' && checkStatus() != 'CANCELLED' && checkStatus() != 'ORDER_REJECTED'">
+              <label> {{'Total Price'|translate}} :&nbsp;</label>
+              <span>{{getSubTotal()| currency:'EGP'}}</span>
+            </div>
           </div>
-          <div class=" col-md-6    my-auto" >
-                <div *ngIf="checkStatus() != 'PENDING' && checkStatus() != 'CANCELLED' && checkStatus() != 'ORDER_REJECTED'">
-                    <label>{{'Estimated End Date'|translate}} :&nbsp;</label> <span>{{max|date:'fullDate'}}</span>
-                </div>
+          <div class=" col-md-6    my-auto">
+            <div
+              *ngIf="checkStatus() != 'PENDING' && checkStatus() != 'CANCELLED' && checkStatus() != 'ORDER_REJECTED'">
+              <label>{{'Estimated End Date'|translate}} :&nbsp;</label> <span>{{max|date:'fullDate'}}</span>
+            </div>
           </div>
-          <div class="col-md-12  my-auto" *ngIf="checkStatus() != 'CANCELLED' && checkStatus() != 'ORDER_REJECTED' && checkStatus() != 'QUOTE_REJECTED';else terminated" >
-                <app-steps [stepsArr]="statusArr" activeStep="{{order.status}}"></app-steps>
+          <div class="col-md-12  my-auto"
+            *ngIf="checkStatus() != 'CANCELLED' && checkStatus() != 'ORDER_REJECTED' && checkStatus() != 'QUOTE_REJECTED';else terminated">
+            <app-steps [stepsArr]="statusArr" activeStep="{{order.status}}"></app-steps>
           </div>
           <ng-template #terminated>
-                <div class="col-md-12  text-center mt-2 mt-md-0" >
-                    <span class="cancelled">{{order.status | translate}}</span>
-                </div>
+            <div class="col-md-12  text-center mt-2 mt-md-0">
+              <span class="cancelled">{{order.status | translate}}</span>
+            </div>
           </ng-template>
         </div>
       </div>
 
 
-            <!-- Stand alone button to cancel all order -->
-            <div class=" col-md-2  text-center   my-auto" *ngIf="checkStatus() == 'PENDING' || checkStatus() == 'QUOTE_ACCEPTED' || checkStatus() == 'QUOTED' ">
+      <!-- Stand alone button to cancel all order -->
+      <div class=" col-md-2  text-center   my-auto"
+        *ngIf="checkStatus() == 'PENDING' || checkStatus() == 'QUOTE_ACCEPTED' || checkStatus() == 'QUOTED' ">
 
-                <button   class="btn btn-primary btn-block btn-sm m-1" *ngIf="checkStatus() == 'QUOTED'" (click)="approveQuotation()" >{{'APPROVE' | translate}} </button>
-                <button   class="btn btn-primary btn-block btn-sm  m-1" *ngIf="checkStatus() == 'QUOTED'" (click)="rejectQuotation()" >{{'REJECT' | translate}}</button>
+        <button class="btn btn-primary btn-block btn-sm m-1" *ngIf="checkStatus() == 'QUOTED'"
+          (click)="approveQuotation()">{{'APPROVE' | translate}} </button>
+        <button class="btn btn-primary btn-block btn-sm  m-1" *ngIf="checkStatus() == 'QUOTED'"
+          (click)="rejectQuotation()">{{'REJECT' | translate}}</button>
 
-                <button [useExistingCss]="true" printSectionId="{{order.id}}" ngxPrint type="button" class="btn btn-secondary btn-block btn-sm  m-1" *ngIf="checkStatus() == 'QUOTED' || checkStatus() == 'QUOTE_ACCEPTED'">{{'Print'|translate}}</button>
+        <button [useExistingCss]="true" printSectionId="{{order.id}}" ngxPrint type="button"
+          class="btn btn-secondary btn-block btn-sm  m-1"
+          *ngIf="checkStatus() == 'QUOTED' || checkStatus() == 'QUOTE_ACCEPTED'">{{'Print'|translate}}</button>
 
-                <input type="submit" class="btn btn-sm btn-danger btn-block m-1" *ngIf="checkStatus() != 'IN_PROGRESS' && checkStatus() != 'FINISHED' && checkStatus() != 'DELIVERED' " value="{{'Cancel Order'|translate}}" (click)="cancelOrder()">
-            </div>
+        <input type="submit" class="btn btn-sm btn-danger btn-block m-1"
+          *ngIf="checkStatus() != 'IN_PROGRESS' && checkStatus() != 'FINISHED' && checkStatus() != 'DELIVERED' "
+          value="{{'Cancel Order'|translate}}" (click)="cancelOrder()">
+      </div>
 
 
 
@@ -81,128 +91,132 @@
 </div>
 
 
-<!-- <ng-template> -->
-  <div  id="{{order.id}}" class="d-none">
-    <div class="container-fluid">
-      <div class="row ">
-        <div class="col-md-12 ">
-          <div class="row print-header ">
-             <div class=" col-md-6 my-auto py-2">
+<!-- <ng-template> d-none -->
+<div id="{{order.id}}" class="">
+  <div class="container-fluid">
+    <div class="row ">
+      <div class="col-md-12 ">
+        <div class="row print-header ">
+          <div class="col-md-6 my-auto py-2 quot">
+            <div class="bg">
               <h4 class="text-center">
                 {{'quotation'|translate}}
               </h4>
             </div>
-            <div class="col-md-6  text-center my-auto white-background">
-              <h4 class="d-inline-block mr-2 py-2">
-                {{'offeredTo'|translate }} :
-              </h4>
-              <h3 class="d-inline-block">
-                {{user?.username }}
-              </h3>
+
+          </div>
+          <div class="col-md-6  text-center my-auto white-background">
+            <h4 class="d-inline-block mr-2 py-2">
+              {{'offeredTo'|translate }} :
+            </h4>
+            <h3 class="d-inline-block">
+              {{user?.username }}
+            </h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center col-md-12">
+        <h2 class=" my-4 font-weight-700">
+          FabriHub.net
+        </h2>
+      </div>
+      <div class="col-md-12">
+
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">{{'lineItem.service.name' | translate}}</th>
+              <th scope="col">{{'lineItem.service.description'|translate}}</th>
+              <th scope="col">{{'lineItem.estimated.deliveryDate'|translate}}</th>
+              <th scope="col">{{'lineItem.price'|translate}}</th>
+              <th scope="col">{{'lineItem.quantity'|translate}}</th>
+              <th scope="col">{{'sum'|translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let lineItem of order.lineItems;let i = index">
+              <th scope="row">{{i}}</th>
+              <td>{{lineItem.service.name}}</td>
+              <td>
+                <span>
+                  <label>{{'height'|translate}} : </label> {{lineItem.files[0].height}},
+                </span>
+                <span>
+                  <label>{{'width'|translate}} : </label> {{lineItem.files[0].width}},
+                </span>
+                <span *ngIf="lineItem.files[0].material">
+                  <label>{{'material'|translate}} : </label> {{lineItem.files[0].material}},
+                </span>
+                <span *ngIf="lineItem.files[0].thickness">
+                  <label>{{'thickness'|translate}} : </label> {{lineItem.files[0].thickness}},
+                </span>
+                <span *ngIf="lineItem.files[0].color">
+                  <label>{{'color'|translate}} : </label> {{lineItem.files[0].color}},
+                </span>
+                <span *ngIf="lineItem.files[0].type">
+                  <label>{{'type'|translate}} : </label> {{lineItem.files[0].type}},
+                </span>
+                <span *ngIf="lineItem.files[0].unit">
+                  <label>{{'unit'|translate}} : </label> {{lineItem.files[0].unit}},
+                </span>
+                <span *ngIf="lineItem.files[0].processes">
+                  <label>{{'processes'|translate}} : </label> {{lineItem.files[0].processes}},
+                </span>
+              </td>
+              <td>{{lineItem.estimatedEndDate | date:'fullDate'}}</td>
+              <td>{{lineItem.unitPrice}}</td>
+              <td>{{lineItem.quantity}}</td>
+              <td>{{lineItem.unitPrice *lineItem.quantity|currency:'EGP'}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+      <div class="offset-md-9 col-md-3 text-right">
+        <div class="container-fluid">
+          <div class="row mb-1">
+            <div class="col-md-6 my-auto">
+              <label class="mb-0">{{'subTotal'|translate}} :</label>
+            </div>
+            <div class="col-md-6 card-header text-center p-1">
+              <span> {{getSubTotal()| currency:'EGP'}}</span>
+            </div>
+          </div>
+          <div class="row mb-1">
+            <div class="col-md-6 my-auto">
+              <label class="mb-0">{{'taxRate'|translate}} :</label>
+            </div>
+            <div class="col-md-6 card-header text-center p-1">
+              <span> {{ 0 | currency:'EGP'}}</span>
+            </div>
+          </div>
+          <div class="row mb-1">
+            <div class="col-md-6 my-auto">
+              <label class="mb-0">{{'total'|translate}} :</label>
+            </div>
+            <div class="col-md-6 card-header text-center p-1">
+              <span> {{getSubTotal()| currency:'EGP'}}</span>
             </div>
           </div>
         </div>
 
-        <div class="text-center col-md-12">
-          <h2 class=" my-4 font-weight-700">
-            FabriHub.net
-          </h2>
-        </div>
-        <div class="col-md-12">
-
-              <table class="table table-striped table-bordered">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">{{'lineItem.service.name' | translate}}</th>
-                    <th scope="col">{{'lineItem.service.description'|translate}}</th>
-                    <th scope="col">{{'lineItem.estimated.deliveryDate'|translate}}</th>
-                    <th scope="col">{{'lineItem.price'|translate}}</th>
-                    <th scope="col">{{'lineItem.quantity'|translate}}</th>
-                    <th scope="col">{{'sum'|translate}}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let lineItem of order.lineItems;let i = index">
-                    <th scope="row">{{i}}</th>
-                    <td>{{lineItem.service.name}}</td>
-                    <td>
-                      <span>
-                       <label>{{'height'|translate}} : </label> {{lineItem.files[0].height}},
-                      </span>
-                      <span>
-                        <label >{{'width'|translate}} : </label> {{lineItem.files[0].width}},
-                      </span>
-                      <span *ngIf="lineItem.files[0].material">
-                        <label >{{'material'|translate}} : </label> {{lineItem.files[0].material}},
-                      </span>
-                      <span *ngIf="lineItem.files[0].thickness">
-                        <label >{{'thickness'|translate}} : </label> {{lineItem.files[0].thickness}},
-                      </span>
-                      <span *ngIf="lineItem.files[0].color">
-                        <label >{{'color'|translate}} : </label> {{lineItem.files[0].color}},
-                      </span>
-                      <span *ngIf="lineItem.files[0].type">
-                        <label >{{'type'|translate}} : </label> {{lineItem.files[0].type}},
-                      </span>
-                      <span *ngIf="lineItem.files[0].unit">
-                        <label >{{'unit'|translate}} : </label> {{lineItem.files[0].unit}},
-                      </span>
-                      <span *ngIf="lineItem.files[0].processes">
-                        <label >{{'processes'|translate}} : </label> {{lineItem.files[0].processes}},
-                      </span>
-                    </td>
-                    <td>{{lineItem.estimatedEndDate | date:'fullDate'}}</td>
-                    <td>{{lineItem.unitPrice}}</td>
-                    <td>{{lineItem.quantity}}</td>
-                    <td>{{lineItem.unitPrice *lineItem.quantity|currency:'EGP'}}</td>
-                  </tr>
-                </tbody>
-              </table>
-
-        </div>
-        <div class="offset-md-9 col-md-3 text-right">
-          <div class="container-fluid">
-            <div class="row mb-1">
-              <div class="col-md-6 my-auto">
-                <label  class="mb-0">{{'subTotal'|translate}} :</label>
-              </div>
-              <div class="col-md-6 card-header text-center p-1">
-                <span> {{getSubTotal()| currency:'EGP'}}</span>
-              </div>
-            </div>
-            <div class="row mb-1">
-              <div class="col-md-6 my-auto">
-                <label  class="mb-0">{{'taxRate'|translate}} :</label>
-              </div>
-              <div class="col-md-6 card-header text-center p-1">
-                <span> {{ 0 | currency:'EGP'}}</span>
-              </div>
-            </div>
-            <div class="row mb-1">
-              <div class="col-md-6 my-auto">
-                <label  class="mb-0">{{'total'|translate}} :</label>
-              </div>
-              <div class="col-md-6 card-header text-center p-1">
-                <span> {{getSubTotal()| currency:'EGP'}}</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-        <div class="col-md-12  mt-3">
-          <div class="container-fluid">
-            <div class="row print-footer">
+      </div>
+      <div class="col-md-12  mt-3">
+        <div class="container-fluid">
+          <div class="row print-footer">
             <div class="col-md-1 my-auto">
               office
             </div>
             <div class="col-md-8 my-auto">
-              Credit Building, Office 934, 3rd Floor,Ahmed Fouad Abd El Aziz Al Sarayat Sabekaa,As Sarayat,Al Walli,Cairo governante
+              Credit Building, Office 934, 3rd Floor,Ahmed Fouad Abd El Aziz Al Sarayat Sabekaa,As Sarayat,Al
+              Walli,Cairo governante
             </div>
             <div class="col-md-3  d-flex mb-3  footer-info">
 
               <i class="fa fa-volume-control-phone mr-3" aria-hidden="true"></i>
-              <div  class="text-left border-left pl-3">
+              <div class="text-left border-left pl-3">
                 <div>
                   Mohamed Essa
                 </div>
@@ -214,11 +228,11 @@
                 </div>
               </div>
             </div>
-            </div>
           </div>
-
         </div>
+
       </div>
     </div>
   </div>
+</div>
 <!-- </ng-template> -->

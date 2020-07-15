@@ -43,6 +43,7 @@
   border-top: 2px solid #8080801f;
   background: #80808042;
   box-shadow: 0 12px 24px -11px #0000002c;
+  border-bottom: 0px solid #fff
 }
 
 .print-footer{
@@ -61,4 +62,23 @@
 
 .footer-info .border-left{
   border-left: 2px solid #80808081 !important;
+}
+.quot{
+    background: #dee2e6ed;
+    position: relative;
+}
+.quot:before {
+    content: '';
+  position: absolute;
+    top: 0; right: 0;
+    border-top: 52px solid  #dee2e6 ;
+    border-left: 80px solid white;
+    width: 0;
+   transform: rotate(180deg);
+   height: 100%;
+}
+
+.table  th,
+.table  td{
+  vertical-align: middle !important;
 }
