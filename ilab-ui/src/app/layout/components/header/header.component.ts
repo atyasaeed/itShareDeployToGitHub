@@ -5,7 +5,7 @@ import { AuthenticationService } from 'src/app/shared/services';
 import { Store } from '@ngrx/store';
 import * as fromStore from 'src/app/store';
 import { Observable } from 'rxjs';
-import { User, ShoppingCartItem } from 'src/app/shared/domain';
+import { User, ShoppingCartItem, LineItem } from 'src/app/shared/domain';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import { ShoppingCartService } from '../../shopping-cart/shoppingcart.service';
 import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
@@ -18,7 +18,7 @@ export class HeaderComponent extends DefaultListComponent<ShoppingCartItem, Shop
   authUser$: Observable<User>;
   public pushRightClass: string;
   lang: string;
-  items$;
+  items$: LineItem[];
   quantitiesCount;
 
   constructor(

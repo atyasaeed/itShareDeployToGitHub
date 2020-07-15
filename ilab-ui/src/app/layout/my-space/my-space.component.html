@@ -57,22 +57,24 @@
             <!-- <button type="button" class="btn btn-primary" (click)="openModal(template)">Create template modal</button> -->
 
             <ng-template #template>
-              <!-- <div class="modal-header">
+              <div style="height: 0;">
+                <!-- <div class="modal-header">
                 <h4 class="modal-title pull-left">Add-Service</h4>
                 <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div> -->
-              <div class="modal-body" style="min-height: 200px;">
+                <div class="modal-body">
 
-                <select class="form-control" (change)="modalRef.hide();chooseService($event,entity)">
+                  <select class="form-control" (change)="modalRef.hide();chooseService($event,entity)">
 
-                  <option disabled selected value="undefined">{{'Please Select Service' | translate}}</option>
-                  <ng-container *ngFor="let i of filterService">
-                    <option [value]="i.id">{{i.name}}</option>
-                  </ng-container>
+                    <option disabled selected value="undefined">{{'Please Select Service' | translate}}</option>
+                    <ng-container *ngFor="let i of filterService">
+                      <option [value]="i.id">{{i.name}}</option>
+                    </ng-container>
 
-                </select>
+                  </select>
+                </div>
               </div>
             </ng-template>
           </td>

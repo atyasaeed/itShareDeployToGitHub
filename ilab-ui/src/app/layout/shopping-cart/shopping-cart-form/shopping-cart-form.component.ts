@@ -112,7 +112,8 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
   // }
   ngOnInit() {
     this.createForm();
-    if (this.serviceId) {
+    this.selectService.patchValue(undefined);
+    if (this.serviceId && this.objAsset) {
       this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
         this.services = res;
         this.activeService = this.services.find((item) => item.id === this.serviceId);
@@ -121,12 +122,10 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
         // this.myVar.nativeElement['selected'] = this.activeService.id;
         // console.log(this.myVar.nativeElement['selected']);
 
-        this.buildForm(this.activeService.id);
+        this.buildForm(this.activeService?.id);
       });
     }
-    this.selectService.valueChanges.subscribe((res) => {
-      console.log(res);
-    });
+
     this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
       this.services = res;
     });
@@ -140,23 +139,27 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
       itemsShowLimit: 3,
       allowSearchFilter: true,
     };
-    if (!this.objAsset) {
-      this.selection.valueChanges.subscribe((res) => {
-        this.loading = true;
-        console.log(res);
-        if (res == 'option1') {
-          this.form.addControl('file', new FormControl('', Validators.required));
-          this.form.removeControl('asset_id');
-        } else {
-          this.form.addControl('asset_id', new FormControl('', Validators.required));
-          this.form.get('asset_id').patchValue(undefined);
-          this.form.removeControl('file');
-        }
-      });
-    } else if (this.objAsset) {
+
+    // this.serviceId = '';
+    this.selection.valueChanges.subscribe((res) => {
+      this.loading = true;
+      console.log(res);
+      if (res == 'option1') {
+        this.form.addControl('file', new FormControl('', Validators.required));
+        this.form.removeControl('asset_id');
+      } else {
+        this.form.addControl('asset_id', new FormControl('', Validators.required));
+        this.form.get('asset_id').patchValue(undefined);
+        this.form.removeControl('file');
+      }
+    });
+
+    if (this.objAsset) {
+      this.selection.patchValue('option2');
       this.loading = true;
       this.form.addControl('asset_id', new FormControl('', Validators.required));
       this.form.get('asset_id').patchValue(this.objAsset.id);
+      this.selectService.patchValue(this.activeService.id);
     }
   }
   ngAfterViewInit() {
@@ -283,7 +286,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
   buildForm(id) {
     //console.log(event.target.value);
     this.selection.patchValue(null);
-    // this.objAsset = null;
+    this.serviceId = '';
 
     this.filterFiles = [];
     this.form.reset({
@@ -300,7 +303,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
     //     }
     //   }
     // }
-    for (let index = 0; index < this.activeService.supportedExtensions.length; index++) {
+    for (let index = 0; index < this.activeService?.supportedExtensions.length; index++) {
       for (let i = 0; i < this.filesAsset.length; i++) {
         if (
           this.activeService.supportedExtensions[index].split('.').pop() == this.filesAsset[i].name.split('.').pop()
@@ -311,27 +314,27 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
     }
     console.log(this.filterFiles);
 
-    if (this.activeService.thickness != undefined) {
+    if (this.activeService?.thickness != undefined) {
       this.form.addControl('thickness', new FormControl('undefined', this.selectValidator));
     } else {
       this.form.removeControl('thickness');
     }
-    if (this.activeService.colors != undefined) {
+    if (this.activeService?.colors != undefined) {
       this.form.addControl('color', new FormControl('undefined', this.selectValidator));
     } else {
       this.form.removeControl('color');
     }
-    if (this.activeService.types != undefined) {
+    if (this.activeService?.types != undefined) {
       this.form.addControl('type', new FormControl('undefined', this.selectValidator));
     } else {
       this.form.removeControl('type');
     }
-    if (this.activeService.units != undefined) {
+    if (this.activeService?.units != undefined) {
       this.form.addControl('unit', new FormControl('undefined', this.selectValidator));
     } else {
       this.form.removeControl('unit');
     }
-    if (this.activeService.processes != undefined) {
+    if (this.activeService?.processes != undefined) {
       this.form.addControl('processes', new FormControl('', Validators.required));
     } else {
       this.form.removeControl('processes');
@@ -467,7 +470,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
   //   });
   // }
   acceptedExtensions() {
-    if (this.activeService.supportedExtensions != null) {
+    if (this.activeService?.supportedExtensions != null) {
       this.extFile = '';
       this.ext = [];
       for (let index = 0; index < this.activeService?.supportedExtensions?.length; index++) {
@@ -485,7 +488,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
       this.spaceService.model$.subscribe((res) => {
         this.filterFiles = [];
 
-        for (let index = 0; index < this.activeService.supportedExtensions.length; index++) {
+        for (let index = 0; index < this.activeService?.supportedExtensions.length; index++) {
           for (let i = 0; i < res.length; i++) {
             if (this.activeService.supportedExtensions[index].split('.').pop() == res[i].name.split('.').pop()) {
               this.filterFiles.push(res[i]);
