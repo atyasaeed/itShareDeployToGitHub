@@ -17,7 +17,7 @@ export interface IAppConfig {
   INIT_STATE_URL: string;
   getResourceUrl(resource: string): string;
   AWSUrl: string;
-  serviceImage(entity: LineItem): string;
+  serviceImage(entity: Service): string;
 }
 class DefaultAppConfig implements IAppConfig {
   public API_END_POINT = '/';
@@ -64,8 +64,8 @@ class DefaultAppConfig implements IAppConfig {
   public getResourceUrl(resource) {
     return this.API_END_POINT + 'api/' + resource;
   }
-  public serviceImage(entity: LineItem) {
-    return this.AWSUrl + entity.service.id + '/' + entity.service.image;
+  public serviceImage(entity: Service) {
+    return this.AWSUrl + entity.id + '/' + entity.image;
   }
 }
 class ProdAppConfig extends DefaultAppConfig {

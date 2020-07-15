@@ -57,7 +57,7 @@
                   <img class="img-fluid " [src]="getFileExtension(lineItem)"
                     *ngIf="getFileExtension(lineItem) != false;else serviceImage">
                   <ng-template #serviceImage>
-                    <img class="img-fluid " [src]="appConfig.serviceImage(lineItem)">
+                    <img class="img-fluid " [src]="appConfig.serviceImage(lineItem.service)">
                   </ng-template>
                   <div class="mt-3 text-truncate">
                     <label class="mb-0">{{ 'notes' | translate }} :&nbsp;</label>
