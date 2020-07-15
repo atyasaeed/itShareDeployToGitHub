@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { LineItem, ShoppingCartItem } from 'src/app/shared/domain';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
-
+import * as THREE from 'three/build/three.module.js';
 @Component({
   selector: 'app-line-item',
   templateUrl: './line-item.component.html',
@@ -25,6 +25,18 @@ export class LineItemComponent implements OnInit {
     return this.appConfig.FILE_URL + this.lineItem.files[0].asset_id;
   }
 
+  // getFileExtension() {
+  //   //return this.appConfig.FILE_URL + entity.files[fileIndex].asset_id;
+  //   let extension = this.lineItem.files[0].asset_name.split('.');
+  //   if (
+  //     extension[extension.length - 1].toLowerCase() == 'png' ||
+  //     extension[extension.length - 1].toLowerCase() == 'jpg'
+  //   ) {
+  //     return this.appConfig.FILE_URL + this.lineItem.files[0].asset_id;
+  //   } else {
+  //     return false;
+  //   }
+  // }
   getFileExtension() {
     //return this.appConfig.FILE_URL + entity.files[fileIndex].asset_id;
     let extension = this.lineItem.files[0].asset_name.split('.');
@@ -32,9 +44,11 @@ export class LineItemComponent implements OnInit {
       extension[extension.length - 1].toLowerCase() == 'png' ||
       extension[extension.length - 1].toLowerCase() == 'jpg'
     ) {
-      return this.appConfig.FILE_URL + this.lineItem.files[0].asset_id;
+      return 'image';
+    } else if (extension[extension.length - 1].toLowerCase() == 'stl') {
+      return 'stl';
     } else {
-      return false;
+      return null;
     }
   }
 

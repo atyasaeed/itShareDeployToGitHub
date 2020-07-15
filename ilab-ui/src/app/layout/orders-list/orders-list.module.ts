@@ -21,6 +21,7 @@ import { OrdersFormComponent } from './orders-form/orders-form.component';
 import { MatNativeDateModule, MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { StlModelViewerModule } from 'angular-stl-model-viewer';
 @NgModule({
   declarations: [OrdersListComponent, OrdersFormComponent],
   imports: [
@@ -45,6 +46,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     MatDatepickerModule,
     MatNativeDateModule,
     MatMomentDateModule,
+    StlModelViewerModule,
   ],
 })
 export class OrdersListModule {}

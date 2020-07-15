@@ -54,8 +54,19 @@
 
 
                 <div class="col-md-3 service-image mb-2">
-                  <img class="img-fluid " [src]="getFileExtension(lineItem)"
+                  <!-- <img class="img-fluid " [src]="getFileExtension(lineItem)"
                     *ngIf="getFileExtension(lineItem) != false;else serviceImage">
+                  <ng-template #serviceImage>
+                    <img class="img-fluid " [src]="appConfig.serviceImage(lineItem.service)">
+                  </ng-template> -->
+                  <img class="img-fluid " [src]="appConfig.FILE_URL + lineItem.files[0].asset_id"
+                  *ngIf="getFileExtension(lineItem) == 'image';else stlExtension">
+                  <ng-template #stlExtension>
+                    <div *ngIf="getFileExtension(lineItem) == 'stl';else serviceImage">
+                      <stl-model-viewer [stlModels]="[appConfig.FILE_URL + lineItem.files[0].asset_id]">
+                      </stl-model-viewer>
+                    </div>
+                  </ng-template>
                   <ng-template #serviceImage>
                     <img class="img-fluid " [src]="appConfig.serviceImage(lineItem.service)">
                   </ng-template>

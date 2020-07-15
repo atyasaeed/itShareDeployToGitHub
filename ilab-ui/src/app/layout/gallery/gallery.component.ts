@@ -9,7 +9,7 @@ import { GalleryService } from './gallery.service';
 import { ToastrService } from 'ngx-toastr';
 import { routerTransition } from 'src/app/router.animations';
 import { Observable } from 'rxjs';
-
+import * as THREE from 'three/build/three.module.js';
 @Component({
   selector: 'app-gallery',
   templateUrl: './gallery.component.html',
@@ -95,9 +95,11 @@ export class GalleryComponent extends DefaultListComponent<ShoppingCartItem, Gal
       extension[extension.length - 1].toLowerCase() == 'png' ||
       extension[extension.length - 1].toLowerCase() == 'jpg'
     ) {
-      return this.appConfig.FILE_URL + entity.files[0].asset_id;
+      return 'image';
+    } else if (extension[extension.length - 1].toLowerCase() == 'stl') {
+      return 'stl';
     } else {
-      return false;
+      return null;
     }
   }
 }

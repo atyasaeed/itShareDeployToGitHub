@@ -13,6 +13,7 @@ import { PageHeaderModule } from 'src/app/shared/modules/page-header/page-header
 import { StepsModule } from 'src/app/shared/modules/steps/steps.module';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NgxPrintModule } from 'ngx-print';
+import { StlModelViewerModule } from 'angular-stl-model-viewer';
 @NgModule({
   declarations: [OrderComponent, OrderCardComponent, LineItemComponent],
   imports: [
@@ -27,6 +28,7 @@ import { NgxPrintModule } from 'ngx-print';
     TranslateModule,
     StepsModule,
     NgxPrintModule,
+    StlModelViewerModule,
   ],
 })
 export class OrderModule {}
