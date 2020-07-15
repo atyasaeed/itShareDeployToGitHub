@@ -349,6 +349,7 @@ public class OrderService
 		newItem.setQuantity(item.getQuantity());
 		newItem.setService(item.getService());
 		newItem.setUnitPrice(item.getUnitPrice());
+		newItem.setStatus(LineItemStatus.PENDING);
 		for (HyperFile hyperFile : item.getFiles())
 		{
 			FileAsset digitalAsset = new FileAsset();
