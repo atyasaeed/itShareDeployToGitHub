@@ -38,3 +38,27 @@
   color: red;
   border: 3px dashed red;
 }
+
+.print-header{
+  border-top: 2px solid #8080801f;
+  background: #80808042;
+  box-shadow: 0 12px 24px -11px #0000002c;
+}
+
+.print-footer{
+  border-bottom: 2px solid #80808081;
+}
+
+.footer-info{
+  align-items: center;
+  justify-content: center;
+
+}
+
+.footer-info i{
+  font-size: 25px;
+}
+
+.footer-info .border-left{
+  border-left: 2px solid #80808081 !important;
+}

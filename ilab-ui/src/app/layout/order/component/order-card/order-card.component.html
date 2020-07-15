@@ -40,7 +40,7 @@
                 <button   class="btn btn-primary btn-block btn-sm m-1" *ngIf="checkStatus() == 'QUOTED'" (click)="approveQuotation()" >{{'APPROVE' | translate}} </button>
                 <button   class="btn btn-primary btn-block btn-sm  m-1" *ngIf="checkStatus() == 'QUOTED'" (click)="rejectQuotation()" >{{'REJECT' | translate}}</button>
 
-                <button [useExistingCss]="true" printSectionId="{{order.id}}" ngxPrint type="button" class="btn btn-secondary btn-block btn-sm  m-1" *ngIf="checkStatus() == 'QUOTED' || checkStatus() == 'QUOTE_ACCEPTED'">{{'print'|translate}}</button>
+                <button [useExistingCss]="true" printSectionId="{{order.id}}" ngxPrint type="button" class="btn btn-secondary btn-block btn-sm  m-1" *ngIf="checkStatus() == 'QUOTED' || checkStatus() == 'QUOTE_ACCEPTED'">{{'Print'|translate}}</button>
 
                 <input type="submit" class="btn btn-sm btn-danger btn-block m-1" *ngIf="checkStatus() != 'IN_PROGRESS' && checkStatus() != 'FINISHED' && checkStatus() != 'DELIVERED' " value="{{'Cancel Order'|translate}}" (click)="cancelOrder()">
             </div>
@@ -85,16 +85,15 @@
   <div  id="{{order.id}}" class="d-none">
     <div class="container-fluid">
       <div class="row ">
-        <div class="col-md-12 mt-2">
-          <div class="container-fluid">
-            <div class="row card-header">
-             <div class=" col-md-6  ">
+        <div class="col-md-12 ">
+          <div class="row print-header ">
+             <div class=" col-md-6 my-auto py-2">
               <h4 class="text-center">
                 {{'quotation'|translate}}
               </h4>
             </div>
-            <div class="col-md-6  text-center">
-              <h4 class="d-inline-block mr-2">
+            <div class="col-md-6  text-center my-auto white-background">
+              <h4 class="d-inline-block mr-2 py-2">
                 {{'offeredTo'|translate }} :
               </h4>
               <h3 class="d-inline-block">
@@ -102,12 +101,10 @@
               </h3>
             </div>
           </div>
-          </div>
-
         </div>
 
         <div class="text-center col-md-12">
-          <h2 class="text-primary my-4">
+          <h2 class=" my-4 font-weight-700">
             FabriHub.net
           </h2>
         </div>
@@ -164,11 +161,62 @@
               </table>
 
         </div>
-        <div class="col-md-12 text-right">
-          <span class="card-header">
-            <label >{{'total'|translate}} :</label>
-            <span> {{getSubTotal()| currency:'EGP'}}</span>
-          </span>
+        <div class="offset-md-9 col-md-3 text-right">
+          <div class="container-fluid">
+            <div class="row mb-1">
+              <div class="col-md-6 my-auto">
+                <label  class="mb-0">{{'subTotal'|translate}} :</label>
+              </div>
+              <div class="col-md-6 card-header text-center p-1">
+                <span> {{getSubTotal()| currency:'EGP'}}</span>
+              </div>
+            </div>
+            <div class="row mb-1">
+              <div class="col-md-6 my-auto">
+                <label  class="mb-0">{{'taxRate'|translate}} :</label>
+              </div>
+              <div class="col-md-6 card-header text-center p-1">
+                <span> {{ 0 | currency:'EGP'}}</span>
+              </div>
+            </div>
+            <div class="row mb-1">
+              <div class="col-md-6 my-auto">
+                <label  class="mb-0">{{'total'|translate}} :</label>
+              </div>
+              <div class="col-md-6 card-header text-center p-1">
+                <span> {{getSubTotal()| currency:'EGP'}}</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-md-12  mt-3">
+          <div class="container-fluid">
+            <div class="row print-footer">
+            <div class="col-md-1 my-auto">
+              office
+            </div>
+            <div class="col-md-8 my-auto">
+              Credit Building, Office 934, 3rd Floor,Ahmed Fouad Abd El Aziz Al Sarayat Sabekaa,As Sarayat,Al Walli,Cairo governante
+            </div>
+            <div class="col-md-3  d-flex mb-3  footer-info">
+
+              <i class="fa fa-volume-control-phone mr-3" aria-hidden="true"></i>
+              <div  class="text-left border-left pl-3">
+                <div>
+                  Mohamed Essa
+                </div>
+                <div class="mb-2">
+                  presales engineer
+                </div>
+                <div>
+                  +20 1xxxxxxxx
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
