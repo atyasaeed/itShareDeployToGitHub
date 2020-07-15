@@ -7,9 +7,12 @@ import java.util.List;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -30,11 +33,6 @@ public class LineItem extends AbstractEntity<LineItem>
 	private long quantity;
 	private BigDecimal unitPrice;
 	
-//	@Temporal(TemporalType.DATE)
-	private LocalDateTime plannedStartDate;
-//	@Temporal(TemporalType.DATE)
-	private LocalDateTime plannedEndDate;
-//	@Temporal(TemporalType.DATE)
 	private LocalDateTime estimatedStardDate;
 //	@Temporal(TemporalType.DATE)
 	private LocalDateTime estimatedEndDate;
@@ -42,7 +40,9 @@ public class LineItem extends AbstractEntity<LineItem>
 	
 	@ElementCollection
 	private List<HyperFile> files=new ArrayList<HyperFile>();
-	
+	@Enumerated(EnumType.ORDINAL)
+	@NotNull
+	private LineItemStatus status;
 	public long getQuantity()
 	{
 		return quantity;
@@ -103,22 +103,7 @@ public class LineItem extends AbstractEntity<LineItem>
 	{
 		this.files = files;
 	}
-	public LocalDateTime getPlannedStartDate()
-	{
-		return plannedStartDate;
-	}
-	public void setPlannedStartDate(LocalDateTime plannedStartDate)
-	{
-		this.plannedStartDate = plannedStartDate;
-	}
-	public LocalDateTime getPlannedEndDate()
-	{
-		return plannedEndDate;
-	}
-	public void setPlannedEndDate(LocalDateTime plannedEndDate)
-	{
-		this.plannedEndDate = plannedEndDate;
-	}
+	
 	public LocalDateTime getEstimatedStardDate()
 	{
 		return estimatedStardDate;
@@ -134,5 +119,13 @@ public class LineItem extends AbstractEntity<LineItem>
 	public void setEstimatedEndDate(LocalDateTime estimatedEndDate)
 	{
 		this.estimatedEndDate = estimatedEndDate;
+	}
+	public LineItemStatus getStatus()
+	{
+		return status;
+	}
+	public void setStatus(LineItemStatus status)
+	{
+		this.status = status;
 	}
 }

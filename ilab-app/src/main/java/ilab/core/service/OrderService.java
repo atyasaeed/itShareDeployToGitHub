@@ -32,6 +32,7 @@ import ilab.core.domain.Account;
 import ilab.core.domain.FileAsset;
 import ilab.core.domain.HyperFile;
 import ilab.core.domain.LineItem;
+import ilab.core.domain.LineItemStatus;
 import ilab.core.domain.OrderEntity;
 import ilab.core.domain.OrderStatus;
 import ilab.core.domain.User;
@@ -183,24 +184,9 @@ public class OrderService
 				hyperFile.setAsset(assetsRepo.findById(hyperFile.getAsset().getId()).orElseThrow());
 			}
 		}
-//		for (MultipartFile file : files)
-//		{
-//			FileAsset digitalAsset = new FileAsset();
-//			digitalAsset.setName(file.getOriginalFilename());
-//			digitalAsset.setAccount(order.getAccount());
-//			digitalAsset = assetsRepo.save(digitalAsset);
-//			File destPath = new File(filesPath + order.getAccount().getId() + "\\" + digitalAsset.getId());
-//			System.out.println(destPath.getParentFile().getAbsolutePath());
-//			if (!destPath.getParentFile().exists())
-//				Files.createDirectory(destPath.getParentFile().toPath());
-//			file.transferTo(destPath);
-//			HyperFile hyperFile = item.getFiles().get(index);
-//			hyperFile.setAsset(digitalAsset);
-//			index++;
-//		}
 
 //		estomatorService.price(item);		
-
+		item.setStatus(LineItemStatus.PENDING);
 		item = lineItemRepo.save(item);
 		order = orderRepo.save(order);
 
@@ -223,10 +209,6 @@ public class OrderService
 			lineItemRepo.delete(item);
 
 		}
-//		if(item.getOrderEntity().getLineItems().contains(item)) {
-//			item.getOrderEntity().getLineItems().remove(item);
-//			lineItemRepo.deleteById(item.getId());
-//		}
 
 	}
 

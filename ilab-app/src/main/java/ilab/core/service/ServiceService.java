@@ -31,7 +31,7 @@ public class ServiceService
 		{
 			String path="services/"+existingService.getId();
 			amazonClient.uploadFile( file,file.getOriginalFilename(),path);
-			service.setImage(file.getOriginalFilename());
+			existingService.setImage(file.getOriginalFilename());
 		}
 		existingService.setName(service.getName());
 		existingService.setColors(service.getColors());
