@@ -183,5 +183,16 @@
   "file.type.select": "Please Select Type",
   "file.unit.select": "Please Select Unit",
   "file.process.select": "Please Select Process",
-  "service.select": "Please Select Service"
+  "service.select": "Please Select Service",
+  "addToCart": "Add To Cart",
+  "description": "Description",
+  "lineItem.service.name": "Service Name",
+  "lineItem.service.description": "Service Description",
+  "lineItem.estimated.deliveryDate": "Delivery Date",
+  "lineItem.price": "Price",
+  "lineItem.quantity": "Quantity",
+  "sum": "Sum",
+  "total": "Total",
+  "subTotal": "Sub Total",
+  "taxRate": "Tax Rate"
 }

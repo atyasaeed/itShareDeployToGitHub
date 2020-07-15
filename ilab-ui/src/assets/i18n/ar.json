@@ -183,5 +183,16 @@
   "file.type.select": "يرجى تحديد النوع",
   "file.unit.select": "يرجى تحديد الوحدة",
   "file.process.select": "يرجى تحديد العملية",
-  "service.select": "يرجى تحديد الخدمة"
+  "service.select": "يرجى تحديد الخدمة",
+  "addToCart": "اضف الى العربة",
+  "description": "الوصف",
+  "lineItem.service.name": "اسم الخدمه",
+  "lineItem.service.description": "وصف الخدمة",
+  "lineItem.estimated.deliveryDate": "تاريخ التسليم",
+  "lineItem.price": "التكلفة",
+  "lineItem.quantity": "الكمية",
+  "sum": "المجموع",
+  "total": "التكلفة الكلية",
+  "subTotal": "المجموع الفرعي",
+  "taxRate": "معدل الضريبة"
 }
