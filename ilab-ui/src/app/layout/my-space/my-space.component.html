@@ -17,7 +17,7 @@
           <th scope="col">{{'id'|translate}}</th>
           <th scope="col">{{'name'|translate}}</th>
           <th scope="col" sortable="created" (sort)="onSort($event)">{{'created'|translate}}</th>
-          <th scope="col">{{'Image'|translate}}</th>
+          <th scope="col">{{'image'|translate}}</th>
 
           <th></th>
 
@@ -50,7 +50,7 @@
                 <i class="fa fa-download" aria-hidden="true"></i>
               </a>
               <button type="button" class="btn btn-outline-primary ml-2" (click)="getServices(entity)"
-                (click)="openModal(template)">Add-Service</button>
+                (click)="openModal(template)">{{'service.add'}}</button>
             </div>
 
             <!-- <a (click)="delete(entity)" href="javascript:void(0)"><i class="fa fa-fw fa-trash"></i></a> -->
@@ -68,7 +68,7 @@
 
                   <select class="form-control" (change)="modalRef.hide();chooseService($event,entity)">
 
-                    <option disabled selected value="undefined">{{'Please Select Service' | translate}}</option>
+                    <option disabled selected value="undefined">{{'service.select' | translate}}</option>
                     <ng-container *ngFor="let i of filterService">
                       <option [value]="i.id">{{i.name}}</option>
                     </ng-container>
