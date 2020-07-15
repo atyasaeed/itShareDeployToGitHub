@@ -126,7 +126,7 @@
                                       (change)="inputNumberChanged(entity,$event,'width',widthErr)">
                                   </div>
                                 </div>
-                                <div class="col-md-6 mb-2">
+                                <div class="col-md-6 mb-2" *ngIf="file.material != undefined">
                                   <div>
                                     <label>{{'Material' | translate }} :&nbsp;</label>
 

@@ -50,33 +50,11 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
   modalRef: BsModalRef;
   serviceId: string;
   objAsset: AssetFile = {} as AssetFile;
-
-  //filename: string;
-  // item: ShoppingCartItem = new ShoppingCartItem();
-  //item: ShoppingCartItem;
-  // fileToUpload: File = null;
-  //public totalfiles: Array<File> = [];
-  //public totalFileName = [];
-  //public lengthCheckToaddMore = 0;
-  //service: Service;
   form: FormGroup;
-  //AWSUrl: string;
-  //dropdownList = [];
-  //selectedItems = [];
   dropdownSettings: IDropdownSettings = {};
-  activeService: Service = {
-    id: null,
-    name: null,
-    description: null,
-    maxFiles: null,
-    image: null,
-    width: null,
-    height: null,
-    materials: null,
-    supportedExtensions: null,
-  };
+  activeService: Service;
   services: Service[];
-  // tslint:disable-next-line: max-line-length
+
   constructor(
     private route: ActivatedRoute,
     private shoppingCartService: ShoppingCartService,
@@ -92,24 +70,14 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
   ) {
     this.spaceService.searchTerm = '';
     this.spaceService.model$.subscribe((res) => {
-      console.log(res);
+      //console.log(res);
       this.filesAsset = res;
     });
 
     this.serviceId = this.route.snapshot.paramMap.get('id');
-
-    // console.log(this.router.getCurrentNavigation().extras.state);
-    // Object.assign(this.objAsset, this.router.getCurrentNavigation().extras.state);
     this.objAsset = this.router.getCurrentNavigation().extras.state as AssetFile;
-    // console.log(this.objAsset);
   }
 
-  // get cartForm$() {
-  //   return this.cartForm.controls;
-  // }
-  // get file$() {
-  //   return this.cartForm$.files as FormArray;
-  // }
   ngOnInit() {
     this.createForm();
     this.selectService.patchValue(undefined);
@@ -117,10 +85,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
       this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
         this.services = res;
         this.activeService = this.services.find((item) => item.id === this.serviceId);
-        console.log(this.activeService);
-        // this.selectService.patchValue(this.activeService);
-        // this.myVar.nativeElement['selected'] = this.activeService.id;
-        // console.log(this.myVar.nativeElement['selected']);
+        //console.log(this.activeService);
 
         this.buildForm(this.activeService?.id);
       });
@@ -143,7 +108,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
     // this.serviceId = '';
     this.selection.valueChanges.subscribe((res) => {
       this.loading = true;
-      console.log(res);
+      //console.log(res);
       if (res == 'option1') {
         this.form.addControl('file', new FormControl('', Validators.required));
         this.form.removeControl('asset_id');
@@ -173,24 +138,12 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
   createForm() {
     this.form = this.formBuilder.group({
       quantity: ['1', [Validators.required, Validators.min(1), this.numberValidator]],
-      // attend: [''],
-      // startingDate: [''],
-      // deliveryDate: [''],
       notes: [''],
-      // file: ['', Validators.required],
-      // files: new FormArray([]),
-      material: ['undefined', this.selectValidator],
       width: ['', [Validators.required, Validators.min(1), this.numberValidator]],
       height: ['', [Validators.required, Validators.min(1), this.numberValidator]],
-      // selection: ['', [Validators.required]],
     });
   }
 
-  // extensionValidator(control: AbstractControl, arr): { [key: string]: any } | null {
-  //   //console.log(control.value);
-
-  //   return null;
-  // }
   selectValidator(control: AbstractControl): { [key: string]: any } | null {
     if (control.value == 'undefined') {
       return { required: true };
@@ -198,111 +151,29 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
     return null;
   }
   numberValidator(control: AbstractControl): { [key: string]: any } | null {
-    //console.log(control.value);
-    //const value: string = control.value || '';
     if (control.value == null) {
       return { NaN: true };
     }
     return null;
   }
-  // onItemSelect(item: any) {
-  //   console.log(item);
-  // }
-  // onSelectAll(items: any) {
-  //   console.log(items);
-  // }
 
-  // onSubmit() {
-  //   this.loading = true;
-  //   this.submitted = true;
-  //   //console.log(this.cartForm.value);
-  //   if (this.cartForm.invalid) {
-  //     this.validateAllFormFields(this.cartForm);
-  //     this.loading = false;
-  //     return;
-  //   }
-  //   this.item = Object.assign(this.cartForm.value);
-  //   this.item.service = {} as Service;
-  //   this.item.service.id = this.service.id;
-  //   for (let index = 0; index < this.file$.length; index++) {
-  //     // this.item.files.push(this.file$[index]);
-  //     this.item.files;
-  //   }
-
-  //   const formData: FormData = new FormData();
-  //   for (let j = 0; j < this.totalfiles.length; j++) {
-  //     // formData.append(this.totalFileName[j] + (j + 1), <File>this.totalfiles[j]);
-  //     formData.append('files', this.totalfiles[j] as File);
-  //   }
-  //   // formData.append('file', this.fileToUpload, this.fileToUpload.name);
-  //   const itemBlob = new Blob([JSON.stringify(this.item)], {
-  //     type: 'application/json',
-  //   });
-
-  //   formData.append('item', itemBlob);
-
-  //   //console.log(this.file$.value);
-  //   for (let index = 0; index < this.file$.value.length; index++) {
-  //     //console.log(this.file$.value[index].file);
-  //   }
-  //   this.shoppingCartService.create(formData).subscribe(
-  //     (resp) => {
-  //       this.appStore.dispatch(new fromStore.LoadInitState());
-  //       this.router.navigateByUrl('shopping-cart'), (this.loading = false);
-  //     },
-  //     (err) => (this.loading = false)
-  //   );
-  // }
-
-  // handleFileInput(fileInput: any, oldIndex) {
-  //   //  this.filename= fileInput.target.files[0].name;
-  //   this.msgFileSize = fileInput.target.files[0].size;
-  //   if (this.msgFileSize > this.appConfig.FILE_SIZE) {
-  //     return;
-  //   }
-
-  //   if (fileInput.target.files && fileInput.target.files[0]) {
-  //     let reader = new FileReader();
-  //     reader.onload = (event: any) => {};
-  //     if (oldIndex == 0) {
-  //       this.totalfiles.unshift(fileInput.target.files[0]);
-  //       this.totalFileName.unshift(fileInput.target.files[0].name);
-  //     } else {
-  //       this.totalfiles[oldIndex] = fileInput.target.files[0];
-  //       this.totalFileName[oldIndex] = fileInput.target.files[0].name;
-  //     }
-
-  //     reader.readAsDataURL(fileInput.target.files[0]);
-  //   }
-
-  //   if (this.totalfiles.length == 1) {
-  //     this.lengthCheckToaddMore = 1;
-  //   }
-  // }
-
-  // onChangeObj(event) {
-  //   //console.log(event);
-  // }
   buildForm(id) {
-    //console.log(event.target.value);
     this.selection.patchValue(null);
     this.serviceId = '';
-
+    this.activeService = this.services.find((e) => e.id === id);
     this.filterFiles = [];
     this.form.reset({
       quantity: 1,
       material: 'undefined',
       thickness: 'undefined',
+      color: 'undefined',
+      type: 'undefined',
+      unit: 'undefined',
     });
     this.form.markAsUntouched();
     this.form.markAsPristine();
-    this.activeService = this.services.find((e) => e.id === id);
-    // for (let index = 0; index < this.filesAsste.length; index++) {
-    //   for (let i = 0; i < this.activeService.supportedExtensions.length; i++) {
-    //     if (this.filesAsste[index].name == this.activeService.supportedExtensions[index]) {
-    //     }
-    //   }
-    // }
+    this.form.updateValueAndValidity();
+
     for (let index = 0; index < this.activeService?.supportedExtensions.length; index++) {
       for (let i = 0; i < this.filesAsset.length; i++) {
         if (
@@ -312,8 +183,13 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
         }
       }
     }
-    console.log(this.filterFiles);
 
+    //console.log(this.activeService);
+    if (this.activeService?.materials != undefined) {
+      this.form.addControl('material', new FormControl('undefined', this.selectValidator));
+    } else {
+      this.form.removeControl('material');
+    }
     if (this.activeService?.thickness != undefined) {
       this.form.addControl('thickness', new FormControl('undefined', this.selectValidator));
     } else {
@@ -335,29 +211,16 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
       this.form.removeControl('unit');
     }
     if (this.activeService?.processes != undefined) {
-      this.form.addControl('processes', new FormControl('', Validators.required));
+      if (this.activeService.processes.multi == true) {
+        this.form.addControl('processes', new FormControl('', Validators.required));
+      } else {
+        this.form.addControl('processes', new FormControl('undefined', this.selectValidator));
+      }
     } else {
       this.form.removeControl('processes');
     }
 
     this.acceptedExtensions();
-    //   this.service = event;
-    //   for (let i = 0; i < this.service.maxFiles; i++) {
-    //     this.file$.push(
-    //       this.formBuilder.group({
-    //         file: ['', [Validators.required]],
-    //         material: [this.service?.materials[0]?.name, [Validators.required]],
-    //         type: [this.service?.materials[0]?.types[0]?.name, [Validators.required]],
-    //         color: [this.service.materials[0].types[0].colors[0], [Validators.required]],
-    //         dimension: [this.service.materials[0].types[0].dimensions[0], [Validators.required]],
-    //         unit: [this.service.units[0], [Validators.required]],
-    //       })
-    //     );
-    //   }
-    //   for (let index = 0; index < this.service?.supportedExtensions?.length; index++) {
-    //     this.ext.push(this.service.supportedExtensions[index].substr(1));
-    //   }
-    //   this.extFile = this.ext.toString();
   }
 
   submit() {
@@ -392,17 +255,19 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
       quantity: 1,
       material: 'undefined',
       thickness: 'undefined',
+      color: 'undefined',
+      type: 'undefined',
+      unit: 'undefined',
     });
     this.form.markAsUntouched();
     this.form.markAsPristine();
-
+    this.form.updateValueAndValidity();
     this.shoppingCartService.create(formData).subscribe((res) => {
       this.appStore.dispatch(new fromStore.LoadInitState());
       setTimeout(() => {
         this.router.navigateByUrl('shopping-cart'), (this.loading = false);
-      }, 1100);
+      }, 800);
     });
-    //console.log(this.filename);
   }
 
   handleFileInput(fileInput) {
@@ -413,7 +278,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
       let found = false;
       this.activeService.supportedExtensions.forEach((e) => {
         let arr = e.split('.');
-        //console.log(e);
+
         if (arr[1] == fileExtension[fileExtension.length - 1].toLowerCase()) {
           found = true;
         }
@@ -430,45 +295,28 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
     this.flyToCart.nativeElement.style.color = '#007bff';
     this.flyToCart.nativeElement.style.position = 'relative';
     this.flyToCart.nativeElement.style.zIndex = '5000';
-    //console.log(this.flyToCart.nativeElement.style.zIndex);
-
     this.flyToCart.nativeElement.animate(
       [
         {
           position: 'fixed',
           top: `${top}px`,
           left: `${left}px`,
-          //zIndex: '5000',
           opacity: 1,
           transform: 'scale(1) rotate(0)',
         },
         { position: 'fixed', top: `10px`, left: `90%`, opacity: 0.4, transform: 'scale(4) rotate(720deg)' },
       ],
       {
-        duration: 1000,
+        duration: 700,
         delay: 0,
         easing: 'ease-in-out',
       }
     );
     setTimeout(() => {
       this.flyToCart.nativeElement.style.color = 'white';
-    }, 1000);
+    }, 700);
   }
 
-  // validateAllFormFields(formGroup: FormGroup) {
-  //   // {1}
-  //   Object.keys(formGroup.controls).forEach((field) => {
-  //     // {2}
-  //     const control = formGroup.get(field); // {3}
-  //     if (control instanceof FormControl) {
-  //       // {4}
-  //       control.markAsTouched({ onlySelf: true });
-  //     } else if (control instanceof FormGroup) {
-  //       // {5}
-  //       this.validateAllFormFields(control); // {6}
-  //     }
-  //   });
-  // }
   acceptedExtensions() {
     if (this.activeService?.supportedExtensions != null) {
       this.extFile = '';
@@ -495,7 +343,6 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
             }
           }
         }
-        // this.filterFiles = res;
       });
     } else {
       this.spaceService.searchTerm = '';

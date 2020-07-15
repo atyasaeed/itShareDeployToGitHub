@@ -190,8 +190,8 @@
                 </ng-multiselect-dropdown>
               </div>
               <ng-template #processesSingle>
-                <select formControlName="processes" class="form-control" [ngModel]="undefined">
-                  <option disabled value="undefined">{{'file.process.select' | translate}}</option>
+                <select formControlName="processes" class="form-control" >
+                  <option disabled value="undefined" >{{'file.process.select' | translate}}</option>
                   <ng-container *ngFor="let v of activeService.processes.values">
                     <option [value]="v">{{v}}</option>
                   </ng-container>
