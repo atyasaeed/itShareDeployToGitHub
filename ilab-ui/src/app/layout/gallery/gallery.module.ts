@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PageHeaderModule } from 'src/app/shared/modules/page-header/page-header.module';
+import { StlModelViewerModule } from 'angular-stl-model-viewer';
 
 @NgModule({
   declarations: [GalleryComponent],
@@ -24,6 +25,7 @@ import { PageHeaderModule } from 'src/app/shared/modules/page-header/page-header
     MatButtonModule,
     MatIconModule,
     NgbModule,
+    StlModelViewerModule,
   ],
 })
 export class GalleryModule {}

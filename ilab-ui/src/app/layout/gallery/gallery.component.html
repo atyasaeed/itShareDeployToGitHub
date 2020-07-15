@@ -1,5 +1,9 @@
 <div [@routerTransition]>
-  <app-page-header [heading]="'Programs'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header>
+  <div class="container px-0">
+    <app-page-header [heading]="'Programs'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header>
+  </div>
+
+
   <main class="page">
     <section class="shopping-cart dark">
 
@@ -37,8 +41,19 @@
                       <div class="row">
                         <div class="col-md-3 service-image mb-3 mb-md-0">
                           <!-- <img class="img-fluid mx-auto d-block" [src]="getImageUrl(entity)"> -->
-                          <img class="img-fluid " [src]="getFileExtension(entity)"
+                          <!-- <img class="img-fluid " [src]="getFileExtension(entity)"
                             *ngIf="getFileExtension(entity) != false;else serviceImage">
+                          <ng-template #serviceImage>
+                            <img class="img-fluid " [src]="appConfig.serviceImage(entity.service)">
+                          </ng-template> -->
+                          <img class="img-fluid " [src]="appConfig.FILE_URL + entity.files[0].asset_id"
+                          *ngIf="getFileExtension(entity) == 'image';else stlExtension">
+                          <ng-template #stlExtension>
+                            <div *ngIf="getFileExtension(entity) == 'stl';else serviceImage">
+                              <stl-model-viewer [stlModels]="[appConfig.FILE_URL + entity.files[0].asset_id]">
+                              </stl-model-viewer>
+                            </div>
+                          </ng-template>
                           <ng-template #serviceImage>
                             <img class="img-fluid " [src]="appConfig.serviceImage(entity.service)">
                           </ng-template>

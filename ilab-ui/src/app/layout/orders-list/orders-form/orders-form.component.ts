@@ -14,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 import { LineItem } from 'src/app/shared/domain';
 import { TranslateService } from '@ngx-translate/core';
 import { DatePipe } from '@angular/common';
-
+import * as THREE from 'three/build/three.module.js';
 @Component({
   selector: 'app-orders-form',
   templateUrl: './orders-form.component.html',
@@ -124,6 +124,18 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
     // }
   }
 
+  // getFileExtension(entity: LineItem) {
+  //   //return this.appConfig.FILE_URL + entity.files[fileIndex].asset_id;
+  //   let extension = entity.files[0].asset_name.split('.');
+  //   if (
+  //     extension[extension.length - 1].toLowerCase() == 'png' ||
+  //     extension[extension.length - 1].toLowerCase() == 'jpg'
+  //   ) {
+  //     return this.appConfig.FILE_URL_ADMIN + entity.files[0].asset_id;
+  //   } else {
+  //     return false;
+  //   }
+  // }
   getFileExtension(entity: LineItem) {
     //return this.appConfig.FILE_URL + entity.files[fileIndex].asset_id;
     let extension = entity.files[0].asset_name.split('.');
@@ -131,9 +143,11 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
       extension[extension.length - 1].toLowerCase() == 'png' ||
       extension[extension.length - 1].toLowerCase() == 'jpg'
     ) {
-      return this.appConfig.FILE_URL_ADMIN + entity.files[0].asset_id;
+      return 'image';
+    } else if (extension[extension.length - 1].toLowerCase() == 'stl') {
+      return 'stl';
     } else {
-      return false;
+      return null;
     }
   }
   checkLineItems(id, lineItems: LineItem[]) {
