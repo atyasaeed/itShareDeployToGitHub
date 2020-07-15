@@ -1,7 +1,10 @@
-import { Component, OnInit, Input, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { Order } from 'src/app/shared/domain';
+import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Inject } from '@angular/core';
+import { Order, User } from 'src/app/shared/domain';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrdersService } from '../../orders.service';
+import { IAppConfig, APP_CONFIG } from 'src/app/shared/app.config';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-order-card',
@@ -13,12 +16,14 @@ export class OrderCardComponent implements OnInit {
   //@ViewChild('statusBtn') statusBtn: HTMLElement;
   // orderitem = new Order();
   statusArr: string[] = ['PENDING', 'QUOTED', 'QUOTE_ACCEPTED', 'IN_PROGRESS', 'FINISHED', 'DELIVERED'];
-
+  user: User;
   constructor(
     private orderService: OrdersService,
     private route: ActivatedRoute,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    @Inject(APP_CONFIG) public appConfig: IAppConfig,
+    private http: HttpClient
   ) {}
   max: any;
   dateArray: any[] = [];
@@ -26,6 +31,9 @@ export class OrderCardComponent implements OnInit {
   ngOnInit() {
     this.getDeliveryDate();
     //console.log(this.order);
+    this.http.get<User>(this.appConfig.getResourceUrl('users')).subscribe((user) => {
+      this.user = user;
+    });
   }
 
   ngAfterViewInit() {
@@ -43,71 +51,7 @@ export class OrderCardComponent implements OnInit {
       return a > b ? a : b;
     }, 0);
   }
-  // Check Order Status Cases
 
-  // WaitingForQuotation() {
-  //   // Waiting For Quotation
-  //   return this.order.status === 'WAIT_QUOTE';
-  // }
-
-  // WaitingForApproval() {
-  //   // Waiting For Approval
-  //   return this.order.status === 'WAIT_CONFIRMATION';
-  // }
-
-  // // Approve Quotation
-  // quotationApproved() {
-  //   return this.order.status === 'AQ';
-  // }
-
-  // quotationRejected() {
-  //   // Waiting For Approval
-  //   return this.order.status === 'REJECT_QUOTE';
-  // }
-
-  // rejectOrder() {
-  //   return this.order.status === 'REJECT_ORDER';
-  // }
-
-  // InProgress() {
-  //   // In Progress
-  //   return this.order.status === 'IN_PROGRESS';
-  // }
-
-  // Finished() {
-  //   return this.order.status === 'FINISHED';
-  // }
-
-  // partiallyFinished() {
-  //   return this.order.status === 'PARTIALLY_FINISHED';
-  // }
-
-  // Delivered() {
-  //   return this.order.status === 'DELIVERED';
-  // }
-
-  // partiallyDelivered() {
-  //   return this.order.status === 'PARIALLY_DELIVERED';
-  // }
-
-  // Cancelled() {
-  //   return this.order.status === 'CANCELLED';
-  // }
-
-  // shoppingCart() {
-  //   return this.order.status === 'SHOPPING_CART';
-  // }
-
-  // wishList() {
-  //   return this.order.status === 'WISH_LIST';
-  // }
-
-  // pending() {
-  //   return this.order.status === 'PENDING';
-  // }
-  // End Check Order Status Cases
-
-  // Client actions on his orders
   cancelOrder() {
     this.orderService.cancel(this.order.id).subscribe((res) => {
       this.order = res;

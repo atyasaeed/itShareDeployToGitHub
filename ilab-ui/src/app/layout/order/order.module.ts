@@ -12,6 +12,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { PageHeaderModule } from 'src/app/shared/modules/page-header/page-header.module';
 import { StepsModule } from 'src/app/shared/modules/steps/steps.module';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { NgxPrintModule } from 'ngx-print';
 @NgModule({
   declarations: [OrderComponent, OrderCardComponent, LineItemComponent],
   imports: [
@@ -25,6 +26,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     SharedModule,
     TranslateModule,
     StepsModule,
+    NgxPrintModule,
   ],
 })
 export class OrderModule {}

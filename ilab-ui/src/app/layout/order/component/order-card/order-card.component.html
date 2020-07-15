@@ -40,6 +40,7 @@
                 <button   class="btn btn-primary btn-block btn-sm m-1" *ngIf="checkStatus() == 'QUOTED'" (click)="approveQuotation()" >{{'APPROVE' | translate}} </button>
                 <button   class="btn btn-primary btn-block btn-sm  m-1" *ngIf="checkStatus() == 'QUOTED'" (click)="rejectQuotation()" >{{'REJECT' | translate}}</button>
 
+                <button [useExistingCss]="true" printSectionId="{{order.id}}" ngxPrint type="button" class="btn btn-secondary btn-block btn-sm  m-1" *ngIf="checkStatus() == 'QUOTED' || checkStatus() == 'QUOTE_ACCEPTED'">{{'print'|translate}}</button>
 
                 <input type="submit" class="btn btn-sm btn-danger btn-block m-1" *ngIf="checkStatus() != 'IN_PROGRESS' && checkStatus() != 'FINISHED' && checkStatus() != 'DELIVERED' " value="{{'Cancel Order'|translate}}" (click)="cancelOrder()">
             </div>
@@ -78,3 +79,98 @@
   </div>
 
 </div>
+
+
+<!-- <ng-template> -->
+  <div  id="{{order.id}}" class="d-none">
+    <div class="container-fluid">
+      <div class="row ">
+        <div class="col-md-12 mt-2">
+          <div class="container-fluid">
+            <div class="row card-header">
+             <div class=" col-md-6  ">
+              <h4 class="text-center">
+                {{'quotation'|translate}}
+              </h4>
+            </div>
+            <div class="col-md-6  text-center">
+              <h4 class="d-inline-block mr-2">
+                {{'offeredTo'|translate }} :
+              </h4>
+              <h3 class="d-inline-block">
+                {{user?.username }}
+              </h3>
+            </div>
+          </div>
+          </div>
+
+        </div>
+
+        <div class="text-center col-md-12">
+          <h2 class="text-primary my-4">
+            FabriHub.net
+          </h2>
+        </div>
+        <div class="col-md-12">
+
+              <table class="table table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">{{'lineItem.service.name' | translate}}</th>
+                    <th scope="col">{{'lineItem.service.description'|translate}}</th>
+                    <th scope="col">{{'lineItem.estimated.deliveryDate'|translate}}</th>
+                    <th scope="col">{{'lineItem.price'|translate}}</th>
+                    <th scope="col">{{'lineItem.quantity'|translate}}</th>
+                    <th scope="col">{{'sum'|translate}}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let lineItem of order.lineItems;let i = index">
+                    <th scope="row">{{i}}</th>
+                    <td>{{lineItem.service.name}}</td>
+                    <td>
+                      <span>
+                       <label>{{'height'|translate}} : </label> {{lineItem.files[0].height}},
+                      </span>
+                      <span>
+                        <label >{{'width'|translate}} : </label> {{lineItem.files[0].width}},
+                      </span>
+                      <span *ngIf="lineItem.files[0].material">
+                        <label >{{'material'|translate}} : </label> {{lineItem.files[0].material}},
+                      </span>
+                      <span *ngIf="lineItem.files[0].thickness">
+                        <label >{{'thickness'|translate}} : </label> {{lineItem.files[0].thickness}},
+                      </span>
+                      <span *ngIf="lineItem.files[0].color">
+                        <label >{{'color'|translate}} : </label> {{lineItem.files[0].color}},
+                      </span>
+                      <span *ngIf="lineItem.files[0].type">
+                        <label >{{'type'|translate}} : </label> {{lineItem.files[0].type}},
+                      </span>
+                      <span *ngIf="lineItem.files[0].unit">
+                        <label >{{'unit'|translate}} : </label> {{lineItem.files[0].unit}},
+                      </span>
+                      <span *ngIf="lineItem.files[0].processes">
+                        <label >{{'processes'|translate}} : </label> {{lineItem.files[0].processes}},
+                      </span>
+                    </td>
+                    <td>{{lineItem.estimatedEndDate | date:'fullDate'}}</td>
+                    <td>{{lineItem.unitPrice}}</td>
+                    <td>{{lineItem.quantity}}</td>
+                    <td>{{lineItem.unitPrice *lineItem.quantity|currency:'EGP'}}</td>
+                  </tr>
+                </tbody>
+              </table>
+
+        </div>
+        <div class="col-md-12 text-right">
+          <span class="card-header">
+            <label >{{'total'|translate}} :</label>
+            <span> {{getSubTotal()| currency:'EGP'}}</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- </ng-template> -->
