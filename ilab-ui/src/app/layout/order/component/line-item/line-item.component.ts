@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, ElementRef, QueryList, ViewChildren, ViewChild } from '@angular/core';
 import { LineItem, ShoppingCartItem } from 'src/app/shared/domain';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import * as THREE from 'three/build/three.module.js';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-line-item',
   templateUrl: './line-item.component.html',
@@ -10,35 +11,28 @@ import * as THREE from 'three/build/three.module.js';
 export class LineItemComponent implements OnInit {
   @Input() lineItem: LineItem;
   @Input() status: string;
-
-  constructor(@Inject(APP_CONFIG) public appConfig: IAppConfig) {}
+  //@ViewChildren('acceptRef', { read: ElementRef }) acceptRef: QueryList<ElementRef<HTMLParagraphElement>>;
+  @ViewChild('acceptRef') acceptRef: ElementRef;
+  @ViewChild('rejectRef') rejectRef: ElementRef;
+  @ViewChild('cancelRef') cancelRef: ElementRef;
+  constructor(@Inject(APP_CONFIG) public appConfig: IAppConfig, private http: HttpClient) {}
 
   ngOnInit() {
     //console.log(this.lineItem);
     //console.log(this.status);
   }
   ngAfterViewInit() {
-    //console.log(this.status);
+    //console.log(this.acceptRef.nativeElement.checked);
+    // if (this.lineItem.status == 'CANCELLED') {
+    //   this.cancelRef.nativeElement.checked = true;
+    // }
   }
 
   getFileUrl(): string {
     return this.appConfig.FILE_URL + this.lineItem.files[0].asset_id;
   }
 
-  // getFileExtension() {
-  //   //return this.appConfig.FILE_URL + entity.files[fileIndex].asset_id;
-  //   let extension = this.lineItem.files[0].asset_name.split('.');
-  //   if (
-  //     extension[extension.length - 1].toLowerCase() == 'png' ||
-  //     extension[extension.length - 1].toLowerCase() == 'jpg'
-  //   ) {
-  //     return this.appConfig.FILE_URL + this.lineItem.files[0].asset_id;
-  //   } else {
-  //     return false;
-  //   }
-  // }
   getFileExtension() {
-    //return this.appConfig.FILE_URL + entity.files[fileIndex].asset_id;
     let extension = this.lineItem.files[0].asset_name.split('.');
     if (
       extension[extension.length - 1].toLowerCase() == 'png' ||
@@ -63,19 +57,15 @@ export class LineItemComponent implements OnInit {
         result = 'CANCELLED';
         break;
       case 'QUOTED':
-        //this.statusBtn.innerText = 'aprove';
         result = 'QUOTED';
         break;
       case 'QUOTE_ACCEPTED':
-        //this.statusBtn.innerText = 'aprove';
         result = 'QUOTE_ACCEPTED';
         break;
       case 'QUOTE_REJECTED':
-        //this.statusBtn.innerText = 'aprove';
         result = 'QUOTE_REJECTED';
         break;
       case 'ORDER_REJECTED':
-        //this.statusBtn.innerText = 'aprove';
         result = 'ORDER_REJECTED';
         break;
       case 'IN_PROGRESS':
@@ -91,5 +81,51 @@ export class LineItemComponent implements OnInit {
         result = '';
     }
     return result;
+  }
+
+  lineStatus() {
+    let result = '';
+    //this.order.status = 'FINISHED';
+    switch (this.lineItem.status) {
+      case 'PENDING':
+        result = 'PENDING';
+        break;
+      case 'CANCELLED':
+        result = 'CANCELLED';
+        break;
+      case 'QUOTED':
+        result = 'QUOTED';
+        break;
+      case 'QUOTE_ACCEPTED':
+        result = 'QUOTE_ACCEPTED';
+        break;
+      case 'QUOTE_REJECTED':
+        result = 'QUOTE_REJECTED';
+        break;
+      case 'ITEM_REJECTED':
+        result = 'ITEM_REJECTED';
+        break;
+      case 'IN_PROGRESS':
+        result = 'IN_PROGRESS';
+        break;
+      case 'FINISHED':
+        result = 'FINISHED';
+        break;
+      case 'DELIVERED':
+        result = 'DELIVERED';
+        break;
+      default:
+        result = '';
+    }
+    return result;
+  }
+
+  cancelItem() {
+    console.log(this.lineItem);
+  }
+
+  quotedActionsChanged(event, lineItem: LineItem) {
+    console.log(event.target.value);
+    console.log(lineItem);
   }
 }

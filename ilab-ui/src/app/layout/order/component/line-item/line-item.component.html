@@ -6,7 +6,10 @@
 
       <!-- One Item Row -->
       <div class="product">
-        <div class="row">
+        <div class="row position-relative">
+          <!-- <div class="overlay position-absolute d-flex" [class.show]="">
+            <span class="cancelled m-auto">{{lineItem.status | translate}}</span>
+          </div> -->
           <div class="col-md-3 mb-2 mb-md-0">
 
             <!-- <img class="img-fluid " [src]="getFileExtension()" *ngIf="getFileExtension() != false;else serviceImage">
@@ -30,6 +33,31 @@
               <div class="row">
                 <div class="col-md-12 product-name">
                   <div class="row">
+                    <div class="col-md-12 mb-2 text-right">
+                      <button (click)="cancelItem()" *ngIf="checkStatus() == 'PENDING' || checkStatus() == 'QOUTE_ACCEPTED'" type="button" class="btn btn-danger btn-sm">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                      </button>
+                      <span *ngIf="lineStatus() == 'QUOTED'" >
+                          <span class="custom-control custom-radio d-inline-block">
+                            <input checked class="custom-control-input" type="radio" id="accept_{{lineItem.id}}"  name="quotedActions_{{lineItem.id}}" value="QUOTE_ACCEPTED" (change)="quotedActionsChanged($event,lineItem)" #acceptRef>
+                            <label for="accept_{{lineItem.id}}" class="custom-control-label">
+                              <i class="fa fa-thumbs-o-up text-primary" aria-hidden="true"></i>
+                            </label>
+                          </span>
+                          <span class="custom-control custom-radio d-inline-block ml-2">
+                            <input class="custom-control-input" type="radio" id="reject_{{lineItem.id}}" value="QUOTE_REJECTED"  name="quotedActions_{{lineItem.id}}" (change)="quotedActionsChanged($event,lineItem)" #rejectRef>
+                            <label for="reject_{{lineItem.id}}" class="custom-control-label">
+                              <i class="fa fa-thumbs-o-down text-secondary" aria-hidden="true"></i>
+                            </label>
+                          </span>
+                          <span class="custom-control custom-radio d-inline-block ml-2">
+                            <input class="custom-control-input" type="radio" id="cancel_{{lineItem.id}}" value="CANCELLED"  name="quotedActions_{{lineItem.id}}" (change)="quotedActionsChanged($event,lineItem)" #cancelRef>
+                            <label for="cancel_{{lineItem.id}}" class="custom-control-label">
+                             <i class="fa fa-times text-danger" aria-hidden="true"></i>
+                            </label>
+                          </span>
+                        </span>
+                    </div>
                     <div class="col-md-10">
                       <h5 class="text-center text-md-left text-primary">{{lineItem.service.name}}</h5>
                     </div>

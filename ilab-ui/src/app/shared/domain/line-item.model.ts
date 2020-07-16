@@ -16,6 +16,7 @@ export interface LineItem extends Entity {
   files: hyperFile[];
   asset_id: string;
   asset_name: string;
+  status: string;
 }
 export class hyperFile {
   material: string;
