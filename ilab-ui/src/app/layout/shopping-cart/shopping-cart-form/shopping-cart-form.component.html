@@ -51,7 +51,7 @@
             </div>
           </div>
           <div class="col-md-6 ">
-            <div>
+            <div *ngIf="activeService">
               <div>
                 <mat-radio-group class="row" [formControl]='selection' #radioGroup="matRadioGroup">
                   <mat-radio-button class="col-6" value="option1">{{"Upload File" |translate}}
@@ -185,7 +185,7 @@
                 *ngIf="(!form.controls?.processes?.valid && form.controls?.processes?.dirty) || ( !form.controls?.processes?.valid && form.controls?.processes?.touched )">
                 *{{'file.field.error.required' | translate}}</span>
               <div *ngIf="activeService.processes.multi==true;else processesSingle">
-                <ng-multiselect-dropdown formControlName="processes" placeholder="{{'file.process.select'|translate}}"
+                <ng-multiselect-dropdown formControlName="mprocesses" placeholder="{{'file.process.select'|translate}}"
                   [settings]="dropdownSettings" [data]="activeService.processes.values">
                 </ng-multiselect-dropdown>
               </div>

@@ -169,6 +169,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
       color: 'undefined',
       type: 'undefined',
       unit: 'undefined',
+      processes: 'undefined',
     });
     this.form.markAsUntouched();
     this.form.markAsPristine();
@@ -212,12 +213,18 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
     }
     if (this.activeService?.processes != undefined) {
       if (this.activeService.processes.multi == true) {
-        this.form.addControl('processes', new FormControl('', Validators.required));
+        this.form.removeControl('processes');
+        this.form.addControl('mprocesses', new FormControl('', Validators.required));
       } else {
+        this.form.removeControl('mprocesses');
         this.form.addControl('processes', new FormControl('undefined', this.selectValidator));
       }
     } else {
-      this.form.removeControl('processes');
+      if (this.form.get('mprocesses')) {
+        this.form.removeControl('mprocesses');
+      } else if (this.form.get('processes')) {
+        this.form.removeControl('processes');
+      }
     }
 
     this.acceptedExtensions();
@@ -225,6 +232,8 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
 
   submit() {
     this.flyToCartAnimation();
+    //console.log(this.form);
+    //return;
     const formData: FormData = new FormData();
     let item = {} as LineItem;
     item.service = {} as Service;
@@ -238,6 +247,8 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
       } else if (key === 'notes') {
         item.notes = this.form.value['notes'];
       } else if (key === 'selection') {
+      } else if (key === 'mprocesses') {
+        hyperFile['processes'] = this.form.value[key];
       } else {
         //if (this.form.value[key] != null) {
         hyperFile[key] = this.form.value[key];
@@ -258,6 +269,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
       color: 'undefined',
       type: 'undefined',
       unit: 'undefined',
+      processes: 'undefined',
     });
     this.form.markAsUntouched();
     this.form.markAsPristine();

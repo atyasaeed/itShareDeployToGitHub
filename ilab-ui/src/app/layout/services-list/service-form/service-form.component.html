@@ -18,7 +18,7 @@
         </div>
         <div class="form-group">
           <label >{{'Image' | translate}} : </label>
-          <input type="file" class="form-control" formControlName="image" (change)="uploadImage($event)">
+          <input type="file" accept=".jpg,.png" class="form-control" formControlName="image" (change)="uploadImage($event)">
         </div>
         <div class="form-group">
           <label >{{'Description' | translate}} : </label>
