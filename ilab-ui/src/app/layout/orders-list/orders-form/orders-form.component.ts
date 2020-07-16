@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Inject, AfterViewInit, TemplateRef } from '@angular/core';
 import { Order } from 'src/app/shared/domain/order.model';
 import { DefaultFormComponent } from 'src/app/shared/helpers/default.form.component';
 import { OrdersListService } from '../../orders-list/orders-list.service';
@@ -13,6 +13,8 @@ import { AlertService } from 'src/app/shared/services';
 import { ToastrService } from 'ngx-toastr';
 import { LineItem } from 'src/app/shared/domain';
 import { TranslateService } from '@ngx-translate/core';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+
 import { DatePipe } from '@angular/common';
 import * as THREE from 'three/build/three.module.js';
 @Component({
@@ -31,6 +33,9 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
   minDate: Date;
   maxDate: Date;
   isEnabled: boolean = true;
+  isButtonVisible: boolean = true;
+  modalRef: BsModalRef;
+  reasonRejection: string;
   constructor(
     formBuilder: FormBuilder,
     loadingService: TdLoadingService,
@@ -42,7 +47,8 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
     private toastr: ToastrService,
     private activatedRoute: ActivatedRoute,
     private translate: TranslateService,
-    @Inject(APP_CONFIG) public appConfig: IAppConfig
+    @Inject(APP_CONFIG) public appConfig: IAppConfig,
+    private modalService: BsModalService
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
     this.form = this.formBuilder.group({
@@ -205,5 +211,15 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
       this.toastr.success('Successful');
       this.isEnabled = true;
     });
+  }
+
+  lineItemReject(lineItem: LineItem) {
+    console.log(lineItem);
+    lineItem.status = 'LINE_ITEM_REJECTED';
+    this.isEnabled = true;
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
   }
 }
