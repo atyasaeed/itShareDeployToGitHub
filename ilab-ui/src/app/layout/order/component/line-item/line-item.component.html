@@ -7,15 +7,10 @@
       <!-- One Item Row -->
       <div class="product">
         <div class="row position-relative">
-          <!-- <div class="overlay position-absolute d-flex" [class.show]="">
+          <div class="overlay position-absolute d-flex" [class.show]="(lineItem.status == 'CANCELLED' || lineItem.status == 'QUOTE_REJECTED') && checkStatus() != 'QUOTED'">
             <span class="cancelled m-auto">{{lineItem.status | translate}}</span>
-          </div> -->
+          </div>
           <div class="col-md-3 mb-2 mb-md-0">
-
-            <!-- <img class="img-fluid " [src]="getFileExtension()" *ngIf="getFileExtension() != false;else serviceImage">
-            <ng-template #serviceImage>
-              <img class="img-fluid " [src]="appConfig.serviceImage(lineItem.service)">
-            </ng-template> -->
             <img class="img-fluid " [src]="appConfig.FILE_URL + lineItem.files[0].asset_id"
             *ngIf="getFileExtension() == 'image';else stlExtension">
             <ng-template #stlExtension>
@@ -37,7 +32,7 @@
                       <button (click)="cancelItem()" *ngIf="checkStatus() == 'PENDING' || checkStatus() == 'QOUTE_ACCEPTED'" type="button" class="btn btn-danger btn-sm">
                         <i class="fa fa-times" aria-hidden="true"></i>
                       </button>
-                      <span *ngIf="lineStatus() == 'QUOTED'" >
+                      <span *ngIf="checkStatus() == 'QUOTED'" >
                           <span class="custom-control custom-radio d-inline-block">
                             <input checked class="custom-control-input" type="radio" id="accept_{{lineItem.id}}"  name="quotedActions_{{lineItem.id}}" value="QUOTE_ACCEPTED" (change)="quotedActionsChanged($event,lineItem)" #acceptRef>
                             <label for="accept_{{lineItem.id}}" class="custom-control-label">
@@ -56,7 +51,7 @@
                              <i class="fa fa-times text-danger" aria-hidden="true"></i>
                             </label>
                           </span>
-                        </span>
+                      </span>
                     </div>
                     <div class="col-md-10">
                       <h5 class="text-center text-md-left text-primary">{{lineItem.service.name}}</h5>
