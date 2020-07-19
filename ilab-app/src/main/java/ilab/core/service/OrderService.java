@@ -115,8 +115,8 @@ public class OrderService
 
 	public OrderEntity acceptQuote(UUID orderId, Authentication auth)
 	{
-		List<LineItemStatus> eligibleStatus = Arrays.asList(LineItemStatus.PENDING,LineItemStatus.QUOTED,
-				 LineItemStatus.QUOTE_ACCEPTED,LineItemStatus.QUOTE_REJECTED);
+		List<LineItemStatus> eligibleStatus = Arrays.asList(LineItemStatus.QUOTED,
+				LineItemStatus.QUOTE_ACCEPTED,LineItemStatus.QUOTE_REJECTED,LineItemStatus.CANCELLED,LineItemStatus.ITEM_REJECTED);
 		User user = userRepo.findByUsername(auth.getName());
 		OrderEntity order = orderRepo.findById(orderId).orElseThrow();
 		if (order.getAccount().getId().equals(user.getAccounts().iterator().next().getId())
@@ -127,7 +127,7 @@ public class OrderService
 			{
 				if(!eligibleStatus.contains(item.getStatus()))
 					throw new IllegalRequestDataException("Items are not in suitable status");
-				if(item.getStatus().equals(LineItemStatus.PENDING))
+				if(item.getStatus().equals(LineItemStatus.QUOTED))
 					item.setStatus(LineItemStatus.QUOTE_ACCEPTED);
 			}
 		}
@@ -420,8 +420,12 @@ public class OrderService
 
 	public OrderEntity processOrder(UUID id, Authentication auth)
 	{
+		List<LineItemStatus> eligibleStatus = Arrays.asList(LineItemStatus.ITEM_REJECTED,
+				LineItemStatus.CANCELLED,LineItemStatus.QUOTE_REJECTED,LineItemStatus.QUOTE_ACCEPTED);
 		OrderEntity order = orderRepo.findById(id).orElseThrow();
-		if (order.getStatus() == OrderStatus.QUOTE_ACCEPTED)
+		if (order.getStatus() == OrderStatus.QUOTE_ACCEPTED&& order.getLineItems().stream()
+//				.noneMatch((item) -> item.getUnitPrice() == null || item.getEstimatedEndDate() == null))
+				.allMatch((item)->eligibleStatus.contains(item.getStatus())))
 		{
 			order.setStatus(OrderStatus.IN_PROGRESS);
 		}
@@ -430,8 +434,12 @@ public class OrderService
 
 	public OrderEntity finishOrder(UUID id, Authentication auth)
 	{
+		List<LineItemStatus> eligibleStatus = Arrays.asList(LineItemStatus.ITEM_REJECTED,
+				LineItemStatus.CANCELLED,LineItemStatus.QUOTE_REJECTED,LineItemStatus.FINISHED);
 		OrderEntity order = orderRepo.findById(id).orElseThrow();
-		if (order.getStatus() == OrderStatus.IN_PROGRESS)
+		if (order.getStatus() == OrderStatus.IN_PROGRESS&& order.getLineItems().stream()
+//				.noneMatch((item) -> item.getUnitPrice() == null || item.getEstimatedEndDate() == null))
+				.allMatch((item)->eligibleStatus.contains(item.getStatus())))
 		{
 			order.setStatus(OrderStatus.FINISHED);
 		}
@@ -440,8 +448,12 @@ public class OrderService
 
 	public OrderEntity deliverOrder(UUID id, Authentication auth)
 	{
+		List<LineItemStatus> eligibleStatus = Arrays.asList(LineItemStatus.ITEM_REJECTED,
+				LineItemStatus.CANCELLED,LineItemStatus.QUOTE_REJECTED,LineItemStatus.DELIVERED);
 		OrderEntity order = orderRepo.findById(id).orElseThrow();
-		if (order.getStatus() == OrderStatus.FINISHED)
+		if (order.getStatus() == OrderStatus.FINISHED&& order.getLineItems().stream()
+//				.noneMatch((item) -> item.getUnitPrice() == null || item.getEstimatedEndDate() == null))
+				.allMatch((item)->eligibleStatus.contains(item.getStatus())))
 		{
 			order.setStatus(OrderStatus.DELIVERED);
 		}
@@ -509,7 +521,69 @@ public class OrderService
 			item.setStatus(LineItemStatus.QUOTED);
 		}
 		else
-			throw new IllegalRequestDataException("Can't accept  item quote");
+			throw new IllegalRequestDataException("Can't quote  the item ");
+		return item;
+	}
+
+	public LineItem rejectItem(UUID id, Authentication auth)
+	{
+		List<LineItemStatus> eligibleStatus = Arrays.asList(LineItemStatus.PENDING);
+		User user = userRepo.findByUsername(auth.getName());
+		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id,
+				user.getAccounts().iterator().next().getId()).orElseThrow();
+			
+		if (eligibleStatus.contains(item.getStatus()))
+		{
+			item.setStatus(LineItemStatus.ITEM_REJECTED);
+		}
+		else
+			throw new IllegalRequestDataException("Can't reject  the item ");
+		return item;
+	}
+
+	public LineItem processItem(UUID id, Authentication auth)
+	{
+		List<LineItemStatus> eligibleStatus = Arrays.asList(LineItemStatus.QUOTE_ACCEPTED);
+		User user = userRepo.findByUsername(auth.getName());
+		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id,
+				user.getAccounts().iterator().next().getId()).orElseThrow();
+			
+		if (eligibleStatus.contains(item.getStatus()))
+		{
+			item.setStatus(LineItemStatus.IN_PROGRESS);
+		}
+		else
+			throw new IllegalRequestDataException("Can't process  the item ");
+		return item;
+	}
+	public LineItem finishItem(UUID id, Authentication auth)
+	{
+		List<LineItemStatus> eligibleStatus = Arrays.asList(LineItemStatus.IN_PROGRESS);
+		User user = userRepo.findByUsername(auth.getName());
+		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id,
+				user.getAccounts().iterator().next().getId()).orElseThrow();
+			
+		if (eligibleStatus.contains(item.getStatus()))
+		{
+			item.setStatus(LineItemStatus.FINISHED);
+		}
+		else
+			throw new IllegalRequestDataException("Can't finish  the item ");
+		return item;
+	}
+	public LineItem deliverItem(UUID id, Authentication auth)
+	{
+		List<LineItemStatus> eligibleStatus = Arrays.asList(LineItemStatus.FINISHED);
+		User user = userRepo.findByUsername(auth.getName());
+		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id,
+				user.getAccounts().iterator().next().getId()).orElseThrow();
+			
+		if (eligibleStatus.contains(item.getStatus()))
+		{
+			item.setStatus(LineItemStatus.DELIVERED);
+		}
+		else
+			throw new IllegalRequestDataException("Can't Deliver  the item ");
 		return item;
 	}
 }

@@ -39,10 +39,25 @@ public class AdminLineItemController
 	{
 		return orderService.quoteItem(id, auth);
 	}
-//	@PutMapping(path = "/{id}/rejectItem")
-//	public LineItem rejectOrder(@PathVariable("id") UUID id, Authentication auth)
-//	{
-//		return orderService.rejectItem(id, auth);
-//	}
+	@PutMapping(path = "/{id}/rejectItem")
+	public LineItem rejectItem(@PathVariable("id") UUID id, Authentication auth)
+	{
+		return orderService.rejectItem(id, auth);
+	}
+	@PutMapping(path = "/{id}/process")
+	public LineItem process(@PathVariable("id") UUID id, Authentication auth)
+	{
+		return orderService.processItem(id, auth);
+	}
+	@PutMapping(path = "/{id}/finish")
+	public LineItem finish(@PathVariable("id") UUID id, Authentication auth)
+	{
+		return orderService.finishItem(id, auth);
+	}
+	@PutMapping(path = "/{id}/deliver")
+	public LineItem deliver(@PathVariable("id") UUID id, Authentication auth)
+	{
+		return orderService.deliverItem(id, auth);
+	}
 
 }
