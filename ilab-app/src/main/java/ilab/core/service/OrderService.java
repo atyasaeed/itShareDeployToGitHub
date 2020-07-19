@@ -138,7 +138,7 @@ public class OrderService
 		return order;
 	}
 
-	public OrderEntity cancel(UUID orderId, Authentication auth)
+	public OrderEntity cancelOrder(UUID orderId, Authentication auth)
 	{
 		List<OrderStatus> eligibleStatus = Arrays.asList(OrderStatus.QUOTED, OrderStatus.WAIT_QUOTE,
 				OrderStatus.PENDING, OrderStatus.QUOTE_ACCEPTED);
@@ -148,6 +148,10 @@ public class OrderService
 				&& eligibleStatus.contains(order.getStatus()))
 		{
 			order.setStatus(OrderStatus.CANCELLED);
+			for(LineItem item:order.getLineItems())
+			{
+				item.setStatus(LineItemStatus.CANCELLED);
+			}
 		}
 		return order;
 	}
@@ -199,15 +203,15 @@ public class OrderService
 	{
 		User user = userRepo.findByUsername(auth.getName());
 		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id,
-				user.getAccounts().iterator().next().getId());
+				user.getAccounts().iterator().next().getId()).orElseThrow();
 
-		OrderEntity orderEntity = orderRepo.findById(item.getOrderEntity().getId()).get();
-		if (orderEntity.getLineItems().contains(item))
+//		OrderEntity orderEntity = orderRepo.findById(item.getOrderEntity().getId()).orElseThrow();
+		OrderEntity orderEntity = item.getOrderEntity();
+		if (orderEntity.getStatus().equals(OrderStatus.SHOPPING_CART) && orderEntity.getLineItems().contains(item))
 		{
 			orderEntity.getLineItems().remove(item);
 			orderRepo.save(orderEntity);
 			lineItemRepo.delete(item);
-
 		}
 
 	}
@@ -274,7 +278,7 @@ public class OrderService
 	{
 		User user = userRepo.findByUsername(auth.getName());
 		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id,
-				user.getAccounts().iterator().next().getId());
+				user.getAccounts().iterator().next().getId()).orElseThrow();
 		if (item != null)
 		{
 			item.setQuantity(newItem.getQuantity());
@@ -430,5 +434,22 @@ public class OrderService
 			order.setStatus(OrderStatus.DELIVERED);
 		}
 		return order;
+	}
+
+	public LineItem cancelItem(UUID id, Authentication auth)
+	{
+		List<LineItemStatus> eligibleStatus = Arrays.asList(LineItemStatus.PENDING,LineItemStatus.QUOTED,
+				 LineItemStatus.QUOTE_ACCEPTED);
+		User user = userRepo.findByUsername(auth.getName());
+		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id,
+				user.getAccounts().iterator().next().getId()).orElseThrow();
+			
+		if (eligibleStatus.contains(item.getStatus()))
+		{
+			item.setStatus(LineItemStatus.CANCELLED);
+		}
+		else
+			throw new IllegalRequestDataException("Can't cancel item");
+		return item;
 	}
 }

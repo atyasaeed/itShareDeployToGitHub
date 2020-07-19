@@ -3,9 +3,6 @@ package ilab.api;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
@@ -24,43 +21,35 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.sipios.springsearch.anotation.SearchSpec;
-
 import ilab.core.domain.LineItem;
-import ilab.core.domain.OrderEntity;
 import ilab.core.service.OrderService;
 
 @RestController
-@RequestMapping(path = OrderController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-public class OrderController
+@RequestMapping(path = LineItemController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+@PreAuthorize("hasRole('ROLE_USER')")
+public class LineItemController
 {
-	static final String REST_URL = "/api/orders";
+	static final String REST_URL = "/api/items";
 	@Autowired
 	private OrderService orderService;
 
-	@GetMapping()
-	public Iterable<OrderEntity> getOrders(Authentication auth)
-	{
-		return orderService.getOrders(auth);
-	}
-
-	@PutMapping(path = "/{id}/approveQuote")
-	public OrderEntity approveQuote(@PathVariable("id") UUID id, Authentication auth)
-	{
-		return orderService.acceptQuote(id, auth);
-	}
+//	@PutMapping(path = "/{id}/approveQuote")
+//	public LineItem approveQuote(@PathVariable("id") UUID id, Authentication auth)
+//	{
+//		return orderService.acceptQuote(id, auth);
+//	}
 
 	@PutMapping(path = "/{id}/cancel")
-	public OrderEntity cancelOrder(@PathVariable("id") UUID id, Authentication auth)
+	public LineItem cancelItem(@PathVariable("id") UUID id, Authentication auth)
 	{
-		return orderService.cancelOrder(id, auth);
+		return orderService.cancelItem(id, auth);
 	}
 
-	@PutMapping(path = "/{id}/rejectQuote")
-	public OrderEntity rejectQuote(@PathVariable("id") UUID id, Authentication auth)
-	{
-		return orderService.rejectQuote(id, auth);
-	}
+//	@PutMapping(path = "/{id}/rejectQuote")
+//	public LineItem rejectQuote(@PathVariable("id") UUID id, Authentication auth)
+//	{
+//		return orderService.rejectItemQuote(id, auth);
+//	}
 
 //	@PostMapping(path = "cart", consumes = "application/json")
 //	@ResponseStatus(HttpStatus.CREATED)
@@ -69,7 +58,7 @@ public class OrderController
 //		Iterable<LineItem> items= orderService.addItemToCart(lineItem,authentication);
 //		return items;
 //	}
-	@PostMapping(path = "cart")
+	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public LineItem postCartItem(@RequestPart("item") LineItem item, @RequestParam MultipartFile files[],
 			Authentication authentication) throws Exception
@@ -78,7 +67,7 @@ public class OrderController
 		return lineItem;
 	}
 
-	@DeleteMapping(path = "cart/{id}")
+	@DeleteMapping(path = "{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteCartItem(@PathVariable("id") UUID id, Authentication authentication)
 	{
@@ -98,21 +87,14 @@ public class OrderController
 		return orderService.updateItem(id, item, auth);
 	}
 
-	@PutMapping(path = "checkout")
-	public OrderEntity checkoutCart(Authentication auth)
-	{
-		return orderService.checkout(auth);
-	}
-
-	@GetMapping("search")
-	@PreAuthorize("hasRole('ROLE_USER')")
-	public Page<OrderEntity> getPageable(Pageable page, @SearchSpec Specification<OrderEntity> specs,
-			Authentication auth)
-	{
-		return orderService.getOrders(page, specs, auth);
-
-	}
-
 	
 
+//	@GetMapping("search")
+//	@PreAuthorize("hasRole('ROLE_USER')")
+//	public Page<LineItem> getPageable(Pageable page, @SearchSpec Specification<OrderEntity> specs,
+//			Authentication auth)
+//	{
+//		return orderService.getOrders(page, specs, auth);
+//
+//	}
 }
