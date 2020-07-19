@@ -17,6 +17,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
 import { DatePipe } from '@angular/common';
 import * as THREE from 'three/build/three.module.js';
+import { ItemsService } from './items.service';
 @Component({
   selector: 'app-orders-form',
   templateUrl: './orders-form.component.html',
@@ -41,6 +42,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
     loadingService: TdLoadingService,
     dialogService: TdDialogService,
     service: OrdersListService,
+    private itemservice: ItemsService,
     route: ActivatedRoute,
     router: Router,
     private alertService: AlertService,
@@ -97,15 +99,19 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
     // this.router.navigateByUrl(this.breadcrumbs[0].link);
   }
   updateItem(order: Order, lineItem: LineItem) {
+    // if (!lineItem.estimatedEndDate || !lineItem.unitPrice) {
+    //   this.toastr.error(this.translate.instant('lineItem.update.error'));
+    //   return;
+    // }
     console.log(lineItem.estimatedEndDate);
     let arrLineItems: boolean[] = new Array();
     let d = new Date(lineItem.estimatedEndDate);
     d.setMinutes(d.getMinutes() + 480);
     lineItem.estimatedEndDate = d;
 
-    this.service.updateLineItem(lineItem).subscribe((res) => {
+    this.service.updateLineItem(lineItem).subscribe((res: Order) => {
       this.toastr.success(this.translate.instant('update.Successful'));
-
+      order = res;
       this.service.get(this.orderId).subscribe((res: Order) => {
         // this.checkLineItems(this.orderId, res.lineItems);
         res.lineItems.forEach((e) => {
@@ -122,6 +128,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
         } else {
           this.found = false;
         }
+        // lineItem.status = 'Quoted';
       });
     });
 
@@ -169,8 +176,9 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
   orderStatus(order: Order, statusBtn: HTMLElement) {
     switch (order.status) {
       case 'PENDING':
-        this.service.orderStatus(order.id, 'quote').subscribe((res) => {
-          this.entity.status = 'QUOTED';
+        this.service.orderStatus(order.id, 'quote').subscribe((res: Order) => {
+          // this.entity.status = 'QUOTED';
+          this.entity = res;
           this.isEnabled = true;
           // this.entity.status = 'QUOTE_ACCEPTED';
 
@@ -178,22 +186,25 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
         });
         break;
       case 'QUOTE_ACCEPTED':
-        this.service.orderStatus(order.id, 'process').subscribe((res) => {
-          this.entity.status = 'IN_PROGRESS';
+        this.service.orderStatus(order.id, 'process').subscribe((res: Order) => {
+          // this.entity.status = 'IN_PROGRESS';
+          this.entity = res;
           // this.toastr.success('Successful');
         });
         break;
       case 'IN_PROGRESS':
         // statusBtn.innerText = 'In Progress';
-        this.service.orderStatus(order.id, 'finish').subscribe((res) => {
-          this.entity.status = 'FINISHED';
+        this.service.orderStatus(order.id, 'finish').subscribe((res: Order) => {
+          // this.entity.status = 'FINISHED';
+          this.entity = res;
           // this.toastr.success('Successful');
         });
 
         break;
       case 'FINISHED':
-        this.service.orderStatus(order.id, 'deliver').subscribe((res) => {
-          this.entity.status = 'DELIVERED';
+        this.service.orderStatus(order.id, 'deliver').subscribe((res: Order) => {
+          // this.entity.status = 'DELIVERED';
+          this.entity = res;
           // this.toastr.success('Successful');
         });
         break;
@@ -206,17 +217,37 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
     }
   }
   orderReject(order: Order) {
-    this.service.orderReject(order.id).subscribe((res) => {
-      this.entity.status = 'ORDER_REJECTED';
+    this.service.orderReject(order.id).subscribe((res: Order) => {
+      // this.entity.status = 'ORDER_REJECTED';
+      this.entity = res;
       this.toastr.success('Successful');
       this.isEnabled = true;
     });
   }
 
   lineItemReject(lineItem: LineItem) {
-    console.log(lineItem);
-    lineItem.status = 'LINE_ITEM_REJECTED';
-    this.isEnabled = true;
+    // console.log(lineItem);
+    // lineItem.status = 'LINE_ITEM_REJECTED';
+    this.service.orderReject(lineItem.id).subscribe((res: LineItem) => {
+      // this.entity.status = 'ORDER_REJECTED';
+      lineItem = res;
+      this.toastr.success('Successful');
+      this.isEnabled = true;
+    });
+  }
+  lineItemStatus(lineItem: LineItem) {
+    this.itemservice.orderStatus(lineItem.id, 'quote').subscribe((res: LineItem) => {
+      // this.entity.status = 'QUOTED';
+      lineItem = res;
+      this.isEnabled = true;
+      // this.entity.status = 'QUOTE_ACCEPTED';
+
+      // this.toastr.success('Successful');
+    });
+  }
+
+  updateItemPending(lineItem: LineItem) {
+    lineItem.status = 'PENDING';
   }
 
   openModal(template: TemplateRef<any>) {
