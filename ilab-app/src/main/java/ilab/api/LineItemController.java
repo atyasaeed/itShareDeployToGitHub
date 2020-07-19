@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import ilab.core.domain.LineItem;
+import ilab.core.domain.OrderEntity;
 import ilab.core.service.OrderService;
 
 @RestController
@@ -45,12 +46,16 @@ public class LineItemController
 		return orderService.cancelItem(id, auth);
 	}
 
-//	@PutMapping(path = "/{id}/rejectQuote")
-//	public LineItem rejectQuote(@PathVariable("id") UUID id, Authentication auth)
-//	{
-//		return orderService.rejectItemQuote(id, auth);
-//	}
-
+	@PutMapping(path = "/{id}/rejectQuote")
+	public LineItem rejectQuote(@PathVariable("id") UUID id, Authentication auth)
+	{
+		return orderService.rejectItemQuote(id, auth);
+	}
+	@PutMapping(path = "/{id}/approveQuote")
+	public LineItem approveQuote(@PathVariable("id") UUID id, Authentication auth)
+	{
+		return orderService.acceptItemQuote(id, auth);
+	}
 //	@PostMapping(path = "cart", consumes = "application/json")
 //	@ResponseStatus(HttpStatus.CREATED)
 //	public Iterable<LineItem> postCartItem(@RequestBody LineItem	lineItem,Authentication authentication)
