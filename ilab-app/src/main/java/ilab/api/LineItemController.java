@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import ilab.core.domain.LineItem;
-import ilab.core.domain.OrderEntity;
 import ilab.core.service.OrderService;
 
 @RestController

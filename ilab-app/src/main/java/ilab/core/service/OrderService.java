@@ -314,7 +314,7 @@ public class OrderService
 	public LineItem updateItem(LineItem newItem)
 	{
 		LineItem item = lineItemRepo.findById(newItem.getId()).orElseThrow();
-		if (item.getOrderEntity().getStatus() == OrderStatus.PENDING)
+		if (item.getOrderEntity().getStatus() == OrderStatus.PENDING && item.getStatus()==LineItemStatus.PENDING)
 		{
 			item.setEstimatedEndDate(newItem.getEstimatedEndDate());
 			item.setUnitPrice(newItem.getUnitPrice());
@@ -396,9 +396,12 @@ public class OrderService
 
 	public OrderEntity quote(UUID id, Authentication auth)
 	{
+		List<LineItemStatus> eligibleStatus = Arrays.asList(LineItemStatus.QUOTED,LineItemStatus.ITEM_REJECTED,
+				 LineItemStatus.CANCELLED);
 		OrderEntity order = orderRepo.findById(id).orElseThrow();
 		if (order.getStatus() == OrderStatus.PENDING && order.getLineItems().stream()
-				.noneMatch((item) -> item.getUnitPrice() == null || item.getEstimatedEndDate() == null))
+//				.noneMatch((item) -> item.getUnitPrice() == null || item.getEstimatedEndDate() == null))
+				.allMatch((item)->eligibleStatus.contains(item.getStatus())))
 		{
 			order.setStatus(OrderStatus.QUOTED);
 		}
@@ -488,6 +491,22 @@ public class OrderService
 		if (eligibleStatus.contains(item.getStatus()))
 		{
 			item.setStatus(LineItemStatus.QUOTE_ACCEPTED);
+		}
+		else
+			throw new IllegalRequestDataException("Can't accept  item quote");
+		return item;
+	}
+
+	public LineItem quoteItem(UUID id, Authentication auth)
+	{
+		List<LineItemStatus> eligibleStatus = Arrays.asList(LineItemStatus.PENDING);
+		User user = userRepo.findByUsername(auth.getName());
+		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id,
+				user.getAccounts().iterator().next().getId()).orElseThrow();
+			
+		if (eligibleStatus.contains(item.getStatus())&&item.getEstimatedEndDate()!=null&&item.getUnitPrice()!=null)
+		{
+			item.setStatus(LineItemStatus.QUOTED);
 		}
 		else
 			throw new IllegalRequestDataException("Can't accept  item quote");
