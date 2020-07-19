@@ -14,9 +14,10 @@ export class LineItemComponent implements OnInit {
   @Input() lineItem: LineItem;
   @Input() status: string;
   //@ViewChildren('acceptRef', { read: ElementRef }) acceptRef: QueryList<ElementRef<HTMLParagraphElement>>;
-  @ViewChild('acceptRef') acceptRef: ElementRef;
-  @ViewChild('rejectRef') rejectRef: ElementRef;
-  @ViewChild('cancelRef') cancelRef: ElementRef;
+  // @ViewChild('acceptRef') acceptRef: ElementRef;
+  // @ViewChild('rejectRef') rejectRef: ElementRef;
+  // @ViewChild('cancelRef') cancelRef: ElementRef;
+  checkRadio = 'accept';
   constructor(
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
     private http: HttpClient,
@@ -27,11 +28,12 @@ export class LineItemComponent implements OnInit {
   ngOnInit() {}
   ngAfterViewInit() {
     if (this.lineItem.status == 'CANCELLED') {
-      this.cancelRef.nativeElement.checked = true;
+      //this.cancelRef.nativeElement.checked = true;
+      this.checkRadio = 'cancel';
     } else if (this.lineItem.status == 'QUOTE_ACCEPTED') {
-      this.acceptRef.nativeElement.checked = true;
+      this.checkRadio = 'accept';
     } else if (this.lineItem.status == 'QUOTE_REJECTED') {
-      this.rejectRef.nativeElement.checked = true;
+      this.checkRadio = 'reject';
     }
   }
 
@@ -94,26 +96,26 @@ export class LineItemComponent implements OnInit {
     //console.log(this.lineItem);
     this.service.cancel(this.lineItem.id).subscribe((res: LineItem) => {
       this.lineItem = res;
+      this.toastr.success('Item Cancelled');
     });
-    this.toastr.success('Item Cancelled');
   }
 
-  quotedActionsChanged(event, lineItem: LineItem) {
+  quotedActionsChanged(event) {
     if (event.target.value == 'QUOTE_ACCEPTED') {
-      this.service.approve(lineItem.id).subscribe((res: LineItem) => {
-        lineItem = res;
+      this.service.approve(this.lineItem.id).subscribe((res: LineItem) => {
+        this.lineItem = res;
+        this.toastr.success('Quote Accepted');
       });
-      this.toastr.success('Quote Accepted');
     } else if (event.target.value == 'QUOTE_REJECTED') {
-      this.service.reject(lineItem.id).subscribe((res: LineItem) => {
-        lineItem = res;
+      this.service.reject(this.lineItem.id).subscribe((res: LineItem) => {
+        this.lineItem = res;
+        this.toastr.success('Quote Rejected');
       });
-      this.toastr.success('Quote Rejected');
     } else if (event.target.value == 'CANCELLED') {
-      this.service.cancel(lineItem.id).subscribe((res: LineItem) => {
-        lineItem = res;
+      this.service.cancel(this.lineItem.id).subscribe((res: LineItem) => {
+        this.lineItem = res;
+        this.toastr.success('Item Cancelled');
       });
-      this.toastr.success('Item Cancelled');
     }
   }
 }
