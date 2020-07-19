@@ -109,27 +109,25 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
     d.setMinutes(d.getMinutes() + 480);
     lineItem.estimatedEndDate = d;
 
-    this.service.updateLineItem(lineItem).subscribe((res: Order) => {
+    this.service.updateLineItem(lineItem).subscribe((res: LineItem) => {
       this.toastr.success(this.translate.instant('update.Successful'));
-      order = res;
-      this.service.get(this.orderId).subscribe((res: Order) => {
-        // this.checkLineItems(this.orderId, res.lineItems);
-        res.lineItems.forEach((e) => {
-          if (!e.unitPrice || !e.estimatedEndDate) {
-            arrLineItems.push(false);
-          } else {
-            arrLineItems.push(true);
-          }
-        });
+      lineItem = res;
+      // this.service.get(this.orderId).subscribe((res: Order) => {
+      //   res.lineItems.forEach((e) => {
+      //     if (!e.unitPrice || !e.estimatedEndDate) {
+      //       arrLineItems.push(false);
+      //     } else {
+      //       arrLineItems.push(true);
+      //     }
+      //   });
 
-        console.log(arrLineItems);
-        if (arrLineItems.indexOf(false) == -1) {
-          this.found = true;
-        } else {
-          this.found = false;
-        }
-        // lineItem.status = 'Quoted';
-      });
+      //   console.log(arrLineItems);
+      //   if (arrLineItems.indexOf(false) == -1) {
+      //     this.found = true;
+      //   } else {
+      //     this.found = false;
+      //   }
+      // });
     });
 
     //  else {
@@ -236,14 +234,61 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
     });
   }
   lineItemStatus(lineItem: LineItem) {
-    this.itemservice.orderStatus(lineItem.id, 'quote').subscribe((res: LineItem) => {
-      // this.entity.status = 'QUOTED';
-      lineItem = res;
-      this.isEnabled = true;
-      // this.entity.status = 'QUOTE_ACCEPTED';
+    if (!lineItem.estimatedEndDate || !lineItem.unitPrice) {
+      this.toastr.error(this.translate.instant('lineItem.update.error'));
+      return;
+    }
+    let arrLineItems: boolean[] = new Array();
 
-      // this.toastr.success('Successful');
-    });
+    // this.itemservice.orderStatus(lineItem.id, 'quote').subscribe((res: LineItem) => {
+    //   lineItem.status = res.status;
+    //   this.isEnabled = true;
+    // });
+
+    switch (lineItem.status) {
+      case 'PENDING':
+        this.itemservice.orderStatus(lineItem.id, 'quote').subscribe((res: LineItem) => {
+          lineItem.status = res.status;
+          this.isEnabled = true;
+          this.service.get(this.orderId).subscribe((res: Order) => {
+            res.lineItems.forEach((e) => {
+              if (!e.unitPrice || !e.estimatedEndDate) {
+                arrLineItems.push(false);
+              } else {
+                arrLineItems.push(true);
+              }
+            });
+
+            console.log(arrLineItems);
+            if (arrLineItems.indexOf(false) == -1) {
+              this.found = true;
+            } else {
+              this.found = false;
+            }
+          });
+        });
+        break;
+      case 'QUOTE_ACCEPTED':
+        this.itemservice.orderStatus(lineItem.id, 'process').subscribe((res: LineItem) => {
+          lineItem.status = res.status;
+        });
+        break;
+      case 'IN_PROGRESS':
+        this.itemservice.orderStatus(lineItem.id, 'finish').subscribe((res: LineItem) => {
+          lineItem.status = res.status;
+        });
+
+        break;
+      case 'FINISHED':
+        this.itemservice.orderStatus(lineItem.id, 'deliver').subscribe((res: LineItem) => {
+          lineItem.status = res.status;
+        });
+        break;
+      case 'Delivered':
+        break;
+      default:
+        break;
+    }
   }
 
   updateItemPending(lineItem: LineItem) {
