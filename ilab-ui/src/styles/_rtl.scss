@@ -42,7 +42,37 @@
     }
     * {
         direction: rtl;
+        text-align: right;
     }
+
+    .text-left{
+        text-align: right !important;
+    }
+    .text-md-left{
+        text-align: right !important;
+    }
+    .text-right{
+        text-align: left !important;
+    }
+    .text-md-right{
+        text-align: left !important;
+    }
+    label{
+        font-weight: bold !important;
+    }
+    button{
+        text-align: center !important;
+    }
+    .ml-3{
+        margin-right:1rem;
+        margin-left:0 !important;
+    }
+    .mr-3{
+        margin-left:1rem;
+        margin-right: 0 !important;
+    }
+
+
     .navbar * {
         // direction: ltr;
         ul{
@@ -125,3 +155,5 @@
         }
     }
 }
+
+

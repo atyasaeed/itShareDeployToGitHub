@@ -6,13 +6,12 @@
 
       <!-- One Item Row -->
       <div class="product">
-        <div class="row">
+        <div class="row position-relative">
+          <div class="overlay position-absolute d-flex" [class.show]="lineItem.status == 'CANCELLED' || lineItem.status == 'QUOTE_REJECTED' || lineItem.status == 'ITEM_REJECTED' ">
+            <span class="cancelled ">{{lineItem.status | translate}}</span>
+            <span *ngIf="lineItem.status == 'ITEM_REJECTED'" class="rejection-reason p-2 mt-2">as jsa jhas jhsaj hjsah ajkhsa hsj hsj  hsaj ahjs hjashsdsads sadas</span>
+          </div>
           <div class="col-md-3 mb-2 mb-md-0">
-
-            <!-- <img class="img-fluid " [src]="getFileExtension()" *ngIf="getFileExtension() != false;else serviceImage">
-            <ng-template #serviceImage>
-              <img class="img-fluid " [src]="appConfig.serviceImage(lineItem.service)">
-            </ng-template> -->
             <img class="img-fluid " [src]="appConfig.FILE_URL + lineItem.files[0].asset_id"
             *ngIf="getFileExtension() == 'image';else stlExtension">
             <ng-template #stlExtension>
@@ -30,11 +29,37 @@
               <div class="row">
                 <div class="col-md-12 product-name">
                   <div class="row">
+                    <div class="col-md-12 mb-2 text-right">
+
+                      <button (click)="cancelItem()" *ngIf="(checkStatus() == 'PENDING' && lineItem.status == 'PENDING') || ( checkStatus() == 'QUOTE_ACCEPTED' && lineItem.status == 'QUOTED')" type="button" class="btn btn-outline-danger btn-sm btn-sm">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                      </button>
+                      <span *ngIf="checkStatus() == 'QUOTED' && lineItem.status == 'QUOTED'" >
+                          <span class="custom-control custom-radio d-inline-block">
+                            <input [checked]="checkRadio == 'accept'" class="custom-control-input" type="radio" id="accept_{{lineItem.id}}"  name="quotedActions_{{lineItem.id}}" value="QUOTE_ACCEPTED" (change)="quotedActionsChanged($event)" >
+                            <label for="accept_{{lineItem.id}}" class="custom-control-label">
+                              <i class="fa fa-thumbs-o-up text-primary" aria-hidden="true"></i>
+                            </label>
+                          </span>
+                          <span class="custom-control custom-radio d-inline-block ml-2">
+                            <input [checked]="checkRadio == 'reject'" class="custom-control-input" type="radio" id="reject_{{lineItem.id}}" value="QUOTE_REJECTED"  name="quotedActions_{{lineItem.id}}" (change)="quotedActionsChanged($event)" >
+                            <label for="reject_{{lineItem.id}}" class="custom-control-label">
+                              <i class="fa fa-thumbs-o-down text-secondary" aria-hidden="true"></i>
+                            </label>
+                          </span>
+                          <span class="custom-control custom-radio d-inline-block ml-2">
+                            <input [checked]="checkRadio == 'cancel'" class="custom-control-input" type="radio" id="cancel_{{lineItem.id}}" value="CANCELLED"  name="quotedActions_{{lineItem.id}}" (change)="quotedActionsChanged($event)" >
+                            <label for="cancel_{{lineItem.id}}" class="custom-control-label">
+                             <i class="fa fa-times text-danger" aria-hidden="true"></i>
+                            </label>
+                          </span>
+                      </span>
+                    </div>
                     <div class="col-md-10">
                       <h5 class="text-center text-md-left text-primary">{{lineItem.service.name}}</h5>
                     </div>
                     <div class="col-md-2 text-center text-md-right">
-                      <a class="btn btn-outline-success btn-xs" [href]="getFileUrl()">
+                      <a class="btn btn-outline-success btn-sm" [href]="getFileUrl()">
                         <i class="fa fa-download" aria-hidden="true"></i>
                       </a>
                     </div>
@@ -43,18 +68,18 @@
                   <div class="row">
                     <div class="col-md-6"
                       *ngIf="checkStatus() != 'PENDING' && checkStatus() != 'CANCELLED' && checkStatus() != 'ORDER_REJECTED'">
-                      <div><label>{{ 'Estimated End Date' | translate }}
+                      <div><label>{{ 'estimatedEndDate' | translate }}
                           :&nbsp;</label><span>{{ lineItem.estimatedEndDate | date:'fullDate' }}
                         </span></div>
                       <!-- <div *ngIf="lineItem?.plannedEndDate"><span class="col-md-4">{{ 'Planned End Date' | translate }}</span><span class="value ">{{ lineItem.plannedEndDate | date:'fullDate' }}
                                                 </span></div> -->
-                      <div><label>{{ 'Price' | translate }}
+                      <div><label>{{ 'price' | translate }}
                           :&nbsp;</label><span>{{lineItem.unitPrice *lineItem.quantity|currency:'EGP'}}
                         </span></div>
                     </div>
                     <div class="col-md-6">
-                      <div><label>{{ 'Quantity' | translate }} :&nbsp;</label><span>{{lineItem.quantity}}</span></div>
-                      <div *ngIf="lineItem.notes"><label>{{ 'Notes' | translate }}
+                      <div><label>{{ 'quantity' | translate }} :&nbsp;</label><span>{{lineItem.quantity}}</span></div>
+                      <div *ngIf="lineItem.notes"><label>{{ 'notes' | translate }}
                           :&nbsp;</label><span>{{(lineItem.notes.length>40)? (lineItem.notes | slice:0:40)+'....':(lineItem.notes)}}</span>
                       </div>
                     </div>
@@ -65,35 +90,35 @@
                                             [href]="getFileUrl(i)">{{file.asset_name}}</a></span></div> -->
 
                     <div class="col-md-6" *ngIf="file.height">
-                      <label> {{'Height' | translate }} :&nbsp;</label>
+                      <label> {{'file.height' | translate }} :&nbsp;</label>
                       <span>{{file.height}}</span>
                     </div>
                     <div class="col-md-6" *ngIf="file.width">
-                      <label> {{'Width' | translate }} :&nbsp;</label>
+                      <label> {{'file.width' | translate }} :&nbsp;</label>
                       <span>{{file.width}}</span>
                     </div>
                     <div class="col-md-6" *ngIf="file.material">
-                      <label> {{'Material' | translate }} :&nbsp;</label>
+                      <label> {{'file.material' | translate }} :&nbsp;</label>
                       <span>{{file.material}}</span>
                     </div>
                     <div class="col-md-6" *ngIf="file.type">
-                      <label> {{'Type' | translate }} :&nbsp;</label>
+                      <label> {{'file.type' | translate }} :&nbsp;</label>
                       <span>{{file.type}}</span>
                     </div>
                     <div class="col-md-6" *ngIf="file.color">
-                      <label> {{'Color' | translate }} :&nbsp;</label>
+                      <label> {{'file.color' | translate }} :&nbsp;</label>
                       <span>{{file.color}}</span>
                     </div>
                     <div class="col-md-6" *ngIf="file.unit">
-                      <label> {{'Unit' | translate }} :&nbsp;</label>
+                      <label> {{'file.unit' | translate }} :&nbsp;</label>
                       <span>{{file.unit}}</span>
                     </div>
                     <div class="col-md-6" *ngIf="file.thickness">
-                      <label> {{'Thickness' | translate }} :&nbsp;</label>
+                      <label> {{'file.thickness' | translate }} :&nbsp;</label>
                       <span>{{file.thickness}}</span>
                     </div>
                     <div class="col-md-6" *ngIf="file.processes">
-                      <label> {{'Processes' | translate }} :&nbsp;</label>
+                      <label> {{'file.processes' | translate }} :&nbsp;</label>
                       <span>{{file.processes}}</span>
                     </div>
                     <!-- <div></div> -->
