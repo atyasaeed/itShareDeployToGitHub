@@ -68,9 +68,16 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
       if (res.status == 'PENDING') {
         this.isEnabled = false;
       }
+      this.checkOrderStatus();
       this.service.get(this.orderId).subscribe((res: Order) => {
         res.lineItems.forEach((e) => {
-          if (e.status == 'QUOTED' || e.status == 'ITEM_REJECTED') {
+          if (
+            // e.status !== 'FINISHED'
+            e.status == 'DELIVERED' ||
+            e.status == 'QUOTE_ACCEPTED' ||
+            e.status == 'IN_PROGRESS' ||
+            e.status == 'QUOTE_REJECTED'
+          ) {
             this.arrBooleanItems.push(true);
           } else {
             this.arrBooleanItems.push(false);
@@ -79,9 +86,9 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
 
         console.log(this.arrBooleanItems);
         if (this.arrBooleanItems.indexOf(false) == -1) {
-          this.found = true;
+          this.check = true;
         } else {
-          this.found = false;
+          this.check = false;
         }
       });
     });
@@ -211,6 +218,8 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
         this.service.orderStatus(order.id, 'finish').subscribe((res: Order) => {
           // this.entity.status = 'FINISHED';
           this.entity = res;
+          this.check = false;
+
           // this.toastr.success('Successful');
         });
 
@@ -240,13 +249,27 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
   }
 
   lineItemReject(lineItem: LineItem) {
-    // console.log(lineItem);
-    // lineItem.status = 'LINE_ITEM_REJECTED';
+    let arrLineItems: boolean[] = new Array();
+
     this.itemservice.orderReject(lineItem.id).subscribe((res: LineItem) => {
-      // this.entity.status = 'ORDER_REJECTED';
       lineItem.status = res.status;
       this.toastr.success('Successful');
-      // this.isEnabled = true;
+      this.service.get(this.orderId).subscribe((res: Order) => {
+        res.lineItems.forEach((e) => {
+          if (e.status == 'QUOTED' || e.status == 'ITEM_REJECTED') {
+            arrLineItems.push(true);
+          } else {
+            arrLineItems.push(false);
+          }
+        });
+
+        console.log(arrLineItems);
+        if (arrLineItems.indexOf(false) == -1) {
+          this.found = true;
+        } else {
+          this.found = false;
+        }
+      });
     });
   }
   lineItemStatus(lineItem: LineItem) {
@@ -263,8 +286,8 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
 
     switch (lineItem.status) {
       case 'PENDING':
-        this.itemservice.orderStatus(lineItem.id, 'quote').subscribe((res: LineItem) => {
-          lineItem.status = res.status;
+        this.itemservice.orderStatus(lineItem.id, 'quote').subscribe((itemRes: LineItem) => {
+          lineItem.status = itemRes.status;
           // lineItem.status = 'QUOTE_ACCEPTED';
           // this.isEnabled = true;
           this.service.get(this.orderId).subscribe((res: Order) => {
@@ -289,20 +312,20 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
         this.itemservice.orderStatus(lineItem.id, 'process').subscribe((res: LineItem) => {
           lineItem.status = res.status;
         });
-        lineItem.status = 'IN_PROGRESS';
         break;
       case 'IN_PROGRESS':
         this.itemservice.orderStatus(lineItem.id, 'finish').subscribe((res: LineItem) => {
           lineItem.status = res.status;
+          this.checkOrderStatus();
         });
-        lineItem.status = 'FINISHED';
 
         break;
       case 'FINISHED':
         this.itemservice.orderStatus(lineItem.id, 'deliver').subscribe((res: LineItem) => {
           lineItem.status = res.status;
+          this.checkOrderStatus();
+          this.check = true;
         });
-        lineItem.status = 'Delivered';
 
         break;
       case 'Delivered':
@@ -318,5 +341,35 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
+  }
+
+  checkOrderStatus() {
+    let arrLineItems: boolean[] = new Array();
+
+    this.service.get(this.orderId).subscribe((res: Order) => {
+      res.lineItems.forEach((e) => {
+        if (
+          e.status == 'QUOTED' ||
+          e.status == 'ITEM_REJECTED' ||
+          e.status == 'CANCELLED' ||
+          e.status == 'QUOTE_REJECTED' ||
+          e.status == 'FINISHED' ||
+          e.status == 'DELIVERED'
+          // e.status == 'QUOTE_ACCEPTED' ||
+          // e.status == 'IN_PROGRESS'
+          // e.status == 'QUOTE_REJECTED'
+        ) {
+          arrLineItems.push(true);
+        } else {
+          arrLineItems.push(false);
+        }
+      });
+
+      if (arrLineItems.indexOf(false) == -1) {
+        this.found = true;
+      } else {
+        this.found = false;
+      }
+    });
   }
 }
