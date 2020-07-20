@@ -91,14 +91,14 @@
                                     </section>
                                     <section class="col-md-4">
                                       <div class="text-md-right text-center">
-                                        <a class="btn btn-outline-success btn-xs" [href]="getFileUrl(entity)">
+                                        <a class="btn btn-outline-success btn-xs" [href]="getFileUrl(entity)" tooltip="{{'download' | translate}}"  hide-delay="0">
                                           <i class="fa fa-download" aria-hidden="true"></i>
                                         </a>
-                                        <button color="primary" class="btn btn-outline-primary btn-xs ml-3"
+                                        <button color="primary" class="btn btn-outline-primary btn-xs ml-3" tooltip="{{'addToCart' | translate}}"  hide-delay="0"
                                           (click)="addLineItem(entity)">
                                           <i class="fa fa-cart-plus" aria-hidden="true"></i>
                                         </button>
-                                        <button *ngIf="hasAdminRole" (click)="removeItem(entity.id,i)"
+                                        <button *ngIf="hasAdminRole" (click)="removeItem(entity.id,i)" tooltip="{{'delete' | translate}}"  hide-delay="0"
                                           aria-label="Example icon button with a delete icon"
                                           class="btn btn-outline-danger btn-xs ml-3">
                                           <i class="fa fa-trash" aria-hidden="true"></i>

@@ -95,12 +95,12 @@ export class LineItemComponent implements OnInit {
 
   cancelItem() {
     //console.log(this.lineItem);
-    if (confirm('Are You Sure ?')) {
-      this.service.cancel(this.lineItem.id).subscribe((res: LineItem) => {
-        this.lineItem = res;
-        this.toastr.success('Item Cancelled');
-      });
-    }
+    //if (confirm('Are You Sure ?')) {
+    this.service.cancel(this.lineItem.id).subscribe((res: LineItem) => {
+      this.lineItem = res;
+      this.toastr.success('Item Cancelled');
+    });
+    //}
   }
 
   quotedActionsChanged(event) {

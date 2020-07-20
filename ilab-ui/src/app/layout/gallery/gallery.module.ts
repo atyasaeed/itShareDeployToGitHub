@@ -11,7 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PageHeaderModule } from 'src/app/shared/modules/page-header/page-header.module';
 import { StlModelViewerModule } from 'angular-stl-model-viewer';
-
+import { TooltipModule } from 'ng2-tooltip-directive';
 @NgModule({
   declarations: [GalleryComponent],
   imports: [
@@ -26,6 +26,7 @@ import { StlModelViewerModule } from 'angular-stl-model-viewer';
     MatIconModule,
     NgbModule,
     StlModelViewerModule,
+    TooltipModule,
   ],
 })
 export class GalleryModule {}
