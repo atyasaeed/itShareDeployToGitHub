@@ -110,7 +110,6 @@
   "I Lab Manufacturing Request": "I Lab Manufacturing Request",
   "Turn your Ideas Into Reality And Change Your Future": "Turn your Ideas Into Reality And Change Your Future",
   "Start Date": "تاريخ البدء",
-  "Estimated End Date": "تاريخ الانتهاء المقدر",
   "Price": "التكلفه",
   "Unite Price": "تكلفة الوحده",
   "Total Price": "التكلفه الكامله",
@@ -194,5 +193,6 @@
   "sum": "المجموع",
   "total": "التكلفة الكلية",
   "subTotal": "المجموع الفرعي",
-  "taxRate": "معدل الضريبة"
+  "taxRate": "معدل الضريبة",
+  "orderedAt": "تاريخ الطلب"
 }

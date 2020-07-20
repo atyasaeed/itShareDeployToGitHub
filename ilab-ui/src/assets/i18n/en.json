@@ -111,7 +111,6 @@
   "I Lab Manufacturing Request": "I Lab Manufacturing Request",
   "Turn your Ideas Into Reality And Change Your Future": "Turn your Ideas Into Reality And Change Your Future",
   "Start Date": "Start Date",
-  "Estimated End Date": "Estimated End Date",
   "Price": "Price",
   "Unite Price": "Unite Price",
   "Total Price": "Total Price",
@@ -194,5 +193,6 @@
   "sum": "Sum",
   "total": "Total",
   "subTotal": "Sub Total",
-  "taxRate": "Tax Rate"
+  "taxRate": "Tax Rate",
+  "orderedAt": "Ordered At"
 }
