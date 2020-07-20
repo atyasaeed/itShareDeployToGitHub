@@ -116,7 +116,6 @@
   "Total Cost": "التكلفه الكامله",
   "order.item.number": "عدد العناصر",
   "Digital Material": "الماده",
-  "Summary": "الملخص",
   "checkOut": "الدفع",
   "please Select Service To Create Your ShoppingCart": "يرجى تحديد خدمة لإنشاء عربة التسوق الخاصة بك",
   "Total": "المجموع",
@@ -196,5 +195,10 @@
   "orderedAt": "تاريخ الطلب",
   "approve": "موافقة",
   "reject": "رفض",
-  "print": "طباعه"
+  "print": "طباعه",
+  "summary": "الملخص",
+  "convertToGallery": "تحويل إلى معرض",
+  "continueShopping": "تابع التسوق",
+  "home": "الرئيسيه",
+  "services": "الخدمات"
 }

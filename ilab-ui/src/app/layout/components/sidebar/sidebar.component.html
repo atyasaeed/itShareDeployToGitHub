@@ -2,7 +2,7 @@
   <div class="list-group">
     <a class="list-group-item" routerLink="/home" [routerLinkActive]="['router-link-active']">
       <i class="fa fa-fw fa-home"></i>&nbsp;
-      <span>{{ 'Home' | translate }}</span>
+      <span>{{ 'home' | translate }}</span>
     </a>
     <a class="list-group-item" *ngIf="hasAdminRole" routerLink="/dashboard" [routerLinkActive]="['router-link-active']">
       <i class="fa fa-fw fa-dashboard"></i>&nbsp;
@@ -99,7 +99,7 @@
           <li>
             <a routerLink="/services-list" [routerLinkActive]="['router-link-active']">
               <i class="fa fa-monument"></i>&nbsp;
-              <span>{{ 'Services' | translate }}</span>
+              <span>{{ 'services' | translate }}</span>
             </a>
           </li>
 

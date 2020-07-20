@@ -9,7 +9,7 @@
       <div class="container">
         <!-- page Head -->
         <div class="block-heading">
-          <h2>{{'brand.manufacturingRequest'|translate}}</h2>
+          <h2 class="text-center">{{'brand.manufacturingRequest'|translate}}</h2>
           <p>{{'Turn your Ideas Into Reality And Change Your Future'|translate}}</p>
         </div>
         <!-- End page Head -->
@@ -43,7 +43,7 @@
 
 
                         <div class="mt-3">
-                          <label>{{ 'Notes' | translate }} :&nbsp;</label>
+                          <label>{{ 'notes' | translate }} :&nbsp;</label>
                           <!-- <span >{{(entity.notes.length>40)? (entity.notes | slice:0:40)+'....':(entity.notes)}}</span> -->
                           <textarea [value]="entity.notes ? entity.notes : ''" rows="4" class="form-control"
                             (change)="textAreaChange(entity,notes.value)" #notes></textarea>
@@ -77,7 +77,7 @@
                                   <div> {{ 'Total Price' | translate }}:<span
                                       class="value">{{entity.unitPrice * entity.quantity}}</span></div> -->
                                   <div class=" quantity">
-                                    <label for="quantity">{{ 'Quantity' | translate }} :&nbsp;</label>
+                                    <label for="quantity">{{ 'quantity' | translate }} :&nbsp;</label>
                                     <input id="quantity" type="number" min="1" [disabled]="loading"
                                       (change)="updateItem(entity, quantity.value)" value="{{entity.quantity}}"
                                       #quantity class="d-inline-block form-control quantity-input">
@@ -112,7 +112,7 @@
                               <div class="row">
                                 <div class="col-md-6 mb-2">
                                   <div>
-                                    <label>{{'Height' | translate }} :&nbsp;</label>
+                                    <label>{{'file.height' | translate }} :&nbsp;</label>
                                     <span class="text-danger" #heightErr></span>
                                     <input type="number" [value]="file.height" class="form-control"
                                       (change)="inputNumberChanged(entity,$event,'height',heightErr)">
@@ -120,7 +120,7 @@
                                 </div>
                                 <div class="col-md-6 mb-2">
                                   <div>
-                                    <label>{{'Width' | translate }} :&nbsp;</label>
+                                    <label>{{'file.width' | translate }} :&nbsp;</label>
                                     <span class="text-danger" #widthErr></span>
                                     <input type="number" [value]="file.width" class="form-control"
                                       (change)="inputNumberChanged(entity,$event,'width',widthErr)">
@@ -128,7 +128,7 @@
                                 </div>
                                 <div class="col-md-6 mb-2" *ngIf="file.material != undefined">
                                   <div>
-                                    <label>{{'Material' | translate }} :&nbsp;</label>
+                                    <label>{{'file.material' | translate }} :&nbsp;</label>
 
                                     <select class="form-control " [ngModel]="file.material"
                                       (change)="selectChange(entity,$event,'material')">
@@ -139,7 +139,7 @@
                                 </div>
                                 <div class="col-md-6 mb-2" *ngIf="file.type != undefined">
 
-                                  <label>{{'Type' | translate }} :&nbsp;</label>
+                                  <label>{{'file.type' | translate }} :&nbsp;</label>
                                   <select class="form-control " [ngModel]="file.type"
                                     (change)="selectChange(entity,$event,'type')">
                                     <option *ngFor="let t of entity.service.types" [value]="t">{{t}}</option>
@@ -147,7 +147,7 @@
                                 </div>
                                 <div class="col-md-6 mb-2" *ngIf="file.thickness != undefined">
 
-                                  <label>{{'Thickness' | translate }} :&nbsp;</label>
+                                  <label>{{'file.thickness' | translate }} :&nbsp;</label>
                                   <select class="form-control " [ngModel]="file.thickness"
                                     (change)="selectChange(entity,$event,'thickness')">
                                     <option *ngFor="let thick of entity.service.thickness" [value]="thick">{{thick}}
@@ -156,7 +156,7 @@
                                 </div>
                                 <div class="col-md-6 mb-2" *ngIf="file.color != undefined">
 
-                                  <label>{{'Color' | translate }} :&nbsp;</label>
+                                  <label>{{'file.color' | translate }} :&nbsp;</label>
                                   <select class="form-control " [ngModel]="file.color"
                                     (change)="selectChange(entity,$event,'color')">
                                     <option *ngFor="let c of entity.service.colors" [value]="c">{{c}}</option>
@@ -164,14 +164,14 @@
                                 </div>
                                 <div class="col-md-6 mb-2" *ngIf="file.unit != undefined">
 
-                                  <label>{{'Unit' | translate }} :&nbsp;</label>
+                                  <label>{{'file.unit' | translate }} :&nbsp;</label>
                                   <select class="form-control " [ngModel]="file.unit"
                                     (change)="selectChange(entity,$event,'unit')">
                                     <option *ngFor="let c of entity.service.units" [value]="c">{{c}}</option>
                                   </select>
                                 </div>
                                 <div class="col-md-6 mb-2" *ngIf="file.processes != undefined">
-                                  <label>{{'Processes' | translate }} :&nbsp;</label>
+                                  <label>{{'file.processes' | translate }} :&nbsp;</label>
                                   <span class="text-danger" #multiSelectErr></span>
                                   <div *ngIf="!entity.service.processes.multi ; else multiDrop">
                                     <select class="form-control " [ngModel]="file.processes"
@@ -210,19 +210,19 @@
               <!-- Cart Summary & Checkout -->
               <div class="col-md-12 col-lg-4">
                 <div class="summary">
-                  <h3>{{'Summary' | translate }}:</h3>
+                  <h3>{{'summary' | translate }}:</h3>
                   <!-- <div class="summary-item"><span class="text">{{'Total' | translate }}:</span><span
                       class="price">{{subTotal  |currency:'EGP'}}</span></div> -->
                   <!-- <div class="summary-item"><span class="text">Discount</span><span class="price">$0</span></div>
                             <div class="summary-item"><span class="text">Shipping</span><span class="price">$0</span></div>
                             <div class="summary-item"><span class="text">Total</span><span class="price">$360</span></div> -->
                   <button type="button" class="btn btn-primary btn-lg btn-block"
-                    (click)="checkout()">{{ 'Checkout' | translate }}</button>
+                    (click)="checkout()">{{ 'checkOut' | translate }}</button>
                   <button type="button" *ngIf="hasAdminRole" class="btn btn-success btn-lg btn-block"
-                    (click)="convertToGallery()">{{ 'Convert To Gallery' | translate }}</button>
+                    (click)="convertToGallery()">{{ 'convertToGallery' | translate }}</button>
                   <button type="button" class="btn btn-warning btn-lg btn-block text-white"
                     routerLink="/shopping-cart/CartItem">
-                    {{ 'Continue Shopping' | translate }}
+                    {{ 'continueShopping' | translate }}
                   </button>
                 </div>
               </div>

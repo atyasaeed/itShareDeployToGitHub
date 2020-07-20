@@ -116,7 +116,6 @@
   "Total Price": "Total Price",
   "Total Cost": "Total Cost",
   "Digital Material": "Digital Material",
-  "Summary": "Summary",
   "checkOut": "Check out",
   "please Select Service To Create Your ShoppingCart": "please Select Service To Create Your ShoppingCart",
   "Total": "Total",
@@ -196,5 +195,10 @@
   "orderedAt": "Ordered At",
   "approve": "Approve",
   "reject": "Reject",
-  "print": "Print"
+  "print": "Print",
+  "summary": "Summary",
+  "convertToGallery": "Convert To Gallery",
+  "continueShopping": "Continue Shopping ",
+  "home": "Home",
+  "services": "Services"
 }

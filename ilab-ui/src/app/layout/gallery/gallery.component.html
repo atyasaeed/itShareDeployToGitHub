@@ -9,7 +9,7 @@
 
       <!-- page Head -->
       <div class="block-heading">
-        <h2>{{'brand.gallery'|translate}}</h2>
+        <h2 class="text-center">{{'brand.gallery'|translate}}</h2>
         <!-- <p>{{'Turn your Ideas Into Reality And Change Your Future'|translate}}</p> -->
       </div>
       <!-- End page Head -->
@@ -82,10 +82,10 @@
                                         <span class="value">{{entity.estimatedEndDate |date:'fullDate'}}</span></div>
                                       <div>{{ 'Price' | translate }}: <span class="value">{{entity.unitPrice}}</span>
                                       </div> -->
-                                      <div *ngIf="entity.notes"><label>{{ 'Notes' | translate }} :&nbsp;</label>
+                                      <div *ngIf="entity.notes"><label>{{ 'notes' | translate }} :&nbsp;</label>
                                         <span>{{(entity.notes.length>80)? (entity.notes | slice:0:80)+'....':(entity.notes)}}</span>
                                       </div>
-                                      <div><label>{{ 'Quantity' | translate }} :&nbsp;</label>
+                                      <div><label>{{ 'quantity' | translate }} :&nbsp;</label>
                                         <span>{{entity.quantity}}</span>
                                       </div>
                                     </section>
@@ -117,37 +117,37 @@
                                     [href]="getFileUrl(entity,j)">{{file.asset_name}}</a></span></div> -->
                               <div class="form-body row">
                                 <div class="col-md-6 " *ngIf="file.height">
-                                  <div><label>{{'Height' | translate }} :&nbsp;</label> <span>{{file.height }}</span>
+                                  <div><label>{{'file.height' | translate }} :&nbsp;</label> <span>{{file.height }}</span>
                                   </div>
                                 </div>
                                 <div class="col-md-6 " *ngIf="file.width">
-                                  <div><label>{{'Width' | translate }} :&nbsp;</label> <span>{{file.width }}</span>
+                                  <div><label>{{'file.width' | translate }} :&nbsp;</label> <span>{{file.width }}</span>
                                   </div>
                                 </div>
                                 <div class="col-md-6 " *ngIf="file.material">
-                                  <div><label>{{'Material' | translate }} :&nbsp;</label>
+                                  <div><label>{{'file.material' | translate }} :&nbsp;</label>
                                     <span>{{file.material }}</span>
                                   </div>
                                 </div>
                                 <div class="col-md-6 " *ngIf="file.color">
-                                  <div><label>{{'Color' | translate }} :&nbsp;</label> <span>{{file.color }}</span>
+                                  <div><label>{{'file.color' | translate }} :&nbsp;</label> <span>{{file.color }}</span>
                                   </div>
                                 </div>
                                 <div class="col-md-6 " *ngIf="file.thickness">
-                                  <div><label>{{'Thickness' | translate }} :&nbsp;</label>
+                                  <div><label>{{'file.thickness' | translate }} :&nbsp;</label>
                                     <span>{{file.thickness }}</span>
                                   </div>
                                 </div>
                                 <div class="col-md-6 " *ngIf="file.type">
-                                  <div><label>{{'Type' | translate }} :&nbsp;</label><span>{{file.type }}</span>
+                                  <div><label>{{'file.type' | translate }} :&nbsp;</label><span>{{file.type }}</span>
                                   </div>
                                 </div>
                                 <div class="col-md-6 " *ngIf="file.unit">
-                                  <div><label>{{'Unit' | translate }} :&nbsp;</label><span>{{file.unit }}</span>
+                                  <div><label>{{'file.unit' | translate }} :&nbsp;</label><span>{{file.unit }}</span>
                                   </div>
                                 </div>
                                 <div class="col-md-6 " *ngIf="file.processes">
-                                  <div><label>{{'Processes' | translate }} :&nbsp;</label>
+                                  <div><label>{{'file.processes' | translate }} :&nbsp;</label>
                                     <span>{{file.processes }}</span>
                                   </div>
                                 </div>
