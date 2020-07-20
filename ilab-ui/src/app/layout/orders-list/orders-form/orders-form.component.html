@@ -106,11 +106,14 @@
                         <!-- <div *ngIf="lineItem.status === 'PENDING' && isButtonVisible" style="margin-right: 10px;">
                           <button (click)="isButtonVisible = false" class="btn btn-danger"
                             #statusRejectBtn>{{'order.status.reject'|translate}}</button>
-                        </div>
-                        <div *ngIf="lineItem.status === 'PENDING' && !isButtonVisible" style="margin-right: 10px;">
+                        </div> -->
+                        <!-- <div *ngIf="lineItem.status === 'PENDING' && !isButtonVisible" style="margin-right: 10px;">
                           <button (click)="lineItemReject(lineItem) ;isButtonVisible"
                             class="btn btn-info">{{'Save'|translate}}</button>
                         </div> -->
+
+
+
                         <button class="btn btn-outline-danger btn-xs mr-2"
                           *ngIf="lineItem.status === 'PENDING' && entity.status ==='PENDING'"
                           (click)="openModal(template)">
@@ -120,10 +123,12 @@
                           *ngIf="lineItem.status === 'PENDING' && entity.status ==='PENDING'">
                           <i class="fa fa-check" aria-hidden="true"></i>
                         </button>
-                        <!-- <button class="btn btn-outline-info btn-xs mr-2" (click)="updateItemPending(lineItem)"
+
+                        <button class="btn btn-outline-info btn-xs mr-2" (click)="updateItemPending(lineItem)"
                           *ngIf="lineItem.status === 'ITEM_REJECTED' && entity.status ==='PENDING'">
                           <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                        </button> -->
+                        </button>
+
                         <button class="btn btn-outline-primary btn-xs mr-2" (click)="lineItemStatus(lineItem)"
                           *ngIf="lineItem.status === 'QUOTE_ACCEPTED' && entity.status === 'IN_PROGRESS'">
                           {{'order.status.progress'|translate}}
