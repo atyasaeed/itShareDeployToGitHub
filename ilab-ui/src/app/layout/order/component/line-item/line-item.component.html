@@ -35,7 +35,7 @@
                       </span>
 
 
-                      <span *ngIf="checkStatus() == 'QUOTED' && lineItem.status != 'CANCELLED'" >
+                      <span *ngIf="( checkStatus() == 'QUOTED' && lineItem.status != 'CANCELLED' ) && lineItem.status != 'ITEM_REJECTED' " >
                           <span class="custom-control custom-radio d-inline-block">
                             <input [checked]="checkRadio == 'accept'" class="custom-control-input" type="radio" id="accept_{{lineItem.id}}"  name="quotedActions_{{lineItem.id}}" value="QUOTE_ACCEPTED" (change)="quotedActionsChanged($event)" >
                             <label for="accept_{{lineItem.id}}" class="custom-control-label">
@@ -55,7 +55,7 @@
                             </label>
                           </span> -->
                       </span>
-                      <button (click)="cancelItem()" *ngIf=" (checkStatus() == 'PENDING'  || checkStatus() == 'QUOTED'  || checkStatus() == 'QUOTE_ACCEPTED') && lineItem.status != 'CANCELLED' " type="button" class="btn btn-outline-danger btn-sm btn-sm ml-2">
+                      <button (click)="cancelItem()" *ngIf="!(lineItem.status == 'CANCELLED' ) && (checkStatus() == 'PENDING' || ( checkStatus() == 'QUOTED' && lineItem.status != 'ITEM_REJECTED' ) || ( checkStatus() == 'QUOTE_ACCEPTED' && lineItem.status == 'QUOTE_ACCEPTED' ) )" type="button" class="btn btn-outline-danger btn-sm btn-sm ml-2">
                         <i class="fa fa-times" aria-hidden="true"></i>
                       </button>
                     </div>

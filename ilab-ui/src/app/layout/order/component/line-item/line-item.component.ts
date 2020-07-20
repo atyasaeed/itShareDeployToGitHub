@@ -17,7 +17,7 @@ export class LineItemComponent implements OnInit {
   // @ViewChild('acceptRef') acceptRef: ElementRef;
   // @ViewChild('rejectRef') rejectRef: ElementRef;
   // @ViewChild('cancelRef') cancelRef: ElementRef;
-  checkRadio = 'accept';
+  checkRadio;
   constructor(
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
     private http: HttpClient,
@@ -25,18 +25,17 @@ export class LineItemComponent implements OnInit {
     private service: LineItemService
   ) {}
 
-  ngOnInit() {
-    if (this.lineItem.status == 'QUOTE_ACCEPTED') {
-      this.checkRadio = 'accept';
-    } else if (this.lineItem.status == 'QUOTE_REJECTED') {
-      this.checkRadio = 'reject';
-    }
-  }
+  ngOnInit() {}
   ngAfterViewInit() {
     // if (this.lineItem.status == 'CANCELLED') {
     //   //this.cancelRef.nativeElement.checked = true;
     //   this.checkRadio = 'cancel';
     // }
+    if (this.lineItem.status == 'QUOTE_ACCEPTED' || this.lineItem.status == 'QUOTED') {
+      this.checkRadio = 'accept';
+    } else if (this.lineItem.status == 'QUOTE_REJECTED') {
+      this.checkRadio = 'reject';
+    }
   }
 
   getFileUrl(): string {
