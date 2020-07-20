@@ -28,11 +28,11 @@
               <button class="btn btn-info">{{'order.status.progress'|translate}}</button>
             </div>
             <div class="col-md-12" (click)="orderStatus(entity,statusBtn)" #statusBtn
-              *ngIf="entity.status === 'IN_PROGRESS'">
+              *ngIf="found && entity.status === 'IN_PROGRESS'">
               <button class="btn btn-info">{{'order.status.ready'|translate}}</button>
             </div>
             <div class="col-md-12" (click)="orderStatus(entity,statusBtn)" #statusBtn
-              *ngIf="entity.status === 'FINISHED'">
+              *ngIf=" check && entity.status === 'FINISHED'">
               <button class="btn btn-info">{{'order.status.delivered'|translate}}</button>
             </div>
 
@@ -125,15 +125,15 @@
                           <i class="fa fa-arrow-right" aria-hidden="true"></i>
                         </button> -->
                         <button class="btn btn-outline-primary btn-xs mr-2" (click)="lineItemStatus(lineItem)"
-                          *ngIf="lineItem.status === 'QUOTE_ACCEPTED' && entity.status === 'QUOTE_ACCEPTED'">
+                          *ngIf="lineItem.status === 'QUOTE_ACCEPTED' && entity.status === 'IN_PROGRESS'">
                           {{'order.status.progress'|translate}}
                         </button>
                         <button class="btn btn-outline-primary btn-xs mr-2" (click)="lineItemStatus(lineItem)"
-                          *ngIf="lineItem.status === 'IN_PROGRESS' && entity.status === 'QUOTE_ACCEPTED'">
+                          *ngIf="lineItem.status === 'IN_PROGRESS'">
                           {{'order.status.ready'|translate}}
                         </button>
                         <button class="btn btn-outline-primary btn-xs mr-2" (click)="lineItemStatus(lineItem)"
-                          *ngIf="lineItem.status === 'FINISHED' && entity.status === 'QUOTE_ACCEPTED'">
+                          *ngIf="lineItem.status === 'FINISHED'">
                           {{'order.status.delivered'|translate}}
                         </button>
 
