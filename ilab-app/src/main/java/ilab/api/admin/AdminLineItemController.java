@@ -59,5 +59,10 @@ public class AdminLineItemController
 	{
 		return orderService.deliverItem(id, auth);
 	}
+	@PutMapping(path = "/{id}/reset")
+	public LineItem reset(@PathVariable("id") UUID id, Authentication auth)
+	{
+		return orderService.reset(id, auth);
+	}
 
 }

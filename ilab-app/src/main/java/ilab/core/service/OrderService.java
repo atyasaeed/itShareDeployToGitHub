@@ -309,12 +309,17 @@ public class OrderService
 
 	public LineItem updateItem(LineItem newItem)
 	{
+		List<LineItemStatus> eligibleStatus = Arrays.asList(LineItemStatus.QUOTED,LineItemStatus.ITEM_REJECTED,
+				 LineItemStatus.PENDING);
 		LineItem item = lineItemRepo.findById(newItem.getId()).orElseThrow();
-		if (item.getOrderEntity().getStatus() == OrderStatus.PENDING && item.getStatus()==LineItemStatus.PENDING)
+		if (item.getOrderEntity().getStatus() == OrderStatus.PENDING && eligibleStatus.contains(item.getStatus()))
 		{
 			item.setEstimatedEndDate(newItem.getEstimatedEndDate());
 			item.setUnitPrice(newItem.getUnitPrice());
 		}
+		else
+			throw new IllegalRequestDataException("Can't modify the item data");
+
 		return item;
 	}
 
@@ -591,6 +596,20 @@ public class OrderService
 		}
 		else
 			throw new IllegalRequestDataException("Can't Deliver  the item ");
+		return item;
+	}
+
+	public LineItem reset(UUID id, Authentication auth)
+	{
+		User user = userRepo.findByUsername(auth.getName());
+		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id,
+				user.getAccounts().iterator().next().getId()).orElseThrow();
+		if(item.getOrderEntity().getStatus()==OrderStatus.PENDING && item.getStatus()!=LineItemStatus.CANCELLED)
+		{
+			item.setStatus(LineItemStatus.PENDING);
+		}
+		else
+			throw new IllegalRequestDataException("Can't reset item");
 		return item;
 	}
 }
