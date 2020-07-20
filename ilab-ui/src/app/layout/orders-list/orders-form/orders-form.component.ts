@@ -270,7 +270,11 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
   }
 
   updateItemPending(lineItem: LineItem) {
-    lineItem.status = 'PENDING';
+    this.itemservice.orderStatus(lineItem.id, 'reset').subscribe((res: LineItem) => {
+      lineItem.status = 'PENDING';
+      this.found = false;
+      console.log(res);
+    });
   }
 
   openModal(template: TemplateRef<any>) {
