@@ -194,5 +194,6 @@
   "sum": "Sum",
   "total": "Total",
   "subTotal": "Sub Total",
-  "taxRate": "Tax Rate"
+  "taxRate": "Tax Rate",
+  "lineItem.update.error": "Please Enter Price And Arrival Time"
 }

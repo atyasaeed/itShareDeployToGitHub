@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Inject, AfterViewInit, TemplateRef } from '@angular/core';
 import { Order } from 'src/app/shared/domain/order.model';
 import { DefaultFormComponent } from 'src/app/shared/helpers/default.form.component';
 import { OrdersListService } from '../../orders-list/orders-list.service';
@@ -13,8 +13,11 @@ import { AlertService } from 'src/app/shared/services';
 import { ToastrService } from 'ngx-toastr';
 import { LineItem } from 'src/app/shared/domain';
 import { TranslateService } from '@ngx-translate/core';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+
 import { DatePipe } from '@angular/common';
 import * as THREE from 'three/build/three.module.js';
+import { ItemsService } from './items.service';
 @Component({
   selector: 'app-orders-form',
   templateUrl: './orders-form.component.html',
@@ -28,21 +31,28 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
   ];
   orderId;
   found: boolean = true;
+  check: boolean = true;
   minDate: Date;
   maxDate: Date;
   isEnabled: boolean = true;
+  isButtonVisible: boolean = true;
+  modalRef: BsModalRef;
+  reasonRejection: string;
+  arrBooleanItems: boolean[] = new Array();
   constructor(
     formBuilder: FormBuilder,
     loadingService: TdLoadingService,
     dialogService: TdDialogService,
     service: OrdersListService,
+    private itemservice: ItemsService,
     route: ActivatedRoute,
     router: Router,
     private alertService: AlertService,
     private toastr: ToastrService,
     private activatedRoute: ActivatedRoute,
     private translate: TranslateService,
-    @Inject(APP_CONFIG) public appConfig: IAppConfig
+    @Inject(APP_CONFIG) public appConfig: IAppConfig,
+    private modalService: BsModalService
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
     this.form = this.formBuilder.group({
@@ -58,8 +68,19 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
       if (res.status == 'PENDING') {
         this.isEnabled = false;
       }
-      res.lineItems.forEach((e) => {
-        if (!e.unitPrice || !e.estimatedEndDate) {
+      this.service.get(this.orderId).subscribe((res: Order) => {
+        res.lineItems.forEach((e) => {
+          if (e.status == 'QUOTED' || e.status == 'ITEM_REJECTED') {
+            this.arrBooleanItems.push(true);
+          } else {
+            this.arrBooleanItems.push(false);
+          }
+        });
+
+        console.log(this.arrBooleanItems);
+        if (this.arrBooleanItems.indexOf(false) == -1) {
+          this.found = true;
+        } else {
           this.found = false;
         }
       });
@@ -91,32 +112,35 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
     // this.router.navigateByUrl(this.breadcrumbs[0].link);
   }
   updateItem(order: Order, lineItem: LineItem) {
+    // if (!lineItem.estimatedEndDate || !lineItem.unitPrice) {
+    //   this.toastr.error(this.translate.instant('lineItem.update.error'));
+    //   return;
+    // }
     console.log(lineItem.estimatedEndDate);
     let arrLineItems: boolean[] = new Array();
     let d = new Date(lineItem.estimatedEndDate);
     d.setMinutes(d.getMinutes() + 480);
     lineItem.estimatedEndDate = d;
 
-    this.service.updateLineItem(lineItem).subscribe((res) => {
+    this.service.updateLineItem(lineItem).subscribe((res: LineItem) => {
       this.toastr.success(this.translate.instant('update.Successful'));
+      lineItem = res;
+      // this.service.get(this.orderId).subscribe((res: Order) => {
+      //   res.lineItems.forEach((e) => {
+      //     if (!e.unitPrice || !e.estimatedEndDate) {
+      //       arrLineItems.push(false);
+      //     } else {
+      //       arrLineItems.push(true);
+      //     }
+      //   });
 
-      this.service.get(this.orderId).subscribe((res: Order) => {
-        // this.checkLineItems(this.orderId, res.lineItems);
-        res.lineItems.forEach((e) => {
-          if (!e.unitPrice || !e.estimatedEndDate) {
-            arrLineItems.push(false);
-          } else {
-            arrLineItems.push(true);
-          }
-        });
-
-        console.log(arrLineItems);
-        if (arrLineItems.indexOf(false) == -1) {
-          this.found = true;
-        } else {
-          this.found = false;
-        }
-      });
+      //   console.log(arrLineItems);
+      //   if (arrLineItems.indexOf(false) == -1) {
+      //     this.found = true;
+      //   } else {
+      //     this.found = false;
+      //   }
+      // });
     });
 
     //  else {
@@ -163,31 +187,38 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
   orderStatus(order: Order, statusBtn: HTMLElement) {
     switch (order.status) {
       case 'PENDING':
-        this.service.orderStatus(order.id, 'quote').subscribe((res) => {
-          this.entity.status = 'QUOTED';
-          this.isEnabled = true;
-          // this.entity.status = 'QUOTE_ACCEPTED';
+        // order.lineItems.forEach((e) => {
+        //   if (e.status === 'PINDING') {
+        //     this.check = true;
+        //   }
+        // });
 
-          // this.toastr.success('Successful');
+        this.service.orderStatus(order.id, 'quote').subscribe((res: Order) => {
+          this.entity = res;
+          this.isEnabled = true;
         });
+
         break;
       case 'QUOTE_ACCEPTED':
-        this.service.orderStatus(order.id, 'process').subscribe((res) => {
-          this.entity.status = 'IN_PROGRESS';
+        this.service.orderStatus(order.id, 'process').subscribe((res: Order) => {
+          // this.entity.status = 'IN_PROGRESS';
+          this.entity = res;
           // this.toastr.success('Successful');
         });
         break;
       case 'IN_PROGRESS':
         // statusBtn.innerText = 'In Progress';
-        this.service.orderStatus(order.id, 'finish').subscribe((res) => {
-          this.entity.status = 'FINISHED';
+        this.service.orderStatus(order.id, 'finish').subscribe((res: Order) => {
+          // this.entity.status = 'FINISHED';
+          this.entity = res;
           // this.toastr.success('Successful');
         });
 
         break;
       case 'FINISHED':
-        this.service.orderStatus(order.id, 'deliver').subscribe((res) => {
-          this.entity.status = 'DELIVERED';
+        this.service.orderStatus(order.id, 'deliver').subscribe((res: Order) => {
+          // this.entity.status = 'DELIVERED';
+          this.entity = res;
           // this.toastr.success('Successful');
         });
         break;
@@ -200,10 +231,92 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
     }
   }
   orderReject(order: Order) {
-    this.service.orderReject(order.id).subscribe((res) => {
-      this.entity.status = 'ORDER_REJECTED';
+    this.service.orderReject(order.id).subscribe((res: Order) => {
+      // this.entity.status = 'ORDER_REJECTED';
+      this.entity = res;
       this.toastr.success('Successful');
       this.isEnabled = true;
     });
+  }
+
+  lineItemReject(lineItem: LineItem) {
+    // console.log(lineItem);
+    // lineItem.status = 'LINE_ITEM_REJECTED';
+    this.itemservice.orderReject(lineItem.id).subscribe((res: LineItem) => {
+      // this.entity.status = 'ORDER_REJECTED';
+      lineItem.status = res.status;
+      this.toastr.success('Successful');
+      // this.isEnabled = true;
+    });
+  }
+  lineItemStatus(lineItem: LineItem) {
+    if (!lineItem.estimatedEndDate || !lineItem.unitPrice) {
+      this.toastr.error(this.translate.instant('lineItem.update.error'));
+      return;
+    }
+    let arrLineItems: boolean[] = new Array();
+
+    // this.itemservice.orderStatus(lineItem.id, 'quote').subscribe((res: LineItem) => {
+    //   lineItem.status = res.status;
+    //   this.isEnabled = true;
+    // });
+
+    switch (lineItem.status) {
+      case 'PENDING':
+        this.itemservice.orderStatus(lineItem.id, 'quote').subscribe((res: LineItem) => {
+          lineItem.status = res.status;
+          // lineItem.status = 'QUOTE_ACCEPTED';
+          // this.isEnabled = true;
+          this.service.get(this.orderId).subscribe((res: Order) => {
+            res.lineItems.forEach((e) => {
+              if (e.status == 'QUOTED' || e.status == 'ITEM_REJECTED') {
+                arrLineItems.push(true);
+              } else {
+                arrLineItems.push(false);
+              }
+            });
+
+            console.log(arrLineItems);
+            if (arrLineItems.indexOf(false) == -1) {
+              this.found = true;
+            } else {
+              this.found = false;
+            }
+          });
+        });
+        break;
+      case 'QUOTE_ACCEPTED':
+        this.itemservice.orderStatus(lineItem.id, 'process').subscribe((res: LineItem) => {
+          lineItem.status = res.status;
+        });
+        lineItem.status = 'IN_PROGRESS';
+        break;
+      case 'IN_PROGRESS':
+        this.itemservice.orderStatus(lineItem.id, 'finish').subscribe((res: LineItem) => {
+          lineItem.status = res.status;
+        });
+        lineItem.status = 'FINISHED';
+
+        break;
+      case 'FINISHED':
+        this.itemservice.orderStatus(lineItem.id, 'deliver').subscribe((res: LineItem) => {
+          lineItem.status = res.status;
+        });
+        lineItem.status = 'Delivered';
+
+        break;
+      case 'Delivered':
+        break;
+      default:
+        break;
+    }
+  }
+
+  updateItemPending(lineItem: LineItem) {
+    lineItem.status = 'PENDING';
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
   }
 }
