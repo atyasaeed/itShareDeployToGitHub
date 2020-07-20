@@ -186,14 +186,14 @@
                       </div>
                       <div class="col-md-6" *ngIf="lineItem.status !== 'ITEM_REJECTED'">
                         <div>
-                          <mat-form-field class="form-rtl">
+                          <mat-form-field class="form-rtl" *ngIf="lineItem.status !=='CANCELLED'">
                             <mat-label>{{ 'estimatedEndDate' | translate }}</mat-label>
 
                             <input matInput [matDatepicker]="picker" [min]="minDate" [max]="maxDate"
                               (dateChange)="updateItem(entity,lineItem)" [(ngModel)]="lineItem.estimatedEndDate"
-                              #estimatedEndDate='ngModel' [disabled]="!isEnabled && lineItem.status ==='QUOTED'">
+                              #estimatedEndDate='ngModel' [disabled]="isEnabled && lineItem.status !=='PENDING'">
                             <mat-datepicker-toggle matSuffix [for]="picker"
-                              [disabled]="!isEnabled && lineItem.status ==='QUOTED'">
+                              [disabled]="isEnabled && lineItem.status !=='PENDING'">
                             </mat-datepicker-toggle>
                             <mat-datepicker #picker disabled="false"></mat-datepicker>
                             <mat-error *ngIf="estimatedEndDate.hasError('required')">
@@ -204,11 +204,11 @@
                       <div class="col-md-6" *ngIf="lineItem.status !== 'ITEM_REJECTED'">
                         <div>
 
-                          <mat-form-field class="form-rtl">
+                          <mat-form-field class="form-rtl" *ngIf="lineItem.status !=='CANCELLED'">
 
                             <input matInput type="number" placeholder="{{'unitPrice'|translate}}" min="1"
                               (keyup)='updateItem(entity,lineItem)' [(ngModel)]="lineItem.unitPrice"
-                              #unitPrice='ngModel' [disabled]="!isEnabled && lineItem.status ==='QUOTED'" required>
+                              #unitPrice='ngModel' [disabled]="isEnabled && lineItem.status !=='PENDING'" required>
                             <mat-error *ngIf="unitPrice.hasError('required')">
                             </mat-error>
                           </mat-form-field>

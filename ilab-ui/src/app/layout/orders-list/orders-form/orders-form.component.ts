@@ -164,7 +164,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
       case 'IN_PROGRESS':
         this.service.orderStatus(order.id, 'finish').subscribe((res: Order) => {
           this.entity = res;
-          this.check = false;
+          // this.check = true;
         });
 
         break;
