@@ -14,6 +14,7 @@ import { StepsModule } from 'src/app/shared/modules/steps/steps.module';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NgxPrintModule } from 'ngx-print';
 import { StlModelViewerModule } from 'angular-stl-model-viewer';
+import { TooltipModule } from 'ng2-tooltip-directive';
 @NgModule({
   declarations: [OrderComponent, OrderCardComponent, LineItemComponent],
   imports: [
@@ -29,6 +30,7 @@ import { StlModelViewerModule } from 'angular-stl-model-viewer';
     StepsModule,
     NgxPrintModule,
     StlModelViewerModule,
+    TooltipModule,
   ],
 })
 export class OrderModule {}
