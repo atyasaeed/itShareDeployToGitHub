@@ -31,12 +31,14 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
   ];
   orderId;
   found: boolean = true;
+  check: boolean = true;
   minDate: Date;
   maxDate: Date;
   isEnabled: boolean = true;
   isButtonVisible: boolean = true;
   modalRef: BsModalRef;
   reasonRejection: string;
+  arrBooleanItems: boolean[] = new Array();
   constructor(
     formBuilder: FormBuilder,
     loadingService: TdLoadingService,
@@ -66,8 +68,19 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
       if (res.status == 'PENDING') {
         this.isEnabled = false;
       }
-      res.lineItems.forEach((e) => {
-        if (!e.unitPrice || !e.estimatedEndDate) {
+      this.service.get(this.orderId).subscribe((res: Order) => {
+        res.lineItems.forEach((e) => {
+          if (e.status == 'QUOTED' || e.status == 'ITEM_REJECTED') {
+            this.arrBooleanItems.push(true);
+          } else {
+            this.arrBooleanItems.push(false);
+          }
+        });
+
+        console.log(this.arrBooleanItems);
+        if (this.arrBooleanItems.indexOf(false) == -1) {
+          this.found = true;
+        } else {
           this.found = false;
         }
       });
@@ -174,14 +187,17 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
   orderStatus(order: Order, statusBtn: HTMLElement) {
     switch (order.status) {
       case 'PENDING':
+        // order.lineItems.forEach((e) => {
+        //   if (e.status === 'PINDING') {
+        //     this.check = true;
+        //   }
+        // });
+
         this.service.orderStatus(order.id, 'quote').subscribe((res: Order) => {
-          // this.entity.status = 'QUOTED';
           this.entity = res;
           this.isEnabled = true;
-          // this.entity.status = 'QUOTE_ACCEPTED';
-
-          // this.toastr.success('Successful');
         });
+
         break;
       case 'QUOTE_ACCEPTED':
         this.service.orderStatus(order.id, 'process').subscribe((res: Order) => {
@@ -226,11 +242,11 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
   lineItemReject(lineItem: LineItem) {
     // console.log(lineItem);
     // lineItem.status = 'LINE_ITEM_REJECTED';
-    this.service.orderReject(lineItem.id).subscribe((res: LineItem) => {
+    this.itemservice.orderReject(lineItem.id).subscribe((res: LineItem) => {
       // this.entity.status = 'ORDER_REJECTED';
-      lineItem = res;
+      lineItem.status = res.status;
       this.toastr.success('Successful');
-      this.isEnabled = true;
+      // this.isEnabled = true;
     });
   }
   lineItemStatus(lineItem: LineItem) {
@@ -249,13 +265,14 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
       case 'PENDING':
         this.itemservice.orderStatus(lineItem.id, 'quote').subscribe((res: LineItem) => {
           lineItem.status = res.status;
-          this.isEnabled = true;
+          // lineItem.status = 'QUOTE_ACCEPTED';
+          // this.isEnabled = true;
           this.service.get(this.orderId).subscribe((res: Order) => {
             res.lineItems.forEach((e) => {
-              if (!e.unitPrice || !e.estimatedEndDate) {
-                arrLineItems.push(false);
-              } else {
+              if (e.status == 'QUOTED' || e.status == 'ITEM_REJECTED') {
                 arrLineItems.push(true);
+              } else {
+                arrLineItems.push(false);
               }
             });
 
@@ -272,17 +289,21 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
         this.itemservice.orderStatus(lineItem.id, 'process').subscribe((res: LineItem) => {
           lineItem.status = res.status;
         });
+        lineItem.status = 'IN_PROGRESS';
         break;
       case 'IN_PROGRESS':
         this.itemservice.orderStatus(lineItem.id, 'finish').subscribe((res: LineItem) => {
           lineItem.status = res.status;
         });
+        lineItem.status = 'FINISHED';
 
         break;
       case 'FINISHED':
         this.itemservice.orderStatus(lineItem.id, 'deliver').subscribe((res: LineItem) => {
           lineItem.status = res.status;
         });
+        lineItem.status = 'Delivered';
+
         break;
       case 'Delivered':
         break;

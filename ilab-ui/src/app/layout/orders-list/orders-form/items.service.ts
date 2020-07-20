@@ -12,7 +12,7 @@ export class ItemsService extends RestService<LineItem> {
     return this.http.put(this.appConfig.getResourceUrl(this.resource), lineItem.id);
   }
   orderReject(id) {
-    return this.http.put(this.appConfig.getResourceUrl(this.resource) + `/${id}/rejectOrder`, '');
+    return this.http.put(this.appConfig.getResourceUrl(this.resource) + `/${id}/rejectItem`, '');
   }
   orderStatus(id, action) {
     return this.http.put(this.appConfig.getResourceUrl(this.resource) + `/${id}/${action}`, '');
