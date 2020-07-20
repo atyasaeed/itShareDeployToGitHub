@@ -31,6 +31,5 @@ public interface AbstractRestController<T,K>
 	public void delete(@PathVariable("id") K id,Authentication authentication);
 	@GetMapping(path = "/{id}")
 	public T get(@PathVariable("id") K id,Authentication authentication);
-	
 }
 
