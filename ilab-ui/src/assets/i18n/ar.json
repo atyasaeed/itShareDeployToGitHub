@@ -122,8 +122,6 @@
   "Total": "المجموع",
   "My Orders": "طلباتى",
   "You can track and manage all of your orders": "يمكنك تتبع وإدارة جميع طلباتك",
-  "Approve": "موافقة",
-  "Reject": "رفض",
   "Cancel Order": "إلغاء الطلب",
   "Status": "الحاله",
   "Order ID": "الرقم التعريفى",
@@ -195,5 +193,8 @@
   "subTotal": "المجموع الفرعي",
   "taxRate": "معدل الضريبة",
   "lineItem.update.error": "الرجاء إدخال السعر ووقت الوصول",
-  "orderedAt": "تاريخ الطلب"
+  "orderedAt": "تاريخ الطلب",
+  "approve": "موافقة",
+  "reject": "رفض",
+  "print": "طباعه"
 }

@@ -4,7 +4,7 @@
       <div class="col">
         <div class="row">
           <div class="col-md-6 my-auto">
-            <label>{{'Order ID'|translate}} :&nbsp;</label>
+            <label>{{'order.id'|translate}} :&nbsp;</label>
             <span>{{order.id.slice(-7)}}</span>
           </div>
           <div class="col-md-6 my-auto">
@@ -14,14 +14,14 @@
           <div class="col-md-6 my-auto">
             <div
               *ngIf="checkStatus() != 'PENDING' && checkStatus() != 'CANCELLED' && checkStatus() != 'ORDER_REJECTED'">
-              <label> {{'Total Price'|translate}} :&nbsp;</label>
+              <label> {{'order.totalPrice'|translate}} :&nbsp;</label>
               <span>{{getSubTotal()| currency:'EGP'}}</span>
             </div>
           </div>
           <div class=" col-md-6    my-auto">
             <div
               *ngIf="checkStatus() != 'PENDING' && checkStatus() != 'CANCELLED' && checkStatus() != 'ORDER_REJECTED'">
-              <label>{{'Estimated End Date'|translate}} :&nbsp;</label> <span>{{max|date:'fullDate'}}</span>
+              <label>{{'estimatedEndDate'|translate}} :&nbsp;</label> <span>{{max|date:'fullDate'}}</span>
             </div>
           </div>
           <div class="col-md-12  my-auto"
@@ -42,13 +42,13 @@
         *ngIf="checkStatus() == 'PENDING' || checkStatus() == 'QUOTE_ACCEPTED' || checkStatus() == 'QUOTED' ">
 
         <button class="btn btn-primary btn-block btn-sm m-1" *ngIf="checkStatus() == 'QUOTED'"
-          (click)="approveQuotation()">{{'APPROVE' | translate}} </button>
+          (click)="approveQuotation()">{{'approve' | translate}} </button>
         <button class="btn btn-primary btn-block btn-sm  m-1" *ngIf="checkStatus() == 'QUOTED'"
-          (click)="rejectQuotation()">{{'REJECT' | translate}}</button>
+          (click)="rejectQuotation()">{{'reject' | translate}}</button>
 
         <button [useExistingCss]="true" printSectionId="{{order.id}}" ngxPrint type="button"
           class="btn btn-secondary btn-block btn-sm  m-1"
-          *ngIf="checkStatus() == 'QUOTED' || checkStatus() == 'QUOTE_ACCEPTED'">{{'Print'|translate}}</button>
+          *ngIf="checkStatus() == 'QUOTED' || checkStatus() == 'QUOTE_ACCEPTED'">{{'print'|translate}}</button>
 
         <input type="submit" class="btn btn-sm btn-danger btn-block m-1"
           *ngIf="checkStatus() != 'IN_PROGRESS' && checkStatus() != 'FINISHED' && checkStatus() != 'DELIVERED' "

@@ -30,8 +30,11 @@
                 <div class="col-md-12 product-name">
                   <div class="row">
                     <div class="col-md-12 mb-2 text-right">
+                      <span class="float-left my-auto" *ngIf="lineItem.status == 'IN_PROGRESS' || lineItem.status == 'FINISHED' || lineItem.status == 'DELIVERED'">
+                        {{'status' | translate}} : {{lineItem.status}}
+                      </span>
 
-                      <button (click)="cancelItem()" *ngIf="(checkStatus() == 'PENDING' && lineItem.status == 'PENDING') || ( checkStatus() == 'QUOTE_ACCEPTED' && lineItem.status == 'QUOTED')" type="button" class="btn btn-outline-danger btn-sm btn-sm">
+                      <button (click)="cancelItem()" *ngIf=" checkStatus() == 'PENDING'  || checkStatus() == 'QUOTE_ACCEPTED' " type="button" class="btn btn-outline-danger btn-sm btn-sm">
                         <i class="fa fa-times" aria-hidden="true"></i>
                       </button>
                       <span *ngIf="checkStatus() == 'QUOTED' && lineItem.status == 'QUOTED'" >
@@ -67,7 +70,7 @@
 
                   <div class="row">
                     <div class="col-md-6"
-                      *ngIf="checkStatus() != 'PENDING' && checkStatus() != 'CANCELLED' && checkStatus() != 'ORDER_REJECTED'">
+                      *ngIf="lineItem.estimatedEndDate && lineItem.unitPrice">
                       <div><label>{{ 'estimatedEndDate' | translate }}
                           :&nbsp;</label><span>{{ lineItem.estimatedEndDate | date:'fullDate' }}
                         </span></div>

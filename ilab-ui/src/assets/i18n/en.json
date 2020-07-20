@@ -122,8 +122,6 @@
   "Total": "Total",
   "My Orders": "My Orders",
   "You can track and manage all of your orders": "You Can Track and Manage All Of Your Orders",
-  "Approve": "Approve",
-  "Reject": "Reject",
   "Cancel Order": "Cancel Order",
   "Status": "Status",
   "Order ID": "Order ID",
@@ -195,5 +193,8 @@
   "subTotal": "Sub Total",
   "taxRate": "Tax Rate",
   "lineItem.update.error": "Please Enter Price And Arrival Time",
-  "orderedAt": "Ordered At"
+  "orderedAt": "Ordered At",
+  "approve": "Approve",
+  "reject": "Reject",
+  "print": "Print"
 }
