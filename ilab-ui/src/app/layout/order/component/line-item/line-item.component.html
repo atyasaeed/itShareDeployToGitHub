@@ -7,7 +7,7 @@
       <!-- One Item Row -->
       <div class="product">
         <div class="row position-relative">
-          <div class="overlay position-absolute d-flex" [class.show]="lineItem.status == 'CANCELLED' || lineItem.status == 'QUOTE_REJECTED' || lineItem.status == 'ITEM_REJECTED' ">
+          <div class="overlay position-absolute d-flex" [class.show]="lineItem.status == 'CANCELLED' || ( lineItem.status == 'QUOTE_REJECTED' && checkStatus() != 'QUOTED' ) || ( lineItem.status == 'ITEM_REJECTED' && checkStatus() != 'PENDING' ) ">
             <span class="cancelled ">{{lineItem.status | translate}}</span>
             <span *ngIf="lineItem.status == 'ITEM_REJECTED'" class="rejection-reason p-2 mt-2">as jsa jhas jhsaj hjsah ajkhsa hsj hsj  hsaj ahjs hjashsdsads sadas</span>
           </div>
@@ -34,10 +34,8 @@
                         {{'status' | translate}} : {{lineItem.status}}
                       </span>
 
-                      <button (click)="cancelItem()" *ngIf=" checkStatus() == 'PENDING'  || checkStatus() == 'QUOTE_ACCEPTED' " type="button" class="btn btn-outline-danger btn-sm btn-sm">
-                        <i class="fa fa-times" aria-hidden="true"></i>
-                      </button>
-                      <span *ngIf="checkStatus() == 'QUOTED' && lineItem.status == 'QUOTED'" >
+
+                      <span *ngIf="( checkStatus() == 'QUOTED' && lineItem.status != 'CANCELLED' ) && lineItem.status != 'ITEM_REJECTED' " >
                           <span class="custom-control custom-radio d-inline-block">
                             <input [checked]="checkRadio == 'accept'" class="custom-control-input" type="radio" id="accept_{{lineItem.id}}"  name="quotedActions_{{lineItem.id}}" value="QUOTE_ACCEPTED" (change)="quotedActionsChanged($event)" >
                             <label for="accept_{{lineItem.id}}" class="custom-control-label">
@@ -50,13 +48,16 @@
                               <i class="fa fa-thumbs-o-down text-secondary" aria-hidden="true"></i>
                             </label>
                           </span>
-                          <span class="custom-control custom-radio d-inline-block ml-2">
+                          <!-- <span class="custom-control custom-radio d-inline-block ml-2">
                             <input [checked]="checkRadio == 'cancel'" class="custom-control-input" type="radio" id="cancel_{{lineItem.id}}" value="CANCELLED"  name="quotedActions_{{lineItem.id}}" (change)="quotedActionsChanged($event)" >
                             <label for="cancel_{{lineItem.id}}" class="custom-control-label">
                              <i class="fa fa-times text-danger" aria-hidden="true"></i>
                             </label>
-                          </span>
+                          </span> -->
                       </span>
+                      <button (click)="cancelItem()" *ngIf="!(lineItem.status == 'CANCELLED' ) && (checkStatus() == 'PENDING' || ( checkStatus() == 'QUOTED' && lineItem.status != 'ITEM_REJECTED' ) || ( checkStatus() == 'QUOTE_ACCEPTED' && lineItem.status == 'QUOTE_ACCEPTED' ) )" type="button" class="btn btn-outline-danger btn-sm btn-sm ml-2">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                      </button>
                     </div>
                     <div class="col-md-10">
                       <h5 class="text-center text-md-left text-primary">{{lineItem.service.name}}</h5>

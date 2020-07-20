@@ -17,7 +17,7 @@ export class LineItemComponent implements OnInit {
   // @ViewChild('acceptRef') acceptRef: ElementRef;
   // @ViewChild('rejectRef') rejectRef: ElementRef;
   // @ViewChild('cancelRef') cancelRef: ElementRef;
-  checkRadio = 'accept';
+  checkRadio;
   constructor(
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
     private http: HttpClient,
@@ -27,10 +27,11 @@ export class LineItemComponent implements OnInit {
 
   ngOnInit() {}
   ngAfterViewInit() {
-    if (this.lineItem.status == 'CANCELLED') {
-      //this.cancelRef.nativeElement.checked = true;
-      this.checkRadio = 'cancel';
-    } else if (this.lineItem.status == 'QUOTE_ACCEPTED') {
+    // if (this.lineItem.status == 'CANCELLED') {
+    //   //this.cancelRef.nativeElement.checked = true;
+    //   this.checkRadio = 'cancel';
+    // }
+    if (this.lineItem.status == 'QUOTE_ACCEPTED' || this.lineItem.status == 'QUOTED') {
       this.checkRadio = 'accept';
     } else if (this.lineItem.status == 'QUOTE_REJECTED') {
       this.checkRadio = 'reject';
@@ -94,10 +95,12 @@ export class LineItemComponent implements OnInit {
 
   cancelItem() {
     //console.log(this.lineItem);
-    this.service.cancel(this.lineItem.id).subscribe((res: LineItem) => {
-      this.lineItem = res;
-      this.toastr.success('Item Cancelled');
-    });
+    if (confirm('Are You Sure ?')) {
+      this.service.cancel(this.lineItem.id).subscribe((res: LineItem) => {
+        this.lineItem = res;
+        this.toastr.success('Item Cancelled');
+      });
+    }
   }
 
   quotedActionsChanged(event) {
@@ -111,11 +114,12 @@ export class LineItemComponent implements OnInit {
         this.lineItem = res;
         this.toastr.success('Quote Rejected');
       });
-    } else if (event.target.value == 'CANCELLED') {
-      this.service.cancel(this.lineItem.id).subscribe((res: LineItem) => {
-        this.lineItem = res;
-        this.toastr.success('Item Cancelled');
-      });
     }
+    // else if (event.target.value == 'CANCELLED') {
+    //   this.service.cancel(this.lineItem.id).subscribe((res: LineItem) => {
+    //     this.lineItem = res;
+    //     this.toastr.success('Item Cancelled');
+    //   });
+    // }
   }
 }
