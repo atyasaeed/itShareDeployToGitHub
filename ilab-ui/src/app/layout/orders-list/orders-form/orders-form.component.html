@@ -19,7 +19,7 @@
               </div>
               <div *ngIf="found && entity.status === 'PENDING'">
                 <button (click)="orderStatus(entity,statusBtn)" #statusBtn
-                  class="btn btn-info">{{"order.status.quate"|translate}}</button>
+                  class="btn btn-primary">{{"order.status.quate"|translate}}</button>
               </div>
             </div>
 
@@ -106,11 +106,14 @@
                         <!-- <div *ngIf="lineItem.status === 'PENDING' && isButtonVisible" style="margin-right: 10px;">
                           <button (click)="isButtonVisible = false" class="btn btn-danger"
                             #statusRejectBtn>{{'order.status.reject'|translate}}</button>
-                        </div>
-                        <div *ngIf="lineItem.status === 'PENDING' && !isButtonVisible" style="margin-right: 10px;">
+                        </div> -->
+                        <!-- <div *ngIf="lineItem.status === 'PENDING' && !isButtonVisible" style="margin-right: 10px;">
                           <button (click)="lineItemReject(lineItem) ;isButtonVisible"
                             class="btn btn-info">{{'Save'|translate}}</button>
                         </div> -->
+
+
+
                         <button class="btn btn-outline-danger btn-xs mr-2"
                           *ngIf="lineItem.status === 'PENDING' && entity.status ==='PENDING'"
                           (click)="openModal(template)">
@@ -120,10 +123,12 @@
                           *ngIf="lineItem.status === 'PENDING' && entity.status ==='PENDING'">
                           <i class="fa fa-check" aria-hidden="true"></i>
                         </button>
-                        <!-- <button class="btn btn-outline-info btn-xs mr-2" (click)="updateItemPending(lineItem)"
-                          *ngIf="lineItem.status === 'ITEM_REJECTED' && entity.status ==='PENDING'">
+
+                        <button class="btn btn-outline-info btn-xs mr-2" (click)="updateItemPending(lineItem)"
+                          *ngIf=" (lineItem.status === 'ITEM_REJECTED' || lineItem.status === 'QUOTED') && entity.status ==='PENDING'">
                           <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                        </button> -->
+                        </button>
+
                         <button class="btn btn-outline-primary btn-xs mr-2" (click)="lineItemStatus(lineItem)"
                           *ngIf="lineItem.status === 'QUOTE_ACCEPTED' && entity.status === 'IN_PROGRESS'">
                           {{'order.status.progress'|translate}}
@@ -186,8 +191,9 @@
 
                             <input matInput [matDatepicker]="picker" [min]="minDate" [max]="maxDate"
                               (dateChange)="updateItem(entity,lineItem)" [(ngModel)]="lineItem.estimatedEndDate"
-                              #estimatedEndDate='ngModel' [disabled]="isEnabled">
-                            <mat-datepicker-toggle matSuffix [for]="picker" [disabled]="isEnabled">
+                              #estimatedEndDate='ngModel' [disabled]="!isEnabled && lineItem.status ==='QUOTED'">
+                            <mat-datepicker-toggle matSuffix [for]="picker"
+                              [disabled]="!isEnabled && lineItem.status ==='QUOTED'">
                             </mat-datepicker-toggle>
                             <mat-datepicker #picker disabled="false"></mat-datepicker>
                             <mat-error *ngIf="estimatedEndDate.hasError('required')">
@@ -202,7 +208,7 @@
 
                             <input matInput type="number" placeholder="{{'unitPrice'|translate}}" min="1"
                               (keyup)='updateItem(entity,lineItem)' [(ngModel)]="lineItem.unitPrice"
-                              #unitPrice='ngModel' [disabled]="isEnabled" required>
+                              #unitPrice='ngModel' [disabled]="!isEnabled && lineItem.status ==='QUOTED'" required>
                             <mat-error *ngIf="unitPrice.hasError('required')">
                             </mat-error>
                           </mat-form-field>
