@@ -25,16 +25,18 @@ export class LineItemComponent implements OnInit {
     private service: LineItemService
   ) {}
 
-  ngOnInit() {}
-  ngAfterViewInit() {
-    if (this.lineItem.status == 'CANCELLED') {
-      //this.cancelRef.nativeElement.checked = true;
-      this.checkRadio = 'cancel';
-    } else if (this.lineItem.status == 'QUOTE_ACCEPTED') {
+  ngOnInit() {
+    if (this.lineItem.status == 'QUOTE_ACCEPTED') {
       this.checkRadio = 'accept';
     } else if (this.lineItem.status == 'QUOTE_REJECTED') {
       this.checkRadio = 'reject';
     }
+  }
+  ngAfterViewInit() {
+    // if (this.lineItem.status == 'CANCELLED') {
+    //   //this.cancelRef.nativeElement.checked = true;
+    //   this.checkRadio = 'cancel';
+    // }
   }
 
   getFileUrl(): string {
@@ -94,10 +96,12 @@ export class LineItemComponent implements OnInit {
 
   cancelItem() {
     //console.log(this.lineItem);
-    this.service.cancel(this.lineItem.id).subscribe((res: LineItem) => {
-      this.lineItem = res;
-      this.toastr.success('Item Cancelled');
-    });
+    if (confirm('Are You Sure ?')) {
+      this.service.cancel(this.lineItem.id).subscribe((res: LineItem) => {
+        this.lineItem = res;
+        this.toastr.success('Item Cancelled');
+      });
+    }
   }
 
   quotedActionsChanged(event) {
@@ -111,11 +115,12 @@ export class LineItemComponent implements OnInit {
         this.lineItem = res;
         this.toastr.success('Quote Rejected');
       });
-    } else if (event.target.value == 'CANCELLED') {
-      this.service.cancel(this.lineItem.id).subscribe((res: LineItem) => {
-        this.lineItem = res;
-        this.toastr.success('Item Cancelled');
-      });
     }
+    // else if (event.target.value == 'CANCELLED') {
+    //   this.service.cancel(this.lineItem.id).subscribe((res: LineItem) => {
+    //     this.lineItem = res;
+    //     this.toastr.success('Item Cancelled');
+    //   });
+    // }
   }
 }
