@@ -460,7 +460,7 @@ public class OrderService
 	public LineItem cancelItem(UUID id, Authentication auth)
 	{
 		List<LineItemStatus> eligibleItemStatus = Arrays.asList(LineItemStatus.PENDING,LineItemStatus.QUOTED,
-				 LineItemStatus.QUOTE_ACCEPTED,LineItemStatus.QUOTE_REJECTED);
+				 LineItemStatus.QUOTE_ACCEPTED,LineItemStatus.QUOTE_REJECTED,LineItemStatus.ITEM_REJECTED);
 		List<OrderStatus> eligibleOrderStatus = Arrays.asList(OrderStatus.PENDING,OrderStatus.QUOTED,
 				OrderStatus.QUOTE_ACCEPTED);
 		
@@ -479,7 +479,7 @@ public class OrderService
 
 	public LineItem rejectItemQuote(UUID id, Authentication auth)
 	{
-		List<LineItemStatus> eligibleItemStatus = Arrays.asList(LineItemStatus.QUOTED);
+		List<LineItemStatus> eligibleItemStatus = Arrays.asList(LineItemStatus.QUOTED,LineItemStatus.QUOTE_ACCEPTED);
 		List<OrderStatus> eligibleOrderStatus = Arrays.asList(OrderStatus.QUOTED);
 		User user = userRepo.findByUsername(auth.getName());
 		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id,
@@ -496,7 +496,7 @@ public class OrderService
 
 	public LineItem acceptItemQuote(UUID id, Authentication auth)
 	{
-		List<LineItemStatus> eligibleItemStatus = Arrays.asList(LineItemStatus.QUOTED);
+		List<LineItemStatus> eligibleItemStatus = Arrays.asList(LineItemStatus.QUOTED,LineItemStatus.QUOTE_REJECTED);
 		List<OrderStatus> eligibleOrderStatus = Arrays.asList(OrderStatus.QUOTED);
 		User user = userRepo.findByUsername(auth.getName());
 		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id,
