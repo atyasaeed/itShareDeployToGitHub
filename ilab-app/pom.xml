@@ -21,10 +21,17 @@
 			</properties>
 		</profile>
 		<profile>
-			<id>test</id>
+			<id>testing</id>
 			<properties>
-				<spring.profiles.active>test</spring.profiles.active>
+				<spring.profiles.active>testing</spring.profiles.active>
 			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>ilab</groupId>
+					<artifactId>ilab-ui</artifactId>
+					<version>${app.version}</version>
+				</dependency>
+			</dependencies>
 		</profile>
 		<profile>
 			<id>prod</id>
@@ -41,6 +48,11 @@
 		</profile>
 	</profiles>
 	<dependencies>
+	<dependency>
+					<groupId>ilab</groupId>
+					<artifactId>ilab-ui</artifactId>
+					<version>${app.version}</version>
+				</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
