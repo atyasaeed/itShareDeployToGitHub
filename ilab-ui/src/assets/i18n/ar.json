@@ -207,5 +207,6 @@
   "cancel": "إلغاء",
   "approveQuote": "قبول العرض",
   "rejectQuote": "رفض العرض",
-  "download": "تحميل"
+  "download": "تحميل",
+  "quote": "قبول"
 }

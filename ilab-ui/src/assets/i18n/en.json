@@ -207,5 +207,6 @@
   "cancel": "Cancel",
   "approveQuote": "Approve Quote",
   "rejectQuote": "Reject Quote",
-  "download": "Download"
+  "download": "Download",
+  "quote": "Quote"
 }

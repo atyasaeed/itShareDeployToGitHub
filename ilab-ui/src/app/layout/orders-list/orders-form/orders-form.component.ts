@@ -77,6 +77,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
             e.status == 'QUOTE_ACCEPTED' ||
             e.status == 'IN_PROGRESS' ||
             e.status == 'QUOTE_REJECTED' ||
+            e.status == 'ITEM_REJECTED' ||
             e.status == 'CANCELLED'
           ) {
             this.arrBooleanItems.push(true);
@@ -149,6 +150,8 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
   }
 
   orderStatus(order: Order, statusBtn: HTMLElement) {
+    let arrLineItems: boolean[] = new Array();
+
     switch (order.status) {
       case 'PENDING':
         this.service.orderStatus(order.id, 'quote').subscribe((res: Order) => {
@@ -165,7 +168,27 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
       case 'IN_PROGRESS':
         this.service.orderStatus(order.id, 'finish').subscribe((res: Order) => {
           this.entity = res;
-          this.check = false;
+          res.lineItems.forEach((e) => {
+            if (
+              // e.status !== 'FINISHED'
+              e.status == 'DELIVERED' ||
+              e.status == 'QUOTE_ACCEPTED' ||
+              e.status == 'IN_PROGRESS' ||
+              e.status == 'QUOTE_REJECTED' ||
+              e.status == 'ITEM_REJECTED' ||
+              e.status == 'CANCELLED'
+            ) {
+              arrLineItems.push(true);
+            } else {
+              arrLineItems.push(false);
+            }
+          });
+
+          if (arrLineItems.indexOf(false) == -1) {
+            this.check = true;
+          } else {
+            this.check = false;
+          }
         });
 
         break;
@@ -266,6 +289,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
                 e.status == 'QUOTE_ACCEPTED' ||
                 e.status == 'IN_PROGRESS' ||
                 e.status == 'QUOTE_REJECTED' ||
+                e.status == 'ITEM_REJECTED' ||
                 e.status == 'CANCELLED'
               ) {
                 arrLineItems.push(true);
