@@ -1,14 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Inject,
-  ElementRef,
-  QueryList,
-  ViewChildren,
-  ViewChild,
-  TemplateRef,
-} from '@angular/core';
+import { Component, OnInit, Input, Inject, TemplateRef, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { LineItem, ShoppingCartItem } from 'src/app/shared/domain';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import * as THREE from 'three/build/three.module.js';
@@ -16,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { LineItemService } from './line-item.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+
 @Component({
   selector: 'app-line-item',
   templateUrl: './line-item.component.html',
@@ -24,10 +15,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 export class LineItemComponent implements OnInit {
   @Input() lineItem: LineItem;
   @Input() status: string;
-  //@ViewChildren('acceptRef', { read: ElementRef }) acceptRef: QueryList<ElementRef<HTMLParagraphElement>>;
-  // @ViewChild('acceptRef') acceptRef: ElementRef;
-  // @ViewChild('rejectRef') rejectRef: ElementRef;
-  // @ViewChild('cancelRef') cancelRef: ElementRef;
+  @Output() itemChanged = new EventEmitter<LineItem>();
   checkRadio;
   modalRef: BsModalRef;
   constructor(
@@ -35,20 +23,18 @@ export class LineItemComponent implements OnInit {
     private http: HttpClient,
     private toastr: ToastrService,
     private service: LineItemService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {}
   ngAfterViewInit() {
-    // if (this.lineItem.status == 'CANCELLED') {
-    //   //this.cancelRef.nativeElement.checked = true;
-    //   this.checkRadio = 'cancel';
-    // }
     if (this.lineItem.status == 'QUOTE_ACCEPTED' || this.lineItem.status == 'QUOTED') {
       this.checkRadio = 'accept';
     } else if (this.lineItem.status == 'QUOTE_REJECTED') {
       this.checkRadio = 'reject';
     }
+    this.cdr.detectChanges();
   }
 
   getFileUrl(): string {
@@ -71,7 +57,6 @@ export class LineItemComponent implements OnInit {
 
   checkStatus() {
     let result = '';
-    //this.order.status = 'FINISHED';
     switch (this.status) {
       case 'PENDING':
         result = 'PENDING';
@@ -107,34 +92,28 @@ export class LineItemComponent implements OnInit {
   }
 
   cancelItem() {
-    //console.log(this.lineItem);
-    //if (confirm('Are You Sure ?')) {
     this.service.cancel(this.lineItem.id).subscribe((res: LineItem) => {
       this.lineItem = res;
+      this.itemChanged.emit(res);
       this.toastr.success('Item Cancelled');
       this.modalRef.hide();
     });
-    //}
   }
 
   quotedActionsChanged(event) {
     if (event.target.value == 'QUOTE_ACCEPTED') {
       this.service.approve(this.lineItem.id).subscribe((res: LineItem) => {
         this.lineItem = res;
+        this.itemChanged.emit(res);
         this.toastr.success('Quote Accepted');
       });
     } else if (event.target.value == 'QUOTE_REJECTED') {
       this.service.reject(this.lineItem.id).subscribe((res: LineItem) => {
         this.lineItem = res;
+        this.itemChanged.emit(res);
         this.toastr.success('Quote Rejected');
       });
     }
-    // else if (event.target.value == 'CANCELLED') {
-    //   this.service.cancel(this.lineItem.id).subscribe((res: LineItem) => {
-    //     this.lineItem = res;
-    //     this.toastr.success('Item Cancelled');
-    //   });
-    // }
   }
 
   openModal(template: TemplateRef<any>) {

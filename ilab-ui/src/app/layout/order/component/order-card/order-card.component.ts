@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Inject } from '@angular/core';
-import { Order, User } from 'src/app/shared/domain';
+import { Order, User, LineItem } from 'src/app/shared/domain';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrdersService } from '../../orders.service';
 import { IAppConfig, APP_CONFIG } from 'src/app/shared/app.config';
@@ -110,5 +110,13 @@ export class OrderCardComponent implements OnInit {
         result = '';
     }
     return result;
+  }
+
+  getOrder(lineItem: LineItem) {
+    this.order.lineItems.forEach((e: LineItem, index) => {
+      if (e.id == lineItem.id) {
+        this.order.lineItems[index] = lineItem;
+      }
+    });
   }
 }

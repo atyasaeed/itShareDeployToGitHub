@@ -194,7 +194,7 @@
   "orderedAt": "Ordered At",
   "approve": "Approve",
   "reject": "Reject",
-  "print": "Print",
+  "printQuotation": "Print Quotation",
   "summary": "Summary",
   "convertToGallery": "Convert To Gallery",
   "continueShopping": "Continue Shopping ",
@@ -208,5 +208,6 @@
   "approveQuote": "Approve Quote",
   "rejectQuote": "Reject Quote",
   "download": "Download",
-  "quote": "Quote"
+  "quote": "Quote",
+  "status":"Status"
 }
