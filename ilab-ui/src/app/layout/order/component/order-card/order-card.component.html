@@ -48,7 +48,7 @@
 
         <button [useExistingCss]="true" printSectionId="{{order.id}}" ngxPrint type="button"
           class="btn btn-secondary btn-block btn-sm  m-1"
-          *ngIf="checkStatus() == 'QUOTED' || checkStatus() == 'QUOTE_ACCEPTED'">{{'print'|translate}}</button>
+          *ngIf="checkStatus() == 'QUOTED' || checkStatus() == 'QUOTE_ACCEPTED'">{{'printQuotation'|translate}}</button>
 
         <input type="submit" class="btn btn-sm btn-danger btn-block m-1 text-center"
           *ngIf="checkStatus() != 'IN_PROGRESS' && checkStatus() != 'FINISHED' && checkStatus() != 'DELIVERED' "
@@ -75,7 +75,7 @@
 
         <!-- Page Content -->
         <div class="content">
-          <app-line-item *ngFor="let lineItem of order.lineItems" [lineItem]="lineItem" status='{{order.status}}'>
+          <app-line-item *ngFor="let lineItem of order.lineItems" [lineItem]="lineItem" status='{{order.status}}' (itemChanged)="getOrder($event)">
           </app-line-item>
         </div>
         <!-- End Page Content -->
@@ -137,38 +137,41 @@
           </thead>
           <tbody>
             <tr *ngFor="let lineItem of order.lineItems;let i = index">
-              <th scope="row">{{i}}</th>
-              <td>{{lineItem.service.name}}</td>
-              <td>
-                <span>
-                  <label>{{'height'|translate}} : </label> {{lineItem.files[0].height}},
-                </span>
-                <span>
-                  <label>{{'width'|translate}} : </label> {{lineItem.files[0].width}},
-                </span>
-                <span *ngIf="lineItem.files[0].material">
-                  <label>{{'material'|translate}} : </label> {{lineItem.files[0].material}},
-                </span>
-                <span *ngIf="lineItem.files[0].thickness">
-                  <label>{{'thickness'|translate}} : </label> {{lineItem.files[0].thickness}},
-                </span>
-                <span *ngIf="lineItem.files[0].color">
-                  <label>{{'color'|translate}} : </label> {{lineItem.files[0].color}},
-                </span>
-                <span *ngIf="lineItem.files[0].type">
-                  <label>{{'type'|translate}} : </label> {{lineItem.files[0].type}},
-                </span>
-                <span *ngIf="lineItem.files[0].unit">
-                  <label>{{'unit'|translate}} : </label> {{lineItem.files[0].unit}},
-                </span>
-                <span *ngIf="lineItem.files[0].processes">
-                  <label>{{'processes'|translate}} : </label> {{lineItem.files[0].processes}},
-                </span>
-              </td>
-              <td>{{lineItem.estimatedEndDate | date:'fullDate'}}</td>
-              <td>{{lineItem.unitPrice}}</td>
-              <td>{{lineItem.quantity}}</td>
-              <td>{{lineItem.unitPrice *lineItem.quantity|currency:'EGP'}}</td>
+              {{lineItem.status}}
+              <ng-container *ngIf="lineItem.status =='QUOTED' || lineItem.status =='QUOTE_ACCEPTED'">
+                <th scope="row">{{i}}</th>
+                <td>{{lineItem.service.name}}</td>
+                <td>
+                  <span>
+                    <label>{{'height'|translate}} : </label> {{lineItem.files[0].height}},
+                  </span>
+                  <span>
+                    <label>{{'width'|translate}} : </label> {{lineItem.files[0].width}},
+                  </span>
+                  <span *ngIf="lineItem.files[0].material">
+                    <label>{{'material'|translate}} : </label> {{lineItem.files[0].material}},
+                  </span>
+                  <span *ngIf="lineItem.files[0].thickness">
+                    <label>{{'thickness'|translate}} : </label> {{lineItem.files[0].thickness}},
+                  </span>
+                  <span *ngIf="lineItem.files[0].color">
+                    <label>{{'color'|translate}} : </label> {{lineItem.files[0].color}},
+                  </span>
+                  <span *ngIf="lineItem.files[0].type">
+                    <label>{{'type'|translate}} : </label> {{lineItem.files[0].type}},
+                  </span>
+                  <span *ngIf="lineItem.files[0].unit">
+                    <label>{{'unit'|translate}} : </label> {{lineItem.files[0].unit}},
+                  </span>
+                  <span *ngIf="lineItem.files[0].processes">
+                    <label>{{'processes'|translate}} : </label> {{lineItem.files[0].processes}},
+                  </span>
+                </td>
+                <td>{{lineItem.estimatedEndDate | date:'fullDate'}}</td>
+                <td>{{lineItem.unitPrice}}</td>
+                <td>{{lineItem.quantity}}</td>
+                <td>{{lineItem.unitPrice *lineItem.quantity|currency:'EGP'}}</td>
+              </ng-container>
             </tr>
           </tbody>
         </table>

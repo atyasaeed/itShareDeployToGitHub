@@ -29,13 +29,14 @@
               <div class="row">
                 <div class="col-md-12 product-name">
                   <div class="row">
-                    <div class="col-md-12 mb-2 text-right">
-                      <span class="float-left my-auto" *ngIf="lineItem.status == 'IN_PROGRESS' || lineItem.status == 'FINISHED' || lineItem.status == 'DELIVERED'">
-                        {{'status' | translate}} : {{lineItem.status}}
-                      </span>
 
-
-                      <span *ngIf="( checkStatus() == 'QUOTED' && lineItem.status != 'CANCELLED' ) && lineItem.status != 'ITEM_REJECTED' " >
+                    <div class="col">
+                      <h5 class="text-center text-md-left text-primary">{{lineItem.service.name}}</h5>
+                    </div>
+                    <div class="col-md-4 " *ngIf="lineItem.status == 'IN_PROGRESS' || lineItem.status == 'FINISHED' || lineItem.status == 'DELIVERED'">
+                      {{'status' | translate}} : <span class="text-primary">{{lineItem.status}}</span>
+                    </div>
+                    <div class="col-md-4 " *ngIf="( checkStatus() == 'QUOTED' && lineItem.status != 'CANCELLED' ) && lineItem.status != 'ITEM_REJECTED' " >
                           <span tooltip="{{'approveQuote' | translate}}" hide-delay="0" class="custom-control custom-radio d-inline-block">
                             <input [checked]="checkRadio == 'accept'" class="custom-control-input" type="radio" id="accept_{{lineItem.id}}"  name="quotedActions_{{lineItem.id}}" value="QUOTE_ACCEPTED" (change)="quotedActionsChanged($event)" >
                             <label for="accept_{{lineItem.id}}" class="custom-control-label">
@@ -48,22 +49,12 @@
                               <i class="fa fa-thumbs-o-down text-secondary" aria-hidden="true"></i>
                             </label>
                           </span>
-                          <!-- <span class="custom-control custom-radio d-inline-block ml-2">
-                            <input [checked]="checkRadio == 'cancel'" class="custom-control-input" type="radio" id="cancel_{{lineItem.id}}" value="CANCELLED"  name="quotedActions_{{lineItem.id}}" (change)="quotedActionsChanged($event)" >
-                            <label for="cancel_{{lineItem.id}}" class="custom-control-label">
-                             <i class="fa fa-times text-danger" aria-hidden="true"></i>
-                            </label>
-                          </span> -->
-                      </span>
-                      <button tooltip="{{'cancel' | translate}}"  hide-delay="0"  (click)="openModal(cancelAlert)" *ngIf="!(lineItem.status == 'CANCELLED' ) && (checkStatus() == 'PENDING' || ( checkStatus() == 'QUOTED' && lineItem.status != 'ITEM_REJECTED' ) || ( checkStatus() == 'QUOTE_ACCEPTED' && lineItem.status == 'QUOTE_ACCEPTED' ) )" type="button" class="btn btn-outline-danger btn-sm btn-sm ml-2">
-                        <i class="fa fa-times" aria-hidden="true"></i>
-                      </button>
-                    </div>
-                    <div class="col-md-10">
-                      <h5 class="text-center text-md-left text-primary">{{lineItem.service.name}}</h5>
                     </div>
                     <div class="col-md-2 text-center text-md-right">
-                      <a class="btn btn-outline-success btn-sm" [href]="getFileUrl()" tooltip="{{'download' | translate}}"  hide-delay="0">
+                      <button tooltip="{{'cancel' | translate}}"  hide-delay="0"  (click)="openModal(cancelAlert)"  type="button" class="btn btn-outline-danger btn-sm  mr-2" *ngIf="!(lineItem.status == 'CANCELLED' ) && (checkStatus() == 'PENDING' || ( checkStatus() == 'QUOTED' && lineItem.status != 'ITEM_REJECTED' ) || ( checkStatus() == 'QUOTE_ACCEPTED' && lineItem.status == 'QUOTE_ACCEPTED' ) )">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                      </button>
+                      <a class="btn btn-outline-success btn-sm z-index-20 position-relative" [href]="getFileUrl()" tooltip="{{'download' | translate}}"  hide-delay="0">
                         <i class="fa fa-download" aria-hidden="true"></i>
                       </a>
                     </div>
@@ -128,29 +119,10 @@
                     <!-- <div></div> -->
 
                   </div>
-                  <!-- <div *ngFor="let file of lineItem.files; index as i"class="card-form">
 
-                                    <div>Uploaded File :<a href="{{getFileUrl()}}">{{lineItem.asset_name}}</a></div>
-                                    <div>Units used in file :<span class="value ">{{lineItem.unit}}</span></div>
-                                    <div>Material :<span class="value ">{{lineItem.material}}</span></div>
-                                  </div> -->
-                  <!-- <div class="row">
-                                        <div class="col-md-12">
-
-                                        </div>
-                                    </div> -->
                 </div>
 
-                <!-- {{lineItem.status}} -->
 
-                <!-- <div class="col-md-3 price">
-                  <div class="btn btn-warning"></div>
-                </div>
-                <div class="col-md-1 price">
-                  <button type="button" class="btn btn-outline-danger btn-xs">
-                    <i class="fa fa-trash" aria-hidden="true"></i>
-                  </button>
-                </div> -->
               </div>
             </div>
           </div>
@@ -170,15 +142,14 @@
 
 <ng-template #cancelAlert>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">{{'alert'|translate}}</h4>
+    <h4 class="modal-title pull-left text-primary">
+      {{'areYouSure'|translate}} ?
+    </h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <h4 class="text-center text-primary">
-      {{'areYouSure'|translate}} ?
-    </h4>
     <div class="text-center">
       <button class="btn btn-sm btn-danger" (click)="cancelItem()">{{'yes'|translate}}</button>
       <button class="btn btn-sm btn-secondary ml-2" (click)="modalRef.hide()">{{'no'|translate}}</button>

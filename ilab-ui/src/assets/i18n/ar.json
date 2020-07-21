@@ -194,7 +194,7 @@
   "orderedAt": "تاريخ الطلب",
   "approve": "موافقة",
   "reject": "رفض",
-  "print": "طباعه",
+  "printQuotation": "طباعه العرض",
   "summary": "الملخص",
   "convertToGallery": "تحويل إلى معرض",
   "continueShopping": "تابع التسوق",
@@ -208,5 +208,6 @@
   "approveQuote": "قبول العرض",
   "rejectQuote": "رفض العرض",
   "download": "تحميل",
-  "quote": "قبول"
+  "quote": "قبول",
+  "status": "الحاله"
 }
