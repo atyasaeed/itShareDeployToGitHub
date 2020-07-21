@@ -49,269 +49,293 @@
         <div class="row">
           <div class="col-md-12">
             <div class="info">
-              <div class="row line-item light-grey-background" *ngFor="let lineItem of entity?.lineItems">
+              <div *ngFor="let lineItem of entity?.lineItems">
+                <div class="row line-item light-grey-background position-relative">
 
 
-                <div class="col-md-3 service-image mb-2">
-                  <!-- <img class="img-fluid " [src]="getFileExtension(lineItem)"
+                  <div class="overlay position-absolute d-flex"
+                    [class.show]="lineItem.status == 'CANCELLED' ||  lineItem.status == 'QUOTE_REJECTED' || lineItem.status == 'ITEM_REJECTED' ">
+                    <span class="cancelled ">{{lineItem.status | translate}}</span>
+                    <!-- <span *ngIf="lineItem.status == 'ITEM_REJECTED'" class="rejection-reason p-2 mt-2"></span> -->
+                  </div>
+                  <div class="col-md-3 service-image mb-2">
+                    <!-- <img class="img-fluid " [src]="getFileExtension(lineItem)"
                     *ngIf="getFileExtension(lineItem) != false;else serviceImage">
                   <ng-template #serviceImage>
                     <img class="img-fluid " [src]="appConfig.serviceImage(lineItem.service)">
                   </ng-template> -->
-                  <img class="img-fluid " [src]="appConfig.FILE_URL + lineItem.files[0].asset_id"
-                    *ngIf="getFileExtension(lineItem) == 'image';else stlExtension">
-                  <ng-template #stlExtension>
-                    <div *ngIf="getFileExtension(lineItem) == 'stl';else serviceImage">
-                      <stl-model-viewer [stlModels]="[appConfig.FILE_URL + lineItem.files[0].asset_id]">
-                      </stl-model-viewer>
+                    <img class="img-fluid " [src]="appConfig.FILE_URL + lineItem.files[0].asset_id"
+                      *ngIf="getFileExtension(lineItem) == 'image';else stlExtension">
+                    <ng-template #stlExtension>
+                      <div *ngIf="getFileExtension(lineItem) == 'stl';else serviceImage">
+                        <stl-model-viewer [stlModels]="[appConfig.FILE_URL + lineItem.files[0].asset_id]">
+                        </stl-model-viewer>
+                      </div>
+
+                    </ng-template>
+                    <ng-template #serviceImage>
+                      <img class="img-fluid " [src]="appConfig.serviceImage(lineItem.service)">
+                    </ng-template>
+                    <div class="mt-3 text-truncate">
+
+                      <label class="mb-0">{{ 'notes' | translate }} :&nbsp;</label>
+                      <span #heightErr>{{lineItem.notes}}</span>
+
                     </div>
-
-                  </ng-template>
-                  <ng-template #serviceImage>
-                    <img class="img-fluid " [src]="appConfig.serviceImage(lineItem.service)">
-                  </ng-template>
-                  <div class="mt-3 text-truncate">
-
-                    <label class="mb-0">{{ 'notes' | translate }} :&nbsp;</label>
-                    <span #heightErr>{{lineItem.notes}}</span>
-
                   </div>
-                </div>
-                <div class="col-md-9">
-                  <div class="info">
+                  <div class="col-md-9">
 
-                    <div class="row">
-                      <div class="col-md-8">
-                        <div class="row">
-                          <h5 class="text-primary col-md-5">
-                            <a>{{lineItem.service.name}}</a>
-                          </h5>
-                          <div class="col-md-7">
-                            <span style="display:block;">{{'order.status'|translate}} :<span class="value">
-                                {{lineItem?.status}}</span>
-                            </span>
+                    <div class="info">
+
+                      <div class="row">
+                        <div class="col-md-8">
+                          <div class="row">
+                            <h5 class="text-primary col-md-5">
+                              <a>{{lineItem.service.name}}</a>
+                            </h5>
+                            <div class="col-md-7">
+                              <span style="display:block;">{{'order.status'|translate}} :<span class="value">
+                                  {{lineItem?.status}}</span>
+                              </span>
+                            </div>
+
                           </div>
 
+
                         </div>
+                        <div class="col-md-4 row price text-center text-md-right my-auto"
+                          style="justify-content: flex-end; z-index: 1000;">
+                          <!-- <span>$120</span> -->
+                          <a class="btn btn-outline-success btn-xs mr-2" [href]="getFileUrl(lineItem)"
+                            tooltip="{{'download' | translate}}">
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                          </a>
 
-
-                      </div>
-                      <div class="col-md-4 row price text-center text-md-right my-auto"
-                        style="justify-content: flex-end;">
-                        <!-- <span>$120</span> -->
-                        <a class="btn btn-outline-success btn-xs mr-2" [href]="getFileUrl(lineItem)"
-                          tooltip="{{'download' | translate}}">
-                          <i class="fa fa-download" aria-hidden="true"></i>
-                        </a>
-
-                        <!-- <div *ngIf="lineItem.status === 'PENDING' && isButtonVisible" style="margin-right: 10px;">
+                          <!-- <div *ngIf="lineItem.status === 'PENDING' && isButtonVisible" style="margin-right: 10px;">
                           <button (click)="isButtonVisible = false" class="btn btn-danger"
                             #statusRejectBtn>{{'order.status.reject'|translate}}</button>
                         </div> -->
-                        <!-- <div *ngIf="lineItem.status === 'PENDING' && !isButtonVisible" style="margin-right: 10px;">
+                          <!-- <div *ngIf="lineItem.status === 'PENDING' && !isButtonVisible" style="margin-right: 10px;">
                           <button (click)="lineItemReject(lineItem) ;isButtonVisible"
                             class="btn btn-info">{{'Save'|translate}}</button>
                         </div> -->
 
 
 
-                        <button class="btn btn-outline-danger btn-xs mr-2" tooltip="{{'reject' | translate}}"
-                          *ngIf="lineItem.status === 'PENDING' && entity.status ==='PENDING'"
-                          (click)="openModal(template)">
-                          <i class="fa fa-window-close" aria-hidden="true"></i>
-                        </button>
-                        <button class="btn btn-outline-primary btn-xs mr-2" (click)="lineItemStatus(lineItem)"
-                          tooltip="{{'quote' | translate}}"
-                          *ngIf="lineItem.status === 'PENDING' && entity.status ==='PENDING'">
-                          <i class="fa fa-check" aria-hidden="true"></i>
-                        </button>
-
-                        <button class="btn btn-outline-info btn-xs mr-2" (click)="updateItemPending(lineItem)"
-                          tooltip="{{'back' | translate}}"
-                          *ngIf=" (lineItem.status === 'ITEM_REJECTED' || lineItem.status === 'QUOTED') && entity.status ==='PENDING'">
-                          <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                        </button>
-
-                        <button class="btn btn-outline-primary btn-xs mr-2" (click)="lineItemStatus(lineItem)"
-                          *ngIf="lineItem.status === 'QUOTE_ACCEPTED' && entity.status === 'IN_PROGRESS'">
-                          {{'order.status.progress'|translate}}
-                        </button>
-                        <button class="btn btn-outline-primary btn-xs mr-2" (click)="lineItemStatus(lineItem)"
-                          *ngIf="lineItem.status === 'IN_PROGRESS'">
-                          {{'order.status.ready'|translate}}
-                        </button>
-                        <button class="btn btn-outline-primary btn-xs mr-2" (click)="lineItemStatus(lineItem)"
-                          *ngIf="lineItem.status === 'FINISHED'">
-                          {{'order.status.delivered'|translate}}
-                        </button>
-
-
-
-                      </div>
-                    </div>
-                    <!-- modal-->
-                    <ng-template #template>
-                      <div>
-                        <div class="modal-header">
-                          <h4 class="modal-title pull-left">please register the rejection reason</h4>
-                          <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-                            <span aria-hidden="true">&times;</span>
+                          <button class="btn btn-outline-danger btn-xs mr-2" tooltip="{{'reject' | translate}}"
+                            *ngIf="lineItem.status === 'PENDING' && entity.status ==='PENDING'"
+                            (click)="openModal(template)">
+                            <i class="fa fa-window-close" aria-hidden="true"></i>
                           </button>
+                          <button class="btn btn-outline-primary btn-xs mr-2" (click)="lineItemStatus(lineItem)"
+                            tooltip="{{'quote' | translate}}"
+                            *ngIf="lineItem.status === 'PENDING' && entity.status ==='PENDING'">
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                          </button>
+
+                          <button class="btn btn-outline-info btn-xs mr-2" (click)="updateItemPending(lineItem)"
+                            tooltip="{{'reset' | translate}}"
+                            *ngIf=" (lineItem.status === 'ITEM_REJECTED' || lineItem.status === 'QUOTED') && entity.status ==='PENDING'">
+                            <!-- <i class="fa fa-refresh" aria-hidden="true"></i> -->
+                            <i class="fa fa-undo"></i>
+                            <!-- <span class="fa-stack">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-undo fa-stack-1x fa-inverse"></i>
+                          </span> -->
+
+
+                          </button>
+
+                          <button class="btn btn-outline-primary btn-xs mr-2" (click)="lineItemStatus(lineItem)"
+                            *ngIf="lineItem.status === 'QUOTE_ACCEPTED' && entity.status === 'IN_PROGRESS'">
+                            {{'order.status.progress'|translate}}
+                          </button>
+                          <button class="btn btn-outline-primary btn-xs mr-2" (click)="lineItemStatus(lineItem)"
+                            *ngIf="lineItem.status === 'IN_PROGRESS'">
+                            {{'order.status.ready'|translate}}
+                          </button>
+                          <button class="btn btn-outline-primary btn-xs mr-2" (click)="lineItemStatus(lineItem)"
+                            *ngIf="lineItem.status === 'FINISHED'">
+                            {{'order.status.delivered'|translate}}
+                          </button>
+
+
+
                         </div>
-                        <div class="modal-body">
-
-                          <mat-form-field style="width: 100%; ">
-                            <textarea matInput rows="2" placeholder="Rejection Reason"
-                              [(ngModel)]="reasonRejection"></textarea>
-                          </mat-form-field>
-                          <div style="margin-right: 10px;" class="text-right"><button
-                              (click)="lineItemReject(lineItem) ; modalRef.hide();isButtonVisible=false"
-                              class="btn btn-danger">{{'order.status.reject'|translate}}</button>
-                          </div>
-                        </div>
-
-
-
                       </div>
-                    </ng-template>
-                    <!-- End Modal-->
-                    <div class="row">
-                      <div class="col-12 mt-2 row " *ngIf="!isButtonVisible && lineItem.status === 'ITEM_REJECTED'">
-                        <div class="col-12">
-
-                          <!-- <textarea style="width: 100%; " class="" rows="2" disabled>{{reasonRejection}}</textarea> -->
-                          <mat-form-field style="width: 100%; ">
-                            <textarea matInput rows="2" style="color: rgb(0,0,0);" placeholder="Rejection Reason"
-                              [(ngModel)]="reasonRejection" disabled></textarea>
-                          </mat-form-field>
-                        </div>
-
-                      </div>
-                      <div class="col-md-6" *ngIf="lineItem.status !== 'ITEM_REJECTED'">
+                      <!-- modal-->
+                      <ng-template #template>
                         <div>
-                          <mat-form-field class="form-rtl" *ngIf="lineItem.status !=='CANCELLED'">
-                            <mat-label>{{ 'estimatedEndDate' | translate }}</mat-label>
+                          <div class="modal-header">
+                            <h4 class="modal-title pull-left">please register the rejection reason</h4>
+                            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
 
-                            <input matInput [matDatepicker]="picker" [min]="minDate" [max]="maxDate"
-                              (dateChange)="updateItem(entity,lineItem)" [(ngModel)]="lineItem.estimatedEndDate"
-                              #estimatedEndDate='ngModel' [disabled]="isEnabled || lineItem.status !=='PENDING'">
-                            <mat-datepicker-toggle matSuffix [for]="picker"
-                              [disabled]="isEnabled || lineItem.status !=='PENDING'">
-                            </mat-datepicker-toggle>
-                            <mat-datepicker #picker disabled="false"></mat-datepicker>
-                            <mat-error *ngIf="estimatedEndDate.hasError('required')">
-                            </mat-error>
-                          </mat-form-field>
+                            <mat-form-field style="width: 100%; ">
+                              <textarea matInput rows="2" placeholder="Rejection Reason"
+                                [(ngModel)]="reasonRejection"></textarea>
+                            </mat-form-field>
+                            <div style="margin-right: 10px;" class="text-right"><button
+                                (click)="lineItemReject(lineItem) ; modalRef.hide();isButtonVisible=false"
+                                class="btn btn-danger">{{'order.status.reject'|translate}}</button>
+                            </div>
+                          </div>
+
+
+
                         </div>
-                      </div>
-                      <div class="col-md-6" *ngIf="lineItem.status !== 'ITEM_REJECTED'">
+                      </ng-template>
+                      <!-- End Modal-->
+                      <div class="row">
+                        <div class="col-12 mt-2 row " *ngIf="!isButtonVisible && lineItem.status === 'ITEM_REJECTED'">
+                          <div class="col-12">
+
+                            <!-- <textarea style="width: 100%; " class="" rows="2" disabled>{{reasonRejection}}</textarea> -->
+                            <mat-form-field style="width: 100%; ">
+                              <textarea matInput rows="2" style="color: rgb(0,0,0);" placeholder="Rejection Reason"
+                                [(ngModel)]="reasonRejection" disabled></textarea>
+                            </mat-form-field>
+                          </div>
+
+                        </div>
+                        <div class="col-md-6" *ngIf="lineItem.status !== 'ITEM_REJECTED'">
+                          <div>
+                            <mat-form-field class="form-rtl" *ngIf="lineItem.status !=='CANCELLED'">
+                              <mat-label>{{ 'estimatedEndDate' | translate }}</mat-label>
+
+                              <input matInput [matDatepicker]="picker" [min]="minDate" [max]="maxDate"
+                                (dateChange)="updateItem(entity,lineItem)" [(ngModel)]="lineItem.estimatedEndDate"
+                                #estimatedEndDate='ngModel' [disabled]="isEnabled || lineItem.status !=='PENDING'">
+                              <mat-datepicker-toggle matSuffix [for]="picker"
+                                [disabled]="isEnabled || lineItem.status !=='PENDING'">
+                              </mat-datepicker-toggle>
+                              <mat-datepicker #picker disabled="false"></mat-datepicker>
+                              <mat-error *ngIf="estimatedEndDate.hasError('required')">
+                              </mat-error>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <div class="col-md-6" *ngIf="lineItem.status !== 'ITEM_REJECTED'">
+                          <div>
+
+                            <mat-form-field class="form-rtl" *ngIf="lineItem.status !=='CANCELLED'">
+
+                              <input matInput type="number" placeholder="{{'unitPrice'|translate}}" min="1"
+                                (keyup)='updateItem(entity,lineItem)' [(ngModel)]="lineItem.unitPrice"
+                                #unitPrice='ngModel' [disabled]="isEnabled || lineItem.status !=='PENDING'" required>
+                              <mat-error *ngIf="unitPrice.hasError('required')">
+                              </mat-error>
+                            </mat-form-field>
+
+
+                          </div>
+                        </div>
+
                         <div>
+                        </div>
+                      </div>
 
-                          <mat-form-field class="form-rtl" *ngIf="lineItem.status !=='CANCELLED'">
+                      <div class="row">
+                        <div class="col-md-8 product-name mb-2 mb-md-0">
+                          <div class="product-name">
 
-                            <input matInput type="number" placeholder="{{'unitPrice'|translate}}" min="1"
-                              (keyup)='updateItem(entity,lineItem)' [(ngModel)]="lineItem.unitPrice"
-                              #unitPrice='ngModel' [disabled]="isEnabled || lineItem.status !=='PENDING'" required>
-                            <mat-error *ngIf="unitPrice.hasError('required')">
-                            </mat-error>
-                          </mat-form-field>
+                            <div class="product-info">
 
+                              <div class=" quantity">
+                                <label for="quantity">{{ 'quantity' | translate }} :&nbsp;</label>
+                                <span class="text-color" #heightErr>{{lineItem.quantity}}</span>
+
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+
+
+
+
+                      </div>
+
+                      <div class="row" *ngFor="let file of lineItem.files ;index as j" class="card-form mt-3">
+
+
+                        <div class="form-body">
+                          <div class="row">
+                            <div class="col-md-6 mb-2">
+                              <div>
+                                <label>{{'file.height' | translate }} :&nbsp;</label>
+                                <span class="text-color" #heightErr>{{file.height}}</span>
+
+                              </div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                              <div>
+                                <label>{{'file.width' | translate }} :&nbsp;</label>
+                                <span class="text-color" #widthErr> {{file.width}}</span>
+
+                              </div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                              <div>
+                                <label>{{'file.material' | translate }} :&nbsp;</label>
+                                <span class="text-color" #widthErr> {{file.material}}</span>
+
+
+                              </div>
+                            </div>
+                            <div class="col-md-6 mb-2" *ngIf="file.type != undefined">
+
+                              <label>{{'file.type' | translate }} :&nbsp;</label>
+                              <span class="text-color" #widthErr> {{file.type}}</span>
+
+                            </div>
+                            <div class="col-md-6 mb-2" *ngIf="file.thickness != undefined">
+
+                              <label>{{'file.thickness' | translate }} :&nbsp;</label>
+                              <span class="text-color" #widthErr> {{file.thickness}}</span>
+
+                            </div>
+                            <div class="col-md-6 mb-2" *ngIf="file.color != undefined">
+
+                              <label>{{'file.color' | translate }} :&nbsp;</label>
+                              <span class="text-color" #widthErr> {{file.color}}</span>
+
+                            </div>
+                            <div class="col-md-6 mb-2" *ngIf="file.unit != undefined">
+
+                              <label>{{'file.unit' | translate }} :&nbsp;</label>
+                              <span class="text-color" #widthErr> {{file.unit}}</span>
+
+
+                            </div>
+                            <div class="col-md-6 mb-2" *ngIf="file.processes">
+                              <label>{{'file.processes' | translate }} :&nbsp;</label>
+                              <span class="text-color" #multiSelectErr>{{file.processes}}</span>
+
+                            </div>
+                          </div>
 
                         </div>
                       </div>
 
-                      <div>
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-md-8 product-name mb-2 mb-md-0">
-                        <div class="product-name">
-
-                          <div class="product-info">
-
-                            <div class=" quantity">
-                              <label for="quantity">{{ 'quantity' | translate }} :&nbsp;</label>
-                              <span class="text-color" #heightErr>{{lineItem.quantity}}</span>
-
-                            </div>
-
-                          </div>
-                        </div>
-                      </div>
-
-
-
-
-                    </div>
-
-                    <div class="row" *ngFor="let file of lineItem.files ;index as j" class="card-form mt-3">
-
-
-                      <div class="form-body">
-                        <div class="row">
-                          <div class="col-md-6 mb-2">
-                            <div>
-                              <label>{{'file.height' | translate }} :&nbsp;</label>
-                              <span class="text-color" #heightErr>{{file.height}}</span>
-
-                            </div>
-                          </div>
-                          <div class="col-md-6 mb-2">
-                            <div>
-                              <label>{{'file.width' | translate }} :&nbsp;</label>
-                              <span class="text-color" #widthErr> {{file.width}}</span>
-
-                            </div>
-                          </div>
-                          <div class="col-md-6 mb-2">
-                            <div>
-                              <label>{{'file.material' | translate }} :&nbsp;</label>
-                              <span class="text-color" #widthErr> {{file.material}}</span>
-
-
-                            </div>
-                          </div>
-                          <div class="col-md-6 mb-2" *ngIf="file.type != undefined">
-
-                            <label>{{'file.type' | translate }} :&nbsp;</label>
-                            <span class="text-color" #widthErr> {{file.type}}</span>
-
-                          </div>
-                          <div class="col-md-6 mb-2" *ngIf="file.thickness != undefined">
-
-                            <label>{{'file.thickness' | translate }} :&nbsp;</label>
-                            <span class="text-color" #widthErr> {{file.thickness}}</span>
-
-                          </div>
-                          <div class="col-md-6 mb-2" *ngIf="file.color != undefined">
-
-                            <label>{{'file.color' | translate }} :&nbsp;</label>
-                            <span class="text-color" #widthErr> {{file.color}}</span>
-
-                          </div>
-                          <div class="col-md-6 mb-2" *ngIf="file.unit != undefined">
-
-                            <label>{{'file.unit' | translate }} :&nbsp;</label>
-                            <span class="text-color" #widthErr> {{file.unit}}</span>
-
-
-                          </div>
-                          <div class="col-md-6 mb-2" *ngIf="file.processes">
-                            <label>{{'file.processes' | translate }} :&nbsp;</label>
-                            <span class="text-color" #multiSelectErr>{{file.processes}}</span>
-
-                          </div>
-                        </div>
-
-                      </div>
                     </div>
 
                   </div>
 
-                </div>
 
+
+
+
+
+
+
+
+                </div>
               </div>
+
             </div>
           </div>
 
