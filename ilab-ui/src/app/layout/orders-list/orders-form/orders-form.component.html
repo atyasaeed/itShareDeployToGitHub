@@ -100,7 +100,7 @@
                         style="justify-content: flex-end;">
                         <!-- <span>$120</span> -->
                         <a class="btn btn-outline-success btn-xs mr-2" [href]="getFileUrl(lineItem)"
-                          tooltip="{{'Download' | translate}}">
+                          tooltip="{{'download' | translate}}">
                           <i class="fa fa-download" aria-hidden="true"></i>
                         </a>
 
@@ -121,13 +121,13 @@
                           <i class="fa fa-window-close" aria-hidden="true"></i>
                         </button>
                         <button class="btn btn-outline-primary btn-xs mr-2" (click)="lineItemStatus(lineItem)"
-                          tooltip="{{'Quote' | translate}}"
+                          tooltip="{{'quote' | translate}}"
                           *ngIf="lineItem.status === 'PENDING' && entity.status ==='PENDING'">
                           <i class="fa fa-check" aria-hidden="true"></i>
                         </button>
 
                         <button class="btn btn-outline-info btn-xs mr-2" (click)="updateItemPending(lineItem)"
-                          tooltip="{{'Back' | translate}}"
+                          tooltip="{{'back' | translate}}"
                           *ngIf=" (lineItem.status === 'ITEM_REJECTED' || lineItem.status === 'QUOTED') && entity.status ==='PENDING'">
                           <i class="fa fa-arrow-right" aria-hidden="true"></i>
                         </button>
