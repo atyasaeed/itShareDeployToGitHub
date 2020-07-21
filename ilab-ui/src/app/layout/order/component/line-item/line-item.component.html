@@ -29,13 +29,14 @@
               <div class="row">
                 <div class="col-md-12 product-name">
                   <div class="row">
-                    <div class="col-md-12 mb-2 text-right">
-                      <span class="float-left my-auto" *ngIf="lineItem.status == 'IN_PROGRESS' || lineItem.status == 'FINISHED' || lineItem.status == 'DELIVERED'">
-                        {{'status' | translate}} : {{lineItem.status}}
-                      </span>
 
-
-                      <span *ngIf="( checkStatus() == 'QUOTED' && lineItem.status != 'CANCELLED' ) && lineItem.status != 'ITEM_REJECTED' " >
+                    <div class="col">
+                      <h5 class="text-center text-md-left text-primary">{{lineItem.service.name}}</h5>
+                    </div>
+                    <div class="col-md-4 " *ngIf="lineItem.status == 'IN_PROGRESS' || lineItem.status == 'FINISHED' || lineItem.status == 'DELIVERED'">
+                      {{'status' | translate}} : <span class="text-primary">{{lineItem.status}}</span>
+                    </div>
+                    <div class="col-md-4 " *ngIf="( checkStatus() == 'QUOTED' && lineItem.status != 'CANCELLED' ) && lineItem.status != 'ITEM_REJECTED' " >
                           <span tooltip="{{'approveQuote' | translate}}" hide-delay="0" class="custom-control custom-radio d-inline-block">
                             <input [checked]="checkRadio == 'accept'" class="custom-control-input" type="radio" id="accept_{{lineItem.id}}"  name="quotedActions_{{lineItem.id}}" value="QUOTE_ACCEPTED" (change)="quotedActionsChanged($event)" >
                             <label for="accept_{{lineItem.id}}" class="custom-control-label">
@@ -48,16 +49,11 @@
                               <i class="fa fa-thumbs-o-down text-secondary" aria-hidden="true"></i>
                             </label>
                           </span>
-
-                      </span>
-                      <button tooltip="{{'cancel' | translate}}"  hide-delay="0"  (click)="openModal(cancelAlert)" *ngIf="!(lineItem.status == 'CANCELLED' ) && (checkStatus() == 'PENDING' || ( checkStatus() == 'QUOTED' && lineItem.status != 'ITEM_REJECTED' ) || ( checkStatus() == 'QUOTE_ACCEPTED' && lineItem.status == 'QUOTE_ACCEPTED' ) )" type="button" class="btn btn-outline-danger btn-sm btn-sm ml-2">
-                        <i class="fa fa-times" aria-hidden="true"></i>
-                      </button>
-                    </div>
-                    <div class="col-md-10">
-                      <h5 class="text-center text-md-left text-primary">{{lineItem.service.name}}</h5>
                     </div>
                     <div class="col-md-2 text-center text-md-right">
+                      <button tooltip="{{'cancel' | translate}}"  hide-delay="0"  (click)="openModal(cancelAlert)"  type="button" class="btn btn-outline-danger btn-sm  mr-2" *ngIf="!(lineItem.status == 'CANCELLED' ) && (checkStatus() == 'PENDING' || ( checkStatus() == 'QUOTED' && lineItem.status != 'ITEM_REJECTED' ) || ( checkStatus() == 'QUOTE_ACCEPTED' && lineItem.status == 'QUOTE_ACCEPTED' ) )">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                      </button>
                       <a class="btn btn-outline-success btn-sm z-index-20 position-relative" [href]="getFileUrl()" tooltip="{{'download' | translate}}"  hide-delay="0">
                         <i class="fa fa-download" aria-hidden="true"></i>
                       </a>
