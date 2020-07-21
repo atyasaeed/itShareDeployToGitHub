@@ -191,9 +191,9 @@
 
                             <input matInput [matDatepicker]="picker" [min]="minDate" [max]="maxDate"
                               (dateChange)="updateItem(entity,lineItem)" [(ngModel)]="lineItem.estimatedEndDate"
-                              #estimatedEndDate='ngModel' [disabled]="isEnabled && lineItem.status !=='PENDING'">
+                              #estimatedEndDate='ngModel' [disabled]="isEnabled || lineItem.status !=='PENDING'">
                             <mat-datepicker-toggle matSuffix [for]="picker"
-                              [disabled]="isEnabled && lineItem.status !=='PENDING'">
+                              [disabled]="isEnabled || lineItem.status !=='PENDING'">
                             </mat-datepicker-toggle>
                             <mat-datepicker #picker disabled="false"></mat-datepicker>
                             <mat-error *ngIf="estimatedEndDate.hasError('required')">
@@ -208,7 +208,7 @@
 
                             <input matInput type="number" placeholder="{{'unitPrice'|translate}}" min="1"
                               (keyup)='updateItem(entity,lineItem)' [(ngModel)]="lineItem.unitPrice"
-                              #unitPrice='ngModel' [disabled]="isEnabled && lineItem.status !=='PENDING'" required>
+                              #unitPrice='ngModel' [disabled]="isEnabled || lineItem.status !=='PENDING'" required>
                             <mat-error *ngIf="unitPrice.hasError('required')">
                             </mat-error>
                           </mat-form-field>

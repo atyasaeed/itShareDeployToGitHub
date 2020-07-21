@@ -164,7 +164,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
       case 'IN_PROGRESS':
         this.service.orderStatus(order.id, 'finish').subscribe((res: Order) => {
           this.entity = res;
-          // this.check = true;
+          this.check = false;
         });
 
         break;
@@ -226,7 +226,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
 
           this.service.get(this.orderId).subscribe((res: Order) => {
             res.lineItems.forEach((e) => {
-              if (e.status == 'QUOTED' || e.status == 'ITEM_REJECTED') {
+              if (e.status == 'QUOTED' || e.status == 'ITEM_REJECTED' || e.status == 'CANCELLED') {
                 arrLineItems.push(true);
               } else {
                 arrLineItems.push(false);
@@ -258,7 +258,27 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
         this.itemservice.orderStatus(lineItem.id, 'deliver').subscribe((res: LineItem) => {
           lineItem.status = res.status;
           this.checkOrderStatus();
-          this.check = true;
+          this.service.get(this.orderId).subscribe((res: Order) => {
+            res.lineItems.forEach((e) => {
+              if (
+                e.status == 'DELIVERED' ||
+                e.status == 'QUOTE_ACCEPTED' ||
+                e.status == 'IN_PROGRESS' ||
+                e.status == 'QUOTE_REJECTED'
+              ) {
+                arrLineItems.push(true);
+              } else {
+                arrLineItems.push(false);
+              }
+            });
+
+            if (arrLineItems.indexOf(false) == -1) {
+              this.check = true;
+            } else {
+              this.check = false;
+            }
+          });
+          // this.check = true;
         });
 
         break;
