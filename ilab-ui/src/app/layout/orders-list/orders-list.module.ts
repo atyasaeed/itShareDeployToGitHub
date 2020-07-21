@@ -23,6 +23,8 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { StlModelViewerModule } from 'angular-stl-model-viewer';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { TooltipModule } from 'ng2-tooltip-directive';
+
 @NgModule({
   declarations: [OrdersListComponent, OrdersFormComponent],
   imports: [
@@ -48,6 +50,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     MatNativeDateModule,
     MatMomentDateModule,
     StlModelViewerModule,
+    TooltipModule,
     ModalModule.forRoot(),
   ],
 })

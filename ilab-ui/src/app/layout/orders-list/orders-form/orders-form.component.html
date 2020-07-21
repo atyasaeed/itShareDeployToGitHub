@@ -99,7 +99,8 @@
                       <div class="col-md-4 row price text-center text-md-right my-auto"
                         style="justify-content: flex-end;">
                         <!-- <span>$120</span> -->
-                        <a class="btn btn-outline-success btn-xs mr-2" [href]="getFileUrl(lineItem)">
+                        <a class="btn btn-outline-success btn-xs mr-2" [href]="getFileUrl(lineItem)"
+                          tooltip="{{'Download' | translate}}">
                           <i class="fa fa-download" aria-hidden="true"></i>
                         </a>
 
@@ -114,17 +115,19 @@
 
 
 
-                        <button class="btn btn-outline-danger btn-xs mr-2"
+                        <button class="btn btn-outline-danger btn-xs mr-2" tooltip="{{'reject' | translate}}"
                           *ngIf="lineItem.status === 'PENDING' && entity.status ==='PENDING'"
                           (click)="openModal(template)">
                           <i class="fa fa-window-close" aria-hidden="true"></i>
                         </button>
                         <button class="btn btn-outline-primary btn-xs mr-2" (click)="lineItemStatus(lineItem)"
+                          tooltip="{{'Quote' | translate}}"
                           *ngIf="lineItem.status === 'PENDING' && entity.status ==='PENDING'">
                           <i class="fa fa-check" aria-hidden="true"></i>
                         </button>
 
                         <button class="btn btn-outline-info btn-xs mr-2" (click)="updateItemPending(lineItem)"
+                          tooltip="{{'Back' | translate}}"
                           *ngIf=" (lineItem.status === 'ITEM_REJECTED' || lineItem.status === 'QUOTED') && entity.status ==='PENDING'">
                           <i class="fa fa-arrow-right" aria-hidden="true"></i>
                         </button>

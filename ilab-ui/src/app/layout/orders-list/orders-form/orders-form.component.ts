@@ -76,7 +76,8 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
             e.status == 'DELIVERED' ||
             e.status == 'QUOTE_ACCEPTED' ||
             e.status == 'IN_PROGRESS' ||
-            e.status == 'QUOTE_REJECTED'
+            e.status == 'QUOTE_REJECTED' ||
+            e.status == 'CANCELLED'
           ) {
             this.arrBooleanItems.push(true);
           } else {
@@ -264,7 +265,8 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
                 e.status == 'DELIVERED' ||
                 e.status == 'QUOTE_ACCEPTED' ||
                 e.status == 'IN_PROGRESS' ||
-                e.status == 'QUOTE_REJECTED'
+                e.status == 'QUOTE_REJECTED' ||
+                e.status == 'CANCELLED'
               ) {
                 arrLineItems.push(true);
               } else {
