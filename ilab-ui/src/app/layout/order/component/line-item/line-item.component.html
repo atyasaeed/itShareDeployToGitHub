@@ -36,7 +36,7 @@
 
 
                       <span *ngIf="( checkStatus() == 'QUOTED' && lineItem.status != 'CANCELLED' ) && lineItem.status != 'ITEM_REJECTED' " >
-                          <span tooltip="{{'acceptQuote' | translate}}" hide-delay="0" class="custom-control custom-radio d-inline-block">
+                          <span tooltip="{{'approveQuote' | translate}}" hide-delay="0" class="custom-control custom-radio d-inline-block">
                             <input [checked]="checkRadio == 'accept'" class="custom-control-input" type="radio" id="accept_{{lineItem.id}}"  name="quotedActions_{{lineItem.id}}" value="QUOTE_ACCEPTED" (change)="quotedActionsChanged($event)" >
                             <label for="accept_{{lineItem.id}}" class="custom-control-label">
                               <i class="fa fa-thumbs-o-up text-primary" aria-hidden="true"></i>
@@ -55,7 +55,7 @@
                             </label>
                           </span> -->
                       </span>
-                      <button tooltip="{{'cancel' | translate}}"  hide-delay="0"  (click)="cancelItem()" *ngIf="!(lineItem.status == 'CANCELLED' ) && (checkStatus() == 'PENDING' || ( checkStatus() == 'QUOTED' && lineItem.status != 'ITEM_REJECTED' ) || ( checkStatus() == 'QUOTE_ACCEPTED' && lineItem.status == 'QUOTE_ACCEPTED' ) )" type="button" class="btn btn-outline-danger btn-sm btn-sm ml-2">
+                      <button tooltip="{{'cancel' | translate}}"  hide-delay="0"  (click)="openModal(cancelAlert)" *ngIf="!(lineItem.status == 'CANCELLED' ) && (checkStatus() == 'PENDING' || ( checkStatus() == 'QUOTED' && lineItem.status != 'ITEM_REJECTED' ) || ( checkStatus() == 'QUOTE_ACCEPTED' && lineItem.status == 'QUOTE_ACCEPTED' ) )" type="button" class="btn btn-outline-danger btn-sm btn-sm ml-2">
                         <i class="fa fa-times" aria-hidden="true"></i>
                       </button>
                     </div>
@@ -166,3 +166,22 @@
 </div>
 <div class="dropdown-divider my-3">
 </div>
+
+
+<ng-template #cancelAlert>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{'alert'|translate}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h4 class="text-center text-primary">
+      {{'areYouSure'|translate}} ?
+    </h4>
+    <div class="text-center">
+      <button class="btn btn-sm btn-danger" (click)="cancelItem()">{{'yes'|translate}}</button>
+      <button class="btn btn-sm btn-secondary ml-2" (click)="modalRef.hide()">{{'no'|translate}}</button>
+    </div>
+  </div>
+</ng-template>

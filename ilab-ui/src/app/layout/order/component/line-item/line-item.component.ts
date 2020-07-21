@@ -1,10 +1,21 @@
-import { Component, OnInit, Input, Inject, ElementRef, QueryList, ViewChildren, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Inject,
+  ElementRef,
+  QueryList,
+  ViewChildren,
+  ViewChild,
+  TemplateRef,
+} from '@angular/core';
 import { LineItem, ShoppingCartItem } from 'src/app/shared/domain';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import * as THREE from 'three/build/three.module.js';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { LineItemService } from './line-item.service';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 @Component({
   selector: 'app-line-item',
   templateUrl: './line-item.component.html',
@@ -18,11 +29,13 @@ export class LineItemComponent implements OnInit {
   // @ViewChild('rejectRef') rejectRef: ElementRef;
   // @ViewChild('cancelRef') cancelRef: ElementRef;
   checkRadio;
+  modalRef: BsModalRef;
   constructor(
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
     private http: HttpClient,
     private toastr: ToastrService,
-    private service: LineItemService
+    private service: LineItemService,
+    private modalService: BsModalService
   ) {}
 
   ngOnInit() {}
@@ -99,6 +112,7 @@ export class LineItemComponent implements OnInit {
     this.service.cancel(this.lineItem.id).subscribe((res: LineItem) => {
       this.lineItem = res;
       this.toastr.success('Item Cancelled');
+      this.modalRef.hide();
     });
     //}
   }
@@ -121,5 +135,9 @@ export class LineItemComponent implements OnInit {
     //     this.toastr.success('Item Cancelled');
     //   });
     // }
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
   }
 }

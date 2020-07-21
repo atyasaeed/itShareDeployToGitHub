@@ -15,6 +15,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NgxPrintModule } from 'ngx-print';
 import { StlModelViewerModule } from 'angular-stl-model-viewer';
 import { TooltipModule } from 'ng2-tooltip-directive';
+import { ModalModule } from 'ngx-bootstrap/modal';
 @NgModule({
   declarations: [OrderComponent, OrderCardComponent, LineItemComponent],
   imports: [
@@ -31,6 +32,7 @@ import { TooltipModule } from 'ng2-tooltip-directive';
     NgxPrintModule,
     StlModelViewerModule,
     TooltipModule,
+    ModalModule.forRoot(),
   ],
 })
 export class OrderModule {}

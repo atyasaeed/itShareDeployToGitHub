@@ -83,7 +83,6 @@
   "Shopping Cart": "Shopping Cart",
   "Track-Order": "Track-Order",
   "Collapse Sidebar": "Collapse Sidebar",
-  "Cancel": "Cancel",
   "Save": "Save",
   "Update Profile": "Update Profile",
   "Maximum Working Area": "Maximum Working Area",
@@ -200,5 +199,13 @@
   "convertToGallery": "Convert To Gallery",
   "continueShopping": "Continue Shopping ",
   "home": "Home",
-  "services": "Services"
+  "services": "Services",
+  "alert": "Alert",
+  "areYouSure": "Are You Sure",
+  "yes": "Yes",
+  "no": "No",
+  "cancel": "Cancel",
+  "approveQuote": "Approve Quote",
+  "rejectQuote": "Reject Quote",
+  "download": "Download"
 }

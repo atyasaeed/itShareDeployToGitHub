@@ -82,7 +82,6 @@
   "Shopping Cart": "عربة التسوق",
   "Track-Order": "طلباتك",
   "Collapse Sidebar": "طى الشريط",
-  "Cancel": "إلغاء",
   "Save": "حفظ",
   "Update Profile": "الصفحه الشخصيه",
   "Maximum Working Area": "منطقة العمل القصوى",
@@ -200,5 +199,13 @@
   "convertToGallery": "تحويل إلى معرض",
   "continueShopping": "تابع التسوق",
   "home": "الرئيسيه",
-  "services": "الخدمات"
+  "services": "الخدمات",
+  "alert": "تحذير",
+  "areYouSure": "هل انت متاكد",
+  "yes": "نعم",
+  "no": "لا",
+  "cancel": "إلغاء",
+  "approveQuote": "قبول العرض",
+  "rejectQuote": "رفض العرض",
+  "download": "تحميل"
 }
