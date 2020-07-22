@@ -5,7 +5,7 @@ import { OrdersService } from '../../orders.service';
 import { IAppConfig, APP_CONFIG } from 'src/app/shared/app.config';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { UserService } from 'src/app/layout/users/user.service';
+import { UserService } from 'src/app/signup/user.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 
 @Component({
@@ -30,12 +30,13 @@ export class OrderCardComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
     private http: HttpClient,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
     this.getDeliveryDate();
-    this.http.get<User>(this.appConfig.getResourceUrl('users')).subscribe((user) => {
+    this.userService.getAuthUserDetails().subscribe((user) => {
       this.user = user;
     });
   }

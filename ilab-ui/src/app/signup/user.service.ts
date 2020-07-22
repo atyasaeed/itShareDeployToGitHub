@@ -44,4 +44,8 @@ export class UserService {
     return this.userProfile;
     // return this.http.put(this.appConfig.REGISTER_URL, user).
   }
+
+  getAuthUserDetails() {
+    return this.http.get<User>(this.appConfig.getResourceUrl('users'));
+  }
 }
