@@ -56,6 +56,9 @@
                   <div class="overlay position-absolute d-flex"
                     [class.show]="lineItem.status == 'CANCELLED' ||  lineItem.status == 'QUOTE_REJECTED' || lineItem.status == 'ITEM_REJECTED' ">
                     <span class="cancelled ">{{lineItem.status | translate}}</span>
+                    <button type="button" (click)="itemRejectReasonModal(itemRejectReasons)"
+                      *ngIf="lineItem.status == 'ITEM_REJECTED'"
+                      class="btn  btn-danger mt-2">{{'viewReasons'|translate}}</button>
                     <!-- <span *ngIf="lineItem.status == 'ITEM_REJECTED'" class="rejection-reason p-2 mt-2"></span> -->
                   </div>
                   <div class="col-md-3 service-image mb-2">
@@ -344,7 +347,38 @@
                   </div>
 
 
+                  <!--modal-->
+                  <ng-template #itemRejectReasons>
+                    <div class="modal-header">
+                      <h4 class="modal-title pull-left text-danger">
+                        {{'rejectionReasons'|translate}}
+                      </h4>
 
+                    </div>
+                    <div class="modal-body">
+                      <div class="rejection-reason my-3">
+                        <span class="number mr-2 px-3 py-1">
+                          1
+                        </span>
+                        <span class="p-2">
+                          lineitem is asdsl;kl ka;kak ;lklk sa ks kas l;s k;salk ksalk s lk lask ;lk sl ks slk
+                        </span>
+                      </div>
+
+                      <div>
+                        <label>{{'notes'|translate}}</label>
+                        <div>
+                          sadaka ksa lkslk lska; kl klsa;k sl ks k slak k ;aslksal klk
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer ">
+                      <div class="m-auto">
+                        <button type="button" class="btn btn-sm btn-secondary"
+                          (click)="modalRef.hide()">{{'close'|translate}}</button>
+                      </div>
+                    </div>
+                  </ng-template>
 
 
 

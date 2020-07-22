@@ -89,7 +89,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
     });
     this.service.get(this.orderId).subscribe((res: Order) => {
       // this.checkLineItems(this.orderId, res.lineItems);
-      if (res.status == 'PENDING') {
+      if (res?.status == 'PENDING') {
         this.isEnabled = false;
       }
       this.checkOrderStatus();
@@ -264,6 +264,8 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
       this.rejectionReason.reason = this.selectedItems;
       console.log(this.rejectionReason);
       this.itemservice.orderReject(lineItem.id, this.rejectionReason).subscribe((res: LineItem) => {
+        this.rejectionReason = {} as RejectionReason;
+        this.selectedItems = [];
         this.modalRef.hide();
         lineItem.status = res.status;
         this.toastr.success('Successful');
@@ -369,10 +371,15 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
     this.itemservice.orderStatus(lineItem.id, 'reset').subscribe((res: LineItem) => {
       lineItem.status = 'PENDING';
       this.found = false;
+      this.rejectionReason = {} as RejectionReason;
+      this.selectedItems = [];
     });
   }
 
   openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+  itemRejectReasonModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
 
