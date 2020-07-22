@@ -14,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 import { LineItem } from 'src/app/shared/domain';
 import { TranslateService } from '@ngx-translate/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 import { DatePipe } from '@angular/common';
 import * as THREE from 'three/build/three.module.js';
@@ -39,6 +40,9 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
   modalRef: BsModalRef;
   reasonRejection: string;
   arrBooleanItems: boolean[] = new Array();
+  dropdownList: string[] = [];
+  selectedItems = [];
+  dropdownSettings: IDropdownSettings = {};
   constructor(
     formBuilder: FormBuilder,
     loadingService: TdLoadingService,
@@ -58,6 +62,16 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
     this.form = this.formBuilder.group({
       // id: [{ value: '', disabled: true }],
     });
+    this.dropdownList = ['reason1', 'reason2', 'reason3', 'reason4', 'reason5'];
+    this.dropdownSettings = {
+      // idField: 'item_id',
+      // textField: 'item_text',
+      singleSelection: false,
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true,
+    };
     this.minDate = new Date();
     this.activatedRoute.params.subscribe((paramsId) => {
       this.orderId = paramsId.entityId;
@@ -94,6 +108,18 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
         }
       });
     });
+  }
+  onItemSelect(item: any) {
+    console.log(item);
+    console.log(this.selectedItems.toString());
+  }
+  onItemDeSelect(item) {
+    console.log(item);
+    console.log(this.selectedItems.toString());
+  }
+  onSelectAll(items: any) {
+    console.log(items);
+    console.log(items.toString());
   }
 
   public getSubTotal(lineItems: LineItem[]) {
@@ -325,6 +351,11 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
+    let rejectionReasonForm = this.formBuilder.group({
+      id: ['', [Validators.required]],
+      reasons: ['', [Validators.required]],
+      notes: [''],
+    });
   }
 
   checkOrderStatus() {
