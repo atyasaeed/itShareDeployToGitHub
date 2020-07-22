@@ -263,3 +263,16 @@ textarea{
   border: 1px solid gainsboro;
   border-radius: 5px;
 }
+
+.rejection-reason{
+    display: flex;
+    align-items: start;
+    border-radius: 5px;
+    box-shadow: 0 0 7px 7px rgba(0, 0, 0, 0.137);
+}
+
+.rejection-reason .number{
+    background-color: red;
+    border-radius: 5px 0 15px 0;
+    color: white;
+}
