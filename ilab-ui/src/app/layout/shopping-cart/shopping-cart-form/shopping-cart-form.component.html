@@ -182,7 +182,7 @@
             <div *ngIf="activeService?.processes != undefined" class="mb-3">
               <label>{{'file.processes' | translate}} :</label>
               <span class="text-danger"
-                *ngIf="(!form.controls?.processes?.valid && form.controls?.processes?.dirty) || ( !form.controls?.processes?.valid && form.controls?.processes?.touched )">
+                *ngIf="(!form.controls?.mprocesses?.valid && form.controls?.mprocesses?.dirty) || ( !form.controls?.processes?.valid && form.controls?.processes?.touched )">
                 *{{'file.field.error.required' | translate}}</span>
               <div *ngIf="activeService.processes.multi==true;else processesSingle">
                 <ng-multiselect-dropdown formControlName="mprocesses" placeholder="{{'file.process.select'|translate}}"
