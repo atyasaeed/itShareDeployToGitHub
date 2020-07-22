@@ -9,7 +9,7 @@
         <div class="row position-relative">
           <div class="overlay position-absolute d-flex" [class.show]="lineItem.status == 'CANCELLED' || ( lineItem.status == 'QUOTE_REJECTED' && checkStatus() != 'QUOTED' ) || ( lineItem.status == 'ITEM_REJECTED' && checkStatus() != 'PENDING' ) ">
             <span class="cancelled ">{{lineItem.status | translate}}</span>
-            <span *ngIf="lineItem.status == 'ITEM_REJECTED'" class="rejection-reason p-2 mt-2">as jsa jhas jhsaj hjsah ajkhsa hsj hsj  hsaj ahjs hjashsdsads sadas</span>
+            <button type="button" *ngIf="lineItem.status == 'ITEM_REJECTED'" class=" p-2 mt-2">{{'viewReasons'|translate}}</button>
           </div>
           <div class="col-md-3 mb-2 mb-md-0">
             <img class="img-fluid " [src]="appConfig.FILE_URL + lineItem.files[0].asset_id"
@@ -28,7 +28,7 @@
             <div class="info">
               <div class="row">
                 <div class="col-md-12 product-name">
-                  <div class="row">
+                  <div class="row mt-2">
 
                     <div class="col">
                       <h5 class="text-center text-md-left text-primary">{{lineItem.service.name}}</h5>

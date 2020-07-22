@@ -5,6 +5,7 @@ import { OrdersService } from '../../orders.service';
 import { IAppConfig, APP_CONFIG } from 'src/app/shared/app.config';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { UserService } from 'src/app/layout/users/user.service';
 
 @Component({
   selector: 'app-order-card',
@@ -17,6 +18,9 @@ export class OrderCardComponent implements OnInit {
   // orderitem = new Order();
   statusArr: string[] = ['PENDING', 'QUOTED', 'QUOTE_ACCEPTED', 'IN_PROGRESS', 'FINISHED', 'DELIVERED'];
   user: User;
+  subTotal: number;
+  max: any;
+  dateArray: any[] = [];
   constructor(
     private orderService: OrdersService,
     private route: ActivatedRoute,
@@ -25,18 +29,16 @@ export class OrderCardComponent implements OnInit {
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
     private http: HttpClient
   ) {}
-  max: any;
-  dateArray: any[] = [];
 
   ngOnInit() {
     this.getDeliveryDate();
-    //console.log(this.order);
     this.http.get<User>(this.appConfig.getResourceUrl('users')).subscribe((user) => {
       this.user = user;
     });
   }
 
   ngAfterViewInit() {
+    this.printSubTotal(this.order.lineItems);
     this.cdr.detectChanges();
   }
 
@@ -118,5 +120,15 @@ export class OrderCardComponent implements OnInit {
         this.order.lineItems[index] = lineItem;
       }
     });
+    this.printSubTotal(this.order.lineItems);
+  }
+
+  printSubTotal(arr: LineItem[]) {
+    this.subTotal = 0;
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i].status == 'QUOTED' || arr[i].status == 'QUOTE_ACCEPTED') {
+        this.subTotal += arr[i].unitPrice * arr[i].quantity;
+      }
+    }
   }
 }

@@ -32,7 +32,7 @@ label {
 
 .card-form .form-title a {
     color: white;
-    font-weight: bolde;
+    font-weight: bold;
 }
 
 .card-form .form-body {
@@ -50,7 +50,7 @@ label {
     z-index: 10;
     height: 0;
     transition: all 0.5s ease-in-out;
-    background-color: #0000002e;
+    background-color: #00000099;
     opacity: 0;
     border-radius: 5px;
     flex-direction: column;
@@ -71,11 +71,11 @@ label {
   border: 3px dashed red;
 }
 
-.rejection-reason{
-    background: #ffffffd6;
-    border-radius: 5px;
-    color: black;
-}
+// .rejection-reason{
+//     background: #ffffffd6;
+//     border-radius: 5px;
+//     color: black;
+// }
 
 .z-index-20{
   z-index: 20 !important;
