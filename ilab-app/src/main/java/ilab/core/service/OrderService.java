@@ -520,10 +520,7 @@ public class OrderService
 	{
 		List<LineItemStatus> eligibleItemStatus = Arrays.asList(LineItemStatus.PENDING,LineItemStatus.QUOTED,LineItemStatus.ITEM_REJECTED);
 		List<OrderStatus> eligibleOrderStatus = Arrays.asList(OrderStatus.PENDING);
-		User user = userRepo.findByUsername(auth.getName());
-		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id,
-				user.getAccounts().iterator().next().getId()).orElseThrow();
-			
+		LineItem item=lineItemRepo.findById(id).orElseThrow();
 		if (eligibleOrderStatus.contains(item.getOrderEntity().getStatus()) &&eligibleItemStatus.contains(item.getStatus())&&item.getEstimatedEndDate()!=null&&item.getUnitPrice()!=null)
 		{
 			item.setStatus(LineItemStatus.QUOTED);
@@ -537,10 +534,7 @@ public class OrderService
 	{
 		List<LineItemStatus> eligibleItemStatus = Arrays.asList(LineItemStatus.PENDING,LineItemStatus.QUOTED,LineItemStatus.ITEM_REJECTED);
 		List<OrderStatus> eligibleOrderStatus = Arrays.asList(OrderStatus.PENDING);
-		User user = userRepo.findByUsername(auth.getName());
-		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id,
-				user.getAccounts().iterator().next().getId()).orElseThrow();
-			
+		LineItem item=lineItemRepo.findById(id).orElseThrow();
 		if (eligibleOrderStatus.contains(item.getOrderEntity().getStatus()) && eligibleItemStatus.contains(item.getStatus()))
 		{
 			item.setStatus(LineItemStatus.ITEM_REJECTED);
@@ -554,10 +548,7 @@ public class OrderService
 	{
 		List<LineItemStatus> eligibleItemStatus = Arrays.asList(LineItemStatus.QUOTE_ACCEPTED);
 		List<OrderStatus> eligibleOrderStatus= Arrays.asList(OrderStatus.IN_PROGRESS);
-		User user = userRepo.findByUsername(auth.getName());
-		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id,
-				user.getAccounts().iterator().next().getId()).orElseThrow();
-			
+		LineItem item=lineItemRepo.findById(id).orElseThrow();
 		if (eligibleOrderStatus.contains(item.getOrderEntity().getStatus()) && eligibleItemStatus.contains(item.getStatus()))
 		{
 			item.setStatus(LineItemStatus.IN_PROGRESS);
@@ -570,9 +561,7 @@ public class OrderService
 	{
 		List<LineItemStatus> eligibleItemStatus = Arrays.asList(LineItemStatus.IN_PROGRESS);
 		List<OrderStatus> eligibleOrderStatus = Arrays.asList(OrderStatus.IN_PROGRESS);
-		User user = userRepo.findByUsername(auth.getName());
-		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id,
-				user.getAccounts().iterator().next().getId()).orElseThrow();
+		LineItem item=lineItemRepo.findById(id).orElseThrow();
 			
 		if (eligibleOrderStatus.contains(item.getOrderEntity().getStatus()) && eligibleItemStatus.contains(item.getStatus()))
 		{
@@ -586,9 +575,7 @@ public class OrderService
 	{
 		List<LineItemStatus> eligibleStatus = Arrays.asList(LineItemStatus.FINISHED);
 		List<OrderStatus> eligibleOrderStatus = Arrays.asList(OrderStatus.FINISHED,OrderStatus.IN_PROGRESS);
-		User user = userRepo.findByUsername(auth.getName());
-		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id,
-				user.getAccounts().iterator().next().getId()).orElseThrow();
+		LineItem item=lineItemRepo.findById(id).orElseThrow();
 			
 		if (eligibleOrderStatus.contains(item.getOrderEntity().getStatus()) &&eligibleStatus.contains(item.getStatus()))
 		{
