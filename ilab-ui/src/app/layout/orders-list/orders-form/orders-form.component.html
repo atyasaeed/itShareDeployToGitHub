@@ -178,33 +178,27 @@
 
                           </div>
                           <div class="modal-body">
-                            <form formGroup='rejectionReasonForm'>
-                              <section class="row">
-                                <div class="col-md-12">
-                                  <label for="">rejection reasons</label>
-                                  <ng-multiselect-dropdown placeholder="{{'Reasons'|translate}}"
-                                    [settings]="dropdownSettings" [data]="dropdownList" [settings]="dropdownSettings"
-                                    [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)"
-                                    (onDeSelect)="onItemDeSelect($event)" (onSelectAll)="onSelectAll($event)"
-                                    [ngModelOptions]="{standalone: true}">
-                                  </ng-multiselect-dropdown>
-                                </div>
-                                <div class="col-12 mt-3">
-                                  <label>notes for the user</label>
-                                  <textarea rows="6" style="width: 100%;" [(ngModel)]="reasonRejection"></textarea>
-                                </div>
-                                <div class=" col-12 text-center"><button
-                                    (click)="lineItemReject(lineItem) ; modalRef.hide();isButtonVisible=false"
-                                    class="btn btn-outline-primary">{{'order.status.reject'|translate}}</button>
-                                </div>
-                              </section>
 
-
-                            </form>
-
-
-
-
+                            <section class="row">
+                              <div class="col-md-12">
+                                <label for="">rejection reasons</label>
+                                <ng-multiselect-dropdown placeholder="{{'Reasons'|translate}}"
+                                  [settings]="dropdownSettings" [data]="reasonList" [settings]="dropdownSettings"
+                                  [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)"
+                                  (onDeSelect)="onItemDeSelect($event)" (onSelectAll)="onSelectAll($event)"
+                                  (onDeSelectAll)="onDeSelectAll($event)" [ngModelOptions]="{standalone: true}">
+                                </ng-multiselect-dropdown>
+                              </div>
+                              <div class="col-12 mt-3">
+                                <label>notes for the user</label>
+                                <textarea rows="6" style="width: 100%;" [(ngModel)]="rejectionReason.notes"
+                                  maxlength='80'></textarea>
+                              </div>
+                              <div class=" col-12 text-center"><button
+                                  (click)="lineItemReject(lineItem) ;isButtonVisible=false"
+                                  class="btn btn-outline-primary">{{'order.status.reject'|translate}}</button>
+                              </div>
+                            </section>
 
                           </div>
 

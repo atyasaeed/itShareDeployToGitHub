@@ -2,7 +2,7 @@ import { Component, OnInit, Inject, AfterViewInit, TemplateRef } from '@angular/
 import { Order } from 'src/app/shared/domain/order.model';
 import { DefaultFormComponent } from 'src/app/shared/helpers/default.form.component';
 import { OrdersListService } from '../../orders-list/orders-list.service';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { TdLoadingService } from '@covalent/core/loading';
 import { TdDialogService } from '@covalent/core/dialogs';
 import { ProfileService } from '../../profile/profile.service';
@@ -19,6 +19,7 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { DatePipe } from '@angular/common';
 import * as THREE from 'three/build/three.module.js';
 import { ItemsService } from './items.service';
+import { Reason, RejectionReason } from 'src/app/shared/domain/reason.model';
 @Component({
   selector: 'app-orders-form',
   templateUrl: './orders-form.component.html',
@@ -40,7 +41,9 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
   modalRef: BsModalRef;
   reasonRejection: string;
   arrBooleanItems: boolean[] = new Array();
-  dropdownList: string[] = [];
+  rejectionReason: RejectionReason = {} as RejectionReason;
+  reasonList: Reason[] = [{ id: '', name: '', status: '' }];
+
   selectedItems = [];
   dropdownSettings: IDropdownSettings = {};
   constructor(
@@ -62,16 +65,23 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
     this.form = this.formBuilder.group({
       // id: [{ value: '', disabled: true }],
     });
-    this.dropdownList = ['reason1', 'reason2', 'reason3', 'reason4', 'reason5'];
+    this.reasonList = [
+      { id: '1', name: 'reason1', status: 'ac' },
+      { id: '2', name: 'reason2', status: 'ac' },
+      { id: '3', name: 'reason3', status: 'ac' },
+      { id: '4', name: 'reason4', status: 'ac4' },
+    ];
+
     this.dropdownSettings = {
-      // idField: 'item_id',
-      // textField: 'item_text',
+      idField: 'id',
+      textField: 'name',
       singleSelection: false,
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       itemsShowLimit: 3,
       allowSearchFilter: true,
     };
+
     this.minDate = new Date();
     this.activatedRoute.params.subscribe((paramsId) => {
       this.orderId = paramsId.entityId;
@@ -111,15 +121,22 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
   }
   onItemSelect(item: any) {
     console.log(item);
-    console.log(this.selectedItems.toString());
+    console.log(this.selectedItems);
   }
   onItemDeSelect(item) {
     console.log(item);
-    console.log(this.selectedItems.toString());
+    console.log(this.selectedItems);
   }
   onSelectAll(items: any) {
     console.log(items);
-    console.log(items.toString());
+    this.selectedItems = items;
+    console.log(this.selectedItems);
+  }
+  onDeSelectAll(items: any) {
+    console.log(items);
+    this.selectedItems = items;
+
+    console.log(this.selectedItems);
   }
 
   public getSubTotal(lineItems: LineItem[]) {
@@ -240,27 +257,34 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
 
   lineItemReject(lineItem: LineItem) {
     let arrLineItems: boolean[] = new Array();
+    if (this.selectedItems.length == 0) {
+      this.toastr.error('sorry,must select one reason Minimum ');
+      return;
+    } else {
+      this.rejectionReason.reason = this.selectedItems;
+      console.log(this.rejectionReason);
+      this.itemservice.orderReject(lineItem.id, this.rejectionReason).subscribe((res: LineItem) => {
+        this.modalRef.hide();
+        lineItem.status = res.status;
+        this.toastr.success('Successful');
+        this.service.get(this.orderId).subscribe((res: Order) => {
+          res.lineItems.forEach((e) => {
+            if (e.status == 'QUOTED' || e.status == 'ITEM_REJECTED') {
+              arrLineItems.push(true);
+            } else {
+              arrLineItems.push(false);
+            }
+          });
 
-    this.itemservice.orderReject(lineItem.id).subscribe((res: LineItem) => {
-      lineItem.status = res.status;
-      this.toastr.success('Successful');
-      this.service.get(this.orderId).subscribe((res: Order) => {
-        res.lineItems.forEach((e) => {
-          if (e.status == 'QUOTED' || e.status == 'ITEM_REJECTED') {
-            arrLineItems.push(true);
+          console.log(arrLineItems);
+          if (arrLineItems.indexOf(false) == -1) {
+            this.found = true;
           } else {
-            arrLineItems.push(false);
+            this.found = false;
           }
         });
-
-        console.log(arrLineItems);
-        if (arrLineItems.indexOf(false) == -1) {
-          this.found = true;
-        } else {
-          this.found = false;
-        }
       });
-    });
+    }
   }
   lineItemStatus(lineItem: LineItem) {
     if (!lineItem.estimatedEndDate || !lineItem.unitPrice) {
@@ -345,17 +369,11 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
     this.itemservice.orderStatus(lineItem.id, 'reset').subscribe((res: LineItem) => {
       lineItem.status = 'PENDING';
       this.found = false;
-      console.log(res);
     });
   }
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
-    let rejectionReasonForm = this.formBuilder.group({
-      id: ['', [Validators.required]],
-      reasons: ['', [Validators.required]],
-      notes: [''],
-    });
   }
 
   checkOrderStatus() {
