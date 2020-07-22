@@ -235,3 +235,31 @@ justify-content: space-around;
     border-radius: 5px;
     color: black;
 }
+
+
+.modal-header .close{
+
+  margin:5px auto !important;
+}
+.modal-header  .close  span
+{
+  display: block;
+    border: 1px solid;
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    text-align: center;
+    /* line-height: 1.6; */
+    color: #007bff;
+
+    line-height: 1.4;
+    border: 1px solid #007bff;
+    border-radius: 50% ;
+    font-size: 60px;
+
+}
+
+textarea{
+  border: 1px solid gainsboro;
+  border-radius: 5px;
+}

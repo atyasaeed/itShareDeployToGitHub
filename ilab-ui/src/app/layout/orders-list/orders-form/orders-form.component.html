@@ -167,21 +167,45 @@
                       <ng-template #template>
                         <div>
                           <div class="modal-header">
-                            <h4 class="modal-title pull-left">please register the rejection reason</h4>
-                            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                            <!-- <h4 class="modal-title pull-left">please register the rejection reason</h4> -->
+                            <div type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
                               <span aria-hidden="true">&times;</span>
-                            </button>
+                              <h6 class="text-center m-auto" style="width: 80%;">User Will Be Notified With The Reason
+                                For
+                                Rejecting This Item
+                              </h6>
+                            </div>
+
                           </div>
                           <div class="modal-body">
+                            <form formGroup='rejectionReasonForm'>
+                              <section class="row">
+                                <div class="col-md-12">
+                                  <label for="">rejection reasons</label>
+                                  <ng-multiselect-dropdown placeholder="{{'Reasons'|translate}}"
+                                    [settings]="dropdownSettings" [data]="dropdownList" [settings]="dropdownSettings"
+                                    [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)"
+                                    (onDeSelect)="onItemDeSelect($event)" (onSelectAll)="onSelectAll($event)"
+                                    [ngModelOptions]="{standalone: true}">
+                                  </ng-multiselect-dropdown>
+                                </div>
+                                <div class="col-12 mt-3">
+                                  <label>notes for the user</label>
+                                  <textarea rows="6" style="width: 100%;" [(ngModel)]="reasonRejection"></textarea>
+                                </div>
+                                <div class=" col-12 text-center"><button
+                                    (click)="lineItemReject(lineItem) ; modalRef.hide();isButtonVisible=false"
+                                    class="btn btn-outline-primary">{{'order.status.reject'|translate}}</button>
+                                </div>
+                              </section>
 
-                            <mat-form-field style="width: 100%; ">
-                              <textarea matInput rows="2" placeholder="Rejection Reason"
-                                [(ngModel)]="reasonRejection"></textarea>
-                            </mat-form-field>
-                            <div style="margin-right: 10px;" class="text-right"><button
-                                (click)="lineItemReject(lineItem) ; modalRef.hide();isButtonVisible=false"
-                                class="btn btn-danger">{{'order.status.reject'|translate}}</button>
-                            </div>
+
+                            </form>
+
+
+
+
+
                           </div>
 
 
