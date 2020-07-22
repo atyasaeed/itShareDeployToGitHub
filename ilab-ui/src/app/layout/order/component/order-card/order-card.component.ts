@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Inject } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Inject, TemplateRef } from '@angular/core';
 import { Order, User, LineItem } from 'src/app/shared/domain';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrdersService } from '../../orders.service';
@@ -6,6 +6,7 @@ import { IAppConfig, APP_CONFIG } from 'src/app/shared/app.config';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UserService } from 'src/app/layout/users/user.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-order-card',
@@ -21,13 +22,15 @@ export class OrderCardComponent implements OnInit {
   subTotal: number;
   max: any;
   dateArray: any[] = [];
+  modalRef: BsModalRef;
   constructor(
     private orderService: OrdersService,
     private route: ActivatedRoute,
     private router: Router,
     private cdr: ChangeDetectorRef,
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
-    private http: HttpClient
+    private http: HttpClient,
+    private modalService: BsModalService
   ) {}
 
   ngOnInit() {
@@ -130,5 +133,9 @@ export class OrderCardComponent implements OnInit {
         this.subTotal += arr[i].unitPrice * arr[i].quantity;
       }
     }
+  }
+
+  orderRejectReasonModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
   }
 }

@@ -71,11 +71,18 @@ label {
   border: 3px dashed red;
 }
 
-// .rejection-reason{
-//     background: #ffffffd6;
-//     border-radius: 5px;
-//     color: black;
-// }
+.rejection-reason{
+    display: flex;
+    align-items: start;
+    border-radius: 5px;
+    box-shadow: 0 0 7px 7px rgba(0, 0, 0, 0.137);
+}
+
+.rejection-reason .number{
+    background-color: red;
+    border-radius: 5px 0 15px 0;
+    color: white;
+}
 
 .z-index-20{
   z-index: 20 !important;

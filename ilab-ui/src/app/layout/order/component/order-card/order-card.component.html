@@ -54,13 +54,10 @@
           *ngIf="checkStatus() != 'IN_PROGRESS' && checkStatus() != 'FINISHED' && checkStatus() != 'DELIVERED' "
           value="{{'Cancel Order'|translate}}" (click)="cancelOrder()">
       </div>
-
-
-
-
+      <div class="col-md-2 text-center my-auto" *ngIf="checkStatus() == 'ORDER_REJECTED' ">
+         <button type="button" (click)="orderRejectReasonModal(orderRejectReasons)" class="btn  btn-danger btn-block btn-sm m-1">{{'viewReasons'|translate}}</button>
+      </div>
     </div>
-
-
   </div>
   <div class="card-body">
     <!-- <h5 class="card-title text-center">Order Details</h5> -->
@@ -239,3 +236,37 @@
   </div>
 </div>
 <!-- </ng-template> -->
+
+
+<ng-template #orderRejectReasons>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left text-danger">
+      {{'rejectionReasons'|translate}}
+    </h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="rejection-reason my-3">
+      <span class="number mr-2 px-3 py-1">
+        1
+      </span>
+      <span class="p-2">
+        order is dsadasm nansan,sdnsmdnd,snamdnasn mnmansm, n
+      </span>
+    </div>
+
+    <div>
+      <label >{{'notes'|translate}}</label>
+      <div>
+        sadaka ksa lkslk  lska; kl klsa;k sl ks k slak k ;aslksal klk
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer ">
+    <div class="m-auto">
+      <button type="button" class="btn btn-sm btn-secondary" (click)="modalRef.hide()">{{'close'|translate}}</button>
+    </div>
+  </div>
+</ng-template>

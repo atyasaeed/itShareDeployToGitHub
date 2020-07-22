@@ -209,5 +209,7 @@
   "rejectQuote": "رفض العرض",
   "download": "تحميل",
   "quote": "قبول",
-  "status": "الحاله"
+  "status": "الحاله",
+  "viewReasons": "عرض اسباب الرفض",
+  "rejectionReasons": "اسباب الرفض"
 }

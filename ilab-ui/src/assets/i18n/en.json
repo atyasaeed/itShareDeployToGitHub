@@ -209,5 +209,7 @@
   "rejectQuote": "Reject Quote",
   "download": "Download",
   "quote": "Quote",
-  "status":"Status"
+  "status":"Status",
+  "viewReasons":"View Reasons",
+  "rejectionReasons":"Rejection Reasons"
 }
