@@ -211,5 +211,18 @@
   "quote": "قبول",
   "status": "الحاله",
   "viewReasons": "عرض اسباب الرفض",
-  "rejectionReasons": "اسباب الرفض"
+  "rejectionReasons": "اسباب الرفض",
+  "extensions": "الامتدادات",
+  "next": "التالي",
+  "multi": "متعدده",
+  "false": "لا",
+  "true": "نعم",
+  "back": "السابق",
+  "save": "حفظ",
+  "Materials": "المواد",
+  "Thickness": "السماكه",
+  "Types": "الانواع",
+  "Colors": "الالوان",
+  "Units": "الوحدات",
+  "Processes": "العمليات"
 }
