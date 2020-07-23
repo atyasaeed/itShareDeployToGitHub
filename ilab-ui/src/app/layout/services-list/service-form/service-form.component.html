@@ -13,21 +13,21 @@
       <div class="row " >
       <div class="col-md-4">
         <div class="form-group">
-          <label >{{'Name' | translate}} : </label>
+          <label >{{'name' | translate}} : </label>
           <input type="text" formControlName="name" class="form-control">
         </div>
         <div class="form-group">
-          <label >{{'Image' | translate}} : </label>
+          <label >{{'image' | translate}} : </label>
           <input type="file" accept=".jpg,.png" class="form-control" formControlName="image" (change)="uploadImage($event)">
         </div>
         <div class="form-group">
-          <label >{{'Description' | translate}} : </label>
+          <label >{{'description' | translate}} : </label>
           <textarea formControlName="description" class="form-control"></textarea>
         </div>
       </div>
 
       <div class="col-md-4" formArrayName="supportedExtensions">
-        <label >{{'Extensions' | translate}} : </label>
+        <label >{{'extensions' | translate}} : </label>
         <button type="button" (click)="addControlArray('supportedExtensions')" class="btn-sm btn btn-outline-success float-right">
           <i class="fa fa-plus" aria-hidden="true"></i>
         </button>
@@ -49,15 +49,15 @@
 
 
           <div *ngIf="o == 'Processes' && multiProcesses" class="ml-4">
-            <label >{{'Multi' | translate}} : </label>
+            <label >{{'multi' | translate}} : </label>
             <div class="ml-3">
               <div class="custom-control custom-radio">
                 <input class="custom-control-input" type="radio" id="true"  formControlName="multi" [value]="true" >
-                <label for="true" class="custom-control-label">{{'True' | translate}} </label>
+                <label for="true" class="custom-control-label">{{'true' | translate}} </label>
               </div>
               <div class="custom-control custom-radio">
                 <input class="custom-control-input" type="radio" id="false" [value]="false"  formControlName="multi">
-                <label for="false" class="custom-control-label">{{'False' | translate}} </label>
+                <label for="false" class="custom-control-label">{{'false' | translate}} </label>
               </div>
             </div>
           </div>
@@ -66,7 +66,7 @@
       </div>
       <div class="col-md-12 text-center">
         <button type="button" class="btn btn-primary" (click)="next()" [disabled]="!form.get('name').valid || !form.get('image').valid || !form.get('description').valid || !form.get('supportedExtensions').valid">
-          {{'Next' | translate}}
+          {{'next' | translate}}
         </button>
       </div>
 
@@ -162,8 +162,8 @@
         </div>
       </div>
       <div class="col-md-12 text-center">
-        <button type="button" class="btn btn-warning mr-2 text-white" (click)="back()">{{'Back' | translate}}</button>
-        <button type="submit" class="btn btn-primary" [disabled]="!form.valid" #submitBtn>{{'Submit' | translate}}</button>
+        <button type="button" class="btn btn-warning mr-2 text-white" (click)="back()">{{'back' | translate}}</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!form.valid" #submitBtn>{{'save' | translate}}</button>
       </div>
     </div>
     </div>

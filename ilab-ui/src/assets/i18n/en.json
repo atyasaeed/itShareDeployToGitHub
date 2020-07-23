@@ -209,7 +209,20 @@
   "rejectQuote": "Reject Quote",
   "download": "Download",
   "quote": "Quote",
-  "status":"Status",
-  "viewReasons":"View Reasons",
-  "rejectionReasons":"Rejection Reasons"
+  "status": "Status",
+  "viewReasons": "View Reasons",
+  "rejectionReasons": "Rejection Reasons",
+  "extensions": "Extensions",
+  "next": "Next",
+  "multi": "Multi",
+  "false": "False",
+  "true": "True",
+  "back": "Back",
+  "save": "Save",
+  "Materials": "Materials",
+  "Thickness": "Thickness",
+  "Types": "Types",
+  "Colors": "Colors",
+  "Units": "Units",
+  "Processes": "Processes"
 }

@@ -302,31 +302,39 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
   }
 
   flyToCartAnimation() {
-    let top = this.flyToCart.nativeElement.getBoundingClientRect().top;
-    let left = this.flyToCart.nativeElement.getBoundingClientRect().left;
-    this.flyToCart.nativeElement.style.color = '#007bff';
-    this.flyToCart.nativeElement.style.position = 'relative';
-    this.flyToCart.nativeElement.style.zIndex = '5000';
-    this.flyToCart.nativeElement.animate(
-      [
-        {
-          position: 'fixed',
-          top: `${top}px`,
-          left: `${left}px`,
-          opacity: 1,
-          transform: 'scale(1) rotate(0)',
-        },
-        { position: 'fixed', top: `10px`, left: `90%`, opacity: 0.4, transform: 'scale(4) rotate(720deg)' },
-      ],
-      {
-        duration: 700,
-        delay: 0,
-        easing: 'ease-in-out',
+    this.appStore.select(fromStore.getLang).subscribe((lang) => {
+      let cartPosition;
+      if (lang == 'ar') {
+        cartPosition = '8%';
+      } else {
+        cartPosition = '90%';
       }
-    );
-    setTimeout(() => {
-      this.flyToCart.nativeElement.style.color = 'white';
-    }, 700);
+      let top = this.flyToCart.nativeElement.getBoundingClientRect().top;
+      let left = this.flyToCart.nativeElement.getBoundingClientRect().left;
+      this.flyToCart.nativeElement.style.color = '#007bff';
+      this.flyToCart.nativeElement.style.zIndex = '1500';
+      this.flyToCart.nativeElement.animate(
+        [
+          {
+            position: 'fixed',
+            top: `${top}px`,
+            left: `${left}px`,
+            opacity: 1,
+            transform: 'scale(1) rotate(0)',
+          },
+          { position: 'fixed', top: `10px`, left: cartPosition, opacity: 0, transform: 'scale(4) rotate(720deg)' },
+        ],
+        {
+          duration: 700,
+          delay: 0,
+          easing: 'ease-in-out',
+        }
+      );
+
+      setTimeout(() => {
+        this.flyToCart.nativeElement.style.color = 'white';
+      }, 700);
+    });
   }
 
   acceptedExtensions() {
