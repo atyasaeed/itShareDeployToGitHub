@@ -23,6 +23,7 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { delay } from 'rxjs/operators';
 import { MySpaceService } from '../../my-space/my-space.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { AnimationService } from 'src/app/shared/services/animation.service';
 
 @Component({
   selector: 'app-shopping-cart-form',
@@ -66,7 +67,8 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
     private appStore: Store<fromStore.AppState>,
     private cdr: ChangeDetectorRef,
     public spaceService: MySpaceService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private animationService: AnimationService
   ) {
     this.spaceService.searchTerm = '';
     this.spaceService.model$.subscribe((res) => {
@@ -231,7 +233,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
   }
 
   submit() {
-    this.flyToCartAnimation();
+    this.animationService.flyToCartAnimation(this.flyToCart);
     //console.log(this.form);
     //return;
     const formData: FormData = new FormData();
@@ -299,42 +301,6 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
         this.form.get('file').setErrors({ extension: this.activeService.supportedExtensions.toString() });
       }
     }
-  }
-
-  flyToCartAnimation() {
-    this.appStore.select(fromStore.getLang).subscribe((lang) => {
-      let cartPosition;
-      if (lang == 'ar') {
-        cartPosition = '8%';
-      } else {
-        cartPosition = '90%';
-      }
-      let top = this.flyToCart.nativeElement.getBoundingClientRect().top;
-      let left = this.flyToCart.nativeElement.getBoundingClientRect().left;
-      this.flyToCart.nativeElement.style.color = '#007bff';
-      this.flyToCart.nativeElement.style.zIndex = '1500';
-      this.flyToCart.nativeElement.animate(
-        [
-          {
-            position: 'fixed',
-            top: `${top}px`,
-            left: `${left}px`,
-            opacity: 1,
-            transform: 'scale(1) rotate(0)',
-          },
-          { position: 'fixed', top: `10px`, left: cartPosition, opacity: 0, transform: 'scale(4) rotate(720deg)' },
-        ],
-        {
-          duration: 700,
-          delay: 0,
-          easing: 'ease-in-out',
-        }
-      );
-
-      setTimeout(() => {
-        this.flyToCart.nativeElement.style.color = 'white';
-      }, 700);
-    });
   }
 
   acceptedExtensions() {

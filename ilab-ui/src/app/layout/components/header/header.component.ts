@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/shared/services';
@@ -9,6 +9,7 @@ import { User, ShoppingCartItem, LineItem } from 'src/app/shared/domain';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import { ShoppingCartService } from '../../shopping-cart/shoppingcart.service';
 import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
+import { AnimationService } from 'src/app/shared/services/animation.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -20,14 +21,15 @@ export class HeaderComponent extends DefaultListComponent<ShoppingCartItem, Shop
   lang: string;
   items$: LineItem[];
   quantitiesCount;
-
+  @ViewChild('cartPosition') cartPosition: ElementRef;
   constructor(
     private translate: TranslateService,
     public authenticationService: AuthenticationService,
     service: ShoppingCartService,
     private appStore: Store<fromStore.AppState>,
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
-    private router: Router
+    private router: Router,
+    private animationService: AnimationService
   ) {
     super(service);
     this.appStore.dispatch(new fromStore.LoadInitState());
@@ -47,6 +49,15 @@ export class HeaderComponent extends DefaultListComponent<ShoppingCartItem, Shop
     this.authUser$ = this.appStore.select(fromStore.getAuthUser);
     console.log(`${this.translate.getBrowserLang()},${this.translate.getDefaultLang()}`);
   }
+
+  ngAfterViewInit() {
+    //console.log(this.cartPosition);
+    this.authUser$.subscribe((res) => {
+      //console.log(this.cartPosition);
+      this.animationService.getCartPosition(this.cartPosition);
+    });
+  }
+
   toggleSidebar() {
     const dom: any = document.querySelector('body');
     dom.classList.toggle(this.pushRightClass);
