@@ -1,5 +1,6 @@
 package ilab.api.admin;
 
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import com.sipios.springsearch.anotation.SearchSpec;
 
 import ilab.core.domain.LineItem;
 import ilab.core.domain.OrderEntity;
+import ilab.core.domain.Reason;
 import ilab.core.service.OrderService;
 
 @RestController
@@ -51,9 +53,9 @@ public class AdminOrderController
 		return orderService.quote(id, auth);
 	}
 	@PutMapping(path = "/{id}/rejectOrder")
-	public OrderEntity rejectOrder(@PathVariable("id") UUID id, Authentication auth)
+	public OrderEntity rejectOrder(@PathVariable("id") UUID id, @RequestBody(required = false) OrderEntity order,Authentication auth)
 	{
-		return orderService.rejectOrder(id, auth);
+		return orderService.rejectOrder(id,order, auth);
 	}
 	@PutMapping(path = "/{id}/finish")
 	public OrderEntity finishOrder(@PathVariable("id") UUID id, Authentication auth)

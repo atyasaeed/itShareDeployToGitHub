@@ -1,5 +1,6 @@
 package ilab.api.admin;
 
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ilab.core.domain.LineItem;
 import ilab.core.domain.OrderEntity;
+import ilab.core.domain.Reason;
 import ilab.core.service.OrderService;
 
 @RestController
 @RequestMapping(path = AdminLineItemController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-@PreAuthorize("hasRole('ROLE_Admin')")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class AdminLineItemController
 {
 	static final String REST_URL = "/api/admin/items";
@@ -40,9 +42,10 @@ public class AdminLineItemController
 		return orderService.quoteItem(id, auth);
 	}
 	@PutMapping(path = "/{id}/rejectItem")
-	public LineItem rejectItem(@PathVariable("id") UUID id, Authentication auth)
+	public LineItem rejectItem(@PathVariable("id") UUID id, @RequestBody(required = false) LineItem item, Authentication auth)
 	{
-		return orderService.rejectItem(id, auth);
+		
+		return orderService.rejectItem(id, item, auth);
 	}
 	@PutMapping(path = "/{id}/process")
 	public LineItem process(@PathVariable("id") UUID id, Authentication auth)

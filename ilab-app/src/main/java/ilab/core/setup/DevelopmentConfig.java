@@ -1,30 +1,35 @@
 package ilab.core.setup;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.Random;
+import java.io.OutputStream;
+import java.nio.file.Files;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItem;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.util.ResourceUtils;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.io.Files;
 
-import freemarker.template.Template;
 import ilab.core.domain.Authority;
+import ilab.core.domain.Reason;
 import ilab.core.domain.Service;
 import ilab.core.domain.User;
+import ilab.core.repository.ReasonRepository;
 import ilab.core.repository.ServiceRepository;
 import ilab.core.repository.UserRepository;
+import ilab.core.service.ServiceService;
 import ilab.core.service.UserService;
 
 @Profile("!Prod")
@@ -44,9 +49,11 @@ public class DevelopmentConfig
 	@Autowired
 	private UserService userService;
 	@Autowired
+	private ReasonRepository reasonRepo;
+	@Autowired
 	public freemarker.template.Configuration freemarkerConfig;
 	@Bean
-	public CommandLineRunner dataLoader(ServiceRepository serviceRepo,UserRepository userRepo) {
+	public CommandLineRunner dataLoader(ServiceRepository serviceRepo,UserRepository userRepo,ServiceService serviceService) {
 		return new CommandLineRunner()
 		{
 			
@@ -67,9 +74,23 @@ public class DevelopmentConfig
 					Service services[]=new ObjectMapper().readValue(new File(setupPath + "/services.json"), Service[].class);
 					for (Service service : services)
 					{
-						serviceRepo.save(service);
+						
+						File file = new File(setupPath+"/"+service.getImage());
+						System.out.println(file.getPath()+":"+file.exists());
+						FileItem fileItem = new DiskFileItem("file", Files.probeContentType(file.toPath()), false, file.getName(), (int) file.length() , file.getParentFile());
+						InputStream input = new FileInputStream(file);
+					    OutputStream os = fileItem.getOutputStream();
+					    IOUtils.copy(input, os);
+						MultipartFile multipartFile = new CommonsMultipartFile(fileItem);
+						input.close();
+						os.close();
+						serviceService.createService(service, multipartFile);
 					}
-					System.out.println(services);
+					Reason reasons[]=new ObjectMapper().readValue(new File(setupPath + "/reasons.json"), Reason[].class);
+					for(Reason reason:reasons)
+					{
+						reasonRepo.save(reason);
+					}
 //					Service service;
 //					service=serviceRepo.save(createService("3D Printing","3D Printing Mono Color",1,"serviceTemplate.json","serviceFileExtensions.json","Working Area 1","3d"));
 //					Files.copy(new File(initFilesPath+service.getName()+".jpg"), new File(imagesPath+service.getId()+".jpg"));

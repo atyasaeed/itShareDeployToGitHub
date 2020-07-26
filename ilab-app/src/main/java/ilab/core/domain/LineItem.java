@@ -3,7 +3,9 @@ package ilab.core.domain;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -11,6 +13,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
@@ -43,6 +46,10 @@ public class LineItem extends AbstractEntity<LineItem>
 	@Enumerated(EnumType.ORDINAL)
 	@NotNull
 	private LineItemStatus status=LineItemStatus.PENDING;
+	
+	@ManyToMany()
+	Set<Reason> rejectionReasons=new HashSet<Reason>();
+	private String rejectionNote;
 	public long getQuantity()
 	{
 		return quantity;
@@ -127,5 +134,21 @@ public class LineItem extends AbstractEntity<LineItem>
 	public void setStatus(LineItemStatus status)
 	{
 		this.status = status;
+	}
+	public Set<Reason> getRejectionReasons()
+	{
+		return rejectionReasons;
+	}
+	public void setRejectionReasons(Set<Reason> rejectionReasons)
+	{
+		this.rejectionReasons = rejectionReasons;
+	}
+	public String getRejectionNote()
+	{
+		return rejectionNote;
+	}
+	public void setRejectionNote(String rejectionNote)
+	{
+		this.rejectionNote = rejectionNote;
 	}
 }

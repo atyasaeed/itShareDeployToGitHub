@@ -26,7 +26,7 @@ import ilab.core.service.UserService;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true,prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
 	@Autowired
@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 		csrf.setCookieHttpOnly(true);
 		http.authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/login").permitAll()
 				.antMatchers(HttpMethod.POST, "/login").permitAll()
-				.antMatchers(HttpMethod.GET,"/*","/ui/**", "/api/services/**", "/api/users/resetPassword","/api/utils/initState","/api/gallery/**","/swagger-ui/**","/v3/api-docs/**")
+				.antMatchers(HttpMethod.GET,"/*","/ui/**", "/api/services/**","/api/reason/**", "/api/users/resetPassword","/api/utils/initState","/api/gallery/**","/swagger-ui/**","/v3/api-docs/**")
 				.permitAll().antMatchers(HttpMethod.POST, "/api/users", "/api/users/resetPassword").permitAll()
 				.antMatchers(HttpMethod.POST, "/api/users/savePassword").hasAuthority("CHANGE_PASSWORD_PRIVILEGE")
 				.antMatchers("/assets/**").permitAll()	

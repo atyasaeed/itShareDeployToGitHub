@@ -2,13 +2,16 @@ package ilab.core.domain;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
@@ -42,6 +45,9 @@ public class OrderEntity extends AbstractEntity<OrderEntity>
 	@Enumerated(EnumType.ORDINAL)
 	@NotNull
 	private OrderStatus status;
+	@ManyToMany()
+	Set<Reason> rejectionReasons=new HashSet<Reason>();
+	private String rejectionNote;
 	public List<LineItem> getLineItems()
 	{
 		return lineItems;
@@ -85,6 +91,22 @@ public class OrderEntity extends AbstractEntity<OrderEntity>
 	public void setTotalCost(BigDecimal totalCost)
 	{
 		this.totalCost = totalCost;
+	}
+	public Set<Reason> getRejectionReasons()
+	{
+		return rejectionReasons;
+	}
+	public void setRejectionReasons(Set<Reason> rejectionReasons)
+	{
+		this.rejectionReasons = rejectionReasons;
+	}
+	public String getRejectionNote()
+	{
+		return rejectionNote;
+	}
+	public void setRejectionNote(String rejectionNote)
+	{
+		this.rejectionNote = rejectionNote;
 	}
 	
 }

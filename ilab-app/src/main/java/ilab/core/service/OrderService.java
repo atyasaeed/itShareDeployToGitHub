@@ -34,6 +34,7 @@ import ilab.core.domain.LineItem;
 import ilab.core.domain.LineItemStatus;
 import ilab.core.domain.OrderEntity;
 import ilab.core.domain.OrderStatus;
+import ilab.core.domain.ReasonStatus;
 import ilab.core.domain.User;
 import ilab.core.repository.FileAssetRepository;
 import ilab.core.repository.LineItemRepository;
@@ -408,14 +409,21 @@ public class OrderService
 		return order;
 	}
 
-	public OrderEntity rejectOrder(UUID id, Authentication auth)
+	public OrderEntity rejectOrder(UUID id,OrderEntity order, Authentication auth)
 	{
-		OrderEntity order = orderRepo.findById(id).orElseThrow();
-		if (order.getStatus() == OrderStatus.PENDING)
+		OrderEntity persistedOrder = orderRepo.findById(id).orElseThrow();
+		if (persistedOrder.getStatus() == OrderStatus.PENDING)
 		{
-			order.setStatus(OrderStatus.ORDER_REJECTED);
+			persistedOrder.setStatus(OrderStatus.ORDER_REJECTED);
+			if(order!=null)
+			{
+				if(order.getRejectionReasons()==null||order.getRejectionReasons().size()==0|| !order.getRejectionReasons().stream().anyMatch((reason)->reason.getStatus()!=ReasonStatus.PUBLISHED))
+					throw new IllegalRequestDataException("Some reasons are not active");
+				persistedOrder.setRejectionNote(order.getRejectionNote());
+				persistedOrder.setRejectionReasons(order.getRejectionReasons());
+			}
 		}
-		return order;
+		return persistedOrder;
 	}
 
 	public OrderEntity processOrder(UUID id, Authentication auth)
@@ -530,18 +538,25 @@ public class OrderService
 		return item;
 	}
 
-	public LineItem rejectItem(UUID id, Authentication auth)
+	public LineItem rejectItem(UUID id, LineItem item,Authentication auth)
 	{
 		List<LineItemStatus> eligibleItemStatus = Arrays.asList(LineItemStatus.PENDING,LineItemStatus.QUOTED,LineItemStatus.ITEM_REJECTED);
 		List<OrderStatus> eligibleOrderStatus = Arrays.asList(OrderStatus.PENDING);
-		LineItem item=lineItemRepo.findById(id).orElseThrow();
-		if (eligibleOrderStatus.contains(item.getOrderEntity().getStatus()) && eligibleItemStatus.contains(item.getStatus()))
+		LineItem existingItem=lineItemRepo.findById(id).orElseThrow();
+		if (eligibleOrderStatus.contains(existingItem.getOrderEntity().getStatus()) && eligibleItemStatus.contains(existingItem.getStatus()))
 		{
-			item.setStatus(LineItemStatus.ITEM_REJECTED);
+			existingItem.setStatus(LineItemStatus.ITEM_REJECTED);
+			if(item!=null)
+			{
+				if(item.getRejectionReasons()==null||item.getRejectionReasons().size()==0|| !item.getRejectionReasons().stream().anyMatch((reason)->reason.getStatus()!=ReasonStatus.PUBLISHED))
+					throw new IllegalRequestDataException("Some reasons are not active");
+				existingItem.setRejectionNote(item.getRejectionNote());
+				existingItem.setRejectionReasons(item.getRejectionReasons());
+			}
 		}
 		else
 			throw new IllegalRequestDataException("Can't reject  the item ");
-		return item;
+		return existingItem;
 	}
 
 	public LineItem processItem(UUID id, Authentication auth)
