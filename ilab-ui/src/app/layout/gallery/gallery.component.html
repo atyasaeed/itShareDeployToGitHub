@@ -23,7 +23,7 @@
           </div>
         </div> -->
 
-      <div class="container">
+      <div class="container" *tdLoading="'loading'">
         <ng-container *ngIf="(entities$|async)?.length!=0 else anonymous">
           <div class="content">
             <form>

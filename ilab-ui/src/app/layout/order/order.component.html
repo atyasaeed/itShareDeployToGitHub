@@ -13,25 +13,26 @@
                 <h2 class="text-primary">{{'My Orders'|translate}}</h2>
                 <p>{{'You can track and manage all of your orders'|translate}} </p>
             </div>
-            <div class="row mb-3">
-              <!-- <div class="col-md-4">
-                <ng-multiselect-dropdown
-                [placeholder]="'Filter By Status' | translate"
-                [settings]="dropdownSettings"
-                [data]="dropdownList"
-                [(ngModel)]="selectedItems"
-                (onSelect)="onItemSelect($event)"
-                (onSelectAll)="onSelectAll($event)"
-                >
-                </ng-multiselect-dropdown>
-              </div> -->
-              <div class="col-md-4">
-                <select class="form-control" (change)="sortByDate(sortUpdated.value)" #sortUpdated>
-                  <option value="newest">{{'Sort By Newest' | translate}}</option>
-                  <option value="oldest">{{'Sort By Oldest' | translate}}</option>
-                </select>
+            <div *tdLoading="'loading'">
+              <div class="row mb-3">
+                <!-- <div class="col-md-4">
+                  <ng-multiselect-dropdown
+                  [placeholder]="'Filter By Status' | translate"
+                  [settings]="dropdownSettings"
+                  [data]="dropdownList"
+                  [(ngModel)]="selectedItems"
+                  (onSelect)="onItemSelect($event)"
+                  (onSelectAll)="onSelectAll($event)"
+                  >
+                  </ng-multiselect-dropdown>
+                </div> -->
+                <div class="col-md-4">
+                  <select class="form-control" (change)="sortByDate(sortUpdated.value)" #sortUpdated>
+                    <option value="newest">{{'Sort By Newest' | translate}}</option>
+                    <option value="oldest">{{'Sort By Oldest' | translate}}</option>
+                  </select>
+                </div>
               </div>
-            </div>
             <!-- End Page Head -->
 
             <!-- Old Static Data was here -->
@@ -39,17 +40,24 @@
             <!-- <div class="card mb-3" *ngFor='let order of orders'>
           <app-order-card ></app-order-card>
         </div> -->
-            <app-order-card   *ngFor="let entity of entities$ | async" [order]="entity"></app-order-card>
-            <div class="d-flex justify-content-between p-2">
-                <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="service.page"
-                  [pageSize]="service.pageSize">
-                </ngb-pagination>
 
-                <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
-                  <option [ngValue]="10">10 items per page</option>
-                  <option [ngValue]="25">25 items per page</option>
-                  <option [ngValue]="50">50 items per page</option>
-                </select>
+            <!-- <div class="d-flex justify-content-center" *ngIf="spinner">
+              <mat-spinner></mat-spinner>
+            </div> -->
+
+
+              <app-order-card   *ngFor="let entity of entities$ | async" [order]="entity"></app-order-card>
+              <div class="d-flex justify-content-between p-2">
+                  <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="service.page"
+                    [pageSize]="service.pageSize">
+                  </ngb-pagination>
+
+                  <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
+                    <option [ngValue]="10">10 items per page</option>
+                    <option [ngValue]="25">25 items per page</option>
+                    <option [ngValue]="50">50 items per page</option>
+                  </select>
+              </div>
             </div>
 
         <!-- </div> -->

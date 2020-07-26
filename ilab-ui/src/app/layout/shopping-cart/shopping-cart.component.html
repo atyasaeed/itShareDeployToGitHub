@@ -15,18 +15,18 @@
         <!-- End page Head -->
 
         <!-- Page Content -->
-        <ng-container *ngIf="(items$)?.length!=0 else anonymous">
+        <ng-container *ngIf="(items)?.length!=0 else anonymous">
           <!-- <ng-container> -->
           <div class="content mt-3">
-
-            <div class="row ">
+            <!-- <h1 *ngIf="test">bla test test</h1> -->
+            <div class="row align-items-start">
 
               <!-- Cart Items Table -->
               <div class="col-md-12 col-lg-8 light-grey-background">
-                <div class="items">
+                <div class="items" *tdLoading="'loading'">
 
                   <!-- One Item Row -->
-                  <div class="product  pb-3" *ngFor="let entity of items$;let i =index">
+                  <div class="product  pb-3" *ngFor="let entity of items;let i =index">
                     <div class="row">
                       <div class="col-md-3 service-image mb-2">
                         <img class="img-fluid " [src]="appConfig.FILE_URL + entity.files[0].asset_id"

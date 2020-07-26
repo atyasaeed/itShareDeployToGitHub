@@ -16,6 +16,8 @@ import { NgxPrintModule } from 'ngx-print';
 import { StlModelViewerModule } from 'angular-stl-model-viewer';
 import { TooltipModule } from 'ng2-tooltip-directive';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { CovalentLoadingModule } from '@covalent/core/loading';
+
 @NgModule({
   declarations: [OrderComponent, OrderCardComponent, LineItemComponent],
   imports: [
@@ -33,6 +35,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     StlModelViewerModule,
     TooltipModule,
     ModalModule.forRoot(),
+    CovalentLoadingModule,
   ],
 })
 export class OrderModule {}

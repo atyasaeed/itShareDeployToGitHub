@@ -10,6 +10,7 @@ import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import { ShoppingCartService } from '../../shopping-cart/shoppingcart.service';
 import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
 import { AnimationService } from 'src/app/shared/services/animation.service';
+import { TdLoadingService } from '@covalent/core/loading';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -29,9 +30,10 @@ export class HeaderComponent extends DefaultListComponent<ShoppingCartItem, Shop
     private appStore: Store<fromStore.AppState>,
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
     private router: Router,
-    private animationService: AnimationService
+    private animationService: AnimationService,
+    loadingService: TdLoadingService
   ) {
-    super(service);
+    super(service, loadingService);
     this.appStore.dispatch(new fromStore.LoadInitState());
 
     this.appStore.select(fromStore.getShoppingCart).subscribe((res) => {

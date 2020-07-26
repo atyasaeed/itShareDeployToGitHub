@@ -9,6 +9,7 @@ import { ServiceCardComponent } from './service-card/service-card.component';
 import { MatCardModule } from '@angular/material/card';
 import { StatModule } from 'src/app/shared/modules/stat/stat.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { CovalentLoadingModule } from '@covalent/core/loading';
 
 @NgModule({
   declarations: [HomeComponent, ServiceCardComponent],
@@ -21,6 +22,7 @@ import { TranslateModule } from '@ngx-translate/core';
     NgbModule,
     StatModule,
     TranslateModule,
+    CovalentLoadingModule,
   ],
 })
 export class HomeModule {}

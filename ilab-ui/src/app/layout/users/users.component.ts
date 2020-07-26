@@ -7,6 +7,7 @@ import { SortableHeaderDirective, SortEvent } from 'src/app/shared/directives/so
 import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
+import { TdLoadingService } from '@covalent/core/loading';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -18,8 +19,8 @@ export class UsersComponent extends DefaultListComponent<User, UserService> {
 
   private _searchTerm = '';
 
-  constructor(service: UserService, private appStore: Store<fromStore.AppState>) {
-    super(service);
+  constructor(service: UserService, private appStore: Store<fromStore.AppState>, loadingService: TdLoadingService) {
+    super(service, loadingService);
   }
 
   set searchTerm(searchTerm: string) {

@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { routerTransition } from 'src/app/router.animations';
 import { Observable } from 'rxjs';
 import * as THREE from 'three/build/three.module.js';
+import { TdLoadingService } from '@covalent/core/loading';
 @Component({
   selector: 'app-gallery',
   templateUrl: './gallery.component.html',
@@ -28,9 +29,10 @@ export class GalleryComponent extends DefaultListComponent<ShoppingCartItem, Gal
     service: GalleryService,
     private appStore: Store<fromStore.AppState>,
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    loadingService: TdLoadingService
   ) {
-    super(service);
+    super(service, loadingService);
     this.authUser$ = this.appStore.select(fromStore.getAuthUser);
     this.appStore.select(fromStore.getLang).subscribe((lang) => {
       this.lang = lang;

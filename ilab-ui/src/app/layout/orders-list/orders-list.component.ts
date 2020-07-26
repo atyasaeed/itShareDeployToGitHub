@@ -5,6 +5,7 @@ import { DefaultListComponent } from 'src/app/shared/helpers/default.list.compon
 import { OrdersListService } from './orders-list.service';
 import { routerTransition } from 'src/app/router.animations';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { TdLoadingComponent, TdLoadingService } from '@covalent/core/loading';
 @Component({
   selector: 'app-orders-list',
   templateUrl: './orders-list.component.html',
@@ -19,8 +20,8 @@ export class OrdersListComponent extends DefaultListComponent<Order, OrdersListS
   selectedItems = [];
   // dropdownSettings = {};
   dropdownSettings: IDropdownSettings = {};
-  constructor(service: OrdersListService) {
-    super(service);
+  constructor(service: OrdersListService, loadingService: TdLoadingService) {
+    super(service, loadingService);
     // this.appStore.select(fromStore.getLang).subscribe((lang) => {
     //   this.lang = lang;
     // });
