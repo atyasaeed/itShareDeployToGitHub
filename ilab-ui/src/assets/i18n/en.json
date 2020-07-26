@@ -224,5 +224,7 @@
   "Types": "Types",
   "Colors": "Colors",
   "Units": "Units",
-  "Processes": "Processes"
+  "Processes": "Processes",
+  "notified.reasonRejection": "User Will Be Notified With The Reason For Rejecting This Item",
+  "reason.error.select": "Sorry Must Select One Reason Minimum "
 }

@@ -224,5 +224,7 @@
   "Types": "الانواع",
   "Colors": "الالوان",
   "Units": "الوحدات",
-  "Processes": "العمليات"
+  "Processes": "العمليات",
+  "notified.reasonRejection": "سيتم إخطار المستخدم بسبب رفض هذا العنصر",
+  "reason.error.select": " يجب تحديد سبب واحد على الأقل\n"
 }

@@ -247,18 +247,28 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
     }
   }
   orderReject(order: Order) {
-    this.service.orderReject(order.id).subscribe((res: Order) => {
-      // this.entity.status = 'ORDER_REJECTED';
-      this.entity = res;
-      this.toastr.success('Successful');
-      this.isEnabled = true;
-    });
+    if (this.selectedItems.length == 0) {
+      this.toastr.error(this.translate.instant('reason.error.select'));
+
+      return;
+    } else {
+      this.rejectionReason.reason = this.selectedItems;
+      this.service.orderReject(order.id, this.rejectionReason).subscribe((res: Order) => {
+        // this.entity.status = 'ORDER_REJECTED';
+        this.rejectionReason = {} as RejectionReason;
+        this.selectedItems = [];
+        this.modalRef.hide();
+        this.entity = res;
+        this.toastr.success('Successful');
+        this.isEnabled = true;
+      });
+    }
   }
 
   lineItemReject(lineItem: LineItem) {
     let arrLineItems: boolean[] = new Array();
     if (this.selectedItems.length == 0) {
-      this.toastr.error('sorry,must select one reason Minimum ');
+      this.toastr.error(this.translate.instant('reason.error.select'));
       return;
     } else {
       this.rejectionReason.reason = this.selectedItems;
@@ -268,7 +278,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
         this.selectedItems = [];
         this.modalRef.hide();
         lineItem.status = res.status;
-        this.toastr.success('Successful');
+        this.toastr.success(this.translate.instant('Successful'));
         this.service.get(this.orderId).subscribe((res: Order) => {
           res.lineItems.forEach((e) => {
             if (e.status == 'QUOTED' || e.status == 'ITEM_REJECTED') {
