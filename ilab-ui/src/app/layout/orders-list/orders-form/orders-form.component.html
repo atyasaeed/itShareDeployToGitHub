@@ -1,9 +1,11 @@
 <div *tdLoading="'loading'" [@routerTransition]>
   <app-page-header [heading]="'Employee Case'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header>
   <div class="card mb-3" class="form-rtl" *ngIf="entity">
+
     <div class="card-header">
+
       <div class="row text-left" style="justify-content: space-between;">
-        <div class="col-md-6 form-rtl">
+        <div class="col-md-4 form-rtl">
           <span>{{'order.id'|translate}} : </span>
           <span class="value"> {{entity?.id.slice(-7)}}</span>
           <span style="display:block;">{{'order.status'|translate}} :<span class="value"> {{entity?.status}}</span>
@@ -11,16 +13,24 @@
           <span style="display:block;">{{'order.totalPrice'|translate}} :<span
               class="value">{{getSubTotal(entity.lineItems)| currency:'EGP'}}</span></span>
         </div>
+        <div class="co-md-2" *ngIf="entity.status == 'QUOTE_REJECTED' || entity.status == 'ORDER_REJECTED'">
+          <span class="cancelled ">{{entity.status | translate}}</span>
+
+        </div>
         <div class="col-md-4 form-rtl">
           <div class="row text-right">
             <div class="col-md-12  row" style="justify-content: flex-end;">
-              <div *ngIf="entity.status === 'PENDING'" style="margin-right: 10px;"><button (click)="orderReject(entity)"
-                  class="btn btn-danger">{{'order.status.reject'|translate}}</button>
+              <div *ngIf="entity.status === 'PENDING'" style="margin-right: 10px;"><button
+                  (click)="openModal(templateOrder)" class="btn btn-danger">{{'order.status.reject'|translate}}</button>
               </div>
               <div *ngIf="found && entity.status === 'PENDING'">
                 <button (click)="orderStatus(entity,statusBtn)" #statusBtn
                   class="btn btn-primary">{{"order.status.quate"|translate}}</button>
               </div>
+            </div>
+            <div class="col-md-12" *ngIf="entity.status == 'QUOTE_REJECTED' || entity.status == 'ORDER_REJECTED'">
+              <button class="btn btn-danger"
+                (click)="itemRejectReasonModal(orderRejectReasons)">{{'viewReasons'|translate}}</button>
             </div>
 
             <div class="col-md-12" (click)="orderStatus(entity,statusBtn)" #statusBtn
@@ -35,6 +45,7 @@
               *ngIf=" check && entity.status === 'FINISHED'">
               <button class="btn btn-info">{{'order.status.delivered'|translate}}</button>
             </div>
+
 
 
           </div>
@@ -173,9 +184,8 @@
                             <!-- <h4 class="modal-title pull-left">please register the rejection reason</h4> -->
                             <div type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
                               <span aria-hidden="true">&times;</span>
-                              <h6 class="text-center m-auto" style="width: 80%;">User Will Be Notified With The Reason
-                                For
-                                Rejecting This Item
+                              <h6 class="text-center m-auto" style="width: 80%;">
+                                {{'notified.reasonRejection'|translate}}
                               </h6>
                             </div>
 
@@ -184,7 +194,7 @@
 
                             <section class="row">
                               <div class="col-md-12">
-                                <label for="">rejection reasons</label>
+                                <label for="">{{'rejectionReasons'|translate}}</label>
                                 <ng-multiselect-dropdown placeholder="{{'Reasons'|translate}}"
                                   [settings]="dropdownSettings" [data]="reasonList" [settings]="dropdownSettings"
                                   [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)"
@@ -193,7 +203,7 @@
                                 </ng-multiselect-dropdown>
                               </div>
                               <div class="col-12 mt-3">
-                                <label>notes for the user</label>
+                                <label>{{'notes'|translate}}</label>
                                 <textarea rows="6" style="width: 100%;" [(ngModel)]="rejectionReason.notes"
                                   maxlength='80'></textarea>
                               </div>
@@ -347,7 +357,7 @@
                   </div>
 
 
-                  <!--modal-->
+                  <!--modal itemRejectReasons-->
                   <ng-template #itemRejectReasons>
                     <div class="modal-header">
                       <h4 class="modal-title pull-left text-danger">
@@ -379,6 +389,9 @@
                       </div>
                     </div>
                   </ng-template>
+                  <!---->
+
+
 
 
 
@@ -386,8 +399,84 @@
 
 
                 </div>
-              </div>
 
+              </div>
+              <!--modal orderTemplate-->
+              <ng-template #templateOrder>
+                <div>
+                  <div class="modal-header">
+                    <!-- <h4 class="modal-title pull-left">please register the rejection reason</h4> -->
+                    <div type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                      <span aria-hidden="true">&times;</span>
+                      <h6 class="text-center m-auto" style="width: 80%;">User Will Be Notified With The Reason
+                        For
+                        Rejecting This Item
+                      </h6>
+                    </div>
+
+                  </div>
+                  <div class="modal-body">
+
+                    <section class="row">
+                      <div class="col-md-12">
+                        <label for="">rejection reasons</label>
+                        <ng-multiselect-dropdown placeholder="{{'Reasons'|translate}}" [settings]="dropdownSettings"
+                          [data]="reasonList" [settings]="dropdownSettings" [(ngModel)]="selectedItems"
+                          (onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeSelect($event)"
+                          (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)"
+                          [ngModelOptions]="{standalone: true}">
+                        </ng-multiselect-dropdown>
+                      </div>
+                      <div class="col-12 mt-3">
+                        <label>notes for the user</label>
+                        <textarea rows="6" style="width: 100%;" [(ngModel)]="rejectionReason.notes"
+                          maxlength='80'></textarea>
+                      </div>
+                      <div class=" col-12 text-center"><button (click)="orderReject(entity) ;isButtonVisible=false"
+                          class="btn btn-outline-primary">{{'order.status.reject'|translate}}</button>
+                      </div>
+                    </section>
+
+                  </div>
+
+
+
+                </div>
+              </ng-template>
+              <!---->
+              <!--modal Order-RejectReasons-->
+              <ng-template #orderRejectReasons>
+                <div class="modal-header">
+                  <h4 class="modal-title pull-left text-danger">
+                    {{'rejectionReasons'|translate}}
+                  </h4>
+
+                </div>
+                <div class="modal-body">
+                  <div class="rejection-reason my-3">
+                    <span class="number mr-2 px-3 py-1">
+                      1
+                    </span>
+                    <span class="p-2">
+                      Order is asdsl;kl ka;kak ;lklk sa ks kas l;s k;salk ksalk s lk lask ;lk sl ks slk
+                    </span>
+                  </div>
+
+                  <div>
+                    <label>{{'notes'|translate}}</label>
+                    <div>
+                      sadaka ksa lkslk lska; kl klsa;k sl ks k slak k ;aslksal klk
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer ">
+                  <div class="m-auto">
+                    <button type="button" class="btn btn-sm btn-secondary"
+                      (click)="modalRef.hide()">{{'close'|translate}}</button>
+                  </div>
+                </div>
+              </ng-template>
+              <!---->
             </div>
           </div>
 
