@@ -167,19 +167,19 @@
     </button>
   </div>
   <div class="modal-body">
-    <div class="rejection-reason my-3">
+    <div class="rejection-reason my-3" *ngFor="let r of lineItem.rejectionReasons;let i = index">
       <span class="number mr-2 px-3 py-1">
-        1
+        {{i+1}}
       </span>
       <span class="p-2">
-        lineitem is asdsl;kl ka;kak ;lklk sa ks kas l;s k;salk  ksalk s lk lask ;lk sl ks slk
+        {{r.name}}
       </span>
     </div>
 
-    <div>
+    <div *ngIf="lineItem.rejectionNote != null">
       <label >{{'notes'|translate}}</label>
       <div>
-        sadaka ksa lkslk  lska; kl klsa;k sl ks k slak k ;aslksal klk
+        {{lineItem.rejectionNote}}
       </div>
     </div>
   </div>

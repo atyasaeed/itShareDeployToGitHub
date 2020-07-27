@@ -248,19 +248,19 @@
     </button>
   </div>
   <div class="modal-body">
-    <div class="rejection-reason my-3">
+    <div class="rejection-reason my-3" *ngFor="let r of order.rejectionReasons;let i = index">
       <span class="number mr-2 px-3 py-1">
-        1
+        {{i+1}}
       </span>
       <span class="p-2">
-        order is dsadasm nansan,sdnsmdnd,snamdnasn mnmansm, n
+        {{r.name}}
       </span>
     </div>
 
-    <div>
+    <div *ngIf="order.rejectionNote != null">
       <label >{{'notes'|translate}}</label>
       <div>
-        sadaka ksa lkslk  lska; kl klsa;k sl ks k slak k ;aslksal klk
+        {{order.rejectionNote}}
       </div>
     </div>
   </div>
