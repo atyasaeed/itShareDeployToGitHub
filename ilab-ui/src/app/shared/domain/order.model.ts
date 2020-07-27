@@ -1,5 +1,6 @@
 import { OrderItem } from './order-item.model';
 import { Entity } from './entity';
+import { Reason } from './reason.model';
 
 export interface Order extends Entity {
   id: string;
@@ -7,4 +8,6 @@ export interface Order extends Entity {
   totalCost: number;
   status: string;
   lineItems: OrderItem[];
+  rejectionReasons: Reason[];
+  rejectionNote: string;
 }

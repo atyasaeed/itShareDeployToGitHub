@@ -12,7 +12,7 @@ export class ItemsService extends RestService<LineItem> {
     // return this.http.put('http://18.215.58.131:8080/api/admin/orders/lineItem', lineItem);
     return this.http.put(this.appConfig.getResourceUrl(this.resource), lineItem.id);
   }
-  orderReject(id, rejectionReason: RejectionReason) {
+  orderReject(id, rejectionReason: LineItem) {
     return this.http.put(this.appConfig.getResourceUrl(this.resource) + `/${id}/rejectItem`, rejectionReason);
   }
   orderStatus(id, action) {

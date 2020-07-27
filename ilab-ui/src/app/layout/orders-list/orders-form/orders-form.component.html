@@ -182,19 +182,20 @@
                         <div>
                           <div class="modal-header">
                             <!-- <h4 class="modal-title pull-left">please register the rejection reason</h4> -->
-                            <div type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                            <div type="button" aria-label="Close" (click)="modalRef.hide()">
                               <span aria-hidden="true">&times;</span>
-                              <h6 class="text-center m-auto" style="width: 80%;">
-                                {{'notified.reasonRejection'|translate}}
-                              </h6>
+
                             </div>
 
                           </div>
                           <div class="modal-body">
-
-                            <section class="row">
+                            <h6 class="text-center m-auto" style="width: 80%;">
+                              {{'notified.reasonRejection'|translate}}
+                            </h6>
+                            <section class="row mt-3">
                               <div class="col-md-12">
-                                <label for="">{{'rejectionReasons'|translate}}</label>
+                                <label for="">{{'rejectionReasons'|translate}} <small class="text-danger"
+                                    *ngIf="selectedItems.length == 0">|*{{'selectReason'}}</small></label>
                                 <ng-multiselect-dropdown placeholder="{{'Reasons'|translate}}"
                                   [settings]="dropdownSettings" [data]="reasonList" [settings]="dropdownSettings"
                                   [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)"
@@ -221,17 +222,7 @@
                       </ng-template>
                       <!-- End Modal-->
                       <div class="row">
-                        <div class="col-12 mt-2 row " *ngIf="!isButtonVisible && lineItem.status === 'ITEM_REJECTED'">
-                          <div class="col-12">
 
-                            <!-- <textarea style="width: 100%; " class="" rows="2" disabled>{{reasonRejection}}</textarea> -->
-                            <mat-form-field style="width: 100%; ">
-                              <textarea matInput rows="2" style="color: rgb(0,0,0);" placeholder="Rejection Reason"
-                                [(ngModel)]="reasonRejection" disabled></textarea>
-                            </mat-form-field>
-                          </div>
-
-                        </div>
                         <div class="col-md-6" *ngIf="lineItem.status !== 'ITEM_REJECTED'">
                           <div>
                             <mat-form-field class="form-rtl" *ngIf="lineItem.status !=='CANCELLED'">
@@ -366,19 +357,19 @@
 
                     </div>
                     <div class="modal-body">
-                      <div class="rejection-reason my-3">
+                      <div class="rejection-reason my-3" *ngFor="let item of lineItem.rejectionReasons ; index as i">
                         <span class="number mr-2 px-3 py-1">
-                          1
+                          {{i+1}}
                         </span>
                         <span class="p-2">
-                          lineitem is asdsl;kl ka;kak ;lklk sa ks kas l;s k;salk ksalk s lk lask ;lk sl ks slk
+                          {{item.name}}
                         </span>
                       </div>
 
                       <div>
                         <label>{{'notes'|translate}}</label>
                         <div>
-                          sadaka ksa lkslk lska; kl klsa;k sl ks k slak k ;aslksal klk
+                          {{lineItem.rejectionNote}}
                         </div>
                       </div>
                     </div>
@@ -406,20 +397,19 @@
                 <div>
                   <div class="modal-header">
                     <!-- <h4 class="modal-title pull-left">please register the rejection reason</h4> -->
-                    <div type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <div type="button" aria-label="Close" (click)="modalRef.hide()">
                       <span aria-hidden="true">&times;</span>
-                      <h6 class="text-center m-auto" style="width: 80%;">User Will Be Notified With The Reason
-                        For
-                        Rejecting This Item
-                      </h6>
+
                     </div>
 
                   </div>
                   <div class="modal-body">
-
-                    <section class="row">
+                    <h6 class="text-center m-auto" style="width: 80%;">{{'notified.reasonRejection'|translate}}
+                    </h6>
+                    <section class="row mt-3">
                       <div class="col-md-12">
-                        <label for="">rejection reasons</label>
+                        <label for="">{{'rejectionReasons'|translate}}<small class="text-danger"
+                            *ngIf="selectedItems.length == 0">|*{{'selectReason'}}</small></label>
                         <ng-multiselect-dropdown placeholder="{{'Reasons'|translate}}" [settings]="dropdownSettings"
                           [data]="reasonList" [settings]="dropdownSettings" [(ngModel)]="selectedItems"
                           (onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeSelect($event)"
@@ -428,7 +418,7 @@
                         </ng-multiselect-dropdown>
                       </div>
                       <div class="col-12 mt-3">
-                        <label>notes for the user</label>
+                        <label>{{'notes'}}</label>
                         <textarea rows="6" style="width: 100%;" [(ngModel)]="rejectionReason.notes"
                           maxlength='80'></textarea>
                       </div>
@@ -453,19 +443,19 @@
 
                 </div>
                 <div class="modal-body">
-                  <div class="rejection-reason my-3">
+                  <div class="rejection-reason my-3" *ngFor="let item of entity.rejectionReasons ; index as i">
                     <span class="number mr-2 px-3 py-1">
-                      1
+                      {{i+1}}
                     </span>
                     <span class="p-2">
-                      Order is asdsl;kl ka;kak ;lklk sa ks kas l;s k;salk ksalk s lk lask ;lk sl ks slk
+                      {{item.name}}
                     </span>
                   </div>
 
                   <div>
                     <label>{{'notes'|translate}}</label>
                     <div>
-                      sadaka ksa lkslk lska; kl klsa;k sl ks k slak k ;aslksal klk
+                      {{entity.rejectionNote}}
                     </div>
                   </div>
                 </div>
