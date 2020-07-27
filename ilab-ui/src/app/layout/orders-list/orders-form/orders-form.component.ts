@@ -35,6 +35,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
   orderId;
   found: boolean = true;
   check: boolean = true;
+  checkReason: boolean = true;
   minDate: Date;
   maxDate: Date;
   isEnabled: boolean = true;
@@ -260,7 +261,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
   orderReject(order: Order) {
     if (this.selectedItems.length == 0) {
       // this.toastr.error(this.translate.instant('reason.error.select'));
-
+      this.checkReason = false;
       return;
     } else {
       this.rejectionReason.reason = this.selectedItems;
@@ -282,7 +283,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
     let arrLineItems: boolean[] = new Array();
     if (this.selectedItems.length == 0) {
       // this.toastr.error(this.translate.instant('reason.error.select'));
-
+      this.checkReason = false;
       return;
     } else {
       this.rejectionReason.reason = this.selectedItems;
