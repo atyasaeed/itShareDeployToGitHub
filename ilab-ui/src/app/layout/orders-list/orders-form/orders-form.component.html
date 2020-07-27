@@ -182,7 +182,8 @@
                         <div>
                           <div class="modal-header">
                             <!-- <h4 class="modal-title pull-left">please register the rejection reason</h4> -->
-                            <div type="button" aria-label="Close" (click)="modalRef.hide()">
+                            <div type="button" aria-label="Close" class="text-right" style="width: 100%;"
+                              (click)="modalRef.hide()">
                               <span aria-hidden="true">&times;</span>
 
                             </div>
@@ -208,7 +209,7 @@
                                 <textarea rows="6" style="width: 100%;" [(ngModel)]="rejectionReason.notes"
                                   maxlength='80'></textarea>
                               </div>
-                              <div class=" col-12 text-center"><button
+                              <div class=" col-12 text-center mt-2"><button
                                   (click)="lineItemReject(lineItem) ;isButtonVisible=false"
                                   class="btn btn-outline-primary">{{'order.status.reject'|translate}}</button>
                               </div>
@@ -351,7 +352,7 @@
                   <!--modal itemRejectReasons-->
                   <ng-template #itemRejectReasons>
                     <div class="modal-header">
-                      <h4 class="modal-title pull-left text-danger">
+                      <h4 class="modal-title pull-left  text-danger">
                         {{'rejectionReasons'|translate}}
                       </h4>
 
@@ -366,7 +367,7 @@
                         </span>
                       </div>
 
-                      <div>
+                      <div *ngIf="lineItem.rejectionNote">
                         <label>{{'notes'|translate}}</label>
                         <div>
                           {{lineItem.rejectionNote}}
@@ -374,7 +375,7 @@
                       </div>
                     </div>
                     <div class="modal-footer ">
-                      <div class="m-auto">
+                      <div class="m-auto mt-2">
                         <button type="button" class="btn btn-sm btn-secondary"
                           (click)="modalRef.hide()">{{'close'|translate}}</button>
                       </div>
@@ -397,7 +398,8 @@
                 <div>
                   <div class="modal-header">
                     <!-- <h4 class="modal-title pull-left">please register the rejection reason</h4> -->
-                    <div type="button" aria-label="Close" (click)="modalRef.hide()">
+                    <div type="button" aria-label="Close" (click)="modalRef.hide()" class="text-right"
+                      style="width: 100%;">
                       <span aria-hidden="true">&times;</span>
 
                     </div>
@@ -409,7 +411,7 @@
                     <section class="row mt-3">
                       <div class="col-md-12">
                         <label for="">{{'rejectionReasons'|translate}}<small class="text-danger"
-                            *ngIf="selectedItems.length == 0">|*{{'selectReason'}}</small></label>
+                            *ngIf="selectedItems.length == 0 && checkReason ==false">|*{{'selectReason'}}</small></label>
                         <ng-multiselect-dropdown placeholder="{{'Reasons'|translate}}" [settings]="dropdownSettings"
                           [data]="reasonList" [settings]="dropdownSettings" [(ngModel)]="selectedItems"
                           (onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeSelect($event)"
@@ -452,7 +454,7 @@
                     </span>
                   </div>
 
-                  <div>
+                  <div *ngIf="entity.rejectionNote">
                     <label>{{'notes'|translate}}</label>
                     <div>
                       {{entity.rejectionNote}}
