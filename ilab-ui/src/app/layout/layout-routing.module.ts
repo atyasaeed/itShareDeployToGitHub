@@ -40,6 +40,7 @@ const routes: Routes = [
         path: 'order',
         loadChildren: () => import('./order/order.module').then((m) => m.OrderModule),
         canActivate: [AuthGuard],
+        data: { preload: true },
       },
       {
         path: 'orders-list',
