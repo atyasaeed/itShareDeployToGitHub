@@ -196,7 +196,7 @@
                             <section class="row mt-3">
                               <div class="col-md-12">
                                 <label for="">{{'rejectionReasons'|translate}} <small class="text-danger"
-                                    *ngIf="selectedItems.length == 0">|*{{'selectReason'}}</small></label>
+                                    *ngIf="selectedItems.length == 0  && checkReason ==false">|*{{'selectReason'}}</small></label>
                                 <ng-multiselect-dropdown placeholder="{{'Reasons'|translate}}"
                                   [settings]="dropdownSettings" [data]="reasonList" [settings]="dropdownSettings"
                                   [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)"
@@ -355,7 +355,9 @@
                       <h4 class="modal-title pull-left  text-danger">
                         {{'rejectionReasons'|translate}}
                       </h4>
-
+                      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
                     </div>
                     <div class="modal-body">
                       <div class="rejection-reason my-3" *ngFor="let item of lineItem.rejectionReasons ; index as i">
@@ -442,6 +444,9 @@
                   <h4 class="modal-title pull-left text-danger">
                     {{'rejectionReasons'|translate}}
                   </h4>
+                  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
 
                 </div>
                 <div class="modal-body">

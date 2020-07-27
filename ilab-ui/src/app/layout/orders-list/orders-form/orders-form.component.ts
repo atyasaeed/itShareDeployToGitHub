@@ -264,6 +264,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
       this.checkReason = false;
       return;
     } else {
+      this.checkReason = true;
       this.rejectionReason.reason = this.selectedItems;
       this.entity.rejectionReasons = this.rejectionReason.reason;
       this.entity.rejectionNote = this.rejectionReason.notes;
@@ -286,6 +287,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
       this.checkReason = false;
       return;
     } else {
+      this.checkReason = true;
       this.rejectionReason.reason = this.selectedItems;
       lineItem.rejectionReasons = this.rejectionReason.reason;
       lineItem.rejectionNote = this.rejectionReason.notes;
