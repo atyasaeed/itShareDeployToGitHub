@@ -20,6 +20,7 @@ import { DatePipe } from '@angular/common';
 import * as THREE from 'three/build/three.module.js';
 import { ItemsService } from './items.service';
 import { Reason, RejectionReason } from 'src/app/shared/domain/reason.model';
+import { RejectionReasonService } from 'src/app/shared/services/rejectionReason.service';
 @Component({
   selector: 'app-orders-form',
   templateUrl: './orders-form.component.html',
@@ -59,18 +60,28 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
     private activatedRoute: ActivatedRoute,
     private translate: TranslateService,
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private rejectionReasonService: RejectionReasonService
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
     this.form = this.formBuilder.group({
       // id: [{ value: '', disabled: true }],
     });
-    this.reasonList = [
-      { id: '1', name: 'reason1', status: 'ac' },
-      { id: '2', name: 'reason2', status: 'ac' },
-      { id: '3', name: 'reason3', status: 'ac' },
-      { id: '4', name: 'reason4', status: 'ac4' },
-    ];
+    this.rejectionReasonService.searchTerm = '';
+    this.rejectionReasonService.model$.subscribe((res) => {
+      console.log(res);
+      this.reasonList = res;
+    });
+    // this.rejectionReasonService.getReasons().subscribe((res) => {
+    //   console.log(res);
+    // });
+
+    // this.reasonList = [
+    //   { id: '1', name: 'reason1', status: 'ac' },
+    //   { id: '2', name: 'reason2', status: 'ac' },
+    //   { id: '3', name: 'reason3', status: 'ac' },
+    //   { id: '4', name: 'reason4', status: 'ac4' },
+    // ];
 
     this.dropdownSettings = {
       idField: 'id',
@@ -248,12 +259,14 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
   }
   orderReject(order: Order) {
     if (this.selectedItems.length == 0) {
-      this.toastr.error(this.translate.instant('reason.error.select'));
+      // this.toastr.error(this.translate.instant('reason.error.select'));
 
       return;
     } else {
       this.rejectionReason.reason = this.selectedItems;
-      this.service.orderReject(order.id, this.rejectionReason).subscribe((res: Order) => {
+      this.entity.rejectionReasons = this.rejectionReason.reason;
+      this.entity.rejectionNote = this.rejectionReason.notes;
+      this.service.orderReject(order.id, this.entity).subscribe((res: Order) => {
         // this.entity.status = 'ORDER_REJECTED';
         this.rejectionReason = {} as RejectionReason;
         this.selectedItems = [];
@@ -268,12 +281,15 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
   lineItemReject(lineItem: LineItem) {
     let arrLineItems: boolean[] = new Array();
     if (this.selectedItems.length == 0) {
-      this.toastr.error(this.translate.instant('reason.error.select'));
+      // this.toastr.error(this.translate.instant('reason.error.select'));
+
       return;
     } else {
       this.rejectionReason.reason = this.selectedItems;
+      lineItem.rejectionReasons = this.rejectionReason.reason;
+      lineItem.rejectionNote = this.rejectionReason.notes;
       console.log(this.rejectionReason);
-      this.itemservice.orderReject(lineItem.id, this.rejectionReason).subscribe((res: LineItem) => {
+      this.itemservice.orderReject(lineItem.id, lineItem).subscribe((res: LineItem) => {
         this.rejectionReason = {} as RejectionReason;
         this.selectedItems = [];
         this.modalRef.hide();
