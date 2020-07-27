@@ -58,6 +58,7 @@ const routes: Routes = [
       {
         path: 'services-list',
         loadChildren: () => import('./services-list/services-list.module').then((m) => m.ServicesListModule),
+        canActivate: [AdminGuard],
       },
     ],
   },
