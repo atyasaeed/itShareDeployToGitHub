@@ -14,6 +14,7 @@ import { routerTransition } from 'src/app/router.animations';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { debounce, debounceTime, switchMap, delay } from 'rxjs/operators';
 import * as THREE from 'three/build/three.module.js';
+import { TdLoadingService } from '@covalent/core/loading';
 @Component({
   selector: 'app-shopping-cart',
   templateUrl: './shopping-cart.component.html',
@@ -26,24 +27,26 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
   lang: string;
   loading = false;
   subTotal = 0;
-  items$: LineItem[];
+  items: LineItem[];
   newCart: Order;
   authUser$: Observable<User>;
   hasAdminRole = false;
   dropdownSettings: IDropdownSettings = {};
   // quantitiesCount;
   selectedItemsArray;
+  test = true;
   //test: string[] = ['assets/images/teapot.stl'];
   // items: Array<ShoppingCartItem>;
   constructor(
     service: ShoppingCartService,
     private appStore: Store<fromStore.AppState>,
     private toastr: ToastrService,
-    @Inject(APP_CONFIG) public appConfig: IAppConfig
+    @Inject(APP_CONFIG) public appConfig: IAppConfig,
+    loadingService: TdLoadingService
   ) {
-    super(service);
+    super(service, loadingService);
     this.authUser$ = this.appStore.select(fromStore.getAuthUser);
-    console.log(this.appConfig);
+    //console.log(this.appConfig);
     this.appStore.select(fromStore.getLang).subscribe((lang) => {
       this.lang = lang;
     });
@@ -57,17 +60,16 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
       itemsShowLimit: 3,
       allowSearchFilter: true,
     };
-
     this.appStore.select(fromStore.getShoppingCart).subscribe((res) => {
       // console.log(res);
       //console.log(res?.lineItems);
-      this.items$ = res?.lineItems;
+      this.items = res?.lineItems;
       this.subTotal = res?.lineItems.map((item) => item.unitPrice * item.quantity).reduce((a, b) => a + b, 0);
       // this.quantitiesCount = res.lineItems.map((item) => item.quantity).reduce((a, b) => a + b, 0);
       // console.log(this.quantitiesCount);
-      this.selectedItemsArray = Array(this.items$.length);
+      this.selectedItemsArray = Array(this.items.length);
       //console.log(this.items$);
-      this.items$.forEach((e, index) => {
+      this.items.forEach((e, index) => {
         if (e.service.processes != undefined && e.service.processes.multi) {
           this.selectedItemsArray[index] = e.files[0].processes;
         }
@@ -75,13 +77,7 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     });
   }
 
-  // subTotal: any;
   ngOnInit() {
-    // super.ngOnInit();
-    // this.entities$.subscribe((items) => {
-    //   console.log(items);
-    //   this.subTotal = items.map((item) => item.unitPrice * item.quantity).reduce((a, b) => a + b, 0);
-    // });
     this.authUser$.subscribe((user) => {
       this.hasAdminRole = user && user.roles.includes('ROLE_ADMIN');
     });

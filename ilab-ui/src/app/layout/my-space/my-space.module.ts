@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/modules/shared/shared.module';
 import { PageHeaderModule } from 'src/app/shared/modules/page-header/page-header.module';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { CovalentLoadingModule } from '@covalent/core/loading';
 @NgModule({
   declarations: [MySpaceComponent],
 
@@ -21,6 +22,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     SharedModule,
     PageHeaderModule,
     ModalModule.forRoot(),
+    CovalentLoadingModule,
   ],
 })
 export class MySpaceModule {}

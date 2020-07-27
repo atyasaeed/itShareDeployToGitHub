@@ -9,6 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
+import { CovalentLoadingModule } from '@covalent/core/loading';
 
 @NgModule({
   declarations: [LayoutComponent, HeaderComponent, SidebarComponent],
@@ -19,6 +20,7 @@ import { MatBadgeModule } from '@angular/material/badge';
     MatIconModule,
     MatBadgeModule,
     BsDropdownModule.forRoot(),
+    CovalentLoadingModule,
   ],
 })
 export class LayoutModule {}

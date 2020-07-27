@@ -3,6 +3,7 @@ import { DefaultListComponent } from 'src/app/shared/helpers/default.list.compon
 import { Service } from 'src/app/shared/domain';
 import { ServicesListService } from './services-list.service';
 import { routerTransition } from 'src/app/router.animations';
+import { TdLoadingService } from '@covalent/core/loading';
 
 @Component({
   selector: 'app-services-list',
@@ -14,8 +15,8 @@ export class ServicesListComponent extends DefaultListComponent<Service, Service
   breadcrumbs = [{ heading: 'Services', icon: 'fa-tasks' }];
   private _searchTerm = '';
   lang: string;
-  constructor(service: ServicesListService) {
-    super(service);
+  constructor(service: ServicesListService, loadingService: TdLoadingService) {
+    super(service, loadingService);
   }
 
   set searchTerm(searchTerm: string) {

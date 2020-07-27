@@ -7,6 +7,7 @@ import { HomeService } from './home.service';
 import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
 import { Service } from 'src/app/shared/domain';
 import { HttpClient } from '@angular/common/http';
+import { TdLoadingService } from '@covalent/core/loading';
 
 @Component({
   selector: 'app-home',
@@ -21,8 +22,8 @@ export class HomeComponent extends DefaultListComponent<Service, HomeService> im
   total$: Observable<number>;
   // @ViewChildren(SortableHeaderDirective) headers: QueryList<SortableHeaderDirective>;
 
-  constructor(public service: HomeService, private http: HttpClient) {
-    super(service);
+  constructor(public service: HomeService, private http: HttpClient, loadingService: TdLoadingService) {
+    super(service, loadingService);
     this.http.get('https://ihub-tdc.s3.amazonaws.com/static-assets/sliders.json').subscribe((res) => {
       this.sliders = res as any;
     });

@@ -8,6 +8,7 @@ import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { Router } from '@angular/router';
+import { TdLoadingService } from '@covalent/core/loading';
 
 @Component({
   selector: 'app-my-space',
@@ -33,9 +34,10 @@ export class MySpaceComponent extends DefaultListComponent<AssetFile, MySpaceSer
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
     private appStore: Store<fromStore.AppState>,
     private modalService: BsModalService,
-    private router: Router
+    private router: Router,
+    loadingService: TdLoadingService
   ) {
-    super(service);
+    super(service, loadingService);
     this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
       console.log(res);
       this.Authservices = res;

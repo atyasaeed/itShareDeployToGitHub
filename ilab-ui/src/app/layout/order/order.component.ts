@@ -6,6 +6,7 @@ import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { routerTransition } from 'src/app/router.animations';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { TdLoadingService } from '@covalent/core/loading';
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
@@ -18,8 +19,9 @@ export class OrderComponent extends DefaultListComponent<Order, OrdersService> i
   dropdownList: string[] = ['PENDING', 'QUOTED', 'IN_PROGRESS', 'FINISHED', 'DELIVERED'];
   selectedItems: string[] = [];
   dropdownSettings: IDropdownSettings = {};
-  constructor(service: OrdersService, private appStore: Store<fromStore.AppState>) {
-    super(service);
+
+  constructor(service: OrdersService, private appStore: Store<fromStore.AppState>, loadingService: TdLoadingService) {
+    super(service, loadingService);
   }
 
   ngOnInit() {

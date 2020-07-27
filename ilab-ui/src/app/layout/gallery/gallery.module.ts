@@ -12,6 +12,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PageHeaderModule } from 'src/app/shared/modules/page-header/page-header.module';
 import { StlModelViewerModule } from 'angular-stl-model-viewer';
 import { TooltipModule } from 'ng2-tooltip-directive';
+import { CovalentLoadingModule } from '@covalent/core/loading';
 @NgModule({
   declarations: [GalleryComponent],
   imports: [
@@ -27,6 +28,7 @@ import { TooltipModule } from 'ng2-tooltip-directive';
     NgbModule,
     StlModelViewerModule,
     TooltipModule,
+    CovalentLoadingModule,
   ],
 })
 export class GalleryModule {}

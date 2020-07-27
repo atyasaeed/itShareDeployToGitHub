@@ -4,20 +4,28 @@ import { SortableHeaderDirective, SortEvent } from '../directives/sortable.direc
 import { RestService } from '../services';
 import { tap, first, share } from 'rxjs/operators';
 import { Entity } from '../domain';
+import { TdLoadingService } from '@covalent/core/loading';
 
 export class DefaultListComponent<T extends Entity, K extends RestService<T>> implements OnInit {
   entities$: Observable<T[]>;
-  entities: any;
+  key: string = 'loading';
   total$: Observable<number>;
   service: K;
   @ViewChildren(SortableHeaderDirective) headers: QueryList<SortableHeaderDirective>;
-  constructor(service: K) {
+  constructor(service: K, protected loadingService: TdLoadingService) {
     this.service = service;
   }
   ngOnInit(): void {
     this.entities$ = this.service.model$;
     this.total$ = this.service.total$;
     this.service.searchTerm = '';
+    this.loadingService.register(this.key);
+    this.service.loading$.subscribe((res) => {
+      //console.log(res);
+      if (!res) {
+        this.loadingService.resolve(this.key);
+      }
+    });
   }
   onSort({ column, direction }: SortEvent) {
     // resetting other headers

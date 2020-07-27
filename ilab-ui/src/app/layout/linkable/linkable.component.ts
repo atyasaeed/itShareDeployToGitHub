@@ -9,17 +9,20 @@ import { RestService } from 'src/app/shared/services';
 import { ToastrService } from 'ngx-toastr';
 import { OrdersListService } from '../orders-list/orders-list.service';
 import { Order } from 'src/app/shared/domain';
+import { TdLoadingService } from '@covalent/core/loading';
+import { routerTransition } from 'src/app/router.animations';
 @Component({
   selector: 'app-linkable',
   templateUrl: './linkable.component.html',
   styleUrls: ['./linkable.component.scss'],
+  animations: [routerTransition()],
 })
 export class LinkableComponent extends DefaultListComponent<Order, OrdersListService> implements OnInit {
   breadcrumbs = [{ heading: 'Orders', icon: 'fa-tasks' }];
   private _searchTerm = '';
   lang: string;
-  constructor(service: OrdersListService) {
-    super(service);
+  constructor(service: OrdersListService, loadingService: TdLoadingService) {
+    super(service, loadingService);
     // this.appStore.select(fromStore.getLang).subscribe((lang) => {
     //   this.lang = lang;
     // });

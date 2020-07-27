@@ -2,6 +2,7 @@
 @import "_rtl";
 @import "_responsive";
 
+
 $lightGreyBackground:#e9ecef;
 
 
@@ -83,3 +84,7 @@ a:hover{
   font-weight: 700;
 }
 
+.mat-progress-spinner svg,.mat-progress-spinner{
+  height: 60px !important;
+  width: 60px !important;
+}
