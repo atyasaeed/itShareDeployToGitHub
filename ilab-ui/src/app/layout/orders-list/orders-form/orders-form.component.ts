@@ -20,6 +20,7 @@ import { DatePipe } from '@angular/common';
 import * as THREE from 'three/build/three.module.js';
 import { ItemsService } from './items.service';
 import { Reason, RejectionReason } from 'src/app/shared/domain/reason.model';
+import { RejectionReasonService } from 'src/app/shared/services/rejectionReason.service';
 @Component({
   selector: 'app-orders-form',
   templateUrl: './orders-form.component.html',
@@ -59,12 +60,17 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
     private activatedRoute: ActivatedRoute,
     private translate: TranslateService,
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private rejectionReasonService: RejectionReasonService
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
     this.form = this.formBuilder.group({
       // id: [{ value: '', disabled: true }],
     });
+    this.rejectionReasonService.getReasons().subscribe((res) => {
+      console.log(res);
+    });
+
     this.reasonList = [
       { id: '1', name: 'reason1', status: 'ac' },
       { id: '2', name: 'reason2', status: 'ac' },
