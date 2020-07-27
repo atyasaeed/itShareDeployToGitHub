@@ -2,11 +2,16 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { NonAuthGuard } from './shared/guard/non-auth.guard';
 import { AuthGuard } from './shared/guard';
+import { CustomPreloadingStrategy } from './shared/services/custom-preloading-strategy.service';
 
 const routes: Routes = [
   { path: '', loadChildren: () => import('./layout/layout.module').then((m) => m.LayoutModule) },
   { path: 'signup', loadChildren: () => import('./signup/signup.module').then((m) => m.SignupModule) },
-  { path: 'login', loadChildren: () => import('./login/login.module').then((m) => m.LoginModule) },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then((m) => m.LoginModule),
+    data: { preload: true },
+  },
   {
     path: 'forget-password',
     loadChildren: () => import('./forget-password/forget-password.module').then((m) => m.ForgetPasswordModule),
@@ -30,7 +35,12 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, {
+      preloadingStrategy: CustomPreloadingStrategy,
+    }),
+  ],
   exports: [RouterModule],
+  providers: [CustomPreloadingStrategy],
 })
 export class AppRoutingModule {}
