@@ -1,1 +1,66 @@
-<p>reasons-list works!</p>
+<div class="container px-0">
+  <div [@routerTransition]>
+    <app-page-header [heading]="'Reasons'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header>
+    <form>
+      <div class="form-group form-inline row">
+        <div class="col-md-6">
+          <input class="form-control " type="text" placeholder="{{'Search'|translate}}" name="searchTerm"
+            [(ngModel)]="searchTerm" />
+          <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
+        </div>
+        <div class="col-md-6 text-right">
+          <a routerLink="reason-form" class="btn btn-success">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+          </a>
+        </div>
+
+      </div>
+      <div class="table-responsive">
+        <table class="table table-striped" *tdLoading="'loading'">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+
+              <th scope="col">{{'name'|translate}}</th>
+              <th scope="col">{{'status'|translate}}
+
+              <th></th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let entity of entities$; let i=index">
+              <th scope="row">{{ i+1 }}</th>
+              <td>
+                <ngb-highlight [result]="entity.name" [term]="searchTerm">
+                </ngb-highlight>
+              </td>
+
+              <td>
+                <ngb-highlight [result]="entity.status | titlecase" [term]="searchTerm">
+                </ngb-highlight>
+              </td>
+
+              <td>
+                <a [routerLink]="entity.id"><i class="fa fa-fw fa-edit"></i></a>&nbsp;
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+      <div class="d-flex justify-content-between p-2">
+        <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize">
+        </ngb-pagination>
+
+        <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
+          <option [ngValue]="10">10 items per page</option>
+          <option [ngValue]="25">25 items per page</option>
+          <option [ngValue]="50">50 items per page</option>
+        </select>
+      </div>
+
+    </form>
+  </div>
+</div>
