@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Order } from 'src/app/shared/domain';
-import { OrdersService } from './orders.service';
+import { OrdersService } from './my-orders.service';
 import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
@@ -9,8 +9,8 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { TdLoadingService } from '@covalent/core/loading';
 @Component({
   selector: 'app-order',
-  templateUrl: './order.component.html',
-  styleUrls: ['./order.component.scss'],
+  templateUrl: './my-orders.component.html',
+  styleUrls: ['./my-orders.component.scss'],
   animations: [routerTransition()],
 })
 export class OrderComponent extends DefaultListComponent<Order, OrdersService> implements OnInit {

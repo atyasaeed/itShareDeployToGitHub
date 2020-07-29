@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { OrderRoutingModule } from './order-routing.module';
-import { OrderComponent } from './order.component';
-import { OrderCardComponent } from './component/order-card/order-card.component';
-import { LineItemComponent } from './component/line-item/line-item.component';
+import { OrderRoutingModule } from './my-orders-routing.module';
+import { OrderComponent } from './my-orders.component';
+import { OrderCardComponent } from './my-order-card/my-order-card.component';
+import { LineItemComponent } from './line-item/line-item.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/modules/shared/shared.module';

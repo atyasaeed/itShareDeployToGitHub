@@ -13,19 +13,19 @@
           </div>
           <div class="col-md-6 my-auto">
             <div
-              *ngIf="checkStatus() != 'PENDING' && checkStatus() != 'CANCELLED' && checkStatus() != 'ORDER_REJECTED'">
+              *ngIf="showPriceAndEndDate()">
               <label> {{'order.totalPrice'|translate}} :&nbsp;</label>
               <span>{{getSubTotal()| currency:'EGP'}}</span>
             </div>
           </div>
           <div class=" col-md-6    my-auto">
             <div
-              *ngIf="checkStatus() != 'PENDING' && checkStatus() != 'CANCELLED' && checkStatus() != 'ORDER_REJECTED'">
+              *ngIf="showPriceAndEndDate()">
               <label>{{'estimatedEndDate'|translate}} :&nbsp;</label> <span>{{max|date:'fullDate'}}</span>
             </div>
           </div>
           <div class="col-md-12  my-auto"
-            *ngIf="checkStatus() != 'CANCELLED' && checkStatus() != 'ORDER_REJECTED' && checkStatus() != 'QUOTE_REJECTED';else terminated">
+            *ngIf="showStatusBreadcrumb();else terminated">
             <app-steps [stepsArr]="statusArr" activeStep="{{order.status}}"></app-steps>
           </div>
           <ng-template #terminated>
@@ -39,22 +39,22 @@
 
       <!-- Stand alone button to cancel all order -->
       <div class=" col-md-2  text-center   my-auto"
-        *ngIf="checkStatus() == 'PENDING' || checkStatus() == 'QUOTE_ACCEPTED' || checkStatus() == 'QUOTED' ">
+        *ngIf="showOrderInteractBtns() ">
 
-        <button class="btn btn-primary btn-block btn-sm m-1" *ngIf="checkStatus() == 'QUOTED'"
+        <button class="btn btn-primary btn-block btn-sm m-1" *ngIf="order.status == 'QUOTED'"
           (click)="approveQuotation()">{{'approve' | translate}} </button>
-        <button class="btn btn-primary btn-block btn-sm  m-1" *ngIf="checkStatus() == 'QUOTED'"
+        <button class="btn btn-primary btn-block btn-sm  m-1" *ngIf="order.status == 'QUOTED'"
           (click)="rejectQuotation()">{{'reject' | translate}}</button>
 
         <button [useExistingCss]="true" printSectionId="{{order.id}}" ngxPrint type="button"
           class="btn btn-secondary btn-block btn-sm  m-1"
-          *ngIf="checkStatus() == 'QUOTED' || checkStatus() == 'QUOTE_ACCEPTED'">{{'printQuotation'|translate}}</button>
+          *ngIf="order.status == 'QUOTED' || order.status == 'QUOTE_ACCEPTED'">{{'printQuotation'|translate}}</button>
 
         <input type="submit" class="btn btn-sm btn-danger btn-block m-1 text-center"
-          *ngIf="checkStatus() != 'IN_PROGRESS' && checkStatus() != 'FINISHED' && checkStatus() != 'DELIVERED' "
+          *ngIf="showCancelOrderBtn() "
           value="{{'Cancel Order'|translate}}" (click)="cancelOrder()">
       </div>
-      <div class="col-md-2 text-center my-auto" *ngIf="checkStatus() == 'ORDER_REJECTED' ">
+      <div class="col-md-2 text-center my-auto" *ngIf="order.status == 'ORDER_REJECTED' ">
          <button type="button" (click)="orderRejectReasonModal(orderRejectReasons)" class="btn  btn-danger btn-block btn-sm m-1">{{'viewReasons'|translate}}</button>
       </div>
     </div>
@@ -72,7 +72,7 @@
 
         <!-- Page Content -->
         <div class="content">
-          <app-line-item *ngFor="let lineItem of order.lineItems" [lineItem]="lineItem" status='{{order.status}}' (itemChanged)="getOrder($event)">
+          <app-line-item *ngFor="let lineItem of order.lineItems" [lineItem]="lineItem" orderStatus='{{order.status}}' (itemChanged)="getOrder($event)">
           </app-line-item>
         </div>
         <!-- End Page Content -->

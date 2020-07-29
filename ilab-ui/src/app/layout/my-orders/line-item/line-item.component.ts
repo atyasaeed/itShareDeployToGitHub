@@ -14,7 +14,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 })
 export class LineItemComponent implements OnInit {
   @Input() lineItem: LineItem;
-  @Input() status: string;
+  @Input() orderStatus: string;
   @Output() itemChanged = new EventEmitter<LineItem>();
   checkRadio;
   modalRef: BsModalRef;
@@ -55,41 +55,41 @@ export class LineItemComponent implements OnInit {
     }
   }
 
-  checkStatus() {
-    let result = '';
-    switch (this.status) {
-      case 'PENDING':
-        result = 'PENDING';
-        break;
-      case 'CANCELLED':
-        result = 'CANCELLED';
-        break;
-      case 'QUOTED':
-        result = 'QUOTED';
-        break;
-      case 'QUOTE_ACCEPTED':
-        result = 'QUOTE_ACCEPTED';
-        break;
-      case 'QUOTE_REJECTED':
-        result = 'QUOTE_REJECTED';
-        break;
-      case 'ORDER_REJECTED':
-        result = 'ORDER_REJECTED';
-        break;
-      case 'IN_PROGRESS':
-        result = 'IN_PROGRESS';
-        break;
-      case 'FINISHED':
-        result = 'FINISHED';
-        break;
-      case 'DELIVERED':
-        result = 'DELIVERED';
-        break;
-      default:
-        result = '';
-    }
-    return result;
-  }
+  // checkStatus() {
+  //   let result = '';
+  //   switch (this.orderStatus) {
+  //     case 'PENDING':
+  //       result = 'PENDING';
+  //       break;
+  //     case 'CANCELLED':
+  //       result = 'CANCELLED';
+  //       break;
+  //     case 'QUOTED':
+  //       result = 'QUOTED';
+  //       break;
+  //     case 'QUOTE_ACCEPTED':
+  //       result = 'QUOTE_ACCEPTED';
+  //       break;
+  //     case 'QUOTE_REJECTED':
+  //       result = 'QUOTE_REJECTED';
+  //       break;
+  //     case 'ORDER_REJECTED':
+  //       result = 'ORDER_REJECTED';
+  //       break;
+  //     case 'IN_PROGRESS':
+  //       result = 'IN_PROGRESS';
+  //       break;
+  //     case 'FINISHED':
+  //       result = 'FINISHED';
+  //       break;
+  //     case 'DELIVERED':
+  //       result = 'DELIVERED';
+  //       break;
+  //     default:
+  //       result = '';
+  //   }
+  //   return result;
+  // }
 
   cancelItem() {
     this.service.cancel(this.lineItem.id).subscribe((res: LineItem) => {
@@ -122,5 +122,51 @@ export class LineItemComponent implements OnInit {
 
   itemRejectReasonModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
+  }
+
+  showTerminatedOverlay() {
+    if (this.lineItem.status == 'CANCELLED') {
+      return true;
+    } else if (this.lineItem.status == 'QUOTE_REJECTED' && this.orderStatus != 'QUOTED') {
+      return true;
+    } else if (this.lineItem.status == 'ITEM_REJECTED' && this.orderStatus != 'PENDING') {
+      return true;
+    }
+    return false;
+  }
+
+  showAfterInProgressStatus() {
+    if (
+      this.lineItem.status == 'IN_PROGRESS' ||
+      this.lineItem.status == 'FINISHED' ||
+      this.lineItem.status == 'DELIVERED'
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  showApproveRejectQuote() {
+    if (
+      this.orderStatus == 'QUOTED' &&
+      this.lineItem.status != 'CANCELLED' &&
+      this.lineItem.status != 'ITEM_REJECTED'
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  showCancelItemBtn() {
+    if (!(this.lineItem.status == 'CANCELLED')) {
+      if (
+        this.orderStatus == 'PENDING' ||
+        (this.orderStatus == 'QUOTED' && this.lineItem.status != 'ITEM_REJECTED') ||
+        (this.orderStatus == 'QUOTE_ACCEPTED' && this.lineItem.status == 'QUOTE_ACCEPTED')
+      ) {
+        return true;
+      }
+    }
+    return false;
   }
 }

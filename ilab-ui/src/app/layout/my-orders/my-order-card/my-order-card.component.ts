@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Inject, TemplateRef } from '@angular/core';
 import { Order, User, LineItem } from 'src/app/shared/domain';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OrdersService } from '../../orders.service';
+import { OrdersService } from '../my-orders.service';
 import { IAppConfig, APP_CONFIG } from 'src/app/shared/app.config';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -10,8 +10,8 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-order-card',
-  templateUrl: './order-card.component.html',
-  styleUrls: ['./order-card.component.scss'],
+  templateUrl: './my-order-card.component.html',
+  styleUrls: ['./my-order-card.component.scss'],
 })
 export class OrderCardComponent implements OnInit {
   @Input() order: Order;
@@ -77,46 +77,46 @@ export class OrderCardComponent implements OnInit {
     return this.order.lineItems.map((rr) => rr.unitPrice * rr.quantity).reduce((a, b) => a + b, 0);
   }
 
-  checkStatus() {
-    let result = '';
-    //this.order.status = 'FINISHED';
-    switch (this.order.status) {
-      case 'PENDING':
-        result = 'PENDING';
-        break;
-      case 'CANCELLED':
-        result = 'CANCELLED';
-        break;
-      case 'QUOTED':
-        //this.statusBtn.innerText = 'aprove';
-        result = 'QUOTED';
-        break;
-      case 'QUOTE_ACCEPTED':
-        //this.statusBtn.innerText = 'aprove';
-        result = 'QUOTE_ACCEPTED';
-        break;
-      case 'QUOTE_REJECTED':
-        //this.statusBtn.innerText = 'aprove';
-        result = 'QUOTE_REJECTED';
-        break;
-      case 'ORDER_REJECTED':
-        //this.statusBtn.innerText = 'aprove';
-        result = 'ORDER_REJECTED';
-        break;
-      case 'IN_PROGRESS':
-        result = 'IN_PROGRESS';
-        break;
-      case 'FINISHED':
-        result = 'FINISHED';
-        break;
-      case 'DELIVERED':
-        result = 'DELIVERED';
-        break;
-      default:
-        result = '';
-    }
-    return result;
-  }
+  // checkStatus() {
+  //   let result = '';
+  //   //this.order.status = 'FINISHED';
+  //   switch (this.order.status) {
+  //     case 'PENDING':
+  //       result = 'PENDING';
+  //       break;
+  //     case 'CANCELLED':
+  //       result = 'CANCELLED';
+  //       break;
+  //     case 'QUOTED':
+  //       //this.statusBtn.innerText = 'aprove';
+  //       result = 'QUOTED';
+  //       break;
+  //     case 'QUOTE_ACCEPTED':
+  //       //this.statusBtn.innerText = 'aprove';
+  //       result = 'QUOTE_ACCEPTED';
+  //       break;
+  //     case 'QUOTE_REJECTED':
+  //       //this.statusBtn.innerText = 'aprove';
+  //       result = 'QUOTE_REJECTED';
+  //       break;
+  //     case 'ORDER_REJECTED':
+  //       //this.statusBtn.innerText = 'aprove';
+  //       result = 'ORDER_REJECTED';
+  //       break;
+  //     case 'IN_PROGRESS':
+  //       result = 'IN_PROGRESS';
+  //       break;
+  //     case 'FINISHED':
+  //       result = 'FINISHED';
+  //       break;
+  //     case 'DELIVERED':
+  //       result = 'DELIVERED';
+  //       break;
+  //     default:
+  //       result = '';
+  //   }
+  //   return result;
+  // }
 
   getOrder(lineItem: LineItem) {
     this.order.lineItems.forEach((e: LineItem, index) => {
@@ -138,5 +138,37 @@ export class OrderCardComponent implements OnInit {
 
   orderRejectReasonModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
+  }
+
+  showPriceAndEndDate() {
+    if (this.order.status != 'PENDING' && this.order.status != 'CANCELLED' && this.order.status != 'ORDER_REJECTED') {
+      return true;
+    }
+    return false;
+  }
+
+  showStatusBreadcrumb() {
+    if (
+      this.order.status != 'CANCELLED' &&
+      this.order.status != 'ORDER_REJECTED' &&
+      this.order.status != 'QUOTE_REJECTED'
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  showOrderInteractBtns() {
+    if (this.order.status == 'PENDING' || this.order.status == 'QUOTE_ACCEPTED' || this.order.status == 'QUOTED') {
+      return true;
+    }
+    return false;
+  }
+
+  showCancelOrderBtn() {
+    if (this.order.status != 'IN_PROGRESS' && this.order.status != 'FINISHED' && this.order.status != 'DELIVERED') {
+      return true;
+    }
+    return false;
   }
 }
