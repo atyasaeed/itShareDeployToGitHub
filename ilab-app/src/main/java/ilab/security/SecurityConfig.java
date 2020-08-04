@@ -52,8 +52,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 		csrf.setCookieHttpOnly(true);
 		http.authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/login").permitAll()
 				.antMatchers(HttpMethod.POST, "/login").permitAll()
-				.antMatchers(HttpMethod.GET,"/*","/ui/**", "/api/services/**","/api/reason/**", "/api/users/resetPassword","/api/utils/initState","/api/gallery/**","/swagger-ui/**","/v3/api-docs/**")
-				.permitAll().antMatchers(HttpMethod.POST, "/api/users", "/api/users/resetPassword").permitAll()
+				.antMatchers(HttpMethod.GET,"/*","/ui/**", "/api/service/**","/api/reason/**", "/api/user/resetPassword","/api/utils/initState","/api/gallery/**","/swagger-ui/**","/v3/api-docs/**")
+				.permitAll().antMatchers(HttpMethod.POST, "/api/user", "/api/user/resetPassword").permitAll()
 				.antMatchers(HttpMethod.POST, "/api/users/savePassword").hasAuthority("CHANGE_PASSWORD_PRIVILEGE")
 				.antMatchers("/assets/**").permitAll()	
 				.antMatchers("/digital-assets/**").permitAll().and().authorizeRequests().anyRequest().authenticated()
