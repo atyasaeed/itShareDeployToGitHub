@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertService } from '../shared/services';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { UserService } from '../signup/user.service';
 import { routerTransition } from '../router.animations';
 import { TranslateService } from '@ngx-translate/core';
+import { UserService } from '../shared/services/user.service';
 
 @Component({
   selector: 'app-forget-password',

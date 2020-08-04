@@ -3,9 +3,10 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 
 import { AlertService } from '../shared/services';
 import { Router } from '@angular/router';
-import { UserService } from '../signup/user.service';
+
 import { routerTransition } from '../router.animations';
 import { TranslateService } from '@ngx-translate/core';
+import { UserService } from '../shared/services/user.service';
 
 @Component({
   selector: 'app-reset-password',

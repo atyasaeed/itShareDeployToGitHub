@@ -3,12 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { AlertService } from '../shared/services';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { UserService } from '../signup/user.service';
+
 import { routerTransition } from '../router.animations';
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { UserService } from '../shared/services/user.service';
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',

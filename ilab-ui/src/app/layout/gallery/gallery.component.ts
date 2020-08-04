@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
 import { ShoppingCartItem, User } from 'src/app/shared/domain';
-import { ShoppingCartService } from '../shopping-cart/shoppingcart.service';
+import { ShoppingCartService } from '../../shared/services/shoppingcart.service';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';

@@ -5,8 +5,9 @@ import { OrdersService } from '../my-orders.service';
 import { IAppConfig, APP_CONFIG } from 'src/app/shared/app.config';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { UserService } from 'src/app/signup/user.service';
+
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-order-card',
