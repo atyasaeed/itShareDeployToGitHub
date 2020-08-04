@@ -15,7 +15,9 @@ import { ShoppingCartService } from '../shoppingcart.service';
 import { AuthenticationService } from 'src/app/shared/services';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl, AbstractControl } from '@angular/forms';
-import { ServicesService } from './services.service';
+// import { ServicesService } from './services.service';
+import { ServiceService } from 'src/app/shared/services/service.service';
+
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { routerTransition } from 'src/app/router.animations';
@@ -59,7 +61,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
   constructor(
     private route: ActivatedRoute,
     private shoppingCartService: ShoppingCartService,
-    private servicesService: ServicesService,
+    private servicesService: ServiceService,
     private router: Router,
     private authenticationService: AuthenticationService,
     @Inject(APP_CONFIG) public appConfig: IAppConfig,

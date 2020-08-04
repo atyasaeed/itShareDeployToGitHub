@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { RestService } from 'src/app/shared/services';
-import { Reason } from 'src/app/shared/domain';
+import { Service } from 'src/app/shared/domain';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ReasonsService extends RestService<Reason> {
-  resource = 'reason';
+export class ServiceService extends RestService<Service> {
+  resource = 'service';
 }

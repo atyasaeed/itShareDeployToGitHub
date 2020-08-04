@@ -3,7 +3,7 @@ import { DefaultListComponent } from 'src/app/shared/helpers/default.list.compon
 import { Reason } from 'src/app/shared/domain';
 import { routerTransition } from 'src/app/router.animations';
 import { TdLoadingService } from '@covalent/core/loading';
-import { ReasonsService } from 'src/app/shared/services/reasons.service';
+import { ReasonService } from 'src/app/shared/services/reason.service';
 
 // import { ReasonsService } from './reasons.service';
 
@@ -12,13 +12,13 @@ import { ReasonsService } from 'src/app/shared/services/reasons.service';
   templateUrl: './reasons-list.component.html',
   styleUrls: ['./reasons-list.component.scss'],
   animations: [routerTransition()],
-  providers: [ReasonsService],
+  providers: [ReasonService],
 })
-export class ReasonsListComponent extends DefaultListComponent<Reason, ReasonsService> implements OnInit {
+export class ReasonsListComponent extends DefaultListComponent<Reason, ReasonService> implements OnInit {
   breadcrumbs = [{ heading: 'Reasons', icon: 'fa-tasks' }];
   private _searchTerm = '';
   lang: string;
-  constructor(service: ReasonsService, loadingService: TdLoadingService) {
+  constructor(service: ReasonService, loadingService: TdLoadingService) {
     super(service, loadingService);
     service.searchUrl = 'search/admin';
   }

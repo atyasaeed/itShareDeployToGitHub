@@ -3,7 +3,7 @@ import { routerTransition } from 'src/app/router.animations';
 // import { CourseService } from '../courses/course.service';
 import { Observable } from 'rxjs';
 // import { SortableHeaderDirective } from 'src/app/shared/directives/sortable.directive';
-import { HomeService } from './home.service';
+// import { HomeService } from './home.service';
 import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
 import { Service } from 'src/app/shared/domain';
 import { HttpClient } from '@angular/common/http';
@@ -15,35 +15,35 @@ import { TdLoadingService } from '@covalent/core/loading';
   styleUrls: ['./home.component.scss'],
   animations: [routerTransition()],
 })
-export class HomeComponent extends DefaultListComponent<Service, HomeService> implements OnInit {
-  _searchTerm = '';
+export class HomeComponent implements OnInit {
+  // _searchTerm = '';
   public sliders: Array<any> = [];
-  entities$: Observable<Service[]>;
-  total$: Observable<number>;
+  // entities$: Observable<Service[]>;
+  // total$: Observable<number>;
   // @ViewChildren(SortableHeaderDirective) headers: QueryList<SortableHeaderDirective>;
 
-  constructor(public service: HomeService, private http: HttpClient, loadingService: TdLoadingService) {
-    super(service, loadingService);
+  constructor(private http: HttpClient, loadingService: TdLoadingService) {
+    // super(service, loadingService);
     this.http.get('https://ihub-tdc.s3.amazonaws.com/static-assets/sliders.json').subscribe((res) => {
       this.sliders = res as any;
     });
   }
 
   ngOnInit(): void {
-    this.entities$ = this.service.model$;
-    this.total$ = this.service.total$;
+    // this.entities$ = this.service.model$;
+    // this.total$ = this.service.total$;
   }
 
-  set searchTerm(searchTerm: string) {
-    this._searchTerm = searchTerm;
-    if (searchTerm) {
-      this.service.searchTerm = `service.enName:'*${searchTerm}*'`;
-      // this.service.searchTerm = `program.enName:'*${searchTerm}*' OR address:'*${searchTerm}*'`;
-    } else {
-      this.service.searchTerm = '';
-    }
-  }
-  get searchTerm() {
-    return this._searchTerm;
-  }
+  // set searchTerm(searchTerm: string) {
+  //   this._searchTerm = searchTerm;
+  //   if (searchTerm) {
+  //     this.service.searchTerm = `service.enName:'*${searchTerm}*'`;
+  //     // this.service.searchTerm = `program.enName:'*${searchTerm}*' OR address:'*${searchTerm}*'`;
+  //   } else {
+  //     this.service.searchTerm = '';
+  //   }
+  // }
+  // get searchTerm() {
+  //   return this._searchTerm;
+  // }
 }

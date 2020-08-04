@@ -5,7 +5,9 @@ import { ShoppingCartService } from '../shopping-cart/shoppingcart.service';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
-import { GalleryService } from './gallery.service';
+// import { GalleryService } from './gallery.service';
+import { GalleryService } from 'src/app/shared/services/gallery.service';
+
 import { ToastrService } from 'ngx-toastr';
 import { routerTransition } from 'src/app/router.animations';
 import { Observable } from 'rxjs';

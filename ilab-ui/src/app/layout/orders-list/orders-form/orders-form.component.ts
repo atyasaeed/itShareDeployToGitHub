@@ -20,7 +20,7 @@ import { DatePipe } from '@angular/common';
 import * as THREE from 'three/build/three.module.js';
 import { ItemsService } from './items.service';
 import { Reason, RejectionReason } from 'src/app/shared/domain/reason.model';
-import { ReasonsService } from 'src/app/shared/services/reasons.service';
+import { ReasonService } from 'src/app/shared/services/reason.service';
 @Component({
   selector: 'app-orders-form',
   templateUrl: './orders-form.component.html',
@@ -62,7 +62,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
     private translate: TranslateService,
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
     private modalService: BsModalService,
-    private rejectionReasonService: ReasonsService
+    private rejectionReasonService: ReasonService
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
     this.form = this.formBuilder.group({

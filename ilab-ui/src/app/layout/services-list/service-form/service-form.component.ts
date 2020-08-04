@@ -5,7 +5,9 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 import { Service, Processes } from 'src/app/shared/domain';
 import { formatDate } from '@angular/common';
 import { DefaultFormComponent } from 'src/app/shared/helpers/default.form.component';
-import { ServicesListService } from '../services-list.service';
+// import { ServicesListService } from '../services-list.service';
+import { ServiceService } from 'src/app/shared/services/service.service';
+
 import { TdLoadingService } from '@covalent/core/loading';
 import { TdDialogService } from '@covalent/core/dialogs';
 import * as fromStore from 'src/app/store';
@@ -42,7 +44,7 @@ import { Store } from '@ngrx/store';
     ]),
   ],
 })
-export class ServiceFormComponent extends DefaultFormComponent<Service, ServicesListService> {
+export class ServiceFormComponent extends DefaultFormComponent<Service, ServiceService> {
   breadcrumbs = [
     { heading: 'Services', icon: 'fa-tasks', link: '/services-list' },
     { heading: 'Service-Details', icon: 'fa-tasks' },
@@ -66,7 +68,7 @@ export class ServiceFormComponent extends DefaultFormComponent<Service, Services
     dialogService: TdDialogService,
     route: ActivatedRoute,
     router: Router,
-    service: ServicesListService,
+    service: ServiceService,
     private appStore: Store<fromStore.AppState>
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);

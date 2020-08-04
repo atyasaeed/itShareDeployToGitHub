@@ -10,7 +10,7 @@ import { OrdersListService } from '../../orders-list/orders-list.service';
 import { Store } from '@ngrx/store';
 import * as fromStore from 'src/app/store';
 import { routerTransition } from 'src/app/router.animations';
-import { ReasonsService } from 'src/app/shared/services/reasons.service';
+import { ReasonService } from 'src/app/shared/services/reason.service';
 
 @Component({
   selector: 'app-reasons-form',
@@ -18,7 +18,7 @@ import { ReasonsService } from 'src/app/shared/services/reasons.service';
   styleUrls: ['./reasons-form.component.scss'],
   animations: [routerTransition()],
 })
-export class ReasonsFormComponent extends DefaultFormComponent<Reason, ReasonsService> implements OnInit {
+export class ReasonsFormComponent extends DefaultFormComponent<Reason, ReasonService> implements OnInit {
   breadcrumbs = [{ heading: 'Reasons', icon: 'fa-tasks', link: '/reasons-list' }];
   lang: string;
   private _searchTerm = '';
@@ -28,7 +28,7 @@ export class ReasonsFormComponent extends DefaultFormComponent<Reason, ReasonsSe
     formBuilder: FormBuilder,
     loadingService: TdLoadingService,
     dialogService: TdDialogService,
-    service: ReasonsService,
+    service: ReasonService,
     route: ActivatedRoute,
     router: Router,
     private appStore: Store<fromStore.AppState>,
