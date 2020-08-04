@@ -7,13 +7,16 @@
       <!-- One Item Row -->
       <div class="product">
         <div class="row position-relative">
-          <div class="overlay position-absolute d-flex" [class.show]="lineItem.status == 'CANCELLED' || ( lineItem.status == 'QUOTE_REJECTED' && checkStatus() != 'QUOTED' ) || ( lineItem.status == 'ITEM_REJECTED' && checkStatus() != 'PENDING' ) ">
+          <div class="overlay position-absolute d-flex"
+            [class.show]="lineItem.status == 'CANCELLED' || ( lineItem.status == 'QUOTE_REJECTED' && checkStatus() != 'QUOTED' ) || ( lineItem.status == 'ITEM_REJECTED' && checkStatus() != 'PENDING' ) ">
             <span class="cancelled ">{{lineItem.status | translate}}</span>
-            <button type="button" (click)="itemRejectReasonModal(itemRejectReasons)" *ngIf="lineItem.status == 'ITEM_REJECTED'" class="btn  btn-danger mt-2">{{'viewReasons'|translate}}</button>
+            <button type="button" (click)="itemRejectReasonModal(itemRejectReasons)"
+              *ngIf="lineItem.status == 'ITEM_REJECTED'"
+              class="btn  btn-danger mt-2">{{'viewReasons'|translate}}</button>
           </div>
           <div class="col-md-3 mb-2 mb-md-0">
             <img class="img-fluid " [src]="appConfig.FILE_URL + lineItem.files[0].asset_id"
-            *ngIf="getFileExtension() == 'image';else stlExtension">
+              *ngIf="getFileExtension() == 'image';else stlExtension">
             <ng-template #stlExtension>
               <div *ngIf="getFileExtension() == 'stl';else serviceImage">
                 <stl-model-viewer [stlModels]="[appConfig.FILE_URL + lineItem.files[0].asset_id]">
@@ -33,28 +36,39 @@
                     <div class="col">
                       <h5 class="text-center text-md-left text-primary">{{lineItem.service.name}}</h5>
                     </div>
-                    <div class="col-md-4 " *ngIf="lineItem.status == 'IN_PROGRESS' || lineItem.status == 'FINISHED' || lineItem.status == 'DELIVERED'">
+                    <div class="col-md-4 "
+                      *ngIf="lineItem.status == 'IN_PROGRESS' || lineItem.status == 'FINISHED' || lineItem.status == 'DELIVERED'">
                       {{'status' | translate}} : <span class="text-primary">{{lineItem.status}}</span>
                     </div>
-                    <div class="col-md-4 " *ngIf="( checkStatus() == 'QUOTED' && lineItem.status != 'CANCELLED' ) && lineItem.status != 'ITEM_REJECTED' " >
-                          <span tooltip="{{'approveQuote' | translate}}" hide-delay="0" class="custom-control custom-radio d-inline-block">
-                            <input [checked]="checkRadio == 'accept'" class="custom-control-input" type="radio" id="accept_{{lineItem.id}}"  name="quotedActions_{{lineItem.id}}" value="QUOTE_ACCEPTED" (change)="quotedActionsChanged($event)" >
-                            <label for="accept_{{lineItem.id}}" class="custom-control-label">
-                              <i class="fa fa-thumbs-o-up text-primary" aria-hidden="true"></i>
-                            </label>
-                          </span>
-                          <span tooltip="{{'rejectQuote' | translate}}" hide-delay="0" class="custom-control custom-radio d-inline-block ml-2">
-                            <input [checked]="checkRadio == 'reject'" class="custom-control-input" type="radio" id="reject_{{lineItem.id}}" value="QUOTE_REJECTED"  name="quotedActions_{{lineItem.id}}" (change)="quotedActionsChanged($event)" >
-                            <label for="reject_{{lineItem.id}}" class="custom-control-label">
-                              <i class="fa fa-thumbs-o-down text-secondary" aria-hidden="true"></i>
-                            </label>
-                          </span>
+                    <div class="col-md-4 "
+                      *ngIf="( checkStatus() == 'QUOTED' && lineItem.status != 'CANCELLED' ) && lineItem.status != 'ITEM_REJECTED' ">
+                      <span tooltip="{{'approveQuote' | translate}}" hide-delay="0"
+                        class="custom-control custom-radio d-inline-block">
+                        <input [checked]="checkRadio == 'accept'" class="custom-control-input" type="radio"
+                          id="accept_{{lineItem.id}}" name="quotedActions_{{lineItem.id}}" value="QUOTE_ACCEPTED"
+                          (change)="quotedActionsChanged($event)">
+                        <label for="accept_{{lineItem.id}}" class="custom-control-label custom-control-like ">
+                          <i class="fa fa-thumbs-o-up text-primary" aria-hidden="true"></i>
+                        </label>
+                      </span>
+                      <span tooltip="{{'rejectQuote' | translate}}" hide-delay="0"
+                        class="custom-control custom-radio d-inline-block ml-2">
+                        <input [checked]="checkRadio == 'reject'" class="custom-control-input" type="radio"
+                          id="reject_{{lineItem.id}}" value="QUOTE_REJECTED" name="quotedActions_{{lineItem.id}}"
+                          (change)="quotedActionsChanged($event)">
+                        <label for="reject_{{lineItem.id}}" class="custom-control-label custom-control-like">
+                          <i class="fa fa-thumbs-o-down text-secondary" aria-hidden="true"></i>
+                        </label>
+                      </span>
                     </div>
                     <div class="col-md-2 text-center text-md-right">
-                      <button tooltip="{{'cancel' | translate}}"  hide-delay="0"  (click)="cancelModal(cancelAlert)"  type="button" class="btn btn-outline-danger btn-sm  mr-2" *ngIf="!(lineItem.status == 'CANCELLED' ) && (checkStatus() == 'PENDING' || ( checkStatus() == 'QUOTED' && lineItem.status != 'ITEM_REJECTED' ) || ( checkStatus() == 'QUOTE_ACCEPTED' && lineItem.status == 'QUOTE_ACCEPTED' ) )">
+                      <button tooltip="{{'cancel' | translate}}" hide-delay="0" (click)="cancelModal(cancelAlert)"
+                        type="button" class="btn btn-outline-danger btn-sm  mr-2"
+                        *ngIf="!(lineItem.status == 'CANCELLED' ) && (checkStatus() == 'PENDING' || ( checkStatus() == 'QUOTED' && lineItem.status != 'ITEM_REJECTED' ) || ( checkStatus() == 'QUOTE_ACCEPTED' && lineItem.status == 'QUOTE_ACCEPTED' ) )">
                         <i class="fa fa-times" aria-hidden="true"></i>
                       </button>
-                      <a class="btn btn-outline-success btn-sm z-index-20 position-relative" [href]="getFileUrl()" tooltip="{{'download' | translate}}"  hide-delay="0">
+                      <a class="btn btn-outline-success btn-sm z-index-20 position-relative" [href]="getFileUrl()"
+                        tooltip="{{'download' | translate}}" hide-delay="0">
                         <i class="fa fa-download" aria-hidden="true"></i>
                       </a>
                     </div>
@@ -177,7 +191,7 @@
     </div>
 
     <div *ngIf="lineItem.rejectionNote != null">
-      <label >{{'notes'|translate}}</label>
+      <label>{{'notes'|translate}}</label>
       <div>
         {{lineItem.rejectionNote}}
       </div>
