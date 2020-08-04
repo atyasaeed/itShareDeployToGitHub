@@ -111,6 +111,10 @@
         padding: 0;
     }
 
+    .rejection-reason .number{
+        border-radius: 0 5px 0 15px !important;
+    }
+
     .custom-control-label::before,.custom-control-label::after{
         right: 0;
         left: auto;

@@ -134,7 +134,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let lineItem of order.lineItems;let i = index">
-              {{lineItem.status}}
+
               <ng-container *ngIf="lineItem.status =='QUOTED' || lineItem.status =='QUOTE_ACCEPTED'">
                 <th scope="row">{{i}}</th>
                 <td>{{lineItem.service.name}}</td>
