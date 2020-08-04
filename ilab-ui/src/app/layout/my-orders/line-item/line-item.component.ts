@@ -4,7 +4,7 @@ import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import * as THREE from 'three/build/three.module.js';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
-import { LineItemService } from './line-item.service';
+import { LineItemService } from '../../../shared/services/line-item.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
 @Component({

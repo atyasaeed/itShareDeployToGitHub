@@ -7,21 +7,22 @@ import * as fromStore from 'src/app/store';
 import { ActivatedRoute } from '@angular/router';
 import { RestService } from 'src/app/shared/services';
 import { ToastrService } from 'ngx-toastr';
-import { OrdersListService } from '../orders-list/orders-list.service';
+
 import { Order } from 'src/app/shared/domain';
 import { TdLoadingService } from '@covalent/core/loading';
 import { routerTransition } from 'src/app/router.animations';
+import { OrderService } from 'src/app/shared/services/order.service';
 @Component({
   selector: 'app-linkable',
   templateUrl: './linkable.component.html',
   styleUrls: ['./linkable.component.scss'],
   animations: [routerTransition()],
 })
-export class LinkableComponent extends DefaultListComponent<Order, OrdersListService> implements OnInit {
+export class LinkableComponent extends DefaultListComponent<Order, OrderService> implements OnInit {
   breadcrumbs = [{ heading: 'Orders', icon: 'fa-tasks' }];
   private _searchTerm = '';
   lang: string;
-  constructor(service: OrdersListService, loadingService: TdLoadingService) {
+  constructor(service: OrderService, loadingService: TdLoadingService) {
     super(service, loadingService);
     // this.appStore.select(fromStore.getLang).subscribe((lang) => {
     //   this.lang = lang;

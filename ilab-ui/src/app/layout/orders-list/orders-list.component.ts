@@ -2,17 +2,19 @@ import { Entity } from './../../shared/domain/entity';
 import { Order, LineItem } from 'src/app/shared/domain';
 import { Component, OnInit } from '@angular/core';
 import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
-import { OrdersListService } from './orders-list.service';
+
 import { routerTransition } from 'src/app/router.animations';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { TdLoadingComponent, TdLoadingService } from '@covalent/core/loading';
+import { OrderService } from 'src/app/shared/services/order.service';
 @Component({
   selector: 'app-orders-list',
   templateUrl: './orders-list.component.html',
   styleUrls: ['./orders-list.component.scss'],
   animations: [routerTransition()],
+  providers: [OrderService],
 })
-export class OrdersListComponent extends DefaultListComponent<Order, OrdersListService> implements OnInit {
+export class OrdersListComponent extends DefaultListComponent<Order, OrderService> implements OnInit {
   breadcrumbs = [{ heading: 'Orders', icon: 'fa-tasks' }];
   private _searchTerm = '';
   lang: string;
@@ -20,11 +22,12 @@ export class OrdersListComponent extends DefaultListComponent<Order, OrdersListS
   selectedItems = [];
   // dropdownSettings = {};
   dropdownSettings: IDropdownSettings = {};
-  constructor(service: OrdersListService, loadingService: TdLoadingService) {
+  constructor(service: OrderService, loadingService: TdLoadingService) {
     super(service, loadingService);
     // this.appStore.select(fromStore.getLang).subscribe((lang) => {
     //   this.lang = lang;
     // });
+    service.searchUrl = 'search/admin';
     this.dropdownList = [
       'PENDING',
       'QUOTED',

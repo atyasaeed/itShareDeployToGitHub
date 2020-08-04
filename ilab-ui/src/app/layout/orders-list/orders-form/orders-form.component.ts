@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, AfterViewInit, TemplateRef } from '@angular/core';
 import { Order } from 'src/app/shared/domain/order.model';
 import { DefaultFormComponent } from 'src/app/shared/helpers/default.form.component';
-import { OrdersListService } from '../../orders-list/orders-list.service';
+
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { TdLoadingService } from '@covalent/core/loading';
 import { TdDialogService } from '@covalent/core/dialogs';
@@ -18,8 +18,11 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 import { DatePipe } from '@angular/common';
 import * as THREE from 'three/build/three.module.js';
-import { ItemsService } from './items.service';
+
 import { Reason, RejectionReason } from 'src/app/shared/domain/reason.model';
+// import { ReasonsService } from 'src/app/shared/services/reasons.service';
+import { LineItemService } from 'src/app/shared/services/line-item.service';
+import { OrderService } from 'src/app/shared/services/order.service';
 import { ReasonService } from 'src/app/shared/services/reason.service';
 @Component({
   selector: 'app-orders-form',
@@ -27,7 +30,7 @@ import { ReasonService } from 'src/app/shared/services/reason.service';
   styleUrls: ['./orders-form.component.scss'],
   animations: [routerTransition()],
 })
-export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListService> {
+export class OrdersFormComponent extends DefaultFormComponent<Order, OrderService> {
   breadcrumbs = [
     { heading: 'Orders', icon: 'fa-tasks', link: '/orders-list' },
     { heading: 'Order-Details', icon: 'fa-tasks' },
@@ -52,8 +55,8 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
     formBuilder: FormBuilder,
     loadingService: TdLoadingService,
     dialogService: TdDialogService,
-    service: OrdersListService,
-    private itemservice: ItemsService,
+    service: OrderService,
+    private itemservice: LineItemService,
     route: ActivatedRoute,
     router: Router,
     private alertService: AlertService,
@@ -288,7 +291,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
       lineItem.rejectionReasons = this.rejectionReason.reason;
       lineItem.rejectionNote = this.rejectionReason.notes;
       console.log(this.rejectionReason);
-      this.itemservice.orderReject(lineItem.id, lineItem).subscribe((res: LineItem) => {
+      this.itemservice.itemReject(lineItem.id, lineItem).subscribe((res: LineItem) => {
         this.rejectionReason = {} as RejectionReason;
         this.selectedItems = [];
         this.modalRef.hide();
@@ -322,7 +325,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
 
     switch (lineItem.status) {
       case 'PENDING':
-        this.itemservice.orderStatus(lineItem.id, 'quote').subscribe((itemRes: LineItem) => {
+        this.itemservice.itemStatus(lineItem.id, 'quote').subscribe((itemRes: LineItem) => {
           lineItem.status = itemRes.status;
 
           this.service.get(this.orderId).subscribe((res: Order) => {
@@ -344,19 +347,19 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
         });
         break;
       case 'QUOTE_ACCEPTED':
-        this.itemservice.orderStatus(lineItem.id, 'process').subscribe((res: LineItem) => {
+        this.itemservice.itemStatus(lineItem.id, 'process').subscribe((res: LineItem) => {
           lineItem.status = res.status;
         });
         break;
       case 'IN_PROGRESS':
-        this.itemservice.orderStatus(lineItem.id, 'finish').subscribe((res: LineItem) => {
+        this.itemservice.itemStatus(lineItem.id, 'finish').subscribe((res: LineItem) => {
           lineItem.status = res.status;
           this.checkOrderStatus();
         });
 
         break;
       case 'FINISHED':
-        this.itemservice.orderStatus(lineItem.id, 'deliver').subscribe((res: LineItem) => {
+        this.itemservice.itemStatus(lineItem.id, 'deliver').subscribe((res: LineItem) => {
           lineItem.status = res.status;
           this.checkOrderStatus();
           this.service.get(this.orderId).subscribe((res: Order) => {
@@ -393,7 +396,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrdersListS
   }
 
   updateItemPending(lineItem: LineItem) {
-    this.itemservice.orderStatus(lineItem.id, 'reset').subscribe((res: LineItem) => {
+    this.itemservice.itemStatus(lineItem.id, 'reset').subscribe((res: LineItem) => {
       lineItem.status = 'PENDING';
       this.found = false;
       this.rejectionReason = {} as RejectionReason;

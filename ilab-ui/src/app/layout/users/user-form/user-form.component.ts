@@ -3,14 +3,16 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { TdLoadingService } from '@covalent/core/loading';
 import { TdDialogService } from '@covalent/core/dialogs';
-// import { UserService } from '../user.service';
+
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as fromStore from 'src/app/store';
 import { DefaultFormComponent } from 'src/app/shared/helpers/default.form.component';
 import { User } from 'src/app/shared/domain';
 import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
-import { OrdersListService } from '../../orders-list/orders-list.service';
+
+import { OrderService } from 'src/app/shared/services/order.service';
+
 import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
@@ -34,7 +36,7 @@ export class UserFormComponent extends DefaultFormComponent<User, UserService> i
     route: ActivatedRoute,
     router: Router,
     private appStore: Store<fromStore.AppState>,
-    private orderservice: OrdersListService
+    private orderservice: OrderService
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
     // service.searchUrl = 'admin';

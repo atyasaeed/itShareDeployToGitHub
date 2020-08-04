@@ -6,12 +6,12 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { TdLoadingService } from '@covalent/core/loading';
 import { TdDialogService } from '@covalent/core/dialogs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OrdersListService } from '../../orders-list/orders-list.service';
+
 import { Store } from '@ngrx/store';
 import * as fromStore from 'src/app/store';
 import { routerTransition } from 'src/app/router.animations';
 import { ReasonService } from 'src/app/shared/services/reason.service';
-
+import { OrderService } from 'src/app/shared/services/order.service';
 @Component({
   selector: 'app-reasons-form',
   templateUrl: './reasons-form.component.html',
@@ -32,7 +32,7 @@ export class ReasonsFormComponent extends DefaultFormComponent<Reason, ReasonSer
     route: ActivatedRoute,
     router: Router,
     private appStore: Store<fromStore.AppState>,
-    private orderservice: OrdersListService
+    private orderservice: OrderService
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
     this.form = this.formBuilder.group({
