@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Inject, TemplateRef } from '@angular/core';
 import { Order, User, LineItem } from 'src/app/shared/domain';
 import { ActivatedRoute, Router } from '@angular/router';
-import { OrdersService } from '../my-orders.service';
+import { OrderService } from '../../../shared/services/order.service';
 import { IAppConfig, APP_CONFIG } from 'src/app/shared/app.config';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -24,7 +24,7 @@ export class OrderCardComponent implements OnInit {
   dateArray: any[] = [];
   modalRef: BsModalRef;
   constructor(
-    private orderService: OrdersService,
+    private orderService: OrderService,
     private route: ActivatedRoute,
     private router: Router,
     private cdr: ChangeDetectorRef,

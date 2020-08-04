@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Order } from 'src/app/shared/domain';
-import { OrdersService } from './my-orders.service';
+import { OrderService } from '../../shared/services/order.service';
 import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
@@ -13,14 +13,14 @@ import { TdLoadingService } from '@covalent/core/loading';
   styleUrls: ['./my-orders.component.scss'],
   animations: [routerTransition()],
 })
-export class OrderComponent extends DefaultListComponent<Order, OrdersService> implements OnInit {
+export class OrderComponent extends DefaultListComponent<Order, OrderService> implements OnInit {
   breadcrumbs = [{ heading: 'Orders', icon: 'fa-tasks' }];
   orders: Array<Order>;
   dropdownList: string[] = ['PENDING', 'QUOTED', 'IN_PROGRESS', 'FINISHED', 'DELIVERED'];
   selectedItems: string[] = [];
   dropdownSettings: IDropdownSettings = {};
 
-  constructor(service: OrdersService, private appStore: Store<fromStore.AppState>, loadingService: TdLoadingService) {
+  constructor(service: OrderService, private appStore: Store<fromStore.AppState>, loadingService: TdLoadingService) {
     super(service, loadingService);
   }
 
