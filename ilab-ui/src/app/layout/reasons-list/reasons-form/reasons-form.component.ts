@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Reason } from 'src/app/shared/domain';
-import { ReasonsService } from '../reasons.service';
+// import { ReasonsService } from '../reasons.service';
 import { DefaultFormComponent } from 'src/app/shared/helpers/default.form.component';
 import { FormBuilder, Validators } from '@angular/forms';
 import { TdLoadingService } from '@covalent/core/loading';
@@ -10,6 +10,7 @@ import { OrdersListService } from '../../orders-list/orders-list.service';
 import { Store } from '@ngrx/store';
 import * as fromStore from 'src/app/store';
 import { routerTransition } from 'src/app/router.animations';
+import { ReasonsService } from 'src/app/shared/services/reasons.service';
 
 @Component({
   selector: 'app-reasons-form',
