@@ -33,8 +33,4 @@ export class ShoppingCartService extends RestService<ShoppingCartItem> {
   // addCartItem(formData) {
   //   return this.http.post<Order>(this.appConfig.getResourceUrl(this.resource), formData);
   // }
-  convertToGallery() {
-    console.log(this.appConfig.API_END_POINT + 'api/admin/gallery');
-    return this.http.put(this.appConfig.API_END_POINT + 'api/admin/gallery', '');
-  }
 }

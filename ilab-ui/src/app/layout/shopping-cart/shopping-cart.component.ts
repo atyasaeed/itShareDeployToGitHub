@@ -15,6 +15,7 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { debounce, debounceTime, switchMap, delay } from 'rxjs/operators';
 import * as THREE from 'three/build/three.module.js';
 import { TdLoadingService } from '@covalent/core/loading';
+import { GalleryService } from 'src/app/shared/services/gallery.service';
 @Component({
   selector: 'app-shopping-cart',
   templateUrl: './shopping-cart.component.html',
@@ -42,7 +43,8 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     private appStore: Store<fromStore.AppState>,
     private toastr: ToastrService,
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
-    loadingService: TdLoadingService
+    loadingService: TdLoadingService,
+    private galleryService: GalleryService
   ) {
     super(service, loadingService);
     this.authUser$ = this.appStore.select(fromStore.getAuthUser);
@@ -97,7 +99,7 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     });
   }
   convertToGallery() {
-    this.service.convertToGallery().subscribe((res) => {
+    this.galleryService.convertToGallery().subscribe((res) => {
       this.toastr.success('Successful Addition To Gallery');
       this.appStore.dispatch(new fromStore.LoadInitState());
     });
