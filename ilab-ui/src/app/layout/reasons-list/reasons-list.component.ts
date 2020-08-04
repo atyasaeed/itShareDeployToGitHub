@@ -12,6 +12,7 @@ import { ReasonsService } from 'src/app/shared/services/reasons.service';
   templateUrl: './reasons-list.component.html',
   styleUrls: ['./reasons-list.component.scss'],
   animations: [routerTransition()],
+  providers: [ReasonsService],
 })
 export class ReasonsListComponent extends DefaultListComponent<Reason, ReasonsService> implements OnInit {
   breadcrumbs = [{ heading: 'Reasons', icon: 'fa-tasks' }];
