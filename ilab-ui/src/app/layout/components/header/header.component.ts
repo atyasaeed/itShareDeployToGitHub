@@ -7,7 +7,7 @@ import * as fromStore from 'src/app/store';
 import { Observable } from 'rxjs';
 import { User, ShoppingCartItem, LineItem } from 'src/app/shared/domain';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
-import { ShoppingCartService } from '../../shopping-cart/shoppingcart.service';
+import { ShoppingCartService } from '../../../shared/services/shoppingcart.service';
 import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
 import { AnimationService } from 'src/app/shared/services/animation.service';
 import { TdLoadingService } from '@covalent/core/loading';

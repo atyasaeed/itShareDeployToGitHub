@@ -5,10 +5,10 @@ import { Country, COUNTRIES } from './countries';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AlertService } from '../shared/services';
-import { UserService } from './user.service';
 import { User } from '../shared/domain';
 import { TranslateService } from '@ngx-translate/core';
 
+import { UserService } from '../shared/services/user.service';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',

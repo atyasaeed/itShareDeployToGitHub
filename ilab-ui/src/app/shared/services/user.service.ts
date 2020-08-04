@@ -1,28 +1,30 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { User } from '../shared/domain';
-import { APP_CONFIG, IAppConfig } from '../shared/app.config';
+import { User } from '../domain';
+import { APP_CONFIG, IAppConfig } from '../app.config';
+import { RestService } from './rest-service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserService {
+export class UserService extends RestService<User> {
+  resource = 'user';
   private userProfileSubject: BehaviorSubject<User> = new BehaviorSubject<User>(null);
   public userProfile: Observable<User> = this.userProfileSubject.asObservable();
 
-  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: IAppConfig) {}
+  // constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: IAppConfig) {}
 
   register(user: any) {
     return this.http.post(this.appConfig.REGISTER_URL, user);
   }
 
   getAll() {
-    return this.http.get<User[]>(`/users`);
+    return this.http.get<User[]>(`/user`);
   }
-  delete(id: number) {
-    return this.http.delete(`/users/${id}`);
-  }
+  // delete(id: number) {
+  //   return this.http.delete(`/user/${id}`);
+  // }
 
   forgetPassword(email: any) {
     return this.http.post<any>(this.appConfig.RESET_PASSWORD_URL, email);
@@ -39,13 +41,26 @@ export class UserService {
     return this.userProfile;
   }
 
-  updateUser(user: any) {
+  updateUser(user: User) {
     this.http.put<User>(this.appConfig.REGISTER_URL, user).subscribe((data) => this.userProfileSubject.next(data));
     return this.userProfile;
     // return this.http.put(this.appConfig.REGISTER_URL, user).
   }
+  update(body: any) {
+    return this.http.put<User>(this.url + '/admin', body);
+  }
+  getUserProfile() {
+    return this.http.get(this.appConfig.getResourceUrl(this.resource));
+  }
 
   getAuthUserDetails() {
-    return this.http.get<User>(this.appConfig.getResourceUrl('users'));
+    return this.http.get<User>(this.appConfig.getResourceUrl('user'));
+  }
+
+  userState(id) {
+    this.resource = this.resource + `/${id}/enable`;
+    this.update('').subscribe((res) => {
+      this.resource = 'user';
+    });
   }
 }

@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { ShoppingCartItem, Service, LineItem, hyperFile, AssetFile } from 'src/app/shared/domain';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ShoppingCartService } from '../shoppingcart.service';
+import { ShoppingCartService } from '../../../shared/services/shoppingcart.service';
 import { AuthenticationService } from 'src/app/shared/services';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl, AbstractControl } from '@angular/forms';
@@ -23,9 +23,10 @@ import { Store } from '@ngrx/store';
 import { routerTransition } from 'src/app/router.animations';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { delay } from 'rxjs/operators';
-import { MySpaceService } from '../../my-space/my-space.service';
+
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { AnimationService } from 'src/app/shared/services/animation.service';
+import { MySpaceService } from 'src/app/shared/services/my-space.service';
 
 @Component({
   selector: 'app-shopping-cart-form',

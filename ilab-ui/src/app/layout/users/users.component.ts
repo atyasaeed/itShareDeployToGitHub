@@ -1,6 +1,6 @@
 import { routerTransition } from 'src/app/router.animations';
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
-import { UserService } from './user.service';
+// import { UserService } from './user.service';
 import { User } from 'src/app/shared/domain';
 import { Observable } from 'rxjs';
 import { SortableHeaderDirective, SortEvent } from 'src/app/shared/directives/sortable.directive';
@@ -8,6 +8,7 @@ import { DefaultListComponent } from 'src/app/shared/helpers/default.list.compon
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { TdLoadingService } from '@covalent/core/loading';
+import { UserService } from 'src/app/shared/services/user.service';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',

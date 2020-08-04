@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, TemplateRef } from '@angular/core';
 import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
-import { MySpaceService } from './my-space.service';
+
 import { AssetFile, Service } from 'src/app/shared/domain';
 import { routerTransition } from 'src/app/router.animations';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { Router } from '@angular/router';
 import { TdLoadingService } from '@covalent/core/loading';
+import { MySpaceService } from 'src/app/shared/services/my-space.service';
 
 @Component({
   selector: 'app-my-space',

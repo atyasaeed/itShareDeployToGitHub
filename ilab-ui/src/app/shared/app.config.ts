@@ -31,16 +31,16 @@ class DefaultAppConfig implements IAppConfig {
     return this.API_END_POINT + 'logout';
   }
   public get REGISTER_URL() {
-    return this.API_END_POINT + 'api/users';
+    return this.API_END_POINT + 'api/user';
   }
   public get CHANGE_PASSWORD_URL() {
-    return this.API_END_POINT + 'api/users/changePassword';
+    return this.API_END_POINT + 'api/user/changePassword';
   }
   public get RESET_PASSWORD_URL() {
-    return this.API_END_POINT + 'api/users/resetPassword';
+    return this.API_END_POINT + 'api/user/resetPassword';
   }
   public get SAVE_PASSWORD_URL() {
-    return this.API_END_POINT + 'api/users/savePassword';
+    return this.API_END_POINT + 'api/user/savePassword';
   }
 
   // public get ASSETS_URL() {

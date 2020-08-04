@@ -2,7 +2,7 @@ import { ToastrService } from 'ngx-toastr';
 import { User } from '../../shared/domain/user.model';
 import { Component, OnInit, Inject, ElementRef } from '@angular/core';
 import { ShoppingCartItem, Order, LineItem } from 'src/app/shared/domain';
-import { ShoppingCartService } from './shoppingcart.service';
+import { ShoppingCartService } from '../../shared/services/shoppingcart.service';
 import { Router } from '@angular/router';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
