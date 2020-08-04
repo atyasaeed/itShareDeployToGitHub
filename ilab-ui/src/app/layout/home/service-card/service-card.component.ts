@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { Service } from 'src/app/shared/domain';
-import { HomeService } from '../home.service';
+
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 
 @Component({

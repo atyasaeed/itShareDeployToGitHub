@@ -5,7 +5,7 @@ import { OrdersListService } from '../../orders-list/orders-list.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { TdLoadingService } from '@covalent/core/loading';
 import { TdDialogService } from '@covalent/core/dialogs';
-import { ProfileService } from '../../profile/profile.service';
+
 import { ActivatedRoute, Router } from '@angular/router';
 import { routerTransition } from 'src/app/router.animations';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
