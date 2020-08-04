@@ -1,13 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
 import { Reason } from 'src/app/shared/domain';
-
 import { routerTransition } from 'src/app/router.animations';
-import { ReasonsService } from './reasons.service';
-
 import { TdLoadingService } from '@covalent/core/loading';
-import { IAppConfig, APP_CONFIG } from 'src/app/shared/app.config';
-import { HttpClient } from '@angular/common/http';
+import { ReasonsService } from 'src/app/shared/services/reasons.service';
+
+// import { ReasonsService } from './reasons.service';
 
 @Component({
   selector: 'app-reasons-list',
@@ -19,18 +17,9 @@ export class ReasonsListComponent extends DefaultListComponent<Reason, ReasonsSe
   breadcrumbs = [{ heading: 'Reasons', icon: 'fa-tasks' }];
   private _searchTerm = '';
   lang: string;
-  constructor(
-    service: ReasonsService,
-    loadingService: TdLoadingService,
-    private http: HttpClient,
-    @Inject(APP_CONFIG) private appConfig: IAppConfig
-  ) {
+  constructor(service: ReasonsService, loadingService: TdLoadingService) {
     super(service, loadingService);
-
-    this.http.get(this.appConfig.API_END_POINT + 'api/reason/search/admin').subscribe((res: any) => {
-      this.entities$ = res.content;
-      console.log(res.content);
-    });
+    service.searchUrl = 'search/admin';
   }
 
   set searchTerm(searchTerm: string) {

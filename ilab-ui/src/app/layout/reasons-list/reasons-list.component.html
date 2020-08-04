@@ -21,15 +21,15 @@
             <tr>
               <th scope="col">#</th>
 
-              <th scope="col">{{'name'|translate}}</th>
-              <th scope="col">{{'status'|translate}}
+              <th scope="col" sortable="name" (sort)="onSort($event)">{{'name'|translate}}</th>
+              <th scope="col" sortable="status" (sort)="onSort($event)">{{'status'|translate}}</th>
 
               <th></th>
 
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let entity of entities$; let i=index">
+            <tr *ngFor="let entity of entities$ | async; let i=index">
               <th scope="row">{{ i+1 }}</th>
               <td>
                 <ngb-highlight [result]="entity.name" [term]="searchTerm">
