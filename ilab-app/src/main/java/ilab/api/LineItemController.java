@@ -29,15 +29,9 @@ import ilab.core.service.OrderService;
 @PreAuthorize("hasRole('ROLE_USER')")
 public class LineItemController
 {
-	static final String REST_URL = "/api/items";
+	static final String REST_URL = "/api/item";
 	@Autowired
 	private OrderService orderService;
-
-//	@PutMapping(path = "/{id}/approveQuote")
-//	public LineItem approveQuote(@PathVariable("id") UUID id, Authentication auth)
-//	{
-//		return orderService.acceptQuote(id, auth);
-//	}
 
 	@PutMapping(path = "/{id}/cancel")
 	public LineItem cancelItem(@PathVariable("id") UUID id, Authentication auth)
@@ -55,13 +49,6 @@ public class LineItemController
 	{
 		return orderService.acceptItemQuote(id, auth);
 	}
-//	@PostMapping(path = "cart", consumes = "application/json")
-//	@ResponseStatus(HttpStatus.CREATED)
-//	public Iterable<LineItem> postCartItem(@RequestBody LineItem	lineItem,Authentication authentication)
-//	{
-//		Iterable<LineItem> items= orderService.addItemToCart(lineItem,authentication);
-//		return items;
-//	}
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public LineItem postCartItem(@RequestPart("item") LineItem item, @RequestParam MultipartFile files[],
@@ -90,15 +77,42 @@ public class LineItemController
 	{
 		return orderService.updateItem(id, item, auth);
 	}
+	@PutMapping(path = "/{id}/quote")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public LineItem quote(@PathVariable("id") UUID id, Authentication auth)
+	{
+		return orderService.quoteItem(id, auth);
+	}
 
-	
-
-//	@GetMapping("search")
-//	@PreAuthorize("hasRole('ROLE_USER')")
-//	public Page<LineItem> getPageable(Pageable page, @SearchSpec Specification<OrderEntity> specs,
-//			Authentication auth)
-//	{
-//		return orderService.getOrders(page, specs, auth);
-//
-//	}
+	@PutMapping(path = "/{id}/rejectItem")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public LineItem rejectItem(@PathVariable("id") UUID id, @RequestBody(required = false) LineItem item, Authentication auth)
+	{
+		
+		return orderService.rejectItem(id, item, auth);
+	}
+	@PutMapping(path = "/{id}/process")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public LineItem process(@PathVariable("id") UUID id, Authentication auth)
+	{
+		return orderService.processItem(id, auth);
+	}
+	@PutMapping(path = "/{id}/finish")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public LineItem finish(@PathVariable("id") UUID id, Authentication auth)
+	{
+		return orderService.finishItem(id, auth);
+	}
+	@PutMapping(path = "/{id}/deliver")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public LineItem deliver(@PathVariable("id") UUID id, Authentication auth)
+	{
+		return orderService.deliverItem(id, auth);
+	}
+	@PutMapping(path = "/{id}/reset")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public LineItem reset(@PathVariable("id") UUID id, Authentication auth)
+	{
+		return orderService.reset(id, auth);
+	}
 }

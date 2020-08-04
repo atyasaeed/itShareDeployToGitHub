@@ -1,6 +1,5 @@
 package ilab.api.admin;
 
-import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,6 @@ import com.sipios.springsearch.anotation.SearchSpec;
 
 import ilab.core.domain.LineItem;
 import ilab.core.domain.OrderEntity;
-import ilab.core.domain.Reason;
 import ilab.core.service.OrderService;
 
 @RestController
@@ -31,47 +29,47 @@ public class AdminOrderController
 {
 	@Autowired
 	private OrderService orderService;
-	@GetMapping("search")
-	public Page<OrderEntity> getOrdersPageable(@PageableDefault(value = 10, sort =
-	{ "status" }) Pageable page, @SearchSpec Specification<OrderEntity> specs)
-	{
-		return orderService.getOrders(page, specs);
-	}
-	@GetMapping(path="{id}")
-	public OrderEntity getOrder(@PathVariable("id") UUID orderId)
-	{
-		return orderService.getOrder(orderId);
-	}
-	@PutMapping(path = "lineItem")
-	public LineItem updateCartItem(@RequestBody LineItem item, Authentication auth)
-	{
-		return orderService.updateItem( item);
-	}
-	@PutMapping(path = "/{id}/quote")
-	public OrderEntity quote(@PathVariable("id") UUID id, Authentication auth)
-	{
-		return orderService.quote(id, auth);
-	}
-	@PutMapping(path = "/{id}/rejectOrder")
-	public OrderEntity rejectOrder(@PathVariable("id") UUID id, @RequestBody(required = false) OrderEntity order,Authentication auth)
-	{
-		return orderService.rejectOrder(id,order, auth);
-	}
-	@PutMapping(path = "/{id}/finish")
-	public OrderEntity finishOrder(@PathVariable("id") UUID id, Authentication auth)
-	{
-		return orderService.finishOrder(id, auth);
-	}
-	@PutMapping(path = "/{id}/deliver")
-	public OrderEntity deliverOrder(@PathVariable("id") UUID id, Authentication auth)
-	{
-		return orderService.deliverOrder(id, auth);
-	}
-	@PutMapping(path = "/{id}/process")
-	public OrderEntity processOrder(@PathVariable("id") UUID id, Authentication auth)
-	{
-		return orderService.processOrder(id, auth);
-	}
+//	@GetMapping("search")
+//	public Page<OrderEntity> getOrdersPageable(@PageableDefault(value = 10, sort =
+//	{ "status" }) Pageable page, @SearchSpec Specification<OrderEntity> specs)
+//	{
+//		return orderService.getOrders(page, specs);
+//	}
+//	@GetMapping(path="{id}")
+//	public OrderEntity getOrder(@PathVariable("id") UUID orderId)
+//	{
+//		return orderService.getOrder(orderId);
+//	}
+//	@PutMapping(path = "lineItem")
+//	public LineItem updateCartItem(@RequestBody LineItem item, Authentication auth)
+//	{
+//		return orderService.updateItem( item);
+//	}
+//	@PutMapping(path = "/{id}/quote")
+//	public OrderEntity quote(@PathVariable("id") UUID id, Authentication auth)
+//	{
+//		return orderService.quote(id, auth);
+//	}
+//	@PutMapping(path = "/{id}/rejectOrder")
+//	public OrderEntity rejectOrder(@PathVariable("id") UUID id, @RequestBody(required = false) OrderEntity order,Authentication auth)
+//	{
+//		return orderService.rejectOrder(id,order, auth);
+//	}
+//	@PutMapping(path = "/{id}/finish")
+//	public OrderEntity finishOrder(@PathVariable("id") UUID id, Authentication auth)
+//	{
+//		return orderService.finishOrder(id, auth);
+//	}
+//	@PutMapping(path = "/{id}/deliver")
+//	public OrderEntity deliverOrder(@PathVariable("id") UUID id, Authentication auth)
+//	{
+//		return orderService.deliverOrder(id, auth);
+//	}
+//	@PutMapping(path = "/{id}/process")
+//	public OrderEntity processOrder(@PathVariable("id") UUID id, Authentication auth)
+//	{
+//		return orderService.processOrder(id, auth);
+//	}
 
 }
 

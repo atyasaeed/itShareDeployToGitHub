@@ -40,19 +40,20 @@ public class AdminServiceController
 	ServiceService serviceService;
 	@Autowired
 	ServiceRepository serviceRepo;
-	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
-	public Service addService(@RequestPart("service") Service service, @RequestParam("file") MultipartFile file)
-	{
-		Service aService= serviceService.createService(service,file);
-		return aService;
-	}
-	@PutMapping
-	public Service updateService(@RequestPart("service") Service service, @RequestParam(name = "file",required = false) MultipartFile file)
-	{
-		Service aService= serviceService.updateService(service, file);
-		return aService;
-	}
+//	@PostMapping
+//	@ResponseStatus(HttpStatus.CREATED)
+//	@PreAuthorize("hasRole('ROLE_ADMIN')")
+//	public Service addService(@RequestPart("service") Service service, @RequestParam("file") MultipartFile file)
+//	{
+//		Service aService= serviceService.createService(service,file);
+//		return aService;
+//	}
+//	@PutMapping
+//	public Service updateService(@RequestPart("service") Service service, @RequestParam(name = "file",required = false) MultipartFile file)
+//	{
+//		Service aService= serviceService.updateService(service, file);
+//		return aService;
+//	}
 
 //	@GetMapping("/search")
 //	public Page<Service> getUsersPageable(@PageableDefault(value = 10, sort =
@@ -60,18 +61,18 @@ public class AdminServiceController
 //	{
 //		return serviceRepo.findAll(specs,page);
 //	}
-	@GetMapping("/{id}")
-	public ResponseEntity<Service> serviceById(@PathVariable("id") UUID id)
-	{
-		Optional<Service> optService= serviceRepo.findById(id);
-		if(optService.isPresent())
-			return new ResponseEntity<Service>(optService.get(), HttpStatus.OK);
-		return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
-	}
-	@GetMapping("/search")
-	public Page<Service> getUsersPageable(@PageableDefault(value = 10, sort =
-	{ "name" }) Pageable page, @SearchSpec Specification<Service> specs)
-	{
-		return serviceRepo.findAll(specs,page);
-	}
+//	@GetMapping("/{id}")
+//	public ResponseEntity<Service> serviceById(@PathVariable("id") UUID id)
+//	{
+//		Optional<Service> optService= serviceRepo.findById(id);
+//		if(optService.isPresent())
+//			return new ResponseEntity<Service>(optService.get(), HttpStatus.OK);
+//		return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+//	}
+//	@GetMapping("/search")
+//	public Page<Service> getUsersPageable(@PageableDefault(value = 10, sort =
+//	{ "name" }) Pageable page, @SearchSpec Specification<Service> specs)
+//	{
+//		return serviceRepo.findAll(specs,page);
+//	}
 }

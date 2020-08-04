@@ -21,23 +21,23 @@ import ilab.core.service.OrderService;
 public class AdminGalleryController
 {
 	static final String REST_URL="/api/admin/gallery";
-	@Autowired
-	private OrderService orderService;
-	@Autowired
-	private LineItemRepository lineItemRepo;
-	
-	@PutMapping()
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public void convertCartToGallery(Authentication auth)
-	{
-		orderService.convertCartToGallery(auth);
-	}
-	@DeleteMapping("/{id}")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public void RemoveItemFromGallery(@PathVariable("id") UUID id,Authentication auth)
-	{
-		lineItemRepo.deleteById(id);
-	}
+//	@Autowired
+//	private OrderService orderService;
+//	@Autowired
+//	private LineItemRepository lineItemRepo;
+//	
+//	@PutMapping()
+//	@PreAuthorize("hasRole('ROLE_ADMIN')")
+//	public void convertCartToGallery(Authentication auth)
+//	{
+//		orderService.convertCartToGallery(auth);
+//	}
+//	@DeleteMapping("/{id}")
+//	@PreAuthorize("hasRole('ROLE_ADMIN')")
+//	public void RemoveItemFromGallery(@PathVariable("id") UUID id,Authentication auth)
+//	{
+//		lineItemRepo.deleteById(id);
+//	}
 	
 	
 }

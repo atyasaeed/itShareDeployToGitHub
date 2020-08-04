@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
@@ -34,7 +35,7 @@ import ilab.core.service.OrderService;
 @RequestMapping(path = OrderController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class OrderController
 {
-	static final String REST_URL = "/api/orders";
+	static final String REST_URL = "/api/order";
 	@Autowired
 	private OrderService orderService;
 
@@ -106,13 +107,60 @@ public class OrderController
 
 	@GetMapping("search")
 	@PreAuthorize("hasRole('ROLE_USER')")
-	public Page<OrderEntity> getPageable(Pageable page, @SearchSpec Specification<OrderEntity> specs,
+	public Page<OrderEntity> getUserOrders(Pageable page, @SearchSpec Specification<OrderEntity> specs,
 			Authentication auth)
 	{
 		return orderService.getOrders(page, specs, auth);
 
 	}
 
-	
-
+	@GetMapping("search/admin")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public Page<OrderEntity> getAllOrders(@PageableDefault(value = 10, sort =
+	{ "status" }) Pageable page, @SearchSpec Specification<OrderEntity> specs)
+	{
+		return orderService.getOrders(page, specs);
+	}
+	@GetMapping(path="{id}")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public OrderEntity getOrder(@PathVariable("id") UUID orderId)
+	{
+		return orderService.getOrder(orderId);
+	}
+	@PutMapping(path = "/{id}/quote")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public OrderEntity quote(@PathVariable("id") UUID id, Authentication auth)
+	{
+		return orderService.quote(id, auth);
+	}
+	@PutMapping(path = "/{id}/rejectOrder")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public OrderEntity rejectOrder(@PathVariable("id") UUID id, @RequestBody(required = false) OrderEntity order,Authentication auth)
+	{
+		return orderService.rejectOrder(id,order, auth);
+	}
+	@PutMapping(path = "/{id}/finish")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public OrderEntity finishOrder(@PathVariable("id") UUID id, Authentication auth)
+	{
+		return orderService.finishOrder(id, auth);
+	}
+	@PutMapping(path = "/{id}/deliver")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public OrderEntity deliverOrder(@PathVariable("id") UUID id, Authentication auth)
+	{
+		return orderService.deliverOrder(id, auth);
+	}
+	@PutMapping(path = "/{id}/process")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public OrderEntity processOrder(@PathVariable("id") UUID id, Authentication auth)
+	{
+		return orderService.processOrder(id, auth);
+	}
+	@PutMapping(path = "lineItem")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public LineItem updateCartItem(@RequestBody LineItem item, Authentication auth)
+	{
+		return orderService.updateItem( item);
+	}
 }

@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -63,6 +64,19 @@ public class GalleryController
 		LineItem lineItem= orderService.cloneGalleryItemToCart(id,authentication);
 		return lineItem;
 	}
+	@PutMapping()
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public void convertCartToGallery(Authentication auth)
+	{
+		orderService.convertCartToGallery(auth);
+	}
+	@DeleteMapping("/{id}")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public void RemoveItemFromGallery(@PathVariable("id") UUID id,Authentication auth)
+	{
+		lineItemRepo.deleteById(id);
+	}
+	
 	private  Specification<LineItem> filterGalleryItems() {
 		return  (Root<LineItem> root, CriteriaQuery<?> query, CriteriaBuilder cb)->{
 			List<Predicate> predicates = new ArrayList<>();

@@ -31,32 +31,32 @@ public class AdminUserController
 	UserService userService;
 	
 	
-	@GetMapping("search")
-	public Page<User> getUsersPageable(@PageableDefault(value = 10, sort =
-	{ "username" }) Pageable page, @SearchSpec Specification<User> specs)
-	{
-		return userService.getUsers(page, specs);
-	}
-	@PutMapping(path = "/{id}/enable")
-	public User enable(@PathVariable("id") UUID id,Authentication auth)
-	{
-		return userService.enableUser(id, true,auth);
-	}
-	@PutMapping(path = "/{id}/unblock")
-	public User unblock(@PathVariable("id") UUID id,Authentication auth)
-	{
-		return userService.setUserNonBlocked(id, true,auth);
-
-	}
-	@GetMapping(path = "/{id}")
-	public User getUser(@PathVariable("id") UUID id)
-	{
-		return userService.findUser(id).orElseThrow(()->new NotFoundException("User Not Found"));
-	}
-	@PutMapping()
-	public User update(@RequestBody User user,Authentication auth)
-	{
-		return userService.update(user);
-	}
+//	@GetMapping("search")
+//	public Page<User> getUsersPageable(@PageableDefault(value = 10, sort =
+//	{ "username" }) Pageable page, @SearchSpec Specification<User> specs)
+//	{
+//		return userService.getUsers(page, specs);
+//	}
+//	@PutMapping(path = "/{id}/enable")
+//	public User enable(@PathVariable("id") UUID id,Authentication auth)
+//	{
+//		return userService.enableUser(id, true,auth);
+//	}
+//	@PutMapping(path = "/{id}/unblock")
+//	public User unblock(@PathVariable("id") UUID id,Authentication auth)
+//	{
+//		return userService.setUserNonBlocked(id, true,auth);
+//
+//	}
+//	@GetMapping(path = "/{id}")
+//	public User getUser(@PathVariable("id") UUID id)
+//	{
+//		return userService.findUser(id).orElseThrow(()->new NotFoundException("User Not Found"));
+//	}
+//	@PutMapping()
+//	public User update(@RequestBody User user,Authentication auth)
+//	{
+//		return userService.update(user);
+//	}
 }
 

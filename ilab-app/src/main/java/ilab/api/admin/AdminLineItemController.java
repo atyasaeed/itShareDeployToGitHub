@@ -36,36 +36,36 @@ public class AdminLineItemController
 	@Autowired
 	private OrderService orderService;
 
-	@PutMapping(path = "/{id}/quote")
-	public LineItem quote(@PathVariable("id") UUID id, Authentication auth)
-	{
-		return orderService.quoteItem(id, auth);
-	}
-	@PutMapping(path = "/{id}/rejectItem")
-	public LineItem rejectItem(@PathVariable("id") UUID id, @RequestBody(required = false) LineItem item, Authentication auth)
-	{
-		
-		return orderService.rejectItem(id, item, auth);
-	}
-	@PutMapping(path = "/{id}/process")
-	public LineItem process(@PathVariable("id") UUID id, Authentication auth)
-	{
-		return orderService.processItem(id, auth);
-	}
-	@PutMapping(path = "/{id}/finish")
-	public LineItem finish(@PathVariable("id") UUID id, Authentication auth)
-	{
-		return orderService.finishItem(id, auth);
-	}
-	@PutMapping(path = "/{id}/deliver")
-	public LineItem deliver(@PathVariable("id") UUID id, Authentication auth)
-	{
-		return orderService.deliverItem(id, auth);
-	}
-	@PutMapping(path = "/{id}/reset")
-	public LineItem reset(@PathVariable("id") UUID id, Authentication auth)
-	{
-		return orderService.reset(id, auth);
-	}
+//	@PutMapping(path = "/{id}/quote")
+//	public LineItem quote(@PathVariable("id") UUID id, Authentication auth)
+//	{
+//		return orderService.quoteItem(id, auth);
+//	}
+//	@PutMapping(path = "/{id}/rejectItem")
+//	public LineItem rejectItem(@PathVariable("id") UUID id, @RequestBody(required = false) LineItem item, Authentication auth)
+//	{
+//		
+//		return orderService.rejectItem(id, item, auth);
+//	}
+//	@PutMapping(path = "/{id}/process")
+//	public LineItem process(@PathVariable("id") UUID id, Authentication auth)
+//	{
+//		return orderService.processItem(id, auth);
+//	}
+//	@PutMapping(path = "/{id}/finish")
+//	public LineItem finish(@PathVariable("id") UUID id, Authentication auth)
+//	{
+//		return orderService.finishItem(id, auth);
+//	}
+//	@PutMapping(path = "/{id}/deliver")
+//	public LineItem deliver(@PathVariable("id") UUID id, Authentication auth)
+//	{
+//		return orderService.deliverItem(id, auth);
+//	}
+//	@PutMapping(path = "/{id}/reset")
+//	public LineItem reset(@PathVariable("id") UUID id, Authentication auth)
+//	{
+//		return orderService.reset(id, auth);
+//	}
 
 }

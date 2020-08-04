@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sipios.springsearch.anotation.SearchSpec;
 
-import ilab.core.domain.OrderStatus;
 import ilab.core.domain.Reason;
 import ilab.core.domain.ReasonStatus;
 import ilab.core.repository.ReasonRepository;
