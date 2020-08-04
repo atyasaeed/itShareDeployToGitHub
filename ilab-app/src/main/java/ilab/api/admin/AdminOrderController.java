@@ -22,9 +22,9 @@ import ilab.core.domain.LineItem;
 import ilab.core.domain.OrderEntity;
 import ilab.core.service.OrderService;
 
-@RestController
-@RequestMapping(path = "/api/admin/orders", produces = "application/json")
-@PreAuthorize("hasRole('ROLE_ADMIN')")
+//@RestController
+//@RequestMapping(path = "/api/admin/orders", produces = "application/json")
+//@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class AdminOrderController
 {
 	@Autowired

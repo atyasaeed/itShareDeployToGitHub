@@ -22,9 +22,9 @@ import ilab.core.domain.User;
 import ilab.core.service.UserService;
 import ilab.utils.exception.NotFoundException;
 
-@RestController
-@RequestMapping(path = "/api/admin/users", produces = "application/json")
-@PreAuthorize("hasRole('ROLE_ADMIN')")
+//@RestController
+//@RequestMapping(path = "/api/admin/users", produces = "application/json")
+//@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class AdminUserController
 {
 	@Autowired

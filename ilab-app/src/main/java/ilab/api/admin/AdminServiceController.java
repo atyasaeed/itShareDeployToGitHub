@@ -29,9 +29,9 @@ import ilab.core.domain.Service;
 import ilab.core.repository.ServiceRepository;
 import ilab.core.service.ServiceService;
 
-@RestController
-@RequestMapping(path = AdminServiceController.REST_URL,produces = MediaType.APPLICATION_JSON_VALUE)
-@PreAuthorize("hasRole('ROLE_ADMIN')")
+//@RestController
+//@RequestMapping(path = AdminServiceController.REST_URL,produces = MediaType.APPLICATION_JSON_VALUE)
+//@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class AdminServiceController
 {
 	static final String REST_URL = "/api/admin/services";

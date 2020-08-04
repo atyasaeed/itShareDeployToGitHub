@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import ilab.core.repository.LineItemRepository;
 import ilab.core.service.OrderService;
 
-@RestController
-@RequestMapping(path = AdminGalleryController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-@PreAuthorize("hasRole('ROLE_ADMIN')")
+//@RestController
+//@RequestMapping(path = AdminGalleryController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+//@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class AdminGalleryController
 {
 	static final String REST_URL="/api/admin/gallery";

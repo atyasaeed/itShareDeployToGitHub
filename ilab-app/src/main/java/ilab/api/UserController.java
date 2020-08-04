@@ -146,7 +146,7 @@ public class UserController
 		return userService.findUser(id).orElseThrow(()->new NotFoundException("User Not Found"));
 	}
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@PutMapping()
+	@PutMapping("/admin")
 	public User update(@RequestBody User user,Authentication auth)
 	{
 		return userService.update(user);

@@ -27,9 +27,9 @@ import ilab.core.domain.OrderEntity;
 import ilab.core.domain.Reason;
 import ilab.core.service.OrderService;
 
-@RestController
-@RequestMapping(path = AdminLineItemController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-@PreAuthorize("hasRole('ROLE_ADMIN')")
+//@RestController
+//@RequestMapping(path = AdminLineItemController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+//@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class AdminLineItemController
 {
 	static final String REST_URL = "/api/admin/items";
