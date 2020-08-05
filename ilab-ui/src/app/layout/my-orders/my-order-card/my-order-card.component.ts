@@ -152,7 +152,8 @@ export class OrderCardComponent implements OnInit {
     if (
       this.order.status != 'CANCELLED' &&
       this.order.status != 'ORDER_REJECTED' &&
-      this.order.status != 'QUOTE_REJECTED'
+      this.order.status != 'QUOTE_REJECTED' &&
+      this.order.status != 'QUOTE_EXPIRED'
     ) {
       return true;
     }

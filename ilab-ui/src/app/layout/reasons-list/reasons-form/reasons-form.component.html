@@ -2,7 +2,7 @@
   <app-page-header [heading]="'Update Profile'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs">
   </app-page-header>
   <form *ngIf="entity" [formGroup]='form' (ngSubmit)="save()">
-    <mat-card>
+    <mat-card *tdLoading="'loading'">
 
       <mat-card-content class="form-rtl">
 
