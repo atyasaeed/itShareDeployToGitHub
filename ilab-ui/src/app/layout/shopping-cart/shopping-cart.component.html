@@ -1,12 +1,12 @@
 <div [@routerTransition]>
-  <div class="container px-0">
+  <div >
     <app-page-header [heading]="'Programs'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header>
   </div>
 
 
   <main class="page">
     <section class="shopping-cart dark ">
-      <div class="container">
+      <div >
         <!-- page Head -->
         <div class="block-heading">
           <h2 class="text-center">{{'brand.manufacturingRequest'|translate}}</h2>
@@ -17,9 +17,10 @@
         <!-- Page Content -->
         <ng-container *ngIf="(items)?.length!=0 else anonymous">
           <!-- <ng-container> -->
-          <div class="content mt-3">
+          <div class="content  mt-3">
+            <div class="container-fluid">
             <!-- <h1 *ngIf="test">bla test test</h1> -->
-            <div class="row align-items-start">
+              <div class="row align-items-start">
 
               <!-- Cart Items Table -->
               <div class="col-md-12 col-lg-8 light-grey-background">
@@ -228,6 +229,7 @@
               </div>
               <!-- End Cart Summary & Checkout -->
 
+              </div>
             </div>
           </div>
         </ng-container>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
 import { Reason } from 'src/app/shared/domain';
 import { routerTransition } from 'src/app/router.animations';

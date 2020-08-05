@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import * as fromStore from 'src/app/store';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/shared/domain';
-import { tap } from 'rxjs/operators';
+//import { tap } from 'rxjs/operators';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',

@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Inject, TemplateRef, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
-import { LineItem, ShoppingCartItem } from 'src/app/shared/domain';
+import { LineItem } from 'src/app/shared/domain';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import * as THREE from 'three/build/three.module.js';
-import { HttpClient } from '@angular/common/http';
+//import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { LineItemService } from '../../../shared/services/line-item.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
@@ -20,7 +20,7 @@ export class LineItemComponent implements OnInit {
   modalRef: BsModalRef;
   constructor(
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
-    private http: HttpClient,
+    //private http: HttpClient,
     private toastr: ToastrService,
     private service: LineItemService,
     private modalService: BsModalService,

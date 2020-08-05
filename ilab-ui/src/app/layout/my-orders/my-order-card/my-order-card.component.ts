@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, ViewChild, ChangeDetectorRef, Inject, TemplateRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, Inject, TemplateRef } from '@angular/core';
 import { Order, User, LineItem } from 'src/app/shared/domain';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderService } from '../../../shared/services/order.service';
 import { IAppConfig, APP_CONFIG } from 'src/app/shared/app.config';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+//import { Observable } from 'rxjs';
 
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { UserService } from 'src/app/shared/services/user.service';
