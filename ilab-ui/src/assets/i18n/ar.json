@@ -228,5 +228,7 @@
   "notified.reasonRejection": "سيتم إخطار المستخدم بسبب رفض هذا العنصر",
   "reason.error.select": " يجب تحديد سبب واحد على الأقل\n",
   "close": "إغلاق",
-  "userName.error.invalid": "يجب ادخال اسم المستخدم"
+  "userName.error.invalid": "يجب ادخال اسم المستخدم",
+  "quotedAt": "تاريخ التسعير",
+  "expiredAt": "تاريخ الانتهاء"
 }

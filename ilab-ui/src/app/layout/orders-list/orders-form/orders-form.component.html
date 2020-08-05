@@ -13,7 +13,7 @@
           <span style="display:block;">{{'order.totalPrice'|translate}} :<span
               class="value">{{getSubTotal(entity.lineItems)| currency:'EGP'}}</span></span>
         </div>
-        <div class="co-md-2" *ngIf="entity.status == 'QUOTE_REJECTED' || entity.status == 'ORDER_REJECTED'">
+        <div class="co-md-2" *ngIf="entity.status == 'QUOTE_REJECTED' || entity.status == 'ORDER_REJECTED' || entity.status == 'QUOTE_EXPIRED'">
           <span class="cancelled ">{{entity.status | translate}}</span>
 
         </div>

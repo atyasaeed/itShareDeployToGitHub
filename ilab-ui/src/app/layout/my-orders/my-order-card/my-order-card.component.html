@@ -24,6 +24,17 @@
               <label>{{'estimatedEndDate'|translate}} :&nbsp;</label> <span>{{max|date:'fullDate'}}</span>
             </div>
           </div>
+          <div class=" col-md-6    my-auto" *ngIf="order.status == 'QUOTED' || order.status == 'QUOTE_EXPIRED'">
+            <div>
+              <label>{{'quotedAt'|translate}} :&nbsp;</label> <span class="text-primary">{{order.quotedAt|date:'fullDate'}}</span>
+            </div>
+          </div>
+          <div class=" col-md-6    my-auto" *ngIf="order.status == 'QUOTED' || order.status == 'QUOTE_EXPIRED'">
+            <div>
+              <label>{{'expiredAt'|translate}} :&nbsp;</label> <span class="text-danger">{{order.expiredAt|date:'fullDate'}}</span>
+            </div>
+          </div>
+
           <div class="col-md-12  my-auto"
             *ngIf="showStatusBreadcrumb();else terminated">
             <app-steps [stepsArr]="statusArr" activeStep="{{order.status}}"></app-steps>
@@ -119,8 +130,13 @@
         </h2>
       </div>
       <div class="col-md-12">
-
-        <table class="table table-striped table-bordered">
+        <div *ngIf="order.status == 'QUOTED'">
+          <label>{{'quotedAt'|translate}} :&nbsp;</label> <span class="text-primary">{{order.quotedAt|date:'fullDate'}}</span>
+        </div>
+        <div *ngIf="order.status == 'QUOTED'">
+          <label>{{'expiredAt'|translate}} :&nbsp;</label> <span class="text-danger">{{order.expiredAt|date:'fullDate'}}</span>
+        </div>
+        <table class="table table-striped table-bordered mt-2">
           <thead>
             <tr>
               <th scope="col">#</th>

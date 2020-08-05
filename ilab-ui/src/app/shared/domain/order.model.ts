@@ -10,4 +10,6 @@ export interface Order extends Entity {
   lineItems: OrderItem[];
   rejectionReasons: Reason[];
   rejectionNote: string;
+  quotedAt: Date;
+  expiredAt: Date;
 }

@@ -228,5 +228,7 @@
   "notified.reasonRejection": "User Will Be Notified With The Reason For Rejecting This Item",
   "reason.error.select": "Sorry Must Select One Reason Minimum ",
   "close": "Close",
-  "userName.error.invalid": "Invalid UserName"
+  "userName.error.invalid": "Invalid UserName",
+  "quotedAt":"Quoted At",
+  "expiredAt":"Expired At"
 }
