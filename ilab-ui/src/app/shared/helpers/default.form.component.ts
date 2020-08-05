@@ -66,16 +66,19 @@ export abstract class DefaultFormComponent<T extends Entity, K extends RestServi
       });
   }
   save() {
+    this.loadingService.register(this.key);
     Object.assign(this.entity, this.form.value);
     if (this.entity.id) {
       this.service.update(this.entity).subscribe((response) => {
         this.onSave();
         this.cancel();
+        this.loadingService.resolve(this.key);
       });
     } else {
       this.service.create(this.entity).subscribe((response) => {
         this.cancel();
         this.onSave();
+        this.loadingService.resolve(this.key);
       });
     }
   }

@@ -148,6 +148,7 @@ export class ServiceFormComponent extends DefaultFormComponent<Service, ServiceS
   }
 
   save() {
+    this.loadingService.register('loading');
     this.submitBtn.nativeElement.disabled = true;
     let formData = new FormData();
     let service = {} as Service;
@@ -183,11 +184,13 @@ export class ServiceFormComponent extends DefaultFormComponent<Service, ServiceS
     if (this.route.snapshot.params['entityId']) {
       this.service.update(formData).subscribe((res) => {
         this.appStore.dispatch(new fromStore.LoadInitState());
+        this.loadingService.resolve('loading');
         this.router.navigate(['/services-list']);
       });
     } else {
       this.service.create(formData).subscribe((res) => {
         this.appStore.dispatch(new fromStore.LoadInitState());
+        this.loadingService.resolve('loading');
         this.router.navigate(['/services-list']);
       });
     }
