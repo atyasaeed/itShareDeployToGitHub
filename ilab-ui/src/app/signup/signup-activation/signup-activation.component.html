@@ -1,0 +1,30 @@
+<div class="login-page" [@routerTransition]>
+  <div class="row justify-content-md-center">
+    <div class="col-md-12">
+      <div [routerLink]="'/'" role="button" class="cursor-pointer">
+        <img class="user-avatar" src="assets/images/logo.png" width="150px" />
+        <h1>{{'registration.title'|translate}}</h1>
+      </div>
+      <form role="form" *ngIf="form" [formGroup]="form" (ngSubmit)="onSubmit()" class="container">
+        <div class="form-content">
+
+          <section class="form-row" style="justify-content: space-around;">
+            <div class="form-group col-lg-6 mb-3">
+              <input type="text" class="form-control input-underline input-lg" formControlName="vCode" #vCode
+                placeholder="{{ 'verificationCode' | translate }}">
+              <div *ngIf="form.controls.vCode.touched && !form.controls.vCode.valid" class="text-danger">
+                <div *ngIf="form.controls.vCode.errors.required">
+                  {{ 'verificationCode.error.required' | translate }}</div>
+                <div *ngIf="form.controls.vCode.errors.minlength || form.controls.vCode.errors.maxlength ">
+                  {{ 'verificationCode.error.length' | translate }}</div>
+              </div>
+            </div>
+          </section>
+        </div>
+        <input type="submit" class="btn rounded-btn" value="{{'verify' |translate}}">&nbsp;
+        <!-- <a class="btn rounded-btn" [routerLink]="['/dashboard']">{{ 'Register' | translate }}</a>&nbsp; -->
+        <a class="btn text-primary" *ngIf="loading" (click)="resendCode()">{{'resend' |translate}}</a>
+      </form>
+    </div>
+  </div>
+</div>

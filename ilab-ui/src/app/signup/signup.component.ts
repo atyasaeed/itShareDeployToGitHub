@@ -7,7 +7,8 @@ import { HttpClient } from '@angular/common/http';
 import { AlertService } from '../shared/services';
 import { User } from '../shared/domain';
 import { TranslateService } from '@ngx-translate/core';
-
+import * as fromStore from 'src/app/store';
+import { Store } from '@ngrx/store';
 import { UserService } from '../shared/services/user.service';
 @Component({
   selector: 'app-signup',
@@ -26,6 +27,7 @@ export class SignupComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private userService: UserService,
     private alertservice: AlertService,
+    private appStore: Store<fromStore.AppState>,
     private translate: TranslateService
   ) {}
 
@@ -61,8 +63,15 @@ export class SignupComponent implements OnInit {
   onSubmit() {
     if (this.registrationForm.invalid) {
       this.validateAllFormFields(this.registrationForm);
+      /* activation*/
+      this.user = this.registrationForm.value;
+      this.appStore.dispatch(new fromStore.UpdateAuthUser(this.user));
+      this.router.navigate(['signup/activation'], {
+        state: this.user,
+      });
       return;
     }
+
     this.user = this.registrationForm.value;
     console.log(this.user);
 
