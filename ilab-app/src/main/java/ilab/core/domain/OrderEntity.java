@@ -52,9 +52,9 @@ public class OrderEntity extends AbstractEntity<OrderEntity>
 	private OrderStatus status;
 	@ManyToMany()
 	Set<Reason> rejectionReasons=new HashSet<Reason>();
-	@Column(nullable=false)
+	@Column
 	private LocalDateTime quotedAt;
-	@Column(nullable=false)
+	@Column
 	private LocalDateTime expiredAt;
 	private String rejectionNote;
 	public List<LineItem> getLineItems()
