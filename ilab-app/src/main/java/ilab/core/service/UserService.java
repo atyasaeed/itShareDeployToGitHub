@@ -43,8 +43,6 @@ public class UserService implements UserDetailsService
 	@Autowired
 	private PasswordTokenRepository passwordTokenRepo;
 	@Autowired
-	private EmailService emailService;
-	@Autowired
 	private PasswordEncoder encoder;
 	
 	

@@ -1,5 +1,6 @@
 package ilab.core.domain;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -26,27 +27,25 @@ public abstract class AbstractEntity<T extends AbstractEntity<?>>
 	@GeneratedValue(generator="UUID")
 	private UUID id;
 	
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable=false)
-	private Date created;
+	private LocalDateTime created;
 	
 	
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable=false)
-	private Date updated;
+	private LocalDateTime updated;
 	@Version
 	private int version;
 	
 	@PrePersist
 	protected void onCreate()
 	{
-		updated=created=new Date();
+		updated=created=LocalDateTime.now();
 	}
 	
 	@PreUpdate
 	protected void onUpdate()
 	{
-		updated=new Date();
+		updated=LocalDateTime.now();
 	}
 	
 	
@@ -62,22 +61,6 @@ public abstract class AbstractEntity<T extends AbstractEntity<?>>
 	
 	
 	
-	public Date getCreated()
-	{
-		return created;
-	}
-	public void setCreated(Date creationTimestamp)
-	{
-		this.created = creationTimestamp;
-	}
-	public Date getUpdated()
-	{
-		return updated;
-	}
-	public void setUpdated(Date lastupdateTimestamp)
-	{
-		this.updated = lastupdateTimestamp;
-	}
 	public int getVersion()
 	{
 		return version;
@@ -85,5 +68,25 @@ public abstract class AbstractEntity<T extends AbstractEntity<?>>
 	public void setVersion(int version)
 	{
 		this.version = version;
+	}
+
+	public LocalDateTime getCreated()
+	{
+		return created;
+	}
+
+	public void setCreated(LocalDateTime created)
+	{
+		this.created = created;
+	}
+
+	public LocalDateTime getUpdated()
+	{
+		return updated;
+	}
+
+	public void setUpdated(LocalDateTime updated)
+	{
+		this.updated = updated;
 	}
 }

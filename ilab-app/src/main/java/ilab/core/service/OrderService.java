@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -332,7 +334,7 @@ public class OrderService
 		else
 		{
 			order.setStatus(OrderStatus.PENDING);
-			order.setCreated(new Date());
+			order.setCreated(LocalDateTime.now());
 		}
 		return order;
 	}
@@ -404,7 +406,11 @@ public class OrderService
 		if (order.getStatus() == OrderStatus.PENDING && order.getLineItems().stream()
 				.allMatch((item)->eligibleStatus.contains(item.getStatus())))
 		{
+			
 			order.setStatus(OrderStatus.QUOTED);
+			order.setQuotedAt(LocalDateTime.now());
+			order.setExpiredAt(order.getQuotedAt().plusDays(9));
+			
 		}
 		return order;
 	}
@@ -441,7 +447,17 @@ public class OrderService
 			throw new IllegalRequestDataException("Items are not in suitable status");
 		return order;
 	}
-
+	public OrderEntity expireOrder(UUID id, Authentication auth)
+	{
+		OrderEntity order = orderRepo.findById(id).orElseThrow();
+		if (order.getStatus() == OrderStatus.QUOTED)
+		{
+			order.setStatus(OrderStatus.QUOTE_EXPIRED);
+		}
+		else 
+			throw new IllegalRequestDataException("Order is not in Quoted status");
+		return order;
+	}
 	public OrderEntity finishOrder(UUID id, Authentication auth)
 	{
 		List<LineItemStatus> eligibleStatus = Arrays.asList(LineItemStatus.ITEM_REJECTED,

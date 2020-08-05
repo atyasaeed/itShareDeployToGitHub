@@ -163,4 +163,10 @@ public class OrderController
 	{
 		return orderService.updateItem( item);
 	}
+	@PutMapping(path = "/{id}/expire")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public OrderEntity expireOrderQuotation(@PathVariable("id") UUID id, Authentication auth)
+	{
+		return orderService.expireOrder(id, auth);
+	}
 }
