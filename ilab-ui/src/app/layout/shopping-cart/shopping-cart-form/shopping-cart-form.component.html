@@ -1,5 +1,5 @@
 <div [@routerTransition]>
-  <div class="container px-0">
+  <div >
     <app-page-header [heading]="'Programs'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header>
   </div>
 
@@ -12,7 +12,7 @@
             </mat-option>
         </mat-select>
     </mat-form-field> -->
-  <div class="container px-0">
+  <div >
     <div class="row">
       <div class="col-md-6 mb-3">
         <label>{{'service.select' | translate }} </label> :
@@ -28,7 +28,7 @@
     </div>
   </div>
 
-  <article class=" container card form-rtl">
+  <article class="  card form-rtl">
     <!-- <div *ngIf="activeService != undefined"> -->
     <h4 class="text-center text-primary">{{activeService?.name}} </h4>
     <h6 class="text-center">{{activeService?.description}}</h6>

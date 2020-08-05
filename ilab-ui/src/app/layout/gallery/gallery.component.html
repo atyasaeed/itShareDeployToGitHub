@@ -1,5 +1,5 @@
 <div [@routerTransition]>
-  <div class="container px-0">
+  <div >
     <app-page-header [heading]="'Programs'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header>
   </div>
 
@@ -23,10 +23,10 @@
           </div>
         </div> -->
 
-      <div class="container" *tdLoading="'loading'">
+      <div  *tdLoading="'loading'">
         <ng-container *ngIf="(entities$|async)?.length!=0 else anonymous">
           <div class="content">
-            <form>
+            <form class="container-fluid">
 
 
 

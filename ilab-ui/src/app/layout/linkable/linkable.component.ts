@@ -1,12 +1,13 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+//import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
-import { Store } from '@ngrx/store';
-import { TranslateService } from '@ngx-translate/core';
-import * as fromStore from 'src/app/store';
+//import { Store } from '@ngrx/store';
+//import { TranslateService } from '@ngx-translate/core';
+//import * as fromStore from 'src/app/store';
 
-import { ActivatedRoute } from '@angular/router';
-import { RestService } from 'src/app/shared/services';
-import { ToastrService } from 'ngx-toastr';
+// import { ActivatedRoute } from '@angular/router';
+// import { RestService } from 'src/app/shared/services';
+// import { ToastrService } from 'ngx-toastr';
 
 import { Order } from 'src/app/shared/domain';
 import { TdLoadingService } from '@covalent/core/loading';
