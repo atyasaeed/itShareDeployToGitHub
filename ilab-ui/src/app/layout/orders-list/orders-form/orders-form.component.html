@@ -247,7 +247,7 @@
                             <mat-form-field class="form-rtl" *ngIf="lineItem.status !=='CANCELLED'">
 
                               <input matInput type="number" placeholder="{{'unitPrice'|translate}}" min="1"
-                                (keyup)='updateItem(entity,lineItem)' [(ngModel)]="lineItem.unitPrice"
+                                (change)='updateItem(entity,lineItem)' [(ngModel)]="lineItem.unitPrice"
                                 #unitPrice='ngModel' [disabled]="isEnabled || lineItem.status !=='PENDING'" required>
                               <mat-error *ngIf="unitPrice.hasError('required')">
                               </mat-error>

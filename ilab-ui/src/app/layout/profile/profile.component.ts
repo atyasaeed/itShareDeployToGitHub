@@ -32,6 +32,7 @@ export class ProfileComponent extends DefaultFormComponent<User, UserService> im
     private appStore: Store<fromStore.AppState>
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
+
     this.form = this.formBuilder.group({
       id: [''],
       username: [{ value: '', disabled: true }, Validators.required],

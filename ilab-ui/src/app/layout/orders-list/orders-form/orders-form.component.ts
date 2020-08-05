@@ -168,6 +168,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
   onUpdate(): void {}
   cancel(): void {}
   updateItem(order: Order, lineItem: LineItem) {
+    // lineItem.unitPrice.toString();
     console.log(lineItem.estimatedEndDate);
     let arrLineItems: boolean[] = new Array();
     let d = new Date(lineItem.estimatedEndDate);

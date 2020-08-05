@@ -46,8 +46,10 @@ export class UserService extends RestService<User> {
     return this.userProfile;
     // return this.http.put(this.appConfig.REGISTER_URL, user).
   }
-  update(body: any) {
-    return this.http.put<User>(this.url + '/admin', body);
+  adminUpdateUser(body: any) {
+    // return this.http.put<User>(this.url + '/admin', body);
+
+    return this.http.put<User>(this.appConfig.getResourceUrl(this.resource + '/admin'), body);
   }
   getUserProfile() {
     return this.http.get(this.appConfig.getResourceUrl(this.resource));

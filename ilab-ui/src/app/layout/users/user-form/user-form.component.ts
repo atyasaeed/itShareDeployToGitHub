@@ -20,6 +20,7 @@ import { UserService } from 'src/app/shared/services/user.service';
   templateUrl: './user-form.component.html',
   styleUrls: ['./user-form.component.scss'],
   animations: [routerTransition()],
+  providers: [UserService],
 })
 export class UserFormComponent extends DefaultFormComponent<User, UserService> implements OnInit {
   breadcrumbs = [
@@ -64,7 +65,22 @@ export class UserFormComponent extends DefaultFormComponent<User, UserService> i
   }
   onSave() {
     this.appStore.dispatch(new fromStore.LoadInitState());
-    console.log(this.form);
+    console.log(this.form.value);
+  }
+
+  save() {
+    Object.assign(this.entity, this.form.value);
+    if (this.entity.id) {
+      this.service.adminUpdateUser(this.entity).subscribe((response) => {
+        this.onSave();
+        this.cancel();
+      });
+    } else {
+      this.service.create(this.entity).subscribe((response) => {
+        this.cancel();
+        this.onSave();
+      });
+    }
   }
   onDelete() {
     this.appStore.dispatch(new fromStore.LoadInitState());
