@@ -9,6 +9,7 @@ import {
   AfterContentChecked,
   TemplateRef,
 } from '@angular/core';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 import { ShoppingCartItem, Service, LineItem, hyperFile, AssetFile } from 'src/app/shared/domain';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ShoppingCartService } from '../../../shared/services/shoppingcart.service';
@@ -32,7 +33,17 @@ import { MySpaceService } from 'src/app/shared/services/my-space.service';
   selector: 'app-shopping-cart-form',
   templateUrl: './shopping-cart-form.component.html',
   styleUrls: ['./shopping-cart-form.component.scss'],
-  animations: [routerTransition()],
+  animations: [
+    routerTransition(),
+    trigger('simpleFadeAnimation', [
+      state('in', style({ opacity: 1 })),
+      state('out', style({ opacity: 0 })),
+      transition(':enter', [style({ opacity: 0 }), animate(300)]),
+      //transition(':leave', animate(300, style({ opacity: 0 }))),
+      transition('in => out', animate(0)),
+      transition('out => in', animate(300)),
+    ]),
+  ],
 })
 export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterContentChecked {
   breadcrumbs = [{ heading: 'Add-Service', icon: 'fa-tasks' }];
@@ -58,7 +69,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
   dropdownSettings: IDropdownSettings = {};
   activeService: Service;
   services: Service[];
-
+  serviceContentAnimation: string;
   constructor(
     private route: ActivatedRoute,
     private shoppingCartService: ShoppingCartService,
@@ -81,6 +92,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
 
     this.serviceId = this.route.snapshot.paramMap.get('id');
     this.objAsset = this.router.getCurrentNavigation().extras.state as AssetFile;
+    this.serviceContentAnimation = 'in';
   }
 
   ngOnInit() {
@@ -163,76 +175,81 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
   }
 
   buildForm(id) {
-    this.selection.patchValue(null);
-    this.serviceId = '';
-    this.activeService = this.services.find((e) => e.id === id);
-    this.filterFiles = [];
-    this.form.reset({
-      quantity: 1,
-      material: 'undefined',
-      thickness: 'undefined',
-      color: 'undefined',
-      type: 'undefined',
-      unit: 'undefined',
-      processes: 'undefined',
-    });
-    this.form.markAsUntouched();
-    this.form.markAsPristine();
-    this.form.updateValueAndValidity();
+    this.serviceContentAnimation = 'out';
+    setTimeout(() => {
+      this.serviceContentAnimation = 'in';
 
-    for (let index = 0; index < this.activeService?.supportedExtensions.length; index++) {
-      for (let i = 0; i < this.filesAsset.length; i++) {
-        if (
-          this.activeService.supportedExtensions[index].split('.').pop() == this.filesAsset[i].name.split('.').pop()
-        ) {
-          this.filterFiles.push(this.filesAsset[i]);
+      this.selection.patchValue(null);
+      this.serviceId = '';
+      this.activeService = this.services.find((e) => e.id === id);
+      this.filterFiles = [];
+      this.form.reset({
+        quantity: 1,
+        material: 'undefined',
+        thickness: 'undefined',
+        color: 'undefined',
+        type: 'undefined',
+        unit: 'undefined',
+        processes: 'undefined',
+      });
+      this.form.markAsUntouched();
+      this.form.markAsPristine();
+      this.form.updateValueAndValidity();
+
+      for (let index = 0; index < this.activeService?.supportedExtensions.length; index++) {
+        for (let i = 0; i < this.filesAsset.length; i++) {
+          if (
+            this.activeService.supportedExtensions[index].split('.').pop() == this.filesAsset[i].name.split('.').pop()
+          ) {
+            this.filterFiles.push(this.filesAsset[i]);
+          }
         }
       }
-    }
 
-    //console.log(this.activeService);
-    if (this.activeService?.materials != undefined) {
-      this.form.addControl('material', new FormControl('undefined', this.selectValidator));
-    } else {
-      this.form.removeControl('material');
-    }
-    if (this.activeService?.thickness != undefined) {
-      this.form.addControl('thickness', new FormControl('undefined', this.selectValidator));
-    } else {
-      this.form.removeControl('thickness');
-    }
-    if (this.activeService?.colors != undefined) {
-      this.form.addControl('color', new FormControl('undefined', this.selectValidator));
-    } else {
-      this.form.removeControl('color');
-    }
-    if (this.activeService?.types != undefined) {
-      this.form.addControl('type', new FormControl('undefined', this.selectValidator));
-    } else {
-      this.form.removeControl('type');
-    }
-    if (this.activeService?.units != undefined) {
-      this.form.addControl('unit', new FormControl('undefined', this.selectValidator));
-    } else {
-      this.form.removeControl('unit');
-    }
-    if (this.activeService?.processes != undefined) {
-      if (this.activeService.processes.multi == true) {
-        this.form.removeControl('processes');
-        this.form.addControl('mprocesses', new FormControl('', Validators.required));
+      //console.log(this.activeService);
+      if (this.activeService?.materials != undefined) {
+        this.form.addControl('material', new FormControl('undefined', this.selectValidator));
       } else {
-        this.form.removeControl('mprocesses');
-        this.form.addControl('processes', new FormControl('undefined', this.selectValidator));
+        this.form.removeControl('material');
       }
-    } else {
-      if (this.form.get('mprocesses')) {
-        this.form.removeControl('mprocesses');
-      } else if (this.form.get('processes')) {
-        this.form.removeControl('processes');
+      if (this.activeService?.thickness != undefined) {
+        this.form.addControl('thickness', new FormControl('undefined', this.selectValidator));
+      } else {
+        this.form.removeControl('thickness');
       }
-    }
+      if (this.activeService?.colors != undefined) {
+        this.form.addControl('color', new FormControl('undefined', this.selectValidator));
+      } else {
+        this.form.removeControl('color');
+      }
+      if (this.activeService?.types != undefined) {
+        this.form.addControl('type', new FormControl('undefined', this.selectValidator));
+      } else {
+        this.form.removeControl('type');
+      }
+      if (this.activeService?.units != undefined) {
+        this.form.addControl('unit', new FormControl('undefined', this.selectValidator));
+      } else {
+        this.form.removeControl('unit');
+      }
+      if (this.activeService?.processes != undefined) {
+        if (this.activeService.processes.multi == true) {
+          this.form.removeControl('processes');
+          this.form.addControl('mprocesses', new FormControl('', Validators.required));
+        } else {
+          this.form.removeControl('mprocesses');
+          this.form.addControl('processes', new FormControl('undefined', this.selectValidator));
+        }
+      } else {
+        if (this.form.get('mprocesses')) {
+          this.form.removeControl('mprocesses');
+        } else if (this.form.get('processes')) {
+          this.form.removeControl('processes');
+        }
+      }
 
-    this.acceptedExtensions();
+      this.acceptedExtensions();
+    }, 300);
   }
 
   submit() {

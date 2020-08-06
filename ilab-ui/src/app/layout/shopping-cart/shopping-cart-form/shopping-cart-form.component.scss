@@ -266,9 +266,11 @@ label{
     font-weight: 600;
     color: black;
 }
+
 .form-control:disabled{
   background-color: #fff;
 }
+
 .remove-arow {
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -276,3 +278,8 @@ label{
     text-overflow: '';
     width: 100%;
 }
+
+.mar-top-31{
+    margin-top:31px
+}
+

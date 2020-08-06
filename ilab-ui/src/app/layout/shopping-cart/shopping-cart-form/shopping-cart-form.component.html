@@ -28,10 +28,10 @@
     </div>
   </div>
 
-  <article class="  card form-rtl">
+  <article class="  card form-rtl" [@simpleFadeAnimation]='serviceContentAnimation'>
     <!-- <div *ngIf="activeService != undefined"> -->
-    <h4 class="text-center text-primary">{{activeService?.name}} </h4>
-    <h6 class="text-center">{{activeService?.description}}</h6>
+    <h4 class="text-center text-primary mb-0">{{activeService?.name}} </h4>
+    <h6 class="text-center mb-0">{{activeService?.description}}</h6>
 
     <!-- </div> -->
     <form [formGroup]='form' (ngSubmit)="submit()">
@@ -39,19 +39,15 @@
         <div class="row">
 
 
-          <div class="col-md-6 mb-3">
+          <div class="col mb-3 text-center">
             <img class="img-fluid" [src]="appConfig.serviceImage(activeService)" alt=""
               *ngIf="activeService?.image != undefined;else defaultImage">
             <ng-template #defaultImage>
-              <img src="assets/images/ilab.png" alt="" class="img-fluid">
+              <img src="assets/images/fabrihub.png" alt="" class="img-fluid">
             </ng-template>
-            <div class="mt-3">
-              <label>{{'notes'|translate}} :</label>
-              <textarea class="form-control" rows="3" formControlName="notes"></textarea>
-            </div>
           </div>
-          <div class="col-md-6 ">
-            <div *ngIf="activeService">
+          <div class="col-md-4" *ngIf="activeService">
+            <div >
               <div>
                 <mat-radio-group class="row" [formControl]='selection' #radioGroup="matRadioGroup">
                   <mat-radio-button class="col-6" value="option1">{{"Upload File" |translate}}
@@ -118,6 +114,12 @@
                 *{{'file.field.error.nan' | translate}}</span>
             </span>
             <input type="number" formControlName="width" class="form-control mb-3">
+
+            <label>{{'notes'|translate}} :</label>
+            <textarea class="form-control" rows="3" formControlName="notes"></textarea>
+
+          </div>
+          <div class="col-md-4 mar-top-31" *ngIf="activeService">
 
             <div *ngIf="activeService?.materials != undefined" class="mb-3">
               <label>{{'file.material' | translate}} :</label>
@@ -200,7 +202,7 @@
             </div>
           </div>
 
-          <div class="col-md-12 text-center">
+          <div class="col-md-12 text-center mt-3" *ngIf="activeService">
             <button type="submit" class="btn btn-primary "
               [disabled]="!form.valid || activeService?.id==null || loading == false">
               {{'addToCart' | translate}} <i class="fa fa-cart-plus " aria-hidden="true" #flyToCart></i>
