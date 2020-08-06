@@ -111,6 +111,17 @@
               </div>
             </div>
           </section>
+          <section class="form-row" style="justify-content:space-around ;">
+            <div class="form-group col-lg-6 mb-3 d-flex justify-content-center">
+              <re-captcha formControlName="recaptchaReactive"></re-captcha>
+              <div
+                *ngIf="registrationForm.controls.recaptchaReactive.touched && !registrationForm.controls.recaptchaReactive.valid"
+                class="text-danger">
+                <div *ngIf="registrationForm.controls.recaptchaReactive.errors.required">
+                  {{ 'recaptchaReactive.error.required' | translate }}</div>
+              </div>
+            </div>
+          </section>
           <!-- <div class="form-group col-sm-6">
             <a href="#"> Agree to the terms and conditions </a>
             <input type="checkbox" formControlName="agree" #agree>

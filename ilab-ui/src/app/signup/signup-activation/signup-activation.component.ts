@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { Component, OnInit, VERSION } from '@angular/core';
+import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/shared/domain';
 import { routerTransition } from 'src/app/router.animations';
@@ -10,17 +10,25 @@ import { Store } from '@ngrx/store';
 import * as fromStore from 'src/app/store';
 import { TranslateService } from '@ngx-translate/core';
 import { UserService } from 'src/app/shared/services/user.service';
+import { RECAPTCHA_LANGUAGE } from 'ng-recaptcha';
 
 @Component({
   selector: 'app-signup-activation',
   templateUrl: './signup-activation.component.html',
   styleUrls: ['./signup-activation.component.scss'],
   animations: [routerTransition()],
+  providers: [
+    {
+      provide: RECAPTCHA_LANGUAGE,
+      useValue: 'en',
+    },
+  ],
 })
 export class SignupActivationComponent implements OnInit {
   form: FormGroup;
   user = {} as User;
   loading = true;
+  public version = VERSION.full;
 
   constructor(
     private router: Router,
@@ -44,6 +52,10 @@ export class SignupActivationComponent implements OnInit {
       vCode: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
     });
   }
+  // public reactiveForm: FormGroup = new FormGroup({
+  //   recaptchaReactive: new FormControl(null, Validators.required),
+  // });
+  public recaptchaReactive = new FormControl(null, Validators.required);
 
   onSubmit() {
     if (this.form.invalid) {
@@ -83,14 +95,21 @@ export class SignupActivationComponent implements OnInit {
       );
     }
   }
-
-  resendCode() {
-    this.loading = false;
-
+  resolved(captchaResponse: string) {
+    console.log(`Resolved captcha with response: ${captchaResponse}`);
     this.userService.resendCode(this.user.username).subscribe((res) => {
       this.loading = false;
 
       console.log(res);
     });
+  }
+  resendCode() {
+    this.loading = false;
+
+    // this.userService.resendCode(this.user.username).subscribe((res) => {
+    //   this.loading = false;
+
+    //   console.log(res);
+    // });
   }
 }

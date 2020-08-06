@@ -10,6 +10,8 @@ import { TranslateService } from '@ngx-translate/core';
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { UserService } from '../shared/services/user.service';
+import { RECAPTCHA_LANGUAGE } from 'ng-recaptcha';
+
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -44,6 +46,7 @@ export class SignupComponent implements OnInit {
       username: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')]],
       confirmPassword: ['', [Validators.required]],
+      recaptchaReactive: ['', Validators.required],
     });
   }
 
