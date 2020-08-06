@@ -11,7 +11,7 @@
             <!-- Page Head -->
             <div class="block-heading text-center">
                 <h2 class="text-primary">{{'My Orders'|translate}}</h2>
-                <p>{{'You can track and manage all of your orders'|translate}} </p>
+                <p *ngIf="!singleOrder">{{'You can track and manage all of your orders'|translate}} </p>
             </div>
             <div *tdLoading="'loading'">
               <div class="row mb-3">
@@ -26,7 +26,7 @@
                   >
                   </ng-multiselect-dropdown>
                 </div> -->
-                <div class="col-md-4">
+                <div class="col-md-4" *ngIf="!singleOrder">
                   <select class="form-control" (change)="sortByDate(sortUpdated.value)" #sortUpdated>
                     <option value="newest">{{'Sort By Newest' | translate}}</option>
                     <option value="oldest">{{'Sort By Oldest' | translate}}</option>
@@ -47,7 +47,7 @@
 
 
               <app-order-card   *ngFor="let entity of entities$ | async" [order]="entity"></app-order-card>
-              <div class="d-flex justify-content-between p-2">
+              <div class="d-flex justify-content-between p-2" *ngIf="!singleOrder">
                   <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="service.page"
                     [pageSize]="service.pageSize">
                   </ngb-pagination>

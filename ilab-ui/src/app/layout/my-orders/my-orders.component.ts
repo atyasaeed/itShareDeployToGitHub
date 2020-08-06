@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 import { routerTransition } from 'src/app/router.animations';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { TdLoadingService } from '@covalent/core/loading';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-order',
   templateUrl: './my-orders.component.html',
@@ -19,24 +20,34 @@ export class OrderComponent extends DefaultListComponent<Order, OrderService> im
   dropdownList: string[] = ['PENDING', 'QUOTED', 'IN_PROGRESS', 'FINISHED', 'DELIVERED'];
   selectedItems: string[] = [];
   dropdownSettings: IDropdownSettings = {};
-
-  constructor(service: OrderService, private appStore: Store<fromStore.AppState>, loadingService: TdLoadingService) {
+  singleOrder;
+  constructor(
+    service: OrderService,
+    private appStore: Store<fromStore.AppState>,
+    loadingService: TdLoadingService,
+    private activeRoute: ActivatedRoute
+  ) {
     super(service, loadingService);
   }
 
   ngOnInit() {
     super.ngOnInit();
-    this.service.sortColumn = 'created';
-    this.service.sortDirection = 'desc';
-    // this.ordersService.query<Order[]>().subscribe((orders) => (this.orders = orders));
-    this.dropdownSettings = {
-      singleSelection: false,
-      textField: 'item_text',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 3,
-      allowSearchFilter: true,
-    };
+    this.singleOrder = this.activeRoute.snapshot.params['entityId'];
+    if (this.singleOrder) {
+      this.service.searchTerm = `id:'*${this.singleOrder}*'`;
+    } else {
+      this.service.sortColumn = 'created';
+      this.service.sortDirection = 'desc';
+      // this.ordersService.query<Order[]>().subscribe((orders) => (this.orders = orders));
+      this.dropdownSettings = {
+        singleSelection: false,
+        textField: 'item_text',
+        selectAllText: 'Select All',
+        unSelectAllText: 'UnSelect All',
+        itemsShowLimit: 3,
+        allowSearchFilter: true,
+      };
+    }
   }
 
   sortByDate(value: string) {
