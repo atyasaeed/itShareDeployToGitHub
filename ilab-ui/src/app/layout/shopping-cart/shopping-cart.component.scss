@@ -187,9 +187,24 @@ label {
 }
 
 
-stl-model-viewer {
-  display: block;
-  height: 200px;
-  width: 100%;
+// stl-model-viewer {
+//   display: block;
+//   height: 200px;
+//   width: 100%;
 
+// }
+
+.h-500{
+    height: 500px;
+}
+
+$color-collection: (orange,aqua, blue,black,silver,brown,red,purple,pink,olive,gold,green);
+
+@each $color in $color-collection {
+    .#{$color} {
+        background-color: $color;
+        width: 30px;
+        height: 30px;
+        border: none;
+    }
 }
