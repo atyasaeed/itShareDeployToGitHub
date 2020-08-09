@@ -37,24 +37,24 @@ let test = 'ar';
     },
     {
       provide: RECAPTCHA_LANGUAGE,
-      useValue: 'en',
+      // useValue: 'en',
 
-      // useFactory: testf,
-      // deps: [Store],
-      // multi: false,
+      useFactory: testf,
+      deps: [Store],
+      multi: false,
     },
   ],
 })
 export class SignupModule {}
 
-// export function testf(appStore: Store<fromStore.AppState>): string {
-//   let language;
+export function testf(appStore: Store<fromStore.AppState>): string {
+  let language;
 
-//   new Promise((resolve) => {
-//     appStore.select(fromStore.getLang).subscribe((res) => {
-//       language = res;
-//       resolve(true);
-//     });
-//   });
-//   return language;
-// }
+  new Promise((resolve) => {
+    appStore.select(fromStore.getLang).subscribe((res) => {
+      language = res;
+      resolve(true);
+    });
+  });
+  return language;
+}
