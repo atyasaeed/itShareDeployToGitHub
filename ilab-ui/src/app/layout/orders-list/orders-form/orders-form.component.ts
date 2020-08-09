@@ -340,6 +340,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
       return;
     }
     let arrLineItems: boolean[] = new Array();
+    let arrBooleanRejectItems: boolean[] = new Array();
 
     switch (lineItem.status) {
       case 'PENDING':
@@ -353,13 +354,22 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
               } else {
                 arrLineItems.push(false);
               }
+              if (e.status == 'ITEM_REJECTED') {
+                arrBooleanRejectItems.push(true);
+              } else {
+                arrBooleanRejectItems.push(false);
+              }
             });
 
-            console.log(arrLineItems);
             if (arrLineItems.indexOf(false) == -1) {
               this.found = true;
             } else {
               this.found = false;
+            }
+            if (arrBooleanRejectItems.indexOf(false) == -1) {
+              this.rejectItems = false;
+            } else {
+              this.rejectItems = true;
             }
           });
         });
