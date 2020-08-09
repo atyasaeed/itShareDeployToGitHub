@@ -41,7 +41,7 @@ let test = 'ar';
 
       useFactory: testf,
       deps: [Store],
-      multi: false,
+      multi: true,
     },
   ],
 })
@@ -54,6 +54,7 @@ export function testf(appStore: Store<fromStore.AppState>): string {
     appStore.select(fromStore.getLang).subscribe((res) => {
       language = res;
       resolve(true);
+      console.log('lang=>' + language);
     });
   });
   return language;

@@ -10,7 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { UserService } from '../shared/services/user.service';
-import { RECAPTCHA_LANGUAGE } from 'ng-recaptcha';
+import { RECAPTCHA_LANGUAGE, RECAPTCHA_SETTINGS, RecaptchaSettings } from 'ng-recaptcha';
 
 @Component({
   selector: 'app-signup',

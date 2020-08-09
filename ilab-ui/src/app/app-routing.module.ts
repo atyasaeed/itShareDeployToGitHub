@@ -3,10 +3,14 @@ import { Routes, RouterModule } from '@angular/router';
 import { NonAuthGuard } from './shared/guard/non-auth.guard';
 import { AuthGuard } from './shared/guard';
 import { CustomPreloadingStrategy } from './shared/services/custom-preloading-strategy.service';
+import { SignupComponent } from './signup/signup.component';
 
 const routes: Routes = [
   { path: '', loadChildren: () => import('./layout/layout.module').then((m) => m.LayoutModule) },
-  { path: 'signup', loadChildren: () => import('./signup/signup.module').then((m) => m.SignupModule) },
+  {
+    path: 'signup',
+    loadChildren: () => import('./signup/signup.module').then((m) => m.SignupModule),
+  },
   {
     path: 'login',
     loadChildren: () => import('./login/login.module').then((m) => m.LoginModule),
