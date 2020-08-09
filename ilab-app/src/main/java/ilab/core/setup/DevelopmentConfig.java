@@ -65,11 +65,15 @@ public class DevelopmentConfig
 
 //					userRepo.save(createUser( "hasalem", "12345678"));
 //					userRepo.save(createUser("mosalem", "12345678"));
-					userService.register(createUser("hasalem", "New123456","Hatem","hasalem@gmail.com","01065002100"));
-					userService.register(createUser("mosalem", "New123456","Hatem","mosalem@gmail.com","01065003100"));
-					User user=userService.register(createUser("admin", "New123456","Admin","admin@gmail.com","01065002100"));
+					User user=userService.register(createUser("admin", "New123456","Admin","hatem.salem@ihub.asu.edu.eg","01065002100"));
+					user=userService.enableUser(user.getId(), true, null);
 					user=addAdminRoleAuthority(user);
+					
 					userRepo.save(user);
+					user= userService.register(createUser("hasalem", "New123456","Hatem","hasalem@gmail.com","01065002100"));
+					userService.enableUser(user.getId(), true, null);
+					user=userService.register(createUser("mosalem", "New123456","Hatem","mosalem@gmail.com","01065003100"));
+					userService.enableUser(user.getId(), true, null);
 					
 					Service services[]=new ObjectMapper().readValue(new File(setupPath + "/services.json"), Service[].class);
 					for (Service service : services)

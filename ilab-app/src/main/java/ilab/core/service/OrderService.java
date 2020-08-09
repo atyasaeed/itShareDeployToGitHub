@@ -4,12 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -25,10 +24,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.web.multipart.MultipartFile;
 
 import ilab.core.domain.Account;
@@ -51,6 +50,18 @@ import ilab.utils.exception.NotFoundException;
 @Transactional
 public class OrderService
 {
+	@Value("${iLab.queues.orderRejection}")
+	private String orderRejectionQueue;
+	@Value("${iLab.queues.orderQuoted}")
+	private String orderQuotedQueue;
+	@Value("${iLab.queues.orderInprogress}")
+	private String orderInprogressQueue;
+	@Value("${iLab.queues.orderExpired}")
+	private String orderExpiredQueue;
+	@Value("${iLab.queues.orderFinished}")
+	private String orderFinishedQueue;
+	@Value("${iLab.queues.orderDelivered}")
+	private String orderDeliveredQueue;
 	@Value("${iLab.paths.files}")
 	String filesPath;
 	@Autowired
@@ -61,6 +72,10 @@ public class OrderService
 	private LineItemRepository lineItemRepo;
 	@Autowired
 	private FileAssetRepository assetsRepo;
+	@Autowired
+	private JmsTemplate jmsTemplate;
+	@Autowired
+	private EmailService emailService;
 
 	public Iterable<OrderEntity> getOrders(Authentication auth)
 	{
@@ -412,6 +427,8 @@ public class OrderService
 			order.setStatus(OrderStatus.QUOTED);
 			order.setQuotedAt(LocalDateTime.now());
 			order.setExpiredAt(order.getQuotedAt().plusDays(9));
+			Map<String, String> dto=Map.of("AcctMgr",auth.getName(),"orderId",order.getId().toString());
+			jmsTemplate.convertAndSend(orderQuotedQueue, dto);
 			
 		}
 		return order;
@@ -429,8 +446,11 @@ public class OrderService
 					throw new IllegalRequestDataException("Some reasons are not active");
 				persistedOrder.setRejectionNote(order.getRejectionNote());
 				persistedOrder.setRejectionReasons(order.getRejectionReasons());
+				Map<String, String> dto=Map.of("AcctMgr",auth.getName(),"orderId",order.getId().toString());
+				jmsTemplate.convertAndSend(orderRejectionQueue, dto);
 			}
 		}
+
 		return persistedOrder;
 	}
 
@@ -444,6 +464,8 @@ public class OrderService
 				.allMatch((item)->eligibleStatus.contains(item.getStatus())))
 		{
 			order.setStatus(OrderStatus.IN_PROGRESS);
+			Map<String, String> dto=Map.of("AcctMgr",auth.getName(),"orderId",order.getId().toString());
+			jmsTemplate.convertAndSend(orderInprogressQueue, dto);
 		}
 		else 
 			throw new IllegalRequestDataException("Items are not in suitable status");
@@ -455,6 +477,8 @@ public class OrderService
 		if (order.getStatus() == OrderStatus.QUOTED)
 		{
 			order.setStatus(OrderStatus.QUOTE_EXPIRED);
+			Map<String, String> dto=Map.of("AcctMgr",auth.getName(),"orderId",order.getId().toString());
+			jmsTemplate.convertAndSend(orderExpiredQueue, dto);
 		}
 		else 
 			throw new IllegalRequestDataException("Order is not in Quoted status");
@@ -470,6 +494,8 @@ public class OrderService
 				.allMatch((item)->eligibleStatus.contains(item.getStatus())))
 		{
 			order.setStatus(OrderStatus.FINISHED);
+			Map<String, String> dto=Map.of("AcctMgr",auth.getName(),"orderId",order.getId().toString());
+			jmsTemplate.convertAndSend(orderFinishedQueue, dto);
 		}
 		return order;
 	}
@@ -484,6 +510,8 @@ public class OrderService
 				.allMatch((item)->eligibleStatus.contains(item.getStatus())))
 		{
 			order.setStatus(OrderStatus.DELIVERED);
+			Map<String, String> dto=Map.of("AcctMgr",auth.getName(),"orderId",order.getId().toString());
+			jmsTemplate.convertAndSend(orderDeliveredQueue, dto);
 		}
 		return order;
 	}
@@ -638,4 +666,90 @@ public class OrderService
 		
 		
 	}
+
+	public void sendOrderRejectionMsg(String email, UUID orderId) throws Exception
+	{
+		OrderEntity order= orderRepo.findById(orderId).orElseThrow();
+		User acctMgr=userRepo.findByUsername(email);
+		if (acctMgr != null && order.getStatus()== OrderStatus.ORDER_REJECTED)
+		{
+			Map<String, String> dto=Map.of("user",order.getPlacedBy().getFirstName(),"acctMgr",acctMgr.getFirstName(),"orderId",order.getId().toString());
+			emailService.sendTemplateMessage(order.getPlacedBy().getEmail(), String.format("Your Order %s has been rejected  ", order.getId()),
+					"order-rejection-email.ftl", dto);
+
+		}
+		
+		
+	}
+	public void sendOrderQuotedMsg(String email, UUID orderId) throws Exception
+	{
+		OrderEntity order= orderRepo.findById(orderId).orElseThrow();
+		User acctMgr=userRepo.findByUsername(email);
+		if (acctMgr != null && order.getStatus()== OrderStatus.QUOTED)
+		{
+			Map<String, String> dto=Map.of("user",order.getPlacedBy().getFirstName(),"acctMgr",acctMgr.getFirstName(),"orderId",order.getId().toString());
+			emailService.sendTemplateMessage(order.getPlacedBy().getEmail(), String.format("Your Order %s has been quoted  ", order.getId()),
+					"order-quoted-email.ftl", dto);
+
+		}
+		
+		
+	}
+	public void sendOrderInprogressMsg(String email, UUID orderId) throws Exception
+	{
+		OrderEntity order= orderRepo.findById(orderId).orElseThrow();
+		User acctMgr=userRepo.findByUsername(email);
+		if (acctMgr != null && order.getStatus()== OrderStatus.IN_PROGRESS)
+		{
+			Map<String, String> dto=Map.of("user",order.getPlacedBy().getFirstName(),"acctMgr",acctMgr.getFirstName(),"orderId",order.getId().toString());
+			emailService.sendTemplateMessage(order.getPlacedBy().getEmail(), String.format("Your Order %s is in progress  ", order.getId()),
+					"order-inprogress-email.ftl", dto);
+
+		}
+		
+		
+	}
+	public void sendOrderExpiredMsg(String email, UUID orderId) throws Exception
+	{
+		OrderEntity order= orderRepo.findById(orderId).orElseThrow();
+		User acctMgr=userRepo.findByUsername(email);
+		if (acctMgr != null && order.getStatus()== OrderStatus.QUOTE_EXPIRED)
+		{
+			Map<String, String> dto=Map.of("user",order.getPlacedBy().getFirstName(),"acctMgr",acctMgr.getFirstName(),"orderId",order.getId().toString());
+			emailService.sendTemplateMessage(order.getPlacedBy().getEmail(), String.format("Your Order quote %s has been expired", order.getId()),
+					"order-expired-email.ftl", dto); 
+
+		}
+		
+		
+	}
+	public void sendOrderFinishedMsg(String email, UUID orderId) throws Exception
+	{
+		OrderEntity order= orderRepo.findById(orderId).orElseThrow();
+		User acctMgr=userRepo.findByUsername(email);
+		if (acctMgr != null && order.getStatus()== OrderStatus.FINISHED)
+		{
+			Map<String, String> dto=Map.of("user",order.getPlacedBy().getFirstName(),"acctMgr",acctMgr.getFirstName(),"orderId",order.getId().toString());
+			emailService.sendTemplateMessage(order.getPlacedBy().getEmail(), String.format("Your Order %s has been finished", order.getId()),
+					"order-finished-email.ftl", dto);
+
+		}
+		
+		
+	}
+	public void sendOrderDeliveredMsg(String email, UUID orderId) throws Exception
+	{
+		OrderEntity order= orderRepo.findById(orderId).orElseThrow();
+		User acctMgr=userRepo.findByUsername(email);
+		if (acctMgr != null && order.getStatus()== OrderStatus.FINISHED)
+		{
+			Map<String, String> dto=Map.of("user",order.getPlacedBy().getFirstName(),"acctMgr",acctMgr.getFirstName(),"orderId",order.getId().toString());
+			emailService.sendTemplateMessage(order.getPlacedBy().getEmail(), String.format("Your Order %s has been delivered", order.getId()),
+					"order-delivered-email.ftl", dto);
+
+		}
+		
+		
+	}
 }
+

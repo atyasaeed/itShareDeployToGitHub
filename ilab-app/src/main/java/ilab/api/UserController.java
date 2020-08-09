@@ -62,8 +62,8 @@ public class UserController
 		{
 			throw e;
 		}
-		eventPublisher.publishEvent(
-				new SendEmailEvent(user.getEmail(), "iLab Account Activation", "activation-email.ftl", user));
+//		eventPublisher.publishEvent(
+//				new SendEmailEvent(user.getEmail(), "iLab Account Activation", "activation-email.ftl", user));
 		return aUser;
 	}
 
@@ -113,7 +113,7 @@ public class UserController
 		return userService.update(user, auth);
 	}
 	@GetMapping("selfProvision")
-	public RedirectView provisionUser(@RequestParam("id") UUID userId, @RequestParam("token") UUID token)
+	public RedirectView provisionUser(@RequestParam("id") UUID userId)
 	{
 		userService.enableUser(userId, true, null);
 		return new RedirectView(selfProvisionResultUrl);

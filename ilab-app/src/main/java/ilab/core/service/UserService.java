@@ -8,10 +8,12 @@ import java.util.UUID;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -38,13 +40,21 @@ import ilab.utils.exception.NotFoundException;
 @Transactional
 public class UserService implements UserDetailsService
 {
+	@Value("${iLab.queues.activationCode}")
+	private String activationCodeQueue;
+	@Value("${iLab.queues.passwordToken}")
+	private String passwordTokenQueue;
+
 	@Autowired
 	private UserRepository userRepo;
 	@Autowired
 	private PasswordTokenRepository passwordTokenRepo;
 	@Autowired
 	private PasswordEncoder encoder;
-	
+	@Autowired
+	private EmailService emailService;
+	@Autowired
+	private JmsTemplate jmsTemplate;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
@@ -72,12 +82,14 @@ public class UserService implements UserDetailsService
 		user.addAuthority(authority);
 		
 		user.addAccount(new Account());
-		user.setEnabled(true);
+		user.setEnabled(false);
 		user.setAccountNonExpired(true);
 		user.setAccountNonLocked(true);
 		user.setCredentialsNonExpired(true);
 		user.setPassword(encoder.encode(user.getPassword()));
-		return userRepo.save(user);
+		user=userRepo.save(user);
+		jmsTemplate.convertAndSend(activationCodeQueue, user.getId());
+		return user;
 		
 	}
 	public Page<User> getUsers(Pageable page,Specification<User> specs)
@@ -164,8 +176,8 @@ public class UserService implements UserDetailsService
 	}
 	public User enableUser(UUID userId,boolean isEnabled,Authentication auth)
 	{
-		User user = userRepo.findById(userId).orElseThrow(() -> new NotFoundException("User Not Found"));
-		if(user.getUsername().equals(auth.getName()))
+		User user = userRepo.findById(userId).orElseThrow();
+		if (!isEnabled && user.getUsername().equals(auth.getName()))
 			throw new IllegalRequestDataException("Can't disable the current logged user");
 		user.setEnabled(isEnabled);
 		return user;
@@ -180,4 +192,18 @@ public class UserService implements UserDetailsService
 		user.setAccountNonLocked(isNonBlocked);
 		return user;
 	}
+	public void sendVerfication(UUID userId) throws Exception
+	{
+//		ActivationCode code = activationCodeRepo.findByIdAndUsedFalseAndSentFalse(codeId).orElse(null);
+		User user=userRepo.findById(userId).orElse(null);
+		System.out.println("User Email to be verified:"+user.getEmail());
+		if (user != null && !user.isEnabled())
+		{
+			emailService.sendTemplateMessage(user.getEmail(), "FabriHub Account Verification",
+					"activation-email.ftl", user);
+//			code.setSent(true);
+
+		}
+	}
+
 }
