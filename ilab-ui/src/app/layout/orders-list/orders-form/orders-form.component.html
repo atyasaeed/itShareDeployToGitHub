@@ -1,6 +1,6 @@
 <div *tdLoading="'loading'" [@routerTransition]>
   <app-page-header [heading]="'Employee Case'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header>
-  <div class="card mb-3 form-rtl"  *ngIf="entity">
+  <div class="card mb-3 form-rtl" *ngIf="entity">
 
     <div class="card-header">
 
@@ -13,7 +13,8 @@
           <span style="display:block;">{{'order.totalPrice'|translate}} :<span
               class="value">{{getSubTotal(entity.lineItems)| currency:'EGP'}}</span></span>
         </div>
-        <div class="co-md-2" *ngIf="entity.status == 'QUOTE_REJECTED' || entity.status == 'ORDER_REJECTED' || entity.status == 'QUOTE_EXPIRED'">
+        <div class="co-md-2"
+          *ngIf="entity.status == 'QUOTE_REJECTED' || entity.status == 'ORDER_REJECTED' || entity.status == 'QUOTE_EXPIRED'">
           <span class="cancelled ">{{entity.status | translate}}</span>
 
         </div>
@@ -23,7 +24,7 @@
               <div *ngIf="entity.status === 'PENDING'" style="margin-right: 10px;"><button
                   (click)="openModal(templateOrder)" class="btn btn-danger">{{'order.status.reject'|translate}}</button>
               </div>
-              <div *ngIf="found && entity.status === 'PENDING'">
+              <div *ngIf="rejectItems && found && entity.status === 'PENDING'">
                 <button (click)="orderStatus(entity,statusBtn)" #statusBtn
                   class="btn btn-primary">{{"order.status.quate"|translate}}</button>
               </div>
