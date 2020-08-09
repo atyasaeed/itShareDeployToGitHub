@@ -46,6 +46,9 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
   modalRef: BsModalRef;
   reasonRejection: string;
   arrBooleanItems: boolean[] = new Array();
+  arrBooleanRejectItems: boolean[] = new Array();
+  rejectItems: boolean = true;
+
   rejectionReason: RejectionReason = {} as RejectionReason;
   reasonList: Reason[] = [{ id: '', name: '', status: '' }];
 
@@ -119,13 +122,22 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
           } else {
             this.arrBooleanItems.push(false);
           }
+          if (e.status == 'ITEM_REJECTED') {
+            this.arrBooleanRejectItems.push(true);
+          } else {
+            this.arrBooleanRejectItems.push(false);
+          }
         });
 
-        console.log(this.arrBooleanItems);
         if (this.arrBooleanItems.indexOf(false) == -1) {
           this.check = true;
         } else {
           this.check = false;
+        }
+        if (this.arrBooleanRejectItems.indexOf(false) == -1) {
+          this.rejectItems = false;
+        } else {
+          this.rejectItems = true;
         }
       });
     });
@@ -282,6 +294,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
 
   lineItemReject(lineItem: LineItem) {
     let arrLineItems: boolean[] = new Array();
+    let arrLineItemsReject: boolean[] = new Array();
     if (this.selectedItems.length == 0) {
       // this.toastr.error(this.translate.instant('reason.error.select'));
       this.checkReason = false;
@@ -305,10 +318,14 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
             } else {
               arrLineItems.push(false);
             }
+            if (e.status == 'ITEM_REJECTED') {
+              arrLineItemsReject.push(true);
+            } else {
+              arrLineItemsReject.push(false);
+            }
           });
 
-          console.log(arrLineItems);
-          if (arrLineItems.indexOf(false) == -1) {
+          if (arrLineItems.indexOf(false) == -1 && arrLineItemsReject.indexOf(false) != -1) {
             this.found = true;
           } else {
             this.found = false;
