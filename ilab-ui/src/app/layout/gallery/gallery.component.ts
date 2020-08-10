@@ -20,7 +20,7 @@ import { TdLoadingService } from '@covalent/core/loading';
   animations: [routerTransition()],
 })
 export class GalleryComponent extends DefaultListComponent<ShoppingCartItem, GalleryService> implements OnInit {
-  breadcrumbs = [{ heading: 'Gallery', icon: 'fa-tasks' }];
+  breadcrumbs = [{ heading: 'gallery', icon: 'fa-tasks' }];
   lang: string;
   loading = false;
   subTotal = 0;

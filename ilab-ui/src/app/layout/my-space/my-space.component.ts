@@ -18,7 +18,7 @@ import { MySpaceService } from 'src/app/shared/services/my-space.service';
   animations: [routerTransition()],
 })
 export class MySpaceComponent extends DefaultListComponent<AssetFile, MySpaceService> implements OnInit {
-  breadcrumbs = [{ heading: 'Spaces', icon: 'fa-tasks' }];
+  breadcrumbs = [{ heading: 'spaces', icon: 'fa-tasks' }];
   private _searchTerm = '';
   Authservices: Service[];
   filterService: Service[] = new Array();

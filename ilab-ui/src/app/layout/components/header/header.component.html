@@ -60,7 +60,7 @@
               [matBadgeColor]="quantitiesCount > 0 ? 'primary':'warn'" matBadgePosition="after" matBadgeSize="small">
               <i class="fa fa-cart-plus" #cartPosition></i> <b class="caret"></b><span class="sr-only">(current)</span>
             </a>
-            <ul *dropdownMenu class="dropdown-menu dropdown-menu-right  messages" role="menu"
+            <ul *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown-menu-cart   messages" role="menu"
               aria-labelledby="button-basic">
 
               <ng-container *ngIf="(items$)?.length!=0 else anonymous">
