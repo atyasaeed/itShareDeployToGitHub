@@ -95,8 +95,8 @@ label {
     border-top: 2px solid #5ea4f3;
     //background-color: #f7fbff;
     //height: 100%;
-    position: sticky;
-    top: 75px;
+    //position: sticky;
+    //top: 75px;
     padding: 30px;
 }
 
@@ -194,17 +194,9 @@ label {
 
 // }
 
-.h-500{
-    height: 500px;
-}
 
-$color-collection: (orange,aqua, blue,black,silver,brown,red,purple,pink,olive,gold,green);
 
-@each $color in $color-collection {
-    .#{$color} {
-        background-color: $color;
-        width: 30px;
-        height: 30px;
-        border: none;
-    }
+.stick-to-top{
+    position: sticky;
+    top:75px
 }

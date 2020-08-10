@@ -37,7 +37,7 @@
                             <!-- <stl-model-viewer [stlModels]="[appConfig.FILE_URL + entity.files[0].asset_id]">
                             </stl-model-viewer> -->
                             <img class="img-fluid " [src]="appConfig.serviceImage(entity.service)">
-                            <button (click)="loadStl(appConfig.FILE_URL + entity.files[0].asset_id,modelStl)" type="button" class=" mt-3 btn btn-block btn-sm btn-outline-primary">{{'viewPart'| translate}}</button>
+                            <app-stl-modal [stlPath]="appConfig.FILE_URL + entity.files[0].asset_id"></app-stl-modal>
                           </div>
                         </ng-template>
                         <ng-template #serviceImage>
@@ -211,7 +211,7 @@
               <!-- End Cart Items Table -->
 
               <!-- Cart Summary & Checkout -->
-              <div class="col-md-12 col-lg-4">
+              <div class="col-md-12 col-lg-4 stick-to-top">
                 <div class="summary">
                   <h3>{{'summary' | translate }}:</h3>
                   <!-- <div class="summary-item"><span class="text">{{'Total' | translate }}:</span><span
@@ -249,34 +249,3 @@
 </div>
 
 
-<ng-template #modelStl>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left ">
-    </h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-8 px-0">
-          <div id="model" class="w-100 h-500" ></div>
-        </div>
-        <div class="col-md-4 px-0">
-          <button [id]="color" *ngFor="let color of stlColorBtns" class="{{color}}"></button>
-          <button id="toggleRotate" class="btn btn-block mt-3 btn-sm  btn-outline-primary">
-            <i class="fa fa-play-circle text-success" aria-hidden="true"></i>
-             /
-            <i class="fa fa-pause-circle text-danger" aria-hidden="true"></i>
-          </button>
-          <div class="custom-control custom-checkbox mt-2">
-            <input type="checkbox" id="toggleWireFrame"  class="custom-control-input" >
-            <label class="custom-control-label" for="toggleWireFrame">{{'wireFrame' | translate}}</label>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </div>
-</ng-template>
