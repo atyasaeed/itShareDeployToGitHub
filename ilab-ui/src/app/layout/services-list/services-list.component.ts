@@ -14,7 +14,7 @@ import { TdLoadingService } from '@covalent/core/loading';
   animations: [routerTransition()],
 })
 export class ServicesListComponent extends DefaultListComponent<Service, ServiceService> implements OnInit {
-  breadcrumbs = [{ heading: 'Services', icon: 'fa-tasks' }];
+  breadcrumbs = [{ heading: 'services', icon: 'fa-tasks' }];
   private _searchTerm = '';
   lang: string;
   constructor(service: ServiceService, loadingService: TdLoadingService) {

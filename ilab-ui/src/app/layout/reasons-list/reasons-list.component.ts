@@ -15,7 +15,7 @@ import { ReasonService } from 'src/app/shared/services/reason.service';
   providers: [ReasonService],
 })
 export class ReasonsListComponent extends DefaultListComponent<Reason, ReasonService> implements OnInit {
-  breadcrumbs = [{ heading: 'Reasons', icon: 'fa-tasks' }];
+  breadcrumbs = [{ heading: 'reasons', icon: 'fa-tasks' }];
   private _searchTerm = '';
   lang: string;
   constructor(service: ReasonService, loadingService: TdLoadingService) {

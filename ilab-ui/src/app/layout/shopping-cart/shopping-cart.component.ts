@@ -26,7 +26,7 @@ import { GalleryService } from 'src/app/shared/services/gallery.service';
 })
 export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem, ShoppingCartService>
   implements OnInit {
-  breadcrumbs = [{ heading: 'Cart', icon: 'fa-tasks' }];
+  breadcrumbs = [{ heading: 'cart', icon: 'fa-tasks' }];
   lang: string;
   loading = false;
   subTotal = 0;

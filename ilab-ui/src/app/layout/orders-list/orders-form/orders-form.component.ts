@@ -33,7 +33,7 @@ import { ReasonService } from 'src/app/shared/services/reason.service';
 export class OrdersFormComponent extends DefaultFormComponent<Order, OrderService> {
   breadcrumbs = [
     { heading: 'Orders', icon: 'fa-tasks', link: '/orders-list' },
-    { heading: 'Order-Details', icon: 'fa-tasks' },
+    { heading: 'orderDetails', icon: 'fa-tasks' },
   ];
   orderId;
   found: boolean = true;

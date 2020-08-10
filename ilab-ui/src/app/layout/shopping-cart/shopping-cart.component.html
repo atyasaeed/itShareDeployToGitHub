@@ -1,12 +1,12 @@
 <div [@routerTransition]>
-  <div >
+  <div>
     <app-page-header [heading]="'Programs'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header>
   </div>
 
 
   <main class="page">
     <section class="shopping-cart dark ">
-      <div >
+      <div>
         <!-- page Head -->
         <div class="block-heading">
           <h2 class="text-center">{{'brand.manufacturingRequest'|translate}}</h2>
@@ -19,216 +19,217 @@
           <!-- <ng-container> -->
           <div class="content  mt-3">
             <div class="container-fluid">
-            <!-- <h1 *ngIf="test">bla test test</h1> -->
+              <!-- <h1 *ngIf="test">bla test test</h1> -->
               <div class="row align-items-start">
 
-              <!-- Cart Items Table -->
-              <div class="col-md-12 col-lg-8 light-grey-background">
-                <div class="items" *tdLoading="'loading'">
+                <!-- Cart Items Table -->
+                <div class="col-md-12 col-lg-8 light-grey-background">
+                  <div class="items" *tdLoading="'loading'">
 
-                  <!-- One Item Row -->
-                  <div class="product  pb-3" *ngFor="let entity of items;let i =index">
-                    <div class="row">
-                      <div class="col-md-3 service-image mb-2">
-                        <img class="img-fluid " [src]="appConfig.FILE_URL + entity.files[0].asset_id"
-                          *ngIf="getFileExtension(entity) == 'image';else stlExtension">
-                        <ng-template #stlExtension>
-                          <div *ngIf="getFileExtension(entity) == 'stl';else serviceImage">
+                    <!-- One Item Row -->
+                    <div class="product  pb-3" *ngFor="let entity of items;let i =index">
+                      <div class="row">
+                        <div class="col-md-3 service-image mb-2">
+                          <img class="img-fluid " [src]="appConfig.FILE_URL + entity.files[0].asset_id"
+                            *ngIf="getFileExtension(entity) == 'image';else stlExtension">
+                          <ng-template #stlExtension>
+                            <div *ngIf="getFileExtension(entity) == 'stl';else serviceImage">
 
-                            <img class="img-fluid " [src]="appConfig.serviceImage(entity.service)">
-                            <app-stl-modal [stlPath]="appConfig.FILE_URL + entity.files[0].asset_id"></app-stl-modal>
-                          </div>
-                        </ng-template>
-                        <ng-template #serviceImage>
-                          <img class="img-fluid " [src]="appConfig.serviceImage(entity.service)">
-                        </ng-template>
-
-
-                        <div class="mt-3">
-                          <label>{{ 'notes' | translate }} :&nbsp;</label>
-                          <!-- <span >{{(entity.notes.length>40)? (entity.notes | slice:0:40)+'....':(entity.notes)}}</span> -->
-                          <textarea [value]="entity.notes ? entity.notes : ''" rows="4" class="form-control"
-                            (change)="textAreaChange(entity,notes.value)" #notes></textarea>
-                        </div>
-                      </div>
-                      <div class="col-md-9">
-                        <div class="info">
-
-                          <div class="row">
-                            <div class="col-md-12 ">
-                              <h5>
-                                <a [routerLink]="['/CartItem']"
-                                  [queryParams]="{service:entity.service.id}">{{entity.service.name}}</a>
-                              </h5>
-
+                              <img class="img-fluid " [src]="appConfig.serviceImage(entity.service)">
+                              <app-stl-modal [stlPath]="appConfig.FILE_URL + entity.files[0].asset_id"></app-stl-modal>
                             </div>
+                          </ng-template>
+                          <ng-template #serviceImage>
+                            <img class="img-fluid " [src]="appConfig.serviceImage(entity.service)">
+                          </ng-template>
+
+
+                          <div class="mt-3">
+                            <label>{{ 'notes' | translate }} :&nbsp;</label>
+                            <!-- <span >{{(entity.notes.length>40)? (entity.notes | slice:0:40)+'....':(entity.notes)}}</span> -->
+                            <textarea [value]="entity.notes ? entity.notes : ''" rows="4" class="form-control"
+                              (change)="textAreaChange(entity,notes.value)" #notes></textarea>
                           </div>
+                        </div>
+                        <div class="col-md-9">
+                          <div class="info">
 
-                          <div class="row">
-                            <div class="col-md-8 product-name mb-2 mb-md-0">
-                              <div class="product-name">
+                            <div class="row">
+                              <div class="col-md-12 ">
+                                <h5>
+                                  <a [routerLink]="['/CartItem']"
+                                    [queryParams]="{service:entity.service.id}">{{entity.service.name}}</a>
+                                </h5>
 
-                                <div class="product-info">
-                                  <!-- <div *ngIf="entity?.estimatedStardDate">{{ 'Start Date' | translate }}: <span
+                              </div>
+                            </div>
+
+                            <div class="row">
+                              <div class="col-md-8 product-name mb-2 mb-md-0">
+                                <div class="product-name">
+
+                                  <div class="product-info">
+                                    <!-- <div *ngIf="entity?.estimatedStardDate">{{ 'Start Date' | translate }}: <span
                                       class="value">{{entity.estimatedStardDate |date:'fullDate'}}</span></div>
                                   <div *ngIf="entity?.estimatedEndDate">{{ 'Estimated End Date' | translate }}: <span
                                       class="value">{{entity.estimatedEndDate |date:'fullDate'}}</span></div> -->
-                                  <!-- <div>{{ 'Price' | translate }}: <span class="value">{{entity.unitPrice}}</span></div>
+                                    <!-- <div>{{ 'Price' | translate }}: <span class="value">{{entity.unitPrice}}</span></div>
                                   <div>{{ 'Unite Price' | translate }}: <span
                                       class="value">{{entity.unitPrice|currency:'EGP'}}</span></div>
                                   <div> {{ 'Total Price' | translate }}:<span
                                       class="value">{{entity.unitPrice * entity.quantity}}</span></div> -->
-                                  <div class=" quantity">
-                                    <label for="quantity">{{ 'quantity' | translate }} :&nbsp;</label>
-                                    <input id="quantity" type="number" min="1" [disabled]="loading"
-                                      (change)="updateItem(entity, quantity.value)" value="{{entity.quantity}}"
-                                      #quantity class="d-inline-block form-control quantity-input">
-                                  </div>
+                                    <div class=" quantity">
+                                      <label for="quantity">{{ 'quantity' | translate }} :&nbsp;</label>
+                                      <input id="quantity" type="number" min="1" [disabled]="loading"
+                                        (change)="updateItem(entity, quantity.value)" value="{{entity.quantity}}"
+                                        #quantity class="d-inline-block form-control quantity-input">
+                                    </div>
 
+                                  </div>
                                 </div>
+                              </div>
+
+
+
+                              <div class="col-md-4 price text-center text-md-right my-auto">
+                                <!-- <span>$120</span> -->
+                                <a class="btn btn-outline-success btn-xs" [href]="getFileUrl(entity)"
+                                  tooltip="{{'download' | translate}}" hide-delay="0">
+                                  <i class="fa fa-download" aria-hidden="true"></i>
+                                </a>
+
+                                <button type="button" [disabled]="loading" class="btn btn-outline-danger btn-xs ml-3"
+                                  tooltip="{{'delete' | translate}}" hide-delay="0" (click)="delete(entity)">
+                                  <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+
+
                               </div>
                             </div>
 
-
-
-                            <div class="col-md-4 price text-center text-md-right my-auto">
-                              <!-- <span>$120</span> -->
-                              <a class="btn btn-outline-success btn-xs" [href]="getFileUrl(entity)" tooltip="{{'download' | translate}}"  hide-delay="0">
-                                <i class="fa fa-download" aria-hidden="true"></i>
-                              </a>
-
-                              <button type="button" [disabled]="loading" class="btn btn-outline-danger btn-xs ml-3" tooltip="{{'delete' | translate}}"  hide-delay="0"
-                                (click)="delete(entity)">
-                                <i class="fa fa-trash" aria-hidden="true"></i>
-                              </button>
-
-
-                            </div>
-                          </div>
-
-                          <div class="row" *ngFor="let file of entity.files ;index as j" class="card-form mt-3">
-                            <!-- <div class="form-title">{{ 'Digital Material' | translate }}: <span class="value"><a
+                            <div class="row" *ngFor="let file of entity.files ;index as j" class="card-form mt-3">
+                              <!-- <div class="form-title">{{ 'Digital Material' | translate }}: <span class="value"><a
                                   [href]="getFileUrl(entity,j)">{{file.asset_name}}</a></span></div> -->
 
-                            <div class="form-body">
-                              <div class="row">
-                                <div class="col-md-6 mb-2">
-                                  <div>
-                                    <label>{{'file.height' | translate }} :&nbsp;</label>
-                                    <span class="text-danger" #heightErr></span>
-                                    <input type="number" [value]="file.height" class="form-control"
-                                      (change)="inputNumberChanged(entity,$event,'height',heightErr)">
+                              <div class="form-body">
+                                <div class="row">
+                                  <div class="col-md-6 mb-2">
+                                    <div>
+                                      <label>{{'file.height' | translate }} :&nbsp;</label>
+                                      <span class="text-danger" #heightErr></span>
+                                      <input type="number" [value]="file.height" class="form-control"
+                                        (change)="inputNumberChanged(entity,$event,'height',heightErr)">
+                                    </div>
                                   </div>
-                                </div>
-                                <div class="col-md-6 mb-2">
-                                  <div>
-                                    <label>{{'file.width' | translate }} :&nbsp;</label>
-                                    <span class="text-danger" #widthErr></span>
-                                    <input type="number" [value]="file.width" class="form-control"
-                                      (change)="inputNumberChanged(entity,$event,'width',widthErr)">
+                                  <div class="col-md-6 mb-2">
+                                    <div>
+                                      <label>{{'file.width' | translate }} :&nbsp;</label>
+                                      <span class="text-danger" #widthErr></span>
+                                      <input type="number" [value]="file.width" class="form-control"
+                                        (change)="inputNumberChanged(entity,$event,'width',widthErr)">
+                                    </div>
                                   </div>
-                                </div>
-                                <div class="col-md-6 mb-2" *ngIf="file.material != undefined">
-                                  <div>
-                                    <label>{{'file.material' | translate }} :&nbsp;</label>
+                                  <div class="col-md-6 mb-2" *ngIf="file.material != undefined">
+                                    <div>
+                                      <label>{{'file.material' | translate }} :&nbsp;</label>
 
-                                    <select class="form-control " [ngModel]="file.material"
-                                      (change)="selectChange(entity,$event,'material')">
-                                      <option *ngFor="let mat of entity.service.materials" [value]="mat">{{mat}}
+                                      <select class="form-control " [ngModel]="file.material"
+                                        (change)="selectChange(entity,$event,'material')">
+                                        <option *ngFor="let mat of entity.service.materials" [value]="mat">{{mat}}
+                                        </option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6 mb-2" *ngIf="file.type != undefined">
+
+                                    <label>{{'file.type' | translate }} :&nbsp;</label>
+                                    <select class="form-control " [ngModel]="file.type"
+                                      (change)="selectChange(entity,$event,'type')">
+                                      <option *ngFor="let t of entity.service.types" [value]="t">{{t}}</option>
+                                    </select>
+                                  </div>
+                                  <div class="col-md-6 mb-2" *ngIf="file.thickness != undefined">
+
+                                    <label>{{'file.thickness' | translate }} :&nbsp;</label>
+                                    <select class="form-control " [ngModel]="file.thickness"
+                                      (change)="selectChange(entity,$event,'thickness')">
+                                      <option *ngFor="let thick of entity.service.thickness" [value]="thick">{{thick}}
                                       </option>
                                     </select>
                                   </div>
-                                </div>
-                                <div class="col-md-6 mb-2" *ngIf="file.type != undefined">
+                                  <div class="col-md-6 mb-2" *ngIf="file.color != undefined">
 
-                                  <label>{{'file.type' | translate }} :&nbsp;</label>
-                                  <select class="form-control " [ngModel]="file.type"
-                                    (change)="selectChange(entity,$event,'type')">
-                                    <option *ngFor="let t of entity.service.types" [value]="t">{{t}}</option>
-                                  </select>
-                                </div>
-                                <div class="col-md-6 mb-2" *ngIf="file.thickness != undefined">
-
-                                  <label>{{'file.thickness' | translate }} :&nbsp;</label>
-                                  <select class="form-control " [ngModel]="file.thickness"
-                                    (change)="selectChange(entity,$event,'thickness')">
-                                    <option *ngFor="let thick of entity.service.thickness" [value]="thick">{{thick}}
-                                    </option>
-                                  </select>
-                                </div>
-                                <div class="col-md-6 mb-2" *ngIf="file.color != undefined">
-
-                                  <label>{{'file.color' | translate }} :&nbsp;</label>
-                                  <select class="form-control " [ngModel]="file.color"
-                                    (change)="selectChange(entity,$event,'color')">
-                                    <option *ngFor="let c of entity.service.colors" [value]="c">{{c}}</option>
-                                  </select>
-                                </div>
-                                <div class="col-md-6 mb-2" *ngIf="file.unit != undefined">
-
-                                  <label>{{'file.unit' | translate }} :&nbsp;</label>
-                                  <select class="form-control " [ngModel]="file.unit"
-                                    (change)="selectChange(entity,$event,'unit')">
-                                    <option *ngFor="let c of entity.service.units" [value]="c">{{c}}</option>
-                                  </select>
-                                </div>
-                                <div class="col-md-6 mb-2" *ngIf="file.processes != undefined">
-                                  <label>{{'file.processes' | translate }} :&nbsp;</label>
-                                  <span class="text-danger" #multiSelectErr></span>
-                                  <div *ngIf="!entity.service.processes.multi ; else multiDrop">
-                                    <select class="form-control " [ngModel]="file.processes"
-                                      (change)="selectChange(entity,$event,'processes')">
-                                      <option *ngFor="let v of entity.service.processes.values" [value]="v">{{v}}
-                                      </option>
+                                    <label>{{'file.color' | translate }} :&nbsp;</label>
+                                    <select class="form-control " [ngModel]="file.color"
+                                      (change)="selectChange(entity,$event,'color')">
+                                      <option *ngFor="let c of entity.service.colors" [value]="c">{{c}}</option>
                                     </select>
                                   </div>
-                                  <ng-template #multiDrop>
+                                  <div class="col-md-6 mb-2" *ngIf="file.unit != undefined">
 
-                                    <ng-multiselect-dropdown [settings]="dropdownSettings"
-                                      [data]="entity.service.processes.values" [(ngModel)]="selectedItemsArray[i]"
-                                      (onSelect)="onItemSelect(entity,i,multiSelectErr)"
-                                      (onDeSelect)="onItemDeSelect(entity,i,multiSelectErr)"
-                                      (onSelectAll)="onSelectAll(entity,$event,multiSelectErr)"
-                                      (onDeSelectAll)="onDeSelectAll(multiSelectErr)">
-                                    </ng-multiselect-dropdown>
-                                  </ng-template>
+                                    <label>{{'file.unit' | translate }} :&nbsp;</label>
+                                    <select class="form-control " [ngModel]="file.unit"
+                                      (change)="selectChange(entity,$event,'unit')">
+                                      <option *ngFor="let c of entity.service.units" [value]="c">{{c}}</option>
+                                    </select>
+                                  </div>
+                                  <div class="col-md-6 mb-2" *ngIf="file.processes != undefined">
+                                    <label>{{'file.processes' | translate }} :&nbsp;</label>
+                                    <span class="text-danger" #multiSelectErr></span>
+                                    <div *ngIf="!entity.service.processes.multi ; else multiDrop">
+                                      <select class="form-control " [ngModel]="file.processes"
+                                        (change)="selectChange(entity,$event,'processes')">
+                                        <option *ngFor="let v of entity.service.processes.values" [value]="v">{{v}}
+                                        </option>
+                                      </select>
+                                    </div>
+                                    <ng-template #multiDrop>
+
+                                      <ng-multiselect-dropdown [settings]="dropdownSettings"
+                                        [data]="entity.service.processes.values" [(ngModel)]="selectedItemsArray[i]"
+                                        (onSelect)="onItemSelect(entity,i,multiSelectErr)"
+                                        (onDeSelect)="onItemDeSelect(entity,i,multiSelectErr)"
+                                        (onSelectAll)="onSelectAll(entity,$event,multiSelectErr)"
+                                        (onDeSelectAll)="onDeSelectAll(multiSelectErr)">
+                                      </ng-multiselect-dropdown>
+                                    </ng-template>
+                                  </div>
                                 </div>
+
                               </div>
-
                             </div>
+
                           </div>
 
                         </div>
-
                       </div>
                     </div>
+                    <!-- End One Item Row -->
+
                   </div>
-                  <!-- End One Item Row -->
-
                 </div>
-              </div>
-              <!-- End Cart Items Table -->
+                <!-- End Cart Items Table -->
 
-              <!-- Cart Summary & Checkout -->
-              <div class="col-md-12 col-lg-4 stick-to-top">
-                <div class="summary">
-                  <h3>{{'summary' | translate }}:</h3>
-                  <!-- <div class="summary-item"><span class="text">{{'Total' | translate }}:</span><span
+                <!-- Cart Summary & Checkout -->
+                <div class="col-md-12 col-lg-4 stick-to-top">
+                  <div class="summary">
+                    <h3>{{'summary' | translate }}:</h3>
+                    <!-- <div class="summary-item"><span class="text">{{'Total' | translate }}:</span><span
                       class="price">{{subTotal  |currency:'EGP'}}</span></div> -->
-                  <!-- <div class="summary-item"><span class="text">Discount</span><span class="price">$0</span></div>
+                    <!-- <div class="summary-item"><span class="text">Discount</span><span class="price">$0</span></div>
                             <div class="summary-item"><span class="text">Shipping</span><span class="price">$0</span></div>
                             <div class="summary-item"><span class="text">Total</span><span class="price">$360</span></div> -->
-                  <button type="button" class="btn btn-primary btn-lg btn-block"
-                    (click)="checkout()">{{ 'checkOut' | translate }}</button>
-                  <button type="button" *ngIf="hasAdminRole" class="btn btn-success btn-lg btn-block"
-                    (click)="convertToGallery()">{{ 'convertToGallery' | translate }}</button>
-                  <button type="button" class="btn btn-warning btn-lg btn-block text-white"
-                    routerLink="/shopping-cart/CartItem">
-                    {{ 'continueShopping' | translate }}
-                  </button>
+                    <button type="button" class="btn btn-primary btn-lg btn-block"
+                      (click)="checkout()">{{ 'checkOut' | translate }}</button>
+                    <button type="button" *ngIf="hasAdminRole" class="btn btn-success btn-lg btn-block"
+                      (click)="convertToGallery()">{{ 'convertToGallery' | translate }}</button>
+                    <button type="button" class="btn btn-warning btn-lg btn-block text-white"
+                      routerLink="/shopping-cart/CartItem">
+                      {{ 'continueShopping' | translate }}
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <!-- End Cart Summary & Checkout -->
+                <!-- End Cart Summary & Checkout -->
 
               </div>
             </div>
@@ -246,5 +247,3 @@
     </section>
   </main>
 </div>
-
-

@@ -19,7 +19,7 @@ import { OrderService } from 'src/app/shared/services/order.service';
   animations: [routerTransition()],
 })
 export class ReasonsFormComponent extends DefaultFormComponent<Reason, ReasonService> implements OnInit {
-  breadcrumbs = [{ heading: 'Reasons', icon: 'fa-tasks', link: '/reasons-list' }];
+  breadcrumbs = [{ heading: 'reasons', icon: 'fa-tasks', link: '/reasons-list' }];
   lang: string;
   private _searchTerm = '';
   statuses$ = ['DRAFT', 'PUBLISHED', 'DELETED'];

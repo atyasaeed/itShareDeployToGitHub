@@ -46,8 +46,8 @@ import { Store } from '@ngrx/store';
 })
 export class ServiceFormComponent extends DefaultFormComponent<Service, ServiceService> {
   breadcrumbs = [
-    { heading: 'Services', icon: 'fa-tasks', link: '/services-list' },
-    { heading: 'Service-Details', icon: 'fa-tasks' },
+    { heading: 'services', icon: 'fa-tasks', link: '/services-list' },
+    { heading: 'serviceDetails', icon: 'fa-tasks' },
   ];
   form: FormGroup;
   @ViewChild('stepTwo') stepTwo: ElementRef;

@@ -229,6 +229,15 @@
   "reason.error.select": "Sorry Must Select One Reason Minimum ",
   "close": "Close",
   "userName.error.invalid": "Invalid UserName",
-  "quotedAt":"Quoted At",
-  "expiredAt":"Expired At"
+  "quotedAt": "Quoted At",
+  "expiredAt": "Expired At",
+  "mySpace": "My-Space",
+  "collapseSidebar": "Collapse-Sidebar",
+  "orderDetails": "Order-Details",
+  "serviceDetails": "Service-Details",
+  "reasons": "Reasons",
+  "cart": "Cart",
+  "sortByNewest": "Sort By Newest",
+  "sortByOldest": "Sort By Oldest",
+  "spaces": "Spaces"
 }

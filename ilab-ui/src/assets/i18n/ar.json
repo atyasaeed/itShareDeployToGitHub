@@ -4,7 +4,7 @@
   "english": "الإنجليزية",
   "arabic": "العربية",
   "Brand": "FabriHub",
-  "brand.gallery": "FabriHub Gallery",
+  "brand.gallery": "المعرض",
   "brand.manufacturingRequest": "FabriHub Manufacturing Request",
   "brand.login": "تسجيل الدخول",
   "brand.registration": "انشاء حساب",
@@ -230,5 +230,14 @@
   "close": "إغلاق",
   "userName.error.invalid": "يجب ادخال اسم المستخدم",
   "quotedAt": "تاريخ التسعير",
-  "expiredAt": "تاريخ الانتهاء"
+  "expiredAt": "تاريخ الانتهاء",
+  "mySpace": "ملفاتى",
+  "collapseSidebar": "طى الشريط",
+  "orderDetails": "تفاصيل الطلب",
+  "serviceDetails": "تفاصيل الخدمة",
+  "reasons": "الأسباب",
+  "cart": "عربة التسوق",
+  "sortByNewest": "فرز حسب الأحدث",
+  "sortByOldest": "فرز حسب الأقدم",
+  "spaces": "الملفات"
 }

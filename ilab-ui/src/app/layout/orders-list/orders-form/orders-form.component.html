@@ -21,8 +21,8 @@
         <div class="col-md-4 form-rtl">
           <div class="row text-right">
             <div class="col-md-12  row" style="justify-content: flex-end;">
-              <div *ngIf="entity.status === 'PENDING'" style="margin-right: 10px;"><button
-                  (click)="openModal(templateOrder)" class="btn btn-danger">{{'order.status.reject'|translate}}</button>
+              <div *ngIf="entity.status === 'PENDING'"><button (click)="openModal(templateOrder)"
+                  class="btn btn-danger mr-2">{{'order.status.reject'|translate}}</button>
               </div>
               <div *ngIf="rejectItems && found && entity.status === 'PENDING'">
                 <button (click)="orderStatus(entity,statusBtn)" #statusBtn
@@ -34,15 +34,15 @@
                 (click)="itemRejectReasonModal(orderRejectReasons)">{{'viewReasons'|translate}}</button>
             </div>
 
-            <div class="col-md-12" (click)="orderStatus(entity,statusBtn)" #statusBtn
+            <div class="col-md-12 text-right" (click)="orderStatus(entity,statusBtn)" #statusBtn
               *ngIf="entity.status === 'QUOTE_ACCEPTED'">
               <button class="btn btn-info">{{'order.status.progress'|translate}}</button>
             </div>
-            <div class="col-md-12" (click)="orderStatus(entity,statusBtn)" #statusBtn
+            <div class="col-md-12 text-right" (click)="orderStatus(entity,statusBtn)" #statusBtn
               *ngIf="found && entity.status === 'IN_PROGRESS'">
               <button class="btn btn-info">{{'order.status.ready'|translate}}</button>
             </div>
-            <div class="col-md-12" (click)="orderStatus(entity,statusBtn)" #statusBtn
+            <div class="col-md-12 text-right" (click)="orderStatus(entity,statusBtn)" #statusBtn
               *ngIf=" check && entity.status === 'FINISHED'">
               <button class="btn btn-info">{{'order.status.delivered'|translate}}</button>
             </div>
@@ -121,7 +121,7 @@
                         <div class="col-md-4 row price text-center text-md-right my-auto"
                           style="justify-content: flex-end; z-index: 1000;">
                           <!-- <span>$120</span> -->
-                          <a class="btn btn-outline-success btn-xs mr-2" [href]="getFileUrl(lineItem)"
+                          <a class="btn btn-outline-success btn-xs mr-2 mb-2" [href]="getFileUrl(lineItem)"
                             tooltip="{{'download' | translate}}">
                             <i class="fa fa-download" aria-hidden="true"></i>
                           </a>
