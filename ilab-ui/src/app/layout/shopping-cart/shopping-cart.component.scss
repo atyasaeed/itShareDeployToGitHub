@@ -95,8 +95,8 @@ label {
     border-top: 2px solid #5ea4f3;
     //background-color: #f7fbff;
     //height: 100%;
-    position: sticky;
-    top: 75px;
+    //position: sticky;
+    //top: 75px;
     padding: 30px;
 }
 
@@ -187,9 +187,8 @@ label {
 }
 
 
-stl-model-viewer {
-  display: block;
-  height: 200px;
-  width: 100%;
 
+.stick-to-top{
+    position: sticky;
+    top:75px
 }

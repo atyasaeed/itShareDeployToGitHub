@@ -34,8 +34,9 @@
                           *ngIf="getFileExtension(entity) == 'image';else stlExtension">
                         <ng-template #stlExtension>
                           <div *ngIf="getFileExtension(entity) == 'stl';else serviceImage">
-                            <stl-model-viewer [stlModels]="[appConfig.FILE_URL + entity.files[0].asset_id]">
-                            </stl-model-viewer>
+
+                            <img class="img-fluid " [src]="appConfig.serviceImage(entity.service)">
+                            <app-stl-modal [stlPath]="appConfig.FILE_URL + entity.files[0].asset_id"></app-stl-modal>
                           </div>
                         </ng-template>
                         <ng-template #serviceImage>
@@ -209,7 +210,7 @@
               <!-- End Cart Items Table -->
 
               <!-- Cart Summary & Checkout -->
-              <div class="col-md-12 col-lg-4">
+              <div class="col-md-12 col-lg-4 stick-to-top">
                 <div class="summary">
                   <h3>{{'summary' | translate }}:</h3>
                   <!-- <div class="summary-item"><span class="text">{{'Total' | translate }}:</span><span
@@ -245,3 +246,5 @@
     </section>
   </main>
 </div>
+
+
