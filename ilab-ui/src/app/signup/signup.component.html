@@ -1,9 +1,9 @@
 <div class="login-page" [@routerTransition]>
   <div class="row justify-content-md-center">
     <div class="col-md-12">
-      <div [routerLink]="'/'" role="button" class="cursor-pointer">
+      <div [routerLink]="'/'" role="button" class="cursor-pointer text-center">
         <img class="user-avatar" src="assets/images/logo.png" width="150px" />
-        <h1>{{'brand.registration'|translate}}</h1>
+        <h1 class="text-center">{{'brand.registration'|translate}}</h1>
       </div>
       <form role="form" *ngIf="registrationForm" [formGroup]="registrationForm" (ngSubmit)="onSubmit()"
         class="container">
@@ -132,9 +132,12 @@
             </div>
           </div> -->
         </div>
-        <input type="submit" class="btn rounded-btn" value="{{ 'register' | translate }} ">&nbsp;
-        <!-- <a class="btn rounded-btn" [routerLink]="['/dashboard']">{{ 'Register' | translate }}</a>&nbsp; -->
-        <a class="btn text-primary" [routerLink]="['/login']">{{ 'logIn' | translate }}</a>
+        <div class="text-center">
+          <input type="submit" class="btn rounded-btn" value="{{ 'register' | translate }} ">&nbsp;
+          <!-- <a class="btn rounded-btn" [routerLink]="['/dashboard']">{{ 'Register' | translate }}</a>&nbsp; -->
+          <a class="btn text-primary" [routerLink]="['/login']">{{ 'logIn' | translate }}</a>
+        </div>
+
       </form>
     </div>
   </div>

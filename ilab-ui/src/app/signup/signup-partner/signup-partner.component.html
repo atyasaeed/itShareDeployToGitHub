@@ -1,0 +1,92 @@
+<div class="login-page" [@routerTransition]>
+  <div class="row justify-content-md-center">
+    <div class="col-md-12">
+      <div [routerLink]="'/'" role="button" class="cursor-pointer text-center">
+        <img class="user-avatar" src="assets/images/logo.png" width="150px" />
+        <h1 class="text-center">{{'brand.registration'|translate}}</h1>
+      </div>
+      <form role="form" *ngIf="registrationForm" [formGroup]="registrationForm" (ngSubmit)="onSubmit()"
+        class="container">
+        <div class="form-content">
+
+
+          <section class="form-row" style="justify-content: space-around;">
+            <div class="form-group col-lg-6 mb-3">
+              <input type="text" formControlName="companyName" class="form-control input-underline input-lg"
+                placeholder="{{'companyName' | translate }}" #companyName>
+              <div *ngIf="registrationForm.controls.companyName.touched && !registrationForm.controls.companyName.valid"
+                class="text-danger">
+                <div *ngIf="registrationForm.controls.companyName.errors.required">
+                  {{ 'companyName.error.required' | translate }}
+                </div>
+              </div>
+            </div>
+
+
+          </section>
+          <section class="form-row" style="justify-content: space-around;">
+            <div class="form-group col-lg-6 mb-3">
+              <input type="text" formControlName="currentPosition" class="form-control input-underline input-lg"
+                placeholder="{{'currentPosition' | translate }}" #currentPosition>
+              <div
+                *ngIf="registrationForm.controls.currentPosition.touched && !registrationForm.controls.currentPosition.valid"
+                class="text-danger">
+                <div *ngIf="registrationForm.controls.currentPosition.errors.required">
+                  {{ 'currentPosition.error.required' | translate }}</div>
+              </div>
+            </div>
+          </section>
+
+
+          <section class="form-row" style="justify-content: space-around;">
+            <div class="form-group col-lg-6 mb-3">
+              <input type="text" class="form-control input-underline input-lg"
+                placeholder="{{ 'governorate' | translate }}" formControlName="governorate" #governorate>
+              <div *ngIf="registrationForm.controls.governorate.touched && !registrationForm.controls.governorate.valid"
+                class="text-danger">
+                <div *ngIf="registrationForm.controls.governorate.errors.required">
+                  {{ 'governorate.error.required' | translate }}
+                </div>
+              </div>
+            </div>
+
+          </section>
+
+          <section class="form-row" style="justify-content: space-around;">
+            <div class="form-group col-lg-6 mb-3">
+              <input type="text" class="form-control input-underline input-lg" placeholder="{{ 'address' | translate }}"
+                formControlName="address" #address>
+              <div *ngIf="registrationForm.controls.address.touched && !registrationForm.controls.address.valid"
+                class="text-danger">
+                <div *ngIf="registrationForm.controls.address.errors.required">
+                  {{ 'address.error.required' | translate }}</div>
+                <div *ngIf="registrationForm.controls.address.errors.minlength">
+                  {{ 'address.error.length' | translate }}</div>
+              </div>
+
+            </div>
+
+
+
+
+          </section>
+          <!-- <div class="form-group col-sm-6">
+            <a href="#"> Agree to the terms and conditions </a>
+            <input type="checkbox" formControlName="agree" #agree>
+            <div *ngIf="registrationForm.controls.agree.touched && !registrationForm.controls.agree.valid"
+              class="text-danger">
+              <div *ngIf="registrationForm.controls.agree.errors.required">
+                {{ 'Agree is required' | translate }}</div>
+            </div>
+          </div> -->
+        </div>
+        <div class="text-center">
+          <input type="submit" class="btn rounded-btn" value="{{ 'register' | translate }} ">&nbsp;
+          <!-- <a class="btn rounded-btn" [routerLink]="['/dashboard']">{{ 'Register' | translate }}</a>&nbsp; -->
+          <a class="btn text-primary" [routerLink]="['/login']">{{ 'logIn' | translate }}</a>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

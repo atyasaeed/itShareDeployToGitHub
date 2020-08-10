@@ -83,7 +83,7 @@ export class SignupActivationComponent implements OnInit {
           } else {
             this.user.roles = this.user.roles.concat('ROLE_REGISTER_PRIVILEGE');
             this.appStore.dispatch(new fromStore.UpdateAuthUser(this.user));
-            this.router.navigate(['signup/updateInfo'], {
+            this.router.navigate(['signup/partner'], {
               state: this.user,
             });
             this.toastr.success(this.translate.instant('registeration.success'));

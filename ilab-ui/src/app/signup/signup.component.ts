@@ -10,7 +10,13 @@ import { TranslateService } from '@ngx-translate/core';
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { UserService } from '../shared/services/user.service';
-import { RECAPTCHA_LANGUAGE, RECAPTCHA_SETTINGS, RecaptchaSettings } from 'ng-recaptcha';
+import {
+  RECAPTCHA_LANGUAGE,
+  RECAPTCHA_SETTINGS,
+  RecaptchaSettings,
+  ReCaptchaV3Service,
+  OnExecuteData,
+} from 'ng-recaptcha';
 
 @Component({
   selector: 'app-signup',
@@ -65,7 +71,8 @@ export class SignupComponent implements OnInit {
 
   onSubmit() {
     if (this.registrationForm.invalid) {
-      this.validateAllFormFields(this.registrationForm);
+      // this.validateAllFormFields(this.registrationForm);
+      this.registrationForm.markAllAsTouched();
       /* activation*/
       this.user = this.registrationForm.value;
       this.appStore.dispatch(new fromStore.UpdateAuthUser(this.user));
@@ -86,20 +93,5 @@ export class SignupComponent implements OnInit {
       },
       (err) => {}
     );
-  }
-
-  validateAllFormFields(formGroup: FormGroup) {
-    // {1}
-    Object.keys(formGroup.controls).forEach((field) => {
-      // {2}
-      const control = formGroup.get(field); // {3}
-      if (control instanceof FormControl) {
-        // {4}
-        control.markAsTouched({ onlySelf: true });
-      } else if (control instanceof FormGroup) {
-        // {5}
-        this.validateAllFormFields(control); // {6}
-      }
-    });
   }
 }
