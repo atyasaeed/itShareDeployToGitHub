@@ -21,9 +21,10 @@ import { OrdersFormComponent } from './orders-form/orders-form.component';
 import { MatNativeDateModule, MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-import { StlModelViewerModule } from 'angular-stl-model-viewer';
+
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TooltipModule } from 'ng2-tooltip-directive';
+import { StlModalModule } from 'src/app/shared/modules/stl-modal/stl-modal.module';
 
 @NgModule({
   declarations: [OrdersListComponent, OrdersFormComponent],
@@ -49,7 +50,7 @@ import { TooltipModule } from 'ng2-tooltip-directive';
     MatDatepickerModule,
     MatNativeDateModule,
     MatMomentDateModule,
-    StlModelViewerModule,
+    StlModalModule,
     TooltipModule,
     ModalModule.forRoot(),
   ],

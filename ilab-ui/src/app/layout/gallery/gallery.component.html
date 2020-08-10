@@ -50,8 +50,8 @@
                           *ngIf="getFileExtension(entity) == 'image';else stlExtension">
                           <ng-template #stlExtension>
                             <div *ngIf="getFileExtension(entity) == 'stl';else serviceImage">
-                              <stl-model-viewer [stlModels]="[appConfig.FILE_URL + entity.files[0].asset_id]">
-                              </stl-model-viewer>
+                              <img class="img-fluid " [src]="appConfig.serviceImage(entity.service)">
+                              <app-stl-modal [stlPath]="appConfig.FILE_URL + entity.files[0].asset_id"></app-stl-modal>
                             </div>
                           </ng-template>
                           <ng-template #serviceImage>

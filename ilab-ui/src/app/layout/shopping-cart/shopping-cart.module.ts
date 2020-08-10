@@ -20,7 +20,7 @@ import { PageHeaderModule } from 'src/app/shared/modules/page-header/page-header
 //import { MatNativeDateModule } from '@angular/material/core';
 //import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-//import { StlModelViewerModule } from 'angular-stl-model-viewer';
+
 import { MatRadioModule } from '@angular/material/radio';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TooltipModule } from 'ng2-tooltip-directive';

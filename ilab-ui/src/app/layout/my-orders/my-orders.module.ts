@@ -13,10 +13,11 @@ import { PageHeaderModule } from 'src/app/shared/modules/page-header/page-header
 import { StepsModule } from 'src/app/shared/modules/steps/steps.module';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NgxPrintModule } from 'ngx-print';
-import { StlModelViewerModule } from 'angular-stl-model-viewer';
+
 import { TooltipModule } from 'ng2-tooltip-directive';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { CovalentLoadingModule } from '@covalent/core/loading';
+import { StlModalModule } from 'src/app/shared/modules/stl-modal/stl-modal.module';
 
 @NgModule({
   declarations: [OrderComponent, OrderCardComponent, LineItemComponent],
@@ -32,7 +33,8 @@ import { CovalentLoadingModule } from '@covalent/core/loading';
     TranslateModule,
     StepsModule,
     NgxPrintModule,
-    StlModelViewerModule,
+    //StlModelViewerModule,
+    StlModalModule,
     TooltipModule,
     ModalModule.forRoot(),
     CovalentLoadingModule,
