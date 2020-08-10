@@ -37,7 +37,7 @@
                             <!-- <stl-model-viewer [stlModels]="[appConfig.FILE_URL + entity.files[0].asset_id]">
                             </stl-model-viewer> -->
                             <img class="img-fluid " [src]="appConfig.serviceImage(entity.service)">
-                            <button (click)="loadStl('assets/bullby.stl',modelStl)" type="button" class=" mt-3 btn btn-block btn-sm btn-outline-primary">{{'viewPart'| translate}}</button>
+                            <button (click)="loadStl(appConfig.FILE_URL + entity.files[0].asset_id,modelStl)" type="button" class=" mt-3 btn btn-block btn-sm btn-outline-primary">{{'viewPart'| translate}}</button>
                           </div>
                         </ng-template>
                         <ng-template #serviceImage>
