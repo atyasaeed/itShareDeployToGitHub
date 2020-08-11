@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { routerTransition } from '../router.animations';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { Country, COUNTRIES } from './countries';
+//import { Country, COUNTRIES } from './countries';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AlertService } from '../shared/services';
@@ -10,13 +10,13 @@ import { TranslateService } from '@ngx-translate/core';
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { UserService } from '../shared/services/user.service';
-import {
-  RECAPTCHA_LANGUAGE,
-  RECAPTCHA_SETTINGS,
-  RecaptchaSettings,
-  ReCaptchaV3Service,
-  OnExecuteData,
-} from 'ng-recaptcha';
+// import {
+//   RECAPTCHA_LANGUAGE,
+//   RECAPTCHA_SETTINGS,
+//   RecaptchaSettings,
+//   ReCaptchaV3Service,
+//   OnExecuteData,
+// } from 'ng-recaptcha';
 
 @Component({
   selector: 'app-signup',
@@ -28,6 +28,7 @@ export class SignupComponent implements OnInit {
   user: User;
   registrationForm: FormGroup;
   loading = false;
+  disableCaptcha;
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -36,11 +37,16 @@ export class SignupComponent implements OnInit {
     private userService: UserService,
     private alertservice: AlertService,
     private appStore: Store<fromStore.AppState>,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private cdref: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.createForm();
+  }
+
+  ngAfterViewInit() {
+    this.changeRecaptchaLanguage();
   }
 
   createForm() {
@@ -52,7 +58,6 @@ export class SignupComponent implements OnInit {
       username: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')]],
       confirmPassword: ['', [Validators.required]],
-      recaptchaReactive: ['', Validators.required],
     });
   }
 
@@ -70,7 +75,7 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.registrationForm.invalid) {
+    if (!this.registrationForm.valid) {
       // this.validateAllFormFields(this.registrationForm);
       this.registrationForm.markAllAsTouched();
       /* activation*/
@@ -93,5 +98,39 @@ export class SignupComponent implements OnInit {
       },
       (err) => {}
     );
+  }
+
+  changeRecaptchaLanguage() {
+    if (document.getElementById('captchaSubmit') != null) {
+      (<HTMLInputElement>document.getElementById('captchaSubmit')).disabled = true;
+      this.disableCaptcha = (<HTMLInputElement>document.getElementById('captchaSubmit')).disabled;
+      this.cdref.detectChanges();
+    }
+    this.appStore.select(fromStore.getLang).subscribe((res) => {
+      if (document.querySelector('.g-recaptcha') != null) {
+        document.querySelector('.g-recaptcha').innerHTML = '';
+        if (document.querySelector('.captchaSection')) {
+          document.querySelector('.captchaSection').innerHTML = '';
+        } else {
+          var captchaSection = document.createElement('div');
+          captchaSection.className = 'captchaSection';
+          document.querySelector('head').appendChild(captchaSection);
+        }
+        var script = document.createElement('script');
+        script.src = 'https://www.google.com/recaptcha/api.js?hl=' + res;
+        script.async = true;
+        script.defer = true;
+        var script2 = document.createElement('script');
+        script2.innerHTML = `
+          var successCaptcha = function(e){
+            console.log(e);
+            document.getElementById('captchaSubmit').disabled = false;
+          }
+          `;
+
+        document.querySelector('.captchaSection').appendChild(script);
+        document.querySelector('.captchaSection').appendChild(script2);
+      }
+    });
   }
 }

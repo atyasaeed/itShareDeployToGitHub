@@ -113,13 +113,14 @@
           </section>
           <section class="form-row" style="justify-content:space-around ;">
             <div class="form-group col-lg-6 mb-3 d-flex justify-content-center">
-              <re-captcha formControlName="recaptchaReactive"></re-captcha>
-              <div
+
+              <div class="g-recaptcha" data-sitekey="6LfVQLsZAAAAAFubvZI85UgFbMcUyq57H_wVjKQk" data-callback="successCaptcha"></div>
+              <!-- <div
                 *ngIf="registrationForm.controls.recaptchaReactive.touched && !registrationForm.controls.recaptchaReactive.valid"
                 class="text-danger">
                 <div *ngIf="registrationForm.controls.recaptchaReactive.errors.required">
                   {{ 'recaptchaReactive.error.required' | translate }}</div>
-              </div>
+              </div> -->
             </div>
           </section>
           <!-- <div class="form-group col-sm-6">
@@ -133,7 +134,7 @@
           </div> -->
         </div>
         <div class="text-center">
-          <input type="submit" class="btn rounded-btn" value="{{ 'register' | translate }} ">&nbsp;
+          <input type="submit" class="btn rounded-btn" id="captchaSubmit" value="{{ 'register' | translate }} " [disabled]="disableCaptcha">&nbsp;
           <!-- <a class="btn rounded-btn" [routerLink]="['/dashboard']">{{ 'Register' | translate }}</a>&nbsp; -->
           <a class="btn text-primary" [routerLink]="['/login']">{{ 'logIn' | translate }}</a>
         </div>

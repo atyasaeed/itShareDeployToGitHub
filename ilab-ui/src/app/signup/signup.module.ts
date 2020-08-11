@@ -20,25 +20,25 @@ import { Observable, BehaviorSubject } from 'rxjs';
     TranslateModule,
     ReactiveFormsModule,
     SharedModule,
-    RecaptchaModule,
-    RecaptchaFormsModule,
+    //RecaptchaModule,
+    //RecaptchaFormsModule,
   ],
-  providers: [
-    {
-      provide: RECAPTCHA_SETTINGS,
-      useValue: {
-        siteKey: '6LfVQLsZAAAAAFubvZI85UgFbMcUyq57H_wVjKQk',
-      } as RecaptchaSettings,
-    },
-    // {
-    //   provide: RECAPTCHA_LANGUAGE,
-    //   // useValue: 'en',
+  // providers: [
+  //   {
+  //     provide: RECAPTCHA_SETTINGS,
+  //     useValue: {
+  //       siteKey: '6LfVQLsZAAAAAFubvZI85UgFbMcUyq57H_wVjKQk',
+  //     } as RecaptchaSettings,
+  //   },
+  // {
+  //   provide: RECAPTCHA_LANGUAGE,
+  //   // useValue: 'en',
 
-    //   useFactory: testf,
-    //   deps: [Store],
-    //   multi: true,
-    // },
-  ],
+  //   useFactory: testf,
+  //   deps: [Store],
+  //   multi: true,
+  // },
+  //],
 })
 export class SignupModule {}
 
