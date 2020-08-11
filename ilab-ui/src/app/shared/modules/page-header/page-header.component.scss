@@ -1,0 +1,20 @@
+.custom-bread-item::before {
+content: ' / ';
+color: gray;
+
+}
+
+ol li a{
+  color: gray;
+}
+
+ol li:last-of-type a{
+  color: #007bff;
+
+}
+ol li  :hover{
+  color: #007bff;
+}
+// .active a i:last-of-type{
+//   color: green;
+// }
