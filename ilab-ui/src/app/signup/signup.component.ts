@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { UserService } from '../shared/services/user.service';
+import { CustomCaptchaService } from '../shared/services/captcha.service';
 // import {
 //   RECAPTCHA_LANGUAGE,
 //   RECAPTCHA_SETTINGS,
@@ -28,7 +29,7 @@ export class SignupComponent implements OnInit {
   user: User;
   registrationForm: FormGroup;
   loading = false;
-  disableCaptcha;
+  emptyCaptcha = true;
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -38,6 +39,7 @@ export class SignupComponent implements OnInit {
     private alertservice: AlertService,
     private appStore: Store<fromStore.AppState>,
     private translate: TranslateService,
+    private captchaService: CustomCaptchaService,
     private cdref: ChangeDetectorRef
   ) {}
 
@@ -46,7 +48,9 @@ export class SignupComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.changeRecaptchaLanguage();
+    //this.changeRecaptchaLanguage();
+    this.captchaService.captchaInit(this.emptyCaptcha);
+    this.cdref.detectChanges();
   }
 
   createForm() {
@@ -98,39 +102,5 @@ export class SignupComponent implements OnInit {
       },
       (err) => {}
     );
-  }
-
-  changeRecaptchaLanguage() {
-    if (document.getElementById('captchaSubmit') != null) {
-      (<HTMLInputElement>document.getElementById('captchaSubmit')).disabled = true;
-      this.disableCaptcha = (<HTMLInputElement>document.getElementById('captchaSubmit')).disabled;
-      this.cdref.detectChanges();
-    }
-    this.appStore.select(fromStore.getLang).subscribe((res) => {
-      if (document.querySelector('.g-recaptcha') != null) {
-        document.querySelector('.g-recaptcha').innerHTML = '';
-        if (document.querySelector('.captchaSection')) {
-          document.querySelector('.captchaSection').innerHTML = '';
-        } else {
-          var captchaSection = document.createElement('div');
-          captchaSection.className = 'captchaSection';
-          document.querySelector('head').appendChild(captchaSection);
-        }
-        var script = document.createElement('script');
-        script.src = 'https://www.google.com/recaptcha/api.js?hl=' + res;
-        script.async = true;
-        script.defer = true;
-        var script2 = document.createElement('script');
-        script2.innerHTML = `
-          var successCaptcha = function(e){
-            console.log(e);
-            document.getElementById('captchaSubmit').disabled = false;
-          }
-          `;
-
-        document.querySelector('.captchaSection').appendChild(script);
-        document.querySelector('.captchaSection').appendChild(script2);
-      }
-    });
   }
 }
