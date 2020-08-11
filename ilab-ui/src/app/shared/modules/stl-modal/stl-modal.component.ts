@@ -56,10 +56,19 @@ export class StlModalComponent implements OnInit {
     });
 
     var scene = new THREE.Scene();
+
+    document.getElementById('fog').addEventListener('change', function (e: any) {
+      if (e.target.checked) {
+        scene.fog = new THREE.Fog(0x87d, 10, 60);
+      } else {
+        scene.fog = null;
+      }
+    });
+
     scene.add(new THREE.HemisphereLight(0xffffff, 1.5));
     new STLLoader().load(model, (geometry) => {
       var material = new THREE.MeshPhongMaterial({
-        color: 0x87d,
+        color: 0xddd,
         specular: 100,
         shininess: 100,
       });
@@ -75,7 +84,6 @@ export class StlModalComponent implements OnInit {
           mesh.setColor(e);
         });
       });
-      //mesh.material.smoothShading = true;
 
       document.getElementById('toggleWireFrame').addEventListener('change', function (e: any) {
         if (e.target.checked) {
@@ -94,7 +102,10 @@ export class StlModalComponent implements OnInit {
         geometry.boundingBox.max.y,
         geometry.boundingBox.max.z
       );
+      //camera.far = 1000000000;
+
       camera.position.z = largestDimension * 3;
+
       var animate = function () {
         requestAnimationFrame(animate);
         controls.update();
