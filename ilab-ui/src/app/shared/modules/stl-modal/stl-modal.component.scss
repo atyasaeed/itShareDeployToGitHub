@@ -2,7 +2,7 @@
     height: 500px;
 }
 
-$color-collection: (orange,aqua, blue,black,silver,brown,red,purple,pink,olive,gold,green);
+$color-collection: (orange,aqua, blue,white,silver,brown,red,purple,pink,olive,gold,green);
 
 @each $color in $color-collection {
     .#{$color} {

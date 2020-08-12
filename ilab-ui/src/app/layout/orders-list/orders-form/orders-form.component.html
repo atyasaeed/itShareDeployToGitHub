@@ -121,7 +121,7 @@
                         <div class="col-md-4 row price text-center text-md-right my-auto"
                           style="justify-content: flex-end; z-index: 1000;">
                           <!-- <span>$120</span> -->
-                          <a class="btn btn-outline-success btn-xs mr-2 mb-2" [href]="getFileUrl(lineItem)"
+                          <a class="btn btn-outline-success btn-xs mr-2 " [href]="getFileUrl(lineItem)"
                             tooltip="{{'download' | translate}}">
                             <i class="fa fa-download" aria-hidden="true"></i>
                           </a>
@@ -183,11 +183,10 @@
                         <div>
                           <div class="modal-header">
                             <!-- <h4 class="modal-title pull-left">please register the rejection reason</h4> -->
-                            <div type="button" aria-label="Close" class="text-right" style="width: 100%;"
-                              (click)="modalRef.hide()">
-                              <span aria-hidden="true">&times;</span>
 
-                            </div>
+                            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
 
                           </div>
                           <div class="modal-body">
@@ -401,11 +400,9 @@
                 <div>
                   <div class="modal-header">
                     <!-- <h4 class="modal-title pull-left">please register the rejection reason</h4> -->
-                    <div type="button" aria-label="Close" (click)="modalRef.hide()" class="text-right"
-                      style="width: 100%;">
-                      <span aria-hidden="true">&times;</span>
-
-                    </div>
+                   <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                     <span aria-hidden="true">&times;</span>
+                   </button>
 
                   </div>
                   <div class="modal-body">

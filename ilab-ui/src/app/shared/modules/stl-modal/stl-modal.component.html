@@ -14,8 +14,8 @@
         <div class="col-md-8 px-0">
           <div id="model" class="w-100 h-500" ></div>
         </div>
-        <div class="col-md-4 px-0">
-          <button [id]="color" *ngFor="let color of stlColorBtns" class="{{color}}"></button>
+        <div class="col-md-4 px-2">
+          <button [id]="color" *ngFor="let color of stlColorBtns" class="{{color}}" [class.border]="color == 'white'"></button>
           <button id="toggleRotate" class="btn btn-block mt-3 btn-sm  btn-outline-primary">
             <i class="fa fa-play-circle text-success" aria-hidden="true"></i>
              /
@@ -29,7 +29,14 @@
             <input type="checkbox" id="fog"  class="custom-control-input" >
             <label class="custom-control-label" for="fog">{{'fog' | translate}}</label>
           </div>
-
+          <div class="custom-control custom-checkbox mt-2">
+            <input type="checkbox" id="edges"  class="custom-control-input" >
+            <label class="custom-control-label" for="edges">{{'edges' | translate}}</label>
+          </div>
+          <div class="custom-control custom-checkbox mt-2">
+            <input type="checkbox" id="transperent"  class="custom-control-input" >
+            <label class="custom-control-label" for="transperent">{{'transperent' | translate}}</label>
+          </div>
         </div>
       </div>
     </div>

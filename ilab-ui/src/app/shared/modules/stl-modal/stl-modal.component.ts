@@ -15,7 +15,7 @@ export class StlModalComponent implements OnInit {
     'aqua',
     'orange',
     'blue',
-    'black',
+    'white',
     'silver',
     'brown',
     'red',
@@ -32,7 +32,7 @@ export class StlModalComponent implements OnInit {
   STLViewer(model, elementID) {
     var elem = document.getElementById(elementID);
     var camera = new THREE.PerspectiveCamera(70, elem.clientWidth / elem.clientHeight, 1, 1000);
-    var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    var renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(elem.clientWidth, elem.clientHeight);
     elem.appendChild(renderer.domElement);
     window.addEventListener(
@@ -46,7 +46,7 @@ export class StlModalComponent implements OnInit {
     );
     var controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
-    controls.rotateSpeed = 0.05;
+    controls.rotateSpeed = 0.3;
     controls.dampingFactor = 0.1;
     controls.enableZoom = true;
     controls.autoRotate = true;
@@ -59,7 +59,7 @@ export class StlModalComponent implements OnInit {
 
     document.getElementById('fog').addEventListener('change', function (e: any) {
       if (e.target.checked) {
-        scene.fog = new THREE.Fog(0x87d, 10, 60);
+        scene.fog = new THREE.Fog(0xffffff, 10, 60);
       } else {
         scene.fog = null;
       }
@@ -84,7 +84,7 @@ export class StlModalComponent implements OnInit {
           mesh.setColor(e);
         });
       });
-
+      mesh.setColor('white');
       document.getElementById('toggleWireFrame').addEventListener('change', function (e: any) {
         if (e.target.checked) {
           mesh.material.wireframe = true;
@@ -105,6 +105,25 @@ export class StlModalComponent implements OnInit {
       //camera.far = 1000000000;
 
       camera.position.z = largestDimension * 3;
+
+      var edges = new THREE.EdgesGeometry(geometry);
+      var line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0xffffff }));
+      document.getElementById('edges').addEventListener('change', function (e: any) {
+        if (e.target.checked) {
+          scene.add(line);
+        } else {
+          scene.remove(line);
+        }
+      });
+      mesh.material.transparent = true;
+      // set opacity to 50%
+      document.getElementById('transperent').addEventListener('change', function (e: any) {
+        if (e.target.checked) {
+          mesh.material.opacity = 0.5;
+        } else {
+          mesh.material.opacity = 1;
+        }
+      });
 
       var animate = function () {
         requestAnimationFrame(animate);

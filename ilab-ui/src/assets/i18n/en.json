@@ -225,7 +225,7 @@
   "Colors": "Colors",
   "Units": "Units",
   "Processes": "Processes",
-  "notified.reasonRejection": "User Will Be Notified With The Reason For Rejecting This Item",
+  "notified.reasonRejection": "User Will Be Notified With The Reason For Rejecting ",
   "reason.error.select": "Sorry Must Select One Reason Minimum ",
   "close": "Close",
   "userName.error.invalid": "Invalid UserName",
