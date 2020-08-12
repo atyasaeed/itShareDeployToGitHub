@@ -95,12 +95,17 @@
     }
     .multiselect-dropdown .dropdown-btn{
         display: flex !important;
+        padding: 6px 12px 6px 6px !important;
     }
     .multiselect-dropdown .dropdown-btn span:last-child{
         margin-right: auto !important;
     }
     .mat-badge-small.mat-badge-overlap.mat-badge-after .mat-badge-content {
         right: 19px !important;
+    }
+
+    select{
+        background-position-x:2% !important;
     }
 
     .modal-header .close {
