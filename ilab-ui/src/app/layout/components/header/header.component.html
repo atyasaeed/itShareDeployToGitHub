@@ -10,6 +10,11 @@
     </form>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
+        <a class="nav-link" (click)="signupPartner()">{{'Becoma a Partner'|translate}}</a>
+      </li>
+
+      <li class="nav-item">
+
         <div class="btn-group" dropdown>
           <a dropdownToggle class="  dropdown-toggle nav-link">
             <i class="fa fa-language"></i> {{ 'language' | translate }}
@@ -21,6 +26,7 @@
             </li>
           </ul>
         </div>
+
       </li>&nbsp;
       <ng-container *ngIf="authUser$ |async as user; else anonymous">
 

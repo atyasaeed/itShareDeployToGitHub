@@ -33,7 +33,7 @@ import { TooltipModule } from 'ng2-tooltip-directive';
     OrdersListRoutingModule,
     TranslateModule,
     NgbModule,
-    //FormsModule,
+    FormsModule,
     SharedModule,
     PageHeaderModule,
     MatCardModule,

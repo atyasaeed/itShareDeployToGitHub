@@ -10,11 +10,13 @@ import { SignupActivationComponent } from './signup-activation/signup-activation
 import { Store } from '@ngrx/store';
 import * as fromStore from 'src/app/store';
 import { SignupPartnerComponent } from './signup-partner/signup-partner.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { Observable, BehaviorSubject } from 'rxjs';
 
 @NgModule({
   declarations: [SignupComponent, SignupActivationComponent, SignupPartnerComponent],
   imports: [
+    NgMultiSelectDropDownModule.forRoot(),
     CommonModule,
     SignupRoutingModule,
     TranslateModule,

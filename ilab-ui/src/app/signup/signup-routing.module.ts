@@ -5,7 +5,9 @@ import { SignupActivationComponent } from './signup-activation/signup-activation
 import { SignupPartnerComponent } from './signup-partner/signup-partner.component';
 
 const routes: Routes = [
+  { path: '/:type', component: SignupComponent },
   { path: '', component: SignupComponent },
+
   { path: 'activation', component: SignupActivationComponent },
   { path: 'partner', component: SignupPartnerComponent },
 ];

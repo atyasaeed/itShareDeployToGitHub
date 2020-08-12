@@ -29,7 +29,7 @@ export class SignupActivationComponent implements OnInit {
   form: FormGroup;
   user = {} as User;
   loading = true;
-  public version = VERSION.full;
+  // public version = VERSION.full;
   emptyCaptcha = true;
 
   constructor(
@@ -114,12 +114,19 @@ export class SignupActivationComponent implements OnInit {
     });
   }
   resendCode() {
-    this.loading = false;
+    console.log('resendcode');
+    console.log('token = ' + window['captchaToken']);
 
+    this.loading = false;
+    this.router.navigateByUrl('/signup/partner');
     // this.userService.resendCode(this.user.username).subscribe((res) => {
     //   this.loading = false;
 
     //   console.log(res);
     // });
   }
+  // test(event) {
+  //   console.log(event);
+  //   console.log('plaplapla');
+  // }
 }

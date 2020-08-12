@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 })
 export class CustomCaptchaService {
   constructor(private appStore: Store<fromStore.AppState>) {}
-
+  public test;
   captchaInit(emptyCaptcha) {
     if (document.getElementById('captchaSubmit') != null) {
       (<HTMLInputElement>document.getElementById('captchaSubmit')).disabled = true;
@@ -28,12 +28,16 @@ export class CustomCaptchaService {
         script.defer = true;
         var script2 = document.createElement('script');
         script2.innerHTML = `
+        var captchaToken ;
           var successCaptcha = function(e){
-            console.log(e);
+            captchaToken = e;
+            console.log(captchaToken);
             document.getElementById('captchaSubmit').disabled = false;
           }
           `;
-
+        this.test = script2;
+        console.log(this.test);
+        console.log(script2.accessKey);
         document.querySelector('.captchaSection').appendChild(script);
         document.querySelector('.captchaSection').appendChild(script2);
       }
