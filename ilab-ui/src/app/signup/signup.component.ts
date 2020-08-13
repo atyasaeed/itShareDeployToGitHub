@@ -1,14 +1,24 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { routerTransition } from '../router.animations';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { Country, COUNTRIES } from './countries';
-import { Router } from '@angular/router';
+//import { Country, COUNTRIES } from './countries';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AlertService } from '../shared/services';
 import { User } from '../shared/domain';
 import { TranslateService } from '@ngx-translate/core';
-
+import * as fromStore from 'src/app/store';
+import { Store } from '@ngrx/store';
 import { UserService } from '../shared/services/user.service';
+import { CustomCaptchaService } from '../shared/services/captcha.service';
+// import {
+//   RECAPTCHA_LANGUAGE,
+//   RECAPTCHA_SETTINGS,
+//   RecaptchaSettings,
+//   ReCaptchaV3Service,
+//   OnExecuteData,
+// } from 'ng-recaptcha';
+
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -19,6 +29,7 @@ export class SignupComponent implements OnInit {
   user: User;
   registrationForm: FormGroup;
   loading = false;
+  emptyCaptcha = true;
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -26,11 +37,29 @@ export class SignupComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private userService: UserService,
     private alertservice: AlertService,
-    private translate: TranslateService
+    private appStore: Store<fromStore.AppState>,
+    private translate: TranslateService,
+    private captchaService: CustomCaptchaService,
+    private cdref: ChangeDetectorRef,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    // this.route.snapshot.queryParams;
+    // console.log(this.router.getCurrentNavigation().extras.state);
+    if (this.route.snapshot.queryParams['partner']) {
+    } else {
+    }
+    this.route.params.subscribe((params: Params) => {
+      console.log(params);
+    });
     this.createForm();
+  }
+
+  ngAfterViewInit() {
+    //this.changeRecaptchaLanguage();
+    this.captchaService.captchaInit(this.emptyCaptcha);
+    this.cdref.detectChanges();
   }
 
   createForm() {
@@ -59,35 +88,39 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.registrationForm.invalid) {
-      this.validateAllFormFields(this.registrationForm);
+    if (!this.registrationForm.valid) {
+      // this.validateAllFormFields(this.registrationForm);
+      this.registrationForm.markAllAsTouched();
+      /* activation*/
+      // this.user = this.registrationForm.value;
+      // this.appStore.dispatch(new fromStore.UpdateAuthUser(this.user));
+      // this.router.navigate(['signup/activation'], {
+      //   state: this.user,
+      // });
       return;
     }
+
     this.user = this.registrationForm.value;
     console.log(this.user);
 
     this.userService.register(this.user).subscribe(
       (res) => {
-        this.router.navigateByUrl('/login');
-        this.alertservice.success(this.translate.instant('registeration.success'));
+        if (this.route.snapshot.queryParams['partner']) {
+          // this.router.navigate(['signup/activation']
+          this.router.navigateByUrl('signup/activation');
+        } else {
+          this.router.navigateByUrl('/login');
+          this.alertservice.success(this.translate.instant('registeration.success.verify'));
+        }
+
         // this.alertservice.success('please check your email');
       },
-      (err) => {}
-    );
-  }
-
-  validateAllFormFields(formGroup: FormGroup) {
-    // {1}
-    Object.keys(formGroup.controls).forEach((field) => {
-      // {2}
-      const control = formGroup.get(field); // {3}
-      if (control instanceof FormControl) {
-        // {4}
-        control.markAsTouched({ onlySelf: true });
-      } else if (control instanceof FormGroup) {
-        // {5}
-        this.validateAllFormFields(control); // {6}
+      (err) => {
+        if (err.error.details[0] == 'duplicateUsername') {
+          // this.alertservice.error('Sorry, Username Name Is Duplicated');
+          this.alertservice.error(this.translate.instant('duplicated.userName'));
+        }
       }
-    });
+    );
   }
 }

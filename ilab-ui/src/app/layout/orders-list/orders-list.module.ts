@@ -34,7 +34,7 @@ import { StlModalModule } from 'src/app/shared/modules/stl-modal/stl-modal.modul
     OrdersListRoutingModule,
     TranslateModule,
     NgbModule,
-    //FormsModule,
+    FormsModule,
     SharedModule,
     PageHeaderModule,
     MatCardModule,

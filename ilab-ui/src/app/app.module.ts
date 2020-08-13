@@ -15,6 +15,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
 import * as fromStore from './store';
+import { RECAPTCHA_SETTINGS, RecaptchaSettings, RECAPTCHA_LANGUAGE } from 'ng-recaptcha';
 @NgModule({
   declarations: [AppComponent, AlertComponent],
   imports: [

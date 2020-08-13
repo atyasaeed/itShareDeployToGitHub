@@ -24,7 +24,7 @@
   "Documents": "المستندات",
   "register": "انشاء حساب",
   "registeration.success": "لقد تم التسجيل بنجاح",
-  "registeration.success.verify": "من فضلك راجع بريدك الألكترونى , ثم ادخل كود التأكيد لأتمام التسجيل",
+  "registeration.success.verify": "من فضلك راجع بريدك الألكترونى ,للحصول على لينك التفعيل",
   "registration.title": "انشاء حساب جديد",
   "forgetPassword": "ادخل البريد الألكترونى وسوف نرسل اليك رساله لكى تقوم بتغيير كلمة المرور",
   "personalPhoneNumber": "رقم التليفون الشخصى",
@@ -240,5 +240,6 @@
   "sortByNewest": "فرز حسب الأحدث",
   "sortByOldest": "فرز حسب الأقدم",
   "spaces": "الملفات",
-  "viewPart": "عرض المحتوي"
+  "viewPart": "عرض المحتوي",
+  "duplicated.userName": "اسم المستخدم موجود من قبل , من فضلك ادخل اسم اخر"
 }

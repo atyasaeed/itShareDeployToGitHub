@@ -168,3 +168,31 @@ select{
 .multiselect-dropdown .dropdown-btn{
   padding: 6px 0 6px 12px !important;
 }
+.multiselect-dropdown{
+background-color: black !important;
+}
+.multiselect-dropdown .dropdown-btn {
+    // display: inline-block;
+    // border: 1px solid #adadad;
+    // width: 100%;
+    // background-color:red;
+    // padding: 6px 12px;
+    // margin-bottom: 0;
+    // font-size: 12px;
+    // font-weight: 400;
+    // line-height: 1.1;
+    // text-align: left;
+    // vertical-align: middle;
+    // cursor: pointer;
+    // background-image: none;
+    border-radius: 0px !important;
+    background-color: #222 !important;
+    border: none !important;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5) !important;
+}
+.multiselect-dropdown .dropdown-btn span{
+  opacity: .6 !important;
+}
+
+
+

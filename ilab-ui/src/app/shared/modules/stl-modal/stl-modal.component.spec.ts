@@ -8,9 +8,8 @@ describe('StlModalComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StlModalComponent ]
-    })
-    .compileComponents();
+      declarations: [StlModalComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
