@@ -168,10 +168,10 @@ select{
 .multiselect-dropdown .dropdown-btn{
   padding: 6px 0 6px 12px !important;
 }
-.multiselect-dropdown{
+.spacial-multiselect .multiselect-dropdown{
 background-color: black !important;
 }
-.multiselect-dropdown .dropdown-btn {
+.spacial-multiselect .multiselect-dropdown .dropdown-btn {
     // display: inline-block;
     // border: 1px solid #adadad;
     // width: 100%;
@@ -190,8 +190,11 @@ background-color: black !important;
     border: none !important;
     border-bottom: 2px solid rgba(255, 255, 255, 0.5) !important;
 }
-.multiselect-dropdown .dropdown-btn span{
+ .spacial-multiselect .multiselect-dropdown .dropdown-btn span{
   opacity: .6 !important;
+}
+.spacial-multiselect .multiselect-dropdown .dropdown-btn .dropdown-down{
+  background-color: #fff;
 }
 
 
