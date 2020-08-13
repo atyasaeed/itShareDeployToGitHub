@@ -240,6 +240,17 @@
   "sortByNewest": "Sort By Newest",
   "sortByOldest": "Sort By Oldest",
   "spaces": "Spaces",
-  "viewPart":"View Part",
-  "duplicated.userName": "Username already exists, please enter another name"
+  "viewPart": "View Part",
+  "duplicated.userName": "Username already exists, please enter another name",
+  "becomaApartner": "Becoma a Partner",
+  "companyName": "company Name",
+  "currentPosition": "current Position",
+  "governorate": "governorate",
+  "address": "address",
+  "companyWebsite": "company Website",
+  "companyName.error.required": "company Name Required",
+  "currentPosition.error.required": "current Position Required",
+  "governorate.error.required": "governorate Required",
+  "address.error.required": "address Required",
+  "companyWebsite.error.required": "company Website Required"
 }

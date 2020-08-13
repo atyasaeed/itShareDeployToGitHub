@@ -15,8 +15,8 @@
               <input type="text" formControlName="companyName" class="form-control input-underline input-lg"
                 placeholder="{{'companyName' | translate }}" #companyName>
               <div *ngIf="registrationForm.controls.companyName.touched && !registrationForm.controls.companyName.valid"
-                class="text-danger">
-                <div *ngIf="registrationForm.controls.companyName.errors.required">
+                class="text-danger text-center">
+                <div class="text-center" *ngIf="registrationForm.controls.companyName.errors.required">
                   {{ 'companyName.error.required' | translate }}
                 </div>
               </div>
@@ -30,8 +30,8 @@
                 placeholder="{{'currentPosition' | translate }}" #currentPosition>
               <div
                 *ngIf="registrationForm.controls.currentPosition.touched && !registrationForm.controls.currentPosition.valid"
-                class="text-danger">
-                <div *ngIf="registrationForm.controls.currentPosition.errors.required">
+                class="text-danger text-center">
+                <div class="text-center" *ngIf="registrationForm.controls.currentPosition.errors.required">
                   {{ 'currentPosition.error.required' | translate }}</div>
               </div>
             </div>
@@ -43,8 +43,8 @@
               <input type="text" class="form-control input-underline input-lg"
                 placeholder="{{ 'governorate' | translate }}" formControlName="governorate" #governorate>
               <div *ngIf="registrationForm.controls.governorate.touched && !registrationForm.controls.governorate.valid"
-                class="text-danger">
-                <div *ngIf="registrationForm.controls.governorate.errors.required">
+                class="text-danger text-center">
+                <div class="text-center" *ngIf="registrationForm.controls.governorate.errors.required">
                   {{ 'governorate.error.required' | translate }}
                 </div>
               </div>
@@ -56,10 +56,10 @@
               <input type="text" class="form-control input-underline input-lg" placeholder="{{ 'address' | translate }}"
                 formControlName="address" #address>
               <div *ngIf="registrationForm.controls.address.touched && !registrationForm.controls.address.valid"
-                class="text-danger">
-                <div *ngIf="registrationForm.controls.address.errors.required">
+                class="text-danger text-center">
+                <div class="text-center" *ngIf="registrationForm.controls.address.errors.required">
                   {{ 'address.error.required' | translate }}</div>
-                <div *ngIf="registrationForm.controls.address.errors.minlength">
+                <div class="text-center" *ngIf="registrationForm.controls.address.errors.minlength">
                   {{ 'address.error.length' | translate }}</div>
               </div>
 
@@ -77,7 +77,7 @@
                 (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)">
               </ng-multiselect-dropdown>
               <div *ngIf="registrationForm.controls.services.touched && !registrationForm.controls.services.valid"
-                class="text-danger">
+                class="text-danger text-center">
                 <div *ngIf="registrationForm.controls.services.errors.required">
                   {{ 'services.error.required' | translate }}</div>
               </div>
@@ -90,10 +90,10 @@
                 placeholder="{{ 'companyWebsite' | translate }}" formControlName="companyWebsite" #companyWebsite>
               <div
                 *ngIf="registrationForm.controls.companyWebsite.touched && !registrationForm.controls.companyWebsite.valid"
-                class="text-danger">
-                <div *ngIf="registrationForm.controls.companyWebsite.errors.required">
+                class="text-dangertext-center">
+                <div class="text-center" *ngIf="registrationForm.controls.companyWebsite.errors.required">
                   {{ 'companyWebsite.error.required' | translate }}</div>
-                <div *ngIf="registrationForm.controls.companyWebsite.errors.minlength">
+                <div class="text-center" *ngIf="registrationForm.controls.companyWebsite.errors.minlength">
                   {{ 'companyWebsite.error.length' | translate }}</div>
               </div>
 

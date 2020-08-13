@@ -241,5 +241,16 @@
   "sortByOldest": "فرز حسب الأقدم",
   "spaces": "الملفات",
   "viewPart": "عرض المحتوي",
-  "duplicated.userName": "اسم المستخدم موجود من قبل , من فضلك ادخل اسم اخر"
+  "duplicated.userName": "اسم المستخدم موجود من قبل , من فضلك ادخل اسم اخر",
+  "becomaApartner": "كن شريكا",
+  "companyName": "اسم الشركة",
+  "currentPosition": "الموقع الحالى",
+  "governorate": "المحافظة",
+  "address": "العنوان",
+  "companyWebsite": "موقع الشركة",
+  "companyName.error.required": "يجب ادخال اسم الشركة",
+  "currentPosition.error.required": "يجب ادخال الموقع الحالى للشركة",
+  "governorate.error.required": "يجب ادخال اسم المحافظة",
+  "address.error.required": "يجب ادخال العنوان بالتفصيل",
+  "companyWebsite.error.required": "يجب ادخال الموقع الالكترونى للشركة"
 }
