@@ -24,7 +24,7 @@
   "Documents": "المستندات",
   "register": "انشاء حساب",
   "registeration.success": "لقد تم التسجيل بنجاح",
-  "registeration.success.verify": "من فضلك راجع بريدك الألكترونى , ثم ادخل كود التأكيد لأتمام التسجيل",
+  "registeration.success.verify": "من فضلك راجع بريدك الألكترونى ,للحصول على لينك التفعيل",
   "registration.title": "انشاء حساب جديد",
   "forgetPassword": "ادخل البريد الألكترونى وسوف نرسل اليك رساله لكى تقوم بتغيير كلمة المرور",
   "personalPhoneNumber": "رقم التليفون الشخصى",
@@ -228,5 +228,6 @@
   "notified.reasonRejection": "سيتم إخطار المستخدم بسبب رفض هذا العنصر",
   "reason.error.select": " يجب تحديد سبب واحد على الأقل\n",
   "close": "إغلاق",
-  "userName.error.invalid": "يجب ادخال اسم المستخدم"
+  "userName.error.invalid": "يجب ادخال اسم المستخدم",
+  "duplicated.userName": "اسم المستخدم موجود من قبل , من فضلك ادخل اسم اخر"
 }

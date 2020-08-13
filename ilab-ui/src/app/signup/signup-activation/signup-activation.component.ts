@@ -72,7 +72,8 @@ export class SignupActivationComponent implements OnInit {
 
       return;
     }
-
+    // to be remove
+    this.router.navigateByUrl('signup/partner');
     if (this.user) {
       const formData: FormData = new FormData();
 

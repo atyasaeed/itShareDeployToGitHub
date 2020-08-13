@@ -110,12 +110,17 @@ export class SignupComponent implements OnInit {
           this.router.navigateByUrl('signup/activation');
         } else {
           this.router.navigateByUrl('/login');
-          this.alertservice.success(this.translate.instant('registeration.success'));
+          this.alertservice.success(this.translate.instant('registeration.success.verify'));
         }
 
         // this.alertservice.success('please check your email');
       },
-      (err) => {}
+      (err) => {
+        if (err.error.details[0] == 'duplicateUsername') {
+          // this.alertservice.error('Sorry, Username Name Is Duplicated');
+          this.alertservice.error(this.translate.instant('duplicated.userName'));
+        }
+      }
     );
   }
 }

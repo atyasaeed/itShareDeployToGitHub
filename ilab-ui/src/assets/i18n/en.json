@@ -47,7 +47,7 @@
   "confirmPassword.error.required": "Confirm Password Is Required",
   "register": "Register",
   "registeration.success": " Registeration Success",
-  "registeration.success.verify": "please check your email, Then enter the confirmation code to complete the registration",
+  "registeration.success.verify": "Please check your email to get the activation link",
   "registration.title": "Ilab Registration",
   "forgetPassword": "Please enter your email address below and we will send you\n            information to change your\n            password.",
   "email": "Email",
@@ -228,5 +228,6 @@
   "notified.reasonRejection": "User Will Be Notified With The Reason For Rejecting This Item",
   "reason.error.select": "Sorry Must Select One Reason Minimum ",
   "close": "Close",
-  "userName.error.invalid": "Invalid UserName"
+  "userName.error.invalid": "Invalid UserName",
+  "duplicated.userName": "Username already exists, please enter another name"
 }
