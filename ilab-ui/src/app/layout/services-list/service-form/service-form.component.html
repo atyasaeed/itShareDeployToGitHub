@@ -64,7 +64,7 @@
         </div>
 
       </div>
-      <div class="col-md-12 text-center">
+      <div class="col-md-12 text-center mt-2">
         <button type="button" class="btn btn-primary" (click)="next()" [disabled]="!form.get('name').valid || !form.get('image').valid || !form.get('description').valid || !form.get('supportedExtensions').valid">
           {{'next' | translate}}
         </button>

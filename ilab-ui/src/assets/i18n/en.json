@@ -252,5 +252,9 @@
   "currentPosition.error.required": "current Position Required",
   "governorate.error.required": "governorate Required",
   "address.error.required": "address Required",
-  "companyWebsite.error.required": "company Website Required"
+  "companyWebsite.error.required": "company Website Required",
+  "wireFrame":"WireFrame",
+  "fog":"Fog",
+  "edges":"Edges",
+  "transperent":"Transperent"
 }
