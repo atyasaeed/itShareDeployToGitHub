@@ -116,11 +116,11 @@ export class LineItemComponent implements OnInit {
     }
   }
 
-  cancelModal(template: TemplateRef<any>) {
+  cancelModal(template) {
     this.modalRef = this.modalService.show(template);
   }
 
-  itemRejectReasonModal(template: TemplateRef<any>) {
+  itemRejectReasonModal(template) {
     this.modalRef = this.modalService.show(template);
   }
 

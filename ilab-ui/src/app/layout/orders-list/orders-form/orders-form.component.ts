@@ -432,7 +432,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
     });
   }
 
-  openModal(template: TemplateRef<any>) {
+  openModal(template) {
     // this.rejectionReasonService.searchUrl = 'search';
     this.rejectionReasonService.searchTerm = '';
     this.rejectionReasonService.model$.subscribe((res) => {
@@ -441,7 +441,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
     });
     this.modalRef = this.modalService.show(template);
   }
-  itemRejectReasonModal(template: TemplateRef<any>) {
+  itemRejectReasonModal(template) {
     this.modalRef = this.modalService.show(template);
   }
 

@@ -81,7 +81,7 @@ export class MySpaceComponent extends DefaultListComponent<AssetFile, MySpaceSer
     }
     console.log(this.filterService);
   }
-  openModal(template: TemplateRef<any>) {
+  openModal(template) {
     this.modalRef = this.modalService.show(template, this.config);
     console.log(this.filterService);
   }

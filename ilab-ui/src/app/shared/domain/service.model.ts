@@ -24,16 +24,16 @@ export class Processes {
   multi: boolean;
   values: string[];
 }
-export class Material {
-  index: number;
-  name: string;
-  types: Type[];
-}
+// export class Material {
+//   index: number;
+//   name: string;
+//   types: Type[];
+// }
 
-export class Type {
-  name: string;
-  colors: any[];
-  dimensions: any[];
-}
+// export class Type {
+//   name: string;
+//   colors: any[];
+//   dimensions: any[];
+// }
 
 export class SupportedExtensions {}

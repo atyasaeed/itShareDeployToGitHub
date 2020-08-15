@@ -161,13 +161,13 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
     });
   }
 
-  selectValidator(control: AbstractControl): { [key: string]: any } | null {
+  selectValidator(control: AbstractControl): { [key: string]: boolean } | null {
     if (control.value == 'undefined') {
       return { required: true };
     }
     return null;
   }
-  numberValidator(control: AbstractControl): { [key: string]: any } | null {
+  numberValidator(control: AbstractControl): { [key: string]: boolean } | null {
     if (control.value == null) {
       return { NaN: true };
     }

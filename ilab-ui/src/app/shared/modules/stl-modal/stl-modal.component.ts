@@ -134,7 +134,7 @@ export class StlModalComponent implements OnInit {
     });
   }
 
-  loadStl(template: TemplateRef<any>) {
+  loadStl(template) {
     this.modalRef = this.modalService.show(template);
     if (document.getElementById('model').childNodes[0]) {
       document.getElementById('model').removeChild(document.getElementById('model').childNodes[0]);

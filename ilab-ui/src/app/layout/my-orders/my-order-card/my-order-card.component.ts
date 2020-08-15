@@ -137,7 +137,7 @@ export class OrderCardComponent implements OnInit {
     }
   }
 
-  orderRejectReasonModal(template: TemplateRef<any>) {
+  orderRejectReasonModal(template) {
     this.modalRef = this.modalService.show(template);
   }
 
