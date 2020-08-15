@@ -12,7 +12,7 @@ export class AnimationService {
     //console.log(this.cartPosition);
   }
 
-  flyToCartAnimation(flyingEle: ElementRef) {
+  flyToCartAnimation(flyingEle: ElementRef, originalColor: string) {
     if (this.cartPosition) {
       let targetTop = this.cartPosition.nativeElement.getBoundingClientRect().top;
       let targetLeft = this.cartPosition.nativeElement.getBoundingClientRect().left;
@@ -45,7 +45,23 @@ export class AnimationService {
       );
 
       setTimeout(() => {
-        flyingEle.nativeElement.style.color = 'white';
+        flyingEle.nativeElement.style.color = originalColor;
+        this.cartPosition.nativeElement.animate(
+          [
+            {
+              transform: 'scale(1)',
+            },
+            {
+              transform: 'scale(2)',
+              color: 'green',
+            },
+          ],
+          {
+            duration: 500,
+            delay: 0,
+            easing: 'ease-in-out',
+          }
+        );
       }, 700);
     }
   }

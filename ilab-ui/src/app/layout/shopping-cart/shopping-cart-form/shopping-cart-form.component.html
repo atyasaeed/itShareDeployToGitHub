@@ -55,6 +55,8 @@
                   <mat-radio-button class="col-6" value="option2" (click)="lgModal.show()">
                     {{"file.choose" |translate}}</mat-radio-button>
                 </mat-radio-group>
+                <span class="text-danger" *ngIf="selection.errors && form.touched">
+                    *{{'file.field.error.required'|translate}}</span>
               </div>
               <div *ngIf="radioGroup.value =='option1'">
                 <label>{{'File'|translate}} :</label>
@@ -184,7 +186,7 @@
             <div *ngIf="activeService?.processes != undefined" class="mb-3">
               <label>{{'file.processes' | translate}} :</label>
               <span class="text-danger"
-                *ngIf="(!form.controls?.mprocesses?.valid && form.controls?.mprocesses?.dirty) || ( !form.controls?.processes?.valid && form.controls?.processes?.touched )">
+                *ngIf="(!form.controls?.mprocesses?.valid && form.controls?.mprocesses?.touched) || ( !form.controls?.processes?.valid && form.controls?.processes?.touched )">
                 *{{'file.field.error.required' | translate}}</span>
               <div *ngIf="activeService.processes.multi==true;else processesSingle">
                 <ng-multiselect-dropdown formControlName="mprocesses" placeholder="{{'file.process.select'|translate}}"
@@ -204,7 +206,7 @@
 
           <div class="col-md-12 text-center mt-3" *ngIf="activeService">
             <button type="submit" class="btn btn-primary "
-              [disabled]="!form.valid || activeService?.id==null || loading == false">
+              [disabled]=" activeService?.id==null || loading == false">
               {{'addToCart' | translate}} <i class="fa fa-cart-plus " aria-hidden="true" #flyToCart></i>
             </button>
           </div>

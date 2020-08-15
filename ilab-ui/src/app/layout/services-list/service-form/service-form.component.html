@@ -14,15 +14,15 @@
       <div class="col-md-4">
         <div class="form-group">
           <label >{{'name' | translate}} : </label>
-          <input type="text" formControlName="name" class="form-control">
+          <input type="text" formControlName="name" class="form-control" [class.border-danger]="!form.get('name').valid && form.get('name').touched">
         </div>
         <div class="form-group">
           <label >{{'image' | translate}} : </label>
-          <input type="file" accept=".jpg,.png" class="form-control" formControlName="image" (change)="uploadImage($event)">
+          <input type="file" accept=".jpg,.png" class="form-control" formControlName="image" (change)="uploadImage($event)" [class.border-danger]="!form.get('image').valid && form.get('image').touched">
         </div>
         <div class="form-group">
           <label >{{'description' | translate}} : </label>
-          <textarea formControlName="description" class="form-control"></textarea>
+          <textarea formControlName="description" class="form-control" [class.border-danger]="!form.get('description').valid && form.get('description').touched"></textarea>
         </div>
       </div>
 
@@ -32,7 +32,7 @@
           <i class="fa fa-plus" aria-hidden="true"></i>
         </button>
         <div class="input-group mt-2" [@inputIn] *ngFor="let s of form.get('supportedExtensions')['controls'];let i = index">
-          <input type="text" [formControlName]="i" class="form-control" [ngClass]="{'border border-danger': form.get('supportedExtensions')['controls'][i].invalid && i !=0 }">
+          <input type="text" [formControlName]="i" class="form-control" [ngClass]="{'border border-danger': form.get('supportedExtensions')['controls'][i].invalid && form.get('supportedExtensions').touched }">
           <div class="input-group-append">
             <button *ngIf="i != 0" type="button" class="btn btn-danger" (click)="deleteControlArray('supportedExtensions',i)">
               <i class="fa fa-trash" aria-hidden="true"></i>
@@ -65,7 +65,7 @@
 
       </div>
       <div class="col-md-12 text-center mt-2">
-        <button type="button" class="btn btn-primary" (click)="next()" [disabled]="!form.get('name').valid || !form.get('image').valid || !form.get('description').valid || !form.get('supportedExtensions').valid">
+        <button type="button" class="btn btn-primary" (click)="next()" >
           {{'next' | translate}}
         </button>
       </div>
@@ -80,7 +80,7 @@
           <i class="fa fa-plus" aria-hidden="true"></i>
         </button>
         <div class="input-group mt-2" [@inputIn] *ngFor="let s of form.get('materials')['controls'];let i = index">
-          <input type="text" [formControlName]="i" class="form-control" [ngClass]="{'border border-danger': form.get('materials')['controls'][i].invalid && i !=0 }">
+          <input type="text" [formControlName]="i" class="form-control" [ngClass]="{'border border-danger': form.get('materials')['controls'][i].invalid && form.get('materials').touched }">
           <div class="input-group-append">
             <button type="button" (click)="deleteControlArray('materials',i)" class="btn btn-danger" *ngIf="i != 0">
               <i class="fa fa-trash" aria-hidden="true"></i>
@@ -94,7 +94,7 @@
           <i class="fa fa-plus" aria-hidden="true"></i>
         </button>
         <div class="input-group mt-2" [@inputIn] *ngFor="let s of form.get('thickness')['controls'];let i = index">
-          <input type="text" [formControlName]="i" class="form-control" [ngClass]="{'border border-danger': form.get('thickness')['controls'][i].invalid && i !=0 }">
+          <input type="text" [formControlName]="i" class="form-control" [ngClass]="{'border border-danger': form.get('thickness')['controls'][i].invalid && form.get('thickness').touched }">
           <div class="input-group-append">
               <button type="button" (click)="deleteControlArray('thickness',i)" class="btn btn-danger" *ngIf="i != 0">
                 <i class="fa fa-trash" aria-hidden="true"></i>
@@ -108,7 +108,7 @@
           <i class="fa fa-plus" aria-hidden="true"></i>
         </button>
         <div class="input-group mt-2" [@inputIn] *ngFor="let s of form.get('types')['controls'];let i = index">
-          <input type="text" [formControlName]="i" class="form-control" [ngClass]="{'border border-danger': form.get('types')['controls'][i].invalid && i !=0 }">
+          <input type="text" [formControlName]="i" class="form-control" [ngClass]="{'border border-danger': form.get('types')['controls'][i].invalid && form.get('types').touched }">
           <div class="input-group-append">
             <button type="button" (click)="deleteControlArray('types',i)" *ngIf="i != 0" class="btn btn-danger">
               <i class="fa fa-trash" aria-hidden="true"></i>
@@ -122,7 +122,7 @@
           <i class="fa fa-plus" aria-hidden="true"></i>
         </button>
         <div class="input-group mt-2" [@inputIn] *ngFor="let s of form.get('colors')['controls'];let i = index">
-          <input type="text" [formControlName]="i" class="form-control" [ngClass]="{'border border-danger': form.get('colors')['controls'][i].invalid && i !=0 }">
+          <input type="text" [formControlName]="i" class="form-control" [ngClass]="{'border border-danger': form.get('colors')['controls'][i].invalid && form.get('colors').touched }">
           <div class="input-group-append">
             <button type="button" (click)="deleteControlArray('colors',i)" *ngIf="i != 0" class="btn btn-danger">
               <i class="fa fa-trash" aria-hidden="true"></i>
@@ -137,7 +137,7 @@
           <i class="fa fa-plus" aria-hidden="true"></i>
         </button>
         <div class="input-group mt-2" [@inputIn] *ngFor="let s of form.get('units')['controls'];let i = index">
-          <input type="text" [formControlName]="i" class="form-control" [ngClass]="{'border border-danger': form.get('units')['controls'][i].invalid && i !=0 }">
+          <input type="text" [formControlName]="i" class="form-control" [ngClass]="{'border border-danger': form.get('units')['controls'][i].invalid && form.get('units').touched }">
           <div class="input-group-append">
             <button type="button" (click)="deleteControlArray('units',i)" *ngIf="i != 0" class="btn btn-danger">
               <i class="fa fa-trash" aria-hidden="true"></i>
@@ -152,7 +152,7 @@
           <i class="fa fa-plus" aria-hidden="true"></i>
         </button>
         <div class="input-group mt-2" [@inputIn] *ngFor="let s of form.get('processes')['controls'];let i = index">
-          <input type="text" [formControlName]="i" class="form-control" [ngClass]="{'border border-danger': form.get('processes')['controls'][i].invalid && i !=0 }">
+          <input type="text" [formControlName]="i" class="form-control" [ngClass]="{'border border-danger': form.get('processes')['controls'][i].invalid && form.get('processes').touched }">
           <div class="input-group-append">
             <button type="button" (click)="deleteControlArray('processes',i)" *ngIf="i != 0" class="btn btn-danger">
               <i class="fa fa-trash" aria-hidden="true"></i>
@@ -163,7 +163,7 @@
       </div>
       <div class="col-md-12 text-center">
         <button type="button" class="btn btn-warning mr-2 text-white" (click)="back()">{{'back' | translate}}</button>
-        <button type="submit" class="btn btn-primary" [disabled]="!form.valid" #submitBtn>{{'save' | translate}}</button>
+        <button type="submit" class="btn btn-primary"  #submitBtn>{{'save' | translate}}</button>
       </div>
     </div>
     </div>

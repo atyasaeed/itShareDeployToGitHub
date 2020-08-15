@@ -56,7 +56,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
   @ViewChild('flyToCart') private flyToCart: ElementRef;
   @ViewChild('myVar') myVar: ElementRef;
   // public selection: string;
-  selection = new FormControl(Validators.required);
+  selection = new FormControl(null, Validators.required);
   selectService = new FormControl();
   ext: string[] = [];
   extFile: string;
@@ -253,55 +253,60 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
   }
 
   submit() {
-    this.animationService.flyToCartAnimation(this.flyToCart);
-    //console.log(this.form);
-    //return;
-    const formData: FormData = new FormData();
-    let item = {} as LineItem;
-    item.service = {} as Service;
-    item.files = [] as hyperFile[];
-    let hyperFile = {} as hyperFile;
-    for (let key in this.form.value) {
-      if (key === 'file') {
-        formData.append('files', this.filename);
-      } else if (key === 'quantity') {
-        item.quantity = this.form.value['quantity'];
-      } else if (key === 'notes') {
-        item.notes = this.form.value['notes'];
-      } else if (key === 'selection') {
-      } else if (key === 'mprocesses') {
-        hyperFile['processes'] = this.form.value[key];
-      } else {
-        //if (this.form.value[key] != null) {
-        hyperFile[key] = this.form.value[key];
+    if (this.form.valid) {
+      //console.log(this.form);
+      //return;
+      const formData: FormData = new FormData();
+      let item = {} as LineItem;
+      item.service = {} as Service;
+      item.files = [] as hyperFile[];
+      let hyperFile = {} as hyperFile;
+      for (let key in this.form.value) {
+        if (key === 'file') {
+          formData.append('files', this.filename);
+        } else if (key === 'quantity') {
+          item.quantity = this.form.value['quantity'];
+        } else if (key === 'notes') {
+          item.notes = this.form.value['notes'];
+        } else if (key === 'selection') {
+        } else if (key === 'mprocesses') {
+          hyperFile['processes'] = this.form.value[key];
+        } else {
+          //if (this.form.value[key] != null) {
+          hyperFile[key] = this.form.value[key];
+        }
       }
+
+      item.files.push(hyperFile);
+      item.service.id = this.activeService.id;
+      const itemBlob = new Blob([JSON.stringify(item)], {
+        type: 'application/json',
+      });
+
+      formData.append('item', itemBlob);
+      this.form.reset({
+        quantity: 1,
+        material: 'undefined',
+        thickness: 'undefined',
+        color: 'undefined',
+        type: 'undefined',
+        unit: 'undefined',
+        processes: 'undefined',
+      });
+      this.form.markAsUntouched();
+      this.form.markAsPristine();
+      this.form.updateValueAndValidity();
+      this.shoppingCartService.create(formData).subscribe((res) => {
+        this.animationService.flyToCartAnimation(this.flyToCart, 'white');
+        setTimeout(() => {
+          this.appStore.dispatch(new fromStore.LoadInitState());
+          this.router.navigateByUrl('shopping-cart'), (this.loading = false);
+        }, 700);
+      });
+    } else {
+      this.form.markAllAsTouched();
+      return;
     }
-
-    item.files.push(hyperFile);
-    item.service.id = this.activeService.id;
-    const itemBlob = new Blob([JSON.stringify(item)], {
-      type: 'application/json',
-    });
-
-    formData.append('item', itemBlob);
-    this.form.reset({
-      quantity: 1,
-      material: 'undefined',
-      thickness: 'undefined',
-      color: 'undefined',
-      type: 'undefined',
-      unit: 'undefined',
-      processes: 'undefined',
-    });
-    this.form.markAsUntouched();
-    this.form.markAsPristine();
-    this.form.updateValueAndValidity();
-    this.shoppingCartService.create(formData).subscribe((res) => {
-      this.appStore.dispatch(new fromStore.LoadInitState());
-      setTimeout(() => {
-        this.router.navigateByUrl('shopping-cart'), (this.loading = false);
-      }, 800);
-    });
   }
 
   handleFileInput(fileInput) {

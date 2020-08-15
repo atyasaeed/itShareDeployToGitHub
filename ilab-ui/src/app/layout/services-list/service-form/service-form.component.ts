@@ -148,58 +148,80 @@ export class ServiceFormComponent extends DefaultFormComponent<Service, ServiceS
   }
 
   save() {
-    this.loadingService.register('loading');
-    this.submitBtn.nativeElement.disabled = true;
-    let formData = new FormData();
-    let service = {} as Service;
-    let processes = {} as Processes;
-    for (const key in this.form.value) {
-      if (key == 'multi') {
-        processes.multi = this.form.value[key];
-        service.processes = processes;
-      } else if (key == 'image') {
-        if (this.form.value[key] != null) {
-          formData.append('file', this.file);
+    if (this.form.valid) {
+      this.loadingService.register('loading');
+      this.submitBtn.nativeElement.disabled = true;
+      let formData = new FormData();
+      let service = {} as Service;
+      let processes = {} as Processes;
+      for (const key in this.form.value) {
+        if (key == 'multi') {
+          processes.multi = this.form.value[key];
+          service.processes = processes;
+        } else if (key == 'image') {
+          if (this.form.value[key] != null) {
+            formData.append('file', this.file);
+          }
+        } else if (key == 'processes') {
+          processes.values = this.form.value[key];
+          service.processes = processes;
+        } else if (key == 'supportedExtensions') {
+          let arr: string[] = this.form.value[key];
+          service.supportedExtensions = [];
+          arr.forEach((e) => {
+            service.supportedExtensions.push('*.' + e);
+          });
+        } else {
+          service[key] = this.form.value[key];
         }
-      } else if (key == 'processes') {
-        processes.values = this.form.value[key];
-        service.processes = processes;
-      } else if (key == 'supportedExtensions') {
-        let arr: string[] = this.form.value[key];
-        service.supportedExtensions = [];
-        arr.forEach((e) => {
-          service.supportedExtensions.push('*.' + e);
+      }
+      if (this.route.snapshot.params['entityId']) {
+        service.id = this.route.snapshot.params['entityId'];
+      }
+      const blob = new Blob([JSON.stringify(service)], {
+        type: 'application/json',
+      });
+      formData.append('service', blob);
+      if (this.route.snapshot.params['entityId']) {
+        this.service.update(formData).subscribe((res) => {
+          this.appStore.dispatch(new fromStore.LoadInitState());
+          this.loadingService.resolve('loading');
+          this.router.navigate(['/services-list']);
         });
       } else {
-        service[key] = this.form.value[key];
+        this.service.create(formData).subscribe((res) => {
+          this.appStore.dispatch(new fromStore.LoadInitState());
+          this.loadingService.resolve('loading');
+          this.router.navigate(['/services-list']);
+        });
       }
-    }
-    if (this.route.snapshot.params['entityId']) {
-      service.id = this.route.snapshot.params['entityId'];
-    }
-    const blob = new Blob([JSON.stringify(service)], {
-      type: 'application/json',
-    });
-    formData.append('service', blob);
-    if (this.route.snapshot.params['entityId']) {
-      this.service.update(formData).subscribe((res) => {
-        this.appStore.dispatch(new fromStore.LoadInitState());
-        this.loadingService.resolve('loading');
-        this.router.navigate(['/services-list']);
-      });
     } else {
-      this.service.create(formData).subscribe((res) => {
-        this.appStore.dispatch(new fromStore.LoadInitState());
-        this.loadingService.resolve('loading');
-        this.router.navigate(['/services-list']);
-      });
+      this.form.get('materials')?.markAsTouched();
+      this.form.get('thickness')?.markAsTouched();
+      this.form.get('types')?.markAsTouched();
+      this.form.get('units')?.markAsTouched();
+      this.form.get('colors')?.markAsTouched();
+      this.form.get('processes')?.markAsTouched();
+      return;
     }
   }
 
   next() {
-    this.stepOne.nativeElement.style.display = 'none';
-    this.stepTwo.nativeElement.style.display = 'block';
-    this.activeStep = 'step 2';
+    if (
+      !this.form.get('name').valid ||
+      !this.form.get('image').valid ||
+      !this.form.get('description').valid ||
+      !this.form.get('supportedExtensions').valid
+    ) {
+      this.form.get('name').markAsTouched();
+      this.form.get('image').markAsTouched();
+      this.form.get('description').markAsTouched();
+      this.form.get('supportedExtensions').markAsTouched();
+    } else {
+      this.stepOne.nativeElement.style.display = 'none';
+      this.stepTwo.nativeElement.style.display = 'block';
+      this.activeStep = 'step 2';
+    }
   }
 
   back() {
