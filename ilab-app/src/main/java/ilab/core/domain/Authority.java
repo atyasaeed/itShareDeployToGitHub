@@ -6,6 +6,8 @@ import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import ilab.core.domain.user.User;
+
 @Entity
 @JsonIgnoreProperties(
         value = {"createdAt", "updatedAt","user"},

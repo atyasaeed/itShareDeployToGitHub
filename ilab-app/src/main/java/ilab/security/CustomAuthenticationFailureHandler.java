@@ -13,10 +13,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler
 {
 
-//	private ObjectMapper objectMapper = new ObjectMapper();
+	private ObjectMapper objectMapper = new ObjectMapper();
 
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
@@ -27,7 +29,8 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 		Map<String, Object> data = new HashMap<>();
 		data.put("timestamp", Calendar.getInstance().getTime());
 		data.put("exception", exception.getMessage());
+		data.put("code",exception.getClass());
 
-//		response.getOutputStream().println(objectMapper.writeValueAsString(data));
+		response.getOutputStream().println(objectMapper.writeValueAsString(data));
 	}
 }

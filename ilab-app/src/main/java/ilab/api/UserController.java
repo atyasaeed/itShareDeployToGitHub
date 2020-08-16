@@ -5,7 +5,6 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -21,14 +20,16 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.sipios.springsearch.anotation.SearchSpec;
 
-import ilab.core.domain.PasswordResetToken;
-import ilab.core.domain.User;
+import ilab.core.domain.user.PasswordResetToken;
+import ilab.core.domain.user.Role;
+import ilab.core.domain.user.User;
 import ilab.core.service.UserService;
 import ilab.dto.ChangePasswordDTO;
 import ilab.utils.SendEmailEvent;
@@ -42,8 +43,11 @@ public class UserController
 	
 	@Value("${iLab.urls.resetPassword}")
 	String resetPasswordUrl;
-	@Value("${iLab.urls.selfProvisionResult}")
-	String selfProvisionResultUrl;
+//	@Value("${iLab.urls.selfProvisionResult}")
+//	String selfProvisionResultUrl;
+	@Value("${ilab.urls.home}")
+	String homeUrl;
+	
 	@Autowired
 	UserService userService;
 	
@@ -52,21 +56,34 @@ public class UserController
 
 	@PostMapping(consumes = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
-	public User postUser(@RequestBody User user)
+	public User register(@RequestBody User user)
 	{
-		User aUser;
-		try
-		{
-			aUser = userService.register(user);
-		} catch (DataIntegrityViolationException e)
-		{
-			throw e;
-		}
-//		eventPublisher.publishEvent(
-//				new SendEmailEvent(user.getEmail(), "iLab Account Activation", "activation-email.ftl", user));
-		return aUser;
+		user.setUsername(user.getEmail());
+		user=userService.register(user);
+		return user;
 	}
 
+	@PutMapping("activate")
+	@PreAuthorize("hasAnyRole('ROLE_ANONYMOUS','ROLE_REGISTER_PRIVILEGE')")
+	public boolean activateUser(@RequestPart("user") User user,@RequestPart("activationCode") String activationCode)
+			throws Exception
+	{
+		return userService.activate(user, activationCode);
+	}
+	@GetMapping("activate")
+	@PreAuthorize("hasAnyRole('ROLE_ANONYMOUS','ROLE_REGISTER_PRIVILEGE')")
+	public RedirectView activateUser(@RequestParam("id")UUID id,@RequestParam("activationCode") String activationCode)
+			throws Exception
+	{
+		if(userService.activate(id,activationCode))
+		{
+			//TODO
+//			User user=userService.findUser(id).orElseThrow();
+//			if(user.getRoles().contains(Role.ROLE_REGISTER_PRIVILEGE))
+//			return new RedirectView(updateInfoUrl);
+		}
+		return new RedirectView(homeUrl);
+	}
 	
 	@PostMapping("/changePassword")
 	@PreAuthorize("hasRole('ROLE_USER')")
@@ -112,12 +129,7 @@ public class UserController
 	{
 		return userService.update(user, auth);
 	}
-	@GetMapping("selfProvision")
-	public RedirectView provisionUser(@RequestParam("id") UUID userId)
-	{
-		userService.enableUser(userId, true, null);
-		return new RedirectView(selfProvisionResultUrl);
-	}
+	
 
 	@GetMapping("search")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")

@@ -22,19 +22,7 @@ public class MessagingConfig
 	private UserService userService;
 	@Autowired
 	private OrderService orderService;
-	@JmsListener(destination = "${iLab.queues.activationCode}")
-	public void processUserVerification(UUID id)
-	{
-		System.out.println("User Id:"+id);
-		try
-		{
-			userService.sendVerfication(id);
-			
-		} catch (Exception ex)
-		{
-			ex.printStackTrace();
-		}
-	}
+	
 	@JmsListener(destination = "${iLab.queues.orderRejection}")
 	public void processOrderRejection(Map<String, String> dto)
 	{
@@ -114,5 +102,32 @@ public class MessagingConfig
 		}
 	}
 
-	
+	@JmsListener(destination = "${ilab.queues.welcome}")
+	public void processWelcome(UUID userId)
+	{
+		System.out.println("Welcome for :"+userId);
+		try
+		{
+			userService.sendWelcomeMsg(userId);
+			
+		} catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		
+
+	}
+	@JmsListener(destination = "${iLab.queues.activationCode}")
+	public void processActivationCode(UUID codeId)
+	{
+		System.out.println("Activation Code:"+codeId);
+		try
+		{
+			userService.sendActivation(codeId);
+			
+		} catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
+	}
 }

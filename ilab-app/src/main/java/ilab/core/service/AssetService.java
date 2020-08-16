@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 
 import ilab.core.domain.Account;
 import ilab.core.domain.FileAsset;
-import ilab.core.domain.User;
+import ilab.core.domain.user.User;
 import ilab.core.repository.FileAssetRepository;
 import ilab.core.repository.UserRepository;
 
@@ -33,7 +33,7 @@ public class AssetService
 	@Autowired FileAssetRepository assetsRepo;
 	public Optional<FileAsset> getAssetFile(UUID assetId,Authentication auth)
 	{
-			User user=userRepo.findByUsername(auth.getName());
+			User user=userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
 			Account account=user.getAccounts().iterator().next();
 			
 			return assetsRepo.findByIdAndAccount(assetId,account);
@@ -46,7 +46,7 @@ public class AssetService
 	}
 	public Page<FileAsset> getFiles(Pageable page, Specification<FileAsset> specs, Authentication auth)
 	{
-		User user = userRepo.findByUsername(auth.getName());
+		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
 		Account account = user.getAccounts().iterator().next();
 		Page<FileAsset> results=assetsRepo.findAll(filterByAccountId(account.getId()).and(specs), page);
 		return results; 

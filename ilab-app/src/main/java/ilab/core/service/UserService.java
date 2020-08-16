@@ -3,12 +3,14 @@ package ilab.core.service;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Optional;
+import java.util.Random;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -27,9 +29,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import ilab.core.domain.Account;
-import ilab.core.domain.Authority;
-import ilab.core.domain.PasswordResetToken;
-import ilab.core.domain.User;
+import ilab.core.domain.user.ActivationCode;
+import ilab.core.domain.user.PasswordResetToken;
+import ilab.core.domain.user.Role;
+import ilab.core.domain.user.User;
+import ilab.core.repository.ActivationCodeRepository;
 import ilab.core.repository.PasswordTokenRepository;
 import ilab.core.repository.UserRepository;
 import ilab.dto.ChangePasswordDTO;
@@ -45,6 +49,9 @@ public class UserService implements UserDetailsService
 	@Value("${iLab.queues.passwordToken}")
 	private String passwordTokenQueue;
 
+	@Value("${ilab.queues.welcome}")
+	private String welcomeQueue;
+	
 	@Autowired
 	private UserRepository userRepo;
 	@Autowired
@@ -55,31 +62,25 @@ public class UserService implements UserDetailsService
 	private EmailService emailService;
 	@Autowired
 	private JmsTemplate jmsTemplate;
-	
+	@Autowired
+	private ActivationCodeRepository activationCodeRepo;
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
 	{
-		User user=userRepo.findByUsername(username);
+		User user=userRepo.findByUsernameIgnoreCase(username).orElseThrow();
 		UserBuilder userBuilder=null;
-		if(user!=null) 
-		{
-			userBuilder=org.springframework.security.core.userdetails.User.withUsername(username);
-			userBuilder.disabled(!user.isEnabled());
-			userBuilder.password(user.getPassword());
-			String[] authorities=user.getAuthorities().stream().map(a->a.getAuthority()).toArray(String[]::new);
-			userBuilder.authorities(authorities);
-			UserDetails userDetails=userBuilder.build();
-			return userDetails;
-		}
-		throw new UsernameNotFoundException(String.format("User '%s' not found!", username));
+		userBuilder=org.springframework.security.core.userdetails.User.withUsername(username);
+		userBuilder.disabled(!user.isEnabled());
+		userBuilder.password(user.getPassword());
+		String[] authorities=user.getRoles().stream().map(a->a.getAuthority()).toArray(String[]::new);
+		userBuilder.authorities(authorities);
+		UserDetails userDetails=userBuilder.build();
+		return userDetails;
 	}
 	public User register(User user)
 	{
-		Authority authority=new Authority();
-		authority.setAuthority("ROLE_USER");
-		authority.setUser(user);
-		user.getAuthorities().clear();
-		user.addAuthority(authority);
+		user.getRoles().clear();
+		user.addRole(Role.ROLE_USER);
 		
 		user.addAccount(new Account());
 		user.setEnabled(false);
@@ -87,8 +88,31 @@ public class UserService implements UserDetailsService
 		user.setAccountNonLocked(true);
 		user.setCredentialsNonExpired(true);
 		user.setPassword(encoder.encode(user.getPassword()));
+		ActivationCode activationCode = new ActivationCode();
+		if (userRepo.existsByUsername(user.getEmail()))
+		{
+			User existUser = userRepo.findByUsernameIgnoreCase(user.getEmail()).get();
+			if (!existUser.isEnabled())
+			{
+				activationCode = activationCodeRepo.findByUser_UsernameIgnoreCaseAndUsedFalse(user.getEmail())
+						.orElse(null);
+				activationCode.setSent(false);
+				existUser.setPassword(user.getPassword());
+				existUser.setFirstName(user.getFirstName());
+				existUser.setLastName(user.getLastName());
+				existUser.setMiddleName(user.getMiddleName());
+				existUser.setMobileNo(user.getMobileNo());
+				user = existUser;
+			}
+		}
 		user=userRepo.save(user);
-		jmsTemplate.convertAndSend(activationCodeQueue, user.getId());
+		activationCode.setUser(user);
+
+		activationCode.setCode(String.format("%06d", new Random().nextInt(999999)));
+		activationCode.setLocale(LocaleContextHolder.getLocale());
+		activationCode = activationCodeRepo.save(activationCode);
+
+		jmsTemplate.convertAndSend(activationCodeQueue, activationCode.getId());
 		return user;
 		
 	}
@@ -98,7 +122,7 @@ public class UserService implements UserDetailsService
 	} 
 	public void changePassword(ChangePasswordDTO dto)
 	{
-		User user=userRepo.findByUsername(dto.getUsername());
+		User user=userRepo.findByUsernameIgnoreCase(dto.getUsername()).orElseThrow();
 		
 		
 		if(!encoder.matches(dto.getOldPassword(), user.getPassword()))
@@ -116,9 +140,7 @@ public class UserService implements UserDetailsService
 	}
 	public PasswordResetToken resetPassword(String email)
 	{
-		User user=userRepo.findByemail(email);
-		if(user==null)
-			throw new UsernameNotFoundException("Username is not here");
+		User user=userRepo.findByemailIgnoreCase(email).orElseThrow();
 		PasswordResetToken myToken = passwordTokenRepo.findByUserAndUsedFalse(user);
 		if(myToken==null)
 		{
@@ -152,7 +174,7 @@ public class UserService implements UserDetailsService
 	}
 	public User findUser(Authentication auth)
 	{
-		return userRepo.findByUsername(auth.getName());
+		return userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
 	}
 	public Optional<User> findUser(UUID id)
 	{
@@ -192,18 +214,69 @@ public class UserService implements UserDetailsService
 		user.setAccountNonLocked(isNonBlocked);
 		return user;
 	}
-	public void sendVerfication(UUID userId) throws Exception
+	
+	public boolean activate(User user, String activationCode) throws Exception
 	{
-//		ActivationCode code = activationCodeRepo.findByIdAndUsedFalseAndSentFalse(codeId).orElse(null);
-		User user=userRepo.findById(userId).orElse(null);
-		System.out.println("User Email to be verified:"+user.getEmail());
-		if (user != null && !user.isEnabled())
+		boolean status = false;
+		ActivationCode code = activationCodeRepo.findByUser_UsernameIgnoreCaseAndUsedFalse(user.getUsername())
+				.orElse(null);
+		if (code != null && code.getCode().equals(activationCode) && !code.isUsed())
 		{
-			emailService.sendTemplateMessage(user.getEmail(), "FabriHub Account Verification",
-					"activation-email.ftl", user);
-//			code.setSent(true);
+			code.setUsed(true);
+			code.getUser().setEnabled(true);
+			code.getUser().addRole(Role.ROLE_REGISTER_PRIVILEGE);
+			Authentication auth = new UsernamePasswordAuthenticationToken(code.getUser(), null,
+					Arrays.asList(Role.ROLE_REGISTER_PRIVILEGE));
+			SecurityContextHolder.getContext().setAuthentication(auth);
+			jmsTemplate.convertAndSend(welcomeQueue, code.getUser().getId());
+			status = true;
+		}
+
+		return status;
+	}
+	public boolean activate(UUID userId, String activationCode)
+	{
+		boolean status = false;
+		ActivationCode code = activationCodeRepo.findByUser_Id(userId).orElse(null);
+		if (code != null && code.getCode().equals(activationCode) && !code.isUsed())
+		{
+			code.setUsed(true);
+			code.getUser().setEnabled(true);
+			
+			code.getUser().addRole(Role.ROLE_USER);
+			
+//			code.getUser().addRole(Role.ROLE_REGISTER_PRIVILEGE);
+//			Authentication auth = new UsernamePasswordAuthenticationToken(code.getUser(), null,
+//					Arrays.asList(Role.ROLE_REGISTER_PRIVILEGE));
+//			SecurityContextHolder.getContext().setAuthentication(auth);
+
+			jmsTemplate.convertAndSend(welcomeQueue, code.getUser().getId());
+			status = true;
+		}
+
+		return status;
+
+	}
+	public void sendWelcomeMsg(UUID userId) throws Exception
+	{
+		User user = userRepo.findById(userId).orElse(null);
+
+		if (user != null && user.isEnabled() && user.isAccountNonLocked()&&!user.getRoles().contains(Role.ROLE_USER))
+		{
+			emailService.sendTemplateMessage(user.getEmail(), "Welcome to iLab", "welcome-email.ftl", user);
 
 		}
 	}
+	public void sendActivation(UUID codeId) throws Exception
+	{
+		ActivationCode code = activationCodeRepo.findByIdAndUsedFalseAndSentFalse(codeId).orElse(null);
+		System.out.println("Activation Code:"+code.getCode());
+		if (code != null && !code.getUser().isEnabled())
+		{
+			emailService.sendTemplateMessage(code.getUser().getEmail(), "iLab Account Activation",
+					"activation-email.ftl", code);
+			code.setSent(true);
 
+		}
+	}
 }

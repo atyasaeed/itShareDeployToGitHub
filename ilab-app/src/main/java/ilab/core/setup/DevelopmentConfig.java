@@ -22,10 +22,10 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import ilab.core.domain.Authority;
 import ilab.core.domain.Reason;
 import ilab.core.domain.Service;
-import ilab.core.domain.User;
+import ilab.core.domain.user.Role;
+import ilab.core.domain.user.User;
 import ilab.core.repository.ReasonRepository;
 import ilab.core.repository.ServiceRepository;
 import ilab.core.repository.UserRepository;
@@ -70,8 +70,8 @@ public class DevelopmentConfig
 					user=addAdminRoleAuthority(user);
 					
 					userRepo.save(user);
-					user= userService.register(createUser("hasalem", "New123456","Hatem","hasalem@gmail.com","01065002100"));
-					userService.enableUser(user.getId(), true, null);
+//					user= userService.register(createUser("hasalem", "New123456","Hatem","hasalem@gmail.com","01065002100"));
+//					userService.enableUser(user.getId(), true, null);
 					user=userService.register(createUser("mosalem", "New123456","Hatem","mosalem@gmail.com","01065003100"));
 					userService.enableUser(user.getId(), true, null);
 					
@@ -179,10 +179,7 @@ public class DevelopmentConfig
 	}
 	private User addAdminRoleAuthority(User user)
 	{
-		Authority roleUser=new Authority();
-		roleUser.setAuthority("ROLE_ADMIN");
-		roleUser.setUser(user);
-		user.addAuthority(roleUser);
+		user.addRole(Role.ROLE_ADMIN);
 		return user;
 	}
 

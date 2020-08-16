@@ -1,10 +1,12 @@
-package ilab.core.domain;
+package ilab.core.domain.user;
 
 import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
+
+import ilab.core.domain.AbstractEntity;
 @Entity
 public class PasswordResetToken extends AbstractEntity<PasswordResetToken>
 {

@@ -38,7 +38,7 @@ import ilab.core.domain.LineItemStatus;
 import ilab.core.domain.OrderEntity;
 import ilab.core.domain.OrderStatus;
 import ilab.core.domain.ReasonStatus;
-import ilab.core.domain.User;
+import ilab.core.domain.user.User;
 import ilab.core.repository.FileAssetRepository;
 import ilab.core.repository.LineItemRepository;
 import ilab.core.repository.OrderRepository;
@@ -79,7 +79,7 @@ public class OrderService
 
 	public Iterable<OrderEntity> getOrders(Authentication auth)
 	{
-		User user = userRepo.findByUsername(auth.getName());
+		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
 		return orderRepo.findByAccount(OrderStatus.SHOPPING_CART, user.getAccounts().iterator().next().getId(),
 				PageRequest.of(0, 100));
 	}
@@ -91,7 +91,7 @@ public class OrderService
 
 	public Page<OrderEntity> getOrders(Pageable page, Specification<OrderEntity> specs, Authentication auth)
 	{
-		User user = userRepo.findByUsername(auth.getName());
+		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
 		Account account = user.getAccounts().iterator().next();
 		return orderRepo.findAll(filterByAccountId(account.getId()).and(specs), page);
 
@@ -136,7 +136,7 @@ public class OrderService
 	{
 		List<LineItemStatus> eligibleStatus = Arrays.asList(LineItemStatus.QUOTED,
 				LineItemStatus.QUOTE_ACCEPTED,LineItemStatus.QUOTE_REJECTED,LineItemStatus.CANCELLED,LineItemStatus.ITEM_REJECTED);
-		User user = userRepo.findByUsername(auth.getName());
+		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
 		OrderEntity order = orderRepo.findById(orderId).orElseThrow();
 		if (order.getAccount().getId().equals(user.getAccounts().iterator().next().getId())
 				&& order.getStatus() == OrderStatus.QUOTED)
@@ -156,7 +156,7 @@ public class OrderService
 
 	public OrderEntity rejectQuote(UUID orderId, Authentication auth)
 	{
-		User user = userRepo.findByUsername(auth.getName());
+		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
 		OrderEntity order = orderRepo.findById(orderId).orElseThrow();
 		if (order.getAccount().getId().equals(user.getAccounts().iterator().next().getId())
 				&& order.getStatus() == OrderStatus.QUOTED)
@@ -171,7 +171,7 @@ public class OrderService
 	{
 		List<OrderStatus> eligibleStatus = Arrays.asList(OrderStatus.QUOTED, OrderStatus.WAIT_QUOTE,
 				OrderStatus.PENDING, OrderStatus.QUOTE_ACCEPTED);
-		User user = userRepo.findByUsername(auth.getName());
+		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
 		OrderEntity order = orderRepo.findById(orderId).orElseThrow();
 		if (order.getAccount().getId().equals(user.getAccounts().iterator().next().getId())
 				&& eligibleStatus.contains(order.getStatus()))
@@ -226,7 +226,7 @@ public class OrderService
 
 	public void deleteCartItem(UUID id, Authentication auth)
 	{
-		User user = userRepo.findByUsername(auth.getName());
+		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
 		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id,
 				user.getAccounts().iterator().next().getId()).orElseThrow();
 
@@ -261,7 +261,7 @@ public class OrderService
 
 	public OrderEntity getShoppingCart(Authentication auth)
 	{
-		User user = userRepo.findByUsername(auth.getName());
+		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
 		UUID accountId = user.getAccounts().iterator().next().getId();
 		OrderEntity order = getShoppingCart(accountId);
 		if (order == null)
@@ -287,7 +287,7 @@ public class OrderService
 		if (gallery == null)
 		{
 
-			User user = userRepo.findByUsername(auth.getName());
+			User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
 			UUID accountId = user.getAccounts().iterator().next().getId();
 
 			gallery = new OrderEntity();
@@ -301,7 +301,7 @@ public class OrderService
 
 	public LineItem updateItem(UUID id, LineItem newItem, Authentication auth)
 	{
-		User user = userRepo.findByUsername(auth.getName());
+		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
 		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id,
 				user.getAccounts().iterator().next().getId()).orElseThrow();
 		if (item != null)
@@ -523,7 +523,7 @@ public class OrderService
 		List<OrderStatus> eligibleOrderStatus = Arrays.asList(OrderStatus.PENDING,OrderStatus.QUOTED,
 				OrderStatus.QUOTE_ACCEPTED);
 		
-		User user = userRepo.findByUsername(auth.getName());
+		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
 		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id,
 				user.getAccounts().iterator().next().getId()).orElseThrow();
 			
@@ -540,7 +540,7 @@ public class OrderService
 	{
 		List<LineItemStatus> eligibleItemStatus = Arrays.asList(LineItemStatus.QUOTED,LineItemStatus.QUOTE_ACCEPTED);
 		List<OrderStatus> eligibleOrderStatus = Arrays.asList(OrderStatus.QUOTED);
-		User user = userRepo.findByUsername(auth.getName());
+		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
 		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id,
 				user.getAccounts().iterator().next().getId()).orElseThrow();
 			
@@ -557,7 +557,7 @@ public class OrderService
 	{
 		List<LineItemStatus> eligibleItemStatus = Arrays.asList(LineItemStatus.QUOTED,LineItemStatus.QUOTE_REJECTED);
 		List<OrderStatus> eligibleOrderStatus = Arrays.asList(OrderStatus.QUOTED);
-		User user = userRepo.findByUsername(auth.getName());
+		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
 		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id,
 				user.getAccounts().iterator().next().getId()).orElseThrow();
 			
@@ -649,7 +649,7 @@ public class OrderService
 
 	public LineItem reset(UUID id, Authentication auth)
 	{
-		User user = userRepo.findByUsername(auth.getName());
+		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
 		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id,
 				user.getAccounts().iterator().next().getId()).orElseThrow();
 		if(item.getOrderEntity().getStatus()==OrderStatus.PENDING && item.getStatus()!=LineItemStatus.CANCELLED)
@@ -670,7 +670,7 @@ public class OrderService
 	public void sendOrderRejectionMsg(String email, UUID orderId) throws Exception
 	{
 		OrderEntity order= orderRepo.findById(orderId).orElseThrow();
-		User acctMgr=userRepo.findByUsername(email);
+		User acctMgr=userRepo.findByUsernameIgnoreCase(email).orElseThrow();
 		if (acctMgr != null && order.getStatus()== OrderStatus.ORDER_REJECTED)
 		{
 			Map<String, String> dto=Map.of("user",order.getPlacedBy().getFirstName(),"acctMgr",acctMgr.getFirstName(),"orderId",order.getId().toString());
@@ -684,7 +684,7 @@ public class OrderService
 	public void sendOrderQuotedMsg(String email, UUID orderId) throws Exception
 	{
 		OrderEntity order= orderRepo.findById(orderId).orElseThrow();
-		User acctMgr=userRepo.findByUsername(email);
+		User acctMgr=userRepo.findByUsernameIgnoreCase(email).orElseThrow();
 		if (acctMgr != null && order.getStatus()== OrderStatus.QUOTED)
 		{
 			Map<String, String> dto=Map.of("user",order.getPlacedBy().getFirstName(),"acctMgr",acctMgr.getFirstName(),"orderId",order.getId().toString());
@@ -698,7 +698,7 @@ public class OrderService
 	public void sendOrderInprogressMsg(String email, UUID orderId) throws Exception
 	{
 		OrderEntity order= orderRepo.findById(orderId).orElseThrow();
-		User acctMgr=userRepo.findByUsername(email);
+		User acctMgr=userRepo.findByUsernameIgnoreCase(email).orElseThrow();
 		if (acctMgr != null && order.getStatus()== OrderStatus.IN_PROGRESS)
 		{
 			Map<String, String> dto=Map.of("user",order.getPlacedBy().getFirstName(),"acctMgr",acctMgr.getFirstName(),"orderId",order.getId().toString());
@@ -712,7 +712,7 @@ public class OrderService
 	public void sendOrderExpiredMsg(String email, UUID orderId) throws Exception
 	{
 		OrderEntity order= orderRepo.findById(orderId).orElseThrow();
-		User acctMgr=userRepo.findByUsername(email);
+		User acctMgr=userRepo.findByUsernameIgnoreCase(email).orElseThrow();
 		if (acctMgr != null && order.getStatus()== OrderStatus.QUOTE_EXPIRED)
 		{
 			Map<String, String> dto=Map.of("user",order.getPlacedBy().getFirstName(),"acctMgr",acctMgr.getFirstName(),"orderId",order.getId().toString());
@@ -726,7 +726,7 @@ public class OrderService
 	public void sendOrderFinishedMsg(String email, UUID orderId) throws Exception
 	{
 		OrderEntity order= orderRepo.findById(orderId).orElseThrow();
-		User acctMgr=userRepo.findByUsername(email);
+		User acctMgr=userRepo.findByUsernameIgnoreCase(email).orElseThrow();
 		if (acctMgr != null && order.getStatus()== OrderStatus.FINISHED)
 		{
 			Map<String, String> dto=Map.of("user",order.getPlacedBy().getFirstName(),"acctMgr",acctMgr.getFirstName(),"orderId",order.getId().toString());
@@ -740,7 +740,7 @@ public class OrderService
 	public void sendOrderDeliveredMsg(String email, UUID orderId) throws Exception
 	{
 		OrderEntity order= orderRepo.findById(orderId).orElseThrow();
-		User acctMgr=userRepo.findByUsername(email);
+		User acctMgr=userRepo.findByUsernameIgnoreCase(email).orElseThrow();
 		if (acctMgr != null && order.getStatus()== OrderStatus.FINISHED)
 		{
 			Map<String, String> dto=Map.of("user",order.getPlacedBy().getFirstName(),"acctMgr",acctMgr.getFirstName(),"orderId",order.getId().toString());

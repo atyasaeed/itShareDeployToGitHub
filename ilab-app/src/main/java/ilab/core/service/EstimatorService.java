@@ -1,7 +1,6 @@
 package ilab.core.service;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 import javax.transaction.Transactional;
 
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import ilab.core.domain.LineItem;
 import ilab.core.domain.OrderEntity;
-import ilab.core.repository.LineItemRepository;
 import ilab.core.repository.ServiceRepository;
 import ilab.core.services.strategy.DefaultDeliveryDateStrategy;
 import ilab.core.services.strategy.DefaultPricingStrategy;

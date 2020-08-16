@@ -1,22 +1,42 @@
-package ilab.core.domain;
+package ilab.core.domain.user;
 
+import java.util.Collection;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.util.CollectionUtils;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
+import ilab.core.domain.AbstractEntity;
+import ilab.core.domain.Account;
 @Entity
-@Table(name = "userInfo")
+@Table(name = "users", uniqueConstraints =
+{ @UniqueConstraint(columnNames = "email", name = "user_unique_email_idx"),
+		@UniqueConstraint(columnNames = "username", name = "user_unique_username_idx")})
+@JsonInclude(value = Include.NON_NULL)
 public class User extends AbstractEntity<User>
 {
 	/**
@@ -24,23 +44,34 @@ public class User extends AbstractEntity<User>
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	@Column(unique = true)
+	@Size(min = 5, max = 100)
+	@Column(nullable = false)
+	@NotBlank
 	private String username;
-	@Column(unique = true)
+	@Email
+	@Size(max = 100)
+	@Column(nullable = false)
+	@NotBlank
 	private String email;
 	@JsonProperty(access = Access.WRITE_ONLY)
+	@NotBlank
+	@Size(min = 5, max = 100)
 	private String password;
 	private String firstName;
 	private String middleName;
 	private String lastName;
 	private String mobileNo;
-	private boolean enabled;
+	@Column(nullable = false, columnDefinition = " bool default true")
+	private boolean enabled=true;
 	private boolean accountNonLocked;
 	private boolean accountNonExpired;
 	private boolean credentialsNonExpired;
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user",fetch = FetchType.EAGER)
-	@JsonIgnoreProperties("user")
-	private Set<Authority> authorities = new HashSet<>();
+	@ElementCollection(fetch = FetchType.EAGER)
+	@Enumerated(EnumType.STRING)
+	@BatchSize(size = 200)
+	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+	@Column(name = "role")
+	private Set<Role> roles = EnumSet.noneOf(Role.class);
 	
 	@OneToMany(cascade = CascadeType.PERSIST)
 	@JoinTable(name =  "users_accounts")
@@ -127,13 +158,19 @@ public class User extends AbstractEntity<User>
 	{
 		this.lastName = lastName;
 	}
-	public Set<Authority> getAuthorities()
+	public Set<Role> getRoles()
 	{
-		return authorities;
+		return roles;
 	}
-	public void addAuthority(Authority authority)
+
+	public void setRoles(Collection<Role> roles)
 	{
-		this.authorities.add(authority);
+		this.roles = CollectionUtils.isEmpty(roles) ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(roles);
+	}
+
+	public void addRole(Role role)
+	{
+		this.roles.add(role);
 	}
 	public Set<Account> getAccounts()
 	{
