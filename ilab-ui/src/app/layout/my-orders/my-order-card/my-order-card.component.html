@@ -15,7 +15,7 @@
             <div
               *ngIf="showPriceAndEndDate()">
               <label> {{'order.totalPrice'|translate}} :&nbsp;</label>
-              <span>{{getSubTotal()| currency:'EGP'}}</span>
+              <span>{{subTotal| currency:'EGP'}}</span>
             </div>
           </div>
           <div class=" col-md-6    my-auto">

@@ -21,8 +21,8 @@ export class OrderCardComponent implements OnInit {
   statusArr: string[] = ['PENDING', 'QUOTED', 'QUOTE_ACCEPTED', 'IN_PROGRESS', 'FINISHED', 'DELIVERED'];
   user: User;
   subTotal: number;
-  max: any;
-  dateArray: any[] = [];
+  max: Date;
+  dateArray: Date[] = [];
   modalRef: BsModalRef;
   constructor(
     private orderService: OrderService,
@@ -36,7 +36,6 @@ export class OrderCardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getDeliveryDate();
     this.userService.getAuthUserDetails().subscribe((user) => {
       this.user = user;
     });
@@ -44,19 +43,27 @@ export class OrderCardComponent implements OnInit {
 
   ngAfterViewInit() {
     this.printSubTotal(this.order.lineItems);
+    this.getDeliveryDate(this.order.lineItems);
     this.cdr.detectChanges();
   }
 
-  getDeliveryDate() {
+  getDeliveryDate(lineItems: LineItem[]) {
     // tslint:disable-next-line:prefer-for-of
-    for (let index = 0; index < this.order.lineItems.length; index++) {
-      this.dateArray.push(this.order.lineItems[index].estimatedEndDate);
+    this.dateArray = [];
+    for (let index = 0; index < lineItems.length; index++) {
+      if (lineItems[index].status == 'QUOTED' || lineItems[index].status == 'QUOTE_ACCEPTED') {
+        this.dateArray.push(lineItems[index].estimatedEndDate);
+      }
     }
     // console.log(this.dateArray);
     // tslint:disable-next-line:only-arrow-functions
-    this.max = this.dateArray.reduce(function (a, b) {
-      return a > b ? a : b;
-    }, 0);
+    if (this.dateArray.length > 0) {
+      this.max = this.dateArray.reduce(function (a: Date, b: Date) {
+        return a > b ? a : b;
+      });
+    } else {
+      this.max = null;
+    }
   }
 
   cancelOrder() {
@@ -74,9 +81,9 @@ export class OrderCardComponent implements OnInit {
     this.orderService.reject(this.order.id).subscribe((res) => (this.order = res));
   }
 
-  public getSubTotal() {
-    return this.order.lineItems.map((rr) => rr.unitPrice * rr.quantity).reduce((a, b) => a + b, 0);
-  }
+  // public getSubTotal() {
+  //   return this.order.lineItems.map((rr) => rr.unitPrice * rr.quantity).reduce((a, b) => a + b, 0);
+  // }
 
   // checkStatus() {
   //   let result = '';
@@ -126,6 +133,7 @@ export class OrderCardComponent implements OnInit {
       }
     });
     this.printSubTotal(this.order.lineItems);
+    this.getDeliveryDate(this.order.lineItems);
   }
 
   printSubTotal(arr: LineItem[]) {
