@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { OrderItem, Order } from 'src/app/shared/domain';
+import { Order } from 'src/app/shared/domain';
 import { RestService } from 'src/app/shared/services';
 
 @Injectable({
