@@ -118,8 +118,9 @@ export class SignupActivationComponent implements OnInit {
     console.log('resendcode');
     console.log('token = ' + window['captchaToken']);
 
-    this.loading = false;
-    this.router.navigateByUrl('/signup/partner');
+    this.loading = true;
+    // this.router.navigateByUrl('/signup/partner');
+
     // this.userService.resendCode(this.user.username).subscribe((res) => {
     //   this.loading = false;
 

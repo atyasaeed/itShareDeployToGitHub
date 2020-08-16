@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList, Inject } from '@angular/core';
 import { routerTransition } from 'src/app/router.animations';
 // import { CourseService } from '../courses/course.service';
 import { Observable } from 'rxjs';
@@ -8,6 +8,7 @@ import { DefaultListComponent } from 'src/app/shared/helpers/default.list.compon
 import { Service } from 'src/app/shared/domain';
 import { HttpClient } from '@angular/common/http';
 import { TdLoadingService } from '@covalent/core/loading';
+import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 
 @Component({
   selector: 'app-home',
@@ -22,9 +23,13 @@ export class HomeComponent implements OnInit {
   // total$: Observable<number>;
   // @ViewChildren(SortableHeaderDirective) headers: QueryList<SortableHeaderDirective>;
 
-  constructor(private http: HttpClient, loadingService: TdLoadingService) {
+  constructor(
+    private http: HttpClient,
+    @Inject(APP_CONFIG) public appConfig: IAppConfig,
+    loadingService: TdLoadingService
+  ) {
     // super(service, loadingService);
-    this.http.get('https://ihub-tdc.s3.amazonaws.com/static-assets/sliders.json').subscribe((res) => {
+    this.http.get(this.appConfig.SLIDER_URL).subscribe((res) => {
       this.sliders = res as any;
     });
   }

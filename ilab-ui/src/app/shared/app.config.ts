@@ -17,12 +17,14 @@ export interface IAppConfig {
   INIT_STATE_URL: string;
   getResourceUrl(resource: string): string;
   AWSUrl: string;
+  SLIDER_URL: string;
   serviceImage(entity: Service): string;
 }
 class DefaultAppConfig implements IAppConfig {
   public API_END_POINT = '/';
   //public AWSUrl = 'https://ihub-tdc.s3.amazonaws.com/static-assets/';
   public AWSUrl = 'https://ihub-tdc.s3.amazonaws.com/services/';
+  public SLIDER_URL = 'https://ihub-tdc.s3.amazonaws.com/static-assets/sliders.json';
 
   public get LOGIN_URL() {
     return this.API_END_POINT + 'login';
