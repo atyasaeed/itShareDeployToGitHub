@@ -163,4 +163,9 @@ public class UserController
 	{
 		return userService.update(user);
 	}
+	@GetMapping("resendProvision")
+	public boolean resendProvisionCode(@RequestParam("username") String username)
+	{
+		return userService.resendActivationCode(username);
+	}
 }

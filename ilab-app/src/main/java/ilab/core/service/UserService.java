@@ -270,13 +270,28 @@ public class UserService implements UserDetailsService
 	public void sendActivation(UUID codeId) throws Exception
 	{
 		ActivationCode code = activationCodeRepo.findByIdAndUsedFalseAndSentFalse(codeId).orElse(null);
-		System.out.println("Activation Code:"+code.getCode());
+
 		if (code != null && !code.getUser().isEnabled())
 		{
+			System.out.println("Activation Code:"+code.getCode());
 			emailService.sendTemplateMessage(code.getUser().getEmail(), "iLab Account Activation",
 					"activation-email.ftl", code);
 			code.setSent(true);
 
 		}
+	}
+	public boolean resendActivationCode(String username)
+	{
+		boolean status = false;
+		ActivationCode code = activationCodeRepo.findByUser_UsernameIgnoreCaseAndUsedFalse(username).orElse(null);
+		if (code != null && !code.isUsed() && !code.getUser().isEnabled())
+		{
+			code.setSent(false);
+			code.setCode(String.format("%06d", new Random().nextInt(999999)));
+			jmsTemplate.convertAndSend(activationCodeQueue, code.getId());
+			status = true;
+		}
+
+		return status;
 	}
 }

@@ -9,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolver;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.ModelAndView;
@@ -39,7 +40,16 @@ public class ILabApplication
 			}
 		};
 	}
+	@Bean
+	public ResourceBundleMessageSource messageSource()
+	{
 
+		var source = new ResourceBundleMessageSource();
+		source.setBasenames("messages");
+		source.setUseCodeAsDefaultMessage(true);
+
+		return source;
+	}
 //	@Bean
 //	public FreeMarkerConfigurer freeMarkerConfigurer()
 //	{
