@@ -58,15 +58,6 @@ export class SignupActivationComponent implements OnInit {
 
   createForm() {
     this.form = this.formBuilder.group({
-      user: this.formBuilder.group({
-        firstName: ['', []],
-        lastName: ['', []],
-        mobileNo: ['', []],
-        email: ['', []],
-        // username: ['', [Validators.required]],
-        password: ['', []],
-        confirmPassword: ['', []],
-      }),
       activationCode: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
     });
   }
@@ -82,11 +73,19 @@ export class SignupActivationComponent implements OnInit {
       return;
     }
     // to be remove
-    if (this.user) {
-      this.form.get('user').setValue(this.user);
-      console.log(this.form.value);
 
-      this.userService.activate(this.form.value).subscribe(
+    if (this.user) {
+      const formData: FormData = new FormData();
+
+      const itemBlob = new Blob([JSON.stringify(this.user)], {
+        type: 'application/json',
+      });
+      formData.append('user', itemBlob);
+      const activationCode = new Blob([this.form.get('activationCode').value], {
+        type: 'text/plain',
+      });
+      formData.append('activationCode', activationCode);
+      this.userService.activate(formData).subscribe(
         (res) => {
           console.log(res);
           if (res == false) {
@@ -109,7 +108,7 @@ export class SignupActivationComponent implements OnInit {
   }
   resolved(captchaResponse: string) {
     console.log(`Resolved captcha with response: ${captchaResponse}`);
-    this.userService.resendCode(this.user.username).subscribe((res) => {
+    this.userService.resendCode(this.user.email).subscribe((res) => {
       this.loading = false;
 
       console.log(res);
@@ -120,13 +119,14 @@ export class SignupActivationComponent implements OnInit {
     console.log('token = ' + window['captchaToken']);
 
     this.loading = true;
+    console.log(this.user);
     // this.router.navigateByUrl('/signup/partner');
 
-    // this.userService.resendCode(this.user.username).subscribe((res) => {
-    //   this.loading = false;
+    this.userService.resendCode(this.user.username).subscribe((res) => {
+      this.loading = false;
 
-    //   console.log(res);
-    // });
+      console.log(res);
+    });
   }
   // test(event) {
   //   console.log(event);

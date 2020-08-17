@@ -20,7 +20,7 @@ export class AuthenticationService {
 
   login(loginInfo: any) {
     return this.http
-      .post<any>(this.appConfig.LOGIN_URL, `username=${loginInfo.userName}&password=${loginInfo.password}`, {
+      .post<any>(this.appConfig.LOGIN_URL, `username=${loginInfo.username}&password=${loginInfo.password}`, {
         headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded').set('responseType', 'text'),
       })
       .pipe(

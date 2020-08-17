@@ -253,8 +253,15 @@
   "governorate.error.required": "governorate Required",
   "address.error.required": "address Required",
   "companyWebsite.error.required": "company Website Required",
-  "wireFrame":"WireFrame",
-  "fog":"Fog",
-  "edges":"Edges",
-  "transperent":"Transperent"
+  "wireFrame": "WireFrame",
+  "fog": "Fog",
+  "edges": "Edges",
+  "transperent": "Transperent",
+  "verificationCode": "Verification Code",
+  "verificationCode.error.incorrect": "Activation Code Incorrect",
+  "verificationCode.error.length": "Verification Code Must (6 digit)",
+  "verificationCode.error.required": "Verification Code is required",
+  "verify": "verify",
+  "account.disabled": "Currently your Account is Disabled, Please Complete Registration', 'Sorry'",
+  "account.locked": "You Are Blocked , Please Activate Your Data"
 }

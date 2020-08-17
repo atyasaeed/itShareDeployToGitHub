@@ -256,5 +256,12 @@
   "wireFrame": "إطار سلكي",
   "fog": "ضباب",
   "edges": "حواف",
-  "transperent": "شفاف"
+  "transperent": "شفاف",
+  "verificationCode": "كود التأكيد",
+  "verificationCode.error.incorrect": "رقم التأكيد غير صحيح",
+  "verificationCode.error.length": "يجب ان يكون (6 أرقام)",
+  "verificationCode.error.required": "يجب ادخال رقم التأكيد",
+  "verify": "تحقق",
+  "account.disabled": "حسابك حاليا معطل ، يرجى إكمال التسجيل ",
+  "account.locked": "أنت محظور ، يرجى تنشيط بياناتك"
 }

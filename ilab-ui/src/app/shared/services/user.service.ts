@@ -63,7 +63,8 @@ export class UserService extends RestService<User> {
     return this.http.put(this.appConfig.REGISTER_URL + '/activate', formdata);
   }
   resendCode(username) {
-    console.log(this.appConfig.API_END_POINT + `api/users/resendProvision?username=${username}`);
+    console.log(username);
+    // console.log(this.appConfig.API_END_POINT + `api/users/resendProvision?username=${username}`);
     return this.http.get<User>(this.appConfig.API_END_POINT + `api/users/resendProvision?username=${username}`);
   }
 

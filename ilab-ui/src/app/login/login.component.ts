@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { User } from '../shared/domain';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,8 @@ import { ToastrService } from 'ngx-toastr';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   returnUrl: string;
+  user = {} as User;
+
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,
@@ -27,7 +30,7 @@ export class LoginComponent implements OnInit {
     private toastr: ToastrService
   ) {
     this.loginForm = this.formBuilder.group({
-      userName: ['', Validators.required],
+      username: ['', Validators.required],
       password: ['', Validators.required],
     });
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
@@ -39,6 +42,7 @@ export class LoginComponent implements OnInit {
       this.validateAllFormFields(this.loginForm);
       return;
     }
+    this.user = this.loginForm.value;
     this.authenticationService
       .login(this.loginForm.value)
       .pipe(first())
@@ -50,10 +54,10 @@ export class LoginComponent implements OnInit {
         (err) => {
           // this.alertService.error('Sorry Your Username or Password Is Incorrect');
           if (err.error.code == 'org.springframework.security.authentication.DisabledException') {
-            this.router.navigateByUrl('signup/activation');
-            // this.router.navigate(['signup/activation'], {
-            //   state: this.user,
-            // });
+            // this.router.navigateByUrl('signup/activation');
+            this.router.navigate(['signup/activation'], {
+              state: this.loginForm.value,
+            });
             this.toastr.warning(this.translate.instant('account.disabled'));
           } else if (err.error.code == 'org.springframework.security.authentication.BadCredentialsException') {
             this.toastr.error(this.translate.instant('badCredential'));
