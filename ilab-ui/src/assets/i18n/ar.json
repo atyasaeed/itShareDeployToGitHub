@@ -263,5 +263,6 @@
   "verificationCode.error.required": "يجب ادخال رقم التأكيد",
   "verify": "تحقق",
   "account.disabled": "حسابك حاليا معطل ، يرجى إكمال التسجيل ",
-  "account.locked": "أنت محظور ، يرجى تنشيط بياناتك"
+  "account.locked": "أنت محظور ، يرجى تنشيط بياناتك",
+  "duplicated.email": "البريد الألكترونى موجود بالفعل"
 }

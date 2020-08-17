@@ -11,6 +11,7 @@ import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { UserService } from '../shared/services/user.service';
 import { CustomCaptchaService } from '../shared/services/captcha.service';
+import { ToastrService } from 'ngx-toastr';
 // import {
 //   RECAPTCHA_LANGUAGE,
 //   RECAPTCHA_SETTINGS,
@@ -41,7 +42,8 @@ export class SignupComponent implements OnInit {
     private translate: TranslateService,
     private captchaService: CustomCaptchaService,
     private cdref: ChangeDetectorRef,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -119,7 +121,19 @@ export class SignupComponent implements OnInit {
         // this.alertservice.success('please check your email');
       },
       (err) => {
-        console.log(err);
+        if (err.error.details[0] == 'duplicateEmail') {
+          // this.toastr.error('You have been registered,Please log in');
+          this.toastr.error(this.translate.instant('duplicated.email'));
+          // this.router.navigate(['login']);
+        } else if (err.error.details[0] == 'duplicateArName') {
+          // this.alertservice.error('Sorry, Arabic Name Is Duplicated,Enter other Arabic Name');
+          this.toastr.error(this.translate.instant('duplicated.arName'));
+        } else if (err.error.details[0] == 'duplicateEnName') {
+          // this.alertservice.error('Sorry, English Name Is Duplicated,Enter other English Name');
+          this.toastr.error(this.translate.instant('duplicated.enName'));
+        } else {
+          this.toastr.error(this.translate.instant('tryAgain'));
+        }
         // if (err.error.details[0] == 'duplicateUsername') {
         //   // this.alertservice.error('Sorry, Username Name Is Duplicated');
         //   this.alertservice.error(this.translate.instant('duplicated.userName'));

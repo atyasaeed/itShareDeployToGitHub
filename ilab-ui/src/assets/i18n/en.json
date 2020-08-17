@@ -263,5 +263,6 @@
   "verificationCode.error.required": "Verification Code is required",
   "verify": "verify",
   "account.disabled": "Currently your Account is Disabled, Please Complete Registration', 'Sorry'",
-  "account.locked": "You Are Blocked , Please Activate Your Data"
+  "account.locked": "You Are Blocked , Please Activate Your Data",
+  "duplicated.email": "\"You have been registered,Please log in"
 }

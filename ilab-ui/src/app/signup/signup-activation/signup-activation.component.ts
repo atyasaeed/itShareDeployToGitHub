@@ -123,8 +123,10 @@ export class SignupActivationComponent implements OnInit {
     // this.router.navigateByUrl('/signup/partner');
 
     this.userService.resendCode(this.user.username).subscribe((res) => {
-      this.loading = false;
+      this.loading = true;
+      this.alertservice.success(this.translate.instant('registeration.success.verify'));
 
+      grecaptcha.reset();
       console.log(res);
     });
   }
