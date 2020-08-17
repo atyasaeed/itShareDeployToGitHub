@@ -59,7 +59,7 @@ export class UserService extends RestService<User> {
     return this.http.get<User>(this.appConfig.getResourceUrl('user'));
   }
 
-  activate(formdata: FormData) {
+  activate(formdata) {
     return this.http.put(this.appConfig.REGISTER_URL + '/activate', formdata);
   }
   resendCode(username) {

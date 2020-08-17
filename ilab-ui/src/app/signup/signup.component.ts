@@ -68,7 +68,7 @@ export class SignupComponent implements OnInit {
       lastName: ['', [Validators.required]],
       mobileNo: ['', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
       email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$')]],
-      username: ['', [Validators.required]],
+      // username: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')]],
       confirmPassword: ['', [Validators.required]],
     });
@@ -109,17 +109,21 @@ export class SignupComponent implements OnInit {
           // this.router.navigate(['signup/activation']
           this.router.navigateByUrl('signup/activation');
         } else {
-          this.router.navigateByUrl('/login');
+          // this.router.navigateByUrl('signup/activation');
+          this.router.navigate(['signup/activation'], {
+            state: res,
+          });
           this.alertservice.success(this.translate.instant('registeration.success.verify'));
         }
 
         // this.alertservice.success('please check your email');
       },
       (err) => {
-        if (err.error.details[0] == 'duplicateUsername') {
-          // this.alertservice.error('Sorry, Username Name Is Duplicated');
-          this.alertservice.error(this.translate.instant('duplicated.userName'));
-        }
+        console.log(err);
+        // if (err.error.details[0] == 'duplicateUsername') {
+        //   // this.alertservice.error('Sorry, Username Name Is Duplicated');
+        //   this.alertservice.error(this.translate.instant('duplicated.userName'));
+        // }
       }
     );
   }

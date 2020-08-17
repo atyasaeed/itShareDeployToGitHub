@@ -11,12 +11,14 @@
 
           <section class="form-row" style="justify-content: space-around;">
             <div class="form-group col-lg-6 mb-3">
-              <input type="text" class="form-control input-underline input-lg" formControlName="vCode" #vCode
-                placeholder="{{ 'verificationCode' | translate }}">
-              <div *ngIf="form.controls.vCode.touched && !form.controls.vCode.valid" class="text-danger">
-                <div *ngIf="form.controls.vCode.errors.required">
+              <input type="text" class="form-control input-underline input-lg" formControlName="activationCode"
+                #activationCode placeholder="{{ 'verificationCode' | translate }}">
+              <div *ngIf="form.controls.activationCode.touched && !form.controls.activationCode.valid"
+                class="text-danger">
+                <div *ngIf="form.controls.activationCode.errors.required">
                   {{ 'verificationCode.error.required' | translate }}</div>
-                <div *ngIf="form.controls.vCode.errors.minlength || form.controls.vCode.errors.maxlength ">
+                <div
+                  *ngIf="form.controls.activationCode.errors.minlength || form.controls.activationCode.errors.maxlength ">
                   {{ 'verificationCode.error.length' | translate }}</div>
               </div>
             </div>

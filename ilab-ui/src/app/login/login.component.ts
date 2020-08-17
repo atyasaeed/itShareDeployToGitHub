@@ -49,7 +49,15 @@ export class LoginComponent implements OnInit {
         },
         (err) => {
           // this.alertService.error('Sorry Your Username or Password Is Incorrect');
-          this.alertService.error(this.translate.instant('badCredential'));
+          if (err.error.code == 'org.springframework.security.authentication.DisabledException') {
+            this.router.navigateByUrl('signup/activation');
+            // this.router.navigate(['signup/activation'], {
+            //   state: this.user,
+            // });
+            this.toastr.warning(this.translate.instant('account.disabled'));
+          } else if (err.error.code == 'org.springframework.security.authentication.BadCredentialsException') {
+            this.toastr.error(this.translate.instant('badCredential'));
+          }
         }
       );
   }

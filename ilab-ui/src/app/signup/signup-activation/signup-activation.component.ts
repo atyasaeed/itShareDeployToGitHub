@@ -58,7 +58,16 @@ export class SignupActivationComponent implements OnInit {
 
   createForm() {
     this.form = this.formBuilder.group({
-      vCode: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
+      user: this.formBuilder.group({
+        firstName: ['', []],
+        lastName: ['', []],
+        mobileNo: ['', []],
+        email: ['', []],
+        // username: ['', [Validators.required]],
+        password: ['', []],
+        confirmPassword: ['', []],
+      }),
+      activationCode: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(6)]],
     });
   }
   // public reactiveForm: FormGroup = new FormGroup({
@@ -73,30 +82,22 @@ export class SignupActivationComponent implements OnInit {
       return;
     }
     // to be remove
-    this.router.navigateByUrl('signup/partner');
     if (this.user) {
-      const formData: FormData = new FormData();
+      this.form.get('user').setValue(this.user);
+      console.log(this.form.value);
 
-      const itemBlob = new Blob([JSON.stringify(this.user)], {
-        type: 'application/json',
-      });
-      formData.append('user', itemBlob);
-      const activationCode = new Blob([this.form.get('vCode').value], {
-        type: 'text/plain',
-      });
-      formData.append('activationCode', activationCode);
-
-      this.userService.activate(formData).subscribe(
+      this.userService.activate(this.form.value).subscribe(
         (res) => {
           console.log(res);
           if (res == false) {
             this.toastr.error(this.translate.instant('verificationCode.error.incorrect'));
           } else {
-            this.user.roles = this.user.roles.concat('ROLE_REGISTER_PRIVILEGE');
-            this.appStore.dispatch(new fromStore.UpdateAuthUser(this.user));
-            this.router.navigate(['signup/partner'], {
-              state: this.user,
-            });
+            this.router.navigateByUrl('/login');
+            // this.user.roles = this.user.roles.concat('ROLE_REGISTER_PRIVILEGE');
+            // this.appStore.dispatch(new fromStore.UpdateAuthUser(this.user));
+            // this.router.navigate(['signup/partner'], {
+            //   state: this.user,
+            // });
             this.toastr.success(this.translate.instant('registeration.success'));
           }
         },
