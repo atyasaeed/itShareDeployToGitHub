@@ -12,7 +12,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 
 @SpringBootApplication
 @EnableScheduling
@@ -49,6 +51,15 @@ public class ILabApplication
 		source.setUseCodeAsDefaultMessage(true);
 
 		return source;
+	}
+	@Bean
+	public LocaleResolver localeResolver()
+	{
+		CookieLocaleResolver clr=new CookieLocaleResolver();
+		clr.setCookieName("fabrihub.LOCALE");
+		return clr;
+//		SessionLocaleResolver slr = new SessionLocaleResolver();
+//		return slr;
 	}
 //	@Bean
 //	public FreeMarkerConfigurer freeMarkerConfigurer()

@@ -1,10 +1,12 @@
-package ilab.core.domain;
+package ilab.core.domain.deprecated;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+
+import ilab.core.domain.AbstractEntity;
 
 @Entity
 public class Material extends AbstractEntity<Material>

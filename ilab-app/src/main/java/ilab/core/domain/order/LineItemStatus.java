@@ -1,4 +1,4 @@
-package ilab.core.domain;
+package ilab.core.domain.order;
 
 public enum LineItemStatus
 {

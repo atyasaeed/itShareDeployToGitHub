@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 import org.springframework.stereotype.Component;
 
-import ilab.core.domain.LineItem;
+import ilab.core.domain.order.LineItem;
 @Component
 public class DefaultPricingStrategy implements PricingStrategy
 {

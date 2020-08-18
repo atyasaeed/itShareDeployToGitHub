@@ -326,6 +326,9 @@ public class UserService implements UserDetailsService
 		User owner= findUser(auth);
 		org.setOwner(owner);
 		org=orgRepo.save(org);
+		owner.getRoles().remove(Role.ROLE_REGISTER_PRIVILEGE);
+		owner.getRoles().add(Role.ROLE_PARTNER);
+		owner.getRoles().add(Role.ROLE_USER);
 		return org;
 	}
 }

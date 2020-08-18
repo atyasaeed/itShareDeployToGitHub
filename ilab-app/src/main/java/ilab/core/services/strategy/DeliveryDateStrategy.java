@@ -3,7 +3,7 @@ package ilab.core.services.strategy;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 
-import ilab.core.domain.LineItem;
+import ilab.core.domain.order.LineItem;
 
 public interface DeliveryDateStrategy
 {

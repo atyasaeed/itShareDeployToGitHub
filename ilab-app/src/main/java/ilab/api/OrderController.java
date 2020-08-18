@@ -27,8 +27,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.sipios.springsearch.anotation.SearchSpec;
 
-import ilab.core.domain.LineItem;
-import ilab.core.domain.OrderEntity;
+import ilab.core.domain.order.LineItem;
+import ilab.core.domain.order.OrderEntity;
 import ilab.core.service.OrderService;
 
 @RestController

@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Component;
 
-import ilab.core.domain.LineItem;
+import ilab.core.domain.order.LineItem;
 @Component
 public class DefaultDeliveryDateStrategy implements DeliveryDateStrategy
 {

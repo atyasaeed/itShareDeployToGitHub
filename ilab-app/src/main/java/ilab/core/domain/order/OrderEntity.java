@@ -1,4 +1,4 @@
-package ilab.core.domain;
+package ilab.core.domain.order;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -25,6 +25,9 @@ import org.hibernate.annotations.ListIndexBase;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import ilab.core.domain.AbstractEntity;
+import ilab.core.domain.Account;
+import ilab.core.domain.Reason;
 import ilab.core.domain.user.User;
 @Entity
 public class OrderEntity extends AbstractEntity<OrderEntity>

@@ -5,8 +5,8 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-import ilab.core.domain.OrderEntity;
 import ilab.core.domain.Service;
+import ilab.core.domain.order.OrderEntity;
 @JsonInclude(value = Include.NON_NULL)
 public class InitStateDTO
 {

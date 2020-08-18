@@ -1,6 +1,8 @@
-package ilab.core.domain;
+package ilab.core.domain.deprecated;
 
 import javax.persistence.Entity;
+
+import ilab.core.domain.AbstractEntity;
 
 @Entity
 public class HouseHold extends AbstractEntity<HouseHold>

@@ -13,6 +13,8 @@ import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import ilab.core.domain.order.LineItem;
+
 @Entity
 public class Job extends AbstractEntity<Job>
 {

@@ -7,8 +7,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ilab.core.domain.LineItem;
-import ilab.core.domain.OrderEntity;
+import ilab.core.domain.order.LineItem;
+import ilab.core.domain.order.OrderEntity;
 import ilab.core.repository.ServiceRepository;
 import ilab.core.services.strategy.DefaultDeliveryDateStrategy;
 import ilab.core.services.strategy.DefaultPricingStrategy;

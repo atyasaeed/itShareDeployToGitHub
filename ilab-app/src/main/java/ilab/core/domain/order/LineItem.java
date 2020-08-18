@@ -1,4 +1,4 @@
-package ilab.core.domain;
+package ilab.core.domain.order;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -20,6 +20,11 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+import ilab.core.domain.AbstractEntity;
+import ilab.core.domain.HyperFile;
+import ilab.core.domain.Reason;
+import ilab.core.domain.Service;
 
 @Entity
 @JsonInclude(value = Include.NON_NULL)

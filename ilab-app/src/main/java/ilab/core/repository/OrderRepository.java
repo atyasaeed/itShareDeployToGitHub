@@ -12,8 +12,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
-import ilab.core.domain.OrderEntity;
-import ilab.core.domain.OrderStatus;
+import ilab.core.domain.order.OrderEntity;
+import ilab.core.domain.order.OrderStatus;
 
 @Repository
 @Transactional

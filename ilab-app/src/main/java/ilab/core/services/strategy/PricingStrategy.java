@@ -1,6 +1,6 @@
 package ilab.core.services.strategy;
 
-import ilab.core.domain.LineItem;
+import ilab.core.domain.order.LineItem;
 
 public interface PricingStrategy
 {

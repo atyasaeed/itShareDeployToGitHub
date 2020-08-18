@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import ilab.core.domain.HyperFile;
-import ilab.core.domain.LineItem;
+import ilab.core.domain.order.LineItem;
 
 @Component
 public class PricingForPrinting implements PricingStrategy
