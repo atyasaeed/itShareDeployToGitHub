@@ -79,8 +79,12 @@ public class UserService implements UserDetailsService
 	}
 	public User register(User user)
 	{
+		Role role=Role.ROLE_USER;
+		if(user.getRoles().contains(Role.ROLE_PARTNER))
+			role=Role.ROLE_REGISTER_PRIVILEGE;
+	
 		user.getRoles().clear();
-		user.addRole(Role.ROLE_USER);
+		user.addRole(role);
 		
 		user.addAccount(new Account());
 		user.setEnabled(false);
@@ -236,25 +240,29 @@ public class UserService implements UserDetailsService
 	}
 	public boolean activate(UUID userId, String activationCode)
 	{
-		boolean status = false;
 		ActivationCode code = activationCodeRepo.findByUser_Id(userId).orElse(null);
+		User user=code.getUser();
 		if (code != null && code.getCode().equals(activationCode) && !code.isUsed())
 		{
 			code.setUsed(true);
-			code.getUser().setEnabled(true);
 			
-			code.getUser().addRole(Role.ROLE_USER);
+			user.setEnabled(true);
+			if(!user.getRoles().contains(Role.ROLE_REGISTER_PRIVILEGE))
+			{
+				code.getUser().addRole(Role.ROLE_USER);
+				jmsTemplate.convertAndSend(welcomeQueue, code.getUser().getId());
+			}
+			
 			
 //			code.getUser().addRole(Role.ROLE_REGISTER_PRIVILEGE);
 //			Authentication auth = new UsernamePasswordAuthenticationToken(code.getUser(), null,
 //					Arrays.asList(Role.ROLE_REGISTER_PRIVILEGE));
 //			SecurityContextHolder.getContext().setAuthentication(auth);
 
-			jmsTemplate.convertAndSend(welcomeQueue, code.getUser().getId());
-			status = true;
+
 		}
 
-		return status;
+		return user.isEnabled();
 
 	}
 	public void sendWelcomeMsg(UUID userId) throws Exception
