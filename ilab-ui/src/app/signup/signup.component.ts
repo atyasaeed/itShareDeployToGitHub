@@ -103,20 +103,19 @@ export class SignupComponent implements OnInit {
     }
 
     this.user = this.registrationForm.value;
+    if (this.route.snapshot.queryParams['partner']) {
+      this.user.roles = new Array();
+      this.user.roles.push('ROLE_USER');
+    }
     console.log(this.user);
 
     this.userService.register(this.user).subscribe(
       (res) => {
-        if (this.route.snapshot.queryParams['partner']) {
-          // this.router.navigate(['signup/activation']
-          this.router.navigateByUrl('signup/activation');
-        } else {
-          // this.router.navigateByUrl('signup/activation');
-          this.router.navigate(['signup/activation'], {
-            state: res,
-          });
-          this.alertservice.success(this.translate.instant('registeration.success.verify'));
-        }
+        // this.router.navigateByUrl('signup/activation');
+        this.router.navigate(['signup/activation'], {
+          state: res,
+        });
+        this.alertservice.success(this.translate.instant('registeration.success.verify'));
 
         // this.alertservice.success('please check your email');
       },
