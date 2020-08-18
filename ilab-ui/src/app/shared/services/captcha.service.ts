@@ -15,18 +15,21 @@ export class CustomCaptchaService {
     this.appStore.select(fromStore.getLang).subscribe((res) => {
       if (document.querySelector('.g-recaptcha') != null) {
         document.querySelector('.g-recaptcha').innerHTML = '';
-        if (document.querySelector('.captchaSection')) {
-          document.querySelector('.captchaSection').innerHTML = '';
-        } else {
-          var captchaSection = document.createElement('div');
-          captchaSection.className = 'captchaSection';
-          document.querySelector('head').appendChild(captchaSection);
+        if (document.getElementById('recaptchaUrl')) {
+          document.getElementById('recaptchaUrl').parentNode.removeChild(document.getElementById('recaptchaUrl'));
+        }
+        if (document.getElementById('recaptchaSettings')) {
+          document
+            .getElementById('recaptchaSettings')
+            .parentNode.removeChild(document.getElementById('recaptchaSettings'));
         }
         var script = document.createElement('script');
         script.src = 'https://www.google.com/recaptcha/api.js?hl=' + res;
         script.async = true;
         script.defer = true;
+        script.id = 'recaptchaUrl';
         var script2 = document.createElement('script');
+        script2.id = 'recaptchaSettings';
         script2.innerHTML = `
         var captchaToken ;
           var successCaptcha = function(e){
@@ -34,11 +37,8 @@ export class CustomCaptchaService {
             document.getElementById('captchaSubmit').disabled = false;
           }
           `;
-        //this.test = script2;
-        //console.log(this.test);
-        //console.log(script2.accessKey);
-        document.querySelector('.captchaSection').appendChild(script);
-        document.querySelector('.captchaSection').appendChild(script2);
+        document.querySelector('head').appendChild(script);
+        document.querySelector('head').appendChild(script2);
       }
     });
   }
