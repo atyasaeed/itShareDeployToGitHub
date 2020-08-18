@@ -105,7 +105,7 @@ export class SignupComponent implements OnInit {
     this.user = this.registrationForm.value;
     if (this.route.snapshot.queryParams['partner']) {
       this.user.roles = new Array();
-      this.user.roles.push('ROLE_USER');
+      this.user.roles.push('ROLE_PARTNER');
     }
     console.log(this.user);
 
