@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
-import javax.transaction.Transactional.TxType;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +16,7 @@ import ilab.core.domain.OrderEntity;
 import ilab.core.domain.OrderStatus;
 
 @Repository
-@Transactional(value = TxType.SUPPORTS)
+@Transactional
 public interface OrderRepository extends PagingAndSortingRepository<OrderEntity, UUID>,JpaSpecificationExecutor<OrderEntity>
 {
 	@Query("select o from OrderEntity o where o.status=?1 and o.account.id=?2")

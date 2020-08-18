@@ -2,6 +2,7 @@ package ilab.core.service;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
@@ -30,10 +31,12 @@ import org.springframework.web.server.ResponseStatusException;
 
 import ilab.core.domain.Account;
 import ilab.core.domain.user.ActivationCode;
+import ilab.core.domain.user.Organization;
 import ilab.core.domain.user.PasswordResetToken;
 import ilab.core.domain.user.Role;
 import ilab.core.domain.user.User;
 import ilab.core.repository.ActivationCodeRepository;
+import ilab.core.repository.OrganizationRepository;
 import ilab.core.repository.PasswordTokenRepository;
 import ilab.core.repository.UserRepository;
 import ilab.dto.ChangePasswordDTO;
@@ -64,6 +67,8 @@ public class UserService implements UserDetailsService
 	private JmsTemplate jmsTemplate;
 	@Autowired
 	private ActivationCodeRepository activationCodeRepo;
+	@Autowired
+	private OrganizationRepository orgRepo;
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
 	{
@@ -219,30 +224,37 @@ public class UserService implements UserDetailsService
 		return user;
 	}
 	
-	public boolean activate(User user, String activationCode) throws Exception
+	public Map<String,Object> activate(User user, String activationCode) throws Exception
 	{
-		boolean status = false;
 		ActivationCode code = activationCodeRepo.findByUser_UsernameIgnoreCaseAndUsedFalse(user.getUsername())
-				.orElse(null);
-		if (code != null && code.getCode().equals(activationCode) && !code.isUsed())
+				.orElseThrow();
+		user=code.getUser();
+		if ( code.getCode().equals(activationCode) && !code.isUsed())
 		{
 			code.setUsed(true);
-			code.getUser().setEnabled(true);
-			code.getUser().addRole(Role.ROLE_REGISTER_PRIVILEGE);
-			Authentication auth = new UsernamePasswordAuthenticationToken(code.getUser(), null,
-					Arrays.asList(Role.ROLE_REGISTER_PRIVILEGE));
-			SecurityContextHolder.getContext().setAuthentication(auth);
-			jmsTemplate.convertAndSend(welcomeQueue, code.getUser().getId());
-			status = true;
+			user.setEnabled(true);
+			
+			if(!user.getRoles().contains(Role.ROLE_REGISTER_PRIVILEGE))
+			{
+				code.getUser().addRole(Role.ROLE_USER);
+				jmsTemplate.convertAndSend(welcomeQueue, code.getUser().getId());
+			}
+			else
+			{
+				Authentication auth = new UsernamePasswordAuthenticationToken(loadUserByUsername(user.getUsername()), null,
+						Arrays.asList(Role.ROLE_REGISTER_PRIVILEGE));
+				SecurityContextHolder.getContext().setAuthentication(auth);
+				
+			}
 		}
-
-		return status;
+		return Map.of("status",user.isEnabled(),"roles",user.getRoles());
+//		return user.isEnabled();
 	}
-	public boolean activate(UUID userId, String activationCode)
+	public Map<String,Object> activate(UUID userId, String activationCode)
 	{
-		ActivationCode code = activationCodeRepo.findByUser_Id(userId).orElse(null);
+		ActivationCode code = activationCodeRepo.findByUser_Id(userId).orElseThrow();
 		User user=code.getUser();
-		if (code != null && code.getCode().equals(activationCode) && !code.isUsed())
+		if (code.getCode().equals(activationCode) && !code.isUsed())
 		{
 			code.setUsed(true);
 			
@@ -251,6 +263,13 @@ public class UserService implements UserDetailsService
 			{
 				code.getUser().addRole(Role.ROLE_USER);
 				jmsTemplate.convertAndSend(welcomeQueue, code.getUser().getId());
+			}
+			else
+			{
+				Authentication auth = new UsernamePasswordAuthenticationToken(loadUserByUsername(user.getUsername()), null,
+						Arrays.asList(Role.ROLE_REGISTER_PRIVILEGE));
+				SecurityContextHolder.getContext().setAuthentication(auth);
+				
 			}
 			
 			
@@ -262,7 +281,7 @@ public class UserService implements UserDetailsService
 
 		}
 
-		return user.isEnabled();
+		return Map.of("status",user.isEnabled(),"roles",user.getRoles());
 
 	}
 	public void sendWelcomeMsg(UUID userId) throws Exception
@@ -301,5 +320,12 @@ public class UserService implements UserDetailsService
 		}
 
 		return status;
+	}
+	public Organization updateOrganization(Organization org, Authentication auth)
+	{
+		User owner= findUser(auth);
+		org.setOwner(owner);
+		org=orgRepo.save(org);
+		return org;
 	}
 }

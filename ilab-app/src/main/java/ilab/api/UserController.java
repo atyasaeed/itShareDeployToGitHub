@@ -1,5 +1,6 @@
 package ilab.api;
 
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,8 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.sipios.springsearch.anotation.SearchSpec;
 
+import ilab.core.domain.user.Organization;
 import ilab.core.domain.user.PasswordResetToken;
-import ilab.core.domain.user.Role;
 import ilab.core.domain.user.User;
 import ilab.core.service.UserService;
 import ilab.dto.ChangePasswordDTO;
@@ -65,7 +66,7 @@ public class UserController
 
 	@PutMapping("activate")
 	@PreAuthorize("hasAnyRole('ROLE_ANONYMOUS','ROLE_REGISTER_PRIVILEGE')")
-	public boolean activateUser(@RequestPart("user") User user,@RequestPart("activationCode") String activationCode)
+	public Map<String,Object> activateUser(@RequestPart("user") User user,@RequestPart("activationCode") String activationCode)
 			throws Exception
 	{
 		return userService.activate(user, activationCode);
@@ -75,13 +76,14 @@ public class UserController
 	public RedirectView activateUser(@RequestParam("id")UUID id,@RequestParam("activationCode") String activationCode)
 			throws Exception
 	{
-		if(userService.activate(id,activationCode))
-		{
-			//TODO
-//			User user=userService.findUser(id).orElseThrow();
-//			if(user.getRoles().contains(Role.ROLE_REGISTER_PRIVILEGE))
-//			return new RedirectView(updateInfoUrl);
-		}
+//		if(userService.activate(id,activationCode))
+//		{
+//			//TODO
+////			User user=userService.findUser(id).orElseThrow();
+////			if(user.getRoles().contains(Role.ROLE_REGISTER_PRIVILEGE))
+////			return new RedirectView(updateInfoUrl);
+//		}
+		userService.activate(id, activationCode);
 		return new RedirectView(homeUrl);
 	}
 	
@@ -167,5 +169,13 @@ public class UserController
 	public boolean resendProvisionCode(@RequestParam("username") String username)
 	{
 		return userService.resendActivationCode(username);
+	}
+	@PutMapping("updateOrg")
+	@PreAuthorize("hasRole('ROLE_REGISTER_PRIVILEGE')")
+	
+	public Organization updateInfo(@RequestBody Organization org,Authentication auth)
+			throws Exception
+	{
+		return userService.updateOrganization(org,auth);
 	}
 }
