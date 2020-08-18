@@ -14,7 +14,7 @@
             <div class="form-group col-lg-6 mb-3">
               <input type="text" formControlName="name" class="form-control input-underline input-lg"
                 placeholder="{{'name' | translate }}" #name>
-              <div *ngIf="registrationForm.controls.name.touched && !registrationForm.controls.name.valid"
+              <div *ngIf="registrationForm?.controls.name.touched && !registrationForm.controls.name.valid"
                 class="text-danger text-center">
                 <div class="text-center" *ngIf="registrationForm.controls.name.errors.required">
                   {{ 'companyName.error.required' | translate }}

@@ -117,10 +117,6 @@ export class SignupPartnerComponent implements OnInit {
       this.registrationForm.markAllAsTouched();
       return;
     }
-    console.log(this.registrationForm.value);
-    this.user = this.registrationForm.value;
-    console.log(this.user);
-    this.router.navigateByUrl('/login');
 
     this.userService.updateOrg(this.registrationForm.value).subscribe(
       (res) => {
