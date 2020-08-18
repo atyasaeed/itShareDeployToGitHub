@@ -12,11 +12,11 @@
 
           <section class="form-row" style="justify-content: space-around;">
             <div class="form-group col-lg-6 mb-3">
-              <input type="text" formControlName="companyName" class="form-control input-underline input-lg"
-                placeholder="{{'companyName' | translate }}" #companyName>
-              <div *ngIf="registrationForm.controls.companyName.touched && !registrationForm.controls.companyName.valid"
+              <input type="text" formControlName="name" class="form-control input-underline input-lg"
+                placeholder="{{'name' | translate }}" #name>
+              <div *ngIf="registrationForm.controls.name.touched && !registrationForm.controls.name.valid"
                 class="text-danger text-center">
-                <div class="text-center" *ngIf="registrationForm.controls.companyName.errors.required">
+                <div class="text-center" *ngIf="registrationForm.controls.name.errors.required">
                   {{ 'companyName.error.required' | translate }}
                 </div>
               </div>
@@ -26,26 +26,43 @@
           </section>
           <section class="form-row" style="justify-content: space-around;">
             <div class="form-group col-lg-6 mb-3">
-              <input type="text" formControlName="currentPosition" class="form-control input-underline input-lg"
-                placeholder="{{'currentPosition' | translate }}" #currentPosition>
-              <div
-                *ngIf="registrationForm.controls.currentPosition.touched && !registrationForm.controls.currentPosition.valid"
-                class="text-danger text-center">
-                <div class="text-center" *ngIf="registrationForm.controls.currentPosition.errors.required">
-                  {{ 'currentPosition.error.required' | translate }}</div>
+              <input type="text" formControlName="mobileNo" class="form-control input-underline input-lg"
+                placeholder="{{'personalPhoneNumber' | translate }}" #mobileNo>
+              <div *ngIf="registrationForm.controls.mobileNo.touched && !registrationForm.controls.mobileNo.valid"
+                class="text-danger">
+                <div *ngIf="registrationForm.controls.mobileNo.errors.required">
+                  {{ 'personalPhoneNumber.error.required' | translate }}</div>
+                <div *ngIf="registrationForm.controls.mobileNo.errors.pattern">
+                  {{ 'personalPhoneNumber.error.invalid' | translate }}</div>
               </div>
             </div>
           </section>
+          <section class="form-row" style="justify-content: space-around;">
+            <div class="form-group col-lg-6 mb-3 spacial-multiselect">
+              <!-- <input type="text" class="form-control input-underline input-lg"
+                placeholder="{{ 'services' | translate }}" formControlName="services" #services> -->
+              <ng-multiselect-dropdown placeholder="{{ 'services' | translate }}" formControlName="services"
+                [settings]="dropdownSettings" [data]="dropdownList" [settings]="dropdownSettings"
+                (onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeSelect($event)"
+                (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)">
+              </ng-multiselect-dropdown>
+              <div *ngIf="registrationForm.controls.services.touched && !registrationForm.controls.services.valid"
+                class="text-danger text-center">
+                <div *ngIf="registrationForm.controls.services.errors.required">
+                  {{ 'services.error.required' | translate }}</div>
+              </div>
 
+            </div>
+          </section>
 
           <section class="form-row" style="justify-content: space-around;">
             <div class="form-group col-lg-6 mb-3">
-              <input type="text" class="form-control input-underline input-lg"
-                placeholder="{{ 'governorate' | translate }}" formControlName="governorate" #governorate>
-              <div *ngIf="registrationForm.controls.governorate.touched && !registrationForm.controls.governorate.valid"
+              <input type="text" class="form-control input-underline input-lg" placeholder="{{ 'city' | translate }}"
+                formControlName="city" #city>
+              <div *ngIf="registrationForm.controls.city.touched && !registrationForm.controls.city.valid"
                 class="text-danger text-center">
-                <div class="text-center" *ngIf="registrationForm.controls.governorate.errors.required">
-                  {{ 'governorate.error.required' | translate }}
+                <div class="text-center" *ngIf="registrationForm.controls.city.errors.required">
+                  {{ 'city.error.required' | translate }}
                 </div>
               </div>
             </div>
@@ -67,33 +84,16 @@
           </section>
 
 
-          <section class="form-row" style="justify-content: space-around;">
-            <div class="form-group col-lg-6 mb-3 spacial-multiselect">
-              <!-- <input type="text" class="form-control input-underline input-lg"
-                placeholder="{{ 'services' | translate }}" formControlName="services" #services> -->
-              <ng-multiselect-dropdown placeholder="{{ 'services' | translate }}" formControlName="services"
-                [settings]="dropdownSettings" [data]="dropdownList" [settings]="dropdownSettings"
-                (onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeSelect($event)"
-                (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)">
-              </ng-multiselect-dropdown>
-              <div *ngIf="registrationForm.controls.services.touched && !registrationForm.controls.services.valid"
-                class="text-danger text-center">
-                <div *ngIf="registrationForm.controls.services.errors.required">
-                  {{ 'services.error.required' | translate }}</div>
-              </div>
 
-            </div>
-          </section>
           <section class="form-row" style="justify-content: space-around;">
             <div class="form-group col-lg-6 mb-3">
               <input type="text" class="form-control input-underline input-lg"
-                placeholder="{{ 'companyWebsite' | translate }}" formControlName="companyWebsite" #companyWebsite>
-              <div
-                *ngIf="registrationForm.controls.companyWebsite.touched && !registrationForm.controls.companyWebsite.valid"
+                placeholder="{{ 'companyWebsite' | translate }}" formControlName="website" #website>
+              <div *ngIf="registrationForm.controls.website.touched && !registrationForm.controls.website.valid"
                 class="text-dangertext-center">
-                <div class="text-center" *ngIf="registrationForm.controls.companyWebsite.errors.required">
+                <div class="text-center" *ngIf="registrationForm.controls.website.errors.required">
                   {{ 'companyWebsite.error.required' | translate }}</div>
-                <div class="text-center" *ngIf="registrationForm.controls.companyWebsite.errors.minlength">
+                <div class="text-center" *ngIf="registrationForm.controls.website.errors.minlength">
                   {{ 'companyWebsite.error.length' | translate }}</div>
               </div>
 

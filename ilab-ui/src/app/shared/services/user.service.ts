@@ -18,6 +18,9 @@ export class UserService extends RestService<User> {
   register(user: any) {
     return this.http.post(this.appConfig.REGISTER_URL, user);
   }
+  updateOrg(user: any) {
+    return this.http.put(this.appConfig.REGISTER_URL + '/updateOrg', user);
+  }
 
   getAll() {
     return this.http.get<User[]>(`/user`);
