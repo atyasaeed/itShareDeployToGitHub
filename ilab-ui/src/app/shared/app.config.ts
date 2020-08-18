@@ -28,10 +28,10 @@ class DefaultAppConfig implements IAppConfig {
   public SLIDER_URL = 'https://ihub-tdc.s3.amazonaws.com/static-assets/sliders.json';
 
   public get LOGIN_URL() {
-    return this.API_END_POINT + 'login';
+    return this.API_END_POINT + 'api/login';
   }
   public get LOGOUT_URL() {
-    return this.API_END_POINT + 'logout';
+    return this.API_END_POINT + 'api/logout';
   }
   public get REGISTER_URL() {
     return this.API_END_POINT + 'api/user';

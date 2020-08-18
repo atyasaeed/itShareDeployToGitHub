@@ -42,8 +42,9 @@ public class UtilsController
 			userData.put("roles", user.getAuthorities().stream().map(authority -> authority.getAuthority()).toArray());
 			initState.setUser(userData);
 			initState.setShoppingCart(orderService.getShoppingCart(auth));
-			initState.setLang(locale.getLanguage());
+			
 		}
+		initState.setLang(locale.getLanguage());
 		return initState;
 	}
 	@PutMapping("lang")
