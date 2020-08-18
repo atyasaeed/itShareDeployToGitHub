@@ -59,6 +59,7 @@ export class LoginComponent implements OnInit {
           }
         },
         (err) => {
+          console.log(err);
           // this.alertService.error('Sorry Your Username or Password Is Incorrect');
           if (err.error.code == 'org.springframework.security.authentication.DisabledException') {
             // this.router.navigateByUrl('signup/activation');
@@ -68,6 +69,8 @@ export class LoginComponent implements OnInit {
             this.toastr.warning(this.translate.instant('account.disabled'));
           } else if (err.error.code == 'org.springframework.security.authentication.BadCredentialsException') {
             this.toastr.error(this.translate.instant('badCredential'));
+          } else if (err.statusText == 'Unknown Error') {
+            this.toastr.error(this.translate.instant('serverDown'));
           }
         }
       );

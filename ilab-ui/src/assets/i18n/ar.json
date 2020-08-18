@@ -266,5 +266,6 @@
   "account.locked": "أنت محظور ، يرجى تنشيط بياناتك",
   "duplicated.email": "البريد الألكترونى موجود بالفعل",
   "data.activate": "يرجى تحديث بياناتك",
-  "city.error.required": "يجب ادخال اسم المدينة"
+  "city.error.required": "يجب ادخال اسم المدينة",
+  "serverDown": "هناك خطأ ما , من فضلك حاول في وقت لاحق"
 }

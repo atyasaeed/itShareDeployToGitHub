@@ -266,5 +266,6 @@
   "account.locked": "You Are Blocked , Please Activate Your Data",
   "duplicated.email": "\"You have been registered,Please log in",
   "data.activate": "Please Activate Your Data",
-  "city.error.required": "City Required"
+  "city.error.required": "City Required",
+  "serverDown":"Server Is Down , Please Try Again Later"
 }
