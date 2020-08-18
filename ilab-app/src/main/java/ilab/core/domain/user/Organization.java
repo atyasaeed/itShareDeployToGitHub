@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
@@ -44,7 +45,7 @@ public class Organization extends AbstractEntity<Organization>
 
 	private String address;
 	
-	@OneToMany
+	@ManyToMany
 	@OrderBy(value = "rank")
 	@OrderColumn(name = "rank")
 	@ListIndexBase(value = 1)
