@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { AlertService } from '../shared/services';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { routerTransition } from '../router.animations';
 import { TranslateService } from '@ngx-translate/core';
 import { UserService } from '../shared/services/user.service';
+import { CustomCaptchaService } from '../shared/services/captcha.service';
 
 @Component({
   selector: 'app-forget-password',
@@ -16,12 +17,20 @@ export class ForgetPasswordComponent implements OnInit {
     private service: UserService,
     private alertService: AlertService,
     private formBuilder: FormBuilder,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private captchaService: CustomCaptchaService,
+    private cdref: ChangeDetectorRef
   ) {}
   forgetPasswordForm: FormGroup;
+  emptyCaptcha = true;
+  loading = true;
 
   ngOnInit() {
     this.createForm();
+  }
+  ngAfterViewInit() {
+    this.captchaService.captchaInit(this.emptyCaptcha);
+    this.cdref.detectChanges();
   }
   createForm() {
     this.forgetPasswordForm = this.formBuilder.group({
