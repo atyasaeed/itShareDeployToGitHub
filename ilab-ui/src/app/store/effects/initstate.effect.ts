@@ -23,4 +23,14 @@ export class InitStateEffects {
       );
     })
   );
+  @Effect()
+  lang$ = this.actions$.pipe(
+    ofType(initStateActions.UPDATE_LANG),
+    switchMap((action: initStateActions.UpdateLang) => {
+      return this.httpClient.put<InitState>(this.appConfig.CHANGE_LANG_URL + '?lang=' + action.payload, '').pipe(
+        map((profile) => new initStateActions.LoadInitStateSuccess(profile)),
+        catchError((error) => of(new initStateActions.LoadInitStateFail(error)))
+      );
+    })
+  );
 }

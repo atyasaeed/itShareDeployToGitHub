@@ -15,6 +15,7 @@ export interface IAppConfig {
   CHECKOUT_URL: string;
   FILE_SIZE: any;
   INIT_STATE_URL: string;
+  CHANGE_LANG_URL: string;
   getResourceUrl(resource: string): string;
   AWSUrl: string;
   SLIDER_URL: string;
@@ -44,7 +45,9 @@ class DefaultAppConfig implements IAppConfig {
   public get SAVE_PASSWORD_URL() {
     return this.API_END_POINT + 'api/user/savePassword';
   }
-
+  public get CHANGE_LANG_URL() {
+    return this.getResourceUrl('utils/lang');
+  }
   // public get ASSETS_URL() {
   //   return this.API_END_POINT + 'digital-assets/images/';
   // }
