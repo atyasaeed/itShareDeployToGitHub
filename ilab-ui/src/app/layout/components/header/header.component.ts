@@ -22,6 +22,7 @@ export class HeaderComponent extends DefaultListComponent<ShoppingCartItem, Shop
   lang: string;
   items$: LineItem[];
   quantitiesCount;
+  userLogin;
   @ViewChild('cartPosition') cartPosition: ElementRef;
   constructor(
     private translate: TranslateService,
@@ -50,6 +51,9 @@ export class HeaderComponent extends DefaultListComponent<ShoppingCartItem, Shop
   ngOnInit() {
     this.pushRightClass = 'push-right';
     this.authUser$ = this.appStore.select(fromStore.getAuthUser);
+    this.authUser$.subscribe((res) => {
+      this.userLogin = res;
+    });
     console.log(`${this.translate.getBrowserLang()},${this.translate.getDefaultLang()}`);
   }
 

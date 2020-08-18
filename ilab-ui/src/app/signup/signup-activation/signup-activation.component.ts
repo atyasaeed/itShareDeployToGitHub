@@ -90,7 +90,8 @@ export class SignupActivationComponent implements OnInit {
           console.log(res);
 
           if (res.roles.includes('ROLE_REGISTER_PRIVILEGE')) {
-            // this.appStore.dispatch(new fromStore.UpdateAuthUser(this.user));
+            this.user.roles.concat('ROLE_REGISTER_PRIVILEGE');
+            this.appStore.dispatch(new fromStore.UpdateAuthUser(this.user));
             this.router.navigate(['signup/partner'], {
               state: this.user,
             });
