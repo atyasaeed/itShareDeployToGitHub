@@ -13,6 +13,7 @@ public class InitStateDTO
 	private OrderEntity shoppingCart;
 	private Iterable<Service> services;
 	private Map<String, Object> user;
+	private String lang;
 	public Map<String, Object> getUser()
 	{
 		return user;
@@ -37,5 +38,12 @@ public class InitStateDTO
 	{
 		this.services = services;
 	}
-	
+	public String getLang()
+	{
+		return lang;
+	}
+	public void setLang(String lang)
+	{
+		this.lang = lang;
+	}
 }

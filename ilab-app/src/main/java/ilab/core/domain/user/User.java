@@ -3,6 +3,7 @@ package ilab.core.domain.user;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -76,7 +77,7 @@ public class User extends AbstractEntity<User>
 	@OneToMany(cascade = CascadeType.PERSIST)
 	@JoinTable(name =  "users_accounts")
 	private Set<Account> accounts=new HashSet<>(); 
-	
+	private Locale locale=Locale.getDefault();
 	public void setPassword(String password)
 	{
 		this.password = password;
@@ -187,6 +188,14 @@ public class User extends AbstractEntity<User>
 	public void setMobileNo(String mobileNo)
 	{
 		this.mobileNo = mobileNo;
+	}
+	public Locale getLocale()
+	{
+		return locale;
+	}
+	public void setLocale(Locale locale)
+	{
+		this.locale = locale;
 	}
 	
 

@@ -1,6 +1,7 @@
 package ilab.api;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,7 +30,7 @@ public class UtilsController
 	private ServiceRepository serviceRepository;
 
 	@GetMapping("/initState")
-	public InitStateDTO getInitState(Authentication auth)
+	public InitStateDTO getInitState(Authentication auth,Locale locale)
 	{
 		InitStateDTO initState = new InitStateDTO();
 		initState.setServices(serviceRepository.findAll());
@@ -40,7 +42,15 @@ public class UtilsController
 			userData.put("roles", user.getAuthorities().stream().map(authority -> authority.getAuthority()).toArray());
 			initState.setUser(userData);
 			initState.setShoppingCart(orderService.getShoppingCart(auth));
+			initState.setLang(locale.getLanguage());
 		}
 		return initState;
+	}
+	@PutMapping("lang")
+	public InitStateDTO updateLang(Authentication auth,Locale locale)
+	{
+		InitStateDTO appState = new InitStateDTO();
+		appState.setLang(locale.getLanguage());
+		return appState;
 	}
 }
