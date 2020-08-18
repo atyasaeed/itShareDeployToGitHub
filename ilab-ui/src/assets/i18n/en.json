@@ -264,5 +264,7 @@
   "verify": "verify",
   "account.disabled": "Currently your Account is Disabled, Please Complete Registration', 'Sorry'",
   "account.locked": "You Are Blocked , Please Activate Your Data",
-  "duplicated.email": "\"You have been registered,Please log in"
+  "duplicated.email": "\"You have been registered,Please log in",
+  "data.activate": "Please Activate Your Data",
+  "city.error.required": "City Required"
 }

@@ -10,4 +10,5 @@ export interface User extends Entity {
   password: string;
   enabled: boolean;
   roles: string[];
+  status: boolean;
 }

@@ -3,13 +3,14 @@ import { Routes, RouterModule } from '@angular/router';
 import { SignupComponent } from './signup.component';
 import { SignupActivationComponent } from './signup-activation/signup-activation.component';
 import { SignupPartnerComponent } from './signup-partner/signup-partner.component';
+import { userPrivilege } from '../shared/guard/user-privilege.guard';
 
 const routes: Routes = [
   { path: '/:type', component: SignupComponent },
   { path: '', component: SignupComponent },
 
   { path: 'activation', component: SignupActivationComponent },
-  { path: 'partner', component: SignupPartnerComponent },
+  { path: 'partner', component: SignupPartnerComponent, canActivate: [userPrivilege] },
 ];
 
 @NgModule({

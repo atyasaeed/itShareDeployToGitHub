@@ -86,17 +86,17 @@ export class SignupActivationComponent implements OnInit {
       });
       formData.append('activationCode', activationCode);
       this.userService.activate(formData).subscribe(
-        (res) => {
+        (res: User) => {
           console.log(res);
-          if (res == false) {
-            this.toastr.error(this.translate.instant('verificationCode.error.incorrect'));
+
+          if (res.roles.includes('ROLE_REGISTER_PRIVILEGE')) {
+            this.user.roles.concat('ROLE_REGISTER_PRIVILEGE');
+            this.appStore.dispatch(new fromStore.UpdateAuthUser(this.user));
+            this.router.navigate(['signup/partner'], {
+              state: this.user,
+            });
           } else {
             this.router.navigateByUrl('/login');
-            // this.user.roles = this.user.roles.concat('ROLE_REGISTER_PRIVILEGE');
-            // this.appStore.dispatch(new fromStore.UpdateAuthUser(this.user));
-            // this.router.navigate(['signup/partner'], {
-            //   state: this.user,
-            // });
             this.toastr.success(this.translate.instant('registeration.success'));
           }
         },

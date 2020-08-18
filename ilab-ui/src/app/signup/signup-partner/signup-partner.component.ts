@@ -94,12 +94,12 @@ export class SignupPartnerComponent implements OnInit {
 
   createForm() {
     this.registrationForm = this.formBuilder.group({
-      companyName: ['', [Validators.required]],
-      currentPosition: ['', [Validators.required]],
-      // mobileNo: ['', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
-      governorate: ['', [Validators.required]],
+      name: ['', [Validators.required]],
+      // currentPosition: ['', [Validators.required]],
+      mobileNo: ['', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
+      city: ['', [Validators.required]],
       address: ['', [Validators.required]],
-      companyWebsite: [''],
+      website: [''],
       services: [''],
     });
   }
@@ -117,12 +117,8 @@ export class SignupPartnerComponent implements OnInit {
       this.registrationForm.markAllAsTouched();
       return;
     }
-    console.log(this.registrationForm.value);
-    this.user = this.registrationForm.value;
-    console.log(this.user);
-    this.router.navigateByUrl('/login');
 
-    this.userService.register(this.user).subscribe(
+    this.userService.updateOrg(this.registrationForm.value).subscribe(
       (res) => {
         this.router.navigateByUrl('/login');
         this.alertservice.success(this.translate.instant('registeration.success'));

@@ -47,9 +47,16 @@ export class LoginComponent implements OnInit {
       .login(this.loginForm.value)
       .pipe(first())
       .subscribe(
-        (data) => {
-          this.router.navigateByUrl(this.returnUrl);
-          this.toastr.success(this.translate.instant('logIn.success'));
+        (data: User) => {
+          if (data.roles.includes('ROLE_REGISTER_PRIVILEGE')) {
+            this.toastr.info(this.translate.instant('data.activate'));
+            this.router.navigate(['signup/partner'], {
+              state: this.user,
+            });
+          } else {
+            this.router.navigateByUrl(this.returnUrl || '/home');
+            this.toastr.success(this.translate.instant('logIn.success'));
+          }
         },
         (err) => {
           // this.alertService.error('Sorry Your Username or Password Is Incorrect');
