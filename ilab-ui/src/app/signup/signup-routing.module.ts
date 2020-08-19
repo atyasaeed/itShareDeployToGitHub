@@ -4,6 +4,8 @@ import { SignupComponent } from './signup.component';
 import { SignupActivationComponent } from './signup-activation/signup-activation.component';
 import { SignupPartnerComponent } from './signup-partner/signup-partner.component';
 import { userPrivilege } from '../shared/guard/user-privilege.guard';
+import { NonAuthGuard } from '../shared/guard/non-auth.guard';
+import { AuthGuard } from '../shared/guard';
 
 const routes: Routes = [
   { path: '/:type', component: SignupComponent },
