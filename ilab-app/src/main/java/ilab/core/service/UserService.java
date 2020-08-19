@@ -142,7 +142,8 @@ public class UserService implements UserDetailsService
 	}
 	public void changePassword(String password)
 	{
-		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		User user=userRepo.findByemailIgnoreCase(userDetails.getUsername()).orElseThrow();
 		user.setPassword(encoder.encode(password));
 		userRepo.save(user);
 		SecurityContextHolder.getContext().setAuthentication(null);
