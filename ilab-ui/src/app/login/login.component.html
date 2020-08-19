@@ -23,7 +23,7 @@
             <div class="text-danger" *ngIf="hasError('password')">{{'password.error.invalid'|translate}}</div>
           </div>
         </div>
-        <div class="text-center">
+        <div class="text-center mb-5">
           <button class="btn rounded-btn " type="submit">{{ 'logIn' | translate }}</button> &nbsp;
           <button class="btn text-primary " [routerLink]="[ '/signup'] ">{{ 'Register' | translate }}</button>
         </div>

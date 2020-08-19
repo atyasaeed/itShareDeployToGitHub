@@ -31,7 +31,7 @@
 
         <!-- <re-captcha formControlName="recaptchaReactive"></re-captcha> -->
 
-        <div class="text-center">
+        <div class="text-center mb-5">
           <input type="submit" class="btn rounded-btn" value="{{'verify' |translate}}">&nbsp;
           <!-- <a class="btn rounded-btn" [routerLink]="['/dashboard']">{{ 'Register' | translate }}</a>&nbsp; -->
           <a class="btn text-primary" *ngIf="loading" (click)="loading=false">{{'resend' |translate}}</a>
@@ -48,7 +48,7 @@
         <!-- <re-captcha *ngIf="!loading" [formControl]="recaptchaReactive" lang="en" (resolved)="resolved($event)">
         </re-captcha> -->
       </div>
-      <div *ngIf="!loading" class="text-center">
+      <div *ngIf="!loading" class="text-center mb-5">
         <button type="button" class="btn rounded-btn mt-3" id="captchaSubmit" (click)="resendCode()"
           [disabled]="emptyCaptcha">{{'resend' |translate}}</button>
 
