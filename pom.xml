@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ilab</groupId>
-	<artifactId>ilab-parent</artifactId>
+	<artifactId>parent</artifactId>
 	<version>1.2</version>
 	<packaging>pom</packaging>
 	<name>iLab parent project</name>
@@ -47,7 +47,7 @@
 
 	<modules>
 
-		<module>ilab-app</module>
-		<module>ilab-ui</module>
+		<module>app</module>
+		<module>ui</module>
 	</modules>
 </project>
