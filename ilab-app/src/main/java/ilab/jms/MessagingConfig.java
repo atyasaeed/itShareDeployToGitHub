@@ -130,4 +130,19 @@ public class MessagingConfig
 			ex.printStackTrace();
 		}
 	}
+	@JmsListener(destination = "${iLab.queues.passwordToken}")
+	public void processPasswordToken(UUID tokenId)
+	{
+		System.out.println("Password Token:"+tokenId);
+		try
+		{
+			userService.sendResetPasswordToken(tokenId);
+			
+		} catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		
+
+	}
 }

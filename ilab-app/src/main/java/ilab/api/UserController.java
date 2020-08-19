@@ -33,7 +33,6 @@ import ilab.core.domain.user.PasswordResetToken;
 import ilab.core.domain.user.User;
 import ilab.core.service.UserService;
 import ilab.dto.ChangePasswordDTO;
-import ilab.utils.SendEmailEvent;
 import ilab.utils.exception.NotFoundException;
 
 @RestController
@@ -44,8 +43,6 @@ public class UserController
 	
 	@Value("${iLab.urls.resetPassword}")
 	String resetPasswordUrl;
-//	@Value("${iLab.urls.selfProvisionResult}")
-//	String selfProvisionResultUrl;
 	@Value("${ilab.urls.home}")
 	String homeUrl;
 	
@@ -96,23 +93,23 @@ public class UserController
 		return true;
 	}
 
-	@PostMapping("/resetPassword")
+	
+	@PostMapping("resetPassword")
+	@PreAuthorize("isAnonymous()")
 	public boolean resetPassword(@RequestBody String email)
 	{
-		PasswordResetToken token=userService.resetPassword(email);
-		eventPublisher.publishEvent(new SendEmailEvent(token.getUser().getEmail(), "iLab Account Reset Password", "resetPassword-email.ftl", token));
+		PasswordResetToken token = userService.resetPassword(email);
 
 		return true;
 	}
-
-	@PostMapping("/savePassword")
+	@PostMapping("savePassword")
 	public boolean savePassword(@RequestBody String newPassword,Authentication auth)
 	{
 		userService.changePassword(newPassword);
 		return true;
 	}
 
-	@GetMapping("/resetPassword")
+	@GetMapping("resetPassword")
 	public RedirectView resetPassword(@RequestParam("id") UUID userId, @RequestParam("token") UUID token)
 	{
 		userService.resetPassword(userId, token);
