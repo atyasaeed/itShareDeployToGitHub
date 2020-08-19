@@ -24,8 +24,8 @@ export interface IAppConfig {
 class DefaultAppConfig implements IAppConfig {
   public API_END_POINT = '/';
   //public AWSUrl = 'https://ihub-tdc.s3.amazonaws.com/static-assets/';
-  public AWSUrl = 'https://ihub-tdc.s3.amazonaws.com/services/';
-  public SLIDER_URL = 'https://ihub-tdc.s3.amazonaws.com/static-assets/sliders.json';
+  public AWSUrl = 'https://s3.amazonaws.com/fabrihub.net/services/';
+  public SLIDER_URL = 'https://s3.amazonaws.com/fabrihub.net/static-assets/sliders.json';
 
   public get LOGIN_URL() {
     return this.API_END_POINT + 'api/login';
