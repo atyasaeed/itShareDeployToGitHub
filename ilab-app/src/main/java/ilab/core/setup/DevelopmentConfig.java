@@ -65,7 +65,7 @@ public class DevelopmentConfig
 
 //					userRepo.save(createUser( "hasalem", "12345678"));
 //					userRepo.save(createUser("mosalem", "12345678"));
-					User user=userService.register(createUser("admin", "New123456","Admin","hatem.salem@ihub.asu.edu.eg","01065002100"));
+					User user=userService.register(createUser("hatem.salem@ihub.asu.edu.eg", "New123456","Admin","hatem.salem@ihub.asu.edu.eg","01065002100"));
 					user=userService.enableUser(user.getId(), true, null);
 					user=addAdminRoleAuthority(user);
 					
