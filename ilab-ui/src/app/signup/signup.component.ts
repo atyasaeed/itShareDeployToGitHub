@@ -45,12 +45,15 @@ export class SignupComponent implements OnInit {
     private route: ActivatedRoute,
     private toastr: ToastrService
   ) {}
+  partner: boolean = true;
 
   ngOnInit(): void {
     // this.route.snapshot.queryParams;
     // console.log(this.router.getCurrentNavigation().extras.state);
     if (this.route.snapshot.queryParams['partner']) {
+      this.partner = true;
     } else {
+      this.partner = false;
     }
     this.route.params.subscribe((params: Params) => {
       console.log(params);

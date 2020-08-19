@@ -267,5 +267,6 @@
   "duplicated.email": "\"You have been registered,Please log in",
   "data.activate": "Please Activate Your Data",
   "city.error.required": "City Required",
-  "serverDown":"Server Is Down , Please Try Again Later"
+  "serverDown": "Server Is Down , Please Try Again Later",
+  "partner.registration": "Partner Registration"
 }

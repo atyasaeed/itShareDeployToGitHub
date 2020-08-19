@@ -45,6 +45,9 @@ export class SignupActivationComponent implements OnInit {
   ) {
     Object.assign(this.user, this.router.getCurrentNavigation().extras.state);
     console.log(this.user);
+    if (!this.router.getCurrentNavigation().extras.state) {
+      this.router.navigateByUrl('/home');
+    }
   }
 
   ngOnInit(): void {
