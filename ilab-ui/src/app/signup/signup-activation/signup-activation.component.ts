@@ -73,7 +73,7 @@ export class SignupActivationComponent implements OnInit {
       return;
     }
     // to be remove
-
+    console.log(this.user);
     if (this.user) {
       const formData: FormData = new FormData();
 
@@ -89,15 +89,20 @@ export class SignupActivationComponent implements OnInit {
         (res: User) => {
           console.log(res);
 
-          if (res.roles.includes('ROLE_REGISTER_PRIVILEGE')) {
-            this.user.roles.concat('ROLE_REGISTER_PRIVILEGE');
-            this.appStore.dispatch(new fromStore.UpdateAuthUser(this.user));
-            this.router.navigate(['signup/partner'], {
-              state: this.user,
-            });
+          if (res.status == true) {
+            if (res.roles.includes('ROLE_REGISTER_PRIVILEGE')) {
+              this.user.roles = new Array();
+              this.user.roles.concat('ROLE_REGISTER_PRIVILEGE');
+              this.appStore.dispatch(new fromStore.UpdateAuthUser(this.user));
+              this.router.navigate(['signup/partner'], {
+                state: this.user,
+              });
+            } else {
+              this.router.navigateByUrl('/login');
+              this.toastr.success(this.translate.instant('registeration.success'));
+            }
           } else {
-            this.router.navigateByUrl('/login');
-            this.toastr.success(this.translate.instant('registeration.success'));
+            this.toastr.error(this.translate.instant('verificationCode.error.incorrect'));
           }
         },
         (err) => {
