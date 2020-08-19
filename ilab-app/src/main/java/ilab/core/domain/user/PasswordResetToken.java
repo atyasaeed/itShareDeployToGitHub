@@ -1,6 +1,7 @@
 package ilab.core.domain.user;
 
 import java.util.Date;
+import java.util.Locale;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,6 +15,7 @@ public class PasswordResetToken extends AbstractEntity<PasswordResetToken>
     private User user;
 	private boolean used;
 	private boolean sent;
+	private Locale locale;
 	private Date expiryDate;
 	public User getUser()
 	{
@@ -54,6 +56,17 @@ public class PasswordResetToken extends AbstractEntity<PasswordResetToken>
 	{
 		this.sent = sent;
 	}
+
+	public Locale getLocale()
+	{
+		return locale;
+	}
+
+	public void setLocale(Locale locale)
+	{
+		this.locale = locale;
+	}
+
 
 	
 

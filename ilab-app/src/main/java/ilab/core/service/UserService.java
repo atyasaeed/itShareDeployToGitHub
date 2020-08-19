@@ -149,18 +149,30 @@ public class UserService implements UserDetailsService
 	}
 	public PasswordResetToken resetPassword(String email)
 	{
-		User user=userRepo.findByemailIgnoreCase(email).orElseThrow();
-		PasswordResetToken myToken = passwordTokenRepo.findByUserAndUsedFalse(user);
-		if(myToken==null)
+		User user = userRepo.findByemailIgnoreCase(email)
+				.orElseThrow(() -> new UsernameNotFoundException("Username is not here"));
+		validateUserForAction(user);
+		PasswordResetToken token = passwordTokenRepo.findByUserAndUsedFalse(user);
+		if (token == null)
 		{
-			myToken = new PasswordResetToken();
-			myToken.setUser(user);
-			
+			token = new PasswordResetToken();
+			token.setUser(user);
+
 		}
-		myToken.setSent(false);
-		myToken.setExpiryDate(new Date(System.currentTimeMillis()+(24*60*60*1000)));
-	    return passwordTokenRepo.save(myToken);
-		
+		token.setSent(false);
+		token.setExpiryDate(new Date(System.currentTimeMillis() + (24 * 60 * 60 * 1000)));
+		token.setLocale(LocaleContextHolder.getLocale());
+		token = passwordTokenRepo.save(token);
+		jmsTemplate.convertAndSend(passwordTokenQueue, token.getId());
+		return token;
+	}
+	private void validateUserForAction(User user)
+	{
+		if (user.isAccountNonExpired() && user.isAccountNonLocked())
+		{
+			return;
+		}
+		throw new IllegalRequestDataException("User can't reset password because it is not active");
 	}
 	public void resetPassword(UUID userId,UUID token)
 	{
@@ -172,7 +184,7 @@ public class UserService implements UserDetailsService
 			resetToken.get().setUsed(true);
 //			userRepo.save(user);
 //			passwordTokenRepo.delete(resetToken.get());
-			Authentication auth =new UsernamePasswordAuthenticationToken(user, null, Arrays.asList(
+			Authentication auth =new UsernamePasswordAuthenticationToken(loadUserByUsername(user.getUsername()), null, Arrays.asList(
 				      new SimpleGrantedAuthority("CHANGE_PASSWORD_PRIVILEGE")));
 			SecurityContextHolder.getContext().setAuthentication(auth);
 			return;
@@ -330,5 +342,17 @@ public class UserService implements UserDetailsService
 		owner.getRoles().add(Role.ROLE_PARTNER);
 		owner.getRoles().add(Role.ROLE_USER);
 		return org;
+	}
+	public void sendResetPasswordToken(UUID tokenId) throws Exception
+	{
+		PasswordResetToken token = passwordTokenRepo.findByIdAndUsedFalseAndSentFalse(tokenId).orElse(null);
+		if (token != null)
+		{
+			emailService.sendTemplateMessage(token.getUser().getEmail(), "FabriHub Account Reset Password",
+					"resetPassword-email.ftl", token);
+
+			token.setSent(true);
+
+		}
 	}
 }
