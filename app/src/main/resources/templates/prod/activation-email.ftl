@@ -1,5 +1,7 @@
-Welcome to iLab
+Welcome to Fabrihub.net
 
-Activate your account by clicking the following link
+Your Verification Code is :  ${code}
 
-http://fabrihub.net:8080/api/user/selfProvision&id=${id}
+Or click the following link
+
+http://fabrihub.net:8080/api/user/activate?id=${user.id}&activationCode=${code}

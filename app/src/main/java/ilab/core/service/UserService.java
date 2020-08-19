@@ -72,7 +72,7 @@ public class UserService implements UserDetailsService
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
 	{
-		User user=userRepo.findByUsernameIgnoreCase(username).orElseThrow();
+		User user=userRepo.findByUsernameIgnoreCase(username).orElseThrow(()->new UsernameNotFoundException(""));
 		UserBuilder userBuilder=null;
 		userBuilder=org.springframework.security.core.userdetails.User.withUsername(username);
 		userBuilder.disabled(!user.isEnabled());

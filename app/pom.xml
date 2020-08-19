@@ -19,6 +19,13 @@
 			<properties>
 				<spring.profiles.active>dev</spring.profiles.active>
 			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>ilab</groupId>
+					<artifactId>ui</artifactId>
+					<version>${app.version}</version>
+				</dependency>
+			</dependencies>
 		</profile>
 		<profile>
 			<id>testing</id>
@@ -41,7 +48,7 @@
 			<dependencies>
 				<dependency>
 					<groupId>ilab</groupId>
-					<artifactId>ilab-ui</artifactId>
+					<artifactId>ui</artifactId>
 					<version>${app.version}</version>
 				</dependency>
 			</dependencies>
