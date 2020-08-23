@@ -272,5 +272,7 @@
   "phoneNumber.error.required.invalid ": "يجب أن يكون رقم هاتف صالحًا",
   "companyName.error.min": "لايقل عن حرفين",
   "companyName.error.max": "لايزيد عن 80 حرف",
-  "companyName.error.pattern": "يجب ان يكون اسم شركة صحيح"
+  "companyName.error.pattern": "يجب ان يكون اسم شركة صحيح",
+  "firstName.error.minlength": "يجب الا يقل عن حرفين",
+  "firstName.error.maxlength": "يجب الا يزيد عند 80 حرف"
 }

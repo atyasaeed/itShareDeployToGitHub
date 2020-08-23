@@ -97,10 +97,7 @@ export class SignupPartnerComponent implements OnInit {
 
   createForm() {
     this.registrationForm = this.formBuilder.group({
-      name: [
-        '',
-        [Validators.required, Validators.minLength(2), Validators.maxLength(80), Validators.pattern('[a-zA-Z ]*')],
-      ],
+      name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(80)]],
       // currentPosition: ['', [Validators.required]],
       mobileNo: ['', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
       city: ['', [Validators.required]],
@@ -118,9 +115,11 @@ export class SignupPartnerComponent implements OnInit {
   // }
 
   onSubmit() {
+    this.loading = true;
     if (this.registrationForm.invalid) {
       console.log(this.registrationForm.value);
       this.registrationForm.markAllAsTouched();
+      this.loading = false;
       return;
     }
 
@@ -128,9 +127,12 @@ export class SignupPartnerComponent implements OnInit {
       (res) => {
         this.router.navigateByUrl('/login');
         this.alertservice.success(this.translate.instant('registeration.success'));
+
         // this.alertservice.success('please check your email');
       },
-      (err) => {}
+      (err) => {
+        this.loading = false;
+      }
     );
   }
 }

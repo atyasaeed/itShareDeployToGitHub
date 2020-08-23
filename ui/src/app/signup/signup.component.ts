@@ -69,8 +69,8 @@ export class SignupComponent implements OnInit {
 
   createForm() {
     this.registrationForm = this.formBuilder.group({
-      firstName: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
+      firstName: ['', [Validators.required, Validators.maxLength(80), Validators.minLength(2)]],
+      lastName: ['', [Validators.required, Validators.maxLength(80), Validators.minLength(2)]],
       mobileNo: ['', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
       email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$')]],
       // username: ['', [Validators.required]],
@@ -93,9 +93,11 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit() {
+    this.loading = true;
     if (!this.registrationForm.valid) {
       // this.validateAllFormFields(this.registrationForm);
       this.registrationForm.markAllAsTouched();
+      this.loading = false;
       /* activation*/
       // this.user = this.registrationForm.value;
       // this.appStore.dispatch(new fromStore.UpdateAuthUser(this.user));
@@ -123,6 +125,7 @@ export class SignupComponent implements OnInit {
         // this.alertservice.success('please check your email');
       },
       (err) => {
+        this.loading = false;
         if (err.error.details[0] == 'duplicateEmail') {
           // this.toastr.error('You have been registered,Please log in');
           this.toastr.error(this.translate.instant('duplicated.email'));

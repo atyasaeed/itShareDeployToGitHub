@@ -25,9 +25,6 @@
                 <div class="text-center" *ngIf="registrationForm.controls.name.errors.maxlength">
                   {{ 'companyName.error.max' | translate }}
                 </div>
-                <div class="text-center" *ngIf="registrationForm.controls.name.errors.pattern">
-                  {{ 'companyName.error.pattern' | translate }}
-                </div>
               </div>
             </div>
 
@@ -51,7 +48,7 @@
             <div class="form-group col-lg-6 mb-3">
               <!-- <label> {{ 'Faculty' | translate }}</label> -->
               <select class="form-control input-underline input-lg" formControlName="city" #city>
-                <option value="" class="d-none">{{ 'governorate' | translate }}</option>
+                <option value="" disabled>{{ 'governorate' | translate }}</option>
                 <option *ngFor="let city of cities" [ngValue]="city.name" style="color:#222;">
                   {{city.name}}
                 </option>
@@ -137,7 +134,7 @@
           </div> -->
         </div>
         <div class="text-center mb-5">
-          <input type="submit" class="btn rounded-btn" value="{{ 'register' | translate }} ">&nbsp;
+          <input type="submit" class="btn rounded-btn" value="{{ 'register' | translate }} " [disabled]="loading">&nbsp;
           <!-- <a class="btn rounded-btn" [routerLink]="['/dashboard']">{{ 'Register' | translate }}</a>&nbsp; -->
           <a class="btn text-primary" [routerLink]="['/login']">{{ 'logIn' | translate }}</a>
         </div>

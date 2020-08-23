@@ -272,5 +272,7 @@
   "phoneNumber.error.required.invalid ": "Must Be A Valid Phone Number",
   "companyName.error.min": "Min(2)",
   "companyName.error.max": "Max(80)",
-  "companyName.error.pattern": "Name Must Be Available"
+  "companyName.error.pattern": "Name Must Be Available",
+  "firstName.error.minlength": "Min(2 Digit)",
+  "firstName.error.maxlength": "Max (80 Digit)"
 }
