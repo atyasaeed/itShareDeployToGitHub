@@ -271,5 +271,6 @@
   "phoneNumber.error.required": "يجب ادخال رقم الهاتف",
   "phoneNumber.error.required.invalid ": "يجب أن يكون رقم هاتف صالحًا",
   "companyName.error.min": "لايقل عن حرفين",
-  "companyName.error.max": "لايزيد عن 80 حرف"
+  "companyName.error.max": "لايزيد عن 80 حرف",
+  "companyName.error.pattern": "يجب ان يكون اسم شركة صحيح"
 }

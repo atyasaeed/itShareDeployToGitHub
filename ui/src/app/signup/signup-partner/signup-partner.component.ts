@@ -97,7 +97,10 @@ export class SignupPartnerComponent implements OnInit {
 
   createForm() {
     this.registrationForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(80)]],
+      name: [
+        '',
+        [Validators.required, Validators.minLength(2), Validators.maxLength(80), Validators.pattern('[a-zA-Z ]*')],
+      ],
       // currentPosition: ['', [Validators.required]],
       mobileNo: ['', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
       city: ['', [Validators.required]],

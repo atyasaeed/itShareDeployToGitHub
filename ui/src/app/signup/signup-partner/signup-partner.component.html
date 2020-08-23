@@ -25,6 +25,9 @@
                 <div class="text-center" *ngIf="registrationForm.controls.name.errors.maxlength">
                   {{ 'companyName.error.max' | translate }}
                 </div>
+                <div class="text-center" *ngIf="registrationForm.controls.name.errors.pattern">
+                  {{ 'companyName.error.pattern' | translate }}
+                </div>
               </div>
             </div>
 
@@ -43,25 +46,28 @@
               </div>
             </div>
           </section>
-          <section class="form-row" style="justify-content: space-around;">
-            <div class="form-group col-lg-6 mb-3 spacial-multiselect">
-              <!-- <input type="text" class="form-control input-underline input-lg"
-                placeholder="{{ 'services' | translate }}" formControlName="services" #services> -->
-              <ng-multiselect-dropdown placeholder="{{ 'services' | translate }}" formControlName="services"
-                [settings]="dropdownSettings" [data]="dropdownList" [settings]="dropdownSettings"
-                (onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeSelect($event)"
-                (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)">
-              </ng-multiselect-dropdown>
-              <div *ngIf="registrationForm.controls.services.touched && !registrationForm.controls.services.valid"
+          <section class="form-row" placeholder="Select Product ID Type" style="justify-content: space-around;"
+            id="form_product_id_type" name="form_product_id_type">
+            <div class="form-group col-lg-6 mb-3">
+              <!-- <label> {{ 'Faculty' | translate }}</label> -->
+              <select class="form-control input-underline input-lg" formControlName="city" #city>
+                <option value="" class="d-none">{{ 'governorate' | translate }}</option>
+                <option *ngFor="let city of cities" [ngValue]="city.name" style="color:#222;">
+                  {{city.name}}
+                </option>
+                <!-- <option *ngFor="let unit of service.units">{{unit}}</option> -->
+              </select>
+              <div *ngIf="registrationForm.controls.city.touched && !registrationForm.controls.city.valid"
                 class="text-danger text-center">
-                <div *ngIf="registrationForm.controls.services.errors.required">
-                  {{ 'services.error.required' | translate }}</div>
+                <div class="text-center" *ngIf="registrationForm.controls.city.errors.required">
+                  {{ 'governorate.error.required' | translate }}
+                </div>
               </div>
 
             </div>
           </section>
 
-          <section class="form-row" style="justify-content: space-around;">
+          <!-- <section class="form-row" style="justify-content: space-around;">
             <div class="form-group col-lg-6 mb-3">
               <input type="text" class="form-control input-underline input-lg"
                 placeholder="{{ 'governorate' | translate }}" formControlName="city" #city>
@@ -73,22 +79,8 @@
               </div>
             </div>
 
-          </section>
-          <!-- <section class="form-row" style="justify-content: space-around;">
-            <div class="form-group col-lg-6 mb-3">
-              <select formControlName="city" style="width: 100%;" #city>
-                <option style="display: none;">{{ 'governorate' | translate }}</option>
-                <option value="city" *ngFor="let city of cities" value="city.name">{{city.name}}</option>
-              </select>
-              <div *ngIf="registrationForm.controls.city.touched && !registrationForm.controls.city.valid"
-                class="text-danger text-center">
-                <div class="text-center" *ngIf="registrationForm.controls.city.errors.required">
-                  {{ 'governorate.error.required' | translate }}
-                </div>
-              </div>
-            </div>
-
           </section> -->
+
           <section class="form-row" style="justify-content: space-around;">
             <div class="form-group col-lg-6 mb-3">
               <input type="text" class="form-control input-underline input-lg" placeholder="{{ 'address' | translate }}"
@@ -104,7 +96,23 @@
             </div>
           </section>
 
+          <section class="form-row" style="justify-content: space-around;">
+            <div class="form-group col-lg-6 mb-3 spacial-multiselect">
+              <!-- <input type="text" class="form-control input-underline input-lg"
+                                placeholder="{{ 'services' | translate }}" formControlName="services" #services> -->
+              <ng-multiselect-dropdown placeholder="{{ 'services' | translate }}" formControlName="services"
+                [settings]="dropdownSettings" [data]="dropdownList" [settings]="dropdownSettings"
+                (onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeSelect($event)"
+                (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)">
+              </ng-multiselect-dropdown>
+              <div *ngIf="registrationForm.controls.services.touched && !registrationForm.controls.services.valid"
+                class="text-danger text-center">
+                <div *ngIf="registrationForm.controls.services.errors.required">
+                  {{ 'services.error.required' | translate }}</div>
+              </div>
 
+            </div>
+          </section>
 
           <section class="form-row" style="justify-content: space-around;">
             <div class="form-group col-lg-6 mb-3">
