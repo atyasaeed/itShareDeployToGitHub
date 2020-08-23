@@ -268,5 +268,10 @@
   "data.activate": "يرجى تحديث بياناتك",
   "city.error.required": "يجب ادخال اسم المدينة",
   "serverDown": "هناك خطأ ما , من فضلك حاول في وقت لاحق",
-  "partner.registration": "تسجيل الشريك"
+  "partner.registration": "تسجيل الشريك",
+  "organizations": "المنظمات",
+  "mobileNo": "المحمول",
+  "city": "المدينه"
+
+
 }
