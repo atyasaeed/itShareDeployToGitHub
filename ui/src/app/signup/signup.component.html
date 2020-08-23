@@ -20,6 +20,12 @@
                 <div *ngIf="registrationForm.controls.firstName.errors.required">
                   {{ 'firstName.error.required' | translate }}
                 </div>
+                <div *ngIf="registrationForm.controls.firstName.errors.minlength">
+                  {{ 'firstName.error.minlength' | translate }}
+                </div>
+                <div *ngIf="registrationForm.controls.firstName.errors.maxlength">
+                  {{ 'firstName.error.maxlength' | translate }}
+                </div>
               </div>
             </div>
 
@@ -33,6 +39,12 @@
                 class="text-danger">
                 <div *ngIf="registrationForm.controls.lastName.errors.required">
                   {{ 'lastName.error.required' | translate }}</div>
+                <div *ngIf="registrationForm.controls.lastName.errors.minlength">
+                  {{ 'firstName.error.minlength' | translate }}
+                </div>
+                <div *ngIf="registrationForm.controls.lastName.errors.maxlength">
+                  {{ 'firstName.error.maxlength' | translate }}
+                </div>
               </div>
             </div>
           </section>
@@ -116,7 +128,7 @@
           </section> -->
         </div>
         <div class="text-center mb-5">
-          <input type="submit" class="btn rounded-btn" value="{{ 'register' | translate }} ">&nbsp;
+          <input type="submit" class="btn rounded-btn" value="{{ 'register' | translate }} " [disabled]='loading'>&nbsp;
           <!-- <a class="btn rounded-btn" [routerLink]="['/dashboard']">{{ 'Register' | translate }}</a>&nbsp; -->
           <a class="btn text-primary" [routerLink]="['/login']">{{ 'logIn' | translate }}</a>
         </div>

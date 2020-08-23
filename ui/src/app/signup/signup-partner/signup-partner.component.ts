@@ -11,6 +11,7 @@ import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { routerTransition } from 'src/app/router.animations';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { City, cities } from './city';
 
 @Component({
   selector: 'app-signup-partner',
@@ -25,6 +26,7 @@ export class SignupPartnerComponent implements OnInit {
   dropdownList: Service[] = [];
   selectedItems = [];
   dropdownSettings: IDropdownSettings = {};
+  cities: City[] = cities;
 
   constructor(
     private router: Router,
@@ -90,17 +92,18 @@ export class SignupPartnerComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
+    // this.registrationForm.get('services').patchValue([]);
   }
 
   createForm() {
     this.registrationForm = this.formBuilder.group({
-      name: ['', [Validators.required]],
+      name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(80)]],
       // currentPosition: ['', [Validators.required]],
       mobileNo: ['', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
       city: ['', [Validators.required]],
       address: ['', [Validators.required]],
-      website: [''],
-      services: [''],
+      website: ['', [Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?')]],
+      services: [null],
     });
   }
 
@@ -112,9 +115,11 @@ export class SignupPartnerComponent implements OnInit {
   // }
 
   onSubmit() {
+    this.loading = true;
     if (this.registrationForm.invalid) {
       console.log(this.registrationForm.value);
       this.registrationForm.markAllAsTouched();
+      this.loading = false;
       return;
     }
 
@@ -122,9 +127,12 @@ export class SignupPartnerComponent implements OnInit {
       (res) => {
         this.router.navigateByUrl('/login');
         this.alertservice.success(this.translate.instant('registeration.success'));
+
         // this.alertservice.success('please check your email');
       },
-      (err) => {}
+      (err) => {
+        this.loading = false;
+      }
     );
   }
 }
