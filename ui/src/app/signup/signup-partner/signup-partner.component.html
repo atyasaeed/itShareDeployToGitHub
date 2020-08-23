@@ -13,11 +13,17 @@
           <section class="form-row" style="justify-content: space-around;">
             <div class="form-group col-lg-6 mb-3">
               <input type="text" formControlName="name" class="form-control input-underline input-lg"
-                placeholder="{{'name' | translate }}" #name>
+                placeholder="{{'companyName' | translate }}" #name>
               <div *ngIf="registrationForm?.controls.name.touched && !registrationForm.controls.name.valid"
                 class="text-danger text-center">
                 <div class="text-center" *ngIf="registrationForm.controls.name.errors.required">
                   {{ 'companyName.error.required' | translate }}
+                </div>
+                <div class="text-center" *ngIf="registrationForm.controls.name.errors.minlength">
+                  {{ 'companyName.error.min' | translate }}
+                </div>
+                <div class="text-center" *ngIf="registrationForm.controls.name.errors.maxlength">
+                  {{ 'companyName.error.max' | translate }}
                 </div>
               </div>
             </div>
@@ -27,11 +33,11 @@
           <section class="form-row" style="justify-content: space-around;">
             <div class="form-group col-lg-6 mb-3">
               <input type="text" formControlName="mobileNo" class="form-control input-underline input-lg"
-                placeholder="{{'personalPhoneNumber' | translate }}" #mobileNo>
+                placeholder="{{'phoneNumber'| translate }}" #mobileNo>
               <div *ngIf="registrationForm.controls.mobileNo.touched && !registrationForm.controls.mobileNo.valid"
                 class="text-danger">
                 <div *ngIf="registrationForm.controls.mobileNo.errors.required">
-                  {{ 'personalPhoneNumber.error.required' | translate }}</div>
+                  {{ 'phoneNumber.error.required' | translate }}</div>
                 <div *ngIf="registrationForm.controls.mobileNo.errors.pattern">
                   {{ 'personalPhoneNumber.error.invalid' | translate }}</div>
               </div>
@@ -57,17 +63,32 @@
 
           <section class="form-row" style="justify-content: space-around;">
             <div class="form-group col-lg-6 mb-3">
-              <input type="text" class="form-control input-underline input-lg" placeholder="{{ 'city' | translate }}"
-                formControlName="city" #city>
+              <input type="text" class="form-control input-underline input-lg"
+                placeholder="{{ 'governorate' | translate }}" formControlName="city" #city>
               <div *ngIf="registrationForm.controls.city.touched && !registrationForm.controls.city.valid"
                 class="text-danger text-center">
                 <div class="text-center" *ngIf="registrationForm.controls.city.errors.required">
-                  {{ 'city.error.required' | translate }}
+                  {{ 'governorate.error.required' | translate }}
                 </div>
               </div>
             </div>
 
           </section>
+          <!-- <section class="form-row" style="justify-content: space-around;">
+            <div class="form-group col-lg-6 mb-3">
+              <select formControlName="city" style="width: 100%;" #city>
+                <option style="display: none;">{{ 'governorate' | translate }}</option>
+                <option value="city" *ngFor="let city of cities" value="city.name">{{city.name}}</option>
+              </select>
+              <div *ngIf="registrationForm.controls.city.touched && !registrationForm.controls.city.valid"
+                class="text-danger text-center">
+                <div class="text-center" *ngIf="registrationForm.controls.city.errors.required">
+                  {{ 'governorate.error.required' | translate }}
+                </div>
+              </div>
+            </div>
+
+          </section> -->
           <section class="form-row" style="justify-content: space-around;">
             <div class="form-group col-lg-6 mb-3">
               <input type="text" class="form-control input-underline input-lg" placeholder="{{ 'address' | translate }}"
@@ -90,11 +111,9 @@
               <input type="text" class="form-control input-underline input-lg"
                 placeholder="{{ 'companyWebsite' | translate }}" formControlName="website" #website>
               <div *ngIf="registrationForm.controls.website.touched && !registrationForm.controls.website.valid"
-                class="text-dangertext-center">
-                <div class="text-center" *ngIf="registrationForm.controls.website.errors.required">
-                  {{ 'companyWebsite.error.required' | translate }}</div>
-                <div class="text-center" *ngIf="registrationForm.controls.website.errors.minlength">
-                  {{ 'companyWebsite.error.length' | translate }}</div>
+                class="text-danger text-center">
+                <div class="text-center" *ngIf="registrationForm.controls.website.errors.pattern">
+                  {{ 'companyWebsite.error.pattern' | translate }}</div>
               </div>
 
             </div>
