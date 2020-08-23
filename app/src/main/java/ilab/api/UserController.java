@@ -43,7 +43,7 @@ public class UserController
 	
 	@Value("${iLab.urls.resetPassword}")
 	String resetPasswordUrl;
-	@Value("${ilab.urls.home}")
+	@Value("${iLab.urls.home}")
 	String homeUrl;
 	
 	@Autowired
