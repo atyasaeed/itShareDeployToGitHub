@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   returnUrl: string;
   user = {} as User;
+  loading: boolean;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -38,8 +39,10 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {}
   onLoggedin() {
+    this.loading = true;
     if (this.loginForm.invalid) {
       this.validateAllFormFields(this.loginForm);
+      this.loading = false;
       return;
     }
     this.user = this.loginForm.value;
@@ -48,6 +51,7 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data: User) => {
+          this.loading = false;
           if (data.roles.includes('ROLE_REGISTER_PRIVILEGE')) {
             this.toastr.info(this.translate.instant('data.activate'));
             this.router.navigate(['signup/partner'], {
@@ -59,6 +63,7 @@ export class LoginComponent implements OnInit {
           }
         },
         (err) => {
+          this.loading = false;
           console.log(err);
           // this.alertService.error('Sorry Your Username or Password Is Incorrect');
           if (err.error.code == 'org.springframework.security.authentication.DisabledException') {
