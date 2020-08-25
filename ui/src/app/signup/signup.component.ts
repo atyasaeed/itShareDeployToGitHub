@@ -12,6 +12,7 @@ import { Store } from '@ngrx/store';
 import { UserService } from '../shared/services/user.service';
 import { CustomCaptchaService } from '../shared/services/captcha.service';
 import { ToastrService } from 'ngx-toastr';
+import { TdLoadingService } from '@covalent/core/loading';
 // import {
 //   RECAPTCHA_LANGUAGE,
 //   RECAPTCHA_SETTINGS,
@@ -43,7 +44,8 @@ export class SignupComponent implements OnInit {
     private captchaService: CustomCaptchaService,
     private cdref: ChangeDetectorRef,
     private route: ActivatedRoute,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private loadingService: TdLoadingService
   ) {}
   partner: boolean = true;
 
@@ -63,6 +65,7 @@ export class SignupComponent implements OnInit {
 
   ngAfterViewInit() {
     //this.changeRecaptchaLanguage();
+
     this.captchaService.captchaInit(this.emptyCaptcha);
     this.cdref.detectChanges();
   }
@@ -94,16 +97,12 @@ export class SignupComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
+    this.loadingService.register('loading');
     if (!this.registrationForm.valid) {
       // this.validateAllFormFields(this.registrationForm);
       this.registrationForm.markAllAsTouched();
       this.loading = false;
-      /* activation*/
-      // this.user = this.registrationForm.value;
-      // this.appStore.dispatch(new fromStore.UpdateAuthUser(this.user));
-      // this.router.navigate(['signup/activation'], {
-      //   state: this.user,
-      // });
+      this.loadingService.resolve('loading');
       return;
     }
 
@@ -120,11 +119,15 @@ export class SignupComponent implements OnInit {
         this.router.navigate(['signup/activation'], {
           state: res,
         });
+        this.loadingService.resolve('loading');
+
         this.alertservice.success(this.translate.instant('registeration.success.verify'));
 
         // this.alertservice.success('please check your email');
       },
       (err) => {
+        this.loadingService.resolve('loading');
+
         this.loading = false;
         if (err.error.details[0] == 'duplicateEmail') {
           // this.toastr.error('You have been registered,Please log in');

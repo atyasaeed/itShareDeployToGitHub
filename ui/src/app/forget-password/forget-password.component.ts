@@ -5,6 +5,7 @@ import { routerTransition } from '../router.animations';
 import { TranslateService } from '@ngx-translate/core';
 import { UserService } from '../shared/services/user.service';
 import { CustomCaptchaService } from '../shared/services/captcha.service';
+import { TdLoadingService } from '@covalent/core/loading';
 
 @Component({
   selector: 'app-forget-password',
@@ -19,7 +20,8 @@ export class ForgetPasswordComponent implements OnInit {
     private formBuilder: FormBuilder,
     private translate: TranslateService,
     private captchaService: CustomCaptchaService,
-    private cdref: ChangeDetectorRef
+    private cdref: ChangeDetectorRef,
+    private loadingService: TdLoadingService
   ) {}
   forgetPasswordForm: FormGroup;
   emptyCaptcha = true;
@@ -39,16 +41,21 @@ export class ForgetPasswordComponent implements OnInit {
   }
 
   onSubmit() {
+    this.loadingService.register('loading');
     if (this.forgetPasswordForm.invalid) {
       this.validateAllFormFields(this.forgetPasswordForm);
+      this.loadingService.resolve('loading');
     } else {
       this.service.forgetPassword(this.forgetPasswordForm.controls.Email.value).subscribe(
         (res) => {
           this.alertService.success(this.translate.instant('email.check'));
+          this.loadingService.resolve('loading');
+
           // console.log(res);
         },
         (err) => {
           this.alertService.error(this.translate.instant('email.incorrect'));
+          this.loadingService.resolve('loading');
         }
       );
     }

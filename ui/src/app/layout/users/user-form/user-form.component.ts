@@ -69,17 +69,30 @@ export class UserFormComponent extends DefaultFormComponent<User, UserService> i
   }
 
   save() {
+    this.loadingService.register('loadingUser');
     Object.assign(this.entity, this.form.value);
     if (this.entity.id) {
-      this.service.adminUpdateUser(this.entity).subscribe((response) => {
-        this.onSave();
-        this.cancel();
-      });
+      this.service.adminUpdateUser(this.entity).subscribe(
+        (response) => {
+          this.loadingService.resolve('loadingUser');
+          this.onSave();
+          this.cancel();
+        },
+        (err) => {
+          this.loadingService.resolve('loadingUser');
+        }
+      );
     } else {
-      this.service.create(this.entity).subscribe((response) => {
-        this.cancel();
-        this.onSave();
-      });
+      this.service.create(this.entity).subscribe(
+        (response) => {
+          this.loadingService.resolve('loadingUser');
+          this.cancel();
+          this.onSave();
+        },
+        (err) => {
+          this.loadingService.resolve('loadingUser');
+        }
+      );
     }
   }
   onDelete() {

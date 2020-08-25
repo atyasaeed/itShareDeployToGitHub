@@ -10,6 +10,7 @@ import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from '../shared/services/user.service';
+import { TdLoadingService } from '@covalent/core/loading';
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
@@ -25,7 +26,8 @@ export class ChangePasswordComponent implements OnInit {
     private formBuilder: FormBuilder,
     appStore: Store<fromStore.AppState>,
     private translate: TranslateService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    protected loadingService: TdLoadingService
   ) {
     appStore.select(fromStore.getAuthUser).subscribe((user) => (this.username = user.username));
   }
@@ -44,15 +46,20 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   onSubmit() {
+    this.loadingService.register('loading');
     if (this.changePasswordForm.invalid) {
+      this.loadingService.resolve('loading');
       this.validateAllFormFields(this.changePasswordForm);
     } else {
       this.service.changePassword(this.changePasswordForm.value).subscribe(
         (res) => {
+          this.loadingService.resolve('loading');
           this.router.navigateByUrl('/');
           this.alertService.success(this.translate.instant('changePassword.success'));
         },
         (err) => {
+          this.loadingService.resolve('loading');
+
           this.alertService.error(this.translate.instant('password.incorrect'));
         }
       );

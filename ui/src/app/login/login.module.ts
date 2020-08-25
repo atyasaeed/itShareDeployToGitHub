@@ -6,6 +6,7 @@ import { LoginComponent } from './login.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { AlertModule } from 'ngx-bootstrap';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CovalentLoadingModule } from '@covalent/core/loading';
 @NgModule({
   declarations: [LoginComponent],
   imports: [
@@ -14,6 +15,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     LoginRoutingModule,
     ReactiveFormsModule,
     MatProgressSpinnerModule,
+    CovalentLoadingModule,
     AlertModule.forRoot(),
   ],
 })

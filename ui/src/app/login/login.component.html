@@ -1,13 +1,14 @@
 <div class="login-page" [@routerTransition]>
 
-  <div class="row justify-content-md-center">
+  <div class="row justify-content-md-center" *tdLoading="'loading';strategy:'overlay'">
+
     <div class="col-md-4">
       <div [routerLink]="'/'" class="cursor-pointer text-center">
         <img src="assets/images/logo.png" width="150px" class="user-avatar" />
         <h1 class="text-center">{{'brand.login' | translate}}</h1>
       </div>
       <form role=" form " [formGroup]="loginForm" (ngSubmit)="onLoggedin()">
-        <mat-spinner *ngIf="loading" class="m-auto"></mat-spinner>
+        <!-- <mat-spinner *ngIf="loading" class="m-auto"></mat-spinner> -->
 
         <div class="form-content ">
           <div class="form-group ">

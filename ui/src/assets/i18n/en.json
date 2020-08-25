@@ -151,7 +151,7 @@
   "firstName.error.required": "First Name Is Required",
   "lastName": "Last Name",
   "lastName.error.required": "Last Name Is Required",
-  "service": "Service",
+  "service": "Services",
   "service.title": "You Can Create New Service And Add It To Your Cart",
   "service.add": "Add Service",
   "gallery": "Gallery",

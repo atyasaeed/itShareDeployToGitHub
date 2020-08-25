@@ -12,6 +12,7 @@ import { Store } from '@ngrx/store';
 import { routerTransition } from 'src/app/router.animations';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { City, cities } from './city';
+import { TdLoadingService } from '@covalent/core/loading';
 
 @Component({
   selector: 'app-signup-partner',
@@ -36,7 +37,8 @@ export class SignupPartnerComponent implements OnInit {
     private userService: UserService,
     private alertservice: AlertService,
     private appStore: Store<fromStore.AppState>,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private loadingService: TdLoadingService
   ) {
     this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
       console.log(res);
@@ -116,9 +118,11 @@ export class SignupPartnerComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
+    this.loadingService.register('loading');
     if (this.registrationForm.invalid) {
       console.log(this.registrationForm.value);
       this.registrationForm.markAllAsTouched();
+      this.loadingService.resolve('loading');
       this.loading = false;
       return;
     }
@@ -126,11 +130,13 @@ export class SignupPartnerComponent implements OnInit {
     this.userService.updateOrg(this.registrationForm.value).subscribe(
       (res) => {
         this.router.navigateByUrl('/login');
+        this.loadingService.resolve('loading');
         this.alertservice.success(this.translate.instant('registeration.success'));
 
         // this.alertservice.success('please check your email');
       },
       (err) => {
+        this.loadingService.resolve('loading');
         this.loading = false;
       }
     );

@@ -1,5 +1,5 @@
 <div class="login-page" [@routerTransition]>
-  <div class="row justify-content-md-center">
+  <div class="row justify-content-md-center" *tdLoading="'loading';strategy:'overlay'">
     <div class="col-md-12">
       <div [routerLink]="'/'" role="button" class="cursor-pointer text-center">
         <img class="user-avatar" src="assets/images/logo.png" width="150px" />
@@ -113,7 +113,7 @@
 
           <section class="form-row" style="justify-content: space-around;">
             <div class="form-group col-lg-6 mb-3">
-              <input type="text" class="form-control input-underline input-lg"
+              <input type="url" class="form-control input-underline input-lg"
                 placeholder="{{ 'companyWebsite' | translate }}" formControlName="website" #website>
               <div *ngIf="registrationForm.controls.website.touched && !registrationForm.controls.website.valid"
                 class="text-danger text-center">
