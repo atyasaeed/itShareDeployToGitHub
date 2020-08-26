@@ -1,5 +1,5 @@
 <div [@routerTransition]>
-  <div >
+  <div>
     <app-page-header [heading]="'Programs'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header>
   </div>
 
@@ -12,7 +12,7 @@
             </mat-option>
         </mat-select>
     </mat-form-field> -->
-  <div >
+  <div>
     <div class="row">
       <div class="col-md-6 mb-3">
         <label>{{'service.select' | translate }} </label> :
@@ -47,7 +47,7 @@
             </ng-template>
           </div>
           <div class="col-md-4" *ngIf="activeService">
-            <div >
+            <div>
               <div>
                 <mat-radio-group class="row" [formControl]='selection' #radioGroup="matRadioGroup">
                   <mat-radio-button class="col-6" value="option1">{{"Upload File" |translate}}
@@ -56,7 +56,7 @@
                     {{"file.choose" |translate}}</mat-radio-button>
                 </mat-radio-group>
                 <span class="text-danger" *ngIf="selection.errors && form.touched">
-                    *{{'file.field.error.required'|translate}}</span>
+                  *{{'file.field.error.required'|translate}}</span>
               </div>
               <div *ngIf="radioGroup.value =='option1'">
                 <label>{{'File'|translate}} :</label>
@@ -125,7 +125,7 @@
 
             <div *ngIf="activeService?.materials != undefined" class="mb-3">
               <label>{{'file.material' | translate}} :</label>
-              <span class="text-danger" *ngIf="!form.controls.material.valid && form.controls.material.touched">
+              <span class="text-danger" *ngIf="!form?.controls?.material?.valid && form.controls.material.touched">
                 *{{'file.field.error.required' | translate}}</span>
               <select formControlName="material" class="form-control">
                 <option disabled selected value="undefined">{{'file.material.select' | translate}}</option>
@@ -194,8 +194,8 @@
                 </ng-multiselect-dropdown>
               </div>
               <ng-template #processesSingle>
-                <select formControlName="processes" class="form-control" >
-                  <option disabled value="undefined" >{{'file.process.select' | translate}}</option>
+                <select formControlName="processes" class="form-control">
+                  <option disabled value="undefined">{{'file.process.select' | translate}}</option>
                   <ng-container *ngFor="let v of activeService.processes.values">
                     <option [value]="v">{{v}}</option>
                   </ng-container>
@@ -205,8 +205,7 @@
           </div>
 
           <div class="col-md-12 text-center mt-3" *ngIf="activeService">
-            <button type="submit" class="btn btn-primary "
-              [disabled]=" activeService?.id==null || loading == false">
+            <button type="submit" class="btn btn-primary " [disabled]=" activeService?.id==null || loading == false">
               {{'addToCart' | translate}} <i class="fa fa-cart-plus " aria-hidden="true" #flyToCart></i>
             </button>
           </div>

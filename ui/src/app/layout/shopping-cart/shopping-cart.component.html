@@ -24,7 +24,7 @@
 
                 <!-- Cart Items Table -->
                 <div class="col-md-12 col-lg-8 light-grey-background">
-                  <div class="items" *tdLoading="'loading'">
+                  <div class="items" *tdLoading="'loading';strategy:'overlay'">
 
                     <!-- One Item Row -->
                     <div class="product  pb-3" *ngFor="let entity of items;let i =index">

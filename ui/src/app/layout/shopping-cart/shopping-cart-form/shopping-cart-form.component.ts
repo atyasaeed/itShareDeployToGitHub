@@ -96,17 +96,19 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
   }
 
   ngOnInit() {
-    this.createForm();
-    this.selectService.patchValue(undefined);
     if (this.serviceId && this.objAsset) {
       this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
         this.services = res;
         this.activeService = this.services.find((item) => item.id === this.serviceId);
-        //console.log(this.activeService);
-
         this.buildForm(this.activeService?.id);
+
+        //console.log(this.activeService);
       });
+    } else {
+      this.createForm();
     }
+
+    this.selectService.patchValue(undefined);
 
     this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
       this.services = res;
@@ -174,82 +176,168 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
     return null;
   }
 
+  animationBuildForm() {
+    this.selection.patchValue(null);
+    this.serviceId = '';
+    // this.activeService = this.services.find((e) => e.id === id);
+    this.filterFiles = [];
+    this.form.reset({
+      quantity: 1,
+      material: 'undefined',
+      thickness: 'undefined',
+      color: 'undefined',
+      type: 'undefined',
+      unit: 'undefined',
+      processes: 'undefined',
+    });
+    this.form.markAsUntouched();
+    this.form.markAsPristine();
+    this.form.updateValueAndValidity();
+
+    for (let index = 0; index < this.activeService?.supportedExtensions.length; index++) {
+      for (let i = 0; i < this.filesAsset.length; i++) {
+        if (
+          this.activeService.supportedExtensions[index].split('.').pop() == this.filesAsset[i].name.split('.').pop()
+        ) {
+          this.filterFiles.push(this.filesAsset[i]);
+        }
+      }
+    }
+
+    //console.log(this.activeService);
+    if (this.activeService?.materials != undefined) {
+      this.form.addControl('material', new FormControl('undefined', this.selectValidator));
+    } else {
+      this.form.removeControl('material');
+    }
+    if (this.activeService?.thickness != undefined) {
+      this.form.addControl('thickness', new FormControl('undefined', this.selectValidator));
+    } else {
+      this.form.removeControl('thickness');
+    }
+    if (this.activeService?.colors != undefined) {
+      this.form.addControl('color', new FormControl('undefined', this.selectValidator));
+    } else {
+      this.form.removeControl('color');
+    }
+    if (this.activeService?.types != undefined) {
+      this.form.addControl('type', new FormControl('undefined', this.selectValidator));
+    } else {
+      this.form.removeControl('type');
+    }
+    if (this.activeService?.units != undefined) {
+      this.form.addControl('unit', new FormControl('undefined', this.selectValidator));
+    } else {
+      this.form.removeControl('unit');
+    }
+    if (this.activeService?.processes != undefined) {
+      if (this.activeService.processes.multi == true) {
+        this.form.removeControl('processes');
+        this.form.addControl('mprocesses', new FormControl('', Validators.required));
+      } else {
+        this.form.removeControl('mprocesses');
+        this.form.addControl('processes', new FormControl('undefined', this.selectValidator));
+      }
+    } else {
+      if (this.form.get('mprocesses')) {
+        this.form.removeControl('mprocesses');
+      } else if (this.form.get('processes')) {
+        this.form.removeControl('processes');
+      }
+    }
+
+    this.acceptedExtensions();
+  }
   buildForm(id) {
-    this.serviceContentAnimation = 'out';
-    setTimeout(() => {
-      this.serviceContentAnimation = 'in';
-
-      this.selection.patchValue(null);
-      this.serviceId = '';
+    if (this.serviceId && this.objAsset) {
       this.activeService = this.services.find((e) => e.id === id);
-      this.filterFiles = [];
-      this.form.reset({
-        quantity: 1,
-        material: 'undefined',
-        thickness: 'undefined',
-        color: 'undefined',
-        type: 'undefined',
-        unit: 'undefined',
-        processes: 'undefined',
-      });
-      this.form.markAsUntouched();
-      this.form.markAsPristine();
-      this.form.updateValueAndValidity();
+      this.createForm();
 
-      for (let index = 0; index < this.activeService?.supportedExtensions.length; index++) {
-        for (let i = 0; i < this.filesAsset.length; i++) {
-          if (
-            this.activeService.supportedExtensions[index].split('.').pop() == this.filesAsset[i].name.split('.').pop()
-          ) {
-            this.filterFiles.push(this.filesAsset[i]);
-          }
-        }
-      }
+      this.animationBuildForm();
+    } else {
+      this.serviceContentAnimation = 'out';
 
-      //console.log(this.activeService);
-      if (this.activeService?.materials != undefined) {
-        this.form.addControl('material', new FormControl('undefined', this.selectValidator));
-      } else {
-        this.form.removeControl('material');
-      }
-      if (this.activeService?.thickness != undefined) {
-        this.form.addControl('thickness', new FormControl('undefined', this.selectValidator));
-      } else {
-        this.form.removeControl('thickness');
-      }
-      if (this.activeService?.colors != undefined) {
-        this.form.addControl('color', new FormControl('undefined', this.selectValidator));
-      } else {
-        this.form.removeControl('color');
-      }
-      if (this.activeService?.types != undefined) {
-        this.form.addControl('type', new FormControl('undefined', this.selectValidator));
-      } else {
-        this.form.removeControl('type');
-      }
-      if (this.activeService?.units != undefined) {
-        this.form.addControl('unit', new FormControl('undefined', this.selectValidator));
-      } else {
-        this.form.removeControl('unit');
-      }
-      if (this.activeService?.processes != undefined) {
-        if (this.activeService.processes.multi == true) {
-          this.form.removeControl('processes');
-          this.form.addControl('mprocesses', new FormControl('', Validators.required));
-        } else {
-          this.form.removeControl('mprocesses');
-          this.form.addControl('processes', new FormControl('undefined', this.selectValidator));
-        }
-      } else {
-        if (this.form.get('mprocesses')) {
-          this.form.removeControl('mprocesses');
-        } else if (this.form.get('processes')) {
-          this.form.removeControl('processes');
-        }
-      }
+      setTimeout(() => {
+        this.serviceContentAnimation = 'in';
+        this.activeService = this.services.find((e) => e.id === id);
 
-      this.acceptedExtensions();
-    }, 300);
+        this.animationBuildForm();
+      }, 300);
+    }
+    // setTimeout(() => {
+    //   this.serviceContentAnimation = 'in';
+
+    //   this.selection.patchValue(null);
+    //   this.serviceId = '';
+    //   this.activeService = this.services.find((e) => e.id === id);
+    //   this.filterFiles = [];
+    //   this.form.reset({
+    //     quantity: 1,
+    //     material: 'undefined',
+    //     thickness: 'undefined',
+    //     color: 'undefined',
+    //     type: 'undefined',
+    //     unit: 'undefined',
+    //     processes: 'undefined',
+    //   });
+    //   this.form.markAsUntouched();
+    //   this.form.markAsPristine();
+    //   this.form.updateValueAndValidity();
+
+    //   for (let index = 0; index < this.activeService?.supportedExtensions.length; index++) {
+    //     for (let i = 0; i < this.filesAsset.length; i++) {
+    //       if (
+    //         this.activeService.supportedExtensions[index].split('.').pop() == this.filesAsset[i].name.split('.').pop()
+    //       ) {
+    //         this.filterFiles.push(this.filesAsset[i]);
+    //       }
+    //     }
+    //   }
+
+    //   //console.log(this.activeService);
+    //   if (this.activeService?.materials != undefined) {
+    //     this.form.addControl('material', new FormControl('undefined', this.selectValidator));
+    //   } else {
+    //     this.form.removeControl('material');
+    //   }
+    //   if (this.activeService?.thickness != undefined) {
+    //     this.form.addControl('thickness', new FormControl('undefined', this.selectValidator));
+    //   } else {
+    //     this.form.removeControl('thickness');
+    //   }
+    //   if (this.activeService?.colors != undefined) {
+    //     this.form.addControl('color', new FormControl('undefined', this.selectValidator));
+    //   } else {
+    //     this.form.removeControl('color');
+    //   }
+    //   if (this.activeService?.types != undefined) {
+    //     this.form.addControl('type', new FormControl('undefined', this.selectValidator));
+    //   } else {
+    //     this.form.removeControl('type');
+    //   }
+    //   if (this.activeService?.units != undefined) {
+    //     this.form.addControl('unit', new FormControl('undefined', this.selectValidator));
+    //   } else {
+    //     this.form.removeControl('unit');
+    //   }
+    //   if (this.activeService?.processes != undefined) {
+    //     if (this.activeService.processes.multi == true) {
+    //       this.form.removeControl('processes');
+    //       this.form.addControl('mprocesses', new FormControl('', Validators.required));
+    //     } else {
+    //       this.form.removeControl('mprocesses');
+    //       this.form.addControl('processes', new FormControl('undefined', this.selectValidator));
+    //     }
+    //   } else {
+    //     if (this.form.get('mprocesses')) {
+    //       this.form.removeControl('mprocesses');
+    //     } else if (this.form.get('processes')) {
+    //       this.form.removeControl('processes');
+    //     }
+    //   }
+
+    //   this.acceptedExtensions();
+    // }, 300);
   }
 
   submit() {

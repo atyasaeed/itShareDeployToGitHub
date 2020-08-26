@@ -69,27 +69,21 @@ export class GalleryComponent extends DefaultListComponent<ShoppingCartItem, Gal
 
   addLineItem(entity) {
     // console.log(entity);
+    this.loadingService.register(this.key);
     this.service.cloneItem(entity).subscribe((res) => {
       this.toastr.success('Successful Addition To Your Cart');
       this.appStore.dispatch(new fromStore.LoadInitState());
+      this.loadingService.resolve(this.key);
     });
   }
   removeItem(id, index) {
-    // this.entities$.subscribe((res) => {
-    //   res = res.splice(
-    //     res
-    //       .map(function (x) {
-    //         return x.id;
-    //       })
-    //       .indexOf(id),
-    //     1
-    //   );
-    // });
+    this.loadingService.register(this.key);
     this.service.removeItem(id).subscribe((res) => {
       this.entities$.subscribe((res) => {
         res.splice(index, 1);
       });
       this.toastr.success('Removed Successfully');
+      this.loadingService.resolve(this.key);
     });
   }
   getFileExtension(entity: ShoppingCartItem) {

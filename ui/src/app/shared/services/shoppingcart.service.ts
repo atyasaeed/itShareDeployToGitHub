@@ -21,8 +21,8 @@ export class ShoppingCartService extends RestService<ShoppingCartItem> {
   // refresh() {
   //   // this.ShoppingCartItem[]>().subscribe((data) => this.ShoppingCartSubject.next(data));
   //   return this.ShoppingCart;
-  // }
   // removeCart() {
+  // }
   //   this.ShoppingCartSubject.next(null);
   //   return this.ShoppingCart;
   // }

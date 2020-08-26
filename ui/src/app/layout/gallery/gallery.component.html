@@ -1,5 +1,5 @@
 <div [@routerTransition]>
-  <div >
+  <div>
     <app-page-header [heading]="'Programs'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header>
   </div>
 
@@ -23,7 +23,7 @@
           </div>
         </div> -->
 
-      <div  *tdLoading="'loading'">
+      <div *tdLoading="'loading';strategy:'overlay'">
         <ng-container *ngIf="(entities$|async)?.length!=0 else anonymous">
           <div class="content">
             <form class="container-fluid">
@@ -47,7 +47,7 @@
                             <img class="img-fluid " [src]="appConfig.serviceImage(entity.service)">
                           </ng-template> -->
                           <img class="img-fluid " [src]="appConfig.FILE_URL + entity.files[0].asset_id"
-                          *ngIf="getFileExtension(entity) == 'image';else stlExtension">
+                            *ngIf="getFileExtension(entity) == 'image';else stlExtension">
                           <ng-template #stlExtension>
                             <div *ngIf="getFileExtension(entity) == 'stl';else serviceImage">
                               <img class="img-fluid " [src]="appConfig.serviceImage(entity.service)">
@@ -91,14 +91,17 @@
                                     </section>
                                     <section class="col-md-4">
                                       <div class="text-md-right text-center">
-                                        <a class="btn btn-outline-success btn-xs" [href]="getFileUrl(entity)" tooltip="{{'download' | translate}}"  hide-delay="0">
+                                        <a class="btn btn-outline-success btn-xs" [href]="getFileUrl(entity)"
+                                          tooltip="{{'download' | translate}}" hide-delay="0">
                                           <i class="fa fa-download" aria-hidden="true"></i>
                                         </a>
-                                        <button color="primary" class="btn btn-outline-primary btn-xs ml-3" tooltip="{{'addToCart' | translate}}"  hide-delay="0"
+                                        <button color="primary" class="btn btn-outline-primary btn-xs ml-3"
+                                          tooltip="{{'addToCart' | translate}}" hide-delay="0"
                                           (click)="addLineItem(entity)">
                                           <i class="fa fa-cart-plus" aria-hidden="true"></i>
                                         </button>
-                                        <button *ngIf="hasAdminRole" (click)="removeItem(entity.id,i)" tooltip="{{'delete' | translate}}"  hide-delay="0"
+                                        <button *ngIf="hasAdminRole" (click)="removeItem(entity.id,i)"
+                                          tooltip="{{'delete' | translate}}" hide-delay="0"
                                           aria-label="Example icon button with a delete icon"
                                           class="btn btn-outline-danger btn-xs ml-3">
                                           <i class="fa fa-trash" aria-hidden="true"></i>
@@ -117,7 +120,8 @@
                                     [href]="getFileUrl(entity,j)">{{file.asset_name}}</a></span></div> -->
                               <div class="form-body row">
                                 <div class="col-md-6 " *ngIf="file.height">
-                                  <div><label>{{'file.height' | translate }} :&nbsp;</label> <span>{{file.height }}</span>
+                                  <div><label>{{'file.height' | translate }} :&nbsp;</label>
+                                    <span>{{file.height }}</span>
                                   </div>
                                 </div>
                                 <div class="col-md-6 " *ngIf="file.width">

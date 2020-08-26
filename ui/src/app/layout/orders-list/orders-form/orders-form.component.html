@@ -1,4 +1,4 @@
-<div *tdLoading="'loading'" [@routerTransition]>
+<div *tdLoading="'loading';strategy:'overlay'" [@routerTransition]>
   <app-page-header [heading]="'Employee Case'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header>
   <div class="card mb-3 form-rtl" *ngIf="entity">
 
@@ -185,7 +185,7 @@
                             <!-- <h4 class="modal-title pull-left">please register the rejection reason</h4> -->
 
                             <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-                                <span aria-hidden="true">&times;</span>
+                              <span aria-hidden="true">&times;</span>
                             </button>
 
                           </div>
@@ -400,9 +400,9 @@
                 <div>
                   <div class="modal-header">
                     <!-- <h4 class="modal-title pull-left">please register the rejection reason</h4> -->
-                   <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-                     <span aria-hidden="true">&times;</span>
-                   </button>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
 
                   </div>
                   <div class="modal-body">

@@ -6,6 +6,7 @@ import * as THREE from 'three/build/three.module.js';
 import { ToastrService } from 'ngx-toastr';
 import { LineItemService } from '../../../shared/services/line-item.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { TdLoadingService } from '@covalent/core/loading';
 
 @Component({
   selector: 'app-line-item',
@@ -18,13 +19,15 @@ export class LineItemComponent implements OnInit {
   @Output() itemChanged = new EventEmitter<LineItem>();
   checkRadio;
   modalRef: BsModalRef;
+  key = 'loadingItem';
   constructor(
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
     //private http: HttpClient,
     private toastr: ToastrService,
     private service: LineItemService,
     private modalService: BsModalService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private loadingService: TdLoadingService
   ) {}
 
   ngOnInit() {}
@@ -92,26 +95,31 @@ export class LineItemComponent implements OnInit {
   // }
 
   cancelItem() {
+    this.loadingService.register(this.key);
     this.service.cancel(this.lineItem.id).subscribe((res: LineItem) => {
       this.lineItem = res;
       this.itemChanged.emit(res);
       this.toastr.success('Item Cancelled');
       this.modalRef.hide();
+      this.loadingService.resolve(this.key);
     });
   }
 
   quotedActionsChanged(event) {
+    this.loadingService.register(this.key);
     if (event.target.value == 'QUOTE_ACCEPTED') {
       this.service.approve(this.lineItem.id).subscribe((res: LineItem) => {
         this.lineItem = res;
         this.itemChanged.emit(res);
         this.toastr.success('Quote Accepted');
+        this.loadingService.resolve(this.key);
       });
     } else if (event.target.value == 'QUOTE_REJECTED') {
       this.service.reject(this.lineItem.id).subscribe((res: LineItem) => {
         this.lineItem = res;
         this.itemChanged.emit(res);
         this.toastr.success('Quote Rejected');
+        this.loadingService.resolve(this.key);
       });
     }
   }
