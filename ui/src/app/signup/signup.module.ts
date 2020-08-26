@@ -12,6 +12,7 @@ import * as fromStore from 'src/app/store';
 import { SignupPartnerComponent } from './signup-partner/signup-partner.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { CovalentDialogsModule } from '@covalent/core/dialogs';
 
 @NgModule({
   declarations: [SignupComponent, SignupActivationComponent, SignupPartnerComponent],
@@ -24,6 +25,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
     SharedModule,
     //RecaptchaModule,
     //RecaptchaFormsModule,
+    CovalentDialogsModule,
   ],
   // providers: [
   //   {

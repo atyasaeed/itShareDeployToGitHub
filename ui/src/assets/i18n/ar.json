@@ -199,7 +199,7 @@
   "home": "الرئيسيه",
   "services": "خدمات التصنيع المتاحة",
   "alert": "تحذير",
-  "areYouSure": "هل انت متاكد",
+  "areYouSure": "هل انت متاكد ؟",
   "yes": "نعم",
   "no": "لا",
   "cancel": "إلغاء",
@@ -274,5 +274,6 @@
   "companyName.error.max": "لايزيد عن 80 حرف",
   "companyName.error.pattern": "يجب ان يكون اسم شركة صحيح",
   "firstName.error.minlength": "يجب الا يقل عن حرفين",
-  "firstName.error.maxlength": "يجب الا يزيد عند 80 حرف"
+  "firstName.error.maxlength": "يجب الا يزيد عند 80 حرف",
+  "deactivateModalMessage": "سيتم تجاهل جميع التغييرات"
 }
