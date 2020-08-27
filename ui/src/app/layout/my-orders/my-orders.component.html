@@ -13,7 +13,7 @@
         <h2 class="text-primary text-center">{{'My Orders'|translate}}</h2>
         <p *ngIf="!singleOrder" class="text-center">{{'You can track and manage all of your orders'|translate}} </p>
       </div>
-      <div *tdLoading="'loading'">
+      <div *tdLoading="'loading' strategy:'overlay'">
         <div class="row mb-3">
           <!-- <div class="col-md-4">
                   <ng-multiselect-dropdown

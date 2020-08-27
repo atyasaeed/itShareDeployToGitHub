@@ -25,7 +25,7 @@ export class OrderCardComponent implements OnInit {
   max: Date;
   dateArray: Date[] = [];
   modalRef: BsModalRef;
-  key = 'loadingOrder';
+  otherKey = 'loadingOrder';
   constructor(
     private orderService: OrderService,
     private route: ActivatedRoute,
@@ -70,28 +70,28 @@ export class OrderCardComponent implements OnInit {
   }
 
   cancelOrder() {
-    this.loadingService.register(this.key);
+    this.loadingService.register(this.otherKey);
     this.orderService.cancel(this.order.id).subscribe((res) => {
       this.order = res;
-      this.loadingService.resolve(this.key);
+      this.loadingService.resolve(this.otherKey);
 
       //console.log(res);
     });
   }
 
   approveQuotation() {
-    this.loadingService.register(this.key);
+    this.loadingService.register(this.otherKey);
     this.orderService.approve(this.order.id).subscribe((res) => {
       this.order = res;
-      this.loadingService.resolve(this.key);
+      this.loadingService.resolve(this.otherKey);
     });
   }
 
   rejectQuotation() {
-    this.loadingService.register(this.key);
+    this.loadingService.register(this.otherKey);
     this.orderService.reject(this.order.id).subscribe((res) => {
       this.order = res;
-      this.loadingService.resolve(this.key);
+      this.loadingService.resolve(this.otherKey);
     });
   }
 

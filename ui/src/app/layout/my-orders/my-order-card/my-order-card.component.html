@@ -1,4 +1,4 @@
-<div class="card mb-3 light-grey-background" *tdLoading="'loadingOrder';strategy:'overlay'">
+<div class="card mb-3 light-grey-background">
   <div class="card-header">
     <div class="row ">
       <div class="col">
@@ -48,7 +48,7 @@
 
 
       <!-- Stand alone button to cancel all order -->
-      <div class=" col-md-2  text-center   my-auto" *ngIf="showOrderInteractBtns() ">
+      <div class=" col-md-2  text-center   my-auto" *ngIf="showOrderInteractBtns()">
 
         <button class="btn btn-primary btn-block btn-sm m-1" *ngIf="order.status == 'QUOTED'"
           (click)="approveQuotation()">{{'approve' | translate}} </button>
