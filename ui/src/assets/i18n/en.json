@@ -199,7 +199,7 @@
   "home": "Home",
   "services": "Available Manufacturing Services ",
   "alert": "Alert",
-  "areYouSure": "Are You Sure",
+  "areYouSure": "Are You Sure ?",
   "yes": "Yes",
   "no": "No",
   "cancel": "Cancel",
@@ -274,5 +274,6 @@
   "companyName.error.max": "Max(80)",
   "companyName.error.pattern": "Name Must Be Available",
   "firstName.error.minlength": "Min(2 Digit)",
-  "firstName.error.maxlength": "Max (80 Digit)"
+  "firstName.error.maxlength": "Max (80 Digit)",
+  "deactivateModalMessage":"All Changes Will Be Discarded"
 }

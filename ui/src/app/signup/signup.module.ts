@@ -13,6 +13,7 @@ import { SignupPartnerComponent } from './signup-partner/signup-partner.componen
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { CovalentLoadingModule } from '@covalent/core/loading';
+import { CovalentDialogsModule } from '@covalent/core/dialogs';
 
 @NgModule({
   declarations: [SignupComponent, SignupActivationComponent, SignupPartnerComponent],
@@ -26,6 +27,7 @@ import { CovalentLoadingModule } from '@covalent/core/loading';
     CovalentLoadingModule,
     //RecaptchaModule,
     //RecaptchaFormsModule,
+    CovalentDialogsModule,
   ],
   // providers: [
   //   {

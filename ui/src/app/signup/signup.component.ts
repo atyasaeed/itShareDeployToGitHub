@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewContainerRef } from '@angular/core';
 import { routerTransition } from '../router.animations';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 //import { Country, COUNTRIES } from './countries';
@@ -13,6 +13,10 @@ import { UserService } from '../shared/services/user.service';
 import { CustomCaptchaService } from '../shared/services/captcha.service';
 import { ToastrService } from 'ngx-toastr';
 import { TdLoadingService } from '@covalent/core/loading';
+import { TdDialogService } from '@covalent/core/dialogs';
+import { CanComponentDeactivate } from '../shared/guard/can-deactivate-guard.service';
+import { Subject } from 'rxjs';
+
 // import {
 //   RECAPTCHA_LANGUAGE,
 //   RECAPTCHA_SETTINGS,
@@ -27,11 +31,12 @@ import { TdLoadingService } from '@covalent/core/loading';
   styleUrls: ['./signup.component.scss'],
   animations: [routerTransition()],
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent implements OnInit, CanComponentDeactivate {
   user: User;
   registrationForm: FormGroup;
   loading = false;
   emptyCaptcha = true;
+  canDeactivateValue: Subject<boolean> = new Subject<boolean>();
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -45,7 +50,9 @@ export class SignupComponent implements OnInit {
     private cdref: ChangeDetectorRef,
     private route: ActivatedRoute,
     private toastr: ToastrService,
-    private loadingService: TdLoadingService
+    private loadingService: TdLoadingService,
+    private _dialogService: TdDialogService,
+    private _viewContainerRef: ViewContainerRef
   ) {}
   partner: boolean = true;
 
@@ -116,6 +123,7 @@ export class SignupComponent implements OnInit {
     this.userService.register(this.user).subscribe(
       (res) => {
         // this.router.navigateByUrl('signup/activation');
+        this.registrationForm.markAsPristine();
         this.router.navigate(['signup/activation'], {
           state: res,
         });
@@ -148,5 +156,32 @@ export class SignupComponent implements OnInit {
         // }
       }
     );
+  }
+  canDeactivate() {
+    if (this.registrationForm.dirty) {
+      this._dialogService
+        .openConfirm({
+          message: this.translate.instant('deactivateModalMessage'),
+          disableClose: true || false,
+          viewContainerRef: this._viewContainerRef,
+          title: this.translate.instant('areYouSure'),
+          cancelButton: this.translate.instant('no'),
+          acceptButton: this.translate.instant('yes'),
+          width: '320px',
+          panelClass: 'deactivate-modalbox',
+        })
+        .afterClosed()
+        .subscribe((accept: boolean) => {
+          if (accept) {
+            this.canDeactivateValue.next(true);
+          } else {
+            this.canDeactivateValue.next(false);
+          }
+        });
+
+      return this.canDeactivateValue;
+    }
+
+    return true;
   }
 }
