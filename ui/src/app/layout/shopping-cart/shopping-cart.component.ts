@@ -102,20 +102,30 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
   checkout() {
     this.loadingService.register(this.key);
 
-    this.service.checkout().subscribe((resp) => {
-      this.service.searchTerm = '';
-      this.loadingService.resolve(this.key);
-      // this.refresh();
-      this.appStore.dispatch(new fromStore.LoadInitState());
-    });
+    this.service.checkout().subscribe(
+      (resp) => {
+        this.service.searchTerm = '';
+        this.loadingService.resolve(this.key);
+        // this.refresh();
+        this.appStore.dispatch(new fromStore.LoadInitState());
+      },
+      (err) => {
+        this.loadingService.resolve(this.key);
+      }
+    );
   }
   convertToGallery() {
     this.loadingService.register(this.key);
-    this.galleryService.convertToGallery().subscribe((res) => {
-      this.toastr.success('Successful Addition To Gallery');
-      this.loadingService.resolve(this.key);
-      this.appStore.dispatch(new fromStore.LoadInitState());
-    });
+    this.galleryService.convertToGallery().subscribe(
+      (res) => {
+        this.toastr.success('Successful Addition To Gallery');
+        this.loadingService.resolve(this.key);
+        this.appStore.dispatch(new fromStore.LoadInitState());
+      },
+      (err) => {
+        this.loadingService.resolve(this.key);
+      }
+    );
   }
 
   updateItem(item: ShoppingCartItem, quantity) {
@@ -150,10 +160,13 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     let newItem = Object.assign({}, item);
     newItem.notes = notes;
 
-    this.service.update(newItem).subscribe((res) => {
-      this.appStore.dispatch(new fromStore.LoadInitState());
-      this.loadingService.resolve(this.key);
-    });
+    this.service.update(newItem).subscribe(
+      (res) => {
+        this.appStore.dispatch(new fromStore.LoadInitState());
+        this.loadingService.resolve(this.key);
+      },
+      (errr) => this.loadingService.resolve(this.key)
+    );
   }
   // removeCart() {
   //   this.service.removeCart().subscribe();
@@ -202,10 +215,15 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     this.loadingService.register(this.key);
     let newItem = JSON.parse(JSON.stringify(item));
     newItem.files[0][type] = event.target.value;
-    this.service.update(newItem).subscribe((res) => {
-      this.appStore.dispatch(new fromStore.LoadInitState());
-      this.loadingService.resolve(this.key);
-    });
+    this.service.update(newItem).subscribe(
+      (res) => {
+        this.appStore.dispatch(new fromStore.LoadInitState());
+        this.loadingService.resolve(this.key);
+      },
+      (err) => {
+        this.loadingService.resolve(this.key);
+      }
+    );
   }
 
   inputNumberChanged(item: LineItem, event, type: string, element: HTMLElement) {
@@ -228,10 +246,15 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
           }),
           delay(500)
         )
-        .subscribe((res) => {
-          this.appStore.dispatch(new fromStore.LoadInitState());
-          this.loadingService.resolve(this.key);
-        });
+        .subscribe(
+          (res) => {
+            this.appStore.dispatch(new fromStore.LoadInitState());
+            this.loadingService.resolve(this.key);
+          },
+          (err) => {
+            this.loadingService.resolve(this.key);
+          }
+        );
     }
   }
 
@@ -241,10 +264,15 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     let newItem = JSON.parse(JSON.stringify(item));
     newItem.files[0]['processes'] = this.selectedItemsArray[i];
     console.log(newItem);
-    this.service.update(newItem).subscribe((res) => {
-      this.appStore.dispatch(new fromStore.LoadInitState());
-      this.loadingService.resolve(this.key);
-    });
+    this.service.update(newItem).subscribe(
+      (res) => {
+        this.appStore.dispatch(new fromStore.LoadInitState());
+        this.loadingService.resolve(this.key);
+      },
+      (err) => {
+        this.loadingService.resolve(this.key);
+      }
+    );
   }
   onItemDeSelect(item: LineItem, i, element: HTMLElement) {
     this.loadingService.register(this.key);
@@ -255,10 +283,15 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
       let newItem = JSON.parse(JSON.stringify(item));
       newItem.files[0]['processes'] = this.selectedItemsArray[i];
       console.log(newItem);
-      this.service.update(newItem).subscribe((res) => {
-        this.appStore.dispatch(new fromStore.LoadInitState());
-        this.loadingService.resolve(this.key);
-      });
+      this.service.update(newItem).subscribe(
+        (res) => {
+          this.appStore.dispatch(new fromStore.LoadInitState());
+          this.loadingService.resolve(this.key);
+        },
+        (err) => {
+          this.loadingService.resolve(this.key);
+        }
+      );
     }
   }
   onSelectAll(item: LineItem, event, element: HTMLElement) {
@@ -267,10 +300,15 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     let newItem = JSON.parse(JSON.stringify(item));
     newItem.files[0]['processes'] = event;
     console.log(newItem);
-    this.service.update(newItem).subscribe((res) => {
-      this.appStore.dispatch(new fromStore.LoadInitState());
-      this.loadingService.resolve(this.key);
-    });
+    this.service.update(newItem).subscribe(
+      (res) => {
+        this.appStore.dispatch(new fromStore.LoadInitState());
+        this.loadingService.resolve(this.key);
+      },
+      (res) => {
+        this.loadingService.resolve(this.key);
+      }
+    );
   }
   onDeSelectAll(element: HTMLElement) {
     //console.log(this.selectedItemsArray[i]);

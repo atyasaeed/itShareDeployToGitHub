@@ -80,7 +80,7 @@ export class UserFormComponent extends DefaultFormComponent<User, UserService> i
         },
         (err) => {
           // this.loadingService.resolve('loadingUser');
-          setTimeout(() => this.loadingService.resolve('loadingUser'), 1000);
+          this.loadingService.resolve('loadingUser');
         }
       );
     } else {

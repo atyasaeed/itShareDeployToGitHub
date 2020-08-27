@@ -189,19 +189,29 @@ export class ServiceFormComponent extends DefaultFormComponent<Service, ServiceS
       });
       formData.append('service', blob);
       if (this.route.snapshot.params['entityId']) {
-        this.service.update(formData).subscribe((res) => {
-          this.form.markAsPristine();
-          this.appStore.dispatch(new fromStore.LoadInitState());
-          this.loadingService.resolve('loading');
-          this.router.navigate(['/services-list']);
-        });
+        this.service.update(formData).subscribe(
+          (res) => {
+            this.form.markAsPristine();
+            this.appStore.dispatch(new fromStore.LoadInitState());
+            this.loadingService.resolve('loading');
+            this.router.navigate(['/services-list']);
+          },
+          (err) => {
+            this.loadingService.resolve('loading');
+          }
+        );
       } else {
-        this.service.create(formData).subscribe((res) => {
-          this.form.markAsPristine();
-          this.appStore.dispatch(new fromStore.LoadInitState());
-          this.loadingService.resolve('loading');
-          this.router.navigate(['/services-list']);
-        });
+        this.service.create(formData).subscribe(
+          (res) => {
+            this.form.markAsPristine();
+            this.appStore.dispatch(new fromStore.LoadInitState());
+            this.loadingService.resolve('loading');
+            this.router.navigate(['/services-list']);
+          },
+          (err) => {
+            this.loadingService.resolve('loading');
+          }
+        );
       }
     } else {
       this.form.get('materials')?.markAsTouched();
@@ -210,6 +220,7 @@ export class ServiceFormComponent extends DefaultFormComponent<Service, ServiceS
       this.form.get('units')?.markAsTouched();
       this.form.get('colors')?.markAsTouched();
       this.form.get('processes')?.markAsTouched();
+      this.loadingService.resolve('loading');
       return;
     }
   }

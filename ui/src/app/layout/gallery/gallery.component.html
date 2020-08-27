@@ -23,9 +23,9 @@
           </div>
         </div> -->
 
-      <div *tdLoading="'loading';strategy:'overlay'">
+      <div>
         <ng-container *ngIf="(entities$|async)?.length!=0 else anonymous">
-          <div class="content">
+          <div class="content" *tdLoading="'loading';strategy:'overlay'">
             <form class="container-fluid">
 
 

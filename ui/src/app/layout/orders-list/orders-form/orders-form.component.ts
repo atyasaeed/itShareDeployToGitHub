@@ -424,23 +424,33 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
 
   updateItemPending(lineItem: LineItem) {
     this.loadingService.register(this.key);
-    this.itemservice.itemStatus(lineItem.id, 'reset').subscribe((res: LineItem) => {
-      lineItem.status = 'PENDING';
-      this.found = false;
-      this.rejectionReason = {} as RejectionReason;
-      this.selectedItems = [];
-      this.loadingService.resolve(this.key);
-    });
+    this.itemservice.itemStatus(lineItem.id, 'reset').subscribe(
+      (res: LineItem) => {
+        lineItem.status = 'PENDING';
+        this.found = false;
+        this.rejectionReason = {} as RejectionReason;
+        this.selectedItems = [];
+        this.loadingService.resolve(this.key);
+      },
+      (err) => {
+        this.loadingService.resolve(this.key);
+      }
+    );
   }
 
   openModal(template) {
     this.loadingService.register(this.key);
     this.rejectionReasonService.searchTerm = '';
-    this.rejectionReasonService.model$.subscribe((res) => {
-      console.log(res);
-      this.reasonList = res;
-      this.loadingService.resolve(this.key);
-    });
+    this.rejectionReasonService.model$.subscribe(
+      (res) => {
+        console.log(res);
+        this.reasonList = res;
+        this.loadingService.resolve(this.key);
+      },
+      (err) => {
+        this.loadingService.resolve(this.key);
+      }
+    );
     this.modalRef = this.modalService.show(template);
   }
   itemRejectReasonModal(template) {
@@ -451,28 +461,33 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
     this.loadingService.register(this.key);
     let arrLineItems: boolean[] = new Array();
 
-    this.service.get(this.orderId).subscribe((res: Order) => {
-      res.lineItems.forEach((e) => {
-        if (
-          e.status == 'QUOTED' ||
-          e.status == 'ITEM_REJECTED' ||
-          e.status == 'CANCELLED' ||
-          e.status == 'QUOTE_REJECTED' ||
-          e.status == 'FINISHED' ||
-          e.status == 'DELIVERED'
-        ) {
-          arrLineItems.push(true);
-        } else {
-          arrLineItems.push(false);
-        }
-      });
-      this.loadingService.resolve(this.key);
+    this.service.get(this.orderId).subscribe(
+      (res: Order) => {
+        res.lineItems.forEach((e) => {
+          if (
+            e.status == 'QUOTED' ||
+            e.status == 'ITEM_REJECTED' ||
+            e.status == 'CANCELLED' ||
+            e.status == 'QUOTE_REJECTED' ||
+            e.status == 'FINISHED' ||
+            e.status == 'DELIVERED'
+          ) {
+            arrLineItems.push(true);
+          } else {
+            arrLineItems.push(false);
+          }
+        });
+        this.loadingService.resolve(this.key);
 
-      if (arrLineItems.indexOf(false) == -1) {
-        this.found = true;
-      } else {
-        this.found = false;
+        if (arrLineItems.indexOf(false) == -1) {
+          this.found = true;
+        } else {
+          this.found = false;
+        }
+      },
+      (err) => {
+        this.loadingService.resolve(this.key);
       }
-    });
+    );
   }
 }
