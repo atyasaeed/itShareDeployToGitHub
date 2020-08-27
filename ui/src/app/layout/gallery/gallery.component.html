@@ -4,7 +4,7 @@
   </div>
 
 
-  <main class="page">
+  <main class="page" *tdLoading="'loading';strategy:'overlay'">
     <section class="shopping-cart dark">
 
       <!-- page Head -->
@@ -25,7 +25,7 @@
 
       <div>
         <ng-container *ngIf="(entities$|async)?.length!=0 else anonymous">
-          <div class="content" *tdLoading="'loading';strategy:'overlay'">
+          <div class="content">
             <form class="container-fluid">
 
 
