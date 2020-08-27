@@ -12,6 +12,7 @@ import { Store } from '@ngrx/store';
 import { routerTransition } from 'src/app/router.animations';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { City, cities } from './city';
+import { TdLoadingService } from '@covalent/core/loading';
 import { Subject } from 'rxjs';
 import { CanComponentDeactivate } from 'src/app/shared/guard/can-deactivate-guard.service';
 import { TdDialogService } from '@covalent/core/dialogs';
@@ -40,6 +41,7 @@ export class SignupPartnerComponent implements OnInit, CanComponentDeactivate {
     private alertservice: AlertService,
     private appStore: Store<fromStore.AppState>,
     private translate: TranslateService,
+    private loadingService: TdLoadingService,
     private _dialogService: TdDialogService,
     private _viewContainerRef: ViewContainerRef
   ) {
@@ -121,9 +123,11 @@ export class SignupPartnerComponent implements OnInit, CanComponentDeactivate {
 
   onSubmit() {
     this.loading = true;
+    this.loadingService.register('loading');
     if (this.registrationForm.invalid) {
       console.log(this.registrationForm.value);
       this.registrationForm.markAllAsTouched();
+      this.loadingService.resolve('loading');
       this.loading = false;
       return;
     }
@@ -132,11 +136,13 @@ export class SignupPartnerComponent implements OnInit, CanComponentDeactivate {
       (res) => {
         this.registrationForm.markAsPristine();
         this.router.navigateByUrl('/login');
+        this.loadingService.resolve('loading');
         this.alertservice.success(this.translate.instant('registeration.success'));
 
         // this.alertservice.success('please check your email');
       },
       (err) => {
+        this.loadingService.resolve('loading');
         this.loading = false;
       }
     );

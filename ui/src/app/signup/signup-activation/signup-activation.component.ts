@@ -11,6 +11,7 @@ import * as fromStore from 'src/app/store';
 import { TranslateService } from '@ngx-translate/core';
 import { UserService } from 'src/app/shared/services/user.service';
 import { CustomCaptchaService } from 'src/app/shared/services/captcha.service';
+import { TdLoadingService } from '@covalent/core/loading';
 //import { RECAPTCHA_LANGUAGE } from 'ng-recaptcha';
 
 @Component({
@@ -41,7 +42,8 @@ export class SignupActivationComponent implements OnInit {
     private translate: TranslateService,
     private toastr: ToastrService,
     private captchaService: CustomCaptchaService,
-    private cdref: ChangeDetectorRef
+    private cdref: ChangeDetectorRef,
+    private loadingService: TdLoadingService
   ) {
     Object.assign(this.user, this.router.getCurrentNavigation().extras.state);
     console.log(this.user);
@@ -70,9 +72,10 @@ export class SignupActivationComponent implements OnInit {
   //public recaptchaReactive = new FormControl(null, Validators.required);
 
   onSubmit() {
+    this.loadingService.register('loading');
     if (this.form.invalid) {
       this.form.markAllAsTouched();
-
+      this.loadingService.resolve('loading');
       return;
     }
     // to be remove
@@ -100,15 +103,20 @@ export class SignupActivationComponent implements OnInit {
               this.router.navigate(['signup/partner'], {
                 state: this.user,
               });
+              this.loadingService.resolve('loading');
             } else {
               this.router.navigateByUrl('/login');
               this.toastr.success(this.translate.instant('registeration.success'));
+              this.loadingService.resolve('loading');
             }
           } else {
             this.toastr.error(this.translate.instant('verificationCode.error.incorrect'));
+            this.loadingService.resolve('loading');
           }
         },
         (err) => {
+          this.loadingService.resolve('loading');
+
           console.log(err);
         }
       );
@@ -123,6 +131,7 @@ export class SignupActivationComponent implements OnInit {
     });
   }
   resendCode() {
+    this.loadingService.register('loading');
     console.log('resendcode');
     console.log('token = ' + window['captchaToken']);
 
@@ -132,6 +141,8 @@ export class SignupActivationComponent implements OnInit {
 
     this.userService.resendCode(this.user.username).subscribe((res) => {
       this.loading = true;
+      this.loadingService.resolve('loading');
+
       this.alertservice.success(this.translate.instant('registeration.success.verify'));
 
       grecaptcha.reset();

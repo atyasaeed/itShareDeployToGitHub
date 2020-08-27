@@ -1,4 +1,4 @@
-<div [@routerTransition]>
+<div [@routerTransition] *tdLoading="'loading';strategy:'overlay'">
   <div>
     <app-page-header [heading]="'Programs'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header>
   </div>
@@ -24,7 +24,7 @@
 
                 <!-- Cart Items Table -->
                 <div class="col-md-12 col-lg-8 light-grey-background">
-                  <div class="items" *tdLoading="'loading'">
+                  <div class="items">
 
                     <!-- One Item Row -->
                     <div class="product  pb-3" *ngFor="let entity of items;let i =index">

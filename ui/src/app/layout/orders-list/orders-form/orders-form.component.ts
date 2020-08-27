@@ -71,20 +71,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
     private rejectionReasonService: ReasonService
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
-    this.form = this.formBuilder.group({
-      // id: [{ value: '', disabled: true }],
-    });
-
-    // this.rejectionReasonService.getReasons().subscribe((res) => {
-    //   console.log(res);
-    // });
-
-    // this.reasonList = [
-    //   { id: '1', name: 'reason1', status: 'ac' },
-    //   { id: '2', name: 'reason2', status: 'ac' },
-    //   { id: '3', name: 'reason3', status: 'ac' },
-    //   { id: '4', name: 'reason4', status: 'ac4' },
-    // ];
+    this.form = this.formBuilder.group({});
 
     this.dropdownSettings = {
       idField: 'id',
@@ -102,7 +89,6 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
       console.log(this.orderId);
     });
     this.service.get(this.orderId).subscribe((res: Order) => {
-      // this.checkLineItems(this.orderId, res.lineItems);
       if (res?.status == 'PENDING') {
         this.isEnabled = false;
       }
@@ -110,7 +96,6 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
       this.service.get(this.orderId).subscribe((res: Order) => {
         res.lineItems.forEach((e) => {
           if (
-            // e.status !== 'FINISHED'
             e.status == 'DELIVERED' ||
             e.status == 'QUOTE_ACCEPTED' ||
             e.status == 'IN_PROGRESS' ||
@@ -180,7 +165,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
   onUpdate(): void {}
   cancel(): void {}
   updateItem(order: Order, lineItem: LineItem) {
-    // lineItem.unitPrice.toString();
+    this.loadingService.register(this.key);
     console.log(lineItem.estimatedEndDate);
     let arrLineItems: boolean[] = new Array();
     let d = new Date(lineItem.estimatedEndDate);
@@ -189,6 +174,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
 
     this.service.updateLineItem(lineItem).subscribe((res: LineItem) => {
       this.toastr.success(this.translate.instant('update.Successful'));
+      this.loadingService.resolve(this.key);
       lineItem = res;
     });
   }
@@ -217,6 +203,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
   }
 
   orderStatus(order: Order, statusBtn: HTMLElement) {
+    this.loadingService.register(this.key);
     let arrLineItems: boolean[] = new Array();
 
     switch (order.status) {
@@ -224,12 +211,14 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
         this.service.orderStatus(order.id, 'quote').subscribe((res: Order) => {
           this.entity = res;
           this.isEnabled = true;
+          this.loadingService.resolve(this.key);
         });
 
         break;
       case 'QUOTE_ACCEPTED':
         this.service.orderStatus(order.id, 'process').subscribe((res: Order) => {
           this.entity = res;
+          this.loadingService.resolve(this.key);
         });
         break;
       case 'IN_PROGRESS':
@@ -237,7 +226,6 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
           this.entity = res;
           res.lineItems.forEach((e) => {
             if (
-              // e.status !== 'FINISHED'
               e.status == 'DELIVERED' ||
               e.status == 'QUOTE_ACCEPTED' ||
               e.status == 'IN_PROGRESS' ||
@@ -256,12 +244,14 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
           } else {
             this.check = false;
           }
+          this.loadingService.resolve(this.key);
         });
 
         break;
       case 'FINISHED':
         this.service.orderStatus(order.id, 'deliver').subscribe((res: Order) => {
           this.entity = res;
+          this.loadingService.resolve(this.key);
         });
         break;
       case 'Delivered':
@@ -271,8 +261,8 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
     }
   }
   orderReject(order: Order) {
+    this.loadingService.register(this.key);
     if (this.selectedItems.length == 0) {
-      // this.toastr.error(this.translate.instant('reason.error.select'));
       this.checkReason = false;
       return;
     } else {
@@ -281,23 +271,25 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
       this.entity.rejectionReasons = this.rejectionReason.reason;
       this.entity.rejectionNote = this.rejectionReason.notes;
       this.service.orderReject(order.id, this.entity).subscribe((res: Order) => {
-        // this.entity.status = 'ORDER_REJECTED';
         this.rejectionReason = {} as RejectionReason;
         this.selectedItems = [];
         this.modalRef.hide();
         this.entity = res;
         this.toastr.success('Successful');
         this.isEnabled = true;
+        this.loadingService.resolve(this.key);
       });
     }
   }
 
   lineItemReject(lineItem: LineItem) {
+    this.loadingService.register(this.key);
     let arrLineItems: boolean[] = new Array();
     let arrLineItemsReject: boolean[] = new Array();
     if (this.selectedItems.length == 0) {
-      // this.toastr.error(this.translate.instant('reason.error.select'));
       this.checkReason = false;
+      this.loadingService.resolve(this.key);
+
       return;
     } else {
       this.checkReason = true;
@@ -323,6 +315,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
             } else {
               arrLineItemsReject.push(false);
             }
+            this.loadingService.resolve(this.key);
           });
 
           if (arrLineItems.indexOf(false) == -1 && arrLineItemsReject.indexOf(false) != -1) {
@@ -335,8 +328,11 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
     }
   }
   lineItemStatus(lineItem: LineItem) {
+    this.loadingService.register(this.key);
     if (!lineItem.estimatedEndDate || !lineItem.unitPrice) {
       this.toastr.error(this.translate.instant('lineItem.update.error'));
+      this.loadingService.resolve(this.key);
+
       return;
     }
     let arrLineItems: boolean[] = new Array();
@@ -372,17 +368,20 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
               this.rejectItems = true;
             }
           });
+          this.loadingService.resolve(this.key);
         });
         break;
       case 'QUOTE_ACCEPTED':
         this.itemservice.itemStatus(lineItem.id, 'process').subscribe((res: LineItem) => {
           lineItem.status = res.status;
+          this.loadingService.resolve(this.key);
         });
         break;
       case 'IN_PROGRESS':
         this.itemservice.itemStatus(lineItem.id, 'finish').subscribe((res: LineItem) => {
           lineItem.status = res.status;
           this.checkOrderStatus();
+          this.loadingService.resolve(this.key);
         });
 
         break;
@@ -412,7 +411,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
               this.check = false;
             }
           });
-          // this.check = true;
+          this.loadingService.resolve(this.key);
         });
 
         break;
@@ -424,21 +423,34 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
   }
 
   updateItemPending(lineItem: LineItem) {
-    this.itemservice.itemStatus(lineItem.id, 'reset').subscribe((res: LineItem) => {
-      lineItem.status = 'PENDING';
-      this.found = false;
-      this.rejectionReason = {} as RejectionReason;
-      this.selectedItems = [];
-    });
+    this.loadingService.register(this.key);
+    this.itemservice.itemStatus(lineItem.id, 'reset').subscribe(
+      (res: LineItem) => {
+        lineItem.status = 'PENDING';
+        this.found = false;
+        this.rejectionReason = {} as RejectionReason;
+        this.selectedItems = [];
+        this.loadingService.resolve(this.key);
+      },
+      (err) => {
+        this.loadingService.resolve(this.key);
+      }
+    );
   }
 
   openModal(template) {
-    // this.rejectionReasonService.searchUrl = 'search';
+    this.loadingService.register(this.key);
     this.rejectionReasonService.searchTerm = '';
-    this.rejectionReasonService.model$.subscribe((res) => {
-      console.log(res);
-      this.reasonList = res;
-    });
+    this.rejectionReasonService.model$.subscribe(
+      (res) => {
+        console.log(res);
+        this.reasonList = res;
+        this.loadingService.resolve(this.key);
+      },
+      (err) => {
+        this.loadingService.resolve(this.key);
+      }
+    );
     this.modalRef = this.modalService.show(template);
   }
   itemRejectReasonModal(template) {
@@ -446,32 +458,36 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
   }
 
   checkOrderStatus() {
+    this.loadingService.register(this.key);
     let arrLineItems: boolean[] = new Array();
 
-    this.service.get(this.orderId).subscribe((res: Order) => {
-      res.lineItems.forEach((e) => {
-        if (
-          e.status == 'QUOTED' ||
-          e.status == 'ITEM_REJECTED' ||
-          e.status == 'CANCELLED' ||
-          e.status == 'QUOTE_REJECTED' ||
-          e.status == 'FINISHED' ||
-          e.status == 'DELIVERED'
-          // e.status == 'QUOTE_ACCEPTED' ||
-          // e.status == 'IN_PROGRESS'
-          // e.status == 'QUOTE_REJECTED'
-        ) {
-          arrLineItems.push(true);
-        } else {
-          arrLineItems.push(false);
-        }
-      });
+    this.service.get(this.orderId).subscribe(
+      (res: Order) => {
+        res.lineItems.forEach((e) => {
+          if (
+            e.status == 'QUOTED' ||
+            e.status == 'ITEM_REJECTED' ||
+            e.status == 'CANCELLED' ||
+            e.status == 'QUOTE_REJECTED' ||
+            e.status == 'FINISHED' ||
+            e.status == 'DELIVERED'
+          ) {
+            arrLineItems.push(true);
+          } else {
+            arrLineItems.push(false);
+          }
+        });
+        this.loadingService.resolve(this.key);
 
-      if (arrLineItems.indexOf(false) == -1) {
-        this.found = true;
-      } else {
-        this.found = false;
+        if (arrLineItems.indexOf(false) == -1) {
+          this.found = true;
+        } else {
+          this.found = false;
+        }
+      },
+      (err) => {
+        this.loadingService.resolve(this.key);
       }
-    });
+    );
   }
 }

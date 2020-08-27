@@ -14,6 +14,7 @@ export class DefaultListComponent<T extends Entity, K extends RestService<T>> im
   @ViewChildren(SortableHeaderDirective) headers: QueryList<SortableHeaderDirective>;
   constructor(service: K, protected loadingService: TdLoadingService) {
     this.service = service;
+    console.log('Constructor called');
   }
   ngOnInit(): void {
     this.entities$ = this.service.model$;

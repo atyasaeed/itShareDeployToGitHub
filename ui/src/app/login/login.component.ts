@@ -8,6 +8,7 @@ import { first } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { User } from '../shared/domain';
+import { TdLoadingService } from '@covalent/core/loading';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +20,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   returnUrl: string;
   user = {} as User;
+  loading: boolean;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -27,7 +29,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private translate: TranslateService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private loadingService: TdLoadingService
   ) {
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
@@ -38,8 +41,13 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {}
   onLoggedin() {
+    this.loadingService.register('loading');
+
+    this.loading = true;
     if (this.loginForm.invalid) {
       this.validateAllFormFields(this.loginForm);
+      this.loading = false;
+      this.loadingService.resolve('loading');
       return;
     }
     this.user = this.loginForm.value;
@@ -48,6 +56,9 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data: User) => {
+          this.loading = false;
+          this.loadingService.resolve('loading');
+
           if (data.roles.includes('ROLE_REGISTER_PRIVILEGE')) {
             this.toastr.info(this.translate.instant('data.activate'));
             this.router.navigate(['signup/partner'], {
@@ -59,6 +70,9 @@ export class LoginComponent implements OnInit {
           }
         },
         (err) => {
+          this.loading = false;
+          this.loadingService.resolve('loading');
+
           console.log(err);
           // this.alertService.error('Sorry Your Username or Password Is Incorrect');
           if (err.error.code == 'org.springframework.security.authentication.DisabledException') {

@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { UserService } from 'src/app/shared/services/user.service';
+import { TdLoadingService } from '@covalent/core/loading';
 
 @Component({
   selector: 'app-order-card',
@@ -24,6 +25,7 @@ export class OrderCardComponent implements OnInit {
   max: Date;
   dateArray: Date[] = [];
   modalRef: BsModalRef;
+  otherKey = 'loadingOrder';
   constructor(
     private orderService: OrderService,
     private route: ActivatedRoute,
@@ -32,7 +34,8 @@ export class OrderCardComponent implements OnInit {
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
     private http: HttpClient,
     private modalService: BsModalService,
-    private userService: UserService
+    private userService: UserService,
+    private loadingService: TdLoadingService
   ) {}
 
   ngOnInit() {
@@ -67,18 +70,29 @@ export class OrderCardComponent implements OnInit {
   }
 
   cancelOrder() {
+    this.loadingService.register(this.otherKey);
     this.orderService.cancel(this.order.id).subscribe((res) => {
       this.order = res;
+      this.loadingService.resolve(this.otherKey);
+
       //console.log(res);
     });
   }
 
   approveQuotation() {
-    this.orderService.approve(this.order.id).subscribe((res) => (this.order = res));
+    this.loadingService.register(this.otherKey);
+    this.orderService.approve(this.order.id).subscribe((res) => {
+      this.order = res;
+      this.loadingService.resolve(this.otherKey);
+    });
   }
 
   rejectQuotation() {
-    this.orderService.reject(this.order.id).subscribe((res) => (this.order = res));
+    this.loadingService.register(this.otherKey);
+    this.orderService.reject(this.order.id).subscribe((res) => {
+      this.order = res;
+      this.loadingService.resolve(this.otherKey);
+    });
   }
 
   // public getSubTotal() {
