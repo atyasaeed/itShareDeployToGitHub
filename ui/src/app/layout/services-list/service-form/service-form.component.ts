@@ -1,17 +1,17 @@
-import { Component, OnInit, ElementRef, ViewChild, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, ViewChildren, QueryList, ViewContainerRef } from '@angular/core';
 import { FormGroup, FormControl, FormArray, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { Service, Processes } from 'src/app/shared/domain';
-//import { formatDate } from '@angular/common';
 import { DefaultFormComponent } from 'src/app/shared/helpers/default.form.component';
-// import { ServicesListService } from '../services-list.service';
 import { ServiceService } from 'src/app/shared/services/service.service';
-
 import { TdLoadingService } from '@covalent/core/loading';
 import { TdDialogService } from '@covalent/core/dialogs';
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
+import { CanComponentDeactivate } from 'src/app/shared/guard/can-deactivate-guard.service';
+import { Subject } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-service-form',
   templateUrl: './service-form.component.html',
@@ -44,7 +44,8 @@ import { Store } from '@ngrx/store';
     ]),
   ],
 })
-export class ServiceFormComponent extends DefaultFormComponent<Service, ServiceService> {
+export class ServiceFormComponent extends DefaultFormComponent<Service, ServiceService>
+  implements CanComponentDeactivate {
   breadcrumbs = [
     { heading: 'services', icon: 'fa-tasks', link: '/services-list' },
     { heading: 'serviceDetails', icon: 'fa-tasks' },
@@ -61,7 +62,9 @@ export class ServiceFormComponent extends DefaultFormComponent<Service, ServiceS
   true: boolean = true;
   false: boolean = false;
   file: File;
-  //editModeMulti: boolean = false;
+  canDeactivateValue: Subject<boolean> = new Subject<boolean>();
+
+  @ViewChild('template') template: ElementRef;
   constructor(
     formBuilder: FormBuilder,
     loadingService: TdLoadingService,
@@ -69,7 +72,10 @@ export class ServiceFormComponent extends DefaultFormComponent<Service, ServiceS
     route: ActivatedRoute,
     router: Router,
     service: ServiceService,
-    private appStore: Store<fromStore.AppState>
+    private appStore: Store<fromStore.AppState>,
+    private _dialogService: TdDialogService,
+    private _viewContainerRef: ViewContainerRef,
+    private translate: TranslateService
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
   }
@@ -184,12 +190,14 @@ export class ServiceFormComponent extends DefaultFormComponent<Service, ServiceS
       formData.append('service', blob);
       if (this.route.snapshot.params['entityId']) {
         this.service.update(formData).subscribe((res) => {
+          this.form.markAsPristine();
           this.appStore.dispatch(new fromStore.LoadInitState());
           this.loadingService.resolve('loading');
           this.router.navigate(['/services-list']);
         });
       } else {
         this.service.create(formData).subscribe((res) => {
+          this.form.markAsPristine();
           this.appStore.dispatch(new fromStore.LoadInitState());
           this.loadingService.resolve('loading');
           this.router.navigate(['/services-list']);
@@ -250,4 +258,31 @@ export class ServiceFormComponent extends DefaultFormComponent<Service, ServiceS
   onCreate(): void {}
   onUpdate(): void {}
   cancel(): void {}
+  canDeactivate() {
+    if (this.form.dirty) {
+      this._dialogService
+        .openConfirm({
+          message: this.translate.instant('deactivateModalMessage'),
+          disableClose: true || false,
+          viewContainerRef: this._viewContainerRef,
+          title: this.translate.instant('areYouSure'),
+          cancelButton: this.translate.instant('no'),
+          acceptButton: this.translate.instant('yes'),
+          width: '320px',
+          panelClass: 'deactivate-modalbox',
+        })
+        .afterClosed()
+        .subscribe((accept: boolean) => {
+          if (accept) {
+            this.canDeactivateValue.next(true);
+          } else {
+            this.canDeactivateValue.next(false);
+          }
+        });
+
+      return this.canDeactivateValue;
+    }
+
+    return true;
+  }
 }

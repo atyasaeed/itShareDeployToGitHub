@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewContainerRef } from '@angular/core';
 import { User, Service } from 'src/app/shared/domain';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -12,6 +12,9 @@ import { Store } from '@ngrx/store';
 import { routerTransition } from 'src/app/router.animations';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { City, cities } from './city';
+import { Subject } from 'rxjs';
+import { CanComponentDeactivate } from 'src/app/shared/guard/can-deactivate-guard.service';
+import { TdDialogService } from '@covalent/core/dialogs';
 
 @Component({
   selector: 'app-signup-partner',
@@ -19,7 +22,7 @@ import { City, cities } from './city';
   styleUrls: ['./signup-partner.component.scss'],
   animations: [routerTransition()],
 })
-export class SignupPartnerComponent implements OnInit {
+export class SignupPartnerComponent implements OnInit, CanComponentDeactivate {
   user: User;
   registrationForm: FormGroup;
   loading = false;
@@ -27,7 +30,7 @@ export class SignupPartnerComponent implements OnInit {
   selectedItems = [];
   dropdownSettings: IDropdownSettings = {};
   cities: City[] = cities;
-
+  canDeactivateValue: Subject<boolean> = new Subject<boolean>();
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -36,7 +39,9 @@ export class SignupPartnerComponent implements OnInit {
     private userService: UserService,
     private alertservice: AlertService,
     private appStore: Store<fromStore.AppState>,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private _dialogService: TdDialogService,
+    private _viewContainerRef: ViewContainerRef
   ) {
     this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
       console.log(res);
@@ -125,6 +130,7 @@ export class SignupPartnerComponent implements OnInit {
 
     this.userService.updateOrg(this.registrationForm.value).subscribe(
       (res) => {
+        this.registrationForm.markAsPristine();
         this.router.navigateByUrl('/login');
         this.alertservice.success(this.translate.instant('registeration.success'));
 
@@ -134,5 +140,32 @@ export class SignupPartnerComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
+  canDeactivate() {
+    if (this.registrationForm.dirty) {
+      this._dialogService
+        .openConfirm({
+          message: this.translate.instant('deactivateModalMessage'),
+          disableClose: true || false,
+          viewContainerRef: this._viewContainerRef,
+          title: this.translate.instant('areYouSure'),
+          cancelButton: this.translate.instant('no'),
+          acceptButton: this.translate.instant('yes'),
+          width: '320px',
+          panelClass: 'deactivate-modalbox',
+        })
+        .afterClosed()
+        .subscribe((accept: boolean) => {
+          if (accept) {
+            this.canDeactivateValue.next(true);
+          } else {
+            this.canDeactivateValue.next(false);
+          }
+        });
+
+      return this.canDeactivateValue;
+    }
+
+    return true;
   }
 }

@@ -6,13 +6,19 @@ import { SignupPartnerComponent } from './signup-partner/signup-partner.componen
 import { userPrivilege } from '../shared/guard/user-privilege.guard';
 import { NonAuthGuard } from '../shared/guard/non-auth.guard';
 import { AuthGuard } from '../shared/guard';
+import { CanDeactivateGuard } from '../shared/guard/can-deactivate-guard.service';
 
 const routes: Routes = [
-  { path: '/:type', component: SignupComponent },
-  { path: '', component: SignupComponent },
+  //{ path: '/:type', component: SignupComponent },
+  { path: '', component: SignupComponent, canDeactivate: [CanDeactivateGuard] },
 
   { path: 'activation', component: SignupActivationComponent },
-  { path: 'partner', component: SignupPartnerComponent, canActivate: [userPrivilege] },
+  {
+    path: 'partner',
+    component: SignupPartnerComponent,
+    canActivate: [userPrivilege],
+    canDeactivate: [CanDeactivateGuard],
+  },
 ];
 
 @NgModule({
