@@ -2,6 +2,7 @@
 import { Entity } from './entity';
 import { Reason } from './reason.model';
 import { LineItem } from './line-item.model';
+import { User } from './user.model';
 
 export interface Order extends Entity {
   id: string;
@@ -14,4 +15,5 @@ export interface Order extends Entity {
   quotedAt: Date;
   expiredAt: Date;
   duration: number;
+  placedBy?: User;
 }

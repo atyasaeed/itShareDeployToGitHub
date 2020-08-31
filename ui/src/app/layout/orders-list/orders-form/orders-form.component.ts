@@ -6,7 +6,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { TdLoadingService } from '@covalent/core/loading';
 import { TdDialogService } from '@covalent/core/dialogs';
 
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 import { routerTransition } from 'src/app/router.animations';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import { AlertService } from 'src/app/shared/services';
@@ -24,6 +24,7 @@ import { Reason, RejectionReason } from 'src/app/shared/domain/reason.model';
 import { LineItemService } from 'src/app/shared/services/line-item.service';
 import { OrderService } from 'src/app/shared/services/order.service';
 import { ReasonService } from 'src/app/shared/services/reason.service';
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-orders-form',
   templateUrl: './orders-form.component.html',
@@ -48,6 +49,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
   arrBooleanItems: boolean[] = new Array();
   arrBooleanRejectItems: boolean[] = new Array();
   rejectItems: boolean = true;
+  lineItem: LineItem = {} as LineItem;
 
   rejectionReason: RejectionReason = {} as RejectionReason;
   reasonList: Reason[] = [{ id: '', name: '', status: '' }];
@@ -71,8 +73,8 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
     private rejectionReasonService: ReasonService
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
-    this.form = this.formBuilder.group({});
 
+    this.form = this.formBuilder.group({});
     this.dropdownSettings = {
       idField: 'id',
       textField: 'name',
@@ -125,6 +127,28 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
           this.rejectItems = true;
         }
       });
+    });
+  }
+  ngOnInit() {
+    this.loadingService.register(this.key);
+    this.route.params.pipe(map((params: Params) => params.entityId)).subscribe((entityId) => {
+      if (entityId) {
+        this.onUpdate();
+        this.service.get(entityId).subscribe((entity) => {
+          this.form.patchValue(entity);
+          this.entity = entity;
+          this.loadingService.resolve(this.key);
+          this.entity.lineItems.forEach((e) => {
+            if (e.duration == 0) {
+              e.duration = undefined;
+            }
+          });
+        });
+      } else {
+        this.onCreate();
+        this.entity = {} as Order;
+        this.loadingService.resolve(this.key);
+      }
     });
   }
   onItemSelect(item: any) {

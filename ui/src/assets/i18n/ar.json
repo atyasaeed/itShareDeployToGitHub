@@ -275,5 +275,9 @@
   "companyName.error.pattern": "يجب ان يكون اسم شركة صحيح",
   "firstName.error.minlength": "يجب الا يقل عن حرفين",
   "firstName.error.maxlength": "يجب الا يزيد عند 80 حرف",
-  "deactivateModalMessage": "سيتم تجاهل جميع التغييرات"
+  "deactivateModalMessage": "سيتم تجاهل جميع التغييرات",
+  "viewProfile": "عرض الصفحة الشخصية",
+  "manufacturingDuration": "مدة التصنيع",
+  "manufacturingDuration.error": "ادخل عدد الايام",
+  "unitPrice.error": "أدخل سعر الوحدة"
 }
