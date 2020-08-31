@@ -1,6 +1,13 @@
 package ilab.api;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,6 +36,7 @@ import com.sipios.springsearch.anotation.SearchSpec;
 
 import ilab.core.domain.order.LineItem;
 import ilab.core.domain.order.OrderEntity;
+import ilab.core.domain.order.OrderStatus;
 import ilab.core.service.OrderService;
 
 @RestController
@@ -105,22 +113,8 @@ public class OrderController
 		return orderService.checkout(auth);
 	}
 
-	@GetMapping("search")
-	@PreAuthorize("hasRole('ROLE_USER')")
-	public Page<OrderEntity> getUserOrders(Pageable page, @SearchSpec Specification<OrderEntity> specs,
-			Authentication auth)
-	{
-		return orderService.getOrders(page, specs, auth);
+	
 
-	}
-
-	@GetMapping("search/admin")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public Page<OrderEntity> getAllOrders(@PageableDefault(value = 10, sort =
-	{ "status" }) Pageable page, @SearchSpec Specification<OrderEntity> specs)
-	{
-		return orderService.getOrders(page, specs);
-	}
 	@GetMapping(path="{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public OrderEntity getOrder(@PathVariable("id") UUID orderId)
@@ -168,5 +162,35 @@ public class OrderController
 	public OrderEntity expireOrderQuotation(@PathVariable("id") UUID id, Authentication auth)
 	{
 		return orderService.expireOrder(id, auth);
+	}
+	@GetMapping("search/admin")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public Page<OrderEntity> getAllOrders(@PageableDefault(value = 10, sort =
+	{ "status" }) Pageable page, @SearchSpec Specification<OrderEntity> specs,Authentication auth,@RequestParam(value = "status",required = false) List<OrderStatus> status)
+	{
+		if(status!=null&&status.size()>0)
+			specs=filterByStatus(status).and( specs);
+
+		return orderService.getOrders(page, specs);
+	}
+	
+	@GetMapping("search")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	public Page<OrderEntity> getUserOrders(Pageable page, @SearchSpec Specification<OrderEntity> specs,
+			Authentication auth,@RequestParam(value = "status",required = false) List<OrderStatus> status)
+	{
+		if(status!=null&&status.size()>0)
+			specs=filterByStatus(status).and( specs);
+
+		
+		return orderService.getOrders(page, specs, auth);
+
+	}
+	private  Specification<OrderEntity> filterByStatus(List<OrderStatus> status) {
+		return  (Root<OrderEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb)->{
+			List<Predicate> predicates = new ArrayList<>();
+			predicates.add(root.get("status").in(status));
+			return cb.and(predicates.toArray(new Predicate[predicates.size()]));
+		};
 	}
 }
