@@ -28,8 +28,8 @@
                 </div> -->
           <div class="col-md-4" *ngIf="!singleOrder">
             <select class="form-control" (change)="sortByDate(sortUpdated.value)" #sortUpdated>
-              <option value="newest">{{'sortByNewest' | translate}}</option>
-              <option value="oldest">{{'sortByOldest' | translate}}</option>
+              <option value="desc">{{'sortByNewest' | translate}}</option>
+              <option value="asc">{{'sortByOldest' | translate}}</option>
             </select>
           </div>
           <div class="col-md-4" *ngIf="!singleOrder">

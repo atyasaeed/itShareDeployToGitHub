@@ -24,7 +24,7 @@ interface State {
   search?: string;
   sortColumn?: string;
   sortDirection?: SortDirection;
-  advSearch?: string;
+  searchParams?: string;
 }
 @Injectable({
   providedIn: 'root',
@@ -100,7 +100,7 @@ export class RestService<T> {
     return this.http.delete<T>(this.url + '/' + id);
   }
   private _search(): Observable<SearchResult<T>> {
-    const { sortColumn, sortDirection, pageSize, page, search, advSearch } = this._state;
+    const { sortColumn, sortDirection, pageSize, page, search, searchParams } = this._state;
 
     // let url = this.url + `/search?size=${pageSize}&page=${page - 1}`;
     // if (search) {
@@ -113,8 +113,8 @@ export class RestService<T> {
     let url;
 
     url = this.url + `/${this.searchUrl}?size=${pageSize}&page=${page - 1}`;
-    if (advSearch) {
-      url += `&${advSearch}`;
+    if (searchParams) {
+      url += `&${searchParams}`;
     }
     if (search) {
       url += `&search=${encodeURIComponent(search)}`;
@@ -158,8 +158,8 @@ export class RestService<T> {
     this._set({ search });
   }
 
-  set advSearch(advSearch: string) {
-    this._set({ advSearch });
+  set searchParams(searchParams: string) {
+    this._set({ searchParams });
   }
   set sortColumn(sortColumn: string) {
     this._set({ sortColumn });

@@ -275,5 +275,8 @@
   "companyName.error.pattern": "يجب ان يكون اسم شركة صحيح",
   "firstName.error.minlength": "يجب الا يقل عن حرفين",
   "firstName.error.maxlength": "يجب الا يزيد عند 80 حرف",
-  "deactivateModalMessage": "سيتم تجاهل جميع التغييرات"
+  "deactivateModalMessage": "سيتم تجاهل جميع التغييرات",
+  "allOrders": "جميع الطلبات",
+  "openedOrders": "الطلبات المفتوحه",
+  "closedOrders": "الطلبات المغلقه"
 }
