@@ -188,7 +188,7 @@
   "total": "Total",
   "subTotal": "Sub Total",
   "taxRate": "Tax Rate",
-  "lineItem.update.error": "Please Enter Price And Arrival Time",
+  "lineItem.update.error": "Please Enter Price And Estimated Manufacturing Duration",
   "orderedAt": "Ordered At",
   "approve": "Approve",
   "reject": "Reject",

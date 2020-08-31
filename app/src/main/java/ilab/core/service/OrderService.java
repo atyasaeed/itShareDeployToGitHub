@@ -147,7 +147,10 @@ public class OrderService
 				if(!eligibleStatus.contains(item.getStatus()))
 					throw new IllegalRequestDataException("Items are not in suitable status");
 				if(item.getStatus().equals(LineItemStatus.QUOTED))
+				{
 					item.setStatus(LineItemStatus.QUOTE_ACCEPTED);
+					item.setEstimatedStartDate(LocalDateTime.now().plusDays(1));
+				}
 			}
 		}
 
@@ -334,7 +337,7 @@ public class OrderService
 		LineItem item = lineItemRepo.findById(newItem.getId()).orElseThrow();
 		if (item.getOrderEntity().getStatus() == OrderStatus.PENDING && eligibleStatus.contains(item.getStatus()))
 		{
-			item.setEstimatedEndDate(newItem.getEstimatedEndDate());
+			item.setDuration(newItem.getDuration());
 			item.setUnitPrice(newItem.getUnitPrice());
 		}
 		else
@@ -575,7 +578,7 @@ public class OrderService
 		List<LineItemStatus> eligibleItemStatus = Arrays.asList(LineItemStatus.PENDING,LineItemStatus.QUOTED,LineItemStatus.ITEM_REJECTED);
 		List<OrderStatus> eligibleOrderStatus = Arrays.asList(OrderStatus.PENDING);
 		LineItem item=lineItemRepo.findById(id).orElseThrow();
-		if (eligibleOrderStatus.contains(item.getOrderEntity().getStatus()) &&eligibleItemStatus.contains(item.getStatus())&&item.getEstimatedEndDate()!=null&&item.getUnitPrice()!=null)
+		if (eligibleOrderStatus.contains(item.getOrderEntity().getStatus()) &&eligibleItemStatus.contains(item.getStatus())&&item.getDuration()>0&&item.getUnitPrice()!=null)
 		{
 			item.setStatus(LineItemStatus.QUOTED);
 		}

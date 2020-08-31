@@ -226,7 +226,7 @@
 
                         <div class="col-md-6" *ngIf="lineItem.status !== 'ITEM_REJECTED'">
                           <div>
-                            <mat-form-field class="form-rtl" *ngIf="lineItem.status !=='CANCELLED'">
+                            <!-- <mat-form-field class="form-rtl" *ngIf="lineItem.status !=='CANCELLED'">
                               <mat-label>{{ 'estimatedEndDate' | translate }}</mat-label>
 
                               <input matInput [matDatepicker]="picker" [min]="minDate" [max]="maxDate"
@@ -237,6 +237,14 @@
                               </mat-datepicker-toggle>
                               <mat-datepicker #picker disabled="false"></mat-datepicker>
                               <mat-error *ngIf="estimatedEndDate.hasError('required')">
+                              </mat-error>
+                            </mat-form-field> -->
+                            <mat-form-field class="form-rtl" *ngIf="lineItem.status !=='CANCELLED'">
+                              <!-- <mat-label></mat-label> -->
+                              <input matInput type="number" placeholder="{{'Manufacturing Duration'|translate}}" min="1"
+                                (change)='updateItem(entity,lineItem)' [(ngModel)]="lineItem.duration"
+                                #duration='ngModel' [disabled]="isEnabled || lineItem.status !=='PENDING'" required>
+                              <mat-error *ngIf="duration.hasError('required')">
                               </mat-error>
                             </mat-form-field>
                           </div>

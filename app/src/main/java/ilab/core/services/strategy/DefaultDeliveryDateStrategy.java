@@ -12,7 +12,8 @@ public class DefaultDeliveryDateStrategy implements DeliveryDateStrategy
 	@Override
 	public void estimate(LineItem item)
 	{
-		item.setEstimatedEndDate(add(LocalDateTime.now(), 2));
+//		item.setEstimatedEndDate(add(LocalDateTime.now(), 2));
+		item.setDuration(2);
 
 	}
 
