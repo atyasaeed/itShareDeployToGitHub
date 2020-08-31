@@ -32,18 +32,15 @@
               <option value="oldest">{{'sortByOldest' | translate}}</option>
             </select>
           </div>
+          <div class="col-md-4" *ngIf="!singleOrder">
+            <select class="form-control" (change)="filterByOrderStatus(filterOrderStatus.value)" #filterOrderStatus>
+              <option value="all">{{'allOrders' | translate}}</option>
+              <option value="opened">{{'openedOrders' | translate}}</option>
+              <option value="closed">{{'closedOrders' | translate}}</option>
+            </select>
+          </div>
         </div>
         <!-- End Page Head -->
-
-        <!-- Old Static Data was here -->
-
-        <!-- <div class="card mb-3" *ngFor='let order of orders'>
-          <app-order-card ></app-order-card>
-        </div> -->
-
-        <!-- <div class="d-flex justify-content-center" *ngIf="spinner">
-              <mat-spinner></mat-spinner>
-            </div> -->
 
 
         <app-order-card *ngFor="let entity of entities$ | async" [order]="entity"></app-order-card>
