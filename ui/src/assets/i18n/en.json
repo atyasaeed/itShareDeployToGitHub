@@ -278,5 +278,6 @@
   "deactivateModalMessage":"All Changes Will Be Discarded",
   "allOrders":"All Orders",
   "openedOrders":"Opened Orders",
-  "closedOrders":"Closed Orders"
+  "closedOrders":"Closed Orders",
+  "workingDays":"Working Days"
 }

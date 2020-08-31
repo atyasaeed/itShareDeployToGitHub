@@ -20,6 +20,7 @@ export class LineItemComponent implements OnInit {
   checkRadio;
   modalRef: BsModalRef;
   key = 'loadingItem';
+  itemEndDate: Date;
   constructor(
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
     //private http: HttpClient,
@@ -37,6 +38,7 @@ export class LineItemComponent implements OnInit {
     } else if (this.lineItem.status == 'QUOTE_REJECTED') {
       this.checkRadio = 'reject';
     }
+    this.getItemEstimatedEndDate();
     this.cdr.detectChanges();
   }
 
@@ -57,42 +59,6 @@ export class LineItemComponent implements OnInit {
       return null;
     }
   }
-
-  // checkStatus() {
-  //   let result = '';
-  //   switch (this.orderStatus) {
-  //     case 'PENDING':
-  //       result = 'PENDING';
-  //       break;
-  //     case 'CANCELLED':
-  //       result = 'CANCELLED';
-  //       break;
-  //     case 'QUOTED':
-  //       result = 'QUOTED';
-  //       break;
-  //     case 'QUOTE_ACCEPTED':
-  //       result = 'QUOTE_ACCEPTED';
-  //       break;
-  //     case 'QUOTE_REJECTED':
-  //       result = 'QUOTE_REJECTED';
-  //       break;
-  //     case 'ORDER_REJECTED':
-  //       result = 'ORDER_REJECTED';
-  //       break;
-  //     case 'IN_PROGRESS':
-  //       result = 'IN_PROGRESS';
-  //       break;
-  //     case 'FINISHED':
-  //       result = 'FINISHED';
-  //       break;
-  //     case 'DELIVERED':
-  //       result = 'DELIVERED';
-  //       break;
-  //     default:
-  //       result = '';
-  //   }
-  //   return result;
-  // }
 
   cancelItem() {
     this.loadingService.register(this.key);
@@ -176,5 +142,12 @@ export class LineItemComponent implements OnInit {
       }
     }
     return false;
+  }
+
+  getItemEstimatedEndDate() {
+    let currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + this.lineItem.duration);
+
+    this.itemEndDate = currentDate;
   }
 }

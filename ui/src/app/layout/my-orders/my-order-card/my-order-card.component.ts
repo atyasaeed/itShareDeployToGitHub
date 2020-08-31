@@ -17,15 +17,14 @@ import { TdLoadingService } from '@covalent/core/loading';
 })
 export class OrderCardComponent implements OnInit {
   @Input() order: Order;
-  //@ViewChild('statusBtn') statusBtn: HTMLElement;
-  // orderitem = new Order();
   statusArr: string[] = ['PENDING', 'QUOTED', 'QUOTE_ACCEPTED', 'IN_PROGRESS', 'FINISHED', 'DELIVERED'];
   user: User;
   subTotal: number;
-  max: Date;
-  dateArray: Date[] = [];
+  maxDuration: number;
+  ordersDurationArray: number[] = [];
   modalRef: BsModalRef;
   otherKey = 'loadingOrder';
+  orderEndDate: Date;
   constructor(
     private orderService: OrderService,
     private route: ActivatedRoute,
@@ -46,26 +45,31 @@ export class OrderCardComponent implements OnInit {
 
   ngAfterViewInit() {
     this.printSubTotal(this.order.lineItems);
-    this.getDeliveryDate(this.order.lineItems);
+    this.getMaxOrderDuration(this.order.lineItems);
+    this.getOrderEstimatedEndDate();
     this.cdr.detectChanges();
   }
 
-  getDeliveryDate(lineItems: LineItem[]) {
-    // tslint:disable-next-line:prefer-for-of
-    this.dateArray = [];
+  getMaxOrderDuration(lineItems: LineItem[]) {
+    this.ordersDurationArray = [];
     for (let index = 0; index < lineItems.length; index++) {
-      if (lineItems[index].status == 'QUOTED' || lineItems[index].status == 'QUOTE_ACCEPTED') {
-        this.dateArray.push(lineItems[index].estimatedEndDate);
+      if (
+        lineItems[index].status == 'QUOTED' ||
+        lineItems[index].status == 'QUOTE_ACCEPTED' ||
+        lineItems[index].status == 'IN_PROGRESS' ||
+        lineItems[index].status == 'FINISHED' ||
+        lineItems[index].status == 'DELIVERED'
+      ) {
+        this.ordersDurationArray.push(lineItems[index].duration);
       }
     }
-    // console.log(this.dateArray);
-    // tslint:disable-next-line:only-arrow-functions
-    if (this.dateArray.length > 0) {
-      this.max = this.dateArray.reduce(function (a: Date, b: Date) {
+
+    if (this.ordersDurationArray.length > 0) {
+      this.maxDuration = this.ordersDurationArray.reduce((a: number, b: number) => {
         return a > b ? a : b;
       });
     } else {
-      this.max = null;
+      this.maxDuration = 0;
     }
   }
 
@@ -74,8 +78,6 @@ export class OrderCardComponent implements OnInit {
     this.orderService.cancel(this.order.id).subscribe((res) => {
       this.order = res;
       this.loadingService.resolve(this.otherKey);
-
-      //console.log(res);
     });
   }
 
@@ -95,51 +97,6 @@ export class OrderCardComponent implements OnInit {
     });
   }
 
-  // public getSubTotal() {
-  //   return this.order.lineItems.map((rr) => rr.unitPrice * rr.quantity).reduce((a, b) => a + b, 0);
-  // }
-
-  // checkStatus() {
-  //   let result = '';
-  //   //this.order.status = 'FINISHED';
-  //   switch (this.order.status) {
-  //     case 'PENDING':
-  //       result = 'PENDING';
-  //       break;
-  //     case 'CANCELLED':
-  //       result = 'CANCELLED';
-  //       break;
-  //     case 'QUOTED':
-  //       //this.statusBtn.innerText = 'aprove';
-  //       result = 'QUOTED';
-  //       break;
-  //     case 'QUOTE_ACCEPTED':
-  //       //this.statusBtn.innerText = 'aprove';
-  //       result = 'QUOTE_ACCEPTED';
-  //       break;
-  //     case 'QUOTE_REJECTED':
-  //       //this.statusBtn.innerText = 'aprove';
-  //       result = 'QUOTE_REJECTED';
-  //       break;
-  //     case 'ORDER_REJECTED':
-  //       //this.statusBtn.innerText = 'aprove';
-  //       result = 'ORDER_REJECTED';
-  //       break;
-  //     case 'IN_PROGRESS':
-  //       result = 'IN_PROGRESS';
-  //       break;
-  //     case 'FINISHED':
-  //       result = 'FINISHED';
-  //       break;
-  //     case 'DELIVERED':
-  //       result = 'DELIVERED';
-  //       break;
-  //     default:
-  //       result = '';
-  //   }
-  //   return result;
-  // }
-
   getOrder(lineItem: LineItem) {
     this.order.lineItems.forEach((e: LineItem, index) => {
       if (e.id == lineItem.id) {
@@ -147,13 +104,20 @@ export class OrderCardComponent implements OnInit {
       }
     });
     this.printSubTotal(this.order.lineItems);
-    this.getDeliveryDate(this.order.lineItems);
+    this.getMaxOrderDuration(this.order.lineItems);
+    this.getOrderEstimatedEndDate();
   }
 
   printSubTotal(arr: LineItem[]) {
     this.subTotal = 0;
     for (let i = 0; i < arr.length; i++) {
-      if (arr[i].status == 'QUOTED' || arr[i].status == 'QUOTE_ACCEPTED') {
+      if (
+        arr[i].status == 'QUOTED' ||
+        arr[i].status == 'QUOTE_ACCEPTED' ||
+        arr[i].status == 'IN_PROGRESS' ||
+        arr[i].status == 'FINISHED' ||
+        arr[i].status == 'DELIVERED'
+      ) {
         this.subTotal += arr[i].unitPrice * arr[i].quantity;
       }
     }
@@ -194,5 +158,15 @@ export class OrderCardComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  getOrderEstimatedEndDate() {
+    let currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + this.maxDuration);
+    if (this.maxDuration !== 0) {
+      this.orderEndDate = currentDate;
+    } else {
+      this.orderEndDate = null;
+    }
   }
 }

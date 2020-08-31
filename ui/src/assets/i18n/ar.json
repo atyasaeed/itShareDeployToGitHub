@@ -278,6 +278,7 @@
   "deactivateModalMessage": "سيتم تجاهل جميع التغييرات",
   "allOrders": "جميع الطلبات",
   "openedOrders": "الطلبات المفتوحه",
-  "closedOrders": "الطلبات المغلقه"
+  "closedOrders": "الطلبات المغلقه",
+  "workingDays": "ايام عمل"
 }
 
