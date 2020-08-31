@@ -161,6 +161,7 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<finalName>fabrihub-app-1.2</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
