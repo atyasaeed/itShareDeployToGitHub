@@ -8,9 +8,10 @@ export interface LineItem extends Entity {
   quantity: number;
   attend: boolean;
   unitPrice?: number;
+  duration?: number;
   plannedStartDate: Date;
   plannedEndDate: Date;
-  estimatedStardDate: Date;
+  estimatedStartDate: Date;
   estimatedEndDate: Date;
   notes?: string;
   service: Service;

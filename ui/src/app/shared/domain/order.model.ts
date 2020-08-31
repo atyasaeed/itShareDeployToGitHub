@@ -13,4 +13,5 @@ export interface Order extends Entity {
   rejectionNote: string;
   quotedAt: Date;
   expiredAt: Date;
+  duration: number;
 }
