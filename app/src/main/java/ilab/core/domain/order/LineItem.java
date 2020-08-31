@@ -41,11 +41,18 @@ public class LineItem extends AbstractEntity<LineItem>
 	private long quantity;
 	private BigDecimal unitPrice;
 	
-	private LocalDateTime estimatedStardDate;
-//	@Temporal(TemporalType.DATE)
-	private LocalDateTime estimatedEndDate;
+	private LocalDateTime estimatedStartDate;
+	private int duration;
 	private String notes;
 	
+	public int getDuration()
+	{
+		return duration;
+	}
+	public void setDuration(int duration)
+	{
+		this.duration = duration;
+	}
 	@ElementCollection
 	private List<HyperFile> files=new ArrayList<HyperFile>();
 	@Enumerated(EnumType.ORDINAL)
@@ -116,21 +123,13 @@ public class LineItem extends AbstractEntity<LineItem>
 		this.files = files;
 	}
 	
-	public LocalDateTime getEstimatedStardDate()
+	public LocalDateTime getEstimatedStartDate()
 	{
-		return estimatedStardDate;
+		return estimatedStartDate;
 	}
-	public void setEstimatedStardDate(LocalDateTime estimatedStardDate)
+	public void setEstimatedStartDate(LocalDateTime estimatedStartDate)
 	{
-		this.estimatedStardDate = estimatedStardDate;
-	}
-	public LocalDateTime getEstimatedEndDate()
-	{
-		return estimatedEndDate;
-	}
-	public void setEstimatedEndDate(LocalDateTime estimatedEndDate)
-	{
-		this.estimatedEndDate = estimatedEndDate;
+		this.estimatedStartDate = estimatedStartDate;
 	}
 	public LineItemStatus getStatus()
 	{
