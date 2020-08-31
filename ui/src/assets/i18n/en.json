@@ -188,7 +188,7 @@
   "total": "Total",
   "subTotal": "Sub Total",
   "taxRate": "Tax Rate",
-  "lineItem.update.error": "Please Enter Price And Arrival Time",
+  "lineItem.update.error": "Please Enter Price And Estimated Manufacturing Duration",
   "orderedAt": "Ordered At",
   "approve": "Approve",
   "reject": "Reject",
@@ -275,5 +275,5 @@
   "companyName.error.pattern": "Name Must Be Available",
   "firstName.error.minlength": "Min(2 Digit)",
   "firstName.error.maxlength": "Max (80 Digit)",
-  "deactivateModalMessage":"All Changes Will Be Discarded"
+  "deactivateModalMessage": "All Changes Will Be Discarded"
 }

@@ -166,17 +166,27 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
   cancel(): void {}
   updateItem(order: Order, lineItem: LineItem) {
     this.loadingService.register(this.key);
-    console.log(lineItem.estimatedEndDate);
-    let arrLineItems: boolean[] = new Array();
-    let d = new Date(lineItem.estimatedEndDate);
-    d.setMinutes(d.getMinutes() + 480);
-    lineItem.estimatedEndDate = d;
-
-    this.service.updateLineItem(lineItem).subscribe((res: LineItem) => {
-      this.toastr.success(this.translate.instant('update.Successful'));
+    if (lineItem.duration <= 0) {
+      lineItem.duration = null;
       this.loadingService.resolve(this.key);
-      lineItem = res;
-    });
+      return;
+    }
+    if (lineItem.unitPrice < 0) {
+      lineItem.unitPrice = null;
+      this.loadingService.resolve(this.key);
+      return;
+    }
+    console.log(lineItem);
+    this.service.updateLineItem(lineItem).subscribe(
+      (res: LineItem) => {
+        this.toastr.success(this.translate.instant('update.Successful'));
+        this.loadingService.resolve(this.key);
+        lineItem = res;
+      },
+      (err) => {
+        this.loadingService.resolve(this.key);
+      }
+    );
   }
 
   getFileExtension(entity: LineItem) {
@@ -195,7 +205,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
   checkLineItems(id, lineItems: LineItem[]) {
     let found = true;
     lineItems.forEach((e) => {
-      if (!e.unitPrice || !e.estimatedEndDate) {
+      if (!e.unitPrice || !e.duration) {
         found = false;
       }
     });
@@ -329,7 +339,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
   }
   lineItemStatus(lineItem: LineItem) {
     this.loadingService.register(this.key);
-    if (!lineItem.estimatedEndDate || !lineItem.unitPrice) {
+    if (!lineItem.duration || !lineItem.unitPrice) {
       this.toastr.error(this.translate.instant('lineItem.update.error'));
       this.loadingService.resolve(this.key);
 
@@ -340,36 +350,46 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
 
     switch (lineItem.status) {
       case 'PENDING':
-        this.itemservice.itemStatus(lineItem.id, 'quote').subscribe((itemRes: LineItem) => {
-          lineItem.status = itemRes.status;
+        this.itemservice.itemStatus(lineItem.id, 'quote').subscribe(
+          (itemRes: LineItem) => {
+            lineItem.status = itemRes.status;
 
-          this.service.get(this.orderId).subscribe((res: Order) => {
-            res.lineItems.forEach((e) => {
-              if (e.status == 'QUOTED' || e.status == 'ITEM_REJECTED' || e.status == 'CANCELLED') {
-                arrLineItems.push(true);
-              } else {
-                arrLineItems.push(false);
-              }
-              if (e.status == 'ITEM_REJECTED') {
-                arrBooleanRejectItems.push(true);
-              } else {
-                arrBooleanRejectItems.push(false);
-              }
-            });
+            this.service.get(this.orderId).subscribe(
+              (res: Order) => {
+                res.lineItems.forEach((e) => {
+                  if (e.status == 'QUOTED' || e.status == 'ITEM_REJECTED' || e.status == 'CANCELLED') {
+                    arrLineItems.push(true);
+                  } else {
+                    arrLineItems.push(false);
+                  }
+                  if (e.status == 'ITEM_REJECTED') {
+                    arrBooleanRejectItems.push(true);
+                  } else {
+                    arrBooleanRejectItems.push(false);
+                  }
+                });
 
-            if (arrLineItems.indexOf(false) == -1) {
-              this.found = true;
-            } else {
-              this.found = false;
-            }
-            if (arrBooleanRejectItems.indexOf(false) == -1) {
-              this.rejectItems = false;
-            } else {
-              this.rejectItems = true;
-            }
-          });
-          this.loadingService.resolve(this.key);
-        });
+                if (arrLineItems.indexOf(false) == -1) {
+                  this.found = true;
+                } else {
+                  this.found = false;
+                }
+                if (arrBooleanRejectItems.indexOf(false) == -1) {
+                  this.rejectItems = false;
+                } else {
+                  this.rejectItems = true;
+                }
+                this.loadingService.resolve(this.key);
+              },
+              (err) => {
+                this.loadingService.resolve(this.key);
+              }
+            );
+          },
+          (err) => {
+            this.loadingService.resolve(this.key);
+          }
+        );
         break;
       case 'QUOTE_ACCEPTED':
         this.itemservice.itemStatus(lineItem.id, 'process').subscribe((res: LineItem) => {
