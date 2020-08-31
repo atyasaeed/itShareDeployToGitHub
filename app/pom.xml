@@ -19,13 +19,13 @@
 			<properties>
 				<spring.profiles.active>dev</spring.profiles.active>
 			</properties>
-			<dependencies>
+<!-- 			<dependencies>
 				<dependency>
 					<groupId>ilab</groupId>
 					<artifactId>ui</artifactId>
 					<version>${app.version}</version>
 				</dependency>
-			</dependencies>
+			</dependencies> -->
 		</profile>
 		<profile>
 			<id>testing</id>
