@@ -12,7 +12,6 @@ export interface LineItem extends Entity {
   plannedStartDate: Date;
   plannedEndDate: Date;
   estimatedStartDate: Date;
-  estimatedEndDate: Date;
   notes?: string;
   service: Service;
   files: hyperFile[];

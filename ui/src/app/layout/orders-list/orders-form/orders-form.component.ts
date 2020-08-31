@@ -205,7 +205,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
   checkLineItems(id, lineItems: LineItem[]) {
     let found = true;
     lineItems.forEach((e) => {
-      if (!e.unitPrice || !e.estimatedEndDate) {
+      if (!e.unitPrice || !e.duration) {
         found = false;
       }
     });
@@ -379,6 +379,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
                 } else {
                   this.rejectItems = true;
                 }
+                this.loadingService.resolve(this.key);
               },
               (err) => {
                 this.loadingService.resolve(this.key);
