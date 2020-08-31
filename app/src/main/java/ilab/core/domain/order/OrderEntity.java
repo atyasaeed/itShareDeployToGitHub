@@ -45,7 +45,6 @@ public class OrderEntity extends AbstractEntity<OrderEntity>
 	private Account account;
 	
 	@ManyToOne(optional=false)
-	@JsonIgnore
 	private User placedBy;
 	
 	private BigDecimal totalCost;
