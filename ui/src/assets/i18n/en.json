@@ -275,5 +275,9 @@
   "companyName.error.pattern": "Name Must Be Available",
   "firstName.error.minlength": "Min(2 Digit)",
   "firstName.error.maxlength": "Max (80 Digit)",
-  "deactivateModalMessage": "All Changes Will Be Discarded"
+  "deactivateModalMessage": "All Changes Will Be Discarded",
+  "viewProfile": "View Profile",
+  "manufacturingDuration": "Manufacturing Duration",
+  "manufacturingDuration.error": "Enter the number of days",
+  "unitPrice.error": "Enter the unit price"
 }

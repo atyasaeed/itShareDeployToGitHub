@@ -4,7 +4,7 @@
 
     <div class="card-header">
 
-      <div class="row text-left" style="justify-content: space-between;">
+      <div class="row text-left " style="justify-content: space-between;">
         <div class="col-md-4 form-rtl">
           <span>{{'order.id'|translate}} : </span>
           <span class="value"> {{entity?.id.slice(-7)}}</span>
@@ -13,12 +13,19 @@
           <span style="display:block;">{{'order.totalPrice'|translate}} :<span
               class="value">{{getSubTotal(entity.lineItems)| currency:'EGP'}}</span></span>
         </div>
-        <div class="co-md-2"
-          *ngIf="entity.status == 'QUOTE_REJECTED' || entity.status == 'ORDER_REJECTED' || entity.status == 'QUOTE_EXPIRED'">
-          <span class="cancelled ">{{entity.status | translate}}</span>
-
-        </div>
         <div class="col-md-4 form-rtl">
+          <span>{{'firstName'|translate}} : </span>
+          <span class="value"> {{entity?.placedBy?.firstName}}</span>
+          <span style="display:block;">{{'phoneNumber'|translate}} :<span class="value">
+              {{entity?.placedBy?.mobileNo}}</span>
+          </span>
+          <a [routerLink]="['/users', entity.placedBy.id]" class="d-block">{{'viewProfile'|translate}}
+          </a>
+        </div>
+
+
+
+        <div class="col-md-4 form-rtl my-auto">
           <div class="row text-right">
             <div class="col-md-12  row" style="justify-content: flex-end;">
               <div *ngIf="entity.status === 'PENDING'"><button (click)="openModal(templateOrder)"
@@ -50,6 +57,11 @@
 
 
           </div>
+        </div>
+        <div class="col-12 text-center my-2"
+          *ngIf="entity.status == 'QUOTE_REJECTED' || entity.status == 'ORDER_REJECTED' || entity.status == 'QUOTE_EXPIRED'">
+          <span class="cancelled ">{{entity.status | translate}}</span>
+
         </div>
 
       </div>
@@ -241,10 +253,11 @@
                             </mat-form-field> -->
                             <mat-form-field class="form-rtl" *ngIf="lineItem.status !=='CANCELLED'">
                               <!-- <mat-label></mat-label> -->
-                              <input matInput type="number" placeholder="{{'Manufacturing Duration'|translate}}" min="1"
+                              <input matInput type="number" placeholder="{{'manufacturingDuration'|translate}}"
                                 (change)='updateItem(entity,lineItem)' [(ngModel)]="lineItem.duration"
                                 #duration='ngModel' [disabled]="isEnabled || lineItem.status !=='PENDING'" required>
                               <mat-error *ngIf="duration.hasError('required')">
+                                {{'manufacturingDuration.error'|translate}}
                               </mat-error>
                             </mat-form-field>
                           </div>
@@ -258,6 +271,7 @@
                                 (change)='updateItem(entity,lineItem)' [(ngModel)]="lineItem.unitPrice"
                                 #unitPrice='ngModel' [disabled]="isEnabled || lineItem.status !=='PENDING'" required>
                               <mat-error *ngIf="unitPrice.hasError('required')">
+                                {{'unitPrice.error'|translate}}
                               </mat-error>
                             </mat-form-field>
 
