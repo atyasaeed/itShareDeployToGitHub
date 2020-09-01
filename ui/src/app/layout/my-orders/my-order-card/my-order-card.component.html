@@ -19,7 +19,12 @@
           </div>
           <div class=" col-md-6    my-auto">
             <div *ngIf="showPriceAndEndDate()">
-              <label>{{'estimatedEndDate'|translate}} :&nbsp;</label> <span>{{max|date:'fullDate'}}</span>
+              <ng-container *ngIf="order.status == 'QUOTED';else endDate">
+                <label >{{'manufacturingDuration'|translate}} :&nbsp;</label> <span>{{maxDuration}} {{'workingDays'|translate}}</span>
+              </ng-container>
+              <ng-template #endDate>
+                  <label>{{'estimatedEndDate'|translate}} :&nbsp;</label> <span>{{orderEndDate|date:'fullDate'}}</span>
+              </ng-template>
             </div>
           </div>
           <div class=" col-md-6    my-auto" *ngIf="order.status == 'QUOTED' || order.status == 'QUOTE_EXPIRED'">
@@ -143,7 +148,7 @@
               <th scope="col">#</th>
               <th scope="col">{{'lineItem.service.name' | translate}}</th>
               <th scope="col">{{'lineItem.service.description'|translate}}</th>
-              <th scope="col">{{'lineItem.estimated.deliveryDate'|translate}}</th>
+              <!-- <th scope="col">{{'lineItem.estimated.deliveryDate'|translate}}</th> -->
               <th scope="col">{{'lineItem.price'|translate}}</th>
               <th scope="col">{{'lineItem.quantity'|translate}}</th>
               <th scope="col">{{'sum'|translate}}</th>
@@ -181,7 +186,7 @@
                     <label>{{'processes'|translate}} : </label> {{lineItem.files[0].processes}},
                   </span>
                 </td>
-                <td>{{lineItem.estimatedEndDate | date:'fullDate'}}</td>
+                <!-- <td>{{lineItem.estimatedEndDate | date:'fullDate'}}</td> -->
                 <td>{{lineItem.unitPrice}}</td>
                 <td>{{lineItem.quantity}}</td>
                 <td>{{lineItem.unitPrice *lineItem.quantity|currency:'EGP'}}</td>
