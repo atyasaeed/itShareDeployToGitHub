@@ -1,4 +1,12 @@
-import { Component, OnInit, Inject, AfterViewInit, TemplateRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Inject,
+  AfterViewInit,
+  TemplateRef,
+  ChangeDetectorRef,
+  AfterContentInit,
+} from '@angular/core';
 import { Order } from 'src/app/shared/domain/order.model';
 import { DefaultFormComponent } from 'src/app/shared/helpers/default.form.component';
 
@@ -25,6 +33,8 @@ import { LineItemService } from 'src/app/shared/services/line-item.service';
 import { OrderService } from 'src/app/shared/services/order.service';
 import { ReasonService } from 'src/app/shared/services/reason.service';
 import { map } from 'rxjs/operators';
+import { Observable, BehaviorSubject } from 'rxjs';
+
 @Component({
   selector: 'app-orders-form',
   templateUrl: './orders-form.component.html',
@@ -50,6 +60,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
   arrBooleanRejectItems: boolean[] = new Array();
   rejectItems: boolean = true;
   lineItem: LineItem = {} as LineItem;
+  // order: Observable<Order>;
 
   rejectionReason: RejectionReason = {} as RejectionReason;
   reasonList: Reason[] = [{ id: '', name: '', status: '' }];
@@ -70,7 +81,8 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
     private translate: TranslateService,
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
     private modalService: BsModalService,
-    private rejectionReasonService: ReasonService
+    private rejectionReasonService: ReasonService,
+    private cd: ChangeDetectorRef
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
 
@@ -88,7 +100,6 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
     this.minDate = new Date();
     this.activatedRoute.params.subscribe((paramsId) => {
       this.orderId = paramsId.entityId;
-      console.log(this.orderId);
     });
     this.service.get(this.orderId).subscribe((res: Order) => {
       if (res?.status == 'PENDING') {
@@ -129,6 +140,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
       });
     });
   }
+
   ngOnInit() {
     this.loadingService.register(this.key);
     this.route.params.pipe(map((params: Params) => params.entityId)).subscribe((entityId) => {
@@ -151,24 +163,14 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
       }
     });
   }
-  onItemSelect(item: any) {
-    console.log(item);
-    console.log(this.selectedItems);
-  }
-  onItemDeSelect(item) {
-    console.log(item);
-    console.log(this.selectedItems);
-  }
+
+  onItemSelect(item: any) {}
+  onItemDeSelect(item) {}
   onSelectAll(items: any) {
-    console.log(items);
     this.selectedItems = items;
-    console.log(this.selectedItems);
   }
   onDeSelectAll(items: any) {
-    console.log(items);
     this.selectedItems = items;
-
-    console.log(this.selectedItems);
   }
 
   public getSubTotal(lineItems: LineItem[]) {
@@ -200,7 +202,6 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
       this.loadingService.resolve(this.key);
       return;
     }
-    console.log(lineItem);
     this.service.updateLineItem(lineItem).subscribe(
       (res: LineItem) => {
         this.toastr.success(this.translate.instant('update.Successful'));
@@ -330,7 +331,6 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
       this.rejectionReason.reason = this.selectedItems;
       lineItem.rejectionReasons = this.rejectionReason.reason;
       lineItem.rejectionNote = this.rejectionReason.notes;
-      console.log(this.rejectionReason);
       this.itemservice.itemReject(lineItem.id, lineItem).subscribe((res: LineItem) => {
         this.rejectionReason = {} as RejectionReason;
         this.selectedItems = [];
@@ -487,7 +487,6 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
     this.rejectionReasonService.searchTerm = '';
     this.rejectionReasonService.model$.subscribe(
       (res) => {
-        console.log(res);
         this.reasonList = res;
         this.loadingService.resolve(this.key);
       },
