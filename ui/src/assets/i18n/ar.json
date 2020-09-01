@@ -279,6 +279,9 @@
   "allOrders": "جميع الطلبات",
   "openedOrders": "الطلبات المفتوحه",
   "closedOrders": "الطلبات المغلقه",
-  "workingDays": "ايام عمل"
+  "workingDays": "ايام عمل",
+  "viewProfile": "عرض الصفحة الشخصية",
+  "manufacturingDuration": "مدة التصنيع",
+  "manufacturingDuration.error": "ادخل عدد الايام",
+  "unitPrice.error": "أدخل سعر الوحدة"
 }
-

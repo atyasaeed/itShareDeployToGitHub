@@ -279,5 +279,9 @@
   "allOrders":"All Orders",
   "openedOrders":"Opened Orders",
   "closedOrders":"Closed Orders",
-  "workingDays":"Working Days"
+  "workingDays":"Working Days",
+  "viewProfile": "View Profile",
+  "manufacturingDuration": "Manufacturing Duration",
+  "manufacturingDuration.error": "Enter the number of days",
+  "unitPrice.error": "Enter the unit price"
 }

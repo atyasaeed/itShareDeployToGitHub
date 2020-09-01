@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Order } from 'src/app/shared/domain';
 import { RestService } from 'src/app/shared/services';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +13,8 @@ export class OrderService extends RestService<Order> {
   // getOrder(id: string) {
   //   return this.http.get<Order>(this.appConfig.getResourceUrl('orders') + '/' + id);
   // }
+  private order: BehaviorSubject<Order> = new BehaviorSubject<Order>(null);
+  public myorder: Observable<Order> = this.order.asObservable();
   approve(id: string) {
     return this.http.put<Order>(this.appConfig.getResourceUrl(this.resource) + '/' + id + '/approveQuote', null);
   }

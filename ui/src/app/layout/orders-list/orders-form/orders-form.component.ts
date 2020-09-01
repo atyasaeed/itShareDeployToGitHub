@@ -1,4 +1,12 @@
-import { Component, OnInit, Inject, AfterViewInit, TemplateRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Inject,
+  AfterViewInit,
+  TemplateRef,
+  ChangeDetectorRef,
+  AfterContentInit,
+} from '@angular/core';
 import { Order } from 'src/app/shared/domain/order.model';
 import { DefaultFormComponent } from 'src/app/shared/helpers/default.form.component';
 
@@ -6,7 +14,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { TdLoadingService } from '@covalent/core/loading';
 import { TdDialogService } from '@covalent/core/dialogs';
 
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 import { routerTransition } from 'src/app/router.animations';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import { AlertService } from 'src/app/shared/services';
@@ -24,6 +32,9 @@ import { Reason, RejectionReason } from 'src/app/shared/domain/reason.model';
 import { LineItemService } from 'src/app/shared/services/line-item.service';
 import { OrderService } from 'src/app/shared/services/order.service';
 import { ReasonService } from 'src/app/shared/services/reason.service';
+import { map } from 'rxjs/operators';
+import { Observable, BehaviorSubject } from 'rxjs';
+
 @Component({
   selector: 'app-orders-form',
   templateUrl: './orders-form.component.html',
@@ -48,6 +59,8 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
   arrBooleanItems: boolean[] = new Array();
   arrBooleanRejectItems: boolean[] = new Array();
   rejectItems: boolean = true;
+  lineItem: LineItem = {} as LineItem;
+  // order: Observable<Order>;
 
   rejectionReason: RejectionReason = {} as RejectionReason;
   reasonList: Reason[] = [{ id: '', name: '', status: '' }];
@@ -68,11 +81,12 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
     private translate: TranslateService,
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
     private modalService: BsModalService,
-    private rejectionReasonService: ReasonService
+    private rejectionReasonService: ReasonService,
+    private cd: ChangeDetectorRef
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
-    this.form = this.formBuilder.group({});
 
+    this.form = this.formBuilder.group({});
     this.dropdownSettings = {
       idField: 'id',
       textField: 'name',
@@ -86,7 +100,6 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
     this.minDate = new Date();
     this.activatedRoute.params.subscribe((paramsId) => {
       this.orderId = paramsId.entityId;
-      console.log(this.orderId);
     });
     this.service.get(this.orderId).subscribe((res: Order) => {
       if (res?.status == 'PENDING') {
@@ -127,24 +140,37 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
       });
     });
   }
-  onItemSelect(item: any) {
-    console.log(item);
-    console.log(this.selectedItems);
+
+  ngOnInit() {
+    this.loadingService.register(this.key);
+    this.route.params.pipe(map((params: Params) => params.entityId)).subscribe((entityId) => {
+      if (entityId) {
+        this.onUpdate();
+        this.service.get(entityId).subscribe((entity) => {
+          this.form.patchValue(entity);
+          this.entity = entity;
+          this.loadingService.resolve(this.key);
+          this.entity.lineItems.forEach((e) => {
+            if (e.duration == 0) {
+              e.duration = undefined;
+            }
+          });
+        });
+      } else {
+        this.onCreate();
+        this.entity = {} as Order;
+        this.loadingService.resolve(this.key);
+      }
+    });
   }
-  onItemDeSelect(item) {
-    console.log(item);
-    console.log(this.selectedItems);
-  }
+
+  onItemSelect(item: any) {}
+  onItemDeSelect(item) {}
   onSelectAll(items: any) {
-    console.log(items);
     this.selectedItems = items;
-    console.log(this.selectedItems);
   }
   onDeSelectAll(items: any) {
-    console.log(items);
     this.selectedItems = items;
-
-    console.log(this.selectedItems);
   }
 
   public getSubTotal(lineItems: LineItem[]) {
@@ -176,7 +202,6 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
       this.loadingService.resolve(this.key);
       return;
     }
-    console.log(lineItem);
     this.service.updateLineItem(lineItem).subscribe(
       (res: LineItem) => {
         this.toastr.success(this.translate.instant('update.Successful'));
@@ -306,7 +331,6 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
       this.rejectionReason.reason = this.selectedItems;
       lineItem.rejectionReasons = this.rejectionReason.reason;
       lineItem.rejectionNote = this.rejectionReason.notes;
-      console.log(this.rejectionReason);
       this.itemservice.itemReject(lineItem.id, lineItem).subscribe((res: LineItem) => {
         this.rejectionReason = {} as RejectionReason;
         this.selectedItems = [];
@@ -463,7 +487,6 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
     this.rejectionReasonService.searchTerm = '';
     this.rejectionReasonService.model$.subscribe(
       (res) => {
-        console.log(res);
         this.reasonList = res;
         this.loadingService.resolve(this.key);
       },
