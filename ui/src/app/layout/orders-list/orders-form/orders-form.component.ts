@@ -197,11 +197,12 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
       this.loadingService.resolve(this.key);
       return;
     }
-    if (lineItem.unitPrice < 0) {
+    if (lineItem.unitPrice <= 0) {
       lineItem.unitPrice = null;
       this.loadingService.resolve(this.key);
       return;
     }
+
     this.service.updateLineItem(lineItem).subscribe(
       (res: LineItem) => {
         this.toastr.success(this.translate.instant('update.Successful'));

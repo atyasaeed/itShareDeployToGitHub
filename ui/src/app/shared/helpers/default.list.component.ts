@@ -21,12 +21,17 @@ export class DefaultListComponent<T extends Entity, K extends RestService<T>> im
     this.total$ = this.service.total$;
     this.service.searchTerm = '';
     this.loadingService.register(this.key);
-    this.service.loading$.subscribe((res) => {
-      //console.log(res);
-      if (!res) {
+    this.service.loading$.subscribe(
+      (res) => {
+        //console.log(res);
+        if (!res) {
+          this.loadingService.resolve(this.key);
+        }
+      },
+      (err) => {
         this.loadingService.resolve(this.key);
       }
-    });
+    );
   }
   onSort({ column, direction }: SortEvent) {
     // resetting other headers
@@ -41,9 +46,14 @@ export class DefaultListComponent<T extends Entity, K extends RestService<T>> im
   }
   purge(entity: T) {
     return this.service.delete(entity.id).pipe(
-      tap((result) => {
-        this.service.page = this.service.page;
-      })
+      tap(
+        (result) => {
+          this.service.page = this.service.page;
+        },
+        (err) => {
+          this.loadingService.resolve(this.key);
+        }
+      )
     );
   }
 }
