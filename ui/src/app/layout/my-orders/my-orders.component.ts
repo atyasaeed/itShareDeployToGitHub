@@ -8,6 +8,7 @@ import { routerTransition } from 'src/app/router.animations';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { TdLoadingService } from '@covalent/core/loading';
 import { ActivatedRoute } from '@angular/router';
+import { SortDirection } from 'src/app/shared/directives/sortable.directive';
 @Component({
   selector: 'app-order',
   templateUrl: './my-orders.component.html',
@@ -17,9 +18,11 @@ import { ActivatedRoute } from '@angular/router';
 export class OrderComponent extends DefaultListComponent<Order, OrderService> implements OnInit {
   breadcrumbs = [{ heading: 'Orders', icon: 'fa-tasks' }];
   orders: Array<Order>;
-  dropdownList: string[] = ['PENDING', 'QUOTED', 'IN_PROGRESS', 'FINISHED', 'DELIVERED'];
-  selectedItems: string[] = [];
-  dropdownSettings: IDropdownSettings = {};
+  openedOrders: string[] = ['PENDING', 'QUOTED', 'QUOTE_ACCEPTED', 'IN_PROGRESS', 'FINISHED'];
+  closedOrders: string[] = ['CANCELLED', 'ORDER_REJECTED', 'QUOTE_REJECTED', 'QUOTE_EXPIRED', 'DELIVERED'];
+  //dropdownList: string[] = ['PENDING', 'QUOTED', 'IN_PROGRESS', 'FINISHED', 'DELIVERED'];
+  //selectedItems: string[] = [];
+  //dropdownSettings: IDropdownSettings = {};
   singleOrder;
   constructor(
     service: OrderService,
@@ -32,48 +35,54 @@ export class OrderComponent extends DefaultListComponent<Order, OrderService> im
 
   ngOnInit() {
     super.ngOnInit();
-    this.singleOrder = this.activeRoute.snapshot.params['entityId'];
-    if (this.singleOrder) {
-      this.service.searchTerm = `id:'*${this.singleOrder}*'`;
-    } else {
-      this.service.sortColumn = 'created';
-      this.service.sortDirection = 'desc';
-      // this.ordersService.query<Order[]>().subscribe((orders) => (this.orders = orders));
-      this.dropdownSettings = {
-        singleSelection: false,
-        textField: 'item_text',
-        selectAllText: 'Select All',
-        unSelectAllText: 'UnSelect All',
-        itemsShowLimit: 3,
-        allowSearchFilter: true,
-      };
+    this.activeRoute.params.subscribe((params) => {
+      this.singleOrder = params['entityId'];
+      if (this.singleOrder) {
+        this.service.searchTerm = `id:'*${this.singleOrder}*'`;
+      } else {
+        this.service.sortColumn = 'created';
+        this.service.sortDirection = 'desc';
+        this.service.searchParams = '';
+      }
+    });
+    // this.dropdownSettings = {
+    //   singleSelection: false,
+    //   textField: 'item_text',
+    //   selectAllText: 'Select All',
+    //   unSelectAllText: 'UnSelect All',
+    //   itemsShowLimit: 3,
+    //   allowSearchFilter: true,
+    // };
+  }
+
+  sortByDate(value: SortDirection) {
+    this.service.sortDirection = value;
+  }
+
+  filterByOrderStatus(value: string) {
+    if (value === 'all') {
+      this.service.searchParams = '';
+    } else if (value === 'opened') {
+      this.service.searchParams = 'status=' + this.openedOrders.toString();
+    } else if (value === 'closed') {
+      this.service.searchParams = 'status=' + this.closedOrders.toString();
     }
   }
 
-  sortByDate(value: string) {
-    //this.service.sortColumn = 'updated_at';
-    if (value == 'newest') {
-      this.service.sortDirection = 'desc';
-    } else if (value == 'oldest') {
-      this.service.sortDirection = 'asc';
-    }
-  }
+  // onItemSelect(item) {
 
-  onItemSelect(item) {
-    //this.objectPropertyToArrayString(this.selectedItems);
-    this.service.advSearch = 'status=' + this.selectedItems.toString();
-  }
+  //   this.service.advSearch = 'status=' + this.selectedItems.toString();
+  // }
 
-  onItemDeSelect(item) {
-    //this.objectPropertyToArrayString(this.selectedItems);
-    this.service.advSearch = 'status=' + this.selectedItems.toString();
-  }
+  // onItemDeSelect(item) {
+  //   this.service.advSearch = 'status=' + this.selectedItems.toString();
+  // }
 
-  onSelectAll(items) {
-    this.service.advSearch = 'status=' + items.toString();
-  }
+  // onSelectAll(items) {
+  //   this.service.advSearch = 'status=' + items.toString();
+  // }
 
-  onDeSelectAll(items) {
-    this.service.advSearch = '';
-  }
+  // onDeSelectAll(items) {
+  //   this.service.advSearch = '';
+  // }
 }

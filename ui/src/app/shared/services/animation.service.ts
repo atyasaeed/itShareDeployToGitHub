@@ -19,7 +19,7 @@ export class AnimationService {
       let top = flyingEle.nativeElement.getBoundingClientRect().top;
       let left = flyingEle.nativeElement.getBoundingClientRect().left;
       flyingEle.nativeElement.style.color = '#007bff';
-      flyingEle.nativeElement.style.zIndex = '1500';
+      //flyingEle.nativeElement.style.zIndex = '1500';
       flyingEle.nativeElement.animate(
         [
           {
@@ -28,6 +28,7 @@ export class AnimationService {
             left: `${left}px`,
             opacity: 1,
             transform: 'scale(1) rotate(0)',
+            zIndex: '1500',
           },
           {
             position: 'fixed',
@@ -35,6 +36,7 @@ export class AnimationService {
             left: `${targetLeft}px`,
             opacity: 0.4,
             transform: 'scale(4) rotate(720deg)',
+            zIndex: '1500',
           },
         ],
         {
