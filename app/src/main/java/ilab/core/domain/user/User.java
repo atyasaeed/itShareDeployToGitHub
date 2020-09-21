@@ -2,7 +2,6 @@ package ilab.core.domain.user;
 
 import java.util.Collection;
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
@@ -13,8 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
@@ -32,7 +30,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import ilab.core.domain.AbstractEntity;
-import ilab.core.domain.Account;
 @Entity
 @Table(name = "users", uniqueConstraints =
 { @UniqueConstraint(columnNames = "email", name = "user_unique_email_idx"),
@@ -74,10 +71,12 @@ public class User extends AbstractEntity<User>
 	@Column(name = "role")
 	private Set<Role> roles = EnumSet.noneOf(Role.class);
 	
-	@OneToMany(cascade = CascadeType.PERSIST)
-	@JoinTable(name =  "users_accounts")
-	private Set<Account> accounts=new HashSet<>(); 
+	
 	private Locale locale=Locale.getDefault();
+	
+	@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
+	private Organization defaultOrg;
+	
 	public void setPassword(String password)
 	{
 		this.password = password;
@@ -173,14 +172,6 @@ public class User extends AbstractEntity<User>
 	{
 		this.roles.add(role);
 	}
-	public Set<Account> getAccounts()
-	{
-		return accounts;
-	}
-	public void addAccount(Account account)
-	{
-		this.accounts.add(account);
-	}
 	public String getMobileNo()
 	{
 		return mobileNo;
@@ -196,6 +187,14 @@ public class User extends AbstractEntity<User>
 	public void setLocale(Locale locale)
 	{
 		this.locale = locale;
+	}
+	public Organization getDefaultOrg()
+	{
+		return defaultOrg;
+	}
+	public void setDefaultOrg(Organization defaultOrg)
+	{
+		this.defaultOrg = defaultOrg;
 	}
 	
 

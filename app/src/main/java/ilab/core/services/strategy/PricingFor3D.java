@@ -43,7 +43,7 @@ public class PricingFor3D implements PricingStrategy
 		{
 			if(hyperFile==null) continue;
 
-			File file=new File(filesPath+item.getOrderEntity().getAccount().getId()+"\\"+hyperFile.getAsset().getId());
+			File file=new File(filesPath+item.getOrderEntity().getOrganization().getId()+"\\"+hyperFile.getAsset().getId());
 			builder.addBinaryBody("stlFiles[]", file,ContentType.DEFAULT_BINARY,hyperFile.getAsset().getName());
 		}
 		
