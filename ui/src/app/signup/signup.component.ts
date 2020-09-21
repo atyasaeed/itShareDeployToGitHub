@@ -116,7 +116,7 @@ export class SignupComponent implements OnInit, CanComponentDeactivate {
     this.user = this.registrationForm.value;
     if (this.route.snapshot.queryParams['partner']) {
       this.user.roles = new Array();
-      this.user.roles.push('ROLE_PARTNER');
+      // this.user.roles.push('ROLE_PARTNER');
     }
     console.log(this.user);
 

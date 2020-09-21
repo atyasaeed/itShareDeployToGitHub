@@ -40,16 +40,7 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
   selectedItems = [];
   dropdownSettings: IDropdownSettings = {};
   arrStatus: string[] = ['Pending Validation', 'Active', 'Rejected'];
-  org: Organization = {
-    name: 'body',
-    mobileNo: '01019195633',
-    address: 'jdhfhfhfhfh',
-    city: { id: 'القاهرة', arName: 'القاهرة', enName: 'Cairo' },
-    services: [],
-    website: '',
-    id: 'jdjd',
-    status: 'Pending Approval',
-  };
+  org: Organization = {} as Organization;
   constructor(
     formBuilder: FormBuilder,
     loadingService: TdLoadingService,
@@ -73,9 +64,6 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
       this.cities = res;
     });
     this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
-      console.log(res[0]);
-      this.org.services[0] = res[0];
-      this.org.services[1] = res[1];
       this.dropdownList = res;
     });
     this.dropdownSettings = {
@@ -115,7 +103,7 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
       status: [''],
       address: ['', [Validators.required]],
       website: ['', [Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?')]],
-      file: ['', []],
+      // file: ['', []],
       services: [null],
     });
   }
@@ -125,15 +113,19 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
       return;
     }
     this.toggleButton = false;
-    const formData: FormData = new FormData();
-    for (let j = 0; j < this.totalfiles.length; j++) {
-      formData.append('files[]', this.totalfiles[j] as File);
-    }
-    const itemBlob = new Blob([JSON.stringify(this.form.value)], {
-      type: 'application/json',
+
+    this.service.updateOrg(this.form.value).subscribe((res) => {
+      console.log(res);
     });
-    formData.append('organization', itemBlob);
-    this.service.http.post('url', formData).subscribe((res) => {});
+    // const formData: FormData = new FormData();
+    // for (let j = 0; j < this.totalfiles.length; j++) {
+    //   formData.append('files[]', this.totalfiles[j] as File);
+    // }
+    // const itemBlob = new Blob([JSON.stringify(this.form.value)], {
+    //   type: 'application/json',
+    // });
+    // formData.append('organization', itemBlob);
+    // this.service.http.post('url', formData).subscribe((res) => {});
   }
 
   Commercial(event) {
