@@ -9,12 +9,12 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
-import ilab.core.domain.Account;
 import ilab.core.domain.FileAsset;
+import ilab.core.domain.user.Organization;
 
 @Repository
 @Transactional
 public interface FileAssetRepository extends PagingAndSortingRepository<FileAsset, UUID>,JpaSpecificationExecutor<FileAsset>
 {
-	Optional<FileAsset> findByIdAndAccount(UUID id,Account account);
+	Optional<FileAsset> findByIdAndOrganization(UUID id,Organization organization);
 }

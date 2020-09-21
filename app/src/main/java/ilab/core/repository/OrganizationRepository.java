@@ -1,5 +1,6 @@
 package ilab.core.repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -14,5 +15,5 @@ import ilab.core.domain.user.Organization;
 @Transactional
 public interface OrganizationRepository extends PagingAndSortingRepository<Organization, UUID>,JpaSpecificationExecutor<Organization>
 {
-	
+	Optional<Organization> findByIdAndOwner_username(UUID id,String username);
 }

@@ -19,11 +19,14 @@ import ilab.core.domain.order.OrderStatus;
 @Transactional
 public interface OrderRepository extends PagingAndSortingRepository<OrderEntity, UUID>,JpaSpecificationExecutor<OrderEntity>
 {
-	@Query("select o from OrderEntity o where o.status=?1 and o.account.id=?2")
-	List<OrderEntity> findShoppingCart(OrderStatus status,UUID accountId,Pageable page);
+	@Query("select o from OrderEntity o where o.status=?1 and o.organization.id=?2")
+	List<OrderEntity> findShoppingCart(OrderStatus status,UUID orgId,Pageable page);
 	@Query("select o from OrderEntity o where o.status=?1")
 	List<OrderEntity> findGalleryCart(OrderStatus status,Pageable page);
 	Page<OrderEntity> findByStatus(OrderStatus status,Pageable page);
-	@Query("select o from OrderEntity o where o.status<>?1 and o.account.id=?2")
-	List<OrderEntity> findByAccount(OrderStatus status,UUID accountId,Pageable page);
+	@Query("select o from OrderEntity o where o.status<>?1 and o.organization.id=?2")
+	List<OrderEntity> findByOrganization(OrderStatus status,UUID orgId,Pageable page);
+	
+	@Query("select o from OrderEntity o where o.status<>?1 and o.organization.owner.id=?2")
+	List<OrderEntity> findAllByUserId(OrderStatus status,UUID userId,Pageable page);
 }

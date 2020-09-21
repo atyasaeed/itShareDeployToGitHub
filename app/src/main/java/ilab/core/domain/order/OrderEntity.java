@@ -26,8 +26,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import ilab.core.domain.AbstractEntity;
-import ilab.core.domain.Account;
 import ilab.core.domain.Reason;
+import ilab.core.domain.user.Organization;
 import ilab.core.domain.user.User;
 @Entity
 public class OrderEntity extends AbstractEntity<OrderEntity>
@@ -42,7 +42,7 @@ public class OrderEntity extends AbstractEntity<OrderEntity>
 
 	@ManyToOne(optional=false)
 	@JsonIgnore
-	private Account account;
+	private Organization organization;
 	
 	@ManyToOne(optional=false)
 	private User placedBy;
@@ -69,14 +69,6 @@ public class OrderEntity extends AbstractEntity<OrderEntity>
 	public void setLineItems(List<LineItem> lineItems)
 	{
 		this.lineItems = lineItems;
-	}
-	public Account getAccount()
-	{
-		return account;
-	}
-	public void setAccount(Account account)
-	{
-		this.account = account;
 	}
 	public User getPlacedBy()
 	{
@@ -133,5 +125,13 @@ public class OrderEntity extends AbstractEntity<OrderEntity>
 	public void setExpiredAt(LocalDateTime expiredAt)
 	{
 		this.expiredAt = expiredAt;
+	}
+	public Organization getOrganization()
+	{
+		return organization;
+	}
+	public void setOrganization(Organization organization)
+	{
+		this.organization = organization;
 	}
 }

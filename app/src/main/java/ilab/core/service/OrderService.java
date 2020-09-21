@@ -30,7 +30,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import ilab.core.domain.Account;
 import ilab.core.domain.FileAsset;
 import ilab.core.domain.HyperFile;
 import ilab.core.domain.ReasonStatus;
@@ -38,6 +37,7 @@ import ilab.core.domain.order.LineItem;
 import ilab.core.domain.order.LineItemStatus;
 import ilab.core.domain.order.OrderEntity;
 import ilab.core.domain.order.OrderStatus;
+import ilab.core.domain.user.Organization;
 import ilab.core.domain.user.User;
 import ilab.core.repository.FileAssetRepository;
 import ilab.core.repository.LineItemRepository;
@@ -80,7 +80,7 @@ public class OrderService
 	public Iterable<OrderEntity> getOrders(Authentication auth)
 	{
 		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
-		return orderRepo.findByAccount(OrderStatus.SHOPPING_CART, user.getAccounts().iterator().next().getId(),
+		return orderRepo.findByOrganization(OrderStatus.SHOPPING_CART, user.getDefaultOrg().getId(),
 				PageRequest.of(0, 100));
 	}
 
@@ -92,12 +92,7 @@ public class OrderService
 	public Page<OrderEntity> getOrders(Pageable page, Specification<OrderEntity> specs, Authentication auth)
 	{
 		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
-		Account account = user.getAccounts().iterator().next();
-		return orderRepo.findAll(filterByAccountId(account.getId()).and(specs), page);
-
-//		return orderRepo.findByStatus(OrderStatus.PENDING, specs, page);
-//		return orderRepo.findByStatus(OrderStatus.PENDING, page);
-//		return orderRepo.findAll( specs,page).filter(order->order.getStatus()==OrderStatus.PENDING);
+		return orderRepo.findAll(filterByOrgId(user.getDefaultOrg().getId()).and(specs), page);
 
 	}
 
@@ -107,14 +102,14 @@ public class OrderService
 
 	}
 
-	public Specification<OrderEntity> filterByAccountId(UUID accountId)
+	public Specification<OrderEntity> filterByOrgId(UUID orgId)
 	{
 		return (Root<OrderEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) ->
 		{
 			List<Predicate> predicates = new ArrayList<>();
 
-			Path<Account> accountPath = root.<Account>get("account");
-			predicates.add(cb.equal(accountPath.<UUID>get("id"), accountId));
+			Path<Organization> organizationPath = root.<Organization>get("organization");
+			predicates.add(cb.equal(organizationPath.<UUID>get("id"), orgId));
 			predicates.add(cb.notEqual(root.<OrderStatus>get("status"), OrderStatus.SHOPPING_CART));
 			predicates.add(cb.notEqual(root.<OrderStatus>get("status"), OrderStatus.GALLERY_CART));
 			return cb.and(predicates.toArray(new Predicate[predicates.size()]));
@@ -138,7 +133,7 @@ public class OrderService
 				LineItemStatus.QUOTE_ACCEPTED,LineItemStatus.QUOTE_REJECTED,LineItemStatus.CANCELLED,LineItemStatus.ITEM_REJECTED);
 		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
 		OrderEntity order = orderRepo.findById(orderId).orElseThrow();
-		if (order.getAccount().getId().equals(user.getAccounts().iterator().next().getId())
+		if (order.getOrganization().getId().equals(user.getDefaultOrg().getId())
 				&& order.getStatus() == OrderStatus.QUOTED)
 		{
 			order.setStatus(OrderStatus.QUOTE_ACCEPTED);
@@ -161,7 +156,7 @@ public class OrderService
 	{
 		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
 		OrderEntity order = orderRepo.findById(orderId).orElseThrow();
-		if (order.getAccount().getId().equals(user.getAccounts().iterator().next().getId())
+		if (order.getOrganization().getId().equals(user.getDefaultOrg().getId())
 				&& order.getStatus() == OrderStatus.QUOTED)
 		{
 			order.setStatus(OrderStatus.QUOTE_REJECTED);
@@ -176,7 +171,7 @@ public class OrderService
 				OrderStatus.PENDING, OrderStatus.QUOTE_ACCEPTED);
 		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
 		OrderEntity order = orderRepo.findById(orderId).orElseThrow();
-		if (order.getAccount().getId().equals(user.getAccounts().iterator().next().getId())
+		if (order.getOrganization().getId().equals(user.getDefaultOrg().getId())
 				&& eligibleStatus.contains(order.getStatus()))
 		{
 			order.setStatus(OrderStatus.CANCELLED);
@@ -198,9 +193,9 @@ public class OrderService
 			{
 				FileAsset digitalAsset = new FileAsset();
 				digitalAsset.setName(files[index].getOriginalFilename());
-				digitalAsset.setAccount(order.getAccount());
+				digitalAsset.setOrganization(order.getOrganization());
 				digitalAsset = assetsRepo.save(digitalAsset);
-				File destPath = new File(filesPath + order.getAccount().getId() + "\\" + digitalAsset.getId());
+				File destPath = new File(filesPath + order.getOrganization().getId() + "\\" + digitalAsset.getId());
 				System.out.println(destPath.getParentFile().getAbsolutePath());
 				if (!destPath.getParentFile().exists())
 					Files.createDirectory(destPath.getParentFile().toPath());
@@ -211,7 +206,7 @@ public class OrderService
 			else
 			{
 				FileAsset digitalAsset=assetsRepo.findById(hyperFile.getAsset().getId()).orElseThrow();
-				if(!digitalAsset.getAccount().getId().equals(order.getAccount().getId()))
+				if(!digitalAsset.getOrganization().getId().equals(order.getOrganization().getId()))
 					throw new IllegalRequestDataException("The file is not belonging to the user");
 				hyperFile.setAsset(assetsRepo.findById(hyperFile.getAsset().getId()).orElseThrow());
 			}
@@ -230,8 +225,8 @@ public class OrderService
 	public void deleteCartItem(UUID id, Authentication auth)
 	{
 		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
-		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id,
-				user.getAccounts().iterator().next().getId()).orElseThrow();
+		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Organization_Id(id,
+				user.getDefaultOrg().getId()).orElseThrow();
 
 //		OrderEntity orderEntity = orderRepo.findById(item.getOrderEntity().getId()).orElseThrow();
 		OrderEntity orderEntity = item.getOrderEntity();
@@ -244,9 +239,9 @@ public class OrderService
 
 	}
 
-	public OrderEntity getShoppingCart(UUID accountId)
+	public OrderEntity getShoppingCart(UUID OrgId)
 	{
-		List<OrderEntity> orders = orderRepo.findShoppingCart(OrderStatus.SHOPPING_CART, accountId,
+		List<OrderEntity> orders = orderRepo.findShoppingCart(OrderStatus.SHOPPING_CART, OrgId,
 				PageRequest.of(0, 1));
 		OrderEntity order = null;
 		if (!orders.isEmpty())
@@ -265,14 +260,14 @@ public class OrderService
 	public OrderEntity getShoppingCart(Authentication auth)
 	{
 		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
-		UUID accountId = user.getAccounts().iterator().next().getId();
-		OrderEntity order = getShoppingCart(accountId);
+		UUID orgId = user.getDefaultOrg().getId();
+		OrderEntity order = getShoppingCart(orgId);
 		if (order == null)
 		{
 			order = new OrderEntity();
 			order.setStatus(OrderStatus.SHOPPING_CART);
 			order.setPlacedBy(user);
-			order.setAccount(user.getAccounts().iterator().next());
+			order.setOrganization(user.getDefaultOrg());
 			order = orderRepo.save(order);
 		}
 		return order;
@@ -291,12 +286,11 @@ public class OrderService
 		{
 
 			User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
-			UUID accountId = user.getAccounts().iterator().next().getId();
 
 			gallery = new OrderEntity();
 			gallery.setStatus(OrderStatus.GALLERY_CART);
 			gallery.setPlacedBy(user);
-			gallery.setAccount(user.getAccounts().iterator().next());
+			gallery.setOrganization(user.getDefaultOrg());
 			gallery = orderRepo.save(gallery);
 		}
 		return gallery;
@@ -305,8 +299,8 @@ public class OrderService
 	public LineItem updateItem(UUID id, LineItem newItem, Authentication auth)
 	{
 		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
-		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id,
-				user.getAccounts().iterator().next().getId()).orElseThrow();
+		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Organization_Id(id,
+				user.getDefaultOrg().getId()).orElseThrow();
 		if (item != null)
 		{
 			item.setQuantity(newItem.getQuantity());
@@ -391,11 +385,11 @@ public class OrderService
 		{
 			FileAsset digitalAsset = new FileAsset();
 			digitalAsset.setName(hyperFile.getAsset().getName());
-			digitalAsset.setAccount(cart.getAccount());
+			digitalAsset.setOrganization(cart.getOrganization());
 			digitalAsset = assetsRepo.save(digitalAsset);
 			File sourcePath = new File(
-					filesPath + item.getOrderEntity().getAccount().getId() + "\\" + hyperFile.getAsset().getId());
-			File destPath = new File(filesPath + cart.getAccount().getId() + "\\" + digitalAsset.getId());
+					filesPath + item.getOrderEntity().getOrganization().getId() + "\\" + hyperFile.getAsset().getId());
+			File destPath = new File(filesPath + cart.getOrganization().getId() + "\\" + digitalAsset.getId());
 			if (!destPath.getParentFile().exists())
 				Files.createDirectory(destPath.getParentFile().toPath());
 			Files.copy(sourcePath.toPath(), destPath.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -527,8 +521,8 @@ public class OrderService
 				OrderStatus.QUOTE_ACCEPTED);
 		
 		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
-		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id,
-				user.getAccounts().iterator().next().getId()).orElseThrow();
+		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Organization_Id(id,
+				user.getDefaultOrg().getId()).orElseThrow();
 			
 		if (eligibleItemStatus.contains(item.getStatus())&&eligibleOrderStatus.contains(item.getOrderEntity().getStatus()))
 		{
@@ -544,8 +538,8 @@ public class OrderService
 		List<LineItemStatus> eligibleItemStatus = Arrays.asList(LineItemStatus.QUOTED,LineItemStatus.QUOTE_ACCEPTED);
 		List<OrderStatus> eligibleOrderStatus = Arrays.asList(OrderStatus.QUOTED);
 		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
-		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id,
-				user.getAccounts().iterator().next().getId()).orElseThrow();
+		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Organization_Id(id,
+				user.getDefaultOrg().getId()).orElseThrow();
 			
 		if (eligibleItemStatus.contains(item.getStatus())&&eligibleOrderStatus.contains(item.getOrderEntity().getStatus()))
 		{
@@ -561,8 +555,8 @@ public class OrderService
 		List<LineItemStatus> eligibleItemStatus = Arrays.asList(LineItemStatus.QUOTED,LineItemStatus.QUOTE_REJECTED);
 		List<OrderStatus> eligibleOrderStatus = Arrays.asList(OrderStatus.QUOTED);
 		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
-		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id,
-				user.getAccounts().iterator().next().getId()).orElseThrow();
+		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Organization_Id(id,
+				user.getDefaultOrg().getId()).orElseThrow();
 			
 		if (eligibleItemStatus.contains(item.getStatus())&&eligibleOrderStatus.contains(item.getOrderEntity().getStatus()))
 		{
@@ -653,8 +647,8 @@ public class OrderService
 	public LineItem reset(UUID id, Authentication auth)
 	{
 		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
-		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Account_Id(id,
-				user.getAccounts().iterator().next().getId()).orElseThrow();
+		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Organization_Id(id,
+				user.getDefaultOrg().getId()).orElseThrow();
 		if(item.getOrderEntity().getStatus()==OrderStatus.PENDING && item.getStatus()!=LineItemStatus.CANCELLED)
 		{
 			item.setStatus(LineItemStatus.PENDING);

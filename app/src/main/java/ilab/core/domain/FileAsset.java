@@ -5,13 +5,15 @@ import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import ilab.core.domain.user.Organization;
+
 @Entity
 public class FileAsset extends AbstractEntity<FileAsset>
 {
 	private String name;
 	@ManyToOne(optional=false)
 	@JsonIgnore
-	private Account account;
+	private Organization organization;
 
 	public String getName()
 	{
@@ -21,13 +23,13 @@ public class FileAsset extends AbstractEntity<FileAsset>
 	{
 		this.name = name;
 	}
-	public Account getAccount()
+	public Organization getOrganization()
 	{
-		return account;
+		return organization;
 	}
-	public void setAccount(Account account)
+	public void setOrganization(Organization organization)
 	{
-		this.account = account;
+		this.organization = organization;
 	}
 	
 }

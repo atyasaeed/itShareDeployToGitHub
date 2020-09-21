@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import javax.transaction.Transactional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -29,9 +30,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import ilab.core.domain.Account;
 import ilab.core.domain.user.ActivationCode;
 import ilab.core.domain.user.Organization;
+import ilab.core.domain.user.OrganizationStatus;
+import ilab.core.domain.user.OrganizationType;
 import ilab.core.domain.user.PasswordResetToken;
 import ilab.core.domain.user.Role;
 import ilab.core.domain.user.User;
@@ -84,14 +86,9 @@ public class UserService implements UserDetailsService
 	}
 	public User register(User user)
 	{
-		Role role=Role.ROLE_USER;
-		if(user.getRoles().contains(Role.ROLE_PARTNER))
-			role=Role.ROLE_REGISTER_PRIVILEGE;
 	
 		user.getRoles().clear();
-		user.addRole(role);
 		
-		user.addAccount(new Account());
 		user.setEnabled(false);
 		user.setAccountNonExpired(true);
 		user.setAccountNonLocked(true);
@@ -114,9 +111,27 @@ public class UserService implements UserDetailsService
 				user = existUser;
 			}
 		}
+		if(user.getDefaultOrg()==null)
+		{
+			Organization org=new Organization();
+			org.setAddress("address");
+			org.setCity("city");
+			org.setMobileNo(user.getMobileNo());
+			org.setName(user.getFirstName());
+			org.setType(OrganizationType.INDIVIDUAL);
+			user.setDefaultOrg(org);
+		}
+		user.getDefaultOrg().setOwner(user);
 		user=userRepo.save(user);
 		activationCode.setUser(user);
-
+		switch(user.getDefaultOrg().getType())
+		{
+		case INDIVIDUAL:
+			user.getDefaultOrg().setStatus(OrganizationStatus.ACTIVE);
+			break;
+		case PARTNER:
+			user.getDefaultOrg().setStatus(OrganizationStatus.PENDING);
+		}
 		activationCode.setCode(String.format("%06d", new Random().nextInt(999999)));
 		activationCode.setLocale(LocaleContextHolder.getLocale());
 		activationCode = activationCodeRepo.save(activationCode);
@@ -247,21 +262,10 @@ public class UserService implements UserDetailsService
 			code.setUsed(true);
 			user.setEnabled(true);
 			
-			if(!user.getRoles().contains(Role.ROLE_REGISTER_PRIVILEGE))
-			{
-				code.getUser().addRole(Role.ROLE_USER);
-				jmsTemplate.convertAndSend(welcomeQueue, code.getUser().getId());
-			}
-			else
-			{
-				Authentication auth = new UsernamePasswordAuthenticationToken(loadUserByUsername(user.getUsername()), null,
-						Arrays.asList(Role.ROLE_REGISTER_PRIVILEGE));
-				SecurityContextHolder.getContext().setAuthentication(auth);
-				
-			}
+			code.getUser().addRole(Role.ROLE_USER);
+			jmsTemplate.convertAndSend(welcomeQueue, code.getUser().getId());
 		}
 		return Map.of("status",user.isEnabled(),"roles",user.getRoles());
-//		return user.isEnabled();
 	}
 	public Map<String,Object> activate(UUID userId, String activationCode)
 	{
@@ -272,25 +276,8 @@ public class UserService implements UserDetailsService
 			code.setUsed(true);
 			
 			user.setEnabled(true);
-			if(!user.getRoles().contains(Role.ROLE_REGISTER_PRIVILEGE))
-			{
-				code.getUser().addRole(Role.ROLE_USER);
-				jmsTemplate.convertAndSend(welcomeQueue, code.getUser().getId());
-			}
-			else
-			{
-				Authentication auth = new UsernamePasswordAuthenticationToken(loadUserByUsername(user.getUsername()), null,
-						Arrays.asList(Role.ROLE_REGISTER_PRIVILEGE));
-				SecurityContextHolder.getContext().setAuthentication(auth);
-				
-			}
-			
-			
-//			code.getUser().addRole(Role.ROLE_REGISTER_PRIVILEGE);
-//			Authentication auth = new UsernamePasswordAuthenticationToken(code.getUser(), null,
-//					Arrays.asList(Role.ROLE_REGISTER_PRIVILEGE));
-//			SecurityContextHolder.getContext().setAuthentication(auth);
-
+			code.getUser().addRole(Role.ROLE_USER);
+			jmsTemplate.convertAndSend(welcomeQueue, code.getUser().getId());
 
 		}
 
@@ -336,13 +323,12 @@ public class UserService implements UserDetailsService
 	}
 	public Organization updateOrganization(Organization org, Authentication auth)
 	{
-		User owner= findUser(auth);
-		org.setOwner(owner);
-		org=orgRepo.save(org);
-		owner.getRoles().remove(Role.ROLE_REGISTER_PRIVILEGE);
-		owner.getRoles().add(Role.ROLE_PARTNER);
-		owner.getRoles().add(Role.ROLE_USER);
-		return org;
+		Organization existingOrg= orgRepo.findByIdAndOwner_username(org.getId(), auth.getName()).orElseThrow();
+		
+		BeanUtils.copyProperties(org, existingOrg,"owner","status","type");
+		
+		
+		return existingOrg;
 	}
 	public void sendResetPasswordToken(UUID tokenId) throws Exception
 	{
