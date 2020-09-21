@@ -11,7 +11,7 @@ import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { routerTransition } from 'src/app/router.animations';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
-import { City, cities } from './city';
+import { City } from './city';
 import { TdLoadingService } from '@covalent/core/loading';
 import { Subject } from 'rxjs';
 import { CanComponentDeactivate } from 'src/app/shared/guard/can-deactivate-guard.service';
@@ -30,7 +30,9 @@ export class SignupPartnerComponent implements OnInit, CanComponentDeactivate {
   dropdownList: Service[] = [];
   selectedItems = [];
   dropdownSettings: IDropdownSettings = {};
-  cities: City[] = cities;
+  city: City = {} as City;
+  cities: City[] = new Array();
+  lang: string;
   canDeactivateValue: Subject<boolean> = new Subject<boolean>();
   constructor(
     private router: Router,
@@ -48,6 +50,11 @@ export class SignupPartnerComponent implements OnInit, CanComponentDeactivate {
     this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
       console.log(res);
       this.dropdownList = res;
+    });
+
+    this.http.get('assets/cities.json').subscribe((res: City[]) => {
+      console.log(res);
+      this.cities = res;
     });
     // this.dropdownList = [
     //   'PENDING',
@@ -100,6 +107,9 @@ export class SignupPartnerComponent implements OnInit, CanComponentDeactivate {
   ngOnInit(): void {
     this.createForm();
     // this.registrationForm.get('services').patchValue([]);
+    this.appStore.select(fromStore.getLang).subscribe((lang) => {
+      this.lang = lang;
+    });
   }
 
   createForm() {
@@ -147,6 +157,7 @@ export class SignupPartnerComponent implements OnInit, CanComponentDeactivate {
       }
     );
   }
+
   canDeactivate() {
     if (this.registrationForm.dirty) {
       this._dialogService

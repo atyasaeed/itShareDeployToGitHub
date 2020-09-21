@@ -1,30 +1,5 @@
 export interface City {
-  name: string;
+  id: string;
+  enName: string;
+  arName: string;
 }
-
-export const cities: City[] = [
-  {
-    name: 'Cairo',
-  },
-  {
-    name: 'Alexandria',
-  },
-  {
-    name: 'Aswan',
-  },
-  {
-    name: 'Asyut',
-  },
-  {
-    name: 'Beheira',
-  },
-  {
-    name: 'Beni Suef',
-  },
-  {
-    name: 'Dakahlia',
-  },
-  {
-    name: 'Damietta',
-  },
-];

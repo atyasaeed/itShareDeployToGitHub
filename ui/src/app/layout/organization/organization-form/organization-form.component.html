@@ -1,0 +1,203 @@
+<div [@routerTransition]>
+  <app-page-header [heading]="'Update Profile'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs">
+  </app-page-header>
+  <form [formGroup]='form' (ngSubmit)="save()">
+    <section>
+      <div class="form-group form-header row">
+        <h4 class="col-md-8"><i class="fa fa-building-o" aria-hidden="true"></i> {{'organization details'|translate}}
+        </h4>
+        <h6 class="col-md-4 ">{{"status"|translate}} : <span class="text-danger">{{org.status}}</span></h6>
+      </div>
+      <div class="text-right pr-3 mt-2"><button type="submit" mat-flat-button color="primary"
+          *ngIf="toggleButton">{{ 'save' | translate }}</button>&nbsp;<a href="javascript:void(0)" *ngIf="!toggleButton"
+          (click)='toggleButton =true'>{{'Edit'|translate}}</a>
+      </div>
+      <div class="row">
+        <div class="col-md-8">
+
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label>{{'companyName' | translate }}</label>
+              <input type="text" formControlName="name" class="form-control input-underline input-lg" #name
+                [readOnly]='roleAdmin'>
+              <div *ngIf="form?.controls.name.touched && !form.controls.name.valid" class="text-danger text-center">
+                <div class="text-center" *ngIf="form.controls.name.errors.required">
+                  {{ 'companyName.error.required' | translate }}
+                </div>
+                <div class="text-center" *ngIf="form.controls.name.errors.minlength">
+                  {{ 'companyName.error.min' | translate }}
+                </div>
+                <div class="text-center" *ngIf="form.controls.name.errors.maxlength">
+                  {{ 'companyName.error.max' | translate }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label>{{'phoneNumber'| translate }}</label>
+              <input type="text" formControlName="mobileNo" class="form-control input-underline input-lg" #mobileNo
+                [readOnly]='roleAdmin'>
+              <div *ngIf="form.controls.mobileNo.touched && !form.controls.mobileNo.valid" class="text-danger">
+                <div *ngIf="form.controls.mobileNo.errors.required">
+                  {{ 'phoneNumber.error.required' | translate }}</div>
+                <div *ngIf="form.controls.mobileNo.errors.pattern">
+                  {{ 'personalPhoneNumber.error.invalid' | translate }}</div>
+              </div>
+            </div>
+
+
+            <div class="form-group col-md-6">
+              <label for="inputCity">{{ 'governorate' | translate }}</label>
+              <select class="form-control input-underline input-lg" formControlName="city" #city>
+                <option [value]="city.id" class="d-none" [attr.disabled]="roleAdmin"><span
+                    *ngIf="lang=='en'">{{city?.enName}}</span>
+                  <span *ngIf="lang!=='en'">{{city?.arName}}</span></option>
+                <option *ngFor="let city of cities" [value]='city?.id'><span *ngIf="lang=='en'">{{city?.enName}}</span>
+                  <span *ngIf="lang!=='en'">{{city?.arName}}</span></option>
+              </select>
+              <div *ngIf="form.controls.city.touched && !form.controls.city.valid" class="text-danger text-center">
+                <div class="text-center" *ngIf="form.controls.city.errors.required">
+                  {{ 'governorate.error.required' | translate }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label>{{ 'address' | translate }}</label>
+              <input type="text" class="form-control input-underline input-lg" placeholder="{{ 'address' | translate }}"
+                formControlName="address" #address [readOnly]='roleAdmin'>
+              <div *ngIf="form.controls.address.touched && !form.controls.address.valid"
+                class="text-danger text-center">
+                <div class="text-center" *ngIf="form.controls.address.errors.required">
+                  {{ 'address.error.required' | translate }}</div>
+                <div class="text-center" *ngIf="form.controls.address.errors.minlength">
+                  {{ 'address.error.length' | translate }}</div>
+              </div>
+            </div>
+
+
+            <div class="form-group col-md-6">
+              <label>{{ 'companyWebsite' | translate }}</label>
+              <input type="url" class="form-control input-underline input-lg" formControlName="website" #website
+                [readOnly]='roleAdmin'>
+              <div *ngIf="form.controls.website.touched && !form.controls.website.valid"
+                class="text-danger text-center">
+                <div class="text-center" *ngIf="form.controls.website.errors.pattern">
+                  {{ 'companyWebsite.error.pattern' | translate }}</div>
+              </div>
+            </div>
+            <div class="form-group col-md-6" *ngIf="roleAdmin">
+              <label for="inputCity">{{ 'status' | translate }}</label>
+              <select class="form-control input-underline input-lg" (change)="onChangeStatus($event.target.value)"
+                formControlName="status" #status>
+                <option [value]="org.status" class="d-none">{{org.status}}</option>
+                <option *ngFor="let status of arrStatus">
+                  {{status}}
+                </option>
+              </select>
+            </div>
+
+
+
+
+            <div class="form-group col-md-6">
+              <label>{{ 'services' | translate }}</label>
+              <ng-multiselect-dropdown formControlName="services" [settings]="dropdownSettings" [data]="dropdownList"
+                [settings]="dropdownSettings" (onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeSelect($event)"
+                (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)" [disabled]='roleAdmin'>
+              </ng-multiselect-dropdown>
+              <div *ngIf="form.controls.services.touched && !form.controls.services.valid"
+                class="text-danger text-center">
+                <div *ngIf="form.controls.services.errors.required">
+                  {{ 'services.error.required' | translate }}</div>
+              </div>
+            </div>
+
+
+          </div>
+
+        </div>
+        <div class="col-md-4 notes">
+          <div class="form-row">
+            <div class="form-group col-md-12" *ngIf="org.status == 'Pending Validation' || org.status == 'Rejected'">
+              <label for="inputCity">{{ 'reason' | translate }}</label>
+              <textarea formControlName="notes" style="width: 100%;" [readonly]="!roleAdmin"></textarea>
+              <div *ngIf="form.controls.notes.touched && !form.controls.notes.valid" class="text-danger text-center">
+                <div class="text-center" *ngIf="form.controls.notes.errors.required">
+                  {{ 'notes.error.required' | translate }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--/////////////////////////////////-->
+    <section>
+      <div class="form-group form-header">
+        <h4><i class="fa fa-paperclip"></i> {{'official documentation'|translate}}</h4>
+      </div>
+      <div class="form-row pt-0 row-files mt-2">
+
+        <div class="form-group col-md-6">
+          <h6>{{'commercialRegister'|translate}}</h6>
+        </div>
+        <div class="form-group col-md-6">
+          <input #CommercialInput hidden="true" type="file" formControlName="file" (change)="Commercial($event)" />
+          <button mat-flat-button color="primary" type="button" (click)="CommercialInput.click()"><i
+              class="fa fa-upload"></i>
+            {{'upload'|translate}}</button>
+        </div>
+        <!-- <div class="form-group col-md-6 ">
+          <div class="text-success"><i class="fa fa-check" aria-hidden="true"></i> {{'uploaded'|translate}}
+          </div>
+          <div><a href="javascript:void(0)" class="text-danger">{{'view'|translate}}</a><span *ngIf="!roleAdmin"> | <a
+                href="javascript:void(0)" class="text-primary">{{'edit'|translate}}</a></span>
+          </div>
+
+        </div> -->
+      </div>
+      <div class="form-row pt-0 row-files">
+
+        <div class="form-group col-md-6">
+          <h6>{{'taxCard'|translate}}</h6>
+        </div>
+        <div class="form-group col-md-6">
+          <input #taxCardInput hidden="true" type="file" formControlName="file" (change)="taxCard($event)" />
+          <button mat-flat-button color="primary" type="button" (click)="taxCardInput.click()"><i
+              class="fa fa-upload"></i>
+            {{'upload'|translate}}</button>
+        </div>
+        <!-- <div class="form-group col-md-6" >
+          <span class="text-success"><i class="fa fa-check" aria-hidden="true"></i> {{'uploaded'|translate}}</span>
+          <div><a href="javascript:void(0)" class="text-danger">{{'view'|translate}}</a> | <a href="javascript:void(0)"
+              class="text-primary">{{'edit'|translate}}</a></div>
+
+        </div> -->
+      </div>
+      <div class="form-row pt-0 row-files">
+
+        <div class="form-group col-md-6">
+          <h6>{{'ownerNationalIDFront'|translate}}</h6>
+        </div>
+        <div class="form-group col-md-6">
+          <input #frontInput hidden="true" type="file" formControlName="file" (change)="ownerNationalIDFront($event)" />
+          <button mat-flat-button type="button" color="primary" (click)="frontInput.click()"><i
+              class="fa fa-upload"></i>
+            {{'upload'|translate}}</button>
+        </div>
+      </div>
+      <div class="form-row pt-0">
+
+        <div class="form-group col-md-6">
+          <h6>{{'ownerNationalIDBack'|translate}}</h6>
+        </div>
+        <div class="form-group col-md-6">
+          <input #frontInput hidden="true" type="file" formControlName="file" (change)="ownerNationalIDBack($event)" />
+          <button mat-flat-button type="button" color="primary" (click)="frontInput.click()"><i
+              class="fa fa-upload"></i>
+            {{'upload'|translate}}</button>
+        </div>
+      </div>
+    </section>
+
+  </form>
+
+</div>

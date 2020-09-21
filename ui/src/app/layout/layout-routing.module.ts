@@ -64,6 +64,10 @@ const routes: Routes = [
         loadChildren: () => import('./reasons-list/reasons-list.module').then((m) => m.ReasonsListModule),
         canActivate: [AdminGuard],
       },
+      {
+        path: 'organization',
+        loadChildren: () => import('./organization/organization.module').then((m) => m.OrganizationModule),
+      },
     ],
   },
 ];
