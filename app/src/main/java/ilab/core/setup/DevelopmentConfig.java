@@ -24,6 +24,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ilab.core.domain.Reason;
 import ilab.core.domain.Service;
+import ilab.core.domain.user.Organization;
+import ilab.core.domain.user.OrganizationType;
 import ilab.core.domain.user.Role;
 import ilab.core.domain.user.User;
 import ilab.core.repository.ReasonRepository;
@@ -63,15 +65,11 @@ public class DevelopmentConfig
 				try
 				{
 
-//					userRepo.save(createUser( "hasalem", "12345678"));
-//					userRepo.save(createUser("mosalem", "12345678"));
 					User user=userService.register(createUser("hatem.salem@ihub.asu.edu.eg", "New123456","Admin","hatem.salem@ihub.asu.edu.eg","01065002100"));
 					user=userService.enableUser(user.getId(), true, null);
 					user=addAdminRoleAuthority(user);
 					
 					userRepo.save(user);
-//					user= userService.register(createUser("hasalem", "New123456","Hatem","hasalem@gmail.com","01065002100"));
-//					userService.enableUser(user.getId(), true, null);
 					user=userService.register(createUser("mosalem", "New123456","Hatem","mosalem@gmail.com","01065003100"));
 					userService.enableUser(user.getId(), true, null);
 					
@@ -95,7 +93,12 @@ public class DevelopmentConfig
 					{
 						reasonRepo.save(reason);
 					}
-//					Service service;
+
+					
+					
+					
+					
+					//					Service service;
 //					service=serviceRepo.save(createService("3D Printing","3D Printing Mono Color",1,"serviceTemplate.json","serviceFileExtensions.json","Working Area 1","3d"));
 //					Files.copy(new File(initFilesPath+service.getName()+".jpg"), new File(imagesPath+service.getId()+".jpg"));
 //
@@ -172,6 +175,13 @@ public class DevelopmentConfig
 		user.setFirstName(firstName);
 		user.setEmail(email);
 		user.setMobileNo(mobileNo);
+		Organization org=new Organization();
+		org.setName(user.getFirstName());
+		org.setMobileNo(user.getMobileNo());
+		org.setCity("city");
+		org.setAddress("address");
+		org.setType(OrganizationType.INDIVIDUAL);
+		user.setDefaultOrg(org);
 //		user.setEnabled(true);
 //		user.setAccountNonLocked(true);
 //		user.addAuthority(createAuthority(user));
@@ -180,6 +190,7 @@ public class DevelopmentConfig
 	private User addAdminRoleAuthority(User user)
 	{
 		user.addRole(Role.ROLE_ADMIN);
+		user.addRole(Role.ROLE_USER);
 		return user;
 	}
 

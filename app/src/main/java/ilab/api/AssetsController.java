@@ -56,7 +56,7 @@ public class AssetsController implements AbstractRestController<FileAsset, UUID>
         	FileAsset fileAsset=optional.isEmpty()?null:optional.get();
         	if(fileAsset!=null)
         	{
-        		resource=new FileSystemResource(filesPath+fileAsset.getAccount().getId()+"\\"+id);
+        		resource=new FileSystemResource(filesPath+fileAsset.getOrganization().getId()+"\\"+id);
         		filename=fileAsset.getName();
         	}
         }
@@ -74,7 +74,7 @@ public class AssetsController implements AbstractRestController<FileAsset, UUID>
         {
         	
         	FileAsset fileAsset= assetsService.getAssetFile(id).orElseThrow();
-    		resource=new FileSystemResource(filesPath+fileAsset.getAccount().getId()+"\\"+id);
+    		resource=new FileSystemResource(filesPath+fileAsset.getOrganization().getId()+"\\"+id);
     		filename=fileAsset.getName();
         }
         return ResponseEntity.ok().contentType(MediaType.parseMediaType("application/octet-stream"))

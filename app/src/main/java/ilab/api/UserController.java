@@ -62,30 +62,23 @@ public class UserController
 	}
 
 	@PutMapping("activate")
-	@PreAuthorize("hasAnyRole('ROLE_ANONYMOUS','ROLE_REGISTER_PRIVILEGE')")
+	@PreAuthorize("hasAnyRole('ROLE_ANONYMOUS')")
 	public Map<String,Object> activateUser(@RequestPart("user") User user,@RequestPart("activationCode") String activationCode)
 			throws Exception
 	{
 		return userService.activate(user, activationCode);
 	}
 	@GetMapping("activate")
-	@PreAuthorize("hasAnyRole('ROLE_ANONYMOUS','ROLE_REGISTER_PRIVILEGE')")
+	@PreAuthorize("hasAnyRole('ROLE_ANONYMOUS')")
 	public RedirectView activateUser(@RequestParam("id")UUID id,@RequestParam("activationCode") String activationCode)
 			throws Exception
 	{
-//		if(userService.activate(id,activationCode))
-//		{
-//			//TODO
-////			User user=userService.findUser(id).orElseThrow();
-////			if(user.getRoles().contains(Role.ROLE_REGISTER_PRIVILEGE))
-////			return new RedirectView(updateInfoUrl);
-//		}
 		userService.activate(id, activationCode);
 		return new RedirectView(homeUrl);
 	}
 	
 	@PostMapping("/changePassword")
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("isAuthenticated()")
 	public boolean changePassword(Authentication auth, @RequestBody ChangePasswordDTO dto)
 	{
 		dto.setUsername(auth.getName());
@@ -103,6 +96,7 @@ public class UserController
 		return true;
 	}
 	@PostMapping("savePassword")
+	
 	public boolean savePassword(@RequestBody String newPassword,Authentication auth)
 	{
 		userService.changePassword(newPassword);
@@ -116,14 +110,14 @@ public class UserController
 		return new RedirectView(resetPasswordUrl);
 	}
 	@GetMapping
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("isAuthenticated()")
 	public User getUser(Authentication auth)
 	{
 		return userService.findUser(auth);
 	}
 	
 	@PutMapping
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("isAuthenticated()")
 	public User updateUser(@RequestBody User user,Authentication auth)
 	{
 		return userService.update(user, auth);
@@ -168,9 +162,8 @@ public class UserController
 		return userService.resendActivationCode(username);
 	}
 	@PutMapping("updateOrg")
-	@PreAuthorize("hasRole('ROLE_REGISTER_PRIVILEGE')")
-	
-	public Organization updateInfo(@RequestBody Organization org,Authentication auth)
+	@PreAuthorize("isAuthenticated()")
+	public Organization updateOrgInfo(@RequestBody Organization org,Authentication auth)
 			throws Exception
 	{
 		return userService.updateOrganization(org,auth);

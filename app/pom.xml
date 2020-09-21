@@ -161,7 +161,7 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>fabrihub-app-1.2</finalName>
+		<finalName>fabrihub-app-1.2-${project.activeProfiles[0].id}</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>

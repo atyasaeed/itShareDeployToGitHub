@@ -14,5 +14,5 @@ import ilab.core.domain.order.LineItem;
 @Transactional
 public interface LineItemRepository extends PagingAndSortingRepository<LineItem, UUID>,JpaSpecificationExecutor<LineItem>
 {
-	Optional<LineItem> findOneByIdAndOrderEntity_Account_Id(UUID id,UUID accouUuid);
+	Optional<LineItem> findOneByIdAndOrderEntity_Organization_Id(UUID id,UUID orgId);
 }
