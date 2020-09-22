@@ -20,6 +20,7 @@ export interface Organization extends Entity {
   name: string;
   mobileNo: string;
   city: City;
+  type: string;
   address: string;
   website: string;
   services: Service[];

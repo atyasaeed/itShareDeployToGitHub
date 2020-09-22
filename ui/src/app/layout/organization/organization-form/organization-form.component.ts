@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TdDialogService } from '@covalent/core/dialogs';
@@ -17,6 +17,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { City } from 'src/app/signup/signup-partner/city';
 import { HttpClient } from '@angular/common/http';
 import { UserService } from 'src/app/shared/services/user.service';
+import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 
 @Component({
   selector: 'app-organization-form',
@@ -60,7 +61,8 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
     router: Router,
     private appStore: Store<fromStore.AppState>,
     private orderservice: OrderService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    @Inject(APP_CONFIG) public appConfig: IAppConfig
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
     this.appStore.select(fromStore.getAuthUser).subscribe((res) => {
@@ -204,6 +206,9 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
     }
   }
 
+  getFileUrl(id): string {
+    return this.appConfig.FILE_URL + id;
+  }
   onCreate(): void {
     throw new Error('Method not implemented.');
   }
