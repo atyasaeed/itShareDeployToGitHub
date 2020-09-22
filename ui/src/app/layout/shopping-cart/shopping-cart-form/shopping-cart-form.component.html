@@ -28,7 +28,7 @@
     </div>
   </div>
 
-  <article class="  card form-rtl" [@simpleFadeAnimation]='serviceContentAnimation'>
+  <article class="  card form-rtl" [@simpleFadeAnimation]='serviceContentAnimation' *tdLoading="'loading';strategy:'overlay'">
     <!-- <div *ngIf="activeService != undefined"> -->
     <h4 class="text-center text-primary mb-0">{{activeService?.name}} </h4>
     <h6 class="text-center mb-0">{{activeService?.description}}</h6>
@@ -205,7 +205,7 @@
           </div>
 
           <div class="col-md-12 text-center mt-3" *ngIf="activeService">
-            <button type="submit" class="btn btn-primary " [disabled]=" activeService?.id==null || loading == false">
+            <button type="submit" class="btn btn-primary " [disabled]=" activeService?.id==null ">
               {{'addToCart' | translate}} <i class="fa fa-cart-plus " aria-hidden="true" #flyToCart></i>
             </button>
           </div>

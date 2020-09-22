@@ -16,9 +16,7 @@ import { ShoppingCartService } from '../../../shared/services/shoppingcart.servi
 import { AuthenticationService } from 'src/app/shared/services';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl, AbstractControl } from '@angular/forms';
-// import { ServicesService } from './services.service';
 import { ServiceService } from 'src/app/shared/services/service.service';
-
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { routerTransition } from 'src/app/router.animations';
@@ -28,6 +26,7 @@ import { delay } from 'rxjs/operators';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { AnimationService } from 'src/app/shared/services/animation.service';
 import { MySpaceService } from 'src/app/shared/services/my-space.service';
+import { TdLoadingService } from '@covalent/core/loading';
 
 @Component({
   selector: 'app-shopping-cart-form',
@@ -45,17 +44,15 @@ import { MySpaceService } from 'src/app/shared/services/my-space.service';
     ]),
   ],
 })
-export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterContentChecked {
+export class ShoppingCartFormComponent implements OnInit, AfterContentChecked {
   breadcrumbs = [{ heading: 'Add-Service', icon: 'fa-tasks' }];
-  //services;
   private _searchTerm = '';
-  loading = false;
+  // loading = false;
   submitted = false;
   msgFileSize: any;
   filename;
   @ViewChild('flyToCart') private flyToCart: ElementRef;
   @ViewChild('myVar') myVar: ElementRef;
-  // public selection: string;
   selection = new FormControl(null, Validators.required);
   selectService = new FormControl();
   ext: string[] = [];
@@ -82,11 +79,11 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
     private cdr: ChangeDetectorRef,
     public spaceService: MySpaceService,
     private modalService: BsModalService,
-    private animationService: AnimationService
+    private animationService: AnimationService,
+    private loadingService: TdLoadingService
   ) {
     this.spaceService.searchTerm = '';
     this.spaceService.model$.subscribe((res) => {
-      //console.log(res);
       this.filesAsset = res;
     });
 
@@ -101,8 +98,6 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
         this.services = res;
         this.activeService = this.services.find((item) => item.id === this.serviceId);
         this.buildForm(this.activeService?.id);
-
-        //console.log(this.activeService);
       });
     } else {
       this.createForm();
@@ -126,7 +121,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
 
     // this.serviceId = '';
     this.selection.valueChanges.subscribe((res) => {
-      this.loading = true;
+      // this.loading = true;
       //console.log(res);
       if (res == 'option1') {
         this.form.addControl('file', new FormControl('', Validators.required));
@@ -140,16 +135,16 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
 
     if (this.objAsset) {
       this.selection.patchValue('option2');
-      this.loading = true;
+      // this.loading = true;
       this.form.addControl('asset_id', new FormControl('', Validators.required));
       this.form.get('asset_id').patchValue(this.objAsset.id);
       this.selectService.patchValue(this.activeService.id);
     }
   }
-  ngAfterViewInit() {
-    //this.flyToCartAnimation();
-    this.cdr.detectChanges();
-  }
+  // ngAfterViewInit() {
+  //   //this.flyToCartAnimation();
+  //   this.cdr.detectChanges();
+  // }
   ngAfterContentChecked() {
     this.cdr.detectChanges();
   }
@@ -264,86 +259,11 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
         this.animationBuildForm();
       }, 300);
     }
-    // setTimeout(() => {
-    //   this.serviceContentAnimation = 'in';
-
-    //   this.selection.patchValue(null);
-    //   this.serviceId = '';
-    //   this.activeService = this.services.find((e) => e.id === id);
-    //   this.filterFiles = [];
-    //   this.form.reset({
-    //     quantity: 1,
-    //     material: 'undefined',
-    //     thickness: 'undefined',
-    //     color: 'undefined',
-    //     type: 'undefined',
-    //     unit: 'undefined',
-    //     processes: 'undefined',
-    //   });
-    //   this.form.markAsUntouched();
-    //   this.form.markAsPristine();
-    //   this.form.updateValueAndValidity();
-
-    //   for (let index = 0; index < this.activeService?.supportedExtensions.length; index++) {
-    //     for (let i = 0; i < this.filesAsset.length; i++) {
-    //       if (
-    //         this.activeService.supportedExtensions[index].split('.').pop() == this.filesAsset[i].name.split('.').pop()
-    //       ) {
-    //         this.filterFiles.push(this.filesAsset[i]);
-    //       }
-    //     }
-    //   }
-
-    //   //console.log(this.activeService);
-    //   if (this.activeService?.materials != undefined) {
-    //     this.form.addControl('material', new FormControl('undefined', this.selectValidator));
-    //   } else {
-    //     this.form.removeControl('material');
-    //   }
-    //   if (this.activeService?.thickness != undefined) {
-    //     this.form.addControl('thickness', new FormControl('undefined', this.selectValidator));
-    //   } else {
-    //     this.form.removeControl('thickness');
-    //   }
-    //   if (this.activeService?.colors != undefined) {
-    //     this.form.addControl('color', new FormControl('undefined', this.selectValidator));
-    //   } else {
-    //     this.form.removeControl('color');
-    //   }
-    //   if (this.activeService?.types != undefined) {
-    //     this.form.addControl('type', new FormControl('undefined', this.selectValidator));
-    //   } else {
-    //     this.form.removeControl('type');
-    //   }
-    //   if (this.activeService?.units != undefined) {
-    //     this.form.addControl('unit', new FormControl('undefined', this.selectValidator));
-    //   } else {
-    //     this.form.removeControl('unit');
-    //   }
-    //   if (this.activeService?.processes != undefined) {
-    //     if (this.activeService.processes.multi == true) {
-    //       this.form.removeControl('processes');
-    //       this.form.addControl('mprocesses', new FormControl('', Validators.required));
-    //     } else {
-    //       this.form.removeControl('mprocesses');
-    //       this.form.addControl('processes', new FormControl('undefined', this.selectValidator));
-    //     }
-    //   } else {
-    //     if (this.form.get('mprocesses')) {
-    //       this.form.removeControl('mprocesses');
-    //     } else if (this.form.get('processes')) {
-    //       this.form.removeControl('processes');
-    //     }
-    //   }
-
-    //   this.acceptedExtensions();
-    // }, 300);
   }
 
   submit() {
     if (this.form.valid) {
-      //console.log(this.form);
-      //return;
+      this.loadingService.register('loading');
       const formData: FormData = new FormData();
       let item = {} as LineItem;
       item.service = {} as Service;
@@ -372,25 +292,31 @@ export class ShoppingCartFormComponent implements OnInit, AfterViewInit, AfterCo
       });
 
       formData.append('item', itemBlob);
-      this.form.reset({
-        quantity: 1,
-        material: 'undefined',
-        thickness: 'undefined',
-        color: 'undefined',
-        type: 'undefined',
-        unit: 'undefined',
-        processes: 'undefined',
-      });
-      this.form.markAsUntouched();
-      this.form.markAsPristine();
-      this.form.updateValueAndValidity();
-      this.shoppingCartService.create(formData).subscribe((res) => {
-        this.animationService.flyToCartAnimation(this.flyToCart, 'white');
-        setTimeout(() => {
-          this.appStore.dispatch(new fromStore.LoadInitState());
-          this.router.navigateByUrl('shopping-cart'), (this.loading = false);
-        }, 700);
-      });
+      this.shoppingCartService.create(formData).subscribe(
+        (res) => {
+          this.form.reset({
+            quantity: 1,
+            material: 'undefined',
+            thickness: 'undefined',
+            color: 'undefined',
+            type: 'undefined',
+            unit: 'undefined',
+            processes: 'undefined',
+          });
+          this.form.markAsUntouched();
+          this.form.markAsPristine();
+          this.form.updateValueAndValidity();
+          this.animationService.flyToCartAnimation(this.flyToCart, 'white');
+          setTimeout(() => {
+            this.loadingService.resolve('loading');
+            this.appStore.dispatch(new fromStore.LoadInitState());
+            this.router.navigateByUrl('shopping-cart');
+          }, 700);
+        },
+        (err) => {
+          this.loadingService.resolve('loading');
+        }
+      );
     } else {
       this.form.markAllAsTouched();
       return;
