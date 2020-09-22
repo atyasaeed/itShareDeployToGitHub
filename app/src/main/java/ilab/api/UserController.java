@@ -29,6 +29,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.sipios.springsearch.anotation.SearchSpec;
 
 import ilab.core.domain.user.Organization;
+import ilab.core.domain.user.OrganizationStatus;
 import ilab.core.domain.user.PasswordResetToken;
 import ilab.core.domain.user.User;
 import ilab.core.service.UserService;
@@ -161,11 +162,5 @@ public class UserController
 	{
 		return userService.resendActivationCode(username);
 	}
-	@PutMapping("updateOrg")
-	@PreAuthorize("isAuthenticated()")
-	public Organization updateOrgInfo(@RequestBody Organization org,Authentication auth)
-			throws Exception
-	{
-		return userService.updateOrganization(org,auth);
-	}
+	
 }
