@@ -30,20 +30,25 @@ export abstract class DefaultFormComponent<T extends Entity, K extends RestServi
   }
   ngOnInit(): void {
     this.loadingService.register(this.key);
-    this.route.params.pipe(map((params: Params) => params.entityId)).subscribe((entityId) => {
-      if (entityId) {
-        this.onUpdate();
-        this.service.get(entityId).subscribe((entity) => {
-          this.form.patchValue(entity);
-          this.entity = entity;
+    this.route.params.pipe(map((params: Params) => params.entityId)).subscribe(
+      (entityId) => {
+        if (entityId) {
+          this.onUpdate();
+          this.service.get(entityId).subscribe((entity) => {
+            this.form.patchValue(entity);
+            this.entity = entity;
+            this.loadingService.resolve(this.key);
+          });
+        } else {
+          this.onCreate();
+          this.entity = {} as T;
           this.loadingService.resolve(this.key);
-        });
-      } else {
-        this.onCreate();
-        this.entity = {} as T;
+        }
+      },
+      (err) => {
         this.loadingService.resolve(this.key);
       }
-    });
+    );
   }
   delete() {
     this.dialogService
@@ -56,12 +61,17 @@ export abstract class DefaultFormComponent<T extends Entity, K extends RestServi
       .subscribe((accept: boolean) => {
         if (accept) {
           this.loadingService.register(this.key);
-          this.service.delete(this.entity.id).subscribe((response) => {
-            this.loadingService.resolve(this.key);
-            this.entity.id = null;
-            this.onDelete();
-            this.cancel();
-          });
+          this.service.delete(this.entity.id).subscribe(
+            (response) => {
+              this.loadingService.resolve(this.key);
+              this.entity.id = null;
+              this.onDelete();
+              this.cancel();
+            },
+            (err) => {
+              this.loadingService.resolve(this.key);
+            }
+          );
         }
       });
   }
@@ -69,17 +79,27 @@ export abstract class DefaultFormComponent<T extends Entity, K extends RestServi
     this.loadingService.register(this.key);
     Object.assign(this.entity, this.form.value);
     if (this.entity.id) {
-      this.service.update(this.entity).subscribe((response) => {
-        this.onSave();
-        this.cancel();
-        this.loadingService.resolve(this.key);
-      });
+      this.service.update(this.entity).subscribe(
+        (response) => {
+          this.onSave();
+          this.cancel();
+          this.loadingService.resolve(this.key);
+        },
+        (err) => {
+          this.loadingService.resolve(this.key);
+        }
+      );
     } else {
-      this.service.create(this.entity).subscribe((response) => {
-        this.cancel();
-        this.onSave();
-        this.loadingService.resolve(this.key);
-      });
+      this.service.create(this.entity).subscribe(
+        (response) => {
+          this.cancel();
+          this.onSave();
+          this.loadingService.resolve(this.key);
+        },
+        (err) => {
+          this.loadingService.resolve(this.key);
+        }
+      );
     }
   }
   abstract onCreate(): void;
