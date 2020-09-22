@@ -284,5 +284,10 @@
   "manufacturingDuration": "Manufacturing Duration",
   "manufacturingDuration.error": "Enter the number of days",
   "unitPrice.error": "Enter the unit price",
-  "organization": "Organization"
+  "organization": "Organization",
+  "PENDING": "Pending Validation ",
+  "WAITING_APPROVAL": "Wating Approval",
+  "REJECTED": "Rejected",
+  "ACTIVE": "Active",
+  "SUSPENDED": "Suspended"
 }

@@ -6,7 +6,7 @@
       <div class="form-group form-header row">
         <h4 class="col-md-8"><i class="fa fa-building-o" aria-hidden="true"></i> {{'organization details'|translate}}
         </h4>
-        <h6 class="col-md-4 ">{{"status"|translate}} : <span class="text-danger">{{org.status}}</span></h6>
+        <h6 class="col-md-4 ">{{"status"|translate}} : <span class="text-danger">{{org.status |translate}}</span></h6>
       </div>
       <div class="text-right pr-3 mt-2"><button type="submit" mat-flat-button color="primary"
           *ngIf="toggleButton">{{ 'save' | translate }}</button>&nbsp;<a href="javascript:void(0)" *ngIf="!toggleButton"
@@ -89,9 +89,9 @@
               <label for="inputCity">{{ 'status' | translate }}</label>
               <select class="form-control input-underline input-lg" (change)="onChangeStatus($event.target.value)"
                 formControlName="status" #status>
-                <option [value]="org.status" class="d-none">{{org.status}}</option>
+                <option [value]="org.status" class="d-none">{{org.status |translate}}</option>
                 <option *ngFor="let status of arrStatus">
-                  {{status}}
+                  {{status |translate}}
                 </option>
               </select>
             </div>
@@ -118,12 +118,13 @@
         </div>
         <div class="col-md-4 notes">
           <div class="form-row">
-            <div class="form-group col-md-12" *ngIf="org.status == 'PENDING_VALIDATION' || org.status == 'REJECTED'">
+            <div class="form-group col-md-12" *ngIf="org.status == 'PENDING' || org.status == 'REJECTED'">
               <label for="inputCity">{{ 'reason' | translate }}</label>
-              <textarea formControlName="notes" style="width: 100%;" [readonly]="!roleAdmin"></textarea>
-              <div *ngIf="form.controls.notes.touched && !form.controls.notes.valid" class="text-danger text-center">
-                <div class="text-center" *ngIf="form.controls.notes.errors.required">
-                  {{ 'notes.error.required' | translate }}</div>
+              <textarea formControlName="statusReason" style="width: 100%;" [readonly]="!roleAdmin"></textarea>
+              <div *ngIf="form.controls?.statusReason?.touched && !form?.controls?.statusReason?.valid"
+                class="text-danger text-center">
+                <div class="text-center" *ngIf="form?.controls?.statusReason?.errors?.required">
+                  {{ 'statusReason.error.required' | translate }}</div>
               </div>
             </div>
           </div>

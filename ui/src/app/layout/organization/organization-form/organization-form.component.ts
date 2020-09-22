@@ -40,7 +40,7 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
   dropdownList: Service[] = [];
   selectedItems = [];
   dropdownSettings: IDropdownSettings = {};
-  arrStatus: string[] = ['PENDING_VALIDATION', 'ACTIVE', 'REJECTED'];
+  arrStatus: string[] = ['PENDING', 'ACTIVE', 'REJECTED'];
   org: Organization = {} as Organization;
   user: User = {} as User;
   CommerciaFile = false;
@@ -104,6 +104,21 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
       this.user = res;
       this.org = res.defaultOrg;
       this.form.patchValue(res.defaultOrg);
+      if (this.org.comReg !== null) {
+        this.CommerciaFile = true;
+      }
+      if (this.org.taxId !== null) {
+        this.taxCardFile = true;
+      }
+      if (this.org.frontNatId !== null) {
+        this.ownerNationalIDFrontFile = true;
+      }
+      if (this.org.backNatId !== null) {
+        this.ownerNationalIDFBackFile = true;
+      }
+      if (!(this.org.status == 'PENDING' || this.org.status == 'REJECTED')) {
+        this.form.removeControl('statusReason');
+      }
     });
 
     this.appStore.select(fromStore.getLang).subscribe((lang) => {
@@ -121,9 +136,10 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
       mobileNo: ['', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
       city: ['', [Validators.required]],
       status: [''],
+      statusReason: ['', [Validators.required]],
       address: ['', [Validators.required]],
       website: ['', [Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?')]],
-      file: ['', []],
+      // file: ['', []],
       services: [null],
     });
   }
@@ -133,12 +149,16 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
       return;
     }
     this.toggleButton = false;
-
+    console.log(this.form.value);
     const itemBlob = new Blob([JSON.stringify(this.form.value)], {
       type: 'application/json',
     });
-    this.formData.append('organization', itemBlob);
-    this.service.updateOrg(this.formData, this.form.get('id').value).subscribe((res) => {});
+    this.formData.append('org', itemBlob);
+    if (this.roleAdmin) {
+      this.service.updateAdminOrg(this.form.value, this.form.get('id').value).subscribe((res) => {});
+    } else {
+      this.service.updateOrg(this.formData, this.form.get('id').value).subscribe((res) => {});
+    }
   }
 
   Commercial(event) {
@@ -177,10 +197,10 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
 
   onChangeStatus(event) {
     this.org.status = event;
-    if (event === 'PENDINGVALIDATION' || event === 'REJECTED') {
-      this.form.addControl('notes', new FormControl('', Validators.required));
+    if (event == 'PENDING' || event == 'REJECTED') {
+      this.form.addControl('statusReason', new FormControl('', Validators.required));
     } else {
-      this.form.removeControl('notes');
+      this.form.removeControl('statusReason');
     }
   }
 

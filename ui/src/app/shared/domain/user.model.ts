@@ -24,4 +24,9 @@ export interface Organization extends Entity {
   website: string;
   services: Service[];
   status: string;
+  statusReason: string;
+  comReg: AssetFile;
+  taxId: AssetFile;
+  backNatId: AssetFile;
+  frontNatId: AssetFile;
 }
