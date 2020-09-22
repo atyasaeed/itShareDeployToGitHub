@@ -321,15 +321,7 @@ public class UserService implements UserDetailsService
 
 		return status;
 	}
-	public Organization updateOrganization(Organization org, Authentication auth)
-	{
-		Organization existingOrg= orgRepo.findByIdAndOwner_username(org.getId(), auth.getName()).orElseThrow();
-		
-		BeanUtils.copyProperties(org, existingOrg,"owner","status","type");
-		
-		
-		return existingOrg;
-	}
+	
 	public void sendResetPasswordToken(UUID tokenId) throws Exception
 	{
 		PasswordResetToken token = passwordTokenRepo.findByIdAndUsedFalseAndSentFalse(tokenId).orElse(null);
@@ -342,4 +334,5 @@ public class UserService implements UserDetailsService
 
 		}
 	}
+	
 }
