@@ -8,8 +8,7 @@ import { ShoppingCartItem, Order, Organization } from 'src/app/shared/domain';
 })
 export class OrganizationService extends RestService<Organization> {
   resource = 'organization';
-  updateOrg(org) {
-    console.log(this.appConfig.API_END_POINT + 'api/user/updateOrg');
-    return this.http.put(this.appConfig.API_END_POINT + 'api/user/updateOrg', org);
+  updateOrg(formDate: FormData, id) {
+    return this.http.put(this.url + '/' + id, formDate);
   }
 }

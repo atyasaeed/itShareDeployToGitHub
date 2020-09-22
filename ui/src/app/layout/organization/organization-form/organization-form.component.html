@@ -12,7 +12,7 @@
           *ngIf="toggleButton">{{ 'save' | translate }}</button>&nbsp;<a href="javascript:void(0)" *ngIf="!toggleButton"
           (click)='toggleButton =true'>{{'Edit'|translate}}</a>
       </div>
-      <div class="row">
+      <div class="row ml-2">
         <div class="col-md-8">
 
           <div class="row">
@@ -51,7 +51,8 @@
                 <option [value]="city.id" class="d-none" [attr.disabled]="roleAdmin"><span
                     *ngIf="lang=='en'">{{city?.enName}}</span>
                   <span *ngIf="lang!=='en'">{{city?.arName}}</span></option>
-                <option *ngFor="let city of cities" [value]='city?.id'><span *ngIf="lang=='en'">{{city?.enName}}</span>
+                <option *ngFor="let city of cities" [value]='city?.id' [attr.disabled]="roleAdmin"><span
+                    *ngIf="lang=='en'">{{city?.enName}}</span>
                   <span *ngIf="lang!=='en'">{{city?.arName}}</span></option>
               </select>
               <div *ngIf="form.controls.city.touched && !form.controls.city.valid" class="text-danger text-center">
@@ -117,7 +118,7 @@
         </div>
         <div class="col-md-4 notes">
           <div class="form-row">
-            <div class="form-group col-md-12" *ngIf="org.status == 'Pending Validation' || org.status == 'Rejected'">
+            <div class="form-group col-md-12" *ngIf="org.status == 'PENDING_VALIDATION' || org.status == 'REJECTED'">
               <label for="inputCity">{{ 'reason' | translate }}</label>
               <textarea formControlName="notes" style="width: 100%;" [readonly]="!roleAdmin"></textarea>
               <div *ngIf="form.controls.notes.touched && !form.controls.notes.valid" class="text-danger text-center">
@@ -139,49 +140,57 @@
         <div class="form-group col-md-6">
           <h6>{{'commercialRegister'|translate}}</h6>
         </div>
-        <div class="form-group col-md-6">
-          <input #CommercialInput hidden="true" type="file" formControlName="file" (change)="Commercial($event)" />
+        <div class="form-group col-md-6" *ngIf="!CommerciaFile">
+          <input #CommercialInput hidden="true" type="file" (change)="Commercial($event)" />
           <button mat-flat-button color="primary" type="button" (click)="CommercialInput.click()"><i
               class="fa fa-upload"></i>
             {{'upload'|translate}}</button>
         </div>
-        <!-- <div class="form-group col-md-6 ">
+        <div class="form-group col-md-6 " *ngIf="CommerciaFile">
           <div class="text-success"><i class="fa fa-check" aria-hidden="true"></i> {{'uploaded'|translate}}
           </div>
-          <div><a href="javascript:void(0)" class="text-danger">{{'view'|translate}}</a><span *ngIf="!roleAdmin"> | <a
-                href="javascript:void(0)" class="text-primary">{{'edit'|translate}}</a></span>
+          <div>
+            <div><a href="javascript:void(0)" class="text-danger">{{'view'|translate}}</a> | <a
+                href="javascript:void(0)" class="text-primary" (click)='editCommercial()'>{{'edit'|translate}}</a>
+            </div>
           </div>
 
-        </div> -->
+        </div>
       </div>
       <div class="form-row pt-0 row-files">
 
         <div class="form-group col-md-6">
           <h6>{{'taxCard'|translate}}</h6>
         </div>
-        <div class="form-group col-md-6">
-          <input #taxCardInput hidden="true" type="file" formControlName="file" (change)="taxCard($event)" />
+        <div class="form-group col-md-6" *ngIf="!taxCardFile">
+          <input #taxCardInput hidden="true" type="file" (change)="taxCard($event)" />
           <button mat-flat-button color="primary" type="button" (click)="taxCardInput.click()"><i
               class="fa fa-upload"></i>
             {{'upload'|translate}}</button>
         </div>
-        <!-- <div class="form-group col-md-6" >
+        <div class="form-group col-md-6" *ngIf="taxCardFile">
           <span class="text-success"><i class="fa fa-check" aria-hidden="true"></i> {{'uploaded'|translate}}</span>
           <div><a href="javascript:void(0)" class="text-danger">{{'view'|translate}}</a> | <a href="javascript:void(0)"
-              class="text-primary">{{'edit'|translate}}</a></div>
+              class="text-primary" (click)='editTaxCard()'>{{'edit'|translate}}</a></div>
 
-        </div> -->
+        </div>
       </div>
       <div class="form-row pt-0 row-files">
 
         <div class="form-group col-md-6">
           <h6>{{'ownerNationalIDFront'|translate}}</h6>
         </div>
-        <div class="form-group col-md-6">
-          <input #frontInput hidden="true" type="file" formControlName="file" (change)="ownerNationalIDFront($event)" />
+        <div class="form-group col-md-6" *ngIf="!ownerNationalIDFrontFile">
+          <input #frontInput hidden="true" type="file" (change)="ownerNationalIDFront($event)" />
           <button mat-flat-button type="button" color="primary" (click)="frontInput.click()"><i
               class="fa fa-upload"></i>
             {{'upload'|translate}}</button>
+        </div>
+        <div class="form-group col-md-6" *ngIf="ownerNationalIDFrontFile">
+          <span class="text-success"><i class="fa fa-check" aria-hidden="true"></i> {{'uploaded'|translate}}</span>
+          <div><a href="javascript:void(0)" class="text-danger">{{'view'|translate}}</a> | <a href="javascript:void(0)"
+              class="text-primary" (click)='editOwnerNationalIDFront()'>{{'edit'|translate}}</a></div>
+
         </div>
       </div>
       <div class="form-row pt-0">
@@ -189,11 +198,17 @@
         <div class="form-group col-md-6">
           <h6>{{'ownerNationalIDBack'|translate}}</h6>
         </div>
-        <div class="form-group col-md-6">
-          <input #frontInput hidden="true" type="file" formControlName="file" (change)="ownerNationalIDBack($event)" />
+        <div class="form-group col-md-6" *ngIf="!ownerNationalIDFBackFile">
+          <input #frontInput hidden="true" type="file" (change)="ownerNationalIDBack($event)" />
           <button mat-flat-button type="button" color="primary" (click)="frontInput.click()"><i
               class="fa fa-upload"></i>
             {{'upload'|translate}}</button>
+        </div>
+        <div class="form-group col-md-6" *ngIf="ownerNationalIDFBackFile">
+          <span class="text-success"><i class="fa fa-check" aria-hidden="true"></i> {{'uploaded'|translate}}</span>
+          <div><a href="javascript:void(0)" class="text-danger">{{'view'|translate}}</a> | <a href="javascript:void(0)"
+              class="text-primary" (click)="editOwnerNationalIDBack()">{{'edit'|translate}}</a></div>
+
         </div>
       </div>
     </section>

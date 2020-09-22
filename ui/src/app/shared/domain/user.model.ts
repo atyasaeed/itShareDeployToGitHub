@@ -14,6 +14,7 @@ export interface User extends Entity {
   enabled: boolean;
   roles: string[];
   status: boolean;
+  defaultOrg: Organization;
 }
 export interface Organization extends Entity {
   name: string;

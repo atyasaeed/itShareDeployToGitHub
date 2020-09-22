@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TdDialogService } from '@covalent/core/dialogs';
 import { TdLoadingService } from '@covalent/core/loading';
 import { Store } from '@ngrx/store';
 import * as fromStore from 'src/app/store';
-import { Organization, Service } from 'src/app/shared/domain';
+import { Organization, Service, User } from 'src/app/shared/domain';
 import { DefaultFormComponent } from 'src/app/shared/helpers/default.form.component';
 import { OrderService } from 'src/app/shared/services/order.service';
 import { OrganizationService } from 'src/app/shared/services/organization.service';
@@ -16,6 +16,7 @@ import { from } from 'rxjs';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { City } from 'src/app/signup/signup-partner/city';
 import { HttpClient } from '@angular/common/http';
+import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-organization-form',
@@ -39,18 +40,27 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
   dropdownList: Service[] = [];
   selectedItems = [];
   dropdownSettings: IDropdownSettings = {};
-  arrStatus: string[] = ['Pending Validation', 'Active', 'Rejected'];
+  arrStatus: string[] = ['PENDING_VALIDATION', 'ACTIVE', 'REJECTED'];
   org: Organization = {} as Organization;
+  user: User = {} as User;
+  CommerciaFile = false;
+  taxCardFile = false;
+  ownerNationalIDFrontFile = false;
+  ownerNationalIDFBackFile = false;
+  formData: FormData = new FormData();
+
   constructor(
     formBuilder: FormBuilder,
     loadingService: TdLoadingService,
     dialogService: TdDialogService,
     service: OrganizationService,
+    private userService: UserService,
     private http: HttpClient,
     route: ActivatedRoute,
     router: Router,
     private appStore: Store<fromStore.AppState>,
-    private orderservice: OrderService
+    private orderservice: OrderService,
+    private cdr: ChangeDetectorRef
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
     this.appStore.select(fromStore.getAuthUser).subscribe((res) => {
@@ -59,10 +69,12 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
         this.roleAdmin = true;
       }
     });
+    console.log(this.CommerciaFile);
     this.http.get('assets/cities.json').subscribe((res: City[]) => {
       console.log(res);
       this.cities = res;
     });
+
     this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
       this.dropdownList = res;
     });
@@ -88,7 +100,12 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
 
   ngOnInit(): void {
     this.createForm();
-    this.form.patchValue(this.org);
+    this.userService.get('').subscribe((res) => {
+      this.user = res;
+      this.org = res.defaultOrg;
+      this.form.patchValue(res.defaultOrg);
+    });
+
     this.appStore.select(fromStore.getLang).subscribe((lang) => {
       this.lang = lang;
     });
@@ -96,6 +113,9 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
 
   createForm() {
     this.form = this.formBuilder.group({
+      id: [''],
+      created: [''],
+      type: [''],
       name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(80)]],
       // currentPosition: ['', [Validators.required]],
       mobileNo: ['', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
@@ -103,7 +123,7 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
       status: [''],
       address: ['', [Validators.required]],
       website: ['', [Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?')]],
-      // file: ['', []],
+      file: ['', []],
       services: [null],
     });
   }
@@ -114,53 +134,50 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
     }
     this.toggleButton = false;
 
-    this.service.updateOrg(this.form.value).subscribe((res) => {
-      console.log(res);
+    const itemBlob = new Blob([JSON.stringify(this.form.value)], {
+      type: 'application/json',
     });
-    // const formData: FormData = new FormData();
-    // for (let j = 0; j < this.totalfiles.length; j++) {
-    //   formData.append('files[]', this.totalfiles[j] as File);
-    // }
-    // const itemBlob = new Blob([JSON.stringify(this.form.value)], {
-    //   type: 'application/json',
-    // });
-    // formData.append('organization', itemBlob);
-    // this.service.http.post('url', formData).subscribe((res) => {});
+    this.formData.append('organization', itemBlob);
+    this.service.updateOrg(this.formData, this.form.get('id').value).subscribe((res) => {});
   }
 
   Commercial(event) {
-    this.handleFileInput(event);
-    console.log(event.target.files[0].name);
+    this.CommerciaFile = true;
+    this.formData.append('file1', event.target.files[0] as File);
+  }
+  editCommercial() {
+    this.CommerciaFile = false;
+    this.formData.delete('file1');
   }
   taxCard(event) {
-    this.handleFileInput(event);
-    console.log(event.target.files[0].name);
+    this.taxCardFile = true;
+
+    this.formData.append('file2', event.target.files[0] as File);
+  }
+  editTaxCard() {
+    this.taxCardFile = false;
+    this.formData.delete('file2');
   }
   ownerNationalIDFront(event) {
-    this.handleFileInput(event);
-    console.log(event.target.files[0].name);
+    this.ownerNationalIDFrontFile = true;
+    this.formData.append('file3', event.target.files[0] as File);
+  }
+  editOwnerNationalIDFront() {
+    this.ownerNationalIDFrontFile = false;
+    this.formData.delete('file3');
   }
   ownerNationalIDBack(event) {
-    this.handleFileInput(event);
-    console.log(event.target.files[0].name);
+    this.ownerNationalIDFBackFile = true;
+    this.formData.append('file4', event.target.files[0] as File);
   }
-
-  handleFileInput(fileInput: any) {
-    //  this.filename= fileInput.target.files[0].name;
-    if (fileInput.target.files && fileInput.target.files[0]) {
-      let reader = new FileReader();
-      reader.onload = (event: any) => {};
-
-      this.totalfiles.unshift(fileInput.target.files[0]);
-      this.totalFileName.unshift(fileInput.target.files[0].name);
-
-      reader.readAsDataURL(fileInput.target.files[0]);
-    }
+  editOwnerNationalIDBack() {
+    this.ownerNationalIDFBackFile = false;
+    this.formData.delete('file4');
   }
 
   onChangeStatus(event) {
     this.org.status = event;
-    if (event === 'Pending Validation' || event === 'Rejected') {
+    if (event === 'PENDINGVALIDATION' || event === 'REJECTED') {
       this.form.addControl('notes', new FormControl('', Validators.required));
     } else {
       this.form.removeControl('notes');
