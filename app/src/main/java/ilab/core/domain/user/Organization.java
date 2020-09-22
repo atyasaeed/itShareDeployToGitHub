@@ -58,7 +58,17 @@ public class Organization extends AbstractEntity<Organization>
 	private List<Service> services=new ArrayList<Service>();
 
 	
-	
+	@OneToOne
+	private FileAsset comReg;
+
+	@OneToOne
+	private FileAsset taxId;
+
+	@OneToOne
+	private FileAsset backNatId;
+
+	@OneToOne
+	private FileAsset frontNatId;
 	
 	@ManyToOne(optional = false)
 	@JsonIgnore
@@ -67,6 +77,7 @@ public class Organization extends AbstractEntity<Organization>
 	private OrganizationType type;
 	
 	private OrganizationStatus status;
+	private String statusReason;
 	
 	public String getName()
 	{
@@ -157,6 +168,56 @@ public class Organization extends AbstractEntity<Organization>
 	public void setStatus(OrganizationStatus status)
 	{
 		this.status = status;
+	}
+
+	public String getStatusReason()
+	{
+		return statusReason;
+	}
+
+	public void setStatusReason(String statusReason)
+	{
+		this.statusReason = statusReason;
+	}
+
+	public FileAsset getComReg()
+	{
+		return comReg;
+	}
+
+	public void setComReg(FileAsset comReg)
+	{
+		this.comReg = comReg;
+	}
+
+	public FileAsset getTaxId()
+	{
+		return taxId;
+	}
+
+	public void setTaxId(FileAsset taxId)
+	{
+		this.taxId = taxId;
+	}
+
+	public FileAsset getBackNatId()
+	{
+		return backNatId;
+	}
+
+	public void setBackNatId(FileAsset backNatId)
+	{
+		this.backNatId = backNatId;
+	}
+
+	public FileAsset getFrontNatId()
+	{
+		return frontNatId;
+	}
+
+	public void setFrontNatId(FileAsset frontNatId)
+	{
+		this.frontNatId = frontNatId;
 	}
 
 	
