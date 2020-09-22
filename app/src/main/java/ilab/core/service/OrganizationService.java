@@ -37,7 +37,7 @@ public class OrganizationService {
 	{
 		Organization existingOrg= orgRepo.findByIdAndOwner_username(orgId, auth.getName()).orElseThrow();
 		if(org!=null)
-			BeanUtils.copyProperties(org, existingOrg,"owner","status","type");
+			BeanUtils.copyProperties(org, existingOrg,"owner","status","type","comReg","taxId","frontNatId","backNatId");
 		if(file1!=null)
 			existingOrg.setComReg(updateFileAsset(org, file1, existingOrg.getComReg(),"commercialReg"));
 		if(file2!=null)
