@@ -264,7 +264,7 @@ public class UserService implements UserDetailsService
 			code.getUser().addRole(Role.ROLE_USER);
 			jmsTemplate.convertAndSend(welcomeQueue, code.getUser().getId());
 		}
-		return Map.of("status",user.isEnabled(),"roles",user.getRoles());
+		return Map.of("status",user.isEnabled(),"roles",user.getRoles(),"defaultOrg",user.getDefaultOrg());
 	}
 	public Map<String,Object> activate(UUID userId, String activationCode)
 	{
@@ -280,7 +280,7 @@ public class UserService implements UserDetailsService
 
 		}
 
-		return Map.of("status",user.isEnabled(),"roles",user.getRoles());
+		return Map.of("status",user.isEnabled(),"roles",user.getRoles(),"defaultOrg",user.getDefaultOrg());
 
 	}
 	public void sendWelcomeMsg(UUID userId) throws Exception
