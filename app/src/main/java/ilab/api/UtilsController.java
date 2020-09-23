@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ilab.core.domain.user.User;
 import ilab.core.repository.ServiceRepository;
 import ilab.core.service.OrderService;
+import ilab.core.service.UserService;
 import ilab.dto.InitStateDTO;
 
 
@@ -28,6 +30,8 @@ public class UtilsController
 	private OrderService orderService;
 	@Autowired
 	private ServiceRepository serviceRepository;
+	@Autowired
+	UserService userService;
 
 	@GetMapping("/initState")
 	public InitStateDTO getInitState(Authentication auth,Locale locale)
@@ -36,10 +40,13 @@ public class UtilsController
 		initState.setServices(serviceRepository.findAll());
 		if (auth != null)
 		{
-			UserDetails user = (UserDetails) auth.getPrincipal();
+			UserDetails userDetails = (UserDetails) auth.getPrincipal();
 			Map<String, Object> userData = new HashMap<>();
-			userData.put("username", user.getUsername());
-			userData.put("roles", user.getAuthorities().stream().map(authority -> authority.getAuthority()).toArray());
+			User user=userService.findUser(auth);
+			userData.put("username", userDetails.getUsername());
+			userData.put("roles", userDetails.getAuthorities().stream().map(authority -> authority.getAuthority()).toArray());
+			userData.put("defaultOrgType", user.getDefaultOrg().getType());
+			userData.put("defaultOrgStatus", user.getDefaultOrg().getStatus());
 			initState.setUser(userData);
 			initState.setShoppingCart(orderService.getShoppingCart(auth));
 			
