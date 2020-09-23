@@ -286,7 +286,6 @@
   "unitPrice.error": "أدخل سعر الوحدة",
   "organizations": "المنظمات",
   "mobileNo": "المحمول",
-  "city": "المدينه"
-
-
+  "city": "المدينه",
+  "owner": "المالك"
 }

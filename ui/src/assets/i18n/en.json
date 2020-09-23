@@ -286,6 +286,7 @@
   "unitPrice.error": "Enter the unit price",
   "organizations":"Organizations",
   "mobileNo": "Mobile",
-  "city": "City"
+  "city": "City",
+  "owner": "Owner"
 
 }

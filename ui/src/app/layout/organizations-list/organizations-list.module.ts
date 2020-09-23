@@ -10,6 +10,7 @@ import { CovalentDialogsModule } from '@covalent/core/dialogs';
 import { SharedModule } from 'src/app/shared/modules/shared/shared.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [OrganizationsListComponent],
@@ -23,6 +24,7 @@ import { FormsModule } from '@angular/forms';
     CovalentDialogsModule,
     SharedModule,
     FormsModule,
+    NgMultiSelectDropDownModule.forRoot(),
   ],
 })
 export class OrganizationsListModule {}

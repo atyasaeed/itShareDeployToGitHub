@@ -16,4 +16,25 @@ export interface Organization extends Entity {
   taxId: AssetFile;
   backNatId: AssetFile;
   frontNatId: AssetFile;
+  owner: Owner;
+}
+
+export interface Owner extends Entity {
+  username: string;
+  email: string;
+  firstName: string;
+  middleName: string;
+  lastName: string;
+  mobileNo: string;
+  enabled: boolean;
+  accountNonLocked: boolean;
+  accountNonExpired: boolean;
+  credentialsNonExpired: boolean;
+  roles: string[];
+}
+
+export interface City {
+  id: string;
+  arName: string;
+  enName: string;
 }

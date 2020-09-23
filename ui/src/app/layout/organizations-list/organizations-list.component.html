@@ -3,15 +3,26 @@
     <app-page-header  [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header>
     <form>
       <div class="form-group form-inline row">
-        <div class="col-md-6">
+        <div class="col-md-4">
           <input class="form-control " type="text" placeholder="{{'Search'|translate}}" name="searchTerm"
             [(ngModel)]="searchTerm" />
           <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
         </div>
-        <div class="col-md-6 text-right">
-          <!-- <a routerLink="service-form" class="btn btn-success">
-            <i class="fa fa-plus" aria-hidden="true"></i>
-          </a> -->
+        <div class="col-md-4">
+          <ng-multiselect-dropdown [placeholder]="'governorate' | translate" [settings]="dropdownSettings"
+            [data]="cityDropdownList" [(ngModel)]="citySelectedItems"
+            (onSelect)="onItemSelect($event)"
+            (onDeSelect)="onDeSelect($event)" (onSelectAll)="onSelectAll($event,'city')" (onDeSelectAll)="onDeSelectAll($event,'city')"
+            [ngModelOptions]="{standalone: true}">
+          </ng-multiselect-dropdown>
+        </div>
+        <div class="col-md-4">
+          <ng-multiselect-dropdown [placeholder]="'status' | translate" [settings]="dropdownSettings"
+            [data]="statusDropdownList" [(ngModel)]="statusSelectedItems"
+            (onSelect)="onItemSelect($event)"
+            (onDeSelect)="onDeSelect($event)" (onSelectAll)="onSelectAll($event,'status')" (onDeSelectAll)="onDeSelectAll($event,'status')"
+            [ngModelOptions]="{standalone: true}">
+          </ng-multiselect-dropdown>
         </div>
       </div>
       <div class="table-responsive">
@@ -19,17 +30,19 @@
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">{{'id'|translate}}</th>
-            <th scope="col">{{'name'|translate}}</th>
-            <th scope="col">{{'mobileNo'|translate}}
-            <th scope="col">{{'city'|translate}}
-            <th scope="col">{{'address'|translate}}
+            <th scope="col" sortable="id" (sort)="onSort($event)">{{'id'|translate}}</th>
+            <th scope="col" sortable="name" (sort)="onSort($event)">{{'name'|translate}}</th>
+            <th scope="col" sortable="status" (sort)="onSort($event)">{{'status'|translate}}</th>
+            <th scope="col" sortable="mobileNo" (sort)="onSort($event)">{{'mobileNo'|translate}}</th>
+            <th scope="col" sortable="city" (sort)="onSort($event)">{{'governorate'|translate}}</th>
+            <th scope="col" sortable="owner.firstName" (sort)="onSort($event)">{{'owner'|translate}}</th>
+            <th scope="col" sortable="owner.email" (sort)="onSort($event)">{{'email'|translate}}</th>
               <!-- <th scope="col" sortable="status" (sort)="onSort($event)">{{'order.status'|translate}}
           </th> -->
               <!-- <th scope="col" sortable="created" (sort)="onSort($event)">{{'order.Created'|translate}}
           </th> -->
 
-            <!-- <th></th> -->
+            <th></th>
 
           </tr>
         </thead>
@@ -37,7 +50,8 @@
           <tr *ngFor="let entity of entities$ | async; let i=index">
             <th scope="row">{{ i+1 }}</th>
             <td>
-              <span>{{entity.id | slice:0:6}}</span>
+              <ngb-highlight [result]="entity.id | slice:0:6" [term]="searchTerm">
+              </ngb-highlight>
             </td>
 
             <td>
@@ -45,21 +59,28 @@
               </ngb-highlight>
             </td>
             <td>
-              <span>{{entity.mobileNo}}</span>
+              {{entity.status}}
             </td>
             <td>
-              <span>{{entity.city}}</span>
+              <ngb-highlight [result]="entity.mobileNo" [term]="searchTerm">
+              </ngb-highlight>
             </td>
             <td>
-              <span>{{entity.address}}</span>
+              {{entity.city}}
+            </td>
+            <td>
+              <ngb-highlight [result]="entity.owner.firstName" [term]="searchTerm">
+              </ngb-highlight>
+            </td>
+            <td>
+              <ngb-highlight [result]="entity.owner.email" [term]="searchTerm">
+              </ngb-highlight>
             </td>
 
 
-            <!-- <td>
-
+            <td>
               <a [routerLink]="entity.id"><i class="fa fa-fw fa-edit"></i></a>&nbsp;
-              <a (click)="delete(entity)" href="javascript:void(0)"><i class="fa fa-fw fa-trash"></i></a>
-            </td> -->
+            </td>
           </tr>
         </tbody>
       </table>
