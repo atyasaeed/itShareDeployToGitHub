@@ -4,28 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.OrderBy;
-import javax.persistence.OrderColumn;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.ListIndexBase;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import ilab.core.domain.AbstractEntity;
 import ilab.core.domain.FileAsset;
-import ilab.core.domain.HyperFile;
 import ilab.core.domain.Service;
 
 @Entity
+@JsonInclude(value = Include.NON_NULL)
 public class Organization extends AbstractEntity<Organization>
 {
 	@Size(min = 2, max = 80)
@@ -71,7 +66,7 @@ public class Organization extends AbstractEntity<Organization>
 	private FileAsset frontNatId;
 	
 	@ManyToOne(optional = false)
-	@JsonIgnore
+	@JsonIgnoreProperties("defaultOrg")
 	private User owner ;
 	
 	private OrganizationType type;
