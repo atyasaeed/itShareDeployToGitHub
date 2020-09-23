@@ -19,13 +19,13 @@ import ilab.core.domain.user.User;
 
 @Repository
 @Transactional
-public interface OrganizationRepository extends PagingAndSortingRepository<Organization, UUID>,JpaSpecificationExecutor<Organization>
+public interface OrganizationRepository
+		extends PagingAndSortingRepository<Organization, UUID>, JpaSpecificationExecutor<Organization>
 {
-	Optional<Organization> findByIdAndOwner_username(UUID id,String username);
-	Page<Organization> findByOwner_username(String username,Pageable page);
+	Optional<Organization> findByIdAndOwner_username(UUID id, String username);
 
-//	
-//	@Query("select u from Organization u where u.owner in :username")
-//	Page<Organization> findOrg(@Param("username") String username);
+	Page<Organization> findByOwner_username(String username, Pageable page);
+
+
 
 }
