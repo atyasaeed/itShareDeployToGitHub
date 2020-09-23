@@ -16,8 +16,8 @@ const routes: Routes = [
   {
     path: 'partner',
     component: SignupPartnerComponent,
-    canActivate: [userPrivilege],
-    canDeactivate: [CanDeactivateGuard],
+    // canActivate: [userPrivilege],
+    // canDeactivate: [CanDeactivateGuard],
   },
 ];
 

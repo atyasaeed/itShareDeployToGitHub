@@ -18,8 +18,8 @@ export interface User extends Entity {
 }
 export interface Organization extends Entity {
   name: string;
-  mobileNo: string;
-  city: City;
+  mobileNo: number;
+  city: string;
   type: string;
   address: string;
   website: string;

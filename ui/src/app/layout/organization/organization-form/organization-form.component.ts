@@ -118,7 +118,7 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
       if (this.org.backNatId !== null) {
         this.ownerNationalIDFBackFile = true;
       }
-      if (!(this.org.status == 'PENDING' || this.org.status == 'REJECTED')) {
+      if (!(this.org.status == 'PENDING' || this.org.status == 'REJECTED') || !this.roleAdmin) {
         this.form.removeControl('statusReason');
       }
     });
@@ -206,7 +206,16 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
     }
   }
 
-  getFileUrl(id): string {
+  getFileUrlBack(id): string {
+    return this.appConfig.FILE_URL + id;
+  }
+  getFileUrlFront(id): string {
+    return this.appConfig.FILE_URL + id;
+  }
+  getFileUrlTax(id): string {
+    return this.appConfig.FILE_URL + id;
+  }
+  getFileUrlCommercia(id): string {
     return this.appConfig.FILE_URL + id;
   }
   onCreate(): void {

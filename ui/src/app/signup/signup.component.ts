@@ -5,7 +5,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AlertService } from '../shared/services';
-import { User } from '../shared/domain';
+import { Organization, User } from '../shared/domain';
 import { TranslateService } from '@ngx-translate/core';
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
@@ -16,6 +16,7 @@ import { TdLoadingService } from '@covalent/core/loading';
 import { TdDialogService } from '@covalent/core/dialogs';
 import { CanComponentDeactivate } from '../shared/guard/can-deactivate-guard.service';
 import { Subject } from 'rxjs';
+import { City } from './signup-partner/city';
 
 // import {
 //   RECAPTCHA_LANGUAGE,
@@ -33,6 +34,8 @@ import { Subject } from 'rxjs';
 })
 export class SignupComponent implements OnInit, CanComponentDeactivate {
   user: User;
+  city: City = {} as City;
+  cities: City[] = new Array();
   registrationForm: FormGroup;
   loading = false;
   emptyCaptcha = true;
@@ -68,6 +71,11 @@ export class SignupComponent implements OnInit, CanComponentDeactivate {
       console.log(params);
     });
     this.createForm();
+
+    this.http.get('assets/cities.json').subscribe((res: City[]) => {
+      console.log(res);
+      this.cities = res;
+    });
   }
 
   ngAfterViewInit() {
@@ -106,7 +114,6 @@ export class SignupComponent implements OnInit, CanComponentDeactivate {
     this.loading = true;
     this.loadingService.register('loading');
     if (!this.registrationForm.valid) {
-      // this.validateAllFormFields(this.registrationForm);
       this.registrationForm.markAllAsTouched();
       this.loading = false;
       this.loadingService.resolve('loading');
@@ -117,8 +124,16 @@ export class SignupComponent implements OnInit, CanComponentDeactivate {
     if (this.route.snapshot.queryParams['partner']) {
       this.user.roles = new Array();
       // this.user.roles.push('ROLE_PARTNER');
+      this.user.defaultOrg = {} as Organization;
+      this.user.defaultOrg.type = 'PARTNER';
+      this.user.defaultOrg.name = this.user.firstName + this.user.lastName;
+      this.user.defaultOrg.address = 'Address';
+      this.user.defaultOrg.city = 'القاهرة';
+      this.user.defaultOrg.mobileNo = this.user.mobileNo;
     }
     console.log(this.user);
+    // this.user.defaultOrg = {} as Organization;
+    // this.user.defaultOrg.type = 'PARTNER';
 
     this.userService.register(this.user).subscribe(
       (res) => {
@@ -135,25 +150,16 @@ export class SignupComponent implements OnInit, CanComponentDeactivate {
       },
       (err) => {
         this.loadingService.resolve('loading');
-
         this.loading = false;
         if (err.error.details[0] == 'duplicateEmail') {
-          // this.toastr.error('You have been registered,Please log in');
           this.toastr.error(this.translate.instant('duplicated.email'));
-          // this.router.navigate(['login']);
         } else if (err.error.details[0] == 'duplicateArName') {
-          // this.alertservice.error('Sorry, Arabic Name Is Duplicated,Enter other Arabic Name');
           this.toastr.error(this.translate.instant('duplicated.arName'));
         } else if (err.error.details[0] == 'duplicateEnName') {
-          // this.alertservice.error('Sorry, English Name Is Duplicated,Enter other English Name');
           this.toastr.error(this.translate.instant('duplicated.enName'));
         } else {
           this.toastr.error(this.translate.instant('tryAgain'));
         }
-        // if (err.error.details[0] == 'duplicateUsername') {
-        //   // this.alertservice.error('Sorry, Username Name Is Duplicated');
-        //   this.alertservice.error(this.translate.instant('duplicated.userName'));
-        // }
       }
     );
   }

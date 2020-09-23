@@ -1,7 +1,7 @@
 import { Component, OnInit, VERSION, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { User } from 'src/app/shared/domain';
+import { Organization, User } from 'src/app/shared/domain';
 import { routerTransition } from 'src/app/router.animations';
 
 import { AlertService } from 'src/app/shared/services';
@@ -96,9 +96,8 @@ export class SignupActivationComponent implements OnInit {
           console.log(res);
 
           if (res.status == true) {
-            if (res.roles.includes('ROLE_REGISTER_PRIVILEGE')) {
-              this.user.roles = new Array();
-              this.user.roles.concat('ROLE_REGISTER_PRIVILEGE');
+            // res.defaultOrg = {} as Organization;
+            if (this.user.defaultOrg.type == 'PARTNER') {
               this.appStore.dispatch(new fromStore.UpdateAuthUser(this.user));
               this.router.navigate(['signup/partner'], {
                 state: this.user,

@@ -151,8 +151,9 @@
           <div class="text-success"><i class="fa fa-check" aria-hidden="true"></i> {{'uploaded'|translate}}
           </div>
           <div>
-            <div><a [href]="getFileUrl(org.comReg.id)" class="text-danger">{{'view'|translate}}</a>
-              <span *ngIf="!roleAdmin"> |
+            <div><a class="text-danger" [href]="getFileUrlCommercia(org?.comReg?.id)"
+                *ngIf="org?.comReg?.id">{{'view'|translate}}</a>
+              <span *ngIf="!roleAdmin"><span *ngIf="org?.comReg?.id"> | </span>
                 <a href="javascript:void(0)" class="text-primary"
                   (click)='editCommercial()'>{{'edit'|translate}}</a></span>
             </div>
@@ -173,8 +174,9 @@
         </div>
         <div class="form-group col-md-6" *ngIf="taxCardFile">
           <span class="text-success"><i class="fa fa-check" aria-hidden="true"></i> {{'uploaded'|translate}}</span>
-          <div><a [href]="getFileUrl(org.taxId.id)" class="text-danger">{{'view'|translate}}</a> <span
-              *ngIf="!roleAdmin"> | <a href="javascript:void(0)" class="text-primary"
+          <div><a class="text-danger" [href]="getFileUrlTax(org?.taxId?.id)"
+              *ngIf="org?.taxId?.id">{{'view'|translate}}</a> <span *ngIf="!roleAdmin"> <span *ngIf="org?.taxId?.id"> |
+              </span> <a href="javascript:void(0)" class="text-primary"
                 (click)='editTaxCard()'>{{'edit'|translate}}</a></span>
           </div>
 
@@ -193,8 +195,9 @@
         </div>
         <div class="form-group col-md-6" *ngIf="ownerNationalIDFrontFile">
           <span class="text-success"><i class="fa fa-check" aria-hidden="true"></i> {{'uploaded'|translate}}</span>
-          <div><a [href]="getFileUrl(org.frontNatId.id)" class="text-danger">{{'view'|translate}}</a><span
-              *ngIf="!roleAdmin"> | <a href="javascript:void(0)" class="text-primary"
+          <div><a class="text-danger" [href]="getFileUrlFront(org?.frontNatId?.id)"
+              *ngIf="org?.frontNatId?.id">{{'view'|translate}}</a><span *ngIf="!roleAdmin"> <span
+                *ngIf="org?.frontNatId?.id"> | </span><a href="javascript:void(0)" class="text-primary"
                 (click)='editOwnerNationalIDFront()'>{{'edit'|translate}}</a></span> </div>
 
         </div>
@@ -213,9 +216,11 @@
         <div class="form-group col-md-6" *ngIf="ownerNationalIDFBackFile">
           <span class="text-success"><i class="fa fa-check" aria-hidden="true"></i> {{'uploaded'|translate}}</span>
 
-          <div><a [href]="getFileUrl(org?.backNatId?.id)" class="text-danger">{{'view'|translate}}</a> <span
-              *ngIf="!roleAdmin"> | <a href="javascript:void(0)" class="text-primary"
-                (click)="editOwnerNationalIDBack()">{{'edit'|translate}}</a></span> </div>
+          <div>
+            <a [href]="getFileUrlBack(org?.backNatId?.id)" *ngIf="org?.backNatId?.id"
+              class="text-danger">{{'view'|translate}}</a>
+            <span *ngIf="!roleAdmin"><span *ngIf="org?.backNatId?.id"> | </span><a href="javascript:void(0)"
+                class="text-primary" (click)="editOwnerNationalIDBack()">{{'edit'|translate}}</a></span> </div>
 
         </div>
       </div>
