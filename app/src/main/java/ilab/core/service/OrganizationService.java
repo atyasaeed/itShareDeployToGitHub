@@ -15,11 +15,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import ilab.core.domain.FileAsset;
 import ilab.core.domain.user.Organization;
+import ilab.core.domain.user.Role;
 import ilab.core.repository.FileAssetRepository;
 import ilab.core.repository.OrganizationRepository;
 
@@ -49,6 +51,8 @@ public class OrganizationService
 			existingOrg.setFrontNatId(updateFileAsset(org, file3, existingOrg.getFrontNatId(), "frontNatId"));
 		if (file4 != null)
 			existingOrg.setBackNatId(updateFileAsset(org, file4, existingOrg.getBackNatId(), "backNatId"));
+		if(auth.getAuthorities().contains(Role.ROLE_REGISTER_PRIVILEGE))
+			SecurityContextHolder.getContext().setAuthentication(null);
 		return existingOrg;
 	}
 
