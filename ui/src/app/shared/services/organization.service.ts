@@ -6,5 +6,5 @@ import { Organization } from '../domain/organization.model';
   providedIn: 'root',
 })
 export class OrganizationService extends RestService<Organization> {
-  //resource = 'service';
+  resource = 'organization';
 }
