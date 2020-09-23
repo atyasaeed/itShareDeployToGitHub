@@ -65,12 +65,12 @@ public class DevelopmentConfig
 				try
 				{
 
-					User user=userService.register(createUser("hatem.salem@ihub.asu.edu.eg", "New123456","Admin","hatem.salem@ihub.asu.edu.eg","01065002100"));
+					User user=userService.register(createUser("hatem.salem@ihub.asu.edu.eg", "New123456","Admin","hatem.salem@ihub.asu.edu.eg","01065002100",OrganizationType.INDIVIDUAL));
 					user=userService.enableUser(user.getId(), true, null);
 					user=addAdminRoleAuthority(user);
 					
 					userRepo.save(user);
-					user=userService.register(createUser("mosalem", "New123456","Hatem","mosalem@gmail.com","01065003100"));
+					user=userService.register(createUser("mosalem", "New123456","Hatem","mosalem@gmail.com","01065003100",OrganizationType.PARTNER));
 					userService.enableUser(user.getId(), true, null);
 					
 					Service services[]=new ObjectMapper().readValue(new File(setupPath + "/services.json"), Service[].class);
@@ -166,7 +166,7 @@ public class DevelopmentConfig
 //		return service;
 //	}
 	
-	private User createUser(String username,String password,String firstName,String email,String mobileNo)
+	private User createUser(String username,String password,String firstName,String email,String mobileNo,OrganizationType type)
 	{
 		User user=new User();
 		user.setUsername(username);
@@ -180,7 +180,7 @@ public class DevelopmentConfig
 		org.setMobileNo(user.getMobileNo());
 		org.setCity("city");
 		org.setAddress("address");
-		org.setType(OrganizationType.INDIVIDUAL);
+		org.setType(type);
 		user.setDefaultOrg(org);
 //		user.setEnabled(true);
 //		user.setAccountNonLocked(true);
