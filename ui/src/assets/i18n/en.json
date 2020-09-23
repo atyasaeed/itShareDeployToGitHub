@@ -283,5 +283,9 @@
   "viewProfile": "View Profile",
   "manufacturingDuration": "Manufacturing Duration",
   "manufacturingDuration.error": "Enter the number of days",
-  "unitPrice.error": "Enter the unit price"
+  "unitPrice.error": "Enter the unit price",
+  "organizations":"Organizations",
+  "mobileNo": "Mobile",
+  "city": "City"
+
 }

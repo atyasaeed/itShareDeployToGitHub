@@ -1,6 +1,6 @@
 
   <div [@routerTransition]>
-    <app-page-header [heading]="'Programs'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header>
+    <app-page-header  [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header>
     <form>
       <div class="form-group form-inline row">
         <div class="col-md-6">
@@ -9,39 +9,33 @@
           <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
         </div>
         <div class="col-md-6 text-right">
-          <a routerLink="service-form" class="btn btn-success">
+          <!-- <a routerLink="service-form" class="btn btn-success">
             <i class="fa fa-plus" aria-hidden="true"></i>
-          </a>
+          </a> -->
         </div>
-
-        <!-- <div class="col-md-6">
-        <ng-multiselect-dropdown placeholder="{{'order.status'|translate}}" [settings]="dropdownSettings"
-          [data]="dropdownList" [settings]="dropdownSettings" [(ngModel)]="selectedItems"
-          (onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeSelect($event)" (onSelectAll)="onSelectAll($event)"
-          [ngModelOptions]="{standalone: true}">
-        </ng-multiselect-dropdown>
-      </div> -->
       </div>
       <div class="table-responsive">
         <table class="table table-striped" *tdLoading="'loading'">
         <thead>
           <tr>
-            <!-- <th scope="col">#</th> -->
+            <th scope="col">#</th>
             <th scope="col">{{'id'|translate}}</th>
             <th scope="col">{{'name'|translate}}</th>
-            <th scope="col">{{'description'|translate}}
+            <th scope="col">{{'mobileNo'|translate}}
+            <th scope="col">{{'city'|translate}}
+            <th scope="col">{{'address'|translate}}
               <!-- <th scope="col" sortable="status" (sort)="onSort($event)">{{'order.status'|translate}}
           </th> -->
               <!-- <th scope="col" sortable="created" (sort)="onSort($event)">{{'order.Created'|translate}}
           </th> -->
 
-            <th></th>
+            <!-- <th></th> -->
 
           </tr>
         </thead>
         <tbody >
           <tr *ngFor="let entity of entities$ | async; let i=index">
-            <!-- <th scope="row">{{ i+1 }}</th> -->
+            <th scope="row">{{ i+1 }}</th>
             <td>
               <span>{{entity.id | slice:0:6}}</span>
             </td>
@@ -51,16 +45,21 @@
               </ngb-highlight>
             </td>
             <td>
-              <span>{{entity.description}}</span>
-
+              <span>{{entity.mobileNo}}</span>
+            </td>
+            <td>
+              <span>{{entity.city}}</span>
+            </td>
+            <td>
+              <span>{{entity.address}}</span>
             </td>
 
 
-            <td>
+            <!-- <td>
 
               <a [routerLink]="entity.id"><i class="fa fa-fw fa-edit"></i></a>&nbsp;
-              <!-- <a (click)="delete(entity)" href="javascript:void(0)"><i class="fa fa-fw fa-trash"></i></a> -->
-            </td>
+              <a (click)="delete(entity)" href="javascript:void(0)"><i class="fa fa-fw fa-trash"></i></a>
+            </td> -->
           </tr>
         </tbody>
       </table>
@@ -79,8 +78,6 @@
       </div>
 
     </form>
-    <!-- <button mat-fab class="mat-fab-top-right fixed mat-accent mat-fab button-left" routerLink="create">
-    <mat-icon>{{'add'|translate}}</mat-icon>
-  </button> -->
+
   </div>
 

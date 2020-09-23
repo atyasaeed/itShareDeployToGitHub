@@ -283,5 +283,10 @@
   "viewProfile": "عرض الصفحة الشخصية",
   "manufacturingDuration": "مدة التصنيع",
   "manufacturingDuration.error": "ادخل عدد الايام",
-  "unitPrice.error": "أدخل سعر الوحدة"
+  "unitPrice.error": "أدخل سعر الوحدة",
+  "organizations": "المنظمات",
+  "mobileNo": "المحمول",
+  "city": "المدينه"
+
+
 }
