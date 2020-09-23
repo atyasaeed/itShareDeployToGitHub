@@ -111,6 +111,7 @@ export class SignupPartnerComponent implements OnInit, CanComponentDeactivate {
     this.createForm();
     this.userService.get('').subscribe((res) => {
       console.log(res);
+      this.registrationForm.patchValue(res.defaultOrg);
     });
     // console.log(this.user);
     // this.registrationForm.get('services').patchValue([]);
@@ -156,7 +157,7 @@ export class SignupPartnerComponent implements OnInit, CanComponentDeactivate {
     });
     this.formData.append('org', itemBlob);
 
-    this.orgservice.updateOrg(this.formData, 22).subscribe(
+    this.orgservice.updateOrg(this.formData, this.registrationForm.get('id').value).subscribe(
       (res) => {
         this.registrationForm.markAsPristine();
         this.router.navigateByUrl('/login');

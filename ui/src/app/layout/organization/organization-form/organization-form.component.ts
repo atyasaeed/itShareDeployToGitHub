@@ -106,20 +106,22 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
       this.user = res;
       this.org = res.defaultOrg;
       this.form.patchValue(res.defaultOrg);
-      if (this.org.comReg !== null) {
+      if (this.org.comReg) {
         this.CommerciaFile = true;
       }
-      if (this.org.taxId !== null) {
+      if (this.org.taxId) {
         this.taxCardFile = true;
       }
-      if (this.org.frontNatId !== null) {
+      if (this.org.frontNatId) {
         this.ownerNationalIDFrontFile = true;
       }
-      if (this.org.backNatId !== null) {
+      if (this.org.backNatId) {
         this.ownerNationalIDFBackFile = true;
       }
-      if (!(this.org.status == 'PENDING' || this.org.status == 'REJECTED') || !this.roleAdmin) {
+      if (!(this.org.status == 'PENDING' || this.org.status == 'REJECTED')) {
         this.form.removeControl('statusReason');
+      } else {
+        this.form.get('statusReason').setValue('Pending');
       }
     });
 
