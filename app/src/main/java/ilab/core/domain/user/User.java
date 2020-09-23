@@ -24,6 +24,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.util.CollectionUtils;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -75,6 +76,7 @@ public class User extends AbstractEntity<User>
 	private Locale locale=Locale.getDefault();
 	
 	@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
+	@JsonIgnoreProperties("owner")
 	private Organization defaultOrg;
 	
 	public void setPassword(String password)
