@@ -64,10 +64,10 @@ public class UserController
 
 	@PutMapping("activate")
 	@PreAuthorize("hasAnyRole('ROLE_ANONYMOUS')")
-	public Map<String,Object> activateUser(@RequestPart("user") User user,@RequestPart("activationCode") String activationCode)
+	public Map<String,Object> activateUser(@RequestPart("user") User user,@RequestPart("activationCode") String activationCode,Authentication auth)
 			throws Exception
 	{
-		return userService.activate(user, activationCode);
+		return userService.activate(user, activationCode,auth);
 	}
 	@GetMapping("activate")
 	@PreAuthorize("hasAnyRole('ROLE_ANONYMOUS')")
