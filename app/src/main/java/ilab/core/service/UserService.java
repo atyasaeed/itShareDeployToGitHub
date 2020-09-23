@@ -2,6 +2,7 @@ package ilab.core.service;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
@@ -251,11 +252,12 @@ public class UserService implements UserDetailsService
 		return user;
 	}
 	
-	public Map<String,Object> activate(User user, String activationCode) throws Exception
+	public Map<String,Object> activate(User user, String activationCode,Authentication auth) throws Exception
 	{
 		ActivationCode code = activationCodeRepo.findByUser_UsernameIgnoreCaseAndUsedFalse(user.getUsername())
 				.orElseThrow();
 		user=code.getUser();
+		Map<String, Object> results=new HashMap<String, Object>();
 		if ( code.getCode().equals(activationCode) && !code.isUsed())
 		{
 			code.setUsed(true);
@@ -263,8 +265,17 @@ public class UserService implements UserDetailsService
 			
 			code.getUser().addRole(Role.ROLE_USER);
 			jmsTemplate.convertAndSend(welcomeQueue, code.getUser().getId());
+			results.putAll(Map.of("roles",user.getRoles(),"defaultOrg",user.getDefaultOrg()));
+			if(auth==null&&user.getDefaultOrg().getType()==OrganizationType.PARTNER)
+			{
+				auth = new UsernamePasswordAuthenticationToken(loadUserByUsername(user.getUsername()), null,
+					Arrays.asList(Role.ROLE_REGISTER_PRIVILEGE));
+				SecurityContextHolder.getContext().setAuthentication(auth);
+			}
+
 		}
-		return Map.of("status",user.isEnabled(),"roles",user.getRoles(),"defaultOrg",user.getDefaultOrg());
+		results.put("status",user.isEnabled());
+		return results;
 	}
 	public Map<String,Object> activate(UUID userId, String activationCode)
 	{
