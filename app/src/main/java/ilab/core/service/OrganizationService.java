@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -11,12 +13,16 @@ import javax.transaction.Transactional;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import ilab.core.domain.FileAsset;
 import ilab.core.domain.user.Organization;
+import ilab.core.domain.user.User;
 import ilab.core.repository.FileAssetRepository;
 import ilab.core.repository.OrganizationRepository;
 
@@ -72,6 +78,17 @@ public class OrganizationService {
 		existingOrg.setStatus(org.getStatus());
 		existingOrg.setStatusReason(org.getStatusReason());
 		return org;
+	}
+	public Page<Organization> getPageable(Specification<Organization> specs, Pageable page)
+	{
+
+		return orgRepo.findAll(specs, page);
+	}
+	
+	public Page<Organization> search(Specification<Organization> specs,Authentication auth,Pageable page)
+	{
+
+		return orgRepo.findByOwner_username(auth.getName(),page);
 	}
 
 }
