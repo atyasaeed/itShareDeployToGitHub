@@ -46,15 +46,30 @@ export class OrganizationsListComponent extends DefaultListComponent<Organizatio
     };
     this.http.get('assets/cities.json').subscribe((res: City[]) => {
       this.appStore.select(fromStore.getLang).subscribe((lang) => {
+        let arr = this.citySelectedItems;
         this.cityDropdownList = [];
         this.citySelectedItems = [];
         if (lang === 'en') {
           res.map((item: City) => {
             this.cityDropdownList.push(item.enName);
           });
+          res.forEach((e) => {
+            arr.forEach((x) => {
+              if (e.arName === x) {
+                this.citySelectedItems.push(e.enName);
+              }
+            });
+          });
         } else if (lang === 'ar') {
           res.map((item: City) => {
             this.cityDropdownList.push(item.arName);
+          });
+          res.forEach((e) => {
+            arr.forEach((x) => {
+              if (e.enName === x) {
+                this.citySelectedItems.push(e.arName);
+              }
+            });
           });
         }
       });
