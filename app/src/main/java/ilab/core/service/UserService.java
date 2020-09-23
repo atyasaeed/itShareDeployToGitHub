@@ -9,7 +9,6 @@ import java.util.UUID;
 
 import javax.transaction.Transactional;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -265,7 +264,7 @@ public class UserService implements UserDetailsService
 			code.getUser().addRole(Role.ROLE_USER);
 			jmsTemplate.convertAndSend(welcomeQueue, code.getUser().getId());
 		}
-		return Map.of("status",user.isEnabled(),"roles",user.getRoles());
+		return Map.of("status",user.isEnabled(),"roles",user.getRoles(),"defaultOrg",user.getDefaultOrg());
 	}
 	public Map<String,Object> activate(UUID userId, String activationCode)
 	{
@@ -281,7 +280,7 @@ public class UserService implements UserDetailsService
 
 		}
 
-		return Map.of("status",user.isEnabled(),"roles",user.getRoles());
+		return Map.of("status",user.isEnabled(),"roles",user.getRoles(),"defaultOrg",user.getDefaultOrg());
 
 	}
 	public void sendWelcomeMsg(UUID userId) throws Exception
