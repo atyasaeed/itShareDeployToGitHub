@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { DefaultOrg } from 'src/app/shared/domain';
 import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
@@ -10,7 +9,6 @@ import { UserService } from 'src/app/shared/services/user.service';
 })
 export class OwnerLandingPageComponent implements OnInit {
   breadcrumbs = [{ heading: 'organization', icon: 'fa-tasks' }];
-  defaultOrg: DefaultOrg;
   isPending = false;
   isWaitingAproval = false;
 
@@ -18,14 +16,15 @@ export class OwnerLandingPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.service.getAuthUserDetails().subscribe((res) => {
-      // this.defaultOrg = res.defaultOrg;
-      console.log(res);
+      // console.log(res);
 
       if (res.defaultOrg.status === 'PENDING') {
         this.isPending = true;
       } else if (res.defaultOrg.status === 'WAITING_APPROVAL') {
         this.isPending = true;
         this.isWaitingAproval = true;
+      } else {
+        this.router.navigate(['']);
       }
     });
     console.log(this.isWaitingAproval);

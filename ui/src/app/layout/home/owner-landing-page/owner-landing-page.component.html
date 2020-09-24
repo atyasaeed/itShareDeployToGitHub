@@ -11,13 +11,13 @@
     </div>
     <div class="d-flex justify-content-center">
       <mat-vertical-stepper linear>
-        <mat-step label="Create Account" completed=true>
+        <mat-step label="Create Account" [completed]='[isPending]'>
           <p>You have created your organization account successfuly</p>
           <div>
             <button type="button" mat-button matStepperNext>Next</button>
           </div>
         </mat-step>
-        <mat-step label="Upload Your Official Papers" [completed]='[isPending]'>
+        <mat-step label="Upload Your Official Papers" [completed]='[isWaitingAproval]'>
           <div *ngIf="!isWaitingAproval">
             <p>You have to complete registeration and upload organization official documnets</p>
             <div>
@@ -32,7 +32,7 @@
           </div>
 
         </mat-step>
-        <mat-step label="We Will Contact You" [completed]='[isWaitingAproval]'></mat-step>
+        <mat-step label="We Will Contact You" completed=false></mat-step>
         <mat-step label="Congratulations, Done" completed=false></mat-step>
       </mat-vertical-stepper>
     </div>
