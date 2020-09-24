@@ -3,24 +3,16 @@
     <app-page-header  [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header>
     <form>
       <div class="form-group form-inline row">
-        <div class="col-md-4">
+        <div class="col-md-6">
           <input class="form-control " type="text" placeholder="{{'Search'|translate}}" name="searchTerm"
             [(ngModel)]="searchTerm" />
           <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
         </div>
-        <div class="col-md-4">
-          <ng-multiselect-dropdown [placeholder]="'governorate' | translate" [settings]="dropdownSettings"
-            [data]="cityDropdownList" [(ngModel)]="citySelectedItems"
-            (onSelect)="onItemSelect($event)"
-            (onDeSelect)="onDeSelect($event)" (onSelectAll)="onSelectAll($event,'city')" (onDeSelectAll)="onDeSelectAll($event,'city')"
-            [ngModelOptions]="{standalone: true}">
-          </ng-multiselect-dropdown>
-        </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
           <ng-multiselect-dropdown [placeholder]="'status' | translate" [settings]="dropdownSettings"
             [data]="statusDropdownList" [(ngModel)]="statusSelectedItems"
             (onSelect)="onItemSelect($event)"
-            (onDeSelect)="onDeSelect($event)" (onSelectAll)="onSelectAll($event,'status')" (onDeSelectAll)="onDeSelectAll($event,'status')"
+            (onDeSelect)="onDeSelect($event)" (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)"
             [ngModelOptions]="{standalone: true}">
           </ng-multiselect-dropdown>
         </div>
@@ -66,7 +58,8 @@
               </ngb-highlight>
             </td>
             <td>
-              {{entity.city}}
+              <ngb-highlight [result]="entity.city" [term]="searchTerm">
+              </ngb-highlight>
             </td>
             <td>
               <ngb-highlight [result]="entity.owner.firstName" [term]="searchTerm">

@@ -1,6 +1,7 @@
 import { Entity } from './entity';
 import { AssetFile } from './line-item.model';
 import { Service } from './service.model';
+import { User } from './user.model';
 
 export interface Organization extends Entity {
   name: string;
@@ -16,25 +17,5 @@ export interface Organization extends Entity {
   taxId: AssetFile;
   backNatId: AssetFile;
   frontNatId: AssetFile;
-  owner: Owner;
-}
-
-export interface Owner extends Entity {
-  username: string;
-  email: string;
-  firstName: string;
-  middleName: string;
-  lastName: string;
-  mobileNo: string;
-  enabled: boolean;
-  accountNonLocked: boolean;
-  accountNonExpired: boolean;
-  credentialsNonExpired: boolean;
-  roles: string[];
-}
-
-export interface City {
-  id: string;
-  arName: string;
-  enName: string;
+  owner: User;
 }
