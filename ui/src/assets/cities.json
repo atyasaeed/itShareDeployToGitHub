@@ -1,0 +1,32 @@
+[
+  {
+    "id": "القاهرة",
+    "enName": "Cairo",
+    "arName": "القاهرة"
+  },
+  {
+    "id": "الإسكندرية",
+    "enName": "Alexandria",
+    "arName": "الإسكندرية"
+  },
+  {
+    "id": "الإسماعيلية",
+    "enName": "Ismailia",
+    "arName": "الإسماعيلية"
+  },
+  {
+    "id": "أسوان",
+    "enName": "Aswan",
+    "arName": "أسوان"
+  },
+  {
+    "id": "أسيوط",
+    "enName": "Asyut",
+    "arName": "أسيوط"
+  },
+  {
+    "id": "الزقازيق",
+    "enName": "Zagazig",
+    "arName": "الزقازيق"
+  }
+]
