@@ -289,5 +289,6 @@
   "WAITING_APPROVAL": "Wating Approval",
   "REJECTED": "Rejected",
   "ACTIVE": "Active",
-  "SUSPENDED": "Suspended"
+  "SUSPENDED": "Suspended",
+  "statusReason.error.required": "The reason must be notified"
 }

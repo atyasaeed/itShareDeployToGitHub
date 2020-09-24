@@ -49,6 +49,7 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
   ownerNationalIDFrontFile = false;
   ownerNationalIDFBackFile = false;
   formData: FormData = new FormData();
+  disabledForm: boolean = false;
 
   constructor(
     formBuilder: FormBuilder,
@@ -159,15 +160,31 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
     });
     this.formData.append('org', itemBlob);
     if (this.roleAdmin) {
-      this.service.updateAdminOrg(this.form.value, this.form.get('id').value).subscribe((res) => {});
+      this.service.updateAdminOrg(this.form.value, this.form.get('id').value).subscribe((res: Organization) => {
+        this.org = res;
+        this.form.patchValue(res);
+        this.disabledForm = false;
+      });
     } else {
-      this.service.updateOrg(this.formData, this.form.get('id').value).subscribe((res) => {});
+      this.service.updateOrg(this.formData, this.form.get('id').value).subscribe((res: Organization) => {
+        this.org = res;
+        this.form.patchValue(res);
+        this.disabledForm = false;
+      });
     }
   }
 
   Commercial(event) {
     this.CommerciaFile = true;
     this.formData.append('file1', event.target.files[0] as File);
+    const itemBlob = new Blob([JSON.stringify(this.form.value)], {
+      type: 'application/json',
+    });
+    this.formData.append('org', itemBlob);
+    this.service.updateOrg(this.formData, this.form.get('id').value).subscribe((res: Organization) => {
+      this.org = res;
+      this.form.patchValue(res);
+    });
   }
   editCommercial() {
     this.CommerciaFile = false;
@@ -177,6 +194,14 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
     this.taxCardFile = true;
 
     this.formData.append('file2', event.target.files[0] as File);
+    const itemBlob = new Blob([JSON.stringify(this.form.value)], {
+      type: 'application/json',
+    });
+    this.formData.append('org', itemBlob);
+    this.service.updateOrg(this.formData, this.form.get('id').value).subscribe((res: Organization) => {
+      this.org = res;
+      this.form.patchValue(res);
+    });
   }
   editTaxCard() {
     this.taxCardFile = false;
@@ -185,6 +210,14 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
   ownerNationalIDFront(event) {
     this.ownerNationalIDFrontFile = true;
     this.formData.append('file3', event.target.files[0] as File);
+    const itemBlob = new Blob([JSON.stringify(this.form.value)], {
+      type: 'application/json',
+    });
+    this.formData.append('org', itemBlob);
+    this.service.updateOrg(this.formData, this.form.get('id').value).subscribe((res: Organization) => {
+      this.org = res;
+      this.form.patchValue(res);
+    });
   }
   editOwnerNationalIDFront() {
     this.ownerNationalIDFrontFile = false;
@@ -193,6 +226,14 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
   ownerNationalIDBack(event) {
     this.ownerNationalIDFBackFile = true;
     this.formData.append('file4', event.target.files[0] as File);
+    const itemBlob = new Blob([JSON.stringify(this.form.value)], {
+      type: 'application/json',
+    });
+    this.formData.append('org', itemBlob);
+    this.service.updateOrg(this.formData, this.form.get('id').value).subscribe((res: Organization) => {
+      this.org = res;
+      this.form.patchValue(res);
+    });
   }
   editOwnerNationalIDBack() {
     this.ownerNationalIDFBackFile = false;

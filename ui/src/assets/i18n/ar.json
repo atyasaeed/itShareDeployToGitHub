@@ -289,5 +289,6 @@
   "WAITING_APPROVAL": "في انتظار الموافقة",
   "REJECTED": "مرفوض",
   "ACTIVE": "مفعل",
-  "SUSPENDED": "معلق"
+  "SUSPENDED": "معلق",
+  "statusReason.error.required": "يجب الاخطار بالسبب"
 }
