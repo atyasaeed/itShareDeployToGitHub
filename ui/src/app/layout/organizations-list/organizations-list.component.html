@@ -1,0 +1,97 @@
+
+  <div [@routerTransition]>
+    <app-page-header  [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header>
+    <form>
+      <div class="form-group form-inline row">
+        <div class="col-md-6">
+          <input class="form-control " type="text" placeholder="{{'Search'|translate}}" name="searchTerm"
+            [(ngModel)]="searchTerm" />
+          <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
+        </div>
+        <div class="col-md-6">
+          <ng-multiselect-dropdown [placeholder]="'status' | translate" [settings]="dropdownSettings"
+            [data]="statusDropdownList" [(ngModel)]="statusSelectedItems"
+            (onSelect)="onItemSelect($event)"
+            (onDeSelect)="onDeSelect($event)" (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)"
+            [ngModelOptions]="{standalone: true}">
+          </ng-multiselect-dropdown>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-striped" *tdLoading="'loading'">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col" sortable="id" (sort)="onSort($event)">{{'id'|translate}}</th>
+            <th scope="col" sortable="name" (sort)="onSort($event)">{{'name'|translate}}</th>
+            <th scope="col" sortable="status" (sort)="onSort($event)">{{'status'|translate}}</th>
+            <th scope="col" sortable="mobileNo" (sort)="onSort($event)">{{'mobileNo'|translate}}</th>
+            <th scope="col" sortable="city" (sort)="onSort($event)">{{'governorate'|translate}}</th>
+            <th scope="col" sortable="owner.firstName" (sort)="onSort($event)">{{'owner'|translate}}</th>
+            <th scope="col" sortable="owner.email" (sort)="onSort($event)">{{'email'|translate}}</th>
+              <!-- <th scope="col" sortable="status" (sort)="onSort($event)">{{'order.status'|translate}}
+          </th> -->
+              <!-- <th scope="col" sortable="created" (sort)="onSort($event)">{{'order.Created'|translate}}
+          </th> -->
+
+            <th></th>
+
+          </tr>
+        </thead>
+        <tbody >
+          <tr *ngFor="let entity of entities$ | async; let i=index">
+            <th scope="row">{{ i+1 }}</th>
+            <td>
+              <ngb-highlight [result]="entity.id | slice:0:6" [term]="searchTerm">
+              </ngb-highlight>
+            </td>
+
+            <td>
+              <ngb-highlight [result]="entity.name" [term]="searchTerm">
+              </ngb-highlight>
+            </td>
+            <td>
+              {{entity.status}}
+            </td>
+            <td>
+              <ngb-highlight [result]="entity.mobileNo" [term]="searchTerm">
+              </ngb-highlight>
+            </td>
+            <td>
+              <ngb-highlight [result]="entity.city" [term]="searchTerm">
+              </ngb-highlight>
+            </td>
+            <td>
+              <ngb-highlight [result]="entity.owner.firstName" [term]="searchTerm">
+              </ngb-highlight>
+            </td>
+            <td>
+              <ngb-highlight [result]="entity.owner.email" [term]="searchTerm">
+              </ngb-highlight>
+            </td>
+
+
+            <td>
+              <a [routerLink]="entity.id" [state]="entity"><i class="fa fa-fw fa-edit"></i></a>&nbsp;
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      </div>
+
+      <div class="d-flex justify-content-between p-2">
+        <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize">
+        </ngb-pagination>
+
+        <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
+          <option [ngValue]="10">10 items per page</option>
+          <option [ngValue]="25">25 items per page</option>
+          <option [ngValue]="50">50 items per page</option>
+        </select>
+      </div>
+
+    </form>
+
+  </div>
+
