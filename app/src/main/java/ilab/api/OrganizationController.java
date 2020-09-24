@@ -41,7 +41,7 @@ public class OrganizationController
 	private OrganizationService orgService;
 
 	@PutMapping(path = "/{id}")
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_REGISTER_PRIVILEGE')")
 	public Organization updateOrgInfo(@PathVariable("id") UUID id,
 			@RequestPart(name = "org", required = false) Organization org,
 			@RequestPart(name = "file1", required = false) MultipartFile file1,
