@@ -17,4 +17,6 @@ export interface User extends Entity {
   roles: string[];
   status: boolean;
   defaultOrg: DefaultOrg;
+  defaultOrgType: string;
+  defaultOrgStatus: string;
 }

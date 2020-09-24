@@ -58,10 +58,12 @@ export class LoginComponent implements OnInit {
         (data: User) => {
           this.loading = false;
           this.loadingService.resolve('loading');
+          console.log(data);
 
-          if (data.roles.includes('ROLE_REGISTER_PRIVILEGE')) {
-            this.toastr.info(this.translate.instant('data.activate'));
-            this.router.navigate(['signup/partner'], {
+          // if (data.roles.includes('ROLE_REGISTER_PRIVILEGE')) {
+          if (data.defaultOrgType === 'PARTNER') {
+            // this.toastr.info(this.translate.instant('data.activate'));
+            this.router.navigate(['/partner'], {
               state: this.user,
             });
           } else {

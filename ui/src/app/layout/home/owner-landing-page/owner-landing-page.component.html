@@ -17,13 +17,22 @@
             <button type="button" mat-button matStepperNext>Next</button>
           </div>
         </mat-step>
-        <mat-step label="Upload Your Official Papers" [completed]='[isWaitingAproval]'>
-          <p>You have to complete registeration and upload organization official documnets</p>
-          <div>
-            <button type="button" mat-button [routerLink]="['/home']">Take Me There</button>
+        <mat-step label="Upload Your Official Papers" [completed]='[isPending]'>
+          <div *ngIf="!isWaitingAproval">
+            <p>You have to complete registeration and upload organization official documnets</p>
+            <div>
+              <button *ngIf="!isWaitingAproval" type="button" mat-button [routerLink]="['/home']">Take Me There</button>
+            </div>
           </div>
+          <div *ngIf="isWaitingAproval">
+            <p>Thank you, your documents uploaded and waiting for approval</p>
+            <div>
+              <button type="button" mat-button matStepperNext>Next</button>
+            </div>
+          </div>
+
         </mat-step>
-        <mat-step label="We Will Contact You" completed=false></mat-step>
+        <mat-step label="We Will Contact You" [completed]='[isWaitingAproval]'></mat-step>
         <mat-step label="Congratulations, Done" completed=false></mat-step>
       </mat-vertical-stepper>
     </div>

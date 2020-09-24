@@ -21,7 +21,10 @@ export class OwnerLandingPageComponent implements OnInit {
       // this.defaultOrg = res.defaultOrg;
       console.log(res);
 
-      if (res.defaultOrg.status === 'WAITING_APPROVAL') {
+      if (res.defaultOrg.status === 'PENDING') {
+        this.isPending = true;
+      } else if (res.defaultOrg.status === 'WAITING_APPROVAL') {
+        this.isPending = true;
         this.isWaitingAproval = true;
       }
     });
