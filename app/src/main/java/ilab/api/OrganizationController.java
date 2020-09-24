@@ -93,7 +93,7 @@ public class OrganizationController
 		}.and(specs);
 
 		if (status != null && status.size() > 0)
-			specs = specs.and(filterByStatus(status));
+			specs = (filterByStatus(status).and(specs));
 
 		return orgService.getPageable(specs, page);
 
