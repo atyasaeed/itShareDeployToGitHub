@@ -290,5 +290,10 @@
   "REJECTED": "مرفوض",
   "ACTIVE": "مفعل",
   "SUSPENDED": "معلق",
-  "statusReason.error.required": "يجب الاخطار بالسبب"
+  "statusReason.error.required": "يجب الاخطار بالسبب",
+
+  "organizations": "المنظمات",
+  "mobileNo": "المحمول",
+  "city": "المدينه",
+  "owner": "المالك"
 }

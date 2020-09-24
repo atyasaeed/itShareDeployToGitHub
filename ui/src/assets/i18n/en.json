@@ -290,5 +290,10 @@
   "REJECTED": "Rejected",
   "ACTIVE": "Active",
   "SUSPENDED": "Suspended",
-  "statusReason.error.required": "The reason must be notified"
+  "statusReason.error.required": "The reason must be notified",
+  "organizations":"Organizations",
+  "mobileNo": "Mobile",
+  "city": "City",
+  "owner": "Owner"
+
 }
