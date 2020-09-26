@@ -1,7 +1,5 @@
-import { City } from 'src/app/signup/signup-partner/city';
 import { Entity } from './entity';
-import { AssetFile } from './line-item.model';
-import { Service } from './service.model';
+import { Organization } from './organization.model';
 
 export interface User extends Entity {
   firstName: string;
@@ -15,19 +13,4 @@ export interface User extends Entity {
   roles: string[];
   status: boolean;
   defaultOrg: Organization;
-}
-export interface Organization extends Entity {
-  name: string;
-  mobileNo: number;
-  city: string;
-  type: string;
-  address: string;
-  website: string;
-  services: Service[];
-  status: string;
-  statusReason: string;
-  comReg: AssetFile;
-  taxId: AssetFile;
-  backNatId: AssetFile;
-  frontNatId: AssetFile;
 }

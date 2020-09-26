@@ -291,9 +291,11 @@
   "ACTIVE": "Active",
   "SUSPENDED": "Suspended",
   "statusReason.error.required": "The reason must be notified",
-  "organizations":"Organizations",
+  "organizations": "Organizations",
   "mobileNo": "Mobile",
   "city": "City",
-  "owner": "Owner"
-
+  "owner": "Owner",
+  "accountInfo": "Account Information",
+  "orgInfo": "Company Information",
+  "owner  ": "Owner  "
 }

@@ -284,16 +284,18 @@
   "manufacturingDuration": "مدة التصنيع",
   "manufacturingDuration.error": "ادخل عدد الايام",
   "unitPrice.error": "أدخل سعر الوحدة",
-  "organization": "منظمة",
+  "organization": "الشركة",
   "PENDING": "في انتظار التحقق ",
   "WAITING_APPROVAL": "في انتظار الموافقة",
   "REJECTED": "مرفوض",
   "ACTIVE": "مفعل",
   "SUSPENDED": "معلق",
   "statusReason.error.required": "يجب الاخطار بالسبب",
-
-  "organizations": "المنظمات",
+  "organizations": "الشركات",
   "mobileNo": "المحمول",
   "city": "المدينه",
-  "owner": "المالك"
+  "owner": "المالك",
+  "accountInfo": "معلومات الحساب",
+  "orgInfo": "معلومات الشركة",
+  "owner  ": "المالك"
 }

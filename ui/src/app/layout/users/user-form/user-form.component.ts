@@ -1,5 +1,5 @@
 import { routerTransition } from 'src/app/router.animations';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { TdLoadingService } from '@covalent/core/loading';
 import { TdDialogService } from '@covalent/core/dialogs';
@@ -49,10 +49,9 @@ export class UserFormComponent extends DefaultFormComponent<User, UserService> i
       username: [{ value: '' }, [Validators.required]],
     });
   }
-
-  ngOnInit(): void {
-    super.ngOnInit();
-  }
+  // ngOnInit(): void {
+  //   super.ngOnInit();
+  // }
 
   onCreate(): void {
     // this.breadcrumbs.push({ heading: 'User', icon: 'fa-tasks', link: null });

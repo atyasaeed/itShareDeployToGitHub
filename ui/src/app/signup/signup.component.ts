@@ -5,7 +5,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AlertService } from '../shared/services';
-import { Organization, User } from '../shared/domain';
+import { User } from '../shared/domain';
 import { TranslateService } from '@ngx-translate/core';
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
@@ -17,6 +17,7 @@ import { TdDialogService } from '@covalent/core/dialogs';
 import { CanComponentDeactivate } from '../shared/guard/can-deactivate-guard.service';
 import { Subject } from 'rxjs';
 import { City } from './signup-partner/city';
+import { Organization } from '../shared/domain/organization.model';
 
 // import {
 //   RECAPTCHA_LANGUAGE,
@@ -34,7 +35,6 @@ import { City } from './signup-partner/city';
 })
 export class SignupComponent implements OnInit, CanComponentDeactivate {
   user: User;
-  city: City = {} as City;
   cities: City[] = new Array();
   registrationForm: FormGroup;
   loading = false;

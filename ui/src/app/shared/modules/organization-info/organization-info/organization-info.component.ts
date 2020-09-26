@@ -1,36 +1,33 @@
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ChangeDetectorRef, Component, Inject, Input, OnInit, SimpleChanges, ɵPlayState } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TdDialogService } from '@covalent/core/dialogs';
 import { TdLoadingService } from '@covalent/core/loading';
 import { Store } from '@ngrx/store';
 import * as fromStore from 'src/app/store';
-import { Organization, Service, User } from 'src/app/shared/domain';
+import { Service, User } from 'src/app/shared/domain';
 import { DefaultFormComponent } from 'src/app/shared/helpers/default.form.component';
 import { OrderService } from 'src/app/shared/services/order.service';
 import { OrganizationService } from 'src/app/shared/services/organization.service';
 import { routerTransition } from 'src/app/router.animations';
 
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
-import { from } from 'rxjs';
+import { BehaviorSubject, from } from 'rxjs';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { City } from 'src/app/signup/signup-partner/city';
 import { HttpClient } from '@angular/common/http';
 import { UserService } from 'src/app/shared/services/user.service';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
+import { Organization } from 'src/app/shared/domain/organization.model';
+import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-organization-form',
-  templateUrl: './organization-form.component.html',
-  styleUrls: ['./organization-form.component.scss'],
+  selector: 'app-organization-info',
+  templateUrl: './organization-info.component.html',
+  styleUrls: ['./organization-info.component.scss'],
   animations: [routerTransition()],
 })
-export class OrganizationFormComponent extends DefaultFormComponent<Organization, OrganizationService>
-  implements OnInit {
-  breadcrumbs = [
-    { heading: 'organization', icon: 'fa-tasks', link: '/organizations' },
-    { heading: 'organization-Details', icon: 'fa-tasks' },
-  ];
+export class OrganizationInfoComponent implements OnInit {
   public totalfiles: Array<File> = [];
   lang: string;
   public totalFileName = [];
@@ -44,37 +41,31 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
   arrStatus: string[] = ['PENDING', 'ACTIVE', 'REJECTED'];
   org: Organization = {} as Organization;
   user: User = {} as User;
+  @Input() userInput: User = {} as User;
   CommerciaFile = false;
   taxCardFile = false;
   ownerNationalIDFrontFile = false;
   ownerNationalIDFBackFile = false;
   formData: FormData = new FormData();
   disabledForm: boolean = false;
-
+  form: FormGroup;
   constructor(
-    formBuilder: FormBuilder,
-    loadingService: TdLoadingService,
-    dialogService: TdDialogService,
-    service: OrganizationService,
-    private userService: UserService,
+    private Service: OrganizationService,
+    private formBuilder: FormBuilder,
     private http: HttpClient,
-    route: ActivatedRoute,
-    router: Router,
+    private route: ActivatedRoute,
     private appStore: Store<fromStore.AppState>,
-    private orderservice: OrderService,
-    private cdr: ChangeDetectorRef,
+
     @Inject(APP_CONFIG) public appConfig: IAppConfig
   ) {
-    super(formBuilder, loadingService, dialogService, service, route, router);
     this.appStore.select(fromStore.getAuthUser).subscribe((res) => {
-      console.log(res);
-      if (res?.roles?.includes('ROLE_ADMIN')) {
-        this.roleAdmin = true;
-      }
+      this.route.params.pipe(map((params: Params) => params.entityId)).subscribe((entityId) => {
+        if (res?.roles?.includes('ROLE_ADMIN') && entityId) {
+          this.roleAdmin = true;
+        }
+      });
     });
-    console.log(this.CommerciaFile);
     this.http.get('assets/cities.json').subscribe((res: City[]) => {
-      console.log(res);
       this.cities = res;
     });
 
@@ -100,13 +91,12 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
   onDeSelectAll(items: any) {
     this.form.get('services').setValue(items);
   }
+  ngOnChanges(changes: SimpleChanges) {
+    this.user = changes.userInput.currentValue;
+    this.org = this.user.defaultOrg;
 
-  ngOnInit(): void {
-    this.createForm();
-    this.userService.get('').subscribe((res) => {
-      this.user = res;
-      this.org = res.defaultOrg;
-      this.form.patchValue(res.defaultOrg);
+    if (this.org) {
+      this.form?.patchValue(this.org);
       if (this.org.comReg) {
         this.CommerciaFile = true;
       }
@@ -120,11 +110,17 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
         this.ownerNationalIDFBackFile = true;
       }
       if (!(this.org.status == 'PENDING' || this.org.status == 'REJECTED')) {
-        this.form.removeControl('statusReason');
+        this.form?.removeControl('statusReason');
       } else {
-        this.form.get('statusReason').setValue('Pending');
+        this.form?.get('statusReason')?.clearValidators();
       }
-    });
+    }
+  }
+  ngOnInit(): void {
+    this.createForm();
+    if (this.org) {
+      this.form?.patchValue(this.org);
+    }
 
     this.appStore.select(fromStore.getLang).subscribe((lang) => {
       this.lang = lang;
@@ -154,19 +150,18 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
       return;
     }
     this.toggleButton = false;
-    console.log(this.form.value);
     const itemBlob = new Blob([JSON.stringify(this.form.value)], {
       type: 'application/json',
     });
     this.formData.append('org', itemBlob);
     if (this.roleAdmin) {
-      this.service.updateAdminOrg(this.form.value, this.form.get('id').value).subscribe((res: Organization) => {
+      this.Service.updateAdminOrg(this.form.value, this.form.get('id').value).subscribe((res: Organization) => {
         this.org = res;
         this.form.patchValue(res);
         this.disabledForm = false;
       });
     } else {
-      this.service.updateOrg(this.formData, this.form.get('id').value).subscribe((res: Organization) => {
+      this.Service.updateOrg(this.formData, this.form.get('id').value).subscribe((res: Organization) => {
         this.org = res;
         this.form.patchValue(res);
         this.disabledForm = false;
@@ -181,7 +176,7 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
       type: 'application/json',
     });
     this.formData.append('org', itemBlob);
-    this.service.updateOrg(this.formData, this.form.get('id').value).subscribe((res: Organization) => {
+    this.Service.updateOrg(this.formData, this.form.get('id').value).subscribe((res: Organization) => {
       this.org = res;
       this.form.patchValue(res);
     });
@@ -198,7 +193,7 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
       type: 'application/json',
     });
     this.formData.append('org', itemBlob);
-    this.service.updateOrg(this.formData, this.form.get('id').value).subscribe((res: Organization) => {
+    this.Service.updateOrg(this.formData, this.form.get('id').value).subscribe((res: Organization) => {
       this.org = res;
       this.form.patchValue(res);
     });
@@ -214,7 +209,7 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
       type: 'application/json',
     });
     this.formData.append('org', itemBlob);
-    this.service.updateOrg(this.formData, this.form.get('id').value).subscribe((res: Organization) => {
+    this.Service.updateOrg(this.formData, this.form.get('id').value).subscribe((res: Organization) => {
       this.org = res;
       this.form.patchValue(res);
     });
@@ -230,7 +225,7 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
       type: 'application/json',
     });
     this.formData.append('org', itemBlob);
-    this.service.updateOrg(this.formData, this.form.get('id').value).subscribe((res: Organization) => {
+    this.Service.updateOrg(this.formData, this.form.get('id').value).subscribe((res: Organization) => {
       this.org = res;
       this.form.patchValue(res);
     });
@@ -260,14 +255,5 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
   }
   getFileUrlCommercia(id): string {
     return this.appConfig.FILE_URL + id;
-  }
-  onCreate(): void {
-    throw new Error('Method not implemented.');
-  }
-  onUpdate(): void {
-    throw new Error('Method not implemented.');
-  }
-  cancel(): void {
-    throw new Error('Method not implemented.');
   }
 }

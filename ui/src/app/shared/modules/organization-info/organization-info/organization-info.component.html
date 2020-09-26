@@ -1,13 +1,13 @@
 <div [@routerTransition]>
-  <app-page-header [heading]="'Update Profile'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs">
-  </app-page-header>
-  <form [formGroup]='form' (ngSubmit)="save()">
+
+  <form [formGroup]='form' (ngSubmit)="save()" *ngIf="form">
     <fieldset [disabled]="!disabledForm">
       <section>
         <div class="form-group form-header row">
           <h4 class="col-md-8"><i class="fa fa-building-o" aria-hidden="true"></i> {{'organization details'|translate}}
           </h4>
-          <h6 class="col-md-4 ">{{"status"|translate}} : <span class="text-danger">{{org.status |translate}}</span></h6>
+          <h6 class="col-md-4 ">{{"status"|translate}} : <span class="text-danger">{{org?.status |translate}}</span>
+          </h6>
         </div>
         <div class="text-right pr-3 mt-2"><button type="submit" mat-flat-button color="primary"
             *ngIf="toggleButton">{{ 'save' | translate }}</button>&nbsp;<a href="javascript:void(0)"
@@ -21,7 +21,7 @@
                 <label>{{'companyName' | translate }}</label>
                 <input type="text" formControlName="name" class="form-control input-underline input-lg" #name
                   [readOnly]='roleAdmin '>
-                <div *ngIf="form?.controls.name.touched && !form.controls.name.valid" class="text-danger text-center">
+                <div *ngIf="form?.controls?.name.touched && !form.controls.name.valid" class="text-danger text-center">
                   <div class="text-center" *ngIf="form.controls.name.errors.required">
                     {{ 'companyName.error.required' | translate }}
                   </div>
@@ -90,7 +90,7 @@
                 <label for="inputCity">{{ 'status' | translate }}</label>
                 <select class="form-control input-underline input-lg" (change)="onChangeStatus($event.target.value)"
                   formControlName="status" #status>
-                  <option [value]="org.status" class="d-none">{{org.status |translate}}</option>
+                  <option [value]="org?.status" class="d-none">{{org?.status |translate}}</option>
                   <option *ngFor="let status of arrStatus" [value]='status'>
                     {{status |translate}}
                   </option>
@@ -120,7 +120,7 @@
           </div>
           <div class="col-md-4 notes">
             <div class="form-row">
-              <div class="form-group col-md-12" *ngIf="org.status == 'PENDING' || org.status == 'REJECTED'">
+              <div class="form-group col-md-12" *ngIf="org?.status == 'PENDING' || org?.status == 'REJECTED'">
                 <label for="inputCity">{{ 'reasons' | translate }}</label>
                 <textarea formControlName="statusReason" style="width: 100%;" [readonly]="!roleAdmin"></textarea>
                 <div *ngIf="form.controls?.statusReason?.touched && !form?.controls?.statusReason?.valid"

@@ -1,7 +1,7 @@
 import { Component, OnInit, VERSION, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Organization, User } from 'src/app/shared/domain';
+import { User } from 'src/app/shared/domain';
 import { routerTransition } from 'src/app/router.animations';
 
 import { AlertService } from 'src/app/shared/services';
