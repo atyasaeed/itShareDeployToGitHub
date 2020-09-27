@@ -1,6 +1,6 @@
-<div *tdLoading="'emp-case'" [@routerTransition]>
+<div *tdLoading="'loading'" [@routerTransition]>
   <div class="">
-    <app-page-header [heading]="'Employee Case'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs">
+    <app-page-header [breadCrumbs]="breadcrumbs">
     </app-page-header>
 
     <mat-tab-group>
@@ -34,17 +34,22 @@
                   formControlName='mobileNo'>
                 <!-- <mat-error *ngIf="hasError('phone')">phone is required</mat-error> -->
               </mat-form-field>
+
             </mat-card-content>
             <mat-card-actions class="form-rtl">
-              <button type="button" mat-button (click)="cancel()">{{'Cancel'|translate}}</button>
-              <button type="submit" mat-raised-button color="primary"
+              <button type="button" mat-button class="btn btn-danger" (click)="cancel()">{{'Cancel'|translate}}</button>
+              &nbsp;
+              <button type="submit" class="btn btn-primary" mat-raised-button color="primary"
                 [disabled]="f().invalid">{{'Save'|translate}}</button>
+
             </mat-card-actions>
+
+
           </mat-card>
 
         </form>
       </mat-tab>
-      <mat-tab label="{{'orgInfo' |translate}}">
+      <mat-tab *ngIf="user?.defaultOrg?.type == 'PARTNER'" label="{{'orgInfo' |translate}}">
         <div *ngIf="user">
           <app-organization-info [userInput]='user'>
           </app-organization-info>

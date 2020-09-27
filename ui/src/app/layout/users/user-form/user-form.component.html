@@ -1,4 +1,4 @@
-<div *tdLoading="'emp-case'" [@routerTransition]>
+<div *tdLoading="'loading'" [@routerTransition]>
   <app-page-header [heading]="'Update Profile'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs">
   </app-page-header>
   <mat-tab-group>
@@ -50,7 +50,7 @@
         </mat-card>
       </form>
     </mat-tab>
-    <mat-tab label="{{'orgInfo' |translate}}">
+    <mat-tab *ngIf="entity.defaultOrg.type == 'PARTNER'" label="{{'orgInfo' |translate}}">
       <div *ngIf="entity">
         <app-organization-info [userInput]='entity'></app-organization-info>
       </div>

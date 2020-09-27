@@ -20,6 +20,8 @@ import { UserService } from 'src/app/shared/services/user.service';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import { Organization } from 'src/app/shared/domain/organization.model';
 import { map } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-organization-info',
@@ -55,6 +57,8 @@ export class OrganizationInfoComponent implements OnInit {
     private http: HttpClient,
     private route: ActivatedRoute,
     private appStore: Store<fromStore.AppState>,
+    private toastr: ToastrService,
+    private translate: TranslateService,
 
     @Inject(APP_CONFIG) public appConfig: IAppConfig
   ) {
@@ -112,6 +116,7 @@ export class OrganizationInfoComponent implements OnInit {
       if (!(this.org.status == 'PENDING' || this.org.status == 'REJECTED')) {
         this.form?.removeControl('statusReason');
       } else {
+        this.form?.get('statusReason').setValue('Pending');
         this.form?.get('statusReason')?.clearValidators();
       }
     }
@@ -120,6 +125,9 @@ export class OrganizationInfoComponent implements OnInit {
     this.createForm();
     if (this.org) {
       this.form?.patchValue(this.org);
+      if (!this.form?.get('statusReason').value) {
+        this.form?.get('statusReason').setValue('Pending');
+      }
     }
 
     this.appStore.select(fromStore.getLang).subscribe((lang) => {
@@ -159,12 +167,14 @@ export class OrganizationInfoComponent implements OnInit {
         this.org = res;
         this.form.patchValue(res);
         this.disabledForm = false;
+        this.toastr.success(this.translate.instant('success'));
       });
     } else {
       this.Service.updateOrg(this.formData, this.form.get('id').value).subscribe((res: Organization) => {
         this.org = res;
         this.form.patchValue(res);
         this.disabledForm = false;
+        this.toastr.success(this.translate.instant('success'));
       });
     }
   }
