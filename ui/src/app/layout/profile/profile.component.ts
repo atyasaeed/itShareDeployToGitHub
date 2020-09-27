@@ -31,17 +31,8 @@ export class ProfileComponent extends DefaultFormComponent<User, UserService> im
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
 
-    this.form = this.formBuilder.group({
-      id: [''],
-      username: [{ value: '', disabled: true }, Validators.required],
-      email: [{ value: '', disabled: true }, Validators.required],
-      firstName: [''],
-      lastName: [''],
-      mobileNo: [''],
-    });
     this.service.getUserProfile().subscribe((res: User) => {
       this.user = res;
-      this.form.patchValue(res);
     });
   }
   onCreate(): void {

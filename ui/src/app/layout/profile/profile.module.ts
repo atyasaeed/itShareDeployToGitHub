@@ -18,6 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { OrganizationInfoModule } from 'src/app/shared/modules/organization-info/organization-info.module';
+import { UserInfoModule } from 'src/app/shared/modules/user-info/user-info.module';
 
 @NgModule({
   declarations: [ProfileComponent],
@@ -36,6 +37,7 @@ import { OrganizationInfoModule } from 'src/app/shared/modules/organization-info
     PageHeaderModule,
     MatTabsModule,
     OrganizationInfoModule,
+    UserInfoModule,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,

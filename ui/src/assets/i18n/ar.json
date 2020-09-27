@@ -297,5 +297,11 @@
   "owner": "المالك",
   "accountInfo": "معلومات الحساب",
   "orgInfo": "معلومات الشركة",
-  "owner  ": "المالك"
+  "owner  ": "المالك",
+  "commercialRegister": "تسجيل تجاري",
+  "upload": "تحميل",
+  "uploaded": "تم التحميل",
+  "taxCard": "بطاقة ضريبية",
+  "ownerNationalIDFront": "owner National ID Front",
+  "ownerNationalIDBack": "owner National ID Back"
 }

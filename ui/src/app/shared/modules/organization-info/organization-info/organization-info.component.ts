@@ -41,7 +41,7 @@ export class OrganizationInfoComponent implements OnInit {
   selectedItems = [];
   dropdownSettings: IDropdownSettings = {};
   arrStatus: string[] = ['PENDING', 'ACTIVE', 'REJECTED'];
-  org: Organization = {} as Organization;
+  @Input() org: Organization = {} as Organization;
   user: User = {} as User;
   @Input() userInput: User = {} as User;
   CommerciaFile = false;
@@ -59,6 +59,7 @@ export class OrganizationInfoComponent implements OnInit {
     private appStore: Store<fromStore.AppState>,
     private toastr: ToastrService,
     private translate: TranslateService,
+    private loadingService: TdLoadingService,
 
     @Inject(APP_CONFIG) public appConfig: IAppConfig
   ) {
@@ -96,8 +97,7 @@ export class OrganizationInfoComponent implements OnInit {
     this.form.get('services').setValue(items);
   }
   ngOnChanges(changes: SimpleChanges) {
-    this.user = changes.userInput.currentValue;
-    this.org = this.user.defaultOrg;
+    this.org = changes.org.currentValue;
 
     if (this.org) {
       this.form?.patchValue(this.org);
@@ -116,7 +116,6 @@ export class OrganizationInfoComponent implements OnInit {
       if (!(this.org.status == 'PENDING' || this.org.status == 'REJECTED')) {
         this.form?.removeControl('statusReason');
       } else {
-        this.form?.get('statusReason').setValue('Pending');
         this.form?.get('statusReason')?.clearValidators();
       }
     }
@@ -157,6 +156,7 @@ export class OrganizationInfoComponent implements OnInit {
       this.form.markAllAsTouched();
       return;
     }
+    this.loadingService.register('loadingOrg');
     this.toggleButton = false;
     const itemBlob = new Blob([JSON.stringify(this.form.value)], {
       type: 'application/json',
@@ -168,6 +168,7 @@ export class OrganizationInfoComponent implements OnInit {
         this.form.patchValue(res);
         this.disabledForm = false;
         this.toastr.success(this.translate.instant('success'));
+        this.loadingService.resolve('loadingOrg');
       });
     } else {
       this.Service.updateOrg(this.formData, this.form.get('id').value).subscribe((res: Organization) => {
@@ -175,11 +176,13 @@ export class OrganizationInfoComponent implements OnInit {
         this.form.patchValue(res);
         this.disabledForm = false;
         this.toastr.success(this.translate.instant('success'));
+        this.loadingService.resolve('loadingOrg');
       });
     }
   }
 
   Commercial(event) {
+    this.loadingService.register('loadingOrg');
     this.CommerciaFile = true;
     this.formData.append('file1', event.target.files[0] as File);
     const itemBlob = new Blob([JSON.stringify(this.form.value)], {
@@ -189,6 +192,7 @@ export class OrganizationInfoComponent implements OnInit {
     this.Service.updateOrg(this.formData, this.form.get('id').value).subscribe((res: Organization) => {
       this.org = res;
       this.form.patchValue(res);
+      this.loadingService.resolve('loadingOrg');
     });
   }
   editCommercial() {
@@ -197,7 +201,7 @@ export class OrganizationInfoComponent implements OnInit {
   }
   taxCard(event) {
     this.taxCardFile = true;
-
+    this.loadingService.register('loadingOrg');
     this.formData.append('file2', event.target.files[0] as File);
     const itemBlob = new Blob([JSON.stringify(this.form.value)], {
       type: 'application/json',
@@ -206,6 +210,7 @@ export class OrganizationInfoComponent implements OnInit {
     this.Service.updateOrg(this.formData, this.form.get('id').value).subscribe((res: Organization) => {
       this.org = res;
       this.form.patchValue(res);
+      this.loadingService.resolve('loadingOrg');
     });
   }
   editTaxCard() {
@@ -213,6 +218,7 @@ export class OrganizationInfoComponent implements OnInit {
     this.formData.delete('file2');
   }
   ownerNationalIDFront(event) {
+    this.loadingService.register('loadingOrg');
     this.ownerNationalIDFrontFile = true;
     this.formData.append('file3', event.target.files[0] as File);
     const itemBlob = new Blob([JSON.stringify(this.form.value)], {
@@ -222,6 +228,7 @@ export class OrganizationInfoComponent implements OnInit {
     this.Service.updateOrg(this.formData, this.form.get('id').value).subscribe((res: Organization) => {
       this.org = res;
       this.form.patchValue(res);
+      this.loadingService.resolve('loadingOrg');
     });
   }
   editOwnerNationalIDFront() {
@@ -229,6 +236,7 @@ export class OrganizationInfoComponent implements OnInit {
     this.formData.delete('file3');
   }
   ownerNationalIDBack(event) {
+    this.loadingService.register('loadingOrg');
     this.ownerNationalIDFBackFile = true;
     this.formData.append('file4', event.target.files[0] as File);
     const itemBlob = new Blob([JSON.stringify(this.form.value)], {
@@ -238,6 +246,7 @@ export class OrganizationInfoComponent implements OnInit {
     this.Service.updateOrg(this.formData, this.form.get('id').value).subscribe((res: Organization) => {
       this.org = res;
       this.form.patchValue(res);
+      this.loadingService.resolve('loadingOrg');
     });
   }
   editOwnerNationalIDBack() {

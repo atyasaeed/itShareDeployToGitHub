@@ -32,7 +32,6 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
     { heading: 'organization', icon: 'fa-tasks', link: '/organizations' },
     { heading: 'organization-Details', icon: 'fa-tasks' },
   ];
-  user: User = {} as User;
   org: Organization = {} as Organization;
   constructor(
     formBuilder: FormBuilder,
@@ -47,33 +46,12 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
 
-    this.form = this.formBuilder.group({
-      id: [''],
-      username: [{ value: '', disabled: true }, Validators.required],
-      email: [{ value: '', disabled: true }, Validators.required],
-      firstName: [''],
-      lastName: [''],
-      mobileNo: [''],
-    });
     if (this.router.getCurrentNavigation()?.extras.state) {
       Object.assign(this.org, this.router.getCurrentNavigation().extras.state);
-      this.form.patchValue(this.org.owner);
-      this.user = this.org.owner;
-      this.user.defaultOrg = this.org;
     }
   }
-  save() {
-    this.org.owner = this.form.value;
-    this.service.updateAdminOrg(this.org, this.org.id).subscribe((res) => {
-      console.log(res);
-    });
-  }
-  onCreate(): void {
-    // this.breadcrumbs.push({ heading: 'Update Profile', icon: 'fa-tasks', link: null });
-  }
-  onUpdate(): void {
-    // this.breadcrumbs.push({ heading: 'Update Profile', icon: 'fa-tasks', link: null });
-  }
+  onCreate(): void {}
+  onUpdate(): void {}
   cancel(): void {
     this.router.navigateByUrl(this.breadcrumbs[0].link);
   }

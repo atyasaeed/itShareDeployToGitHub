@@ -297,5 +297,11 @@
   "owner": "Owner",
   "accountInfo": "Account Information",
   "orgInfo": "Company Information",
-  "owner  ": "Owner  "
+  "owner  ": "Owner  ",
+  "commercialRegister": "Commercial Register",
+  "upload": "Upload",
+  "uploaded": "Uploaded",
+  "taxCard": "taxCard",
+  "ownerNationalIDFront": "owner National ID Front",
+  "ownerNationalIDBack": "owner National ID Back"
 }

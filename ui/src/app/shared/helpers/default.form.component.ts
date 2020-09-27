@@ -35,7 +35,7 @@ export abstract class DefaultFormComponent<T extends Entity, K extends RestServi
         if (entityId) {
           this.onUpdate();
           this.service.get(entityId).subscribe((entity) => {
-            this.form.patchValue(entity);
+            this.form?.patchValue(entity);
             this.entity = entity;
             this.loadingService.resolve(this.key);
           });

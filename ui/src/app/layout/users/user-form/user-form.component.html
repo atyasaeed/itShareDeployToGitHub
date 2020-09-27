@@ -1,58 +1,15 @@
-<div *tdLoading="'loading'" [@routerTransition]>
+<div [@routerTransition]>
   <app-page-header [heading]="'Update Profile'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs">
   </app-page-header>
   <mat-tab-group>
     <mat-tab label="{{'accountInfo' |translate}}">
-      <form *ngIf="entity" [formGroup]='form' (ngSubmit)="save()">
-        <mat-card *tdLoading="'loadingUser';strategy:'overlay'">
-
-          <mat-card-content class="form-rtl">
-
-            <mat-form-field class="form-rtl">
-              <input matInput type="text" placeholder="{{'userName'|translate}}" required formControlName='username'>
-              <mat-error *ngIf="hasError('username')">{{'userName.error.required'|translate}}</mat-error>
-            </mat-form-field>
-
-            <mat-form-field class="form-rtl">
-              <input name="email" matInput type="text" placeholder="{{'email'|translate}}" required
-                formControlName='email'>
-              <mat-error *ngIf="hasError('email')">{{'email.error.required'|translate}}</mat-error>
-            </mat-form-field>
-
-            <mat-form-field class="form-rtl">
-              <input name="firstName" matInput type="text" placeholder=" {{'firstName'|translate}}" required
-                formControlName='firstName'>
-              <mat-error *ngIf="hasError('firstName')">{{'firstName.error.required'|translate}}</mat-error>
-            </mat-form-field>
-
-            <mat-form-field class="form-rtl">
-              <input name="lastName" matInput type="text" placeholder="{{'lastName'|translate}}" required
-                formControlName='lastName'>
-              <mat-error *ngIf="hasError('lastName')">{{'lastName.error.required'|translate}}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="form-rtl">
-              <input name="phone" matInput type="text" placeholder="{{'personalPhoneNumber'|translate}}" required
-                formControlName='mobileNo'>
-              <mat-error *ngIf="hasError('mobileNo')">{{'personalPhoneNumber.error.required'|translate}}</mat-error>
-            </mat-form-field>
-          </mat-card-content>
-          <mat-card-actions class="form-rtl">
-
-            <button type="button" mat-button (click)="cancel()">{{'Back'|translate}}</button> &nbsp;
-            <button type="button" *ngIf="!entity.enabled" (click)="status(entity)" mat-raised-button
-              color="primary">{{'Enable'|translate}}</button>
-            <button type="submit" mat-raised-button color="primary"
-              [disabled]="f().invalid">{{'Save'|translate}}</button>
-            <!-- <button type="button" *ngIf="entity.enabled" (click)="status(entity)" mat-raised-button color="warn">{{'Disable'|translate}}</button> -->
-          </mat-card-actions>
-
-
-        </mat-card>
-      </form>
-    </mat-tab>
-    <mat-tab *ngIf="entity.defaultOrg.type == 'PARTNER'" label="{{'orgInfo' |translate}}">
       <div *ngIf="entity">
-        <app-organization-info [userInput]='entity'></app-organization-info>
+        <app-user-info [user]="entity"></app-user-info>
+      </div>
+    </mat-tab>
+    <mat-tab *ngIf="entity?.defaultOrg?.type == 'PARTNER'" label="{{'orgInfo' |translate}}">
+      <div *ngIf="entity">
+        <app-organization-info [org]='entity.defaultOrg'></app-organization-info>
       </div>
     </mat-tab>
   </mat-tab-group>

@@ -20,6 +20,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { OrganizationFormComponent } from './organization-form/organization-form.component';
 import { OrganizationInfoModule } from 'src/app/shared/modules/organization-info/organization-info.module';
+import { UserInfoModule } from 'src/app/shared/modules/user-info/user-info.module';
 
 @NgModule({
   declarations: [OrganizationsListComponent, OrganizationFormComponent],
@@ -39,6 +40,7 @@ import { OrganizationInfoModule } from 'src/app/shared/modules/organization-info
     PageHeaderModule,
     MatTabsModule,
     OrganizationInfoModule,
+    UserInfoModule,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,

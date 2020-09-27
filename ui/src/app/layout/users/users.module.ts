@@ -23,6 +23,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { LinkableModule } from '../linkable/linkable.module';
 import { OrganizationInfoModule } from 'src/app/shared/modules/organization-info/organization-info.module';
+import { UserInfoModule } from 'src/app/shared/modules/user-info/user-info.module';
 
 @NgModule({
   declarations: [UsersComponent, UserFormComponent],
@@ -31,6 +32,7 @@ import { OrganizationInfoModule } from 'src/app/shared/modules/organization-info
     UsersRoutingModule,
     LinkableModule,
     OrganizationInfoModule,
+    UserInfoModule,
     MatTabsModule,
     TranslateModule,
     NgbModule,
