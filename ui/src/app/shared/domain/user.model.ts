@@ -1,4 +1,5 @@
 import { Entity } from './entity';
+import { Organization } from './organization.model';
 
 export interface User extends Entity {
   firstName: string;
@@ -11,4 +12,7 @@ export interface User extends Entity {
   enabled: boolean;
   roles: string[];
   status: boolean;
+  defaultOrg: Organization;
+  defaultOrgType: string;
+  defaultOrgStatus: string;
 }

@@ -16,7 +16,7 @@ export function reducer(state: InitState, action: fromInitState.InitStateAction)
     case fromInitState.LOAD_INIT_STATE:
       return { ...state, loading: true };
     case fromInitState.LOAD_INIT_STATE_SUCCESS:
-      //console.log(action.payload);
+      console.log(action.payload);
       return { ...state, ...action.payload, loading: false, loaded: true };
     case fromInitState.LOAD_INIT_STATE_FAIL:
       return { ...state, loading: false, loaded: false };

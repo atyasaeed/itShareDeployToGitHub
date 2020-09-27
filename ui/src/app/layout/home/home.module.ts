@@ -10,9 +10,13 @@ import { ServiceCardComponent } from './service-card/service-card.component';
 //import { StatModule } from 'src/app/shared/modules/stat/stat.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { CovalentLoadingModule } from '@covalent/core/loading';
+import { OwnerLandingPageComponent } from './owner-landing-page/owner-landing-page.component';
+import { MatStepperModule } from '@angular/material/stepper';
+import { PageHeaderModule } from 'src/app/shared/modules/page-header/page-header.module';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
-  declarations: [HomeComponent, ServiceCardComponent],
+  declarations: [HomeComponent, ServiceCardComponent, OwnerLandingPageComponent],
   imports: [
     CommonModule,
     HomeRoutingModule,
@@ -23,6 +27,9 @@ import { CovalentLoadingModule } from '@covalent/core/loading';
     //StatModule,
     TranslateModule,
     CovalentLoadingModule,
+    MatStepperModule,
+    PageHeaderModule,
+    MatButtonModule,
   ],
 })
 export class HomeModule {}
