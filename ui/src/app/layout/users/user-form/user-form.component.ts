@@ -1,5 +1,5 @@
 import { routerTransition } from 'src/app/router.animations';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { TdLoadingService } from '@covalent/core/loading';
 import { TdDialogService } from '@covalent/core/dialogs';
@@ -40,18 +40,6 @@ export class UserFormComponent extends DefaultFormComponent<User, UserService> i
     private orderservice: OrderService
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
-    // service.searchUrl = 'admin';
-    this.form = this.formBuilder.group({
-      firstName: [{ value: '' }, [Validators.required]],
-      lastName: [{ value: '' }, [Validators.required]],
-      mobileNo: [{ value: '' }, [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
-      email: [{ value: '' }, [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$')]],
-      username: [{ value: '' }, [Validators.required]],
-    });
-  }
-
-  ngOnInit(): void {
-    super.ngOnInit();
   }
 
   onCreate(): void {
@@ -68,40 +56,7 @@ export class UserFormComponent extends DefaultFormComponent<User, UserService> i
     console.log(this.form.value);
   }
 
-  save() {
-    this.loadingService.register('loadingUser');
-    Object.assign(this.entity, this.form.value);
-    if (this.entity.id) {
-      this.service.adminUpdateUser(this.entity).subscribe(
-        (response) => {
-          this.loadingService.resolve('loadingUser');
-          this.onSave();
-          this.cancel();
-        },
-        (err) => {
-          // this.loadingService.resolve('loadingUser');
-          this.loadingService.resolve('loadingUser');
-        }
-      );
-    } else {
-      this.service.create(this.entity).subscribe(
-        (response) => {
-          this.loadingService.resolve('loadingUser');
-          this.cancel();
-          this.onSave();
-        },
-        (err) => {
-          this.loadingService.resolve('loadingUser');
-        }
-      );
-    }
-  }
   onDelete() {
     this.appStore.dispatch(new fromStore.LoadInitState());
-  }
-
-  status(entity) {
-    this.service.userState(entity.id);
-    // entity.enabled = !entity.enabled;
   }
 }

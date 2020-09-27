@@ -11,11 +11,12 @@ import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { routerTransition } from 'src/app/router.animations';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
-import { City, cities } from './city';
+import { City } from './city';
 import { TdLoadingService } from '@covalent/core/loading';
 import { Subject } from 'rxjs';
 import { CanComponentDeactivate } from 'src/app/shared/guard/can-deactivate-guard.service';
 import { TdDialogService } from '@covalent/core/dialogs';
+import { OrganizationService } from 'src/app/shared/services/organization.service';
 
 @Component({
   selector: 'app-signup-partner',
@@ -30,7 +31,10 @@ export class SignupPartnerComponent implements OnInit, CanComponentDeactivate {
   dropdownList: Service[] = [];
   selectedItems = [];
   dropdownSettings: IDropdownSettings = {};
-  cities: City[] = cities;
+  city: City = {} as City;
+  cities: City[] = new Array();
+  lang: string;
+  formData: FormData = new FormData();
   canDeactivateValue: Subject<boolean> = new Subject<boolean>();
   constructor(
     private router: Router,
@@ -38,6 +42,7 @@ export class SignupPartnerComponent implements OnInit, CanComponentDeactivate {
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
     private userService: UserService,
+    private orgservice: OrganizationService,
     private alertservice: AlertService,
     private appStore: Store<fromStore.AppState>,
     private translate: TranslateService,
@@ -48,6 +53,11 @@ export class SignupPartnerComponent implements OnInit, CanComponentDeactivate {
     this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
       console.log(res);
       this.dropdownList = res;
+    });
+
+    this.http.get('assets/cities.json').subscribe((res: City[]) => {
+      console.log(res);
+      this.cities = res;
     });
     // this.dropdownList = [
     //   'PENDING',
@@ -99,11 +109,22 @@ export class SignupPartnerComponent implements OnInit, CanComponentDeactivate {
 
   ngOnInit(): void {
     this.createForm();
+    this.userService.get('').subscribe((res) => {
+      console.log(res);
+      this.registrationForm.patchValue(res.defaultOrg);
+    });
+    // console.log(this.user);
     // this.registrationForm.get('services').patchValue([]);
+    this.appStore.select(fromStore.getLang).subscribe((lang) => {
+      this.lang = lang;
+    });
   }
 
   createForm() {
     this.registrationForm = this.formBuilder.group({
+      id: [''],
+      created: [''],
+      type: [''],
       name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(80)]],
       // currentPosition: ['', [Validators.required]],
       mobileNo: ['', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
@@ -131,8 +152,12 @@ export class SignupPartnerComponent implements OnInit, CanComponentDeactivate {
       this.loading = false;
       return;
     }
+    const itemBlob = new Blob([JSON.stringify(this.registrationForm.value)], {
+      type: 'application/json',
+    });
+    this.formData.append('org', itemBlob);
 
-    this.userService.updateOrg(this.registrationForm.value).subscribe(
+    this.orgservice.updateOrg(this.formData, this.registrationForm.get('id').value).subscribe(
       (res) => {
         this.registrationForm.markAsPristine();
         this.router.navigateByUrl('/login');
@@ -147,6 +172,7 @@ export class SignupPartnerComponent implements OnInit, CanComponentDeactivate {
       }
     );
   }
+
   canDeactivate() {
     if (this.registrationForm.dirty) {
       this._dialogService

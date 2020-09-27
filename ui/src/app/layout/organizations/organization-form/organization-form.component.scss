@@ -1,0 +1,36 @@
+section{
+border: 2px solid #e9ecef;
+    margin: 2px;
+    border-radius: 6px;
+}
+.form-header{
+background-color:#e9ecef ;
+padding: 10px;
+width: 100%;
+margin: auto;
+}
+.form-row{
+  padding: 0 10px;
+  width: 100%;
+  margin: auto;
+}
+.row-files{
+    border-bottom: 5px solid #e9ecef;
+    margin-bottom: 10px;
+}
+
+:host {
+    padding: 20px;
+}
+
+input,
+mat-form-field,
+mat-select {
+    width: 100%;
+}
+
+mat-card-actions {
+    margin-top: 20px;
+    display: block;
+}
+

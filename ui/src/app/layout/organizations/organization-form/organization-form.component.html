@@ -1,0 +1,22 @@
+<div [@routerTransition]>
+  <div class="">
+    <app-page-header [breadCrumbs]="breadcrumbs">
+    </app-page-header>
+
+    <mat-tab-group>
+      <mat-tab label="{{'orgInfo' |translate}}">
+
+        <div *ngIf="org">
+          <app-organization-info [org]="org || entity">
+          </app-organization-info>
+        </div>
+      </mat-tab>
+      <mat-tab label="{{'owner' |translate}}">
+        <div *ngIf="org">
+          <app-user-info [user]="org?.owner || entity?.owner"></app-user-info>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+
+  </div>
+</div>

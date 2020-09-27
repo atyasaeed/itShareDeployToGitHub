@@ -48,11 +48,9 @@
             <div class="form-group col-lg-6 mb-3">
               <!-- <label> {{ 'Faculty' | translate }}</label> -->
               <select class="form-control input-underline input-lg" formControlName="city" #city>
-                <option value="" disabled>{{ 'governorate' | translate }}</option>
-                <option *ngFor="let city of cities" [ngValue]="city.name" style="color:#222;">
-                  {{city.name}}
-                </option>
-                <!-- <option *ngFor="let unit of service.units">{{unit}}</option> -->
+                <option value="" disabled>{{'nationality'|translate}}</option>
+                <option *ngFor="let city of cities" [value]='city?.id'><span *ngIf="lang=='en'">{{city?.enName}}</span>
+                  <span *ngIf="lang!=='en'">{{city?.arName}}</span></option>
               </select>
               <div *ngIf="registrationForm.controls.city.touched && !registrationForm.controls.city.valid"
                 class="text-danger text-center">

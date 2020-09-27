@@ -7,8 +7,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { routerTransition } from 'src/app/router.animations';
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
-// import { ProfileService } from './profile.service';
-import { Observable } from 'rxjs';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import { User } from 'src/app/shared/domain';
 import { UserService } from 'src/app/shared/services/user.service';
@@ -20,7 +18,7 @@ import { UserService } from 'src/app/shared/services/user.service';
 })
 export class ProfileComponent extends DefaultFormComponent<User, UserService> implements OnInit {
   breadcrumbs = [{ heading: 'Update Profile', icon: 'fa-tasks', link: '/profile' }];
-
+  user: User = {} as User;
   constructor(
     formBuilder: FormBuilder,
     loadingService: TdLoadingService,
@@ -33,17 +31,8 @@ export class ProfileComponent extends DefaultFormComponent<User, UserService> im
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
 
-    this.form = this.formBuilder.group({
-      id: [''],
-      username: [{ value: '', disabled: true }, Validators.required],
-      email: [{ value: '', disabled: true }, Validators.required],
-      firstName: [''],
-      lastName: [''],
-      mobileNo: [''],
-    });
-    this.service.getUserProfile().subscribe((res) => {
-      console.log(res);
-      this.form.patchValue(res);
+    this.service.getUserProfile().subscribe((res: User) => {
+      this.user = res;
     });
   }
   onCreate(): void {

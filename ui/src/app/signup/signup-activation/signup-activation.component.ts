@@ -94,15 +94,15 @@ export class SignupActivationComponent implements OnInit {
       this.userService.activate(formData).subscribe(
         (res: User) => {
           console.log(res);
-
+          // this.user = res;
           if (res.status == true) {
-            if (res.roles.includes('ROLE_REGISTER_PRIVILEGE')) {
-              this.user.roles = new Array();
-              this.user.roles.concat('ROLE_REGISTER_PRIVILEGE');
+            // res.defaultOrg = {} as Organization;
+            if (this.user?.defaultOrg?.type == 'PARTNER' || res?.defaultOrg?.type == 'PARTNER') {
               this.appStore.dispatch(new fromStore.UpdateAuthUser(this.user));
               this.router.navigate(['signup/partner'], {
                 state: this.user,
               });
+              console.log(res);
               this.loadingService.resolve('loading');
             } else {
               this.router.navigateByUrl('/login');

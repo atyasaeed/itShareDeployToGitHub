@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { UsersRoutingModule } from './users-routing.module';
 import { UsersComponent } from './users.component';
-
+import { MatTabsModule } from '@angular/material/tabs';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from 'src/app/shared/modules/shared/shared.module';
 import { TranslateModule } from '@ngx-translate/core';
@@ -22,6 +22,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { LinkableModule } from '../linkable/linkable.module';
+import { OrganizationInfoModule } from 'src/app/shared/modules/organization-info/organization-info.module';
+import { UserInfoModule } from 'src/app/shared/modules/user-info/user-info.module';
 
 @NgModule({
   declarations: [UsersComponent, UserFormComponent],
@@ -29,13 +31,11 @@ import { LinkableModule } from '../linkable/linkable.module';
     CommonModule,
     UsersRoutingModule,
     LinkableModule,
-    //NgbModule,
-    //FormsModule,
-    //SharedModule,
-    //ReactiveFormsModule,
+    OrganizationInfoModule,
+    UserInfoModule,
+    MatTabsModule,
     TranslateModule,
     NgbModule,
-    //FormsModule,
     SharedModule,
     PageHeaderModule,
     MatCardModule,
