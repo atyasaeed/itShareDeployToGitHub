@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
   user = {} as User;
   loading: boolean;
+  fieldTextType: boolean;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -99,7 +100,9 @@ export class LoginComponent implements OnInit {
   hasError(controlName: string) {
     return this.loginForm.get(controlName).touched && this.loginForm.get(controlName).invalid;
   }
-
+  toggleFieldTextType() {
+    this.fieldTextType = !this.fieldTextType;
+  }
   validateAllFormFields(formGroup: FormGroup) {
     //{1}
     Object.keys(formGroup.controls).forEach((field) => {
