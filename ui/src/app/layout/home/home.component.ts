@@ -1,7 +1,5 @@
 import { Component, OnInit, ViewChildren, QueryList, Inject } from '@angular/core';
 import { routerTransition } from 'src/app/router.animations';
-
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { TdLoadingService } from '@covalent/core/loading';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
@@ -16,7 +14,6 @@ import { Service } from 'src/app/shared/domain';
   animations: [routerTransition()],
 })
 export class HomeComponent implements OnInit {
-  //public sliders: Array<any> = [];
   services: Service[];
   constructor(
     private http: HttpClient,
@@ -24,9 +21,6 @@ export class HomeComponent implements OnInit {
     loadingService: TdLoadingService,
     private appStore: Store<fromStore.AppState>
   ) {
-    // this.http.get(this.appConfig.SLIDER_URL).subscribe((res) => {
-    //   this.sliders = res as any;
-    // });
     this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
       this.services = res;
     });

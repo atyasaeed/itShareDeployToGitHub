@@ -1,14 +1,14 @@
 <div [@routerTransition]>
   <div *noAuth >
     <div class="container-fluid ">
-      <div class="row py-5 white-background landing-page-section">
+      <div class="row py-5 px-3 white-background landing-page-section">
         <div class="col-md-6 my-auto">
           <h3 class="f-weight-700 f-size-30 site-color-v2">{{'landingPageTitle'|translate}}</h3>
           <p class="text-grey mt-4">
             {{'landingPageText'|translate}}
           </p>
           <div class="mt-4 mb-4 mb-md-0">
-            <a class="btn v1 mr-3 f-weight-600">{{'getQuotation'|translate}}</a>
+            <a [routerLink]='["/signup"]' class="btn v1 mr-3 f-weight-600">{{'getQuotation'|translate}}</a>
           </div>
         </div>
         <div class="col-md-6 my-auto">
@@ -36,7 +36,7 @@
                     <img [src]="appConfig.serviceImage(service)" class="height-fluid" alt="">
                   </div>
                   <p class="mb-0 mt-2 f-weight-600 f-size-18">{{service.name}}</p>
-                  <a class="btn v1 mt-2 f-weight-600">{{'placeOrder'|translate}}</a>
+                  <a [routerLink]='["/shopping-cart/CartItem"]' class="btn v1 mt-2 f-weight-600">{{'placeOrder'|translate}}</a>
                 </div>
               </div>
             </div>
@@ -58,7 +58,7 @@
           </p>
         </div>
         <div class="col-md-12 mt-2 text-center">
-          <a class="btn v1 f-weight-600">{{'applyAsPartner'|translate}}</a>
+          <a [routerLink]='["/signup"]' [queryParams]="{'partner': 'true'}" class="btn v1 f-weight-600">{{'applyAsPartner'|translate}}</a>
         </div>
 
       </div>
@@ -77,11 +77,12 @@
             </div>
           </div>
         </div>
-        <div class="col-md-12 mt-4">
-          <div class="custom-card px-5 py-4">
-            <h6 class="f-size-20 f-weight-600 site-color-v3 ">{{'summary'|translate}}</h6>
-            <p class="text-grey f-size-14">{{'summaryDescription'|translate}}</p>
-            <a class="btn v1 f-weight-600 ">{{'placeOrder'|translate}}</a>
+        <div class="col-md-3"></div>
+        <div class="col-md-6 mt-4">
+          <div class="custom-card px-5 py-4 text-center">
+            <h6 class="f-size-20 f-weight-600 site-color-v3 text-center">{{'summary'|translate}}</h6>
+            <p class="text-grey f-size-14 text-center">{{'summaryDescription'|translate}}</p>
+            <a [routerLink]='["/shopping-cart/CartItem"]' class="btn v1 f-weight-600 ">{{'placeOrder'|translate}}</a>
           </div>
         </div>
         <div class="col-md-12 mt-3 f-weight-600">
@@ -95,7 +96,7 @@
               </div>
               <div class="service-content f-weight-600">
                 <p class="mb-0 f-size-18 site-color-v3 ">{{service.name | slice:0:11}}</p>
-                <a >
+                <a [routerLink]='["/shopping-cart/CartItem"]'>
                   <span class="mr-2 site-color-v1">{{'placeOrder'|translate}}</span>
                   <img *englishLang src="assets/images/right-arrow.png" alt="">
                   <img *arabicLang src="assets/images/left-arrow.png" alt="">
@@ -107,53 +108,4 @@
       </div>
     </div>
   </div>
-  <!-- <h2 class="text-muted" class="form-rtl" style="padding: 0 5px;">{{ 'Brand' | translate }}
-    <small>{{'brand.topRatedServices'|translate}}</small></h2>
-  <div class="row" style="margin-left: -8px; margin-right:-8px;">
-    <div class="col-md-12">
-      <carousel>
-        <slide ngbSlide *ngFor="let slider of sliders">
-          <img class="img-fluid mx-auto d-block" [src]="slider.imagePath" alt="Random first slide" width="100%">
-          <div class="carousel-caption">
-            <h3>{{slider.label}}</h3>
-            <p>{{slider.text}}</p>
-          </div>
-        </slide>
-      </carousel>
-    </div>
-  </div>
-  <hr> -->
-  <!-- <form class="event-color">
-        <div class="form-group form-inline">
-            Full text search: <input class="form-control ml-2" type="text" name="searchTerm" [(ngModel)]="searchTerm" />
-            <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
-        </div>
-        <div class="row upcoming-events">
-
-            <div class="col-md-4" *ngFor="let entity of entities$ | async; let i=index">
-                <app-service-card [entity]="entity"></app-service-card>
-
-            </div>
-        </div>
-    </form> -->
-  <!-- <div class="row" style="margin-right: -8px; margin-left: -8px;">
-    <div class="col-sm-6 mt-3">
-      <div class="card">
-        <div class="card-body home-rtl">
-          <h5 class="card-title">{{'service'|translate}}</h5>
-          <p class="card-text">{{'service.title'|translate}}</p>
-          <a [routerLink]='["/shopping-cart/CartItem"]' class="btn btn-primary">{{'service.add'|translate}}</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6 mt-3">
-      <div class="card">
-        <div class="card-body home-rtl">
-          <h5 class="card-title">{{'gallery'|translate}}</h5>
-          <p class="card-text">{{'gallery.choose'|translate}} </p>
-          <a [routerLink]='["/gallery"]' class="btn btn-primary">{{'gallery'|translate}}</a>
-        </div>
-      </div>
-    </div>
-  </div> -->
 </div>
