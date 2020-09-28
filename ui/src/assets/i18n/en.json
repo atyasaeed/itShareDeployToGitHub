@@ -303,5 +303,18 @@
   "uploaded": "Uploaded",
   "taxCard": "taxCard",
   "ownerNationalIDFront": "owner National ID Front",
-  "ownerNationalIDBack": "owner National ID Back"
+  "ownerNationalIDBack": "owner National ID Back",
+  "landingPageText":"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum.",
+  "landingPageTitle":"Streamline Your Business as a Manufacturing Partner Streamline Your Business",
+  "serviceDescription":"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point",
+  "placeOrder":"Place Order",
+  "becomePartner":"Become A ManuFacturing Partner",
+  "becomePartnerDescription":"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point",
+  "applyAsPartner":"Apply As Partner",
+  "getQuotation":"Get Quotation",
+  "signUpNow":"Sign Up Now",
+  "welcomeTitle":"Welcome to Fabri Hub",
+  "welcomeDescription":"Find all you need in one place. shop and enjoy!",
+  "summaryDescription":"You can create new service and add it to your cart.",
+  "fabrihubServices":"Fabri Hub Services"
 }

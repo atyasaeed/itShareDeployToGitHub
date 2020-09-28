@@ -16,4 +16,61 @@ h2.main-heading {
     color: white;
 }
 
-////////@extend
+
+.landing-page-section{
+  min-height: calc( 100vh - 56px );
+}
+
+.service{
+  border: 1px solid #E2E2E2;
+  border-radius: 10px;
+  background: white;
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  transition: all 0.5s ease-in-out;
+  .service-img{
+    height: 90px;
+  }
+  a{
+    display: none;
+  }
+}
+
+.service:hover{
+  box-shadow:0px 6px 10px #0000001A;
+  a{
+    display: block;
+  }
+}
+
+.welcome-section{
+  height: 200px;
+  background-image: url(../../../assets/images/welcome-img.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  color: white;
+}
+
+.service-v2{
+  display: flex;
+  align-items: center;
+  .service-img{
+    flex: 1;
+  }
+  .service-content{
+    flex: 2;
+  }
+  a{
+    cursor: pointer;
+    transition: all 0.5s ease-in-out;
+  }
+
+}
