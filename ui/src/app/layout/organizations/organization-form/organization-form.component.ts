@@ -45,11 +45,13 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
     private appStore: Store<fromStore.AppState>
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
-
     if (this.router.getCurrentNavigation()?.extras.state) {
       Object.assign(this.org, this.router.getCurrentNavigation().extras.state);
+    } else {
+      super.ngOnInit();
     }
   }
+  ngOnInit() {}
   onCreate(): void {}
   onUpdate(): void {}
   cancel(): void {

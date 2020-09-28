@@ -36,7 +36,6 @@
   "email.error.required": "يجب ادخال البريد الأ لكترونى",
   "email.incorrect": "البريد الألكترونى غير صحيح",
   "reset": "إعادة تعيين",
-  "resetPassword": "من فضلك ادخل كلمة المرور الجديدة",
   "badCredential": "الأسم الذى ادخلته أو كلمة المرور غير صحيح",
   "userName": "اسم المستخدم",
   "userName.error.required": "يجب ادخال اسم المستخدم",
@@ -45,7 +44,6 @@
   "logIn": "تسجيل الدخول",
   "logIn.success": "مرحبا بك",
   "login.required": "يجب تسجيل الدخول اولا",
-  "changePassword": "تغيير كلمة المرور",
   "changePassword.error": "نأسف , انت لاتستطيع تغيير كلمة المرور ",
   "changePassword.success": "تم تغيير كلمة المرور بنجاح",
   "newPassword": "كلمة المرور الجديدة",
@@ -320,5 +318,13 @@
   "enterCompanyWebsite": "أدخل موقع الشركة",
   "activation": "رمز التأكيد",
   "enterVerificationCode": "أدخل رمز التحقق",
-  "don'tHaveCode": "ليس لديك كود؟"
+  "don'tHaveCode": "ليس لديك كود؟",
+  "desForgetPass": "الرجاء إدخال عنوان بريدك الإلكتروني أدناه وسنرسل لك معلومات لتغيير كلمة المرور الخاصة بك",
+  "brand.forgetPassword": "هل نسيت كلمة المرور",
+  "enterNewPassword": "أدخل كلمة مرور جديدة",
+  "desResetPassword": "الرجاء إدخال كلمة المرور الجديدة وتأكيدها",
+  "brand.resetPassword": "إعادة تعيين كلمة المرور",
+  "brand.changePassword": "تغيير كلمة المرور",
+  "deschangePassword": "قم بتعيين كلمة مرور جديدة لحسابك",
+  "enterOldPassword": "أدخل كلمة المرور القديمة"
 }
