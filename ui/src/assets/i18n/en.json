@@ -316,5 +316,13 @@
   "welcomeTitle":"Welcome to Fabri Hub",
   "welcomeDescription":"Find all you need in one place. shop and enjoy!",
   "summaryDescription":"You can create new service and add it to your cart.",
-  "fabrihubServices":"Fabri Hub Services"
+  "fabrihubServices":"Fabri Hub Services",
+  "footerDescription":"It is a long established fact that a reader will be distracted by the readable.",
+  "quickLinks":"Quick Links",
+  "customerLogin":"Customer Login",
+  "partnerLogin":"Partner Login",
+  "requestQuote":"Request Quote",
+  "getInTouch":"Get In Touch",
+  "footerAddress":"New Cairo, Egypt",
+  "footerCopyRight":"© 2020 Fabri Hub. All rights reserved."
 }

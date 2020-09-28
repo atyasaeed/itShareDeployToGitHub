@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { Router, RouteConfigLoadStart, RouteConfigLoadEnd } from '@angular/router';
 
 @Component({
@@ -9,15 +9,20 @@ import { Router, RouteConfigLoadStart, RouteConfigLoadEnd } from '@angular/route
 export class LayoutComponent implements OnInit {
   collapsedSideBar: boolean;
   loadingRouteConfig: boolean;
-  constructor(private router: Router) {}
+  @ViewChild('header') header: ElementRef;
+  @ViewChild('footer') footer: ElementRef;
+  layoutComponentsMinHeight: number;
+  constructor(private router: Router, private cdr: ChangeDetectorRef) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ngAfterViewInit() {
+    this.calcMinHeight();
     this.router.events.subscribe((event) => {
+      this.calcMinHeight();
       if (event instanceof RouteConfigLoadStart) {
-        //console.log('start');
         this.loadingRouteConfig = true;
       } else if (event instanceof RouteConfigLoadEnd) {
-        //console.log('end');
         this.loadingRouteConfig = false;
       }
     });
@@ -25,5 +30,17 @@ export class LayoutComponent implements OnInit {
 
   receiveCollapsed($event) {
     this.collapsedSideBar = $event;
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.calcMinHeight();
+  }
+
+  calcMinHeight() {
+    this.layoutComponentsMinHeight =
+      this.header.nativeElement.getBoundingClientRect().height +
+      this.footer.nativeElement.getBoundingClientRect().height;
+    this.cdr.detectChanges();
   }
 }

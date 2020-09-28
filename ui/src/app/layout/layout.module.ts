@@ -10,9 +10,10 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import { CovalentLoadingModule } from '@covalent/core/loading';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
-  declarations: [LayoutComponent, HeaderComponent, SidebarComponent],
+  declarations: [LayoutComponent, HeaderComponent, SidebarComponent, FooterComponent],
   imports: [
     CommonModule,
     LayoutRoutingModule,

@@ -1,0 +1,42 @@
+<footer>
+  <div class="container-fluid">
+    <div class="row py-5 px-3">
+      <div class="col-md-4">
+        <div class="logo-section">
+          <img src="assets/images/logo-v2.png" alt="" class="height-fluid">
+        </div>
+        <div class="mt-3 f-size-18">
+          {{'footerDescription'|translate}}
+        </div>
+        <div class="mt-3 f-weight-700 f-size-30">
+          <a class="mr-4"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+          <a class="mr-4"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+          <a class="mr-4"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+          <a ><i class="fa fa-twitter" aria-hidden="true"></i></a>
+        </div>
+      </div>
+      <div class="col-md-4 mt-5 mt-md-0  f-weight-600">
+        <h6 class="site-color-v1 ">{{'quickLinks'|translate}}</h6>
+        <div class="mt-4"><a [routerLink]='["/login"]' class="f-size-18">{{'customerLogin'|translate}}</a></div>
+        <div class="mt-3"><a [routerLink]='["/login"]' class="f-size-18">{{'partnerLogin'|translate}}</a></div>
+        <div class="mt-3"><a [routerLink]='["/shopping-cart/CartItem"]' class="f-size-18">{{'requestQuote'|translate}}</a></div>
+      </div>
+      <div class="col-md-4 f-weight-600 mt-5 mt-md-0">
+        <h6 class="site-color-v1 ">{{'getInTouch'|translate}}</h6>
+
+        <div class="row f-size-18">
+          <div class="col-2 f-size-30 site-color-v1"><i class="fa fa-envelope" aria-hidden="true"></i></div>
+          <div class="col-10 my-auto">contact@ihub.com</div>
+          <div class="col-2 f-size-30 site-color-v1"><i class="fa fa-phone" aria-hidden="true"></i></div>
+          <div class="col-10 my-auto">+20 104 120 2225</div>
+          <div class="col-2 f-size-30 site-color-v1"><i class="fa fa-map-marker" aria-hidden="true"></i></div>
+          <div class="col-10 my-auto">{{'footerAddress'|translate}}</div>
+        </div>
+
+      </div>
+      <div class="col-md-12 f-size-18 f-weight-600 text-center mt-4">
+        {{'footerCopyRight'|translate}}
+      </div>
+    </div>
+  </div>
+</footer>
