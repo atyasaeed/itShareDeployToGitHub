@@ -19,6 +19,9 @@ import { TdLoadingService } from '@covalent/core/loading';
 })
 export class ChangePasswordComponent implements OnInit {
   username: string;
+  fieldTextTypePass: boolean;
+  fieldTextTypeConfPass: boolean;
+  fieldTextTypeOldPass: boolean;
   constructor(
     private service: UserService,
     private alertService: AlertService,
@@ -64,6 +67,15 @@ export class ChangePasswordComponent implements OnInit {
         }
       );
     }
+  }
+  toggleFieldTextTypePass() {
+    this.fieldTextTypePass = !this.fieldTextTypePass;
+  }
+  toggleFieldTextTypeConfPass() {
+    this.fieldTextTypeConfPass = !this.fieldTextTypeConfPass;
+  }
+  toggleFieldTextTypeOldPass() {
+    this.fieldTextTypeOldPass = !this.fieldTextTypeOldPass;
   }
 
   validateAllFormFields(formGroup: FormGroup) {

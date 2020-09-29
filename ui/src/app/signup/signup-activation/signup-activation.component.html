@@ -1,57 +1,58 @@
 <div class="login-page" [@routerTransition]>
 
-  <div class="row justify-content-md-center" *tdLoading="'loading';strategy:'overlay'">
-    <div class="col-md-12">
-      <div [routerLink]="'/'" role="button" class="cursor-pointer text-center">
-        <img class="user-avatar" src="assets/images/logo.png" width="150px" />
-        <h1 class="text-center">{{'registration.title'|translate}}</h1>
+  <div class="mt-5" *tdLoading="'loading';strategy:'overlay'">
+    <div class="container row justify-content-center m-auto">
+      <div [routerLink]="'/'" role="button" class="cursor-pointer col-12 text-center">
+        <img src="assets\images\Fabri Hub_Logo@2x.png" class="img-fluid" />
+        <!-- <h1 class="text-center">{{'registration.title'|translate}}</h1> -->
       </div>
-      <form role="form" *ngIf="form && loading" [formGroup]="form" (ngSubmit)="onSubmit()" class="container">
-        <div class="form-content">
+      <form role="form" *ngIf="form && loading" [formGroup]="form" (ngSubmit)="onSubmit()" class="col-6 mt-3">
+        <div class="row m-auto justify-content-center">
+          <h4 class="text-center col-10 font-weight-bolder mt-3 mb-5 brand">{{'verificationCode' | translate}}</h4>
 
-          <section class="form-row" style="justify-content: space-around;">
-            <div class="form-group col-lg-6 mb-3">
-              <input type="text" class="form-control input-underline input-lg" formControlName="activationCode"
-                #activationCode placeholder="{{ 'verificationCode' | translate }}">
-              <div *ngIf="form.controls.activationCode.touched && !form.controls.activationCode.valid"
-                class="text-danger">
-                <div *ngIf="form.controls.activationCode.errors.required">
-                  {{ 'verificationCode.error.required' | translate }}</div>
-                <div
-                  *ngIf="form.controls.activationCode.errors.minlength || form.controls.activationCode.errors.maxlength ">
-                  {{ 'verificationCode.error.length' | translate }}</div>
-              </div>
+          <div class="form-group col-md-10">
+            <label for="first" class="brand font-weight-bold">{{"verificationCode"|translate}}</label>
+            <input type="text" class="form-control" id="first" formControlName="activationCode" #activationCode
+              placeholder="{{ 'enterVerificationCode' | translate }}">
+            <div *ngIf="form.controls.activationCode.touched && !form.controls.activationCode.valid"
+              class="text-danger">
+              <div *ngIf="form.controls.activationCode.errors.required">
+                {{ 'verificationCode.error.required' | translate }}</div>
+              <div
+                *ngIf="form.controls.activationCode.errors.minlength || form.controls.activationCode.errors.maxlength ">
+                {{ 'verificationCode.error.length' | translate }}</div>
             </div>
-          </section>
+          </div>
+          <div class="form-group col-md-10">
+            <button class="btn rounded-btn text-light w-100" [disabled]="!loading"
+              type="submit">{{ 'verify' | translate }}</button>
+          </div>
+          <div class="form-group col-md-10 text-center">
+            <span class="h6">{{"don'tHaveCode"|translate}}</span>
+            <a class="h6 main-color font-weight-bold cursor-pointer" *ngIf="loading" (click)="loading=false">
+              {{ 'resend' | translate }}
+            </a>
+          </div>
         </div>
-        <!-- <div [class.d-block]="!loading" class="d-none">
-          <div class="g-recaptcha" data-sitekey="6LfVQLsZAAAAAFubvZI85UgFbMcUyq57H_wVjKQk"
-            data-callback="successCaptcha"></div>
-        </div> -->
 
-        <!-- <re-captcha formControlName="recaptchaReactive"></re-captcha> -->
-
-        <div class="text-center mb-5">
-          <input type="submit" class="btn rounded-btn" value="{{'verify' |translate}}">&nbsp;
-          <!-- <a class="btn rounded-btn" [routerLink]="['/dashboard']">{{ 'Register' | translate }}</a>&nbsp; -->
-          <a class="btn text-primary" *ngIf="loading" (click)="loading=false">{{'resend' |translate}}</a>
-        </div>
 
       </form>
-      <div class="mt-3 d-flex justify-content-center">
-        <div [class.d-block]="!loading" class="d-none">
-          <div class="g-recaptcha" data-sitekey="6LfVQLsZAAAAAFubvZI85UgFbMcUyq57H_wVjKQk"
-            data-callback="successCaptcha"></div>
-        </div>
+      <div class="col-6 mt-3" [class.d-block]="!loading" class="d-none">
+        <div class="mt-3 d-flex justify-content-center">
+          <div [class.d-block]="!loading" class="d-none">
+            <div class="g-recaptcha" data-sitekey="6LfVQLsZAAAAAFubvZI85UgFbMcUyq57H_wVjKQk"
+              data-callback="successCaptcha"></div>
+          </div>
 
 
-        <!-- <re-captcha *ngIf="!loading" [formControl]="recaptchaReactive" lang="en" (resolved)="resolved($event)">
+          <!-- <re-captcha *ngIf="!loading" [formControl]="recaptchaReactive" lang="en" (resolved)="resolved($event)">
         </re-captcha> -->
-      </div>
-      <div *ngIf="!loading" class="text-center mb-5">
-        <button type="button" class="btn rounded-btn mt-3" id="captchaSubmit" (click)="resendCode()"
-          [disabled]="emptyCaptcha">{{'resend' |translate}}</button>
+        </div>
+        <div *ngIf="!loading" class="text-center mb-5 mt-3">
+          <button type="button" class="btn rounded-btn text-light w-100" id="captchaSubmit" (click)="resendCode()"
+            [disabled]="emptyCaptcha">{{'resend' |translate}}</button>
 
+        </div>
       </div>
 
     </div>

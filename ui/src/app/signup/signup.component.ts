@@ -40,6 +40,8 @@ export class SignupComponent implements OnInit, CanComponentDeactivate {
   loading = false;
   emptyCaptcha = true;
   canDeactivateValue: Subject<boolean> = new Subject<boolean>();
+  fieldTextTypePass: boolean;
+  fieldTextTypeConfPass: boolean;
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -162,6 +164,13 @@ export class SignupComponent implements OnInit, CanComponentDeactivate {
         }
       }
     );
+  }
+
+  toggleFieldTextTypePass() {
+    this.fieldTextTypePass = !this.fieldTextTypePass;
+  }
+  toggleFieldTextTypeConfPass() {
+    this.fieldTextTypeConfPass = !this.fieldTextTypeConfPass;
   }
   canDeactivate() {
     if (this.registrationForm.dirty) {

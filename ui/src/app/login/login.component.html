@@ -1,37 +1,67 @@
 <div class="login-page" [@routerTransition]>
 
-  <div class="row justify-content-md-center" *tdLoading="'loading';strategy:'overlay'">
+  <div *tdLoading="'loading';strategy:'overlay'" class="mt-5">
 
-    <div class="col-md-4">
-      <div [routerLink]="'/'" class="cursor-pointer text-center">
-        <img src="assets/images/logo.png" width="150px" class="user-avatar" />
-        <h1 class="text-center">{{'brand.login' | translate}}</h1>
+    <div class="container row justify-content-center m-auto">
+
+      <div [routerLink]="'/'" class="cursor-pointer col-12 text-center">
+        <img src="assets\images\Fabri Hub_Logo@2x.png" class="img-fluid" />
       </div>
-      <form role=" form " [formGroup]="loginForm" (ngSubmit)="onLoggedin()">
+      <form role="form" [formGroup]="loginForm" class="col-6 mt-3" (ngSubmit)="onLoggedin()">
         <!-- <mat-spinner *ngIf="loading" class="m-auto"></mat-spinner> -->
 
-        <div class="form-content ">
-          <div class="form-group ">
+        <div class="row m-auto justify-content-center">
+          <h4 class="text-center col-10 font-weight-bolder mt-3 mb-5 brand">{{'brand.login' | translate}}</h4>
+
+
+          <div class="form-group col-md-10">
+            <label for="first" class="brand font-weight-bold">{{"email"|translate}}</label>
+            <input type="text" placeholder="{{ 'enterEmail' | translate }} " formControlName="username"
+              class="form-control" id="first">
+            <div class="text-danger" *ngIf="hasError('username')">{{'email.error.invalid'|translate}}</div>
           </div>
 
-          <div class="form-group ">
-            <input type="text " class="form-control input-underline input-lg "
-              placeholder="{{ 'userName' | translate }} " formControlName="username">
-            <div class="text-danger" *ngIf="hasError('username')">{{'userName.error.invalid'|translate}}</div>
+          <!--  col-md-6   -->
 
-          </div>
+          <div class="form-group col-md-10">
+            <div class="d-flex justify-content-between">
+              <label for="last" class="brand font-weight-bold">{{'password'|translate}}</label>
+              <a class="brand" routerLink="/forget-password">{{'forgetPassword'|translate}}</a>
+            </div>
 
-          <div class="form-group ">
-            <input type="password" class="form-control input-underline input-lg"
-              placeholder="{{ 'password' | translate }} " formControlName="password">
+            <div class="input-group">
+
+              <input [type]="fieldTextType ? 'text' : 'password'" placeholder="{{ 'enterPassword' | translate }} "
+                formControlName="password" class="form-control border-right-0" placeholder="" id="last"
+                aria-describedby="inputGroupPrepend">
+              <div class="input-group-prepend">
+                <span class="input-group-text border-left-0 bg-transparent rounded-right" id="inputGroupPrepend">
+                  <i class="fa" [ngClass]="{'fa-eye-slash': !fieldTextType,'fa-eye': fieldTextType}"
+                    (click)="toggleFieldTextType()"></i>
+                </span>
+              </div>
+            </div>
             <div class="text-danger" *ngIf="hasError('password')">{{'password.error.invalid'|translate}}</div>
           </div>
+
+
+
+          <!--  col-md-6   -->
+          <div class="form-group col-md-10">
+            <button class="btn rounded-btn text-light w-100" [disabled]="loading"
+              type="submit">{{ 'logIn' | translate }}</button>
+          </div>
+          <div class="form-group col-md-10 text-center">
+            <span class="h6">{{"don'tHaveAnAccount?"|translate}}</span>
+            <a class="h6 main-color font-weight-bold" [routerLink]="[ '/signup'] ">
+              {{ 'signup' | translate }}
+            </a>
+          </div>
         </div>
-        <div class="text-center mb-5">
-          <button class="btn rounded-btn " [disabled]="loading" type="submit">{{ 'logIn' | translate }}</button>
-          &nbsp;
-          <button class="btn text-primary " [routerLink]="[ '/signup'] ">{{ 'Register' | translate }}</button>
-        </div>
+
+
+
+
       </form>
     </div>
   </div>
