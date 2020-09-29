@@ -50,7 +50,7 @@
 
                                   <div class="product-info">
 
-                                    <div class=" quantity">
+                                    <div class=" quantity ">
 
                                       <button (click)="decreaseQuantity(entity, quantity.value)"><i class="fa fa-minus" aria-hidden="true"></i></button>
                                       <input id="quantity" type="number" min="1" [disabled]="loading"
@@ -62,7 +62,7 @@
                                   </div>
                                 </div>
                               </div>
-                              <div class="col-md-4 price text-center text-md-right my-auto">
+                              <div class="col-md-4 price text-right my-auto">
 
                                 <a class="btn btn-outline-success btn-xs" [href]="getFileUrl(entity)"
                                   tooltip="{{'download' | translate}}" hide-delay="0">
