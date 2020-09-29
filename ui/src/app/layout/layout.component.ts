@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouteConfigLoadStart, RouteConfigLoadEnd } from '@angular/router';
+import * as fromStore from 'src/app/store';
+import { Store } from '@ngrx/store';
+import { User } from '../shared/domain';
 
 @Component({
   selector: 'app-layout',
@@ -9,7 +12,8 @@ import { Router, RouteConfigLoadStart, RouteConfigLoadEnd } from '@angular/route
 export class LayoutComponent implements OnInit {
   collapsedSideBar: boolean;
   loadingRouteConfig: boolean;
-  constructor(private router: Router) {}
+  user: User;
+  constructor(private router: Router, private appStore: Store<fromStore.AppState>) {}
 
   ngOnInit() {
     this.router.events.subscribe((event) => {
@@ -20,6 +24,10 @@ export class LayoutComponent implements OnInit {
         //console.log('end');
         this.loadingRouteConfig = false;
       }
+    });
+
+    this.appStore.select(fromStore.getAuthUser).subscribe((res) => {
+      this.user = res;
     });
   }
 

@@ -38,8 +38,6 @@ export class HeaderComponent extends DefaultListComponent<ShoppingCartItem, Shop
     this.appStore.dispatch(new fromStore.LoadInitState());
 
     this.appStore.select(fromStore.getShoppingCart).subscribe((res) => {
-      //console.log(res);
-      // this.items$ = Object.assign(res.lineItems);
       this.items$ = res?.lineItems;
 
       //this.quantitiesCount = res?.lineItems.map((item) => item.quantity).reduce((a, b) => a + b, 0);

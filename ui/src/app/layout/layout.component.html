@@ -1,5 +1,5 @@
 <app-header></app-header>
-<app-sidebar (collapsedEvent)="receiveCollapsed($event)"></app-sidebar>
+<app-sidebar (collapsedEvent)="receiveCollapsed($event)" *ngIf="user"></app-sidebar>
 <section class="main-container" [ngClass]="{collapsed: collapsedSideBar,'main-container-rtl':collapsedSideBar}">
   <div *ngIf="loadingRouteConfig" class="lazy-load">
     <div class="loading ">
@@ -12,4 +12,3 @@
   </div>
   <router-outlet></router-outlet>
 </section>
-
