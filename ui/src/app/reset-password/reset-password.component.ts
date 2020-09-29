@@ -18,6 +18,8 @@ import { TdLoadingService } from '@covalent/core/loading';
 export class ResetPasswordComponent implements OnInit {
   loading = false;
   restPasswordForm: FormGroup;
+  fieldTextTypePass: boolean;
+  fieldTextTypeConfPass: boolean;
   constructor(
     private service: UserService,
     private formBuilder: FormBuilder,
@@ -57,6 +59,12 @@ export class ResetPasswordComponent implements OnInit {
         }
       );
     }
+  }
+  toggleFieldTextTypePass() {
+    this.fieldTextTypePass = !this.fieldTextTypePass;
+  }
+  toggleFieldTextTypeConfPass() {
+    this.fieldTextTypeConfPass = !this.fieldTextTypeConfPass;
   }
 
   validateAllFormFields(formGroup: FormGroup) {

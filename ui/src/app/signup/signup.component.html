@@ -1,137 +1,159 @@
 <div class="login-page" [@routerTransition]>
-  <div class="row justify-content-md-center" *tdLoading="'loading';strategy:'overlay'">
-    <div class="col-md-12">
-      <div [routerLink]="'/'" role="button" class="cursor-pointer text-center">
-        <img class="user-avatar" src="assets/images/logo.png" width="150px" />
-        <h1 class="text-center" *ngIf="!partner">{{'brand.registration'|translate}}</h1>
-        <h1 class="text-center" *ngIf="partner">{{'partner.registration'|translate}}</h1>
+  <div *tdLoading="'loading';strategy:'overlay'" class="mt-5">
+    <div class="container row justify-content-center m-auto">
+
+      <div [routerLink]="'/'" class="cursor-pointer col-12 text-center">
+        <img src="assets\images\Fabri Hub_Logo@2x.png" class="img-fluid" />
       </div>
       <form role="form" *ngIf="registrationForm" [formGroup]="registrationForm" (ngSubmit)="onSubmit()"
-        class="container">
-        <div class="form-content">
+        class="col-md-6 mt-3">
+
+        <div class="row m-auto justify-content-center">
+          <h4 class="text-center col-md-10 font-weight-bolder mt-3 mb-5 brand">
+            {{'brand.registration'|translate}}</h4>
 
 
-          <section class="form-row" style="justify-content: space-around;">
-            <div class="form-group col-lg-6 mb-3">
-              <input type="text" formControlName="firstName" class="form-control input-underline input-lg"
-                placeholder="{{'firstName' | translate }}" #firstName>
-              <div *ngIf="registrationForm.controls.firstName.touched && !registrationForm.controls.firstName.valid"
-                class="text-danger">
-                <div *ngIf="registrationForm.controls.firstName.errors.required">
-                  {{ 'firstName.error.required' | translate }}
-                </div>
-                <div *ngIf="registrationForm.controls.firstName.errors.minlength">
-                  {{ 'firstName.error.minlength' | translate }}
-                </div>
-                <div *ngIf="registrationForm.controls.firstName.errors.maxlength">
-                  {{ 'firstName.error.maxlength' | translate }}
-                </div>
-              </div>
-            </div>
+          <div class="form-group col-md-10 ">
 
-
-          </section>
-          <section class="form-row" style="justify-content: space-around;">
-            <div class="form-group col-lg-6 mb-3">
-              <input type="text" formControlName="lastName" class="form-control input-underline input-lg"
-                placeholder="{{'lastName' | translate }}" #lastName>
-              <div *ngIf="registrationForm.controls.lastName.touched && !registrationForm.controls.lastName.valid"
-                class="text-danger">
-                <div *ngIf="registrationForm.controls.lastName.errors.required">
-                  {{ 'lastName.error.required' | translate }}</div>
-                <div *ngIf="registrationForm.controls.lastName.errors.minlength">
-                  {{ 'firstName.error.minlength' | translate }}
-                </div>
-                <div *ngIf="registrationForm.controls.lastName.errors.maxlength">
-                  {{ 'firstName.error.maxlength' | translate }}
+            <section class="row">
+              <div class="col-md-6"><label for="firstname"
+                  class="brand font-weight-bold">{{"firstName"|translate}}</label>
+                <input type="text" formControlName="firstName" class="form-control" id="firstname"
+                  placeholder="{{'enterFirstName' | translate }}" #firstName>
+                <div *ngIf="registrationForm.controls.firstName.touched && !registrationForm.controls.firstName.valid"
+                  class="text-danger">
+                  <div *ngIf="registrationForm.controls.firstName.errors.required">
+                    {{ 'firstName.error.required' | translate }}
+                  </div>
+                  <div *ngIf="registrationForm.controls.firstName.errors.minlength">
+                    {{ 'firstName.error.minlength' | translate }}
+                  </div>
+                  <div *ngIf="registrationForm.controls.firstName.errors.maxlength">
+                    {{ 'firstName.error.maxlength' | translate }}
+                  </div>
                 </div>
               </div>
-            </div>
-          </section>
-
-
-          <section class="form-row" style="justify-content: space-around;">
-            <div class="form-group col-lg-6 mb-3">
-              <input type="email" class="form-control input-underline input-lg" placeholder="{{ 'email' | translate }}"
-                formControlName="email" #email>
-              <div *ngIf="registrationForm.controls.email.touched && !registrationForm.controls.email.valid"
-                class="text-danger">
-                <div *ngIf="registrationForm.controls.email.errors.required">{{ 'email.error.required' | translate }}
+              <div class="col-md-6">
+                <label for="lastname" class="brand font-weight-bold">{{"lastName"|translate}}</label>
+                <input type="text" formControlName="lastName" class="form-control" id="lastname"
+                  placeholder="{{'enterLastName' | translate }}" #lastName>
+                <div *ngIf="registrationForm.controls.lastName.touched && !registrationForm.controls.lastName.valid"
+                  class="text-danger">
+                  <div *ngIf="registrationForm.controls.lastName.errors.required">
+                    {{ 'lastName.error.required' | translate }}</div>
+                  <div *ngIf="registrationForm.controls.lastName.errors.minlength">
+                    {{ 'firstName.error.minlength' | translate }}
+                  </div>
+                  <div *ngIf="registrationForm.controls.lastName.errors.maxlength">
+                    {{ 'firstName.error.maxlength' | translate }}
+                  </div>
                 </div>
-                <div *ngIf="registrationForm.controls.email.errors.pattern">
-                  {{ 'email.error.invalid' | translate }}</div>
+              </div>
+            </section>
 
-              </div>
-            </div>
 
-          </section>
-          <section class="form-row" style="justify-content: space-around;">
-            <div class="form-group col-lg-6 mb-3">
-              <input type="text" formControlName="mobileNo" class="form-control input-underline input-lg"
-                placeholder="{{'personalPhoneNumber' | translate }}" #mobileNo>
-              <div *ngIf="registrationForm.controls.mobileNo.touched && !registrationForm.controls.mobileNo.valid"
-                class="text-danger">
-                <div *ngIf="registrationForm.controls.mobileNo.errors.required">
-                  {{ 'personalPhoneNumber.error.required' | translate }}</div>
-                <div *ngIf="registrationForm.controls.mobileNo.errors.pattern">
-                  {{ 'personalPhoneNumber.error.invalid' | translate }}</div>
+
+          </div>
+
+
+
+
+
+
+
+
+          <div class="form-group col-md-10">
+            <label for="email" class="brand font-weight-bold">{{"email"|translate}}</label>
+            <input type="email" class="form-control" id="email" placeholder="{{ 'enterEmail' | translate }}"
+              formControlName="email" #email>
+            <div *ngIf="registrationForm.controls.email.touched && !registrationForm.controls.email.valid"
+              class="text-danger">
+              <div *ngIf="registrationForm.controls.email.errors.required">{{ 'email.error.required' | translate }}
               </div>
-            </div>
-          </section>
-          <!-- <section class="form-row" style="justify-content: space-around;">
-            <div class="form-group col-lg-6 mb-3">
-              <input type="text" class="form-control input-underline input-lg"
-                placeholder="{{ 'userName' | translate }}" formControlName="username" #username>
-              <div *ngIf="registrationForm.controls.username.touched && !registrationForm.controls.username.valid"
-                class="text-danger">
-                <div *ngIf="registrationForm.controls.username.errors.required">
-                  {{ 'userName.error.required' | translate }}</div>
-                <div *ngIf="registrationForm.controls.username.errors.minlength">
-                  {{ 'userName.error.length' | translate }}</div>
-              </div>
-            </div>
-          </section> -->
-          <section class="form-row" style="justify-content: space-around;">
-            <div class="form-group col-md-6 mb-3">
-              <input type="password" formControlName="password" class="form-control input-underline input-lg"
-                placeholder="{{ 'password' | translate }}" #password>
-              <div *ngIf="registrationForm.controls.password.touched && !registrationForm.controls.password.valid"
-                class="text-danger">
-                <div *ngIf="registrationForm.controls.password.errors.required">
-                  {{ 'password.error.required' | translate }}</div>
-                <div *ngIf="registrationForm.controls.password.errors.pattern">
-                  {{ 'password.error.pattern' | translate }}</div>
-              </div>
+              <div *ngIf="registrationForm.controls.email.errors.pattern">
+                {{ 'email.error.invalid' | translate }}</div>
 
             </div>
-          </section>
-          <section class="form-row" style="justify-content: space-around;">
-            <div class="form-group col-lg-6 mb-3">
-              <input type="password" formControlName="confirmPassword" class="form-control input-underline input-lg"
-                #confirmPassword appConfirmEqualValidator='password' placeholder="{{ 'confirmPassword' | translate }}">
-              <div
-                *ngIf="registrationForm.controls.confirmPassword.touched && !registrationForm.controls.confirmPassword.valid"
-                class="text-danger">
-                <div *ngIf="registrationForm.controls.confirmPassword.errors.required">
-                  {{ 'confirmPassword.error.required' | translate }}</div>
-                <div *ngIf="registrationForm.controls.confirmPassword.errors?.notEqual">
-                  {{ 'confirmPassword.error.mismatch' | translate }}</div>
+          </div>
+
+
+          <div class="form-group col-md-10">
+            <label for="personalphonenumber" class="brand font-weight-bold">{{"personalPhoneNumber"|translate}}</label>
+
+            <input type="text" formControlName="mobileNo" class="form-control" id="personalphonenumber"
+              placeholder="{{'enterPersonalPhoneNumber' | translate }}" #mobileNo>
+            <div *ngIf="registrationForm.controls.mobileNo.touched && !registrationForm.controls.mobileNo.valid"
+              class="text-danger">
+              <div *ngIf="registrationForm.controls.mobileNo.errors.required">
+                {{ 'personalPhoneNumber.error.required' | translate }}</div>
+              <div *ngIf="registrationForm.controls.mobileNo.errors.pattern">
+                {{ 'personalPhoneNumber.error.invalid' | translate }}</div>
+            </div>
+
+          </div>
+
+          <div class="form-group col-md-10">
+            <label for="password" class="brand font-weight-bold">{{'password'|translate}}</label>
+            <div class="input-group">
+
+              <input [type]="fieldTextTypePass ? 'text' : 'password'" placeholder="{{ 'enterPassword' | translate }} "
+                formControlName="password" class="form-control border-right-0" placeholder="" id="password"
+                aria-describedby="inputGroupPrepend">
+              <div class="input-group-prepend">
+                <span class="input-group-text border-left-0 bg-transparent rounded-right" id="inputGroupPrepend">
+                  <i class="fa" [ngClass]="{'fa-eye-slash': !fieldTextTypePass,'fa-eye': fieldTextTypePass}"
+                    (click)="toggleFieldTextTypePass()"></i>
+                </span>
               </div>
             </div>
-          </section>
-          <!-- <section class="form-row" style="justify-content:space-around ;">
-            <div class="form-group col-lg-6 mb-3 d-flex justify-content-center">
 
-              <div class="g-recaptcha" data-sitekey="6LfVQLsZAAAAAFubvZI85UgFbMcUyq57H_wVjKQk"
-                data-callback="successCaptcha"></div>
+            <div *ngIf="registrationForm.controls.password.touched && !registrationForm.controls.password.valid"
+              class="text-danger">
+              <div *ngIf="registrationForm.controls.password.errors.required">
+                {{ 'password.error.required' | translate }}</div>
+              <div *ngIf="registrationForm.controls.password.errors.pattern">
+                {{ 'password.error.pattern' | translate }}</div>
             </div>
-          </section> -->
+
+
+          </div>
+          <div class="form-group col-md-10">
+            <label for="confirmpassword" class="brand font-weight-bold">{{'confirmPassword'|translate}}</label>
+            <div class="input-group">
+
+              <input [type]="fieldTextTypeConfPass ? 'text' : 'password'"
+                placeholder="{{ 'confirmPassword' | translate }} " formControlName="confirmPassword"
+                class="form-control border-right-0" id="confirmpassword" aria-describedby="inputGroupPrepend"
+                #confirmPassword appConfirmEqualValidator='password'>
+              <div class="input-group-prepend">
+                <span class="input-group-text border-left-0 bg-transparent rounded-right" id="inputGroupPrepend">
+                  <i class="fa" [ngClass]="{'fa-eye-slash': !fieldTextTypeConfPass,'fa-eye': fieldTextTypeConfPass}"
+                    (click)="toggleFieldTextTypeConfPass()"></i>
+                </span>
+              </div>
+            </div>
+            <div
+              *ngIf="registrationForm.controls.confirmPassword.touched && !registrationForm.controls.confirmPassword.valid"
+              class="text-danger">
+              <div *ngIf="registrationForm.controls.confirmPassword.errors.required">
+                {{ 'confirmPassword.error.required' | translate }}</div>
+              <div *ngIf="registrationForm.controls.confirmPassword.errors?.notEqual">
+                {{ 'confirmPassword.error.mismatch' | translate }}</div>
+            </div>
+          </div>
+          <div class="form-group col-md-10">
+            <button class="btn rounded-btn text-light w-100" [disabled]="loading"
+              type="submit">{{ 'signup' | translate }}</button>
+          </div>
+          <div class="form-group col-md-10 text-center">
+            <span class="h6">{{"haveAccount"|translate}}</span>
+            <a class="h6 main-color font-weight-bold" [routerLink]="[ '/login'] ">
+              {{ 'logIn' | translate }}
+            </a>
+          </div>
         </div>
-        <div class="text-center mb-5">
-          <input type="submit" class="btn rounded-btn" value="{{ 'register' | translate }} " [disabled]='loading'>&nbsp;
-          <!-- <a class="btn rounded-btn" [routerLink]="['/dashboard']">{{ 'Register' | translate }}</a>&nbsp; -->
-          <a class="btn text-primary" [routerLink]="['/login']">{{ 'logIn' | translate }}</a>
-        </div>
+
+
 
       </form>
     </div>

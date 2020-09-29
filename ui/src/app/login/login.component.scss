@@ -1,6 +1,7 @@
-$topnav-background-color: #222;
-:host {
-    display: block;
+$topnav-background-color:  #F7F8F9 0% 0% no-repeat padding-box;;
+
+.main-color{
+  color: #63C6C9  ;
 }
 
 .login-page {
@@ -11,82 +12,16 @@ $topnav-background-color: #222;
     bottom: 0;
     overflow: auto;
     background: $topnav-background-color;
-    text-align: center;
-    color: #fff;
-    padding: 3em;
-    .col-lg-4 {
-        padding: 0;
+    form{
+     background: #FFFFFF 0% 0% no-repeat padding-box;
+     box-shadow: 0px 3px 60px #0000001A;
+     border-radius: 20px;
+     opacity: 1;
+
+
     }
-    .input-lg {
-        height: 46px;
-        padding: 10px 16px;
-        font-size: 18px;
-        line-height: 1.3333333;
-        border-radius: 0;
-    }
-    .input-underline {
-        background: 0 0;
-        border: none;
-        box-shadow: none;
-        border-bottom: 2px solid rgba(255, 255, 255, 0.5);
-        color: #fff;
-        border-radius: 0;
-    }
-    .input-underline:focus {
-        border-bottom: 2px solid #fff;
-        box-shadow: none;
-    }
-    .rounded-btn {
-        -webkit-border-radius: 50px;
-        border-radius: 50px;
-        color: rgba(255, 255, 255, 0.8);
-        background: $topnav-background-color;
-        border: 2px solid rgba(255, 255, 255, 0.8);
-        font-size: 18px;
-        line-height: 40px;
-        padding: 0 25px;
-    }
-    .rounded-btn:hover,
-    .rounded-btn:focus,
-    .rounded-btn:active,
-    .rounded-btn:visited {
-        color: rgba(255, 255, 255, 1);
-        border: 2px solid rgba(255, 255, 255, 1);
-        outline: none;
-    }
-    a h1 {
-        font-weight: 300;
-        margin-top: 20px;
-        margin-bottom: 10px;
-        font-size: 36px;
-        small {
-            color: rgba(255, 255, 255, 0.7);
-        }
-    }
-    .form-group {
-        padding: 8px 0;
-        input::-webkit-input-placeholder {
-            color: rgba(255, 255, 255, 0.6) !important;
-        }
-        input:-moz-placeholder {
-            /* Firefox 18- */
-            color: rgba(255, 255, 255, 0.6) !important;
-        }
-        input::-moz-placeholder {
-            /* Firefox 19+ */
-            color: rgba(255, 255, 255, 0.6) !important;
-        }
-        input:-ms-input-placeholder {
-            color: rgba(255, 255, 255, 0.6) !important;
-        }
-    }
-    .form-content {
-        padding: 40px 0;
-    }
-    .user-avatar {
-        -webkit-border-radius: 50%;
-        border-radius: 50%;
-        border: 2px solid #fff;
+    img{
+      width: 150px;
     }
 }
 
@@ -94,23 +29,24 @@ $topnav-background-color: #222;
     cursor: pointer;
 }
 
-
-@keyframes spinner {
-  to {transform: rotate(360deg);}
+::placeholder {
+  font: 21px ;
+letter-spacing: 0px;
+color: #B5B5B5;
+opacity: 1;
 }
 
-.spinner:before {
-  content: '';
-  box-sizing: border-box;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 20px;
-  height: 20px;
-  margin-top: -10px;
-  margin-left: -10px;
-  border-radius: 50%;
-  border: 2px solid #ffffff;
-  border-top-color: #000000;
-  animation: spinner .8s linear infinite;
-}
+    .rounded-btn {
+        background: var(--unnamed-color-63c6c9) 0% 0% no-repeat padding-box;
+        background: #63C6C9 0% 0% no-repeat padding-box;
+        box-shadow: 0px 3px 6px #63C6C933;
+        border-radius: 20px;
+        opacity: 1;
+        width: 100%;
+    }
+     .brand{
+        color: #333333;
+    }
+    .brand:hover{
+      color:#63C6C9 ;
+    }

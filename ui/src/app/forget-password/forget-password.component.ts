@@ -24,7 +24,7 @@ export class ForgetPasswordComponent implements OnInit {
     private loadingService: TdLoadingService
   ) {}
   forgetPasswordForm: FormGroup;
-  emptyCaptcha = true;
+  emptyCaptcha = false;
   loading = true;
 
   ngOnInit() {
