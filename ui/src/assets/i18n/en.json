@@ -227,7 +227,7 @@
   "userName.error.invalid": "Invalid UserName",
   "quotedAt": "Quoted At",
   "expiredAt": "Expired At",
-  "mySpace": "My-Space",
+  "mySpace": "My Space",
   "collapseSidebar": "Collapse-Sidebar",
   "orderDetails": "Order-Details",
   "serviceDetails": "Service-Details",
@@ -351,5 +351,6 @@
   "servicesAreAdded":"Services Are Added",
   "confirmOrder":"Confirm Order",
   "deleteItem":"Delete Item",
-  "deleteDescription":"It is a long established fact that a reader will be distracted by the readable content."
+  "deleteDescription":"It is a long established fact that a reader will be distracted by the readable content.",
+  "actions":"Actions"
 }

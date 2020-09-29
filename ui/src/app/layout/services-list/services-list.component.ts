@@ -6,6 +6,9 @@ import { ServiceService } from 'src/app/shared/services/service.service';
 
 import { routerTransition } from 'src/app/router.animations';
 import { TdLoadingService } from '@covalent/core/loading';
+import * as fromStore from 'src/app/store';
+import { Store } from '@ngrx/store';
+import { getLang } from 'src/app/store';
 
 @Component({
   selector: 'app-services-list',
@@ -17,8 +20,11 @@ export class ServicesListComponent extends DefaultListComponent<Service, Service
   breadcrumbs = [{ heading: 'services', icon: 'fa-tasks' }];
   private _searchTerm = '';
   lang: string;
-  constructor(service: ServiceService, loadingService: TdLoadingService) {
+  constructor(service: ServiceService, loadingService: TdLoadingService, private appStore: Store<fromStore.AppState>) {
     super(service, loadingService);
+    this.appStore.select(getLang).subscribe((res) => {
+      this.lang = res;
+    });
   }
 
   set searchTerm(searchTerm: string) {

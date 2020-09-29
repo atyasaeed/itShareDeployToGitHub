@@ -1,16 +1,19 @@
-<div [@routerTransition]>
-  <app-page-header [heading]="'Programs'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header>
+<div class="p-4" [@routerTransition]>
+  <app-page-header  [breadCrumbs]="breadcrumbs"></app-page-header>
   <form>
     <div class="form-group form-inline row">
-      <div class="col-md-6">
-        <input class="form-control ml-2" type="text" placeholder="{{'Search'|translate}}" name="searchTerm"
+      <div class="col-md-8">
+        <span class="site-color-v5 f-size-20 f-weight-600">
+          {{'mySpace'|translate}}
+        </span>
+        <input class="search-input form-control ml-2" [class.rtl]="lang==='ar'" type="text" placeholder="{{'Search'|translate}}" name="searchTerm"
           [(ngModel)]="searchTerm" />
         <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
       </div>
 
     </div>
-
-    <table class="table table-striped" *tdLoading="'loading'">
+    <div class="table-responsive">
+      <table class="table " *tdLoading="'loading'">
       <thead>
         <tr>
           <!-- <th scope="col">#</th> -->
@@ -18,8 +21,7 @@
           <th scope="col">{{'name'|translate}}</th>
           <th scope="col" sortable="created" (sort)="onSort($event)">{{'created'|translate}}</th>
           <th scope="col">{{'image'|translate}}</th>
-
-          <th></th>
+          <th scope="col">{{'actions'|translate}}</th>
 
         </tr>
       </thead>
@@ -49,7 +51,7 @@
               <a class="btn btn-outline-success btn-xs" [href]="getFileUrl(entity.id)">
                 <i class="fa fa-download" aria-hidden="true"></i>
               </a>
-              <button type="button" class="btn btn-outline-primary ml-2" (click)="getServices(entity)"
+              <button type="button" class="btn btn-outline-primary ml-2 px-4" (click)="getServices(entity)"
                 (click)="openModal(template)">{{'service.add'|translate}}</button>
             </div>
 
@@ -80,8 +82,8 @@
           </td>
         </tr>
       </tbody>
-    </table>
-
+      </table>
+    </div>
     <div class="d-flex justify-content-between p-2">
       <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize">
       </ngb-pagination>

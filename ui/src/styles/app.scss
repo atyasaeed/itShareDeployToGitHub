@@ -318,3 +318,45 @@ body{
 .text-grey-v2{
   color: $textgreyv2;
 }
+
+
+.table{
+  font-size: 14px;
+  color: #000000CC;
+  th,td,tr,thead{
+    border: none !important;
+  }
+  border: 1px solid #E2E2E3;
+  border-radius: 0px 0px 4px 4px;
+  thead{
+    tr{
+      background:#F9FAFB;
+    }
+  }
+  tbody tr:nth-of-type(2n+1){
+    background: white;
+  }
+  tbody tr:nth-of-type(2n){
+    background:#F9FAFB;
+  }
+  tbody{
+    tr{
+      border-top: 1px solid #E2E2E3 !important;
+    }
+  }
+  td,th{
+    vertical-align: middle;
+  }
+}
+
+
+.search-input{
+  border-radius: 100px;
+  background-image: url(../assets/images/search.png);
+  background-repeat: no-repeat;
+  background-position: 95%;
+}
+
+.search-input.rtl{
+  background-position: 5%;
+}

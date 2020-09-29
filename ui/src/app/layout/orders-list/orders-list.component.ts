@@ -7,6 +7,10 @@ import { routerTransition } from 'src/app/router.animations';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { TdLoadingComponent, TdLoadingService } from '@covalent/core/loading';
 import { OrderService } from 'src/app/shared/services/order.service';
+import * as fromStore from 'src/app/store';
+import { Store } from '@ngrx/store';
+import { getLang } from 'src/app/store';
+
 @Component({
   selector: 'app-orders-list',
   templateUrl: './orders-list.component.html',
@@ -22,11 +26,11 @@ export class OrdersListComponent extends DefaultListComponent<Order, OrderServic
   selectedItems = [];
   // dropdownSettings = {};
   dropdownSettings: IDropdownSettings = {};
-  constructor(service: OrderService, loadingService: TdLoadingService) {
+  constructor(service: OrderService, loadingService: TdLoadingService, private appStore: Store<fromStore.AppState>) {
     super(service, loadingService);
-    // this.appStore.select(fromStore.getLang).subscribe((lang) => {
-    //   this.lang = lang;
-    // });
+    this.appStore.select(fromStore.getLang).subscribe((lang) => {
+      this.lang = lang;
+    });
     service.searchUrl = 'search/admin';
     this.dropdownList = [
       'PENDING',
