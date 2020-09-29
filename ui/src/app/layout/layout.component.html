@@ -1,6 +1,8 @@
-<app-header></app-header>
+<div #header>
+  <app-header></app-header>
+</div>
 <app-sidebar (collapsedEvent)="receiveCollapsed($event)"></app-sidebar>
-<section class="main-container" [ngClass]="{collapsed: collapsedSideBar,'main-container-rtl':collapsedSideBar}">
+<section class="main-container"  [ngClass]="{collapsed: collapsedSideBar,'main-container-rtl':collapsedSideBar}">
   <div *ngIf="loadingRouteConfig" class="lazy-load">
     <div class="loading ">
       <div class="dot"></div>
@@ -10,6 +12,12 @@
       <div class="dot"></div>
     </div>
   </div>
-  <router-outlet></router-outlet>
+  <div [ngStyle]="{'min-height': 'calc( 100vh - '+layoutComponentsMinHeight+'px )'}">
+    <router-outlet></router-outlet>
+  </div>
+  <div #footer>
+    <app-footer></app-footer>
+  </div>
 </section>
+
 
