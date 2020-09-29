@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import ilab.core.domain.Reason;
 import ilab.core.domain.Service;
 import ilab.core.domain.user.Organization;
+import ilab.core.domain.user.OrganizationStatus;
 import ilab.core.domain.user.OrganizationType;
 import ilab.core.domain.user.Role;
 import ilab.core.domain.user.User;
@@ -70,8 +71,8 @@ public class DevelopmentConfig
 					user=addAdminRoleAuthority(user);
 					
 					userRepo.save(user);
-					user=userService.register(createUser("mosalem", "New123456","Hatem","mosalem@gmail.com","01065003100",OrganizationType.PARTNER));
-					userService.enableUser(user.getId(), true, null);
+					user=userService.register(createUser("mosalem@itraters.com", "New123456","Hatem","mosalem@itraters.com","01065003100",OrganizationType.PARTNER));
+					user=userService.enableUser(user.getId(), true, null);
 					
 					Service services[]=new ObjectMapper().readValue(new File(setupPath + "/services.json"), Service[].class);
 					for (Service service : services)
@@ -181,7 +182,9 @@ public class DevelopmentConfig
 		org.setCity("city");
 		org.setAddress("address");
 		org.setType(type);
+		org.setStatus(OrganizationStatus.PENDING);
 		user.setDefaultOrg(org);
+		user.addRole(Role.ROLE_USER);
 //		user.setEnabled(true);
 //		user.setAccountNonLocked(true);
 //		user.addAuthority(createAuthority(user));
@@ -190,7 +193,7 @@ public class DevelopmentConfig
 	private User addAdminRoleAuthority(User user)
 	{
 		user.addRole(Role.ROLE_ADMIN);
-		user.addRole(Role.ROLE_USER);
+		
 		return user;
 	}
 
