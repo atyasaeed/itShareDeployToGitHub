@@ -14,6 +14,7 @@ import { OwnerLandingPageComponent } from './owner-landing-page/owner-landing-pa
 import { MatStepperModule } from '@angular/material/stepper';
 import { PageHeaderModule } from 'src/app/shared/modules/page-header/page-header.module';
 import { MatButtonModule } from '@angular/material/button';
+import { SharedModule } from 'src/app/shared/modules/shared/shared.module';
 
 @NgModule({
   declarations: [HomeComponent, ServiceCardComponent, OwnerLandingPageComponent],
@@ -21,15 +22,13 @@ import { MatButtonModule } from '@angular/material/button';
     CommonModule,
     HomeRoutingModule,
     CarouselModule,
-    //FormsModule,
-    //ReactiveFormsModule,
     NgbModule,
-    //StatModule,
     TranslateModule,
     CovalentLoadingModule,
     MatStepperModule,
     PageHeaderModule,
     MatButtonModule,
+    SharedModule,
   ],
 })
 export class HomeModule {}

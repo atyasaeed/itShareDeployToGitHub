@@ -16,4 +16,77 @@ h2.main-heading {
     color: white;
 }
 
-////////@extend
+
+.landing-page-section{
+  min-height: calc( 100vh - 56px );
+}
+
+.service{
+  border: 1px solid #E2E2E2;
+  border-radius: 10px;
+  background: white;
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  transition: all 0.5s ease-in-out;
+  overflow: hidden;
+  .service-img{
+    height: 90px;
+    position: relative;
+    top: 25px;
+    transition: all 0.3s ease-in-out;
+  }
+  p{
+    position: relative;
+    top: 25px;
+    transition: all 0.3s ease-in-out;
+  }
+  a{
+    bottom: -200px;
+    opacity: 0.5;
+    position: relative;
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+.service:hover{
+  box-shadow:0px 6px 10px #0000001A;
+  a{
+    bottom: 0;
+    opacity: 1;
+  }
+  p,.service-img{
+    top:0
+  }
+}
+
+.welcome-section{
+  height: 200px;
+  background-image: url(../../../assets/images/welcome-img.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  color: white;
+}
+
+.service-v2{
+  display: flex;
+  align-items: center;
+  .service-img{
+    flex: 1;
+  }
+  .service-content{
+    flex: 2;
+  }
+  a{
+    cursor: pointer;
+    transition: all 0.5s ease-in-out;
+  }
+
+}

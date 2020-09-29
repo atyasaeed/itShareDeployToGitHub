@@ -7,9 +7,9 @@
 }
 
 .main-container {
-    margin-top: 56px;
+    //margin-top: 56px;
     margin-left: 235px;
-    padding: 15px;
+    //padding: 15px 0;
     //-ms-overflow-x: hidden;
     //overflow-x: hidden;
     //overflow-y: scroll;
@@ -49,7 +49,8 @@
 .lazy-load{
     position: absolute;
     height: 100%;
-    width: calc( 100% - 30px );
+    //width: calc( 100% - 30px );
+    width: 100%;
     background: #00000029;
     z-index: 1000;
     display: flex;
@@ -58,3 +59,5 @@
     border-radius: 5px;
     overflow-x: hidden;
 }
+
+
