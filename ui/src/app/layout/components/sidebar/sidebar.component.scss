@@ -1,4 +1,4 @@
-$topnav-background-color: #222;
+$topnav-background-color: #FFFFFF;
 .sidebar {
     border-radius: 0;
     position: fixed;
@@ -33,13 +33,16 @@ $topnav-background-color: #222;
                 margin-right: 10px;
             }
         }
-        a:hover {
-            background: darken($topnav-background-color, 5%);
-            color: #fff;
-        }
+        // a:hover {
+        //     background: darken($topnav-background-color, 5%);
+        //     color: #fff;
+        // }
         a.router-link-active {
-            background: darken($topnav-background-color, 5%);
-            color: #fff;
+          background-color: rgba(99,198,201,0.2);
+
+          color:#63C6C9 ;
+
+
         }
         .header-fields {
             padding-top: 10px;
@@ -164,12 +167,12 @@ $topnav-background-color: #222;
 
 .toggle-button {
     position: fixed;
-    width: 236px;
+    width: 234px;
     cursor: pointer;
     padding: 12px;
     bottom: 0;
     color: #999;
-    background: #212529;
+    background: $topnav-background-color;
     i {
         font-size: 23px;
     }

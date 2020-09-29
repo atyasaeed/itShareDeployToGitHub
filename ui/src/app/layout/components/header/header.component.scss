@@ -10,3 +10,28 @@ $topnav-background-color:  #FFFFFF;
     }
 
   }
+
+  .navbar-dark .navbar-nav .nav-link{
+    color: initial;
+  }
+
+  .mat-badge-small.mat-badge-overlap.mat-badge-after .mat-badge-content {
+    right: 10px;
+    top: 3px;
+    background-color: #0E2546;
+  }
+.pointer{
+  cursor: pointer;
+}
+
+.userProfile{
+      width: 30px !important;
+    height: 30px !important;
+    color: #ffffff !important;
+    font-size: 20px !important;
+    background-color: #63C6C9 !important;
+    text-align: center !important;
+    line-height: 1.4 !important ;
+    border-radius: 50% !important;
+
+}

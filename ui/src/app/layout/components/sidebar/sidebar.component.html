@@ -1,11 +1,11 @@
-<nav class="sidebar" [ngClass]="{collapsed: collapsed}">
+<nav class="sidebar py-4" [ngClass]="{collapsed: collapsed}">
   <div class="list-group">
     <a class="list-group-item" routerLink="/home" [routerLinkActive]="['router-link-active']">
-      <i class="fa fa-fw fa-home"></i>&nbsp;
-      <span>{{ 'home' | translate }}</span>
+      <i class="fa fa-fw fa-home f-size-30"></i>&nbsp;
+      <span class="f-size-18">{{ 'home' | translate }}</span>
     </a>
     <a class="list-group-item" *ngIf="hasAdminRole" routerLink="/dashboard" [routerLinkActive]="['router-link-active']">
-      <i class="fa fa-fw fa-dashboard"></i>&nbsp;
+      <i class="fa fa-fw fa-dashboard "></i>&nbsp;
       <span>{{ 'Dashboard' | translate }}</span>
     </a>
     <a class="list-group-item" *ngIf="hasAdminRole" routerLink="/charts" [routerLinkActive]="['router-link-active']">

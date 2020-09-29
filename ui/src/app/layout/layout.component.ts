@@ -18,7 +18,11 @@ export class LayoutComponent implements OnInit {
   @ViewChild('footer') footer: ElementRef;
   layoutComponentsMinHeight: number;
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.appStore.select(fromStore.getAuthUser).subscribe((res) => {
+      this.user = res;
+    });
+  }
 
   ngAfterViewInit() {
     this.calcMinHeight();
@@ -29,10 +33,6 @@ export class LayoutComponent implements OnInit {
       } else if (event instanceof RouteConfigLoadEnd) {
         this.loadingRouteConfig = false;
       }
-    });
-
-    this.appStore.select(fromStore.getAuthUser).subscribe((res) => {
-      this.user = res;
     });
   }
 

@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import { CovalentLoadingModule } from '@covalent/core/loading';
 import { FooterComponent } from './footer/footer.component';
+import { SharedModule } from '../shared/modules/shared/shared.module';
 
 @NgModule({
   declarations: [LayoutComponent, HeaderComponent, SidebarComponent, FooterComponent],
@@ -22,6 +23,7 @@ import { FooterComponent } from './footer/footer.component';
     MatBadgeModule,
     BsDropdownModule.forRoot(),
     CovalentLoadingModule,
+    SharedModule,
   ],
 })
 export class LayoutModule {}

@@ -1,24 +1,21 @@
-<app-header></app-header>
-<app-sidebar (collapsedEvent)="receiveCollapsed($event)" *ngIf="user"></app-sidebar>
+<div #header>
+  <app-header></app-header>
+</div>
+<app-sidebar (collapsedEvent)="receiveCollapsed($event)"></app-sidebar>
 <section class="main-container" [ngClass]="{collapsed: collapsedSideBar,'main-container-rtl':collapsedSideBar}">
-  <div #header>
-    <app-header></app-header>
+  <div *ngIf="loadingRouteConfig" class="lazy-load">
+    <div class="loading ">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
   </div>
-  <app-sidebar (collapsedEvent)="receiveCollapsed($event)"></app-sidebar>
-  <section class="main-container" [ngClass]="{collapsed: collapsedSideBar,'main-container-rtl':collapsedSideBar}">
-    <div *ngIf="loadingRouteConfig" class="lazy-load">
-      <div class="loading ">
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-      </div>
-    </div>
-    <div [ngStyle]="{'min-height': 'calc( 100vh - '+layoutComponentsMinHeight+'px )'}">
-      <router-outlet></router-outlet>
-    </div>
-    <div #footer>
-      <app-footer></app-footer>
-    </div>
-  </section>
+  <div [ngStyle]="{'min-height': 'calc( 100vh - '+layoutComponentsMinHeight+'px )'}">
+    <router-outlet></router-outlet>
+  </div>
+  <div #footer>
+    <app-footer></app-footer>
+  </div>
+</section>

@@ -237,7 +237,7 @@ background-color: black !important;
   color: $textGrey;
 }
 
-.btn{
+.custom-btn{
   border: none;
   padding: 5px 25px;
   border-radius: 20px;
@@ -245,15 +245,22 @@ background-color: black !important;
   transition: all 0.5s ease-in-out;
 }
 
-.btn.v1{
+.custom-btn.v1{
   background-color: $siteColorV1;
 }
 
-.btn.v2{
+.custom-btn.v2{
   background-color: $siteColorV2;
 }
+.custom-btn.v3{
+  border: 2px solid #0E2546;
+border-radius: 20px;
+opacity: 1;
+color: #333333 !important;
+cursor: pointer !important;
+}
 
-.btn.v1:hover,.btn.v2:hover{
+.custom-btn.v1:hover,.custom-btn.v2:hover{
   background-color: black;
 }
 
