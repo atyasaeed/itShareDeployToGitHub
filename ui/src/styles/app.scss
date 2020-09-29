@@ -10,6 +10,8 @@ $siteColorV2:#0E2546;
 $textGrey:#777777;
 $greyBackground:#dddddd4a;
 $siteColorV3:#333333;
+$siteColorV4:#007BFF;
+$siteColorV5:#333333DE;
 
 th[sortable] {
     cursor: pointer;
@@ -170,6 +172,14 @@ select{
 .multiselect-dropdown .dropdown-btn{
   padding: 6px 0 6px 12px !important;
 }
+
+.multiselect-dropdown .dropdown-btn .selected-item{
+  margin-bottom: 1px;
+  border-radius: 8px !important;
+  background: $siteColorV4 !important;
+  padding: 0 10px ;
+}
+
 .spacial-multiselect .multiselect-dropdown{
 background-color: black !important;
 }
@@ -204,6 +214,10 @@ background-color: black !important;
   font-weight: 500;
 }
 
+.f-size-13{
+  font-size: 13px;
+}
+
 .f-size-14{
   font-size: 14px;
 }
@@ -214,6 +228,10 @@ background-color: black !important;
 
 .f-size-20{
   font-size: 20px;
+}
+
+.f-size-24{
+  font-size: 24px;
 }
 
 .f-size-30{
@@ -233,11 +251,19 @@ background-color: black !important;
   color: $siteColorV3;
 }
 
+.site-color-v4{
+  color: $siteColorV4;
+}
+
+.site-color-v5{
+  color: $siteColorV5;
+}
+
 .text-grey{
   color: $textGrey;
 }
 
-.btn{
+.custom-btn{
   border: none;
   padding: 5px 25px;
   border-radius: 20px;
@@ -245,16 +271,22 @@ background-color: black !important;
   transition: all 0.5s ease-in-out;
 }
 
-.btn.v1{
+.custom-btn.v1{
   background-color: $siteColorV1;
 }
 
-.btn.v2{
+.custom-btn.v2{
   background-color: $siteColorV2;
 }
 
-.btn.v1:hover,.btn.v2:hover{
-  background-color: black;
+.custom-btn.v4{
+  background: #EBEBEB;
+  color:#777777 !important;
+}
+
+.custom-btn.v1:hover,.custom-btn.v2:hover,.custom-btn.v4:hover{
+  background-color: black !important;
+  color: white !important;
 }
 
 
@@ -278,6 +310,6 @@ body{
 .custom-card{
   box-shadow: 0px 6px 10px #0000001A;
   border-radius: 8px;
-  background-color: white;
+  background: #FFFFFF 0% 0% no-repeat padding-box;
 }
 
