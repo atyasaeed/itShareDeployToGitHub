@@ -12,9 +12,10 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { CovalentLoadingModule } from '@covalent/core/loading';
 import { FooterComponent } from './footer/footer.component';
 import { SharedModule } from '../shared/modules/shared/shared.module';
+import { AnonymousHeaderComponent } from './components/anonymous-header/anonymous-header.component';
 
 @NgModule({
-  declarations: [LayoutComponent, HeaderComponent, SidebarComponent, FooterComponent],
+  declarations: [LayoutComponent, HeaderComponent, SidebarComponent, FooterComponent, AnonymousHeaderComponent],
   imports: [
     CommonModule,
     LayoutRoutingModule,

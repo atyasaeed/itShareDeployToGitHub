@@ -1,0 +1,73 @@
+<nav class="navbar navbar-expand-lg navbar-light fixed-top navbar-dark nav-rtl py-3">
+  <div class="row w-100 justify-content-between container-lg m-auto">
+    <div style="height: 40px;" class="col-2">
+      <img src="assets\images\Fabri Hub_Logo@2x.png" class="height-fluid cursor-pointer" />
+    </div>
+    <div class="col-8 text-right navbar-toggler">
+      <button class="navbar-toggler bg-color-v2" type="button" data-toggle="collapse"
+        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse col-md-10" id="navbarSupportedContent">
+      <ul class="navbar-nav   f-size-16 f-weight-600 w-100 row">
+        <div class="col-lg-6 d-flex justify-content-around">
+
+          <li class="nav-item">
+            <a class="site-color-v2 nav-link f-size-16 f-weight-600 custom-align " [routerLink]="'/service'">
+              {{ 'service' | translate }}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="site-color-v2 nav-link f-size-16 f-weight-600 custom-align" [routerLink]="'/gallery'">
+              {{ 'gallery' | translate }}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="site-color-v2 nav-link f-size-16 f-weight-600 custom-align" [routerLink]="'/'">
+              {{ 'contactUs' | translate }}
+            </a>
+          </li>
+        </div>
+        <div class="col-lg-6 d-flex justify-content-around">
+          <li class="nav-item my-auto">
+            <a class="dropdown-item custom-btn v1 custom-align" [routerLink]="'/login'">
+              {{ 'Login' | translate }}
+            </a>
+          </li>
+
+          <li class="nav-item my-auto">
+            <a class=" nav-link custom-btn v3 px-3" (click)="signupPartner()">{{'becomaApartner'|translate}}</a>
+          </li>
+
+
+          <li class="nav-item  my-auto">
+
+            <div class="btn-group pointer position-relative" dropdown>
+              <a dropdownToggle *englishLang class="dropdown-toggle nav-link f-size-16 f-weight-600 custom-align ">
+
+                {{ 'english' | translate }}
+              </a>
+              <a dropdownToggle *arabicLang class="dropdown-toggle nav-link f-size-16 f-weight-600 custom-align ">
+
+                {{ 'arabic' | translate }}
+              </a>
+              <ul *dropdownMenu class="dropdown-menu dropdown-menu-right position-absolute" role="menu"
+                aria-labelledby="button-basic">
+                <li role="menuitem"><a class="dropdown-item f-size-14 f-weight-600"
+                    (click)="changeLang('en')">{{ 'english' | translate }}</a>
+                </li>
+                <li role="menuitem"><a class="dropdown-item f-size-14 f-weight-600"
+                    (click)="changeLang('ar')">{{ 'arabic' | translate }}</a>
+                </li>
+              </ul>
+            </div>
+
+          </li>
+        </div>
+      </ul>
+    </div>
+  </div>
+</nav>

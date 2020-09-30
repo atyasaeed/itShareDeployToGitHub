@@ -220,7 +220,12 @@ background-color: black !important;
   font-size: 30px;
 }
 
-
+.bg-color-v1{
+  background:  #ffffff;
+}
+.bg-color-v2{
+  background-color: $textGrey;
+}
 .site-color-v1{
   color: $siteColorV1;
 }
@@ -271,7 +276,7 @@ cursor: pointer !important;
 }
 
 body{
-  background-color: $greyBackground;
+  // background-color: $greyBackground;
   overflow-x: hidden;
   font-family: 'Poppins', sans-serif;
   font-size: 16px;

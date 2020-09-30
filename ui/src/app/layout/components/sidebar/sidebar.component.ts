@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import * as fromStore from 'src/app/store';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/shared/domain';
+import { Router } from '@angular/router';
 //import { tap } from 'rxjs/operators';
 @Component({
   selector: 'app-sidebar',
@@ -17,12 +18,14 @@ export class SidebarComponent implements OnInit {
   authUser$: Observable<User>;
   hasAdminRole = false;
   lang: string;
+  sidebar: boolean;
 
   @Output() collapsedEvent = new EventEmitter<boolean>();
   constructor(
     private translate: TranslateService,
     public authenticationService: AuthenticationService,
-    private appStore: Store<fromStore.AppState>
+    private appStore: Store<fromStore.AppState>,
+    private router: Router
   ) {
     this.authUser$ = this.appStore.select(fromStore.getAuthUser);
     this.appStore.select(fromStore.getLang).subscribe((res) => {
@@ -34,6 +37,9 @@ export class SidebarComponent implements OnInit {
     this.authUser$.subscribe((user) => {
       this.hasAdminRole = user && user.roles.includes('ROLE_ADMIN');
     });
+  }
+  signupPartner() {
+    this.router.navigate(['/signup'], { queryParams: { partner: 'true' } });
   }
   addExpandClass(element: any) {
     if (element === this.showMenu) {

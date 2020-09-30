@@ -228,7 +228,7 @@
   "quotedAt": "تاريخ التسعير",
   "expiredAt": "تاريخ الانتهاء",
   "mySpace": "ملفاتى",
-  "collapseSidebar": "طى الشريط",
+  "collapseSidebar": "طى ",
   "orderDetails": "تفاصيل الطلب",
   "serviceDetails": "تفاصيل الخدمة",
   "reasons": "الأسباب",
@@ -347,5 +347,6 @@
   "brand.resetPassword": "إعادة تعيين كلمة المرور",
   "brand.changePassword": "تغيير كلمة المرور",
   "deschangePassword": "قم بتعيين كلمة مرور جديدة لحسابك",
-  "enterOldPassword": "أدخل كلمة المرور القديمة"
+  "enterOldPassword": "أدخل كلمة المرور القديمة",
+  "contactUs": "تواصل معنا"
 }

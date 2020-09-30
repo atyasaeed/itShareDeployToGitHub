@@ -53,6 +53,9 @@ export class HeaderComponent extends DefaultListComponent<ShoppingCartItem, Shop
       this.userLogin = res;
     });
     console.log(`${this.translate.getBrowserLang()},${this.translate.getDefaultLang()}`);
+    this.appStore.select(fromStore.getLang).subscribe((res) => {
+      this.lang = res;
+    });
   }
 
   ngAfterViewInit() {

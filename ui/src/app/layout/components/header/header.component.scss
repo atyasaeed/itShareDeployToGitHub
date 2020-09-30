@@ -35,3 +35,17 @@ $topnav-background-color:  #FFFFFF;
     border-radius: 50% !important;
 
 }
+.quan-cart{
+  width: 20px;
+    height: 20px;
+    background-color: #0E2546;
+    color: #ffffff;
+    text-align: center;
+    border-radius: 50%;
+    top: 0;
+    right: 15px;
+    line-height: 1.5;
+}
+.dropdown-item:active{
+  background-color: initial !important;
+}
