@@ -1,21 +1,15 @@
-<div [@routerTransition]>
+<div class="p-4" [@routerTransition]>
   <div>
-    <app-page-header [heading]="'Programs'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header>
+    <app-page-header  [breadCrumbs]="breadcrumbs"></app-page-header>
   </div>
 
-
-  <!-- <mat-form-field class="form-rtl col-12">
-        <mat-label>{{' Select Service' | translate}}</mat-label>
-        <mat-select (selectionChange)="bulidForm($event.value)"  [(value)]="service" #selectionVal>
-            <mat-option class="form-rtl" *ngFor="let service of services" [value]="service">
-                {{service?.name}}
-            </mat-option>
-        </mat-select>
-    </mat-form-field> -->
-  <div>
-    <div class="row">
+  <div class="container-fluid">
+    <div class="row custom-card p-3 f-size-14">
       <div class="col-md-6 mb-3">
-        <label>{{'service.select' | translate }} </label> :
+        <div class="site-color-v3 f-weight-600 f-size-20">
+          {{'placeOrder'|translate}}
+        </div>
+        <label class="text-grey f-weight-400">{{'service.select' | translate }} </label> :
         <select class="form-control" (change)="buildForm($event.target.value)" [formControl]="selectService">
 
           <option disabled selected value="undefined">{{'service.select' | translate}}</option>
@@ -28,25 +22,26 @@
     </div>
   </div>
 
-  <article class="  card form-rtl" [@simpleFadeAnimation]='serviceContentAnimation' *tdLoading="'loading';strategy:'overlay'">
+  <article class="mt-4  custom-card p-3 form-rtl" [@simpleFadeAnimation]='serviceContentAnimation' *tdLoading="'loading';strategy:'overlay'">
     <!-- <div *ngIf="activeService != undefined"> -->
-    <h4 class="text-center text-primary mb-0">{{activeService?.name}} </h4>
-    <h6 class="text-center mb-0">{{activeService?.description}}</h6>
 
     <!-- </div> -->
     <form [formGroup]='form' (ngSubmit)="submit()">
       <div class="container-fluid mt-4">
         <div class="row">
 
-
           <div class="col mb-3 text-center">
             <img class="img-fluid" [src]="appConfig.serviceImage(activeService)" alt=""
               *ngIf="activeService?.image != undefined;else defaultImage">
             <ng-template #defaultImage>
-              <img src="assets/images/fabrihub.png" alt="" class="img-fluid">
+              <img src="assets/images/logo-v1.png" alt="" class="img-fluid">
             </ng-template>
           </div>
-          <div class="col-md-4" *ngIf="activeService">
+
+          <div class="col-md-4 f-weight-600 f-size-13 site-color-v5" *ngIf="activeService">
+            <div class="mb-3 f-size-20 site-color-v3">
+              {{activeService?.name}}
+            </div>
             <div>
               <div>
                 <mat-radio-group class="row" [formControl]='selection' #radioGroup="matRadioGroup">
@@ -118,10 +113,10 @@
             <input type="number" formControlName="width" class="form-control mb-3">
 
             <label>{{'notes'|translate}} :</label>
-            <textarea class="form-control" rows="3" formControlName="notes"></textarea>
+            <textarea class="form-control" rows="2" formControlName="notes"></textarea>
 
           </div>
-          <div class="col-md-4 mar-top-31" *ngIf="activeService">
+          <div class="col-md-4 mar-top-74 mt-3 f-weight-600 f-size-13 site-color-v5" *ngIf="activeService">
 
             <div *ngIf="activeService?.materials != undefined" class="mb-3">
               <label>{{'file.material' | translate}} :</label>
@@ -203,9 +198,9 @@
               </ng-template>
             </div>
           </div>
-
-          <div class="col-md-12 text-center mt-3" *ngIf="activeService">
-            <button type="submit" class="btn btn-primary " [disabled]=" activeService?.id==null ">
+          <div *ngIf="activeService" class="col-md-4"></div>
+          <div class="col-md-8 mt-3" *ngIf="activeService">
+            <button type="submit" class="custom-btn v1 " [disabled]=" activeService?.id==null ">
               {{'addToCart' | translate}} <i class="fa fa-cart-plus " aria-hidden="true" #flyToCart></i>
             </button>
           </div>
@@ -214,16 +209,6 @@
 
     </form>
 
-    <!-- <hr class="mt-0">
-
-    <hr class="mb-0"> -->
-    <!-- <div class="card-body" *ngIf="service">
-        <h5 class="card-title">{{'Service Description' |translate}}</h5>
-        <p class="card-text">
-            {{service?.description}}
-        </p>
-
-    </div> -->
   </article>
 </div>
 <!--modal-->

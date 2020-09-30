@@ -247,14 +247,15 @@ option[value=""][disabled] {
 }
 
 ///////////////@extend
-:host {
-    padding: 20px;
-}
+
 
 input,
 mat-form-field,
-mat-select {
+mat-select,
+select {
     width: 100%;
+    font-size: 14px;
+    color: #777777;
 }
 
 mat-card-actions {
@@ -262,9 +263,12 @@ mat-card-actions {
     display: block;
 }
 
-label{
-    font-weight: 600;
-    color: black;
+// label{
+//     font-weight: 600;
+//     color: black;
+// }
+img{
+  border-radius: 8px;
 }
 
 .form-control:disabled{
@@ -279,7 +283,11 @@ label{
     width: 100%;
 }
 
-.mar-top-31{
-    margin-top:31px
+
+@media(min-width:768px){
+  .mar-top-74{
+    margin-top:74px !important
+  }
 }
+
 
