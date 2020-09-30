@@ -23,186 +23,198 @@
   </div>
 
   <article class="mt-4  custom-card p-3 form-rtl" [@simpleFadeAnimation]='serviceContentAnimation' *tdLoading="'loading';strategy:'overlay'">
-    <!-- <div *ngIf="activeService != undefined"> -->
 
-    <!-- </div> -->
     <form [formGroup]='form' (ngSubmit)="submit()">
       <div class="container-fluid mt-4">
         <div class="row">
 
-          <div class="col mb-3 text-center">
+          <div class="mb-3 text-center" [ngClass]="{'col-md-12':!activeService,'col-md-4':activeService}">
             <img class="img-fluid" [src]="appConfig.serviceImage(activeService)" alt=""
               *ngIf="activeService?.image != undefined;else defaultImage">
             <ng-template #defaultImage>
               <img src="assets/images/logo-v1.png" alt="" class="img-fluid">
             </ng-template>
           </div>
+          <div class="col-md-8">
+            <div class="container-fluid">
+              <div class="row">
 
-          <div class="col-md-4 f-weight-600 f-size-13 site-color-v5" *ngIf="activeService">
-            <div class="mb-3 f-size-20 site-color-v3">
-              {{activeService?.name}}
-            </div>
-            <div>
-              <div>
-                <mat-radio-group class="row" [formControl]='selection' #radioGroup="matRadioGroup">
-                  <mat-radio-button class="col-6" value="option1">{{"Upload File" |translate}}
-                  </mat-radio-button>
-                  <mat-radio-button class="col-6" value="option2" (click)="lgModal.show()">
-                    {{"file.choose" |translate}}</mat-radio-button>
-                </mat-radio-group>
-                <span class="text-danger" *ngIf="selection.errors && form.touched">
-                  *{{'file.field.error.required'|translate}}</span>
+                <div class="mb-3 col-md-12 f-size-20 site-color-v3">
+                  {{activeService?.name}}
+                </div>
+                <div *ngIf="activeService" class="col-md-12 f-weight-600 f-size-13 site-color-v5">
+                  <div class="row">
+                    <div class="col-md-6 my-auto">
+                      <mat-radio-group class="row" [formControl]='selection' #radioGroup="matRadioGroup">
+                        <mat-radio-button class="col-6" value="option1">{{"Upload File" |translate}}
+                        </mat-radio-button>
+                        <mat-radio-button class="col-6" value="option2" (click)="lgModal.show()">
+                          {{"file.choose" |translate}}</mat-radio-button>
+                      </mat-radio-group>
+                      <span class="text-danger" *ngIf="selection.errors && form.touched">
+                        *{{'file.field.error.required'|translate}}</span>
+                    </div>
+                    <div class="col-md-6 my-auto">
+                      <div *ngIf="radioGroup.value =='option1'">
+                        <label>{{'File'|translate}} :</label>
+                        <span *ngIf="form.controls.file.errors != null">
+                          <span class="text-danger" *ngIf="form.controls.file.errors.required && form.controls.file.touched">
+                            *{{'file.field.error.required'|translate}}</span>
+                          <span class="text-danger" *ngIf="form.controls.file.errors.extension "> |
+                            *{{'file.errors.extensions'|translate}} {{form.controls.file.errors.extension}} </span>
+                        </span>
+
+                        <input type="file" [accept]="extFile" formControlName="file" class="form-control mb-3 border"
+                          (change)="handleFileInput($event)">
+                      </div>
+                      <div *ngIf="radioGroup.value =='option2'">
+                        <label>{{'File' | translate}} :</label>
+                        <span class="text-danger" *ngIf="!form.controls.asset_id.valid ">
+                          *{{'file.field.error.required' | translate}}</span>
+                        <!-- <input type="text" formControlName="asset_id" class="form-control mb-3 border" disabled> -->
+                        <select formControlName="asset_id" class="form-control mb-3 border remove-arow" disabled>
+
+                          <option disabled selected value='undefined'>{{'file.select' | translate}}</option>
+                          <ng-container *ngFor="let x of filterFiles">
+                            <option [value]="x.id">{{x.name}}</option>
+                          </ng-container>
+                        </select>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="col-md-6 f-weight-600 f-size-13 site-color-v5" *ngIf="activeService">
+
+
+                  <label>{{'quantity'|translate}} :</label>
+                  <span *ngIf="form.controls.quantity.errors != null">
+                    <span class="text-danger"
+                      *ngIf="form.controls.quantity.errors.required && form.controls.quantity.touched">
+                      *{{'quantity.error.required'|translate}}</span>
+                    <span class="text-danger" *ngIf="form.controls.quantity.errors.min && form.controls.quantity.touched"> |
+                      *{{'quantity.error.min'|translate}}</span>
+                    <span class="text-danger" *ngIf="form.controls.quantity.errors.NaN && form.controls.quantity.dirty"> |
+                      *{{'quantity.error.nan'|translate}}</span>
+                  </span>
+                  <input type="number" formControlName="quantity" class="form-control mb-3">
+
+                  <label>{{'file.height'|translate}} :</label>
+                  <span *ngIf="form.controls.height.errors != null">
+                    <span class="text-danger" *ngIf="form.controls.height.errors.required && form.controls.height.touched">
+                      *{{'file.field.error.required' | translate}}</span>
+                    <span class="text-danger" *ngIf="form.controls.height.errors.min && form.controls.height.touched"> |
+                      *{{'file.field.error.min' | translate}}</span>
+                    <span class="text-danger" *ngIf="form.controls.height.errors.NaN && form.controls.height.dirty"> |
+                      *{{'file.field.error.nan' | translate}}</span>
+                  </span>
+                  <input type="number" formControlName="height" class="form-control mb-3">
+
+                  <label>{{'file.width' | translate}} :</label>
+                  <span *ngIf="form.controls.width.errors != null">
+                    <span class="text-danger" *ngIf="form.controls.width.errors.required && form.controls.width.touched">
+                      *{{'file.field.error.required' | translate}}</span>
+                    <span class="text-danger" *ngIf="form.controls.width.errors.min && form.controls.width.touched"> |
+                      *{{'file.field.error.min' | translate}}</span>
+                    <span class="text-danger" *ngIf="form.controls.width.errors.NaN && form.controls.width.dirty"> |
+                      *{{'file.field.error.nan' | translate}}</span>
+                  </span>
+                  <input type="number" formControlName="width" class="form-control mb-3">
+
+                  <label>{{'notes'|translate}} :</label>
+                  <textarea class="form-control" rows="2" formControlName="notes"></textarea>
+
+                </div>
+                <div class="col-md-6 mt-3 mt-md-0  f-weight-600 f-size-13 site-color-v5" *ngIf="activeService">
+
+                  <div *ngIf="activeService?.materials != undefined" class="mb-3">
+                    <label>{{'file.material' | translate}} :</label>
+                    <span class="text-danger" *ngIf="!form?.controls?.material?.valid && form.controls.material.touched">
+                      *{{'file.field.error.required' | translate}}</span>
+                    <select formControlName="material" class="form-control">
+                      <option disabled selected value="undefined">{{'file.material.select' | translate}}</option>
+                      <ng-container *ngFor="let x of activeService?.materials">
+                        <option [value]="x">{{x}}</option>
+                      </ng-container>
+                    </select>
+                  </div>
+                  <div *ngIf="activeService?.thickness != undefined" class="mb-3">
+                    <label>{{'file.thickness' | translate}} :</label>
+                    <span class="text-danger" *ngIf="!form.controls?.thickness?.valid && form.controls?.thickness?.touched">
+                      *{{'file.field.error.required' | translate}}</span>
+                    <select formControlName="thickness" class="form-control">
+
+                      <option disabled selected value="undefined">{{'file.thickness.select' | translate}}</option>
+                      <ng-container *ngFor="let y of activeService.thickness">
+                        <option [value]="y">{{y}}</option>
+                      </ng-container>
+                    </select>
+                  </div>
+
+                  <div *ngIf="activeService?.colors != undefined" class="mb-3">
+                    <label>{{'file.color' | translate}} :</label>
+                    <span class="text-danger" *ngIf="!form.controls?.color?.valid && form.controls?.color?.touched">
+                      *{{'file.field.error.required' | translate}}</span>
+                    <select formControlName="color" class="form-control">
+
+                      <option disabled selected value="undefined">{{'file.color.select' | translate}}</option>
+                      <ng-container *ngFor="let y of activeService.colors">
+                        <option [value]="y">{{y}}</option>
+                      </ng-container>
+                    </select>
+                  </div>
+                  <div *ngIf="activeService?.types != undefined" class="mb-3">
+                    <label>{{'file.type' | translate}} :</label>
+                    <span class="text-danger" *ngIf="!form.controls?.type?.valid && form.controls?.type?.touched">
+                      *{{'file.field.error.required' | translate}}</span>
+                    <select formControlName="type" class="form-control">
+
+                      <option disabled selected value="undefined">{{'file.type.select' | translate}}</option>
+                      <ng-container *ngFor="let y of activeService.types">
+                        <option [value]="y">{{y}}</option>
+                      </ng-container>
+                    </select>
+                  </div>
+                  <div *ngIf="activeService?.units != undefined" class="mb-3">
+                    <label>{{'file.unit' | translate}} :</label>
+                    <span class="text-danger" *ngIf="!form.controls?.unit?.valid && form.controls?.unit?.touched">
+                      *{{'file.field.error.required' | translate}}</span>
+                    <select formControlName="unit" class="form-control">
+
+                      <option disabled selected value="undefined">{{'file.unit.select' | translate}}</option>
+                      <ng-container *ngFor="let y of activeService.units">
+                        <option [value]="y">{{y}}</option>
+                      </ng-container>
+                    </select>
+                  </div>
+                  <div *ngIf="activeService?.processes != undefined" class="mb-3">
+                    <label>{{'file.processes' | translate}} :</label>
+                    <span class="text-danger"
+                      *ngIf="(!form.controls?.mprocesses?.valid && form.controls?.mprocesses?.touched) || ( !form.controls?.processes?.valid && form.controls?.processes?.touched )">
+                      *{{'file.field.error.required' | translate}}</span>
+                    <div *ngIf="activeService.processes.multi==true;else processesSingle">
+                      <ng-multiselect-dropdown formControlName="mprocesses" placeholder="{{'file.process.select'|translate}}"
+                        [settings]="dropdownSettings" [data]="activeService.processes.values">
+                      </ng-multiselect-dropdown>
+                    </div>
+                    <ng-template #processesSingle>
+                      <select formControlName="processes" class="form-control">
+                        <option disabled value="undefined">{{'file.process.select' | translate}}</option>
+                        <ng-container *ngFor="let v of activeService.processes.values">
+                          <option [value]="v">{{v}}</option>
+                        </ng-container>
+                      </select>
+                    </ng-template>
+                  </div>
+                </div>
+                <div *ngIf="activeService" class="col-md-4"></div>
+                <div class="col-md-12 mt-3" *ngIf="activeService">
+                  <button type="submit" class="custom-btn v1 " [disabled]=" activeService?.id==null ">
+                    {{'addToCart' | translate}} <i class="fa fa-cart-plus " aria-hidden="true" #flyToCart></i>
+                  </button>
+                </div>
               </div>
-              <div *ngIf="radioGroup.value =='option1'">
-                <label>{{'File'|translate}} :</label>
-                <span *ngIf="form.controls.file.errors != null">
-                  <span class="text-danger" *ngIf="form.controls.file.errors.required && form.controls.file.touched">
-                    *{{'file.field.error.required'|translate}}</span>
-                  <span class="text-danger" *ngIf="form.controls.file.errors.extension "> |
-                    *{{'file.errors.extensions'|translate}} {{form.controls.file.errors.extension}} </span>
-                </span>
-                <input type="file" [accept]="extFile" formControlName="file" class="form-control mb-3 border"
-                  (change)="handleFileInput($event)">
-              </div>
-              <div *ngIf="radioGroup.value =='option2'">
-                <label>{{'File' | translate}} :</label>
-                <span class="text-danger" *ngIf="!form.controls.asset_id.valid ">
-                  *{{'file.field.error.required' | translate}}</span>
-                <!-- <input type="text" formControlName="asset_id" class="form-control mb-3 border" disabled> -->
-                <select formControlName="asset_id" class="form-control mb-3 border remove-arow" disabled>
-
-                  <option disabled selected value='undefined'>{{'file.select' | translate}}</option>
-                  <ng-container *ngFor="let x of filterFiles">
-                    <option [value]="x.id">{{x.name}}</option>
-                  </ng-container>
-                </select>
-              </div>
             </div>
-            <label>{{'quantity'|translate}} :</label>
-            <span *ngIf="form.controls.quantity.errors != null">
-              <span class="text-danger"
-                *ngIf="form.controls.quantity.errors.required && form.controls.quantity.touched">
-                *{{'quantity.error.required'|translate}}</span>
-              <span class="text-danger" *ngIf="form.controls.quantity.errors.min && form.controls.quantity.touched"> |
-                *{{'quantity.error.min'|translate}}</span>
-              <span class="text-danger" *ngIf="form.controls.quantity.errors.NaN && form.controls.quantity.dirty"> |
-                *{{'quantity.error.nan'|translate}}</span>
-            </span>
-            <input type="number" formControlName="quantity" class="form-control mb-3">
-
-            <label>{{'file.height'|translate}} :</label>
-            <span *ngIf="form.controls.height.errors != null">
-              <span class="text-danger" *ngIf="form.controls.height.errors.required && form.controls.height.touched">
-                *{{'file.field.error.required' | translate}}</span>
-              <span class="text-danger" *ngIf="form.controls.height.errors.min && form.controls.height.touched"> |
-                *{{'file.field.error.min' | translate}}</span>
-              <span class="text-danger" *ngIf="form.controls.height.errors.NaN && form.controls.height.dirty"> |
-                *{{'file.field.error.nan' | translate}}</span>
-            </span>
-            <input type="number" formControlName="height" class="form-control mb-3">
-
-            <label>{{'file.width' | translate}} :</label>
-            <span *ngIf="form.controls.width.errors != null">
-              <span class="text-danger" *ngIf="form.controls.width.errors.required && form.controls.width.touched">
-                *{{'file.field.error.required' | translate}}</span>
-              <span class="text-danger" *ngIf="form.controls.width.errors.min && form.controls.width.touched"> |
-                *{{'file.field.error.min' | translate}}</span>
-              <span class="text-danger" *ngIf="form.controls.width.errors.NaN && form.controls.width.dirty"> |
-                *{{'file.field.error.nan' | translate}}</span>
-            </span>
-            <input type="number" formControlName="width" class="form-control mb-3">
-
-            <label>{{'notes'|translate}} :</label>
-            <textarea class="form-control" rows="2" formControlName="notes"></textarea>
-
-          </div>
-          <div class="col-md-4 mar-top-74 mt-3 f-weight-600 f-size-13 site-color-v5" *ngIf="activeService">
-
-            <div *ngIf="activeService?.materials != undefined" class="mb-3">
-              <label>{{'file.material' | translate}} :</label>
-              <span class="text-danger" *ngIf="!form?.controls?.material?.valid && form.controls.material.touched">
-                *{{'file.field.error.required' | translate}}</span>
-              <select formControlName="material" class="form-control">
-                <option disabled selected value="undefined">{{'file.material.select' | translate}}</option>
-                <ng-container *ngFor="let x of activeService?.materials">
-                  <option [value]="x">{{x}}</option>
-                </ng-container>
-              </select>
-            </div>
-            <div *ngIf="activeService?.thickness != undefined" class="mb-3">
-              <label>{{'file.thickness' | translate}} :</label>
-              <span class="text-danger" *ngIf="!form.controls?.thickness?.valid && form.controls?.thickness?.touched">
-                *{{'file.field.error.required' | translate}}</span>
-              <select formControlName="thickness" class="form-control">
-
-                <option disabled selected value="undefined">{{'file.thickness.select' | translate}}</option>
-                <ng-container *ngFor="let y of activeService.thickness">
-                  <option [value]="y">{{y}}</option>
-                </ng-container>
-              </select>
-            </div>
-
-            <div *ngIf="activeService?.colors != undefined" class="mb-3">
-              <label>{{'file.color' | translate}} :</label>
-              <span class="text-danger" *ngIf="!form.controls?.color?.valid && form.controls?.color?.touched">
-                *{{'file.field.error.required' | translate}}</span>
-              <select formControlName="color" class="form-control">
-
-                <option disabled selected value="undefined">{{'file.color.select' | translate}}</option>
-                <ng-container *ngFor="let y of activeService.colors">
-                  <option [value]="y">{{y}}</option>
-                </ng-container>
-              </select>
-            </div>
-            <div *ngIf="activeService?.types != undefined" class="mb-3">
-              <label>{{'file.type' | translate}} :</label>
-              <span class="text-danger" *ngIf="!form.controls?.type?.valid && form.controls?.type?.touched">
-                *{{'file.field.error.required' | translate}}</span>
-              <select formControlName="type" class="form-control">
-
-                <option disabled selected value="undefined">{{'file.type.select' | translate}}</option>
-                <ng-container *ngFor="let y of activeService.types">
-                  <option [value]="y">{{y}}</option>
-                </ng-container>
-              </select>
-            </div>
-            <div *ngIf="activeService?.units != undefined" class="mb-3">
-              <label>{{'file.unit' | translate}} :</label>
-              <span class="text-danger" *ngIf="!form.controls?.unit?.valid && form.controls?.unit?.touched">
-                *{{'file.field.error.required' | translate}}</span>
-              <select formControlName="unit" class="form-control">
-
-                <option disabled selected value="undefined">{{'file.unit.select' | translate}}</option>
-                <ng-container *ngFor="let y of activeService.units">
-                  <option [value]="y">{{y}}</option>
-                </ng-container>
-              </select>
-            </div>
-            <div *ngIf="activeService?.processes != undefined" class="mb-3">
-              <label>{{'file.processes' | translate}} :</label>
-              <span class="text-danger"
-                *ngIf="(!form.controls?.mprocesses?.valid && form.controls?.mprocesses?.touched) || ( !form.controls?.processes?.valid && form.controls?.processes?.touched )">
-                *{{'file.field.error.required' | translate}}</span>
-              <div *ngIf="activeService.processes.multi==true;else processesSingle">
-                <ng-multiselect-dropdown formControlName="mprocesses" placeholder="{{'file.process.select'|translate}}"
-                  [settings]="dropdownSettings" [data]="activeService.processes.values">
-                </ng-multiselect-dropdown>
-              </div>
-              <ng-template #processesSingle>
-                <select formControlName="processes" class="form-control">
-                  <option disabled value="undefined">{{'file.process.select' | translate}}</option>
-                  <ng-container *ngFor="let v of activeService.processes.values">
-                    <option [value]="v">{{v}}</option>
-                  </ng-container>
-                </select>
-              </ng-template>
-            </div>
-          </div>
-          <div *ngIf="activeService" class="col-md-4"></div>
-          <div class="col-md-8 mt-3" *ngIf="activeService">
-            <button type="submit" class="custom-btn v1 " [disabled]=" activeService?.id==null ">
-              {{'addToCart' | translate}} <i class="fa fa-cart-plus " aria-hidden="true" #flyToCart></i>
-            </button>
           </div>
         </div>
       </div>
@@ -219,7 +231,7 @@
         <div class="modal-header">
           <div class="form-group form-inline row">
             <div class="col-md-6">
-              <input class="form-control ml-2" type="text" placeholder="{{'Search'|translate}}" name="searchTerm"
+              <input class="search-input form-control ml-2" [class.rtl]="lang==='ar'" type="text" placeholder="{{'Search'|translate}}" name="searchTerm"
                 [(ngModel)]="searchTerm" />
               <span class="ml-3" *ngIf="spaceService.loading$ | async">Loading...</span>
             </div>
@@ -261,8 +273,8 @@
 
                 <td>
                   <div>
-                    <button type="button" class="btn btn-outline-primary ml-2"
-                      (click)="fileId(entity) ;lgModal.hide()">Add-File</button>
+                    <button type="button" class="custom-btn v1 ml-2"
+                      (click)="fileId(entity) ;lgModal.hide()">{{'addFile'|translate}}</button>
                     <!-- <a class="btn btn-outline-success btn-xs">
                       <i class="fa fa-download" aria-hidden="true"></i>
                     </a> -->

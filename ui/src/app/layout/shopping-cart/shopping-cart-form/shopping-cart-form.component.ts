@@ -27,6 +27,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { AnimationService } from 'src/app/shared/services/animation.service';
 import { MySpaceService } from 'src/app/shared/services/my-space.service';
 import { TdLoadingService } from '@covalent/core/loading';
+import { getLang } from 'src/app/store';
 
 @Component({
   selector: 'app-shopping-cart-form',
@@ -47,7 +48,7 @@ import { TdLoadingService } from '@covalent/core/loading';
 export class ShoppingCartFormComponent implements OnInit, AfterContentChecked {
   breadcrumbs = [{ heading: 'Add-Service', icon: 'fa-tasks' }];
   private _searchTerm = '';
-  // loading = false;
+  lang: string;
   submitted = false;
   msgFileSize: any;
   filename;
@@ -86,7 +87,9 @@ export class ShoppingCartFormComponent implements OnInit, AfterContentChecked {
     this.spaceService.model$.subscribe((res) => {
       this.filesAsset = res;
     });
-
+    this.appStore.select(getLang).subscribe((res) => {
+      this.lang = res;
+    });
     this.serviceId = this.route.snapshot.paramMap.get('id');
     this.objAsset = this.router.getCurrentNavigation().extras.state as AssetFile;
     this.serviceContentAnimation = 'in';

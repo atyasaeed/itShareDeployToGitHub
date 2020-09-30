@@ -50,17 +50,6 @@ input[type="file"] {
 }
 
 
-
-// .card:hover {
-//     box-shadow: inset 1px 2px 8px rgba(0, 0, 0, 0.02);
-// }
-
-// .card:focus {
-//     color: #4b515d;
-//     //border: 1px solid #B8B6B6;
-//     box-shadow: inset 1px 2px 4px rgba(0, 0, 0, 0.01), 0px 0px 8px rgba(0, 0, 0, 0.2);
-// }
-
 .error-none {
     display: none;
 }
@@ -263,10 +252,7 @@ mat-card-actions {
     display: block;
 }
 
-// label{
-//     font-weight: 600;
-//     color: black;
-// }
+
 img{
   border-radius: 8px;
 }
@@ -283,11 +269,5 @@ img{
     width: 100%;
 }
 
-
-@media(min-width:768px){
-  .mar-top-74{
-    margin-top:74px !important
-  }
-}
 
 
