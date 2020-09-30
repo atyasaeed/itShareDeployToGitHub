@@ -12,13 +12,7 @@
       background: #ffc107;
       color: #212529;
   }
-  /* .row.WFA {
-    justify-content: space-around;
-  } */
 
-  label {
-      font-weight: 600;
-  }
 
   .card-header{
     border: 2px solid #0000000f;
@@ -96,3 +90,47 @@
     border-radius: 5px 0 15px 0;
     color: white;
 }
+
+.logo-img{
+  height:50px;
+}
+
+
+.table.quotation{
+  thead{
+    tr{
+      background: #337AB7;
+      color: white;
+    }
+  }
+  td,th{
+    border: 1px solid #E2E2E3 !important;
+  }
+  tr.white-background{
+    td{
+      border:1px solid white !important
+    }
+    td.custom-td{
+      border: 1px solid #E2E2E3 !important;
+    }
+    td.custom-td.custom-back{
+      background: #337AB7;
+      color: White !important;
+    }
+  }
+}
+
+
+.quotation-note{
+  background: #FAFAFB 0% 0% no-repeat padding-box;
+  border: 1px solid #E2E2E3;
+}
+
+.print-quote{
+  color: #000000CC;
+}
+
+
+
+
+

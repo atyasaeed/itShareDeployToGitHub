@@ -87,7 +87,7 @@ a:hover{
 }
 
 .white-background{
-  background: white;
+  background: white !important;
 }
 
 .mat-progress-spinner svg,.mat-progress-spinner{
@@ -359,4 +359,8 @@ body{
 
 .search-input.rtl{
   background-position: 5%;
+}
+
+.text-black{
+  color: black;
 }
