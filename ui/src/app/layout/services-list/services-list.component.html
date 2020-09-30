@@ -1,14 +1,17 @@
 
-  <div [@routerTransition]>
-    <app-page-header [heading]="'Programs'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header>
+  <div class="p-4" [@routerTransition]>
+    <app-page-header  [breadCrumbs]="breadcrumbs"></app-page-header>
     <form>
       <div class="form-group form-inline row">
-        <div class="col-md-6">
-          <input class="form-control " type="text" placeholder="{{'Search'|translate}}" name="searchTerm"
+        <div class="col-md-9">
+          <span class="site-color-v5 f-size-20 f-weight-600">
+            {{'services'|translate}}
+          </span>
+          <input class="search-input form-control " [class.rtl]="lang==='ar'" type="text" placeholder="{{'Search'|translate}}" name="searchTerm"
             [(ngModel)]="searchTerm" />
           <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
         </div>
-        <div class="col-md-6 text-right">
+        <div class="col-md-3 text-right">
           <a routerLink="service-form" class="btn btn-success">
             <i class="fa fa-plus" aria-hidden="true"></i>
           </a>
@@ -23,7 +26,7 @@
       </div> -->
       </div>
       <div class="table-responsive">
-        <table class="table table-striped" *tdLoading="'loading'">
+        <table class="table " *tdLoading="'loading'">
         <thead>
           <tr>
             <!-- <th scope="col">#</th> -->

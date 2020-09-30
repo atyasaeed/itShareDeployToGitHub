@@ -8,7 +8,7 @@
             {{'landingPageText'|translate}}
           </p>
           <div class="mt-4 mb-4 mb-md-0">
-            <a [routerLink]='["/signup"]' class="btn v1 mr-3 f-weight-600">{{'getQuotation'|translate}}</a>
+            <a [routerLink]='["/signup"]' class="custom-btn v1 mr-3 f-weight-600">{{'getQuotation'|translate}}</a>
           </div>
         </div>
         <div class="col-md-6 my-auto">
@@ -36,7 +36,7 @@
                     <img [src]="appConfig.serviceImage(service)" class="height-fluid" alt="">
                   </div>
                   <p class="mb-0 mt-2 f-weight-600 f-size-18">{{service.name}}</p>
-                  <a [routerLink]='["/shopping-cart/CartItem"]' class="btn v1 mt-2 f-weight-600">{{'placeOrder'|translate}}</a>
+                  <a [routerLink]='["/shopping-cart/CartItem"]' class="custom-btn v1 mt-2 f-weight-600">{{'placeOrder'|translate}}</a>
                 </div>
               </div>
             </div>
@@ -58,7 +58,7 @@
           </p>
         </div>
         <div class="col-md-12 mt-2 text-center">
-          <a [routerLink]='["/signup"]' [queryParams]="{'partner': 'true'}" class="btn v1 f-weight-600">{{'applyAsPartner'|translate}}</a>
+          <a [routerLink]='["/signup"]' [queryParams]="{'partner': 'true'}" class="custom-btn v1 f-weight-600">{{'applyAsPartner'|translate}}</a>
         </div>
 
       </div>
@@ -82,7 +82,7 @@
           <div class="custom-card px-5 py-4 text-center">
             <h6 class="f-size-20 f-weight-600 site-color-v3 text-center">{{'summary'|translate}}</h6>
             <p class="text-grey f-size-14 text-center">{{'summaryDescription'|translate}}</p>
-            <a [routerLink]='["/shopping-cart/CartItem"]' class="btn v1 f-weight-600 ">{{'placeOrder'|translate}}</a>
+            <a [routerLink]='["/shopping-cart/CartItem"]' class="custom-btn v1 f-weight-600 ">{{'placeOrder'|translate}}</a>
           </div>
         </div>
         <div class="col-md-12 mt-3 f-weight-600">

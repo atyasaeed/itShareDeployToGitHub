@@ -104,52 +104,43 @@
 
 
 <!-- <ng-template> d-none -->
-<div id="{{order.id}}" class="d-none">
+<div id="{{order.id}}" class="d-none m-4 print-quote white-background">
   <div class="container-fluid">
     <div class="row ">
-      <div class="col-md-12 ">
-        <div class="row print-header ">
-          <div class="col-md-6 my-auto py-2 quot">
-            <div class="bg">
-              <h4 class="text-center">
-                {{'quotation'|translate}}
-              </h4>
-            </div>
-
-          </div>
-          <div class="col-md-6  text-center my-auto white-background">
-            <h4 class="d-inline-block mr-2 py-2">
-              {{'offeredTo'|translate }} :
-            </h4>
-            <h3 class="d-inline-block">
-              {{user?.username }}
-            </h3>
-          </div>
-        </div>
+      <div class="col-md-12 logo-img">
+        <img src="assets/images/logo-v1.png" class="height-fluid" alt="">
       </div>
 
-      <div class="text-center col-md-12">
-        <h2 class=" my-4 font-weight-700">
-          FabriHub.net
-        </h2>
+      <div class="my-4 f-size-30 f-weight-700 col-md-12">
+        {{'orderQuotation'|translate}}
+      </div>
+      <div class="col-md-7 f-size-13">
+        <label class="f-weight-600">{{'offeredTo'|translate}} :&nbsp;</label><span class="text-grey-v2">{{user?.firstName}}</span>
+      </div>
+      <div class="col-md-5 f-size-13">
+        <div *ngIf="order.status == 'QUOTED'">
+          <label class="f-weight-600">{{'quotedAt'|translate}} :&nbsp;</label>
+          <span class="text-grey-v2">{{order.quotedAt|date:'dd/MM/yyyy'}}</span>
+        </div>
+      </div>
+      <div class="col-md-7 f-size-13">
+        <label class="f-weight-600">{{'phoneNumber'|translate}} :&nbsp;</label><span class="text-grey-v2">{{user?.mobileNo}}</span>
+      </div>
+      <div class="col-md-5 f-size-13">
+        <div *ngIf="order.status == 'QUOTED'">
+          <label class="f-weight-600">{{'expiredAt'|translate}} :&nbsp;</label>
+          <span class="text-grey-v2">{{order.expiredAt|date:'dd/MM/yyyy'}}</span>
+        </div>
       </div>
       <div class="col-md-12">
-        <div *ngIf="order.status == 'QUOTED'">
-          <label>{{'quotedAt'|translate}} :&nbsp;</label> <span
-            class="text-primary">{{order.quotedAt|date:'fullDate'}}</span>
-        </div>
-        <div *ngIf="order.status == 'QUOTED'">
-          <label>{{'expiredAt'|translate}} :&nbsp;</label> <span
-            class="text-danger">{{order.expiredAt|date:'fullDate'}}</span>
-        </div>
-        <table class="table table-striped table-bordered mt-2">
+        <table class="f-size-13 table quotation mt-2">
           <thead>
-            <tr>
+            <tr class="f-weight-700">
               <th scope="col">#</th>
               <th scope="col">{{'lineItem.service.name' | translate}}</th>
               <th scope="col">{{'lineItem.service.description'|translate}}</th>
-              <!-- <th scope="col">{{'lineItem.estimated.deliveryDate'|translate}}</th> -->
-              <th scope="col">{{'lineItem.price'|translate}}</th>
+              <th scope="col">{{'lineItem.duration'|translate}}</th>
+              <th scope="col">{{'lineItem.unitPrice'|translate}}</th>
               <th scope="col">{{'lineItem.quantity'|translate}}</th>
               <th scope="col">{{'sum'|translate}}</th>
             </tr>
@@ -158,7 +149,7 @@
             <tr *ngFor="let lineItem of order.lineItems;let i = index">
 
               <ng-container *ngIf="lineItem.status =='QUOTED' || lineItem.status =='QUOTE_ACCEPTED'">
-                <th scope="row">{{i}}</th>
+                <td scope="row">{{i+1}}</td>
                 <td>{{lineItem.service.name}}</td>
                 <td>
                   <span>
@@ -186,72 +177,70 @@
                     <label>{{'processes'|translate}} : </label> {{lineItem.files[0].processes}},
                   </span>
                 </td>
-                <!-- <td>{{lineItem.estimatedEndDate | date:'fullDate'}}</td> -->
+                <td>{{lineItem.duration}} {{'workingDays'|translate}}</td>
                 <td>{{lineItem.unitPrice}}</td>
                 <td>{{lineItem.quantity}}</td>
                 <td>{{lineItem.unitPrice *lineItem.quantity|currency:'EGP'}}</td>
               </ng-container>
             </tr>
+            <tr class="white-background">
+              <td ></td>
+              <td ></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="custom-td custom-back f-weight-600 f-size-14"><label >{{'subTotal'|translate}}</label></td>
+              <td class="custom-td"><span>{{subTotal | currency:'EGP'}}</span></td>
+            </tr>
+            <tr class="white-background">
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="custom-td custom-back f-weight-600 f-size-14"><label >{{'taxRate'|translate}}</label></td>
+              <td class="custom-td"><span>{{0 | currency:'EGP'}}</span></td>
+            </tr>
+            <tr class="white-background">
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="custom-td custom-back f-weight-600 f-size-14"><label >{{'total'|translate}}</label></td>
+              <td class="custom-td"><span>{{subTotal | currency:'EGP'}}</span></td>
+            </tr>
           </tbody>
         </table>
-
       </div>
-      <div class="offset-md-9 col-md-3 text-right">
-        <div class="container-fluid">
-          <div class="row mb-1">
-            <div class="col-md-6 my-auto">
-              <label class="mb-0">{{'subTotal'|translate}} :</label>
-            </div>
-            <div class="col-md-6 card-header text-center p-1">
-              <span> {{subTotal | currency:'EGP'}}</span>
-            </div>
-          </div>
-          <div class="row mb-1">
-            <div class="col-md-6 my-auto">
-              <label class="mb-0">{{'taxRate'|translate}} :</label>
-            </div>
-            <div class="col-md-6 card-header text-center p-1">
-              <span> {{ 0 | currency:'EGP'}}</span>
-            </div>
-          </div>
-          <div class="row mb-1">
-            <div class="col-md-6 my-auto">
-              <label class="mb-0">{{'total'|translate}} :</label>
-            </div>
-            <div class="col-md-6 card-header text-center p-1">
-              <span> {{subTotal | currency:'EGP'}}</span>
-            </div>
-          </div>
+      <div class="offset-md-9 col-md-3 f-weight-700 text-black my-4">
+        <div>
+          <label>{{'signature'|translate}} : </label>
         </div>
-
+        <div>
+          <label>{{'date'|translate}} : </label>
+        </div>
       </div>
-      <div class="col-md-12  mt-3">
-        <div class="container-fluid">
-          <div class="row print-footer">
-            <div class="col-md-1 my-auto">
-              office
-            </div>
-            <div class="col-md-8 my-auto">
-              Credit Building, Office 934, 3rd Floor,Ahmed Fouad Abd El Aziz Al Sarayat Sabekaa,As Sarayat,Al
-              Walli,Cairo governante
-            </div>
-            <div class="col-md-3  d-flex mb-3  footer-info">
+      <div class="col-md-12 quotation-note text-grey p-3">
+        <h6 class="text-black f-weight-700">{{'note'|translate}} : </h6>
+        <p>{{'quotationNoteDescription'|translate}}</p>
+      </div>
+      <div class="col-md-12 px-0 mt-4">
 
-              <i class="fa fa-volume-control-phone mr-3" aria-hidden="true"></i>
-              <div class="text-left border-left pl-3">
-                <div>
-                  Mohamed Essa
-                </div>
-                <div class="mb-2">
-                  presales engineer
-                </div>
-                <div>
-                  +20 1xxxxxxxx
-                </div>
-              </div>
+          <div class="row ">
+            <div class="col-md-8 text-grey">
+              <h6 class="text-black f-weight-700">
+                {{'office'|translate}} :
+              </h6>
+              <p>{{'quotationFooterDescription'|translate}}</p>
+            </div>
+            <div class="col-md-4 text-grey">
+              <h6 class="text-black f-weight-700">{{'contact'|translate}} : </h6>
+              <div>Eng. Mohamed Essa</div>
+              <div>divresales engineer</div>
+              <div>01021556618</div>
             </div>
           </div>
-        </div>
 
       </div>
     </div>

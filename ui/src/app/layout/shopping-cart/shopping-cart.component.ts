@@ -13,6 +13,7 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { debounce, debounceTime, switchMap, delay } from 'rxjs/operators';
 import { TdLoadingService } from '@covalent/core/loading';
 import { GalleryService } from 'src/app/shared/services/gallery.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -32,14 +33,15 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
   hasAdminRole = false;
   dropdownSettings: IDropdownSettings = {};
   selectedItemsArray;
-
+  modalRef: BsModalRef;
   constructor(
     service: ShoppingCartService,
     private appStore: Store<fromStore.AppState>,
     private toastr: ToastrService,
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
     loadingService: TdLoadingService,
-    private galleryService: GalleryService
+    private galleryService: GalleryService,
+    private modalService: BsModalService
   ) {
     super(service, loadingService);
     this.authUser$ = this.appStore.select(fromStore.getAuthUser);
@@ -135,6 +137,52 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
         this.loadingService.resolve(this.key);
       }
     );
+  }
+
+  decreaseQuantity(item: ShoppingCartItem, quantity) {
+    let newItem = Object.assign({}, item);
+    newItem.quantity = parseInt(quantity) - 1;
+    if (quantity < 1 || quantity == '') {
+      return;
+    }
+    this.loadingService.register(this.key);
+    this.loading = true;
+    this.service.update(newItem).subscribe(
+      (res) => {
+        this.loading = false;
+        this.loadingService.resolve(this.key);
+        this.appStore.dispatch(new fromStore.LoadInitState());
+      },
+      (err) => {
+        this.loading = false;
+        this.loadingService.resolve(this.key);
+      }
+    );
+  }
+
+  increaseQuantity(item: ShoppingCartItem, quantity) {
+    let newItem = Object.assign({}, item);
+    newItem.quantity = parseInt(quantity) + 1;
+    if (newItem.quantity < 1 || quantity == '') {
+      return;
+    }
+    this.loadingService.register(this.key);
+    this.loading = true;
+    this.service.update(newItem).subscribe(
+      (res) => {
+        this.loading = false;
+        this.loadingService.resolve(this.key);
+        this.appStore.dispatch(new fromStore.LoadInitState());
+      },
+      (err) => {
+        this.loading = false;
+        this.loadingService.resolve(this.key);
+      }
+    );
+  }
+
+  deleteItemModal(template) {
+    this.modalRef = this.modalService.show(template);
   }
 
   textAreaChange(item: ShoppingCartItem, notes) {

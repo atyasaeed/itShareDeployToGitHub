@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
+import { getLang } from 'src/app/store';
 @Component({
   selector: 'app-organizations-list',
   templateUrl: './organizations-list.component.html',
@@ -41,6 +42,9 @@ export class OrganizationsListComponent extends DefaultListComponent<Organizatio
       showSelectedItemsAtTop: false,
       defaultOpen: false,
     };
+    this.appStore.select(getLang).subscribe((res) => {
+      this.lang = res;
+    });
   }
 
   onItemSelect(item) {

@@ -17,11 +17,14 @@ import { UserService } from 'src/app/shared/services/user.service';
 })
 export class UsersComponent extends DefaultListComponent<User, UserService> {
   breadcrumbs = [{ heading: 'Users', icon: 'fa-tasks' }];
-
+  lang: string;
   private _searchTerm = '';
 
   constructor(service: UserService, private appStore: Store<fromStore.AppState>, loadingService: TdLoadingService) {
     super(service, loadingService);
+    this.appStore.select(fromStore.getLang).subscribe((lang) => {
+      this.lang = lang;
+    });
   }
 
   set searchTerm(searchTerm: string) {

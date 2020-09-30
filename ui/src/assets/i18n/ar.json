@@ -347,5 +347,21 @@
   "brand.resetPassword": "إعادة تعيين كلمة المرور",
   "brand.changePassword": "تغيير كلمة المرور",
   "deschangePassword": "قم بتعيين كلمة مرور جديدة لحسابك",
-  "enterOldPassword": "أدخل كلمة المرور القديمة"
+  "enterOldPassword": "أدخل كلمة المرور القديمة",
+  "servicesAreAdded": "الخدمات المضافه",
+  "confirmOrder": "تاكيد الطلب",
+  "deleteItem": "حذف",
+  "deleteDescription": "It is a long established fact that a reader will be distracted by the readable content.",
+  "actions": "Actions",
+  "orderQuotation": "Order Quotation",
+  "offeredTo": "Quotation offered to",
+  "lineItem.duration": "مدة التصنيع",
+  "lineItem.unitPrice": "السعر",
+  "signature": "التوقيع",
+  "date": "الترايخ",
+  "note": "ملحوظه",
+  "quotationNoteDescription": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point a reader will be distracted by the readable",
+  "office": "المكتب",
+  "quotationFooterDescription": "Credit Building, Office 934, 3rd Floor, Ahmed Fouad Abd Al Aziz Al Sarayat Sabekaa, As Sarayat, Al Waili, Cairo Governorate",
+  "contact": "Contact"
 }
