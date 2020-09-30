@@ -48,7 +48,7 @@
                       <mat-radio-group class="row" [formControl]='selection' #radioGroup="matRadioGroup">
                         <mat-radio-button class="col-6" value="option1">{{"Upload File" |translate}}
                         </mat-radio-button>
-                        <mat-radio-button class="col-6" value="option2" (click)="lgModal.show()">
+                        <mat-radio-button class="col-6" value="option2" (click)="lgModal.show();filename=undefined">
                           {{"file.choose" |translate}}</mat-radio-button>
                       </mat-radio-group>
                       <span class="text-danger" *ngIf="selection.errors && form.touched">
@@ -63,9 +63,11 @@
                           <span class="text-danger" *ngIf="form.controls.file.errors.extension "> |
                             *{{'file.errors.extensions'|translate}} {{form.controls.file.errors.extension}} </span>
                         </span>
-
-                        <input type="file" [accept]="extFile" formControlName="file" class="form-control mb-3 border"
+                        <label class="custom-input-file form-control">
+                          <span class="browse-button" [class.uploaded]="filename">{{filename ? ('replaceFile'|translate):('chooseFile'|translate)}}</span> <span>{{filename?.name}}</span>
+                          <input type="file" [accept]="extFile" formControlName="file" class="form-control mb-3 border"
                           (change)="handleFileInput($event)">
+                        </label>
                       </div>
                       <div *ngIf="radioGroup.value =='option2'">
                         <label>{{'File' | translate}} :</label>

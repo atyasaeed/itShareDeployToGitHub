@@ -309,6 +309,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterContentChecked {
           this.form.markAsUntouched();
           this.form.markAsPristine();
           this.form.updateValueAndValidity();
+          this.filename = undefined;
           this.animationService.flyToCartAnimation(this.flyToCart, 'white');
           setTimeout(() => {
             this.loadingService.resolve('loading');
