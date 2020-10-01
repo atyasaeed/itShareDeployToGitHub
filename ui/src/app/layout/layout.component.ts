@@ -1,5 +1,8 @@
 import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { Router, RouteConfigLoadStart, RouteConfigLoadEnd } from '@angular/router';
+import * as fromStore from 'src/app/store';
+import { Store } from '@ngrx/store';
+import { User } from '../shared/domain';
 
 @Component({
   selector: 'app-layout',
@@ -9,12 +12,17 @@ import { Router, RouteConfigLoadStart, RouteConfigLoadEnd } from '@angular/route
 export class LayoutComponent implements OnInit {
   collapsedSideBar: boolean;
   loadingRouteConfig: boolean;
+  user: User;
+  constructor(private router: Router, private cdr: ChangeDetectorRef, private appStore: Store<fromStore.AppState>) {}
   @ViewChild('header') header: ElementRef;
   @ViewChild('footer') footer: ElementRef;
   layoutComponentsMinHeight: number;
-  constructor(private router: Router, private cdr: ChangeDetectorRef) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.appStore.select(fromStore.getAuthUser).subscribe((res) => {
+      this.user = res;
+    });
+  }
 
   ngAfterViewInit() {
     this.calcMinHeight();

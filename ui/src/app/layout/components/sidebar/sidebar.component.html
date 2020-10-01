@@ -1,199 +1,130 @@
-<nav class="sidebar" [ngClass]="{collapsed: collapsed}">
+<nav class="sidebar py-2" [ngClass]="{collapsed: collapsed }">
   <div class="list-group">
-    <a class="list-group-item" routerLink="/home" [routerLinkActive]="['router-link-active']">
-      <i class="fa fa-fw fa-home"></i>&nbsp;
-      <span>{{ 'home' | translate }}</span>
-    </a>
-    <a class="list-group-item" *ngIf="hasAdminRole" routerLink="/dashboard" [routerLinkActive]="['router-link-active']">
-      <i class="fa fa-fw fa-dashboard"></i>&nbsp;
-      <span>{{ 'Dashboard' | translate }}</span>
-    </a>
-    <a class="list-group-item" *ngIf="hasAdminRole" routerLink="/charts" [routerLinkActive]="['router-link-active']">
-      <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;
-      <span>{{ 'Charts' | translate }}</span>
-    </a>
-    <!-- <div class="nested-menu" *ngIf="hasAdminRole">
-            <a class="list-group-item" (click)="addExpandClass('lookups')">
-                <i class="fa fa-plus"></i>&nbsp;
-                <span>{{ 'Lookups Admin' | translate }}</span>
-            </a>
-            <li class="nested" [class.expand]="showMenu === 'lookups'">
-                <ul class="submenu">
-                    <li>
-                        <a routerLink="/competencies" [routerLinkActive]="['router-link-active']">
-                            <i class="fa fa-monument"></i>&nbsp;
-                            <span>{{ 'Competencies' | translate }}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a routerLink="/programs" [routerLinkActive]="['router-link-active']">
-                            <i class="fa fa-monument"></i>&nbsp;
-                            <span>{{ 'Programs' | translate }}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a routerLink="/universities" [routerLinkActive]="['router-link-active']">
-                            <i class="fa fa-monument"></i>&nbsp;
-                            <span>{{ 'Universities' | translate }}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a routerLink="/faculties" [routerLinkActive]="['router-link-active']">
-                            <i class="fa fa-monument"></i>&nbsp;
-                            <span>{{ 'Faculties' | translate }}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a routerLink="/departments" [routerLinkActive]="['router-link-active']">
-                            <i class="fa fa-monument"></i>&nbsp;
-                            <span>{{ 'Departments' | translate }}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a routerLink="/emp-cases" [routerLinkActive]="['router-link-active']">
-                            <i class="fa fa-monument"></i>&nbsp;
-                            <span>{{ 'Employment Cases' | translate }}</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a routerLink="/degrees" [routerLinkActive]="['router-link-active']">
-                            <i class="fa fa-monument"></i>&nbsp;
-                            <span>{{ 'Degrees' | translate }}</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-        </div> -->
-    <div class="nested-menu" *ngIf="hasAdminRole">
-      <a class="list-group-item" (click)="addExpandClass('dashboard')">
-        <i class="fa fa-plus"></i>&nbsp;
-        <span>{{ 'Admin Dashboard' | translate }}</span>
+    <div>
+      <a class="list-group-item active-item d-flex" routerLink="/home" [routerLinkActive]="['router-link-active']">
+        <img src="assets\images\home-solid.png" class="height-fluid cursor-pointer f-size-30 mx-2">
+        <span class="f-size-18">{{ 'home' | translate }}</span>
       </a>
-      <li class="nested" [class.expand]="showMenu === 'dashboard'">
-        <ul class="submenu">
-          <li>
-            <a routerLink="/users" [routerLinkActive]="['router-link-active']">
-              <i class="fa fa-monument"></i>&nbsp;
-              <span>{{ 'Users' | translate }}</span>
-            </a>
-          </li>
-          <li>
-            <a routerLink="/orders-list" [routerLinkActive]="['router-link-active']">
-              <i class="fa fa-monument"></i>&nbsp;
-              <span>{{ 'Orders' | translate }}</span>
-            </a>
-          </li>
-
-          <li>
-            <a routerLink="/courses" [routerLinkActive]="['router-link-active']">
-              <i class="fa fa-monument"></i>&nbsp;
-              <span>{{ 'Machines' | translate }}</span>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <i class="fa fa-monument"></i>&nbsp;
-              <span>{{ 'Jobs' | translate }}</span>
-            </a>
-          </li>
-          <li>
-            <a routerLink="/services-list" [routerLinkActive]="['router-link-active']">
-              <i class="fa fa-monument"></i>&nbsp;
-              <span>{{ 'service' | translate }}</span>
-            </a>
-          </li>
-
-          <li>
-            <a routerLink="/reasons-list" [routerLinkActive]="['router-link-active']">
-              <i class="fa fa-monument"></i>&nbsp;
-              <span>{{ 'rejectionReasons' | translate }}</span>
-            </a>
-          </li>
-          <li>
-            <a routerLink="/organizations-list" [routerLinkActive]="['router-link-active']">
-              <i class="fa fa-monument"></i>&nbsp;
-              <span>{{ 'organizations' | translate }}</span>
-            </a>
-          </li>
-
-        </ul>
-      </li>
-    </div>
-    <!-- <a class="list-group-item">
-            <i class="fa fa-fw fa-table"></i>&nbsp;
-            <span>{{ 'My Courses' | translate }}</span>
-        </a> -->
-    <!-- <a class="list-group-item">
-            <i class="fa fa-fw fa-edit"></i>&nbsp;
-            <span>{{ 'My Requests' | translate }}</span>
-        </a> -->
-    <a class="list-group-item" routerLink="/shopping-cart">
-      <i class="fa fa-fw fa-edit"></i>&nbsp;
-      <span>{{ 'Shopping Cart' | translate }}</span>
-    </a>
-    <a class="list-group-item" routerLink="/my-orders">
-      <i class="fa fa-fw fa-edit"></i>&nbsp;
-      <span>{{ 'Track-Order' | translate }}</span>
-    </a>
-    <a class="list-group-item" routerLink="/gallery">
-      <i class="fa fa-fw fa-edit"></i>&nbsp;
-      <span>{{'gallery'|translate}}</span>
-    </a>
-    <a class="list-group-item" routerLink="/space">
-      <i class="fa fa-fw fa-edit"></i>&nbsp;
-      <span>{{ 'mySpace' | translate }}</span>
-    </a>
-
-
-    <!-- <a class="list-group-item" *ngIf="hasAdminRole" routerLink="/reasons-list">
-      <i class="fa fa-fw fa-edit"></i>&nbsp;
-      <span>{{ 'Rejection Reasons' | translate }}</span>
-    </a> -->
-
-    <div class="header-fields">
-
-      <div class="nested-menu">
-        <a class="list-group-item" (click)="addExpandClass('languages')">
-
-          <span> <i class="fa fa-language"></i> &nbsp;{{ 'Language' | translate }} &nbsp; <i
-              class="fa fa-caret-down"></i></span>
+      <a class="list-group-item active-item d-flex" *ngIf="hasAdminRole" routerLink="/shopping-cart"
+        [routerLinkActive]="['router-link-active']">
+        <img src="assets\images\shopping-cart-solid.png" class="height-fluid cursor-pointer f-size-30 mx-2">
+        <span class="f-size-18">{{ 'Shopping Cart' | translate }}</span>
+      </a>
+      <a class="list-group-item active-item d-flex" *ngIf="hasAdminRole" routerLink="/gallery"
+        [routerLinkActive]="['router-link-active']">
+        <img src="assets\images\images-solid.png" class="height-fluid cursor-pointer f-size-30 mx-2">
+        <span class="f-size-18">{{ 'gallery' | translate }}</span>
+      </a>
+      <a class="list-group-item active-item d-flex" routerLink="/my-orders" [routerLinkActive]="['router-link-active']">
+        <img src="assets\images\box-solid.png" class="height-fluid cursor-pointer f-size-30 mx-2">
+        <span class="f-size-18">{{ 'Track-Order' | translate }}</span>
+      </a>
+      <a class="list-group-item active-item d-flex" routerLink="/space" [routerLinkActive]="['router-link-active']">
+        <img src="assets\images\palette-solid.png" class="height-fluid cursor-pointer f-size-30 mx-2">
+        <span class="f-size-18">{{ 'mySpace' | translate }}</span>
+      </a>
+      <div class="nested-menu list-group" *ngIf="hasAdminRole">
+        <a class="list-group-item active-item d-flex" (click)="addExpandClass('dashboard')"
+          [routerLinkActive]="['router-link-active']">
+          <i class="fa fa-plus height-fluid cursor-pointer f-size-30 mx-2"></i>&nbsp;
+          <span class="f-size-18">{{ 'Admin Dashboard' | translate }}</span>
         </a>
-        <li class="nested" [class.expand]="showMenu === 'languages'">
+        <li class="nested m-auto" [class.expand]="showMenu === 'dashboard'">
           <ul class="submenu">
             <li>
-              <a (click)="changeLang('en')">
-                <span>{{ 'English' | translate }}</span>
+              <a class="list-group-item active-item d-flex" routerLink="/users"
+                [routerLinkActive]="['router-link-active']">
+                <i class="fa fa-monument"></i>&nbsp;
+                <span>{{ 'Users' | translate }}</span>
               </a>
             </li>
             <li>
-              <a (click)="changeLang('ar')">
-                <span>{{ 'Arabic' | translate }}</span>
+              <a class="list-group-item active-item d-flex" routerLink="/orders-list"
+                [routerLinkActive]="['router-link-active']">
+                <i class="fa fa-monument"></i>&nbsp;
+                <span>{{ 'Orders' | translate }}</span>
+              </a>
+            </li>
+
+            <li>
+              <a class="list-group-item active-item d-flex" routerLink="/courses"
+                [routerLinkActive]="['router-link-active']">
+                <i class="fa fa-monument"></i>&nbsp;
+                <span>{{ 'Machines' | translate }}</span>
+              </a>
+            </li>
+            <li>
+              <a class="list-group-item active-item d-flex" routerLink="javascript:void(0)"
+                [routerLinkActive]="['router-link-active']">
+                <i class="fa fa-monument"></i>&nbsp;
+                <span>{{ 'Jobs' | translate }}</span>
+              </a>
+            </li>
+            <li>
+              <a class="list-group-item active-item d-flex" routerLink="/services-list"
+                [routerLinkActive]="['router-link-active']">
+                <i class="fa fa-monument"></i>&nbsp;
+                <span>{{ 'service' | translate }}</span>
+              </a>
+            </li>
+
+            <li>
+              <a class="list-group-item active-item d-flex" routerLink="/reasons-list"
+                [routerLinkActive]="['router-link-active']">
+                <i class="fa fa-monument"></i>&nbsp;
+                <span>{{ 'rejectionReasons' | translate }}</span>
+              </a>
+            </li>
+            <li>
+              <a class="list-group-item active-item d-flex" routerLink="/organizations-list"
+                [routerLinkActive]="['router-link-active']">
+                <i class="fa fa-monument"></i>&nbsp;
+                <span>{{ 'organizations' | translate }}</span>
               </a>
             </li>
 
           </ul>
         </li>
       </div>
+    </div>
+
+    <div class="header-fields">
+      <div *noAuth>
+        <a class="list-group-item d-flex" routerLink="/service" [routerLinkActive]="['router-link-active']">
+          <span class="f-size-18 m-auto site-color-v2">{{ 'service' | translate }}</span>
+        </a>
+        <a class="list-group-item d-flex" routerLink="/gallery" [routerLinkActive]="['router-link-active']">
+          <span class="f-size-18  m-auto site-color-v2">{{ 'gallery' | translate }}</span>
+        </a>
+        <a class="list-group-item d-flex" routerLink="/contactUs" [routerLinkActive]="['router-link-active']">
+          <span class="f-size-18 m-auto site-color-v2">{{ 'contactUs' | translate }}</span>
+        </a>
+      </div>
+
       <ng-container *ngIf="authUser$ |async as user; else anonymous">
-        <div class="nested-menu">
-          <a class="list-group-item" (click)="addExpandClass('profile')">
-            <span><i class="fa fa-user"></i>&nbsp; {{user.username}} &nbsp; <i class="fa fa-caret-down"></i></span>
+        <div class="nested-menu list-group">
+          <a class="list-group-item " (click)="addExpandClass('profile')">
+            <span class="px-2"><i class="fa fa-user f-size-30 m-auto site-color-v2"></i>&nbsp; {{user.username}} &nbsp;
+              <i class="fa fa-caret-down"></i></span>
           </a>
           <li class="nested" [class.expand]="showMenu === 'profile'">
             <ul class="submenu">
               <li>
-                <a href="javascript:void(0)">
-                  <span><i class="fa fa-fw fa-user"></i> {{ 'Profile' | translate }}</span>
+                <a routerLink='/profile'>
+                  <img src="assets\images\user-edit-solid (1).png" class="px-2" /> <span
+                    class="f-size-14 custom-btn.v2 f-weight-600">{{ 'Profile' | translate }}</span>
                 </a>
               </li>
               <li>
-                <a href="javascript:void(0)">
-                  <span><i class="fa fa-fw fa-gear"></i> {{ 'Settings' | translate }}</span>
+                <a [routerLink]="'/change-password'">
+                  <img src="assets\images\unlock-alt-solid.png" class="px-2" /> <span
+                    class="f-size-14 custom-btn.v2 f-weight-600">{{ 'changePassword' | translate }}</span>
                 </a>
               </li>
               <li>
                 <a (click)="authenticationService.logout()">
-                  <span><i class="fa fa-fw fa-power-off"></i> {{ 'Log Out' | translate }}</span>
+                  <img src="assets\images\power-off-solid.png" class="px-2" /> <span
+                    class="f-size-14 custom-btn.v2 f-weight-600">{{ 'Log Out' | translate }}</span>
                 </a>
               </li>
             </ul>
@@ -202,8 +133,8 @@
       </ng-container>
       <ng-template #anonymous>
         <div class="nested-menu">
-          <a class="list-group-item" (click)="addExpandClass('anonymous')">
-            <span><i class="fa fa-user"></i>&nbsp; {{'Welcome'| translate }} &nbsp; <i
+          <a class="list-group-item text-center site-color-v2" (click)="addExpandClass('anonymous')">
+            <span class="site-color-v2"><i class="fa fa-user"></i>&nbsp; {{'Welcome'| translate }} &nbsp; <i
                 class="fa fa-caret-down"></i></span>
           </a>
           <li class="nested" [class.expand]="showMenu === 'anonymous'">
@@ -215,35 +146,55 @@
               </li>
               <li>
                 <a [routerLink]="'/signup'">
-                  <span><i class="fa fa-fw fa-envelope"></i> {{ 'Register' | translate }}</span>
+                  <span> {{ 'Register' | translate }}</span>
                 </a>
               </li>
               <li>
-                <a [routerLink]="'/forgetPassword'">
-                  <span><i class="fa fa-fw fa-gear"></i> {{ 'Forget Password' | translate }}</span>
-                </a>
-              </li>
-              <li>
-                <a (click)="authenticationService.logout()">
-                  <span><i class="fa fa-fw fa-power-off"></i> {{ 'Log Out' | translate }}</span>
+                <a>
+                  <span (click)="signupPartner()">{{'becomaApartner'|translate}}</span>
                 </a>
               </li>
             </ul>
           </li>
         </div>
       </ng-template>
+      <div class="nested-menu list-group">
+
+        <a class="list-group-item d-flex" (click)="addExpandClass('languages')">
+
+          <span class="m-auto site-color-v2">
+            &nbsp;{{ 'Language' | translate }} &nbsp; <i class="fa fa-caret-down"></i></span>
+        </a>
+        <li class="nested" [class.expand]="showMenu === 'languages'">
+          <ul class="submenu">
+            <li>
+              <a (click)="changeLang('en')">
+                <span>{{ 'english' | translate }}</span>
+              </a>
+            </li>
+            <li>
+              <a (click)="changeLang('ar')">
+                <span>{{ 'arabic' | translate }}</span>
+              </a>
+            </li>
+
+          </ul>
+        </li>
+      </div>
 
     </div>
   </div>
 
-  <div *ngIf="lang == 'en'" class="toggle-button" [ngClass]="{collapsed: collapsed}" (click)="toggleCollapsed()">
-    <i class="fa fa-fw fa-angle-double-{{collapsed?'right':'left'}}"></i>
-    <span>{{ 'collapseSidebar' | translate }}</span>
-  </div>
-  <div *ngIf="lang == 'ar'" dir="rtl" class="toggle-button"
-    style="display: flex; justify-content: space-around; direction: rtl;" [ngClass]="{collapsed: collapsed}"
-    (click)="toggleCollapsed()">
-    <i class="fa fa-fw fa-angle-double-{{collapsed?'left':'right'}}"></i>
-    <span>{{ 'collapseSidebar' | translate }}</span>
+  <div *isAuth>
+    <div *ngIf="lang == 'en'" class="toggle-button" [ngClass]="{collapsed: collapsed}" (click)="toggleCollapsed()">
+      <i class="fa fa-fw fa-angle-double-{{collapsed?'right':'left'}}"></i>
+      <span>{{ 'collapseSidebar' | translate }}</span>
+    </div>
+    <div *ngIf="lang == 'ar'" dir="rtl" class="toggle-button"
+      style="display: flex; justify-content: space-around; direction: rtl;" [ngClass]="{collapsed: collapsed}"
+      (click)="toggleCollapsed()">
+      <i class="fa fa-fw fa-angle-double-{{collapsed?'left':'right'}}"></i>
+      <span>{{ 'collapseSidebar' | translate }}</span>
+    </div>
   </div>
 </nav>
