@@ -49,3 +49,12 @@ $topnav-background-color:  #FFFFFF;
 .dropdown-item:active{
   background-color: initial !important;
 }
+
+.dropdown-menu-cart{
+width: 300px;
+padding: 5px;
+}
+.dropdown-menu-cart .cart-item{
+  border-bottom: 1px solid #e9ecef;
+  margin-bottom: 5px;
+}
