@@ -90,7 +90,7 @@ export class LineItemComponent implements OnInit {
     }
   }
 
-  cancelModal(template) {
+  cancelItemModal(template) {
     this.modalRef = this.modalService.show(template);
   }
 

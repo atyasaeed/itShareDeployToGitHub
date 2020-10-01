@@ -48,9 +48,8 @@
                 <button [useExistingCss]="true" printSectionId="{{order.id}}" ngxPrint type="button"
                 class="custom-btn btn-secondary w-100  m-1"
                 *ngIf="order.status == 'QUOTED' || order.status == 'QUOTE_ACCEPTED'">{{'printQuotation'|translate}}</button>
-
                 <input type="submit" class="custom-btn w-100  btn-danger  m-1 text-center" *ngIf="showCancelOrderBtn() "
-                value="{{'Cancel Order'|translate}}" (click)="cancelOrder()">
+                value="{{'Cancel Order'|translate}}" (click)="showModal(cancelOrderAlert)">
               </div>
             </div>
             <div class="col-md-4 text-center my-auto" *ngIf="order.status == 'ORDER_REJECTED' ">
@@ -283,4 +282,27 @@
       <button type="button" class="btn btn-sm btn-secondary" (click)="modalRef.hide()">{{'close'|translate}}</button>
     </div>
   </div>
+</ng-template>
+
+<ng-template #cancelOrderAlert>
+    <div class="modal-body ">
+      <div>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="text-center mt-2 text-danger">
+        <i class="fas fa-times fa-5x"></i>
+      </div>
+      <div class="text-center mt-2 site-color-v3 f-weight-600 f-size-20">
+        {{'areYouSure'|translate}}
+      </div>
+      <div class="text-center f-size-14 text-grey mt-2">
+        {{'deleteDescription'|translate}}
+      </div>
+      <div class="text-center my-2 f-weight-600">
+        <button class="custom-btn v4 mr-3" (click)="modalRef.hide()">{{'no'|translate}}</button>
+        <button class="custom-btn btn-danger" (click)="cancelOrder();modalRef.hide()">{{'yes'|translate}}</button>
+      </div>
+    </div>
 </ng-template>
