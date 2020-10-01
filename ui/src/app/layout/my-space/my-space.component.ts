@@ -10,6 +10,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { Router } from '@angular/router';
 import { TdLoadingService } from '@covalent/core/loading';
 import { MySpaceService } from 'src/app/shared/services/my-space.service';
+import { getLang } from 'src/app/store';
 
 @Component({
   selector: 'app-my-space',
@@ -23,6 +24,7 @@ export class MySpaceComponent extends DefaultListComponent<AssetFile, MySpaceSer
   Authservices: Service[];
   filterService: Service[] = new Array();
   modalRef: BsModalRef;
+  lang: string;
   config = {
     animated: true,
     keyboard: true,
@@ -40,8 +42,10 @@ export class MySpaceComponent extends DefaultListComponent<AssetFile, MySpaceSer
   ) {
     super(service, loadingService);
     this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
-      console.log(res);
       this.Authservices = res;
+    });
+    this.appStore.select(getLang).subscribe((res) => {
+      this.lang = res;
     });
   }
 
