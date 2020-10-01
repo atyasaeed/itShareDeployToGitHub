@@ -11,9 +11,17 @@
             padding: 0;
         }
     }
+    .active-item.router-link-active{
+      border-left: none !important;
+      border-right: 4px solid  #63C6C9 !important;
+    }
+
     .button-position-rtl{
       right: initial !important;
       left: 0 !important;
+    }
+    .quan-cart{
+      right: 0 !important;
     }
 
     .home-rtl{
@@ -182,6 +190,10 @@
         }
 
     }
+    .dropdown-menu-cart{
+width: 300px !important;
+padding: 5px !important;
+}
     .datepicker-input {
         direction: ltr;
         .dropdown-menu {

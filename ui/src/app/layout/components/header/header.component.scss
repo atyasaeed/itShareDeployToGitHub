@@ -1,58 +1,60 @@
-$topnav-background-color: #222;
+$topnav-background-color:  #FFFFFF;
 :host {
   height: 56px;
   display: block;
     .navbar {
-        background-color: $topnav-background-color;
-        .navbar-brand {
-            color: #fff;
-        }
-        .nav-item>a {
-            color: #999;
-            &:hover {
-                color: #fff;
-            }
-        }
-    }
-    .messages {
-        width: 300px;
-        .media {
-            border-bottom: 1px solid #ddd;
-            padding: 5px 10px;
-            &:last-child {
-                border-bottom: none;
-            }
-        }
-        .media-body {
-            h5 {
-                font-size: 13px;
-                font-weight: 600;
-            }
-            .small {
-                margin: 0;
-            }
-            .last {
-                font-size: 12px;
-                margin: 0;
-            }
-        }
+        background: $topnav-background-color 0% 0% no-repeat padding-box;
+        box-shadow: 0px 3px 10px #0000001A;
+        opacity: 1;
+        color: black;
     }
 
-    .cart-btns {
-      display: flex;
-      justify-content: space-around;
-      margin: 10px 0;
-    }
+  }
 
-    .mat-badge-small.mat-badge-above .mat-badge-content{
-        top:0 !important
-    }
+  .navbar-dark .navbar-nav .nav-link{
+    color: initial;
+  }
 
-    .mat-badge-small.mat-badge-overlap.mat-badge-after .mat-badge-content {
-        right: 4px ;
-        text-align: center;
-    }
+  .mat-badge-small.mat-badge-overlap.mat-badge-after .mat-badge-content {
+    right: 10px;
+    top: 3px;
+    background-color: #0E2546;
+  }
+.pointer{
+  cursor: pointer;
 }
-.dropdown-menu-cart {
-  width: 300px !important;
+
+.userProfile{
+      width: 30px !important;
+    height: 30px !important;
+    color: #ffffff !important;
+    font-size: 20px !important;
+    background-color: #63C6C9 !important;
+    text-align: center !important;
+    line-height: 1.4 !important ;
+    border-radius: 50% !important;
+
+}
+.quan-cart{
+  width: 20px;
+    height: 20px;
+    background-color: #0E2546;
+    color: #ffffff;
+    text-align: center;
+    border-radius: 50%;
+    top: 0;
+    right: 15px;
+    line-height: 1.5;
+}
+.dropdown-item:active{
+  background-color: initial !important;
+}
+
+.dropdown-menu-cart{
+width: 300px;
+padding: 5px;
+}
+.dropdown-menu-cart .cart-item{
+  border-bottom: 1px solid #e9ecef;
+  margin-bottom: 5px;
 }

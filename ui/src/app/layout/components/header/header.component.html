@@ -1,28 +1,129 @@
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark nav-rtl">
-  <a class="navbar-brand" href="#">{{ 'Brand' | translate }}</a>
-  <button class="navbar-toggler" type="button" (click)="toggleSidebar()">
-    <!-- <span class="navbar-toggler-icon"></span> -->
-    <i class="fa fa-bars text-muted" aria-hidden="true"></i>
-  </button>
-  <div class="collapse navbar-collapse">
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="text" placeholder="{{ 'search' | translate }}">
-    </form>
-    <ul class="navbar-nav ml-auto">
+  <!-- <a class="navbar-brand" href="#">{{ 'Brand' | translate }}</a> -->
+  <div class="row w-100 justify-content-between">
+    <div style="height: 40px;" class="col-3">
+      <a routerLink=""><img src="assets\images\Fabri Hub_Logo@2x.png" class="height-fluid cursor-pointer pointer" /></a>
+    </div>
+    <div class="col-8 text-right navbar-toggler">
+      <div class="row">
+        <li class="nav-item pointer col-10">
+          <div class="btn-group" dropdown>
+        <li dropdownToggle class="dropdown-item px-2 position-relative dropdown-toggle nav-link">
+          <img src="assets\images\cart-plus-solid.png" />
+          <span class="position-absolute f-size-14  quan-cart">{{quantitiesCount}}</span>
+
+        </li>
+        <ul *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown-menu-cart   messages" role="menu"
+          aria-labelledby="button-basic">
+
+          <ng-container *ngIf="(items$)?.length!=0 else anonymous">
+
+            <li role="menuitem" class="media pointer" *ngFor="let entity of items$">
+              <div class="row">
+                <div class="col-4 text-center my-auto">
+                  <img class=" img-fluid" [src]="appConfig.serviceImage(entity.service)">
+
+                </div>
+                <div class="col-4 text-center my-auto f-size-13">
+                  <div class="media-body">
+                    <h5 class="mt-0 mb-1 f-size-13">{{ entity.service.name }}</h5>
+                    <p class="last"> Quantity: {{ entity.quantity }} </p>
+                  </div>
+                </div>
+                <div class="col-4 text-center my-auto">
+                  <button type="button" class="btn btn-outline-danger btn-xs" (click)="delete(entity)">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+
+
+            </li>
+
+            <div class="cart-btns d-flex justify-content-around">
+              <button class="btn btn-info" routerLink="/shopping-cart">{{'viewCart' |translate}}</button>
+              <button class="btn btn-success" (click)="checkout()">{{ 'checkOut' | translate }}</button>
+            </div>
+
+          </ng-container>
+
+          <ng-template #anonymous>
+            <div style="text-align: center " class="px-4 f-size-14 f-weight-600">
+              {{'please Select Service To Create Your ShoppingCart'|translate}}
+
+            </div>
+          </ng-template>
+
+
+        </ul>
+      </div>
+      </li>
+      <div class="col-2 text-right px-0 py-2">
+        <button class="navbar-toggler" type="button" (click)="toggleSidebar()">
+          <!-- <span class="navbar-toggler-icon"></span> -->
+          <i class="fa fa-bars text-muted" aria-hidden="true"></i>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="collapse navbar-collapse col-md-9">
+    <ul class="navbar-nav   f-size-16 f-weight-600 w-100 d-flex justify-content-end">
       <li class="nav-item" *ngIf="!userLogin">
-        <a class="nav-link" (click)="signupPartner()">{{'becomaApartner'|translate}}</a>
+        <a class="site-color-v2 nav-link f-size-16 f-weight-600 custom-align " [routerLink]="'/service'">
+          {{ 'service' | translate }}
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="!userLogin">
+        <a class="site-color-v2 nav-link f-size-16 f-weight-600 custom-align" [routerLink]="'/gallery'">
+          {{ 'gallery' | translate }}
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="!userLogin">
+        <a class="site-color-v2 nav-link f-size-16 f-weight-600 custom-align" [routerLink]="'/'">
+          {{ 'contactUs' | translate }}
+        </a>
       </li>
 
-      <li class="nav-item">
+      <li class="nav-item my-auto px-2" *ngIf="!userLogin">
+        <a class="dropdown-item custom-btn v1 custom-align" [routerLink]="'/login'">
+          {{ 'Login' | translate }}
+        </a>
+      </li>
 
-        <div class="btn-group" dropdown>
-          <a dropdownToggle class="  dropdown-toggle nav-link">
-            <i class="fa fa-language"></i> {{ 'language' | translate }}
+      <li class="nav-item my-auto px-2" *ngIf="!userLogin">
+        <a class=" nav-link custom-btn v3" (click)="signupPartner()">{{'becomaApartner'|translate}}</a>
+      </li>
+
+
+      <li class="nav-item mx-3 my-auto">
+
+        <div class="btn-group pointer" *ngIf="lang ==='en'" dropdown>
+          <a dropdownToggle class="dropdown-toggle nav-link f-size-16 f-weight-600 custom-align ">
+
+            {{ 'english' | translate }}
           </a>
           <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="button-basic">
-            <li role="menuitem"><a class="dropdown-item" (click)="changeLang('en')">{{ 'english' | translate }}</a>
+            <li role="menuitem"><a class="dropdown-item f-size-14 f-weight-600"
+                (click)="changeLang('en')">{{ 'english' | translate }}</a>
             </li>
-            <li role="menuitem"><a class="dropdown-item" (click)="changeLang('ar')">{{ 'arabic' | translate }}</a>
+            <li role="menuitem"><a class="dropdown-item f-size-14 f-weight-600"
+                (click)="changeLang('ar')">{{ 'arabic' | translate }}</a>
+            </li>
+          </ul>
+        </div>
+        <div class="btn-group pointer" *ngIf="lang ==='ar'" dropdown>
+          <a dropdownToggle class="dropdown-toggle nav-link f-size-16 f-weight-600 custom-align ">
+
+            {{ 'arabic' | translate }}
+          </a>
+          <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="button-basic">
+            <li role="menuitem"><a class="dropdown-item f-size-14 f-weight-600"
+                (click)="changeLang('en')">{{ 'english' | translate }}</a>
+            </li>
+            <li role="menuitem"><a class="dropdown-item f-size-14 f-weight-600"
+                (click)="changeLang('ar')">{{ 'arabic' | translate }}</a>
             </li>
           </ul>
         </div>
@@ -30,144 +131,100 @@
       </li>&nbsp;
       <ng-container *ngIf="authUser$ |async as user; else anonymous">
 
-        <!-- <li class="nav-item">
-          <div class="btn-group" dropdown>
-            <a dropdownToggle class="dropdown-toggle nav-link">
-              <i class="fa fa-bell"></i> <b class="caret"></b><span class="sr-only">(current)</span>
-            </a>
-            <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="button-basic">
-              <li role="menuitem">
-                <a class="dropdown-item" href="#">
-                  {{ 'Pending Task' | translate }} <span class="badge badge-info">6</span>
-                </a>
-              </li>
-              <li role="menuitem">
-                <a class="dropdown-item" href="#">
-                  {{ 'In queue' | translate }} <span class="badge badge-info"> 13</span>
-                </a>
-              </li>
-              <li role="menuitem">
-                <a class="dropdown-item" href="#">
-                  {{ 'Mail' | translate }} <span class="badge badge-info"> 45</span>
-                </a>
-              </li>
-              <li role="menuitem">
-                <a class="dropdown-item" href="#">
-                  {{ 'View All' | translate }}
-                </a>
-              </li>
-            </ul>
-          </div>
-        </li> -->
 
-        <li class="nav-item">
+
+        <li class="nav-item pointer my-auto ">
           <div class="btn-group" dropdown>
-            <a dropdownToggle class="dropdown-toggle nav-link" matBadge="{{ quantitiesCount }}"
-              [matBadgeColor]="quantitiesCount > 0 ? 'primary':'warn'" matBadgePosition="after" matBadgeSize="small">
-              <i class="fa fa-cart-plus" #cartPosition></i> <b class="caret"></b><span class="sr-only">(current)</span>
+            <a dropdownToggle class="dropdown-toggle nav-link f-size-16">
+              <img src="assets\images\user-circle-solid.png" />
+              {{user.username}}<span class="caret"></span>
             </a>
-            <ul *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown-menu-cart   messages" role="menu"
+
+            <ul *dropdownMenu class="dropdown-menu dropdown-menu-right bg-color-v1" role="menu"
               aria-labelledby="button-basic">
-
-              <ng-container *ngIf="(items$)?.length!=0 else anonymous">
-
-                <li role="menuitem" class="media" *ngFor="let entity of items$">
-                  <!-- <img class="d-flex align-self-center mr-3"
-                  src="http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg"
-                  alt="Generic placeholder image"> -->
-                  <div class="row">
-                    <div class="col-md-4 text-center my-auto">
-                      <img class=" img-fluid" [src]="appConfig.serviceImage(entity.service)">
-
-                    </div>
-                    <div class="col-md-4 text-center my-auto">
-                      <div class="media-body">
-                        <h5 class="mt-0 mb-1">{{ entity.service.name }}</h5>
-                        <p class="last"> Quantity: {{ entity.quantity }} </p>
-                      </div>
-                    </div>
-                    <div class="col-md-4 text-center my-auto">
-                      <button type="button" class="btn btn-outline-danger btn-xs" (click)="delete(entity)">
-                        <i class="fa fa-trash" aria-hidden="true"></i>
-                      </button>
-                    </div>
-                  </div>
-
-
-                </li>
-
-                <div class="cart-btns">
-                  <button class="btn btn-info" routerLink="/shopping-cart">{{'viewCart' |translate}}</button>
-                  <button class="btn btn-success" (click)="checkout()">{{ 'checkOut' | translate }}</button>
-                </div>
-
-              </ng-container>
-
-              <ng-template #anonymous>
-                <div style="text-align: center;">
-                  {{'please Select Service To Create Your ShoppingCart'|translate}}
-
-                </div>
-              </ng-template>
-
-
-            </ul>
-          </div>
-        </li>&nbsp;
-        <li class="nav-item">
-          <div class="btn-group" dropdown>
-            <a dropdownToggle class="dropdown-toggle nav-link">
-              <i class="fa fa-user"></i> {{user.username}}<span class="caret"></span>
-            </a>
-
-            <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="button-basic">
               <li role="menuitem">
-                <a class="dropdown-item" routerLink='/profile'>
-                  <i class="fa fa-fw fa-user"></i>{{ 'Profile' | translate }}
+                <a class="dropdown-item px-2" routerLink='/profile'>
+                  <img src="assets\images\user-edit-solid (1).png" class="px-2" /> <span
+                    class="f-size-14 custom-btn.v2 f-weight-600">{{ 'Profile' | translate }}</span>
+
                 </a>
               </li>
               <li role="menuitem">
-                <a class="dropdown-item" [routerLink]="'/change-password'">
+                <a class="dropdown-item px-2" [routerLink]="'/change-password'">
                   <!-- <i class="fa fa-fw fa-gear"></i> -->
-                  <i class="fa fa-key"></i>{{ 'changePassword' | translate }}
+                  <img src="assets\images\unlock-alt-solid.png" class="px-2" /> <span
+                    class="f-size-14 custom-btn.v2 f-weight-600">{{ 'brand.changePassword' | translate }}</span>
+
                 </a>
               </li>
               <li role="menuitem" style="cursor: pointer;">
-                <a class="dropdown-item" (click)="authenticationService.logout()">
-                  <i class="fa fa-fw fa-power-off"></i> {{ 'Log Out' | translate }}
+                <a class="dropdown-item px-2" (click)="authenticationService.logout()">
+                  <img src="assets\images\power-off-solid.png" class="px-2" /> <span
+                    class="f-size-14 custom-btn.v2 f-weight-600">{{ 'Log Out' | translate }}</span>
                 </a>
               </li>
             </ul>
           </div>
         </li>
-      </ng-container>
-      <ng-template #anonymous>
-        <li class="nav-item">
+        &nbsp;
+
+        <li class="nav-item pointer">
           <div class="btn-group" dropdown>
-            <a dropdownToggle class="dropdown-toggle nav-link">
-              <i class="fa fa-user"></i> {{'Welcome'| translate }}<span class="caret"></span>
-            </a>
-            <ul *dropdownMenu class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="button-basic">
-              <li role="menuitem">
-                <a class="dropdown-item" [routerLink]="'/login'">
-                  <i class="fa fa-sign-in fa-user"></i> {{ 'Log In' | translate }}
-                </a>
-              </li>
-              <li role="menuitem">
-                <a class="dropdown-item" [routerLink]="'/signup'">
-                  <i class="fa fa-user-plus"></i><span>{{ 'Register' | translate }}</span>
-                  <!-- <i class="fa fa-user"></i> -->
-                </a>
-              </li>
-              <li role="menuitem">
-                <a class="dropdown-item" [routerLink]="'/forget-password'">
-                  <i class="fa fa-key fa-gear"></i> {{ 'Forget Password' | translate }}
-                </a>
-              </li>
-            </ul>
-          </div>
+        <li dropdownToggle class=" px-2 position-relative dropdown-toggle nav-link">
+          <img src="assets\images\cart-plus-solid.png" class="px-2" />
+          <span class="position-absolute f-size-14  quan-cart">{{quantitiesCount}}</span>
+
         </li>
-      </ng-template>
-    </ul>
+        <ul *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown-menu-cart messages  " role="menu"
+          aria-labelledby="button-basic">
+
+          <ng-container *ngIf="(items$)?.length!=0 else anonymous">
+
+            <li role="menuitem" class="media pointer cart-item" *ngFor="let entity of items$">
+              <div class="row">
+                <div class="col-md-4 text-center my-auto">
+                  <img class=" img-fluid" [src]="appConfig.serviceImage(entity.service)">
+
+                </div>
+                <div class="col-md-4 text-center my-auto f-size-13">
+                  <div class="media-body">
+                    <h5 class="mt-0 f-size-13">{{ entity.service.name }}</h5>
+                    <p class="last"> Quantity: {{ entity.quantity }} </p>
+                  </div>
+                </div>
+                <div class="col-md-4 text-center my-auto">
+                  <button type="button" class="btn btn-outline-danger btn-xs" (click)="delete(entity)">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+
+
+            </li>
+
+            <div class="cart-btns d-flex justify-content-around">
+              <button class="btn btn-info" routerLink="/shopping-cart">{{'viewCart' |translate}}</button>
+              <button class="btn btn-success" (click)="checkout()">{{ 'checkOut' | translate }}</button>
+            </div>
+
+          </ng-container>
+
+          <ng-template #anonymous>
+            <div style="text-align: center" class="px-4 f-size-14 f-weight-600">
+              {{'please Select Service To Create Your ShoppingCart'|translate}}
+
+            </div>
+          </ng-template>
+
+
+        </ul>
+  </div>
+  </li>
+  </ng-container>
+  <ng-template #anonymous>
+
+  </ng-template>
+  </ul>
+  </div>
   </div>
 </nav>

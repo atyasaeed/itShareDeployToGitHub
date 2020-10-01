@@ -15,6 +15,9 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { PageHeaderModule } from 'src/app/shared/modules/page-header/page-header.module';
 import { MatButtonModule } from '@angular/material/button';
 import { SharedModule } from 'src/app/shared/modules/shared/shared.module';
+import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [HomeComponent, ServiceCardComponent, OwnerLandingPageComponent],

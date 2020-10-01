@@ -245,10 +245,16 @@ background-color: black !important;
   font-size: 30px;
 }
 
-
+.bg-color-v1{
+  background:  #ffffff;
+}
+.bg-color-v2{
+  background-color: $textGrey;
+}
 .site-color-v1{
   color: $siteColorV1;
 }
+
 
 .site-color-v2{
   color: $siteColorV2;
@@ -285,7 +291,17 @@ background-color: black !important;
 .custom-btn.v2{
   background-color: $siteColorV2;
 }
+.custom-btn.v3{
+  border: 2px solid #0E2546;
+border-radius: 20px;
+opacity: 1;
+color: #333333 !important;
+cursor: pointer !important;
+}
 
+.custom-btn.v1:hover,.custom-btn.v2:hover{
+  background-color: black;
+}
 .custom-btn.v4{
   background: #EBEBEB;
   color:#777777 !important;
@@ -389,3 +405,7 @@ body{
   background: #FFFFFF 0% 0% no-repeat padding-box;
   box-shadow: 0px 3px 10px #00000014;
 }
+.container{
+  max-width: 1366px !important;
+}
+
