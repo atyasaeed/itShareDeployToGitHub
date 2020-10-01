@@ -10,6 +10,7 @@
     justify-content: center;
     align-items: center;
     transition: all 0.5s ease-in-out;
+    font-size: 16px;
   }
 
   // .status:not(:last-child){
@@ -17,8 +18,12 @@
   // }
 
   .activeStep{
-    background-color: green !important;
+    background-color: #28A745 !important;
     color: white;
+  }
+
+  .active{
+    color:#28A745 !important;
   }
 
 .steps-section{
@@ -53,7 +58,8 @@
 .step-name{
   position: absolute;
   bottom: -16px;
-  color: black;
+  white-space: -moz-pre-space;
+  font-size: 12px;
 }
 
 ::ng-deep .progress {

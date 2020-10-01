@@ -32,8 +32,8 @@
                 <div class="col-md-12 product-name">
                   <div class="row mt-2">
 
-                    <div class="col">
-                      <h5 class="text-center text-md-left text-primary">{{lineItem.service.name}}</h5>
+                    <div class="col ">
+                      <h5 class="f-size-20 f-weight-600 text-center text-md-left text-primary">{{lineItem.service.name}}</h5>
                     </div>
                     <div class="col-md-4 " *ngIf="showAfterInProgressStatus()">
                       {{'status' | translate}} : <span class="text-primary">{{lineItem.status}}</span>
@@ -44,15 +44,15 @@
                           <input [checked]="checkRadio == 'accept'"  type="radio"
                           id="accept_{{lineItem.id}}" name="quotedActions_{{lineItem.id}}" value="QUOTE_ACCEPTED"
                           (change)="quotedActionsChanged($event)">
-                          <i class="fas fa-thumbs-up mr-2" ></i>
-                          <span >{{'approve'|translate}}</span>
+                          <i class="fas fa-thumbs-up mr-2 f-size-20" ></i>
+                          <span class="f-size-14">{{'approve'|translate}}</span>
                       </label>
                        <label class="reject-radio mr-3 ">
                           <input [checked]="checkRadio == 'reject'"  type="radio"
                           id="reject_{{lineItem.id}}" value="QUOTE_REJECTED" name="quotedActions_{{lineItem.id}}"
                           (change)="quotedActionsChanged($event)">
-                          <i class="fas fa-thumbs-down mr-2" ></i>
-                          <span >{{'reject'|translate}}</span>
+                          <i class="fas fa-thumbs-down mr-2 f-size-20" ></i>
+                          <span class="f-size-14">{{'reject'|translate}}</span>
                       </label>
                       <button tooltip="{{'cancel' | translate}}" hide-delay="0" (click)="cancelItemModal(cancelItemAlert)"
                         type="button" class="btn btn-outline-danger btn-sm  mr-3" *ngIf="showCancelItemBtn()">
@@ -65,68 +65,76 @@
                     </div>
 
                   </div>
-                  <div class="container-fluid">
-                    <div class="row my-2 sky-section p-2">
+                  <div class="container-fluid" *ngIf="orderStatus!=='PENDING'">
+                    <div class="row my-2 sky-section f-size-14 p-2">
                       <div class="col-md-6"
                         *ngIf="lineItem.duration && lineItem.unitPrice && orderStatus != 'PENDING'">
-                        <div *ngIf="orderStatus == 'QUOTED';else endDate"><label>{{ 'manufacturingDuration' | translate }}
-                            :&nbsp;</label><span>{{ lineItem.duration }} {{'workingDays'|translate}}
-                          </span></div>
+                        <div *ngIf="orderStatus == 'QUOTED';else endDate">
+                          <label>{{ 'manufacturingDuration' | translate }}
+                          :&nbsp;</label>
+                          <span class="text-grey-v2">{{ lineItem.duration }} {{'workingDays'|translate}}
+                          </span>
+                        </div>
                         <ng-template #endDate>
                           <div><label>{{ 'estimatedEndDate' | translate }}
-                            :&nbsp;</label><span>{{ itemEndDate | date:'fullDate' }}
+                          :&nbsp;</label>
+                          <span class="text-grey-v2">{{ itemEndDate | date:'fullDate' }}
                           </span></div>
                         </ng-template>
 
 
                         <div><label>{{ 'price' | translate }}
-                            :&nbsp;</label><span>{{lineItem.unitPrice *lineItem.quantity|currency:'EGP'}}
-                          </span></div>
+                          :&nbsp;</label>
+                          <span class="text-grey-v2">{{lineItem.unitPrice *lineItem.quantity|currency:'EGP'}}
+                          </span>
+                        </div>
                       </div>
                       <div class="col-md-6">
                         <div><label>{{ 'quantity' | translate }} :&nbsp;</label><span>{{lineItem.quantity}}</span></div>
-                        <div *ngIf="lineItem.notes"><label>{{ 'notes' | translate }}
-                            :&nbsp;</label><span>{{(lineItem.notes.length>40)? (lineItem.notes | slice:0:40)+'....':(lineItem.notes)}}</span>
+                        <div *ngIf="lineItem.notes">
+                            <label>{{ 'notes' | translate }}
+                            :&nbsp;</label>
+                            <span class="text-grey-v2">{{(lineItem.notes.length>40)? (lineItem.notes | slice:0:40)+'....':(lineItem.notes)}}</span>
                         </div>
                       </div>
 
                     </div>
                   </div>
-                  <div class="row " *ngFor="let file of lineItem.files ;index as i">
+                  <div class="row f-size-14" *ngFor="let file of lineItem.files ;index as i">
                     <!-- <div class="form-title">{{'Digital Material'|translate}}: <span class="value"><a
                                             [href]="getFileUrl(i)">{{file.asset_name}}</a></span></div> -->
 
                     <div class="col-md-6" *ngIf="file.height">
                       <label> {{'file.height' | translate }} :&nbsp;</label>
-                      <span>{{file.height}}</span>
+                      <span class="text-grey-v2">{{file.height}}</span>
                     </div>
                     <div class="col-md-6" *ngIf="file.width">
                       <label> {{'file.width' | translate }} :&nbsp;</label>
-                      <span>{{file.width}}</span>
+                      <span class="text-grey-v2">{{file.width}}</span>
                     </div>
                     <div class="col-md-6" *ngIf="file.material">
                       <label> {{'file.material' | translate }} :&nbsp;</label>
-                      <span>{{file.material}}</span>
+                      <span class="text-grey-v2">{{file.material}}</span>
                     </div>
                     <div class="col-md-6" *ngIf="file.type">
                       <label> {{'file.type' | translate }} :&nbsp;</label>
-                      <span>{{file.type}}</span>
+                      <span class="text-grey-v2">{{file.type}}</span>
                     </div>
                     <div class="col-md-6" *ngIf="file.color">
                       <label> {{'file.color' | translate }} :&nbsp;</label>
-                      <span>{{file.color}}</span>
+                      <span class="text-grey-v2">{{file.color}}</span>
                     </div>
                     <div class="col-md-6" *ngIf="file.unit">
                       <label> {{'file.unit' | translate }} :&nbsp;</label>
-                      <span>{{file.unit}}</span>
+                      <span class="text-grey-v2">{{file.unit}}</span>
                     </div>
                     <div class="col-md-6" *ngIf="file.thickness">
                       <label> {{'file.thickness' | translate }} :&nbsp;</label>
-                      <span>{{file.thickness}}</span>
+                      <span class="text-grey-v2">{{file.thickness}}</span>
                     </div>
                     <div class="col-md-6" *ngIf="file.processes">
                       <label> {{'file.processes' | translate }} :&nbsp;</label>
-                      <span>{{file.processes}}</span>
+                      <span class="text-grey-v2">{{file.processes}}</span>
                     </div>
                     <!-- <div></div> -->
 

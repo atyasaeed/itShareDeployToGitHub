@@ -1,4 +1,4 @@
-<div class="component-top p-3" *tdLoading="'loading'">
+<div class="component-top p-3" >
     <div class="row ">
       <!-- <div class="col-md-4">
               <ng-multiselect-dropdown
@@ -34,7 +34,7 @@
     <app-page-header  [breadCrumbs]="breadcrumbs"></app-page-header>
   </div>
 
-  <main class="page ">
+  <main class="page " *tdLoading="'loading'">
     <section class="tracking-orders ">
 
       <app-order-card *ngFor="let entity of entities$ | async" [order]="entity"></app-order-card>

@@ -170,10 +170,10 @@
 
         <li class="nav-item pointer">
           <div class="btn-group" dropdown>
-        <li dropdownToggle class=" px-2 position-relative dropdown-toggle nav-link">
-          <img src="assets\images\cart-plus-solid.png" class="px-2" />
+        <li  dropdownToggle class=" px-2 position-relative dropdown-toggle nav-link">
+          <!-- <img #cartPosition src="assets\images\cart-plus-solid.png" class="px-2" /> -->
+          <i #cartPosition class="fas px-2 site-color-v1 fa-cart-plus fa-2x"></i>
           <span class="position-absolute f-size-14  quan-cart">{{quantitiesCount}}</span>
-
         </li>
         <ul *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown-menu-cart messages  " role="menu"
           aria-labelledby="button-basic">
