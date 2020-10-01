@@ -1,50 +1,70 @@
 <div [@routerTransition]>
   <div *noAuth>
-    <div class="container ">
-      <div class="row py-5 px-3 white-background landing-page-section">
-        <div class="col-md-6 my-auto">
-          <h3 class="f-weight-700 f-size-30 site-color-v2">{{'landingPageTitle'|translate}}</h3>
-          <p class="text-grey mt-4">
-            {{'landingPageText'|translate}}
-          </p>
-          <div class="mt-4 mb-4 mb-md-0">
-            <a [routerLink]='["/signup"]' class="custom-btn v1 mr-3 f-weight-600">{{'getQuotation'|translate}}</a>
-          </div>
-        </div>
-        <div class="col-md-6 my-auto">
-          <img src="assets/images/landing-page.png" alt="" class="img-fluid">
-        </div>
-      </div>
-      <div class="row py-5 " #Test>
-        <div class="col-md-12">
-          <h5 class="f-weight-600 f-size-30 site-color-v3 text-center">
-            {{'service'|translate}}
-          </h5>
-        </div>
-        <div class="col-md-3"></div>
-        <div class="col-md-6 ">
-          <p class="text-grey text-center ">
-            {{'serviceDescription'|translate}}
-          </p>
-        </div>
-        <div class="col-md-12">
-          <div class="container-fluid">
-            <div class="row">
-              <div *ngFor="let service of services;let i=index" class="col-md-3">
-                <div class="mt-3 service text-center py-4 px-2" *ngIf="i<4">
-                  <div class="service-img">
-                    <img [src]="appConfig.serviceImage(service)" class="height-fluid" alt="">
-                  </div>
-                  <p class="mb-0 mt-2 f-weight-600 f-size-18">{{service.name}}</p>
-                  <a [routerLink]='["/shopping-cart/CartItem"]'
-                    class="custom-btn v1 mt-2 f-weight-600">{{'placeOrder'|translate}}</a>
-                </div>
+    <div class="container-fluid ">
+      <div class="white-background">
+        <div class="container">
+          <div class="row py-5 px-3  landing-page-section">
+            <div class="col-md-6 my-auto">
+              <h3 class="f-weight-700 f-size-30 site-color-v2">{{'landingPageTitle'|translate}}</h3>
+              <p class="text-grey mt-4">
+                {{'landingPageText'|translate}}
+              </p>
+              <div class="mt-4 mb-4 mb-md-0">
+                <a [routerLink]='["/signup"]' class="custom-btn v1 mr-3 f-weight-600">{{'getQuotation'|translate}}</a>
               </div>
+            </div>
+            <div class="col-md-6 my-auto">
+              <img src="assets/images/landing-page.png" alt="" class="img-fluid">
             </div>
           </div>
         </div>
-
       </div>
+
+      <div class="container">
+        <div class="row py-5 m-auto ">
+          <div class="col-md-12">
+            <h5 class="f-weight-600 f-size-30 site-color-v3 text-center">
+              {{'service'|translate}}
+            </h5>
+          </div>
+          <div class="col-md-3"></div>
+          <div class="col-md-6 ">
+            <p class="text-grey text-center ">
+              {{'serviceDescription'|translate}}
+            </p>
+          </div>
+          <div class="col-md-12">
+            <div class="container-fluid">
+              <div class="row">
+                <div *ngFor="let service of services;let i=index" class="col-md-3">
+                  <div class="mt-3 service text-center py-4 px-2" *ngIf="i<4">
+                    <div class="service-img">
+                      <img [src]="appConfig.serviceImage(service)" class="height-fluid" alt="">
+                    </div>
+                    <p class="mb-0 mt-2 f-weight-600 f-size-18">{{service.name}}</p>
+                    <a [routerLink]='["/shopping-cart/CartItem"]'
+                      class="custom-btn v1 mt-2 f-weight-600">{{'placeOrder'|translate}}</a>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+
+
+
+
+        </div>
+      </div>
+
+
+
+
+
+
+
+
       <div class="row py-5 white-background">
         <div class="col-md-12 text-center">
           <img src="assets/images/handshake.png" class="img-fluid" alt="">
