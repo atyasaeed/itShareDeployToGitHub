@@ -348,5 +348,6 @@
   "brand.changePassword": "تغيير كلمة المرور",
   "deschangePassword": "قم بتعيين كلمة مرور جديدة لحسابك",
   "enterOldPassword": "أدخل كلمة المرور القديمة",
-  "contactUs": "تواصل معنا"
+  "contactUs": "تواصل معنا",
+  "Login": "تسجيل الدخول"
 }

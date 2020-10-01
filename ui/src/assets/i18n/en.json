@@ -348,5 +348,6 @@
   "brand.changePassword": "Change Password",
   "deschangePassword": "Set new password for your account",
   "enterOldPassword": "Enter Old Password",
-  "contactUs": "Contact us"
+  "contactUs": "Contact us",
+  "Login": "Login"
 }

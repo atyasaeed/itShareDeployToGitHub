@@ -1,6 +1,6 @@
 <div [@routerTransition]>
-  <div *noAuth >
-    <div class="container-fluid ">
+  <div *noAuth>
+    <div class="container ">
       <div class="row py-5 px-3 white-background landing-page-section">
         <div class="col-md-6 my-auto">
           <h3 class="f-weight-700 f-size-30 site-color-v2">{{'landingPageTitle'|translate}}</h3>
@@ -15,14 +15,14 @@
           <img src="assets/images/landing-page.png" alt="" class="img-fluid">
         </div>
       </div>
-      <div class="row py-5 " >
+      <div class="row py-5 " #Test>
         <div class="col-md-12">
           <h5 class="f-weight-600 f-size-30 site-color-v3 text-center">
             {{'service'|translate}}
           </h5>
         </div>
         <div class="col-md-3"></div>
-        <div class="col-md-6 " >
+        <div class="col-md-6 ">
           <p class="text-grey text-center ">
             {{'serviceDescription'|translate}}
           </p>
@@ -30,13 +30,14 @@
         <div class="col-md-12">
           <div class="container-fluid">
             <div class="row">
-              <div *ngFor="let service of services;let i=index"  class="col-md-3">
+              <div *ngFor="let service of services;let i=index" class="col-md-3">
                 <div class="mt-3 service text-center py-4 px-2" *ngIf="i<4">
                   <div class="service-img">
                     <img [src]="appConfig.serviceImage(service)" class="height-fluid" alt="">
                   </div>
                   <p class="mb-0 mt-2 f-weight-600 f-size-18">{{service.name}}</p>
-                  <a [routerLink]='["/shopping-cart/CartItem"]' class="btn v1 mt-2 f-weight-600">{{'placeOrder'|translate}}</a>
+                  <a [routerLink]='["/shopping-cart/CartItem"]'
+                    class="btn v1 mt-2 f-weight-600">{{'placeOrder'|translate}}</a>
                 </div>
               </div>
             </div>
@@ -58,7 +59,8 @@
           </p>
         </div>
         <div class="col-md-12 mt-2 text-center">
-          <a [routerLink]='["/signup"]' [queryParams]="{'partner': 'true'}" class="btn v1 f-weight-600">{{'applyAsPartner'|translate}}</a>
+          <a [routerLink]='["/signup"]' [queryParams]="{'partner': 'true'}"
+            class="btn v1 f-weight-600">{{'applyAsPartner'|translate}}</a>
         </div>
 
       </div>
@@ -71,7 +73,7 @@
           <div class="welcome-section px-5">
             <div>
               <h6 class="f-size-30 f-weight-600">{{'welcomeTitle'|translate}}</h6>
-              <p >{{'welcomeDescription'|translate}}</p>
+              <p>{{'welcomeDescription'|translate}}</p>
             </div>
             <div>
             </div>
@@ -88,7 +90,7 @@
         <div class="col-md-12 mt-3 f-weight-600">
           {{'fabrihubServices'|translate}}
         </div>
-        <div *ngFor="let service of services;let i=index"  class="col-md-3">
+        <div *ngFor="let service of services;let i=index" class="col-md-3">
           <div class="custom-card p-4 mt-3" *ngIf="i<4">
             <div class="service-v2">
               <div class="service-img mr-2">

@@ -6,6 +6,7 @@ import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { Service } from 'src/app/shared/domain';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -15,16 +16,28 @@ import { Service } from 'src/app/shared/domain';
 })
 export class HomeComponent implements OnInit {
   services: Service[];
+  private fragment: string;
   constructor(
     private http: HttpClient,
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
     loadingService: TdLoadingService,
-    private appStore: Store<fromStore.AppState>
+    private appStore: Store<fromStore.AppState>,
+    private route: ActivatedRoute
   ) {
     this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
       this.services = res;
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.fragment.subscribe((fragment) => {
+      this.fragment = fragment;
+      console.log(this.fragment);
+    });
+  }
+  ngAfterViewInit(): void {
+    try {
+      document.querySelector('#' + this.fragment).scrollIntoView();
+    } catch (e) {}
+  }
 }

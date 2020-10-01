@@ -1,7 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-light fixed-top navbar-dark nav-rtl py-3">
-  <div class="row w-100 justify-content-between container-lg m-auto">
+  <div class="row w-100 justify-content-between container m-auto">
     <div style="height: 40px;" class="col-2">
-      <img src="assets\images\Fabri Hub_Logo@2x.png" class="height-fluid cursor-pointer" />
+
+      <a routerLink=""><img src="assets\images\Fabri Hub_Logo@2x.png" class="height-fluid cursor-pointer pointer" /></a>
     </div>
     <div class="col-8 text-right navbar-toggler">
       <button class="navbar-toggler bg-color-v2" (click)="isOpen=!isOpen" type="button" data-toggle="collapse"
@@ -11,23 +12,25 @@
       </button>
     </div>
 
-    <div class="collapse navbar-collapse col-md-10" [class.show]="isOpen" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse col-md-10" [class.show]="isOpen">
       <ul class="navbar-nav   f-size-16 f-weight-600 w-100 row">
         <div class="col-lg-6 d-flex justify-content-around">
 
           <li class="nav-item">
             <a class="site-color-v2 nav-link f-size-16 f-weight-600 custom-align "
-              [routerLink]="'/shopping-cart/CartItem'">
+              [routerLink]="'/shopping-cart/CartItem'" fragment="service">
               {{ 'service' | translate }}
             </a>
           </li>
           <li class="nav-item">
-            <a class="site-color-v2 nav-link f-size-16 f-weight-600 custom-align" [routerLink]="'/gallery'">
+            <a class="site-color-v2 nav-link f-size-16 f-weight-600 custom-align" [routerLink]="'/gallery'"
+              fragment="gallery">
               {{ 'gallery' | translate }}
             </a>
           </li>
           <li class="nav-item">
-            <a class="site-color-v2 nav-link f-size-16 f-weight-600 custom-align" [routerLink]="'/'">
+            <a class="site-color-v2 nav-link f-size-16 f-weight-600 custom-align" [routerLink]="'/'"
+              fragment="contactUs">
               {{ 'contactUs' | translate }}
             </a>
           </li>
