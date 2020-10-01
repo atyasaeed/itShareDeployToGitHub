@@ -99,13 +99,21 @@ export class LineItemComponent implements OnInit {
   }
 
   showTerminatedOverlay() {
-    if (this.lineItem.status == 'CANCELLED') {
-      return true;
-    } else if (this.lineItem.status == 'QUOTE_REJECTED' && this.orderStatus != 'QUOTED') {
-      return true;
-    } else if (this.lineItem.status == 'ITEM_REJECTED' && this.orderStatus != 'PENDING') {
-      return true;
+    if (
+      this.orderStatus != 'CANCELLED' &&
+      this.orderStatus != 'ORDER_REJECTED' &&
+      this.orderStatus != 'QUOTE_REJECTED' &&
+      this.orderStatus != 'QUOTE_EXPIRED'
+    ) {
+      if (this.lineItem.status == 'CANCELLED') {
+        return true;
+      } else if (this.lineItem.status == 'QUOTE_REJECTED' && this.orderStatus != 'QUOTED') {
+        return true;
+      } else if (this.lineItem.status == 'ITEM_REJECTED' && this.orderStatus != 'PENDING') {
+        return true;
+      }
     }
+
     return false;
   }
 

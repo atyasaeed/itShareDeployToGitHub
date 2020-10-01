@@ -363,5 +363,9 @@
   "quotationNoteDescription":"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point a reader will be distracted by the readable",
   "office":"Office",
   "quotationFooterDescription":"Credit Building, Office 934, 3rd Floor, Ahmed Fouad Abd Al Aziz Al Sarayat Sabekaa, As Sarayat, Al Waili, Cairo Governorate",
-  "contact":"Contact"
+  "contact":"Contact",
+  "chooseFile":"Choose File",
+  "replaceFile":"Replace File",
+  "expiredOn":"Expired On",
+  "quotedOn":"Quoted On"
 }

@@ -8,6 +8,7 @@ $lightGreyBackground:#e9ecef;
 $greyBackground:#dddddd4a;
 $textGrey:#777777;
 $textgreyv2:#989898;
+$textgreyv3:#B5B9BD;
 $siteColorV1:#63C6C9;
 $siteColorV2:#0E2546;
 $siteColorV3:#333333;
@@ -290,6 +291,12 @@ background-color: black !important;
   color:#777777 !important;
 }
 
+.custom-btn.v5{
+  background: #dc354649 0% 0% no-repeat padding-box;
+  border: 2px solid #dc354679;
+  color: #DC3545 !important;
+}
+
 .custom-btn.v1:hover,.custom-btn.v2:hover,.custom-btn.v4:hover{
   background-color: black !important;
   color: white !important;
@@ -372,4 +379,13 @@ body{
 
 .text-black{
   color: black;
+}
+
+.text-grey-v3{
+  color: $textgreyv3;
+}
+
+.component-top{
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 10px #00000014;
 }
