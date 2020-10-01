@@ -10,7 +10,7 @@ import * as fromStore from 'src/app/store';
 })
 export class AnonymousHeaderComponent implements OnInit {
   constructor(private router: Router, private appStore: Store<fromStore.AppState>) {}
-
+  isOpen: boolean = false;
   ngOnInit(): void {}
 
   signupPartner() {

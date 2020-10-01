@@ -4,19 +4,20 @@
       <img src="assets\images\Fabri Hub_Logo@2x.png" class="height-fluid cursor-pointer" />
     </div>
     <div class="col-8 text-right navbar-toggler">
-      <button class="navbar-toggler bg-color-v2" type="button" data-toggle="collapse"
+      <button class="navbar-toggler bg-color-v2" (click)="isOpen=!isOpen" type="button" data-toggle="collapse"
         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
         aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
     </div>
 
-    <div class="collapse navbar-collapse col-md-10" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse col-md-10" [class.show]="isOpen" id="navbarSupportedContent">
       <ul class="navbar-nav   f-size-16 f-weight-600 w-100 row">
         <div class="col-lg-6 d-flex justify-content-around">
 
           <li class="nav-item">
-            <a class="site-color-v2 nav-link f-size-16 f-weight-600 custom-align " [routerLink]="'/service'">
+            <a class="site-color-v2 nav-link f-size-16 f-weight-600 custom-align "
+              [routerLink]="'/shopping-cart/CartItem'">
               {{ 'service' | translate }}
             </a>
           </li>
