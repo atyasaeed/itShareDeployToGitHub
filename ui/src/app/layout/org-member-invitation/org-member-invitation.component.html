@@ -1,4 +1,4 @@
-<div class="p-4">
+<div class="p-4" *tdLoading="'loading';strategy:'overlay'">
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-3"></div>
@@ -6,10 +6,10 @@
 
           <i class="fas text-grey-v2 mb-3 fa-smile-beam fa-4x"></i>
           <p class="text-grey">{{'invitationDescription'|translate}}</p>
-          <p class="text-grey">{{'invitedBy'|translate}} : </p>
+          <p class="text-grey">{{'invitedBy'|translate}} {{entity?.placedBy?.firstName}}</p>
           <div>
-            <button class="custom-btn v1 mr-2">{{'accept'|translate}}</button>
-            <button class="custom-btn btn-danger">{{'decline'|translate}}</button>
+            <button class="custom-btn v1 mr-2" (click)="acceptInvitation()">{{'accept'|translate}}</button>
+            <button class="custom-btn btn-danger" (click)="declineInvitation()">{{'decline'|translate}}</button>
           </div>
 
       </div>

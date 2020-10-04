@@ -371,5 +371,9 @@
   "updatePersInfo": "تحديث معلوماتك الشخصية",
   "edit": "تعديل",
   "organizationDetails": "تفاصيل الشركة",
-  "officialDocumentation": "الوثائق الرسمية"
+  "officialDocumentation": "الوثائق الرسمية",
+  "invitationDescription": "You Have Been Invited To The Fresh Organization!",
+  "invitedBy": "Invited By",
+  "accept": "اوافق",
+  "decline": "ارفض"
 }
