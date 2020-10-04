@@ -17,10 +17,11 @@ public interface OrganizationUserRepository
 {
 	Optional<OrganizationUser> findByUserAndOrg(User user, Organization org);
 
-	Page<OrganizationUser> findAllByUser_username(String username, Pageable page);
+	Page<OrganizationUser> findByUser_usernameIgnoreCase(String username, Pageable page);
 
-	Page<OrganizationUser> findAllByOrg_owner_username(String username, Pageable page);
+	Page<OrganizationUser> findByOrg_owner_usernameIgnoreCase(String username, Pageable page);
 
-	Page<OrganizationUser> findAllByOrg(Organization org, Pageable page);
+	Page<OrganizationUser> findByOrg(Organization org, Pageable page);
 
+	Optional<OrganizationUser> findByIdAndUser_usernameIgnoreCase(UUID id, String username);
 }
