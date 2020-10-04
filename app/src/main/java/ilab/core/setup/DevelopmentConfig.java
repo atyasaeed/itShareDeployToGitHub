@@ -55,9 +55,10 @@ public class DevelopmentConfig
 	private ReasonRepository reasonRepo;
 	@Autowired
 	public freemarker.template.Configuration freemarkerConfig;
+
 	@Bean
-	public CommandLineRunner dataLoader(ServiceRepository serviceRepo,
-			UserRepository userRepo, ServiceService serviceService)
+	public CommandLineRunner dataLoader(ServiceRepository serviceRepo, UserRepository userRepo,
+			ServiceService serviceService)
 	{
 		return new CommandLineRunner()
 		{
@@ -68,45 +69,40 @@ public class DevelopmentConfig
 				try
 				{
 
-					User user = userService.register(createUser(
-							"hatem.salem@ihub.asu.edu.eg", "New123456", "Admin",
-							"hatem.salem@ihub.asu.edu.eg", "01065002100",
-							OrganizationType.INDIVIDUAL));
+					User user = userService.register(createUser("hatem.salem@ihub.asu.edu.eg", "New123456", "Admin",
+							"hatem.salem@ihub.asu.edu.eg", "01065002100", OrganizationType.INDIVIDUAL));
 					user = userService.enableUser(user.getId(), true, null);
 					user = addAdminRoleAuthority(user);
 
 					userRepo.save(user);
-					user = userService.register(createUser("mosalem",
-							"New123456", "Hatem", "mosalem@gmail.com",
-							"01065003100", OrganizationType.PARTNER));
+					user = userService.register(createUser("mosalem@itraters.com", "New123456", "Hatem",
+							"mosalem@gmail.com", "01065003100", OrganizationType.PARTNER));
 					user = userService.enableUser(user.getId(), true, null);
 					user = addRoleAuthority(user);
 					userRepo.save(user);
-					Service services[] = new ObjectMapper().readValue(
-							new File(setupPath + "/services.json"),
+					user = userService.register(createUser("Kareem", "New123456", "Hatem", "karafat1998@gmail.com",
+							"01002222392", OrganizationType.PARTNER));
+					user = userService.enableUser(user.getId(), true, null);
+					user = addRoleAuthority(user);
+					userRepo.save(user);
+					Service services[] = new ObjectMapper().readValue(new File(setupPath + "/services.json"),
 							Service[].class);
 					for (Service service : services)
 					{
 
-						File file = new File(
-								setupPath + "/" + service.getImage());
-						System.out
-								.println(file.getPath() + ":" + file.exists());
-						FileItem fileItem = new DiskFileItem("file",
-								Files.probeContentType(file.toPath()), false,
-								file.getName(), (int) file.length(),
-								file.getParentFile());
+						File file = new File(setupPath + "/" + service.getImage());
+						System.out.println(file.getPath() + ":" + file.exists());
+						FileItem fileItem = new DiskFileItem("file", Files.probeContentType(file.toPath()), false,
+								file.getName(), (int) file.length(), file.getParentFile());
 						InputStream input = new FileInputStream(file);
 						OutputStream os = fileItem.getOutputStream();
 						IOUtils.copy(input, os);
-						MultipartFile multipartFile = new CommonsMultipartFile(
-								fileItem);
+						MultipartFile multipartFile = new CommonsMultipartFile(fileItem);
 						input.close();
 						os.close();
 						serviceService.createService(service, multipartFile);
 					}
-					Reason reasons[] = new ObjectMapper().readValue(
-							new File(setupPath + "/reasons.json"),
+					Reason reasons[] = new ObjectMapper().readValue(new File(setupPath + "/reasons.json"),
 							Reason[].class);
 					for (Reason reason : reasons)
 					{
@@ -168,8 +164,7 @@ public class DevelopmentConfig
 				} catch (Exception e)
 				{
 
-					System.out.println(
-							"===========DB Initialization Failed=========");
+					System.out.println("===========DB Initialization Failed=========");
 					System.out.println(e);
 					e.printStackTrace();
 				}
@@ -177,6 +172,7 @@ public class DevelopmentConfig
 			}
 		};
 	}
+
 	public String getFileContent(String file) throws Exception
 	{
 
@@ -184,8 +180,7 @@ public class DevelopmentConfig
 		// String fileUrl=getClass().getResource("contents/"+file).getFile();
 		// File resource = new
 		// ClassPathResource("classpath:contents/"+file).getFile();
-		InputStream inputstream = DevelopmentConfig.class
-				.getResourceAsStream("/contents/" + file);
+		InputStream inputstream = DevelopmentConfig.class.getResourceAsStream("/contents/" + file);
 		// InputStream inputstream=new
 		// ClassPathResource("classpath:contents/"+file).getInputStream();
 		String content = new String(FileCopyUtils.copyToByteArray(inputstream));
@@ -220,8 +215,8 @@ public class DevelopmentConfig
 	// return service;
 	// }
 
-	private User createUser(String username, String password, String firstName,
-			String email, String mobileNo, OrganizationType type)
+	private User createUser(String username, String password, String firstName, String email, String mobileNo,
+			OrganizationType type)
 	{
 		User user = new User();
 		user.setUsername(username);
@@ -244,6 +239,7 @@ public class DevelopmentConfig
 		// user.addAuthority(createAuthority(user));
 		return user;
 	}
+
 	private User addAdminRoleAuthority(User user)
 	{
 		user.addRole(Role.ROLE_ADMIN);
@@ -253,6 +249,7 @@ public class DevelopmentConfig
 
 	private User addRoleAuthority(User user)
 	{
+		user.addRole(Role.ROLE_USER);
 		return user;
 	}
 
