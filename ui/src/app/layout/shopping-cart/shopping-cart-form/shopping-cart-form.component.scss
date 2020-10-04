@@ -50,17 +50,6 @@ input[type="file"] {
 }
 
 
-
-// .card:hover {
-//     box-shadow: inset 1px 2px 8px rgba(0, 0, 0, 0.02);
-// }
-
-// .card:focus {
-//     color: #4b515d;
-//     //border: 1px solid #B8B6B6;
-//     box-shadow: inset 1px 2px 4px rgba(0, 0, 0, 0.01), 0px 0px 8px rgba(0, 0, 0, 0.2);
-// }
-
 .error-none {
     display: none;
 }
@@ -247,14 +236,15 @@ option[value=""][disabled] {
 }
 
 ///////////////@extend
-:host {
-    padding: 20px;
-}
+
 
 input,
 mat-form-field,
-mat-select {
+mat-select,
+select {
     width: 100%;
+    font-size: 14px;
+    color: #777777;
 }
 
 mat-card-actions {
@@ -262,9 +252,9 @@ mat-card-actions {
     display: block;
 }
 
-label{
-    font-weight: 600;
-    color: black;
+
+img{
+  border-radius: 8px;
 }
 
 .form-control:disabled{
@@ -279,7 +269,21 @@ label{
     width: 100%;
 }
 
-.mar-top-31{
-    margin-top:31px
-}
 
+
+.custom-input-file {
+  cursor: pointer;
+  overflow: hidden;
+  input[type="file"]{
+    display: none;
+  }
+  .browse-button{
+    background: #EFEFEF;
+    padding: 3px 10px;
+    border-radius: 4px;
+  }
+  .browse-button.uploaded{
+    background:  #63C6C9;
+    color: white;
+  }
+}
