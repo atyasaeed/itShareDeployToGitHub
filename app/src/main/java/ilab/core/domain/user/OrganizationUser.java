@@ -21,16 +21,16 @@ public class OrganizationUser extends AbstractEntity<OrganizationUser>
 	@ManyToOne
 	private Organization org;
 
-	private Role status;
+	private Role role;
 
-	public Role getStatus()
+	public Role getRole()
 	{
-		return status;
+		return role;
 	}
 
-	public void setStatus(Role status)
+	public void setRole(Role role)
 	{
-		this.status = status;
+		this.role = role;
 	}
 
 	public User getUser()

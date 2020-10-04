@@ -67,10 +67,11 @@ public class OrganizationUserController
 	{
 		return orgUserService.findByOrg(auth, page);
 	}
-
+	
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping(path = "/{id}")
 	public OrganizationUser get(@PathVariable("id") UUID id, Authentication authentication)
 	{
-		return null;
+		return orgUserService.findById(id,authentication);
 	}
 }
