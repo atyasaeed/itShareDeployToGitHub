@@ -368,5 +368,8 @@
   "contact": "Contact",
   "SaveUpdate": "Save update",
   "editProfile": "Edit Profile",
-  "updatePersInfo": "update your personal information"
+  "updatePersInfo": "update your personal information",
+  "edit": "Edit",
+  "organizationDetails": "Organization details",
+  "officialDocumentation": "Official documentation"
 }

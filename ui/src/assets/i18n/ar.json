@@ -368,5 +368,8 @@
   "contact": "Contact",
   "SaveUpdate": "حفظ التغيير",
   "editProfile": "تعديل الملف الشخصي",
-  "updatePersInfo": "تحديث معلوماتك الشخصية"
+  "updatePersInfo": "تحديث معلوماتك الشخصية",
+  "edit": "تعديل",
+  "organizationDetails": "تفاصيل الشركة",
+  "officialDocumentation": "الوثائق الرسمية"
 }
