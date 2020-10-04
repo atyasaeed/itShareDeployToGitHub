@@ -41,7 +41,7 @@ public class OrganizationUserController
 
 	@PostMapping
 	@PreAuthorize("isAuthenticated()")
-	public void create(@RequestPart("email") String email, Authentication auth) throws Exception
+	public void create(@RequestBody String email, Authentication auth) throws Exception
 	{
 
 		orgUserService.addMemberToOrg(email, auth);
