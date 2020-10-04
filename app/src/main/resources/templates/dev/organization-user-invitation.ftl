@@ -1,16 +1,16 @@
 
 <html>
 	<body>
-		Hey there ${user},<br> 
+		Hey there ${user.firstName},<br> 
 		
 		 
 		 
-		You are Invited to be a member of Organization ${organizationUserId}
+		You are Invited to be a member of Organization ${org.name}
 		   
-		<a href="http://localhost:4200/api/orguser/accept/${organizationUserId}"> accept Invitation</a> <br><br>
+		<a href="http://localhost:4200/api/orguser/accept/${id}"> accept Invitation</a> <br><br>
 		
 		<br>
-		Or <a href="http://localhost:4200/api/orguser/decline/${organizationUserId}"> decline Invitation</a> <br><br>
+		Or <a href="http://localhost:4200/api/orguser/decline/${id}"> decline Invitation</a> <br><br>
 		
 		
 		

@@ -17,7 +17,9 @@ public interface OrganizationUserRepository
 {
 	Optional<OrganizationUser> findByUserAndOrg(User user, Organization org);
 
-	Page<OrganizationUser> findAllByUser(User user, Pageable page);
+	Page<OrganizationUser> findAllByUser_username(String username, Pageable page);
+
+	Page<OrganizationUser> findAllByOrg_owner_username(String username, Pageable page);
 
 	Page<OrganizationUser> findAllByOrg(Organization org, Pageable page);
 

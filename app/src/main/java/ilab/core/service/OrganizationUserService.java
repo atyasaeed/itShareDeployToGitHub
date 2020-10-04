@@ -1,6 +1,5 @@
 package ilab.core.service;
 
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -15,8 +14,6 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import ilab.core.domain.order.OrderEntity;
-import ilab.core.domain.order.OrderStatus;
 import ilab.core.domain.user.Organization;
 import ilab.core.domain.user.OrganizationStatus;
 import ilab.core.domain.user.OrganizationUser;
@@ -25,8 +22,7 @@ import ilab.core.domain.user.User;
 import ilab.core.repository.OrganizationRepository;
 import ilab.core.repository.OrganizationUserRepository;
 import ilab.core.repository.UserRepository;
-import ilab.jms.MessagingConfig;
-import ilab.utils.exception.NotFoundException;
+import ilab.utils.exception.IllegalRequestDataException;
 
 @Service
 @Transactional
@@ -51,30 +47,33 @@ public class OrganizationUserService
 
 	public OrganizationUser addMemberToOrg(String email, Authentication auth) throws Exception
 	{
-		User userToAdd = findByemail(email);
+		User invitee = findByemail(email);
 
-		User userInvite = userService.findUser(auth);
-		Organization org = userInvite.getDefaultOrg();
-		if (org.getOwner() == userInvite && org.getStatus() == OrganizationStatus.ACTIVE
-				&& userToAdd.getEmail() != userInvite.getEmail())
+		User inviter = userService.findUser(auth);
+		Organization org = inviter.getDefaultOrg();
+
+		if (org.getOwner() != inviter)
 		{
-
-			OrganizationUser tempOrgUser = new OrganizationUser();
-			tempOrgUser.setOrg(org);
-			tempOrgUser.setUser(userToAdd);
-			tempOrgUser.setStatus(Role.ROLE_INVITED);
-			OrganizationUser orgUser = orgUserRepo.save(tempOrgUser);
-//			OrganizationUser orgUser = orgUserRepo.findByUser(userToAdd).orElseThrow();
-			Map<String, String> dto = Map.of("user", userToAdd.getEmail(), "organizationUserId",
-					orgUser.getId().toString());
-
-			jmsTemplate.convertAndSend(organizationUserInvitationQueue, dto);
-			return tempOrgUser;
-		} else
-		{
-			throw new NotFoundException(
-					"1-You should be the owner of the Organization" + "OrganizationType should be active");
+			throw new IllegalRequestDataException("Inviter is not the organization owner");
 		}
+		if (org.getStatus() != OrganizationStatus.ACTIVE)
+		{
+			throw new IllegalRequestDataException("Organization is not active");
+		}
+		if (invitee.getEmail().equals(inviter.getEmail()))
+		{
+			throw new IllegalRequestDataException("Invitee is the owner");
+		}
+
+		OrganizationUser orgUser = new OrganizationUser();
+		orgUser.setOrg(org);
+		orgUser.setUser(invitee);
+		orgUser.setPlacedBy(inviter);
+		orgUser.setStatus(Role.ROLE_INVITED);
+		orgUserRepo.save(orgUser);
+
+		jmsTemplate.convertAndSend(organizationUserInvitationQueue, orgUser.getId());
+		return orgUser;
 
 	}
 
@@ -86,17 +85,18 @@ public class OrganizationUserService
 		orgUserRepo.delete(orgUser);
 	}
 
-	public OrganizationUser acceptInvitation(OrganizationUser orgUser, Authentication auth) throws Exception
+	public OrganizationUser acceptInvitation(UUID orgUserId, Authentication auth) throws Exception
 	{
-		User userToAdd = userService.findUser(auth);
-		if (orgUser.getUser() == userToAdd && orgUser.getStatus() == Role.ROLE_INVITED)
+		OrganizationUser orgUser = orgUserRepo.findById(orgUserId).orElseThrow();
+
+		if (orgUser.getUser().getEmail().equals(auth.getName()))
 		{
 			orgUser.setStatus(Role.ROLE_MEMBER);
 			return orgUserRepo.save(orgUser);
 
 		} else
 		{
-			throw new Exception();
+			throw new IllegalRequestDataException("Invalid Invitation");
 		}
 	}
 
@@ -105,39 +105,42 @@ public class OrganizationUserService
 		return orgUserRepo.findAll(specs, page);
 	}
 
-	public Page<OrganizationUser> findByUser(User user, Pageable page)
+	public Page<OrganizationUser> findByUser(Authentication auth, Pageable page)
 	{
-		return orgUserRepo.findAllByUser(user, page);
+		return orgUserRepo.findAllByUser_username(auth.getName(), page);
 	}
 
-	public Page<OrganizationUser> findByOrg(Organization org, Pageable page)
+	public Page<OrganizationUser> findByOrg(Authentication auth, Pageable page)
 	{
-		return orgUserRepo.findAllByOrg(org, page);
+		return orgUserRepo.findAllByOrg_owner_username(auth.getName(), page);
 	}
 
 	public Optional<OrganizationUser> findbyId(UUID id)
 	{
-		// TODO Auto-generated method stub
 		return orgUserRepo.findById(id);
 	}
 
-	public void deleteOrganizationUser(OrganizationUser orgUser, Authentication auth)
+	public void deleteOrganizationUser(UUID orgUserId, Authentication auth)
 	{
-		// TODO Auto-generated method stub
-
-		orgUserRepo.delete(orgUser);
+		OrganizationUser orgUser = orgUserRepo.findById(orgUserId).orElseThrow();
+		if (orgUser.getUser().getEmail().equals(auth.getName())
+				|| orgUser.getOrg().getOwner().getEmail().equals(auth.getName()))
+		{
+			orgUserRepo.delete(orgUser);
+		} else
+		{
+			throw new IllegalRequestDataException("Not authorized");
+		}
 
 	}
 
-	public void sendInvitation(String email, UUID id) throws Exception
+	public void sendInvitation(UUID id) throws Exception
 	{
-		OrganizationUser org = orgUserRepo.findById(id).orElseThrow();
-		User user = findByemail(email);
-		Map<String, Object> dto = Map.of("user", user.getFirstName(), "organizationUserId", org.getId());
+		OrganizationUser orgUser = orgUserRepo.findById(id).orElseThrow();
 
-		emailService.sendTemplateMessage(user.getEmail(),
-				String.format("Your are Invited to join  %s has been finished", org.getId()),
-				"organization-user-invitation.ftl", dto);
+		emailService.sendTemplateMessage(orgUser.getUser().getEmail(),
+				String.format("Your are Invited to join  %s ", orgUser.getOrg().getName()),
+				"organization-user-invitation.ftl", orgUser);
 
 	}
 
