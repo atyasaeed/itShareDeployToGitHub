@@ -151,14 +151,6 @@ public class OrganizationUserService
 
 	public OrganizationUser findById(UUID id, Authentication auth)
 	{
-		OrganizationUser orgUser = findbyId(id).orElseThrow();
-		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
-		if (orgUser.getUser().getId().equals(user.getId()))
-		{
-			return orgUserRepo.findById(id).orElseThrow();
-		} else
-		{
-			throw new IllegalRequestDataException("Invalid invite");
-		}
+		return orgUserRepo.findByIdAndUser(id, userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow()).orElseThrow();
 	}
 }

@@ -23,4 +23,5 @@ public interface OrganizationUserRepository
 
 	Page<OrganizationUser> findAllByOrg(Organization org, Pageable page);
 
+	Optional<OrganizationUser> findByIdAndUser(UUID id, User user);
 }
