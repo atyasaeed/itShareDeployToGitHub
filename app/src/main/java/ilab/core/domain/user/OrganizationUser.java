@@ -23,14 +23,14 @@ public class OrganizationUser extends AbstractEntity<OrganizationUser>
 
 	private Role role;
 
-	public Role getStatus()
+	public Role getRole()
 	{
 		return role;
 	}
 
-	public void setStatus(Role status)
+	public void setRole(Role role)
 	{
-		this.role = status;
+		this.role = role;
 	}
 
 	public User getUser()

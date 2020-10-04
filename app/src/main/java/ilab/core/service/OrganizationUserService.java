@@ -69,7 +69,7 @@ public class OrganizationUserService
 		orgUser.setOrg(org);
 		orgUser.setUser(invitee);
 		orgUser.setPlacedBy(inviter);
-		orgUser.setStatus(Role.ROLE_INVITED);
+		orgUser.setRole(Role.ROLE_INVITED);
 		orgUserRepo.save(orgUser);
 
 		jmsTemplate.convertAndSend(organizationUserInvitationQueue, orgUser.getId());
@@ -91,7 +91,7 @@ public class OrganizationUserService
 
 		if (orgUser.getUser().getEmail().equals(auth.getName()))
 		{
-			orgUser.setStatus(Role.ROLE_MEMBER);
+			orgUser.setRole(Role.ROLE_MEMBER);
 			return orgUserRepo.save(orgUser);
 
 		} else
