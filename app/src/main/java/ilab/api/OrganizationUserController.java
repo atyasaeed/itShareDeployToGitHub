@@ -41,13 +41,10 @@ public class OrganizationUserController
 
 	@PostMapping
 	@PreAuthorize("isAuthenticated()")
-	public void create(@RequestParam("email") String email, Authentication auth) throws Exception
+	public void create(@RequestPart("email") String email, Authentication auth) throws Exception
 	{
 
-		User userInvited = orgUserService.findByemail(email);
-		User userInvite = userService.findUser(auth);
-
-		orgUserService.addMemberToOrg(userInvited, userInvite);
+		orgUserService.addMemberToOrg(email, auth);
 
 	}
 

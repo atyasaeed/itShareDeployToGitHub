@@ -49,8 +49,11 @@ public class OrganizationUserService
 	@Value("${iLab.queues.organizationUserInvitation}")
 	private String organizationUserInvitationQueue;
 
-	public OrganizationUser addMemberToOrg(User userToAdd, User userInvite) throws Exception
+	public OrganizationUser addMemberToOrg(String email, Authentication auth) throws Exception
 	{
+		User userToAdd = findByemail(email);
+
+		User userInvite = userService.findUser(auth);
 		Organization org = userInvite.getDefaultOrg();
 		if (org.getOwner() == userInvite && org.getStatus() == OrganizationStatus.ACTIVE
 				&& userToAdd.getEmail() != userInvite.getEmail())
