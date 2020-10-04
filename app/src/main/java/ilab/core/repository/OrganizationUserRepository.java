@@ -13,10 +13,9 @@ import ilab.core.domain.user.OrganizationUser;
 import ilab.core.domain.user.User;
 
 public interface OrganizationUserRepository
-		extends PagingAndSortingRepository<OrganizationUser, UUID>, JpaSpecificationExecutor<OrganizationUser> {
-	Optional<OrganizationUser> findByUser(User user);
-
-	Optional<OrganizationUser> findByOrg(Organization org);
+		extends PagingAndSortingRepository<OrganizationUser, UUID>, JpaSpecificationExecutor<OrganizationUser>
+{
+	Optional<OrganizationUser> findByUserAndOrg(User user, Organization org);
 
 	Page<OrganizationUser> findAllByUser(User user, Pageable page);
 

@@ -23,14 +23,14 @@ import ilab.core.domain.user.Organization;
 import ilab.core.domain.user.OrganizationUser;
 import ilab.core.domain.user.Role;
 import ilab.core.domain.user.User;
-import ilab.core.repository.UserRepository;
 import ilab.core.service.OrganizationUserService;
 import ilab.core.service.UserService;
 import ilab.utils.exception.NotFoundException;
 
 @RestController
 @RequestMapping(path = OrganizationUserController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-public class OrganizationUserController {
+public class OrganizationUserController
+{
 
 	static final String REST_URL = "/api/orguser";
 
@@ -39,25 +39,22 @@ public class OrganizationUserController {
 	@Autowired
 	private UserService userService;
 
-	@Autowired
-	private UserRepository userRepo;
-
-	@PostMapping("/add")
+	@PostMapping
 	@PreAuthorize("isAuthenticated()")
-	public void create(@RequestParam("email") String email, Authentication auth) throws Exception {
-		User userInvited = userRepo.findByemailIgnoreCase(email).orElseThrow();
-		User userInvite=userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
-		if (userInvited.getEmail() !=userInvite.getEmail()) {
-			 orgUserService.addMemberToOrg(userInvited, auth);
+	public void create(@RequestParam("email") String email, Authentication auth) throws Exception
+	{
 
-		}else {
-			throw new NotFoundException("You are adding yourself");
-		}
+		User userInvited = orgUserService.findByemail(email);
+		User userInvite = userService.findUser(auth);
+
+		orgUserService.addMemberToOrg(userInvited, userInvite);
+
 	}
 
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/accept/{id}")
-	public OrganizationUser acceptInvitation(@PathVariable("id") UUID id, Authentication auth) throws Exception {
+	public OrganizationUser acceptInvitation(@PathVariable("id") UUID id, Authentication auth) throws Exception
+	{
 		OrganizationUser orgUser = orgUserService.findbyId(id).orElseThrow();
 
 		return orgUserService.acceptInvitation(orgUser, auth);
@@ -65,37 +62,44 @@ public class OrganizationUserController {
 
 	@PreAuthorize("isAuthenticated()")
 	@DeleteMapping("/decline/{id}")
-	public void declineInvitation(@PathVariable("id") UUID id, Authentication auth) throws Exception {
+	public void declineInvitation(@PathVariable("id") UUID id, Authentication auth) throws Exception
+	{
 		OrganizationUser orgUser = orgUserService.findbyId(id).orElseThrow();
-		if (orgUser.getStatus() == Role.ROLE_INVITED) {
+		if (orgUser.getStatus() == Role.ROLE_INVITED)
+		{
 			orgUserService.deleteOrganizationUser(orgUser, auth);
 		}
 	}
 
 	@PreAuthorize("isAuthenticated()")
 	@DeleteMapping("/leave/{id}")
-	public void leaveOrganization(@PathVariable("id") UUID id, Authentication auth) throws Exception {
+	public void leaveOrganization(@PathVariable("id") UUID id, Authentication auth) throws Exception
+	{
 		OrganizationUser orgUser = orgUserService.findbyId(id).orElseThrow();
-		if (orgUser.getStatus() == Role.ROLE_MEMBER) {
+		if (orgUser.getStatus() == Role.ROLE_MEMBER)
+		{
 			orgUserService.deleteOrganizationUser(orgUser, auth);
 		}
 	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("findAll")
-	public Page<OrganizationUser> findAll(Specification<OrganizationUser> specs, Pageable page) {
+	public Page<OrganizationUser> findAll(Specification<OrganizationUser> specs, Pageable page)
+	{
 		return orgUserService.findAll(specs, page);
 	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("search/byuser")
-	public Page<OrganizationUser> findbyUser(User user, Pageable page) {
+	public Page<OrganizationUser> findbyUser(User user, Pageable page)
+	{
 		return orgUserService.findByUser(user, page);
 	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("search/byorg")
-	public Page<OrganizationUser> findbyOrg(Organization org, Pageable page) {
+	public Page<OrganizationUser> findbyOrg(Organization org, Pageable page)
+	{
 		return orgUserService.findByOrg(org, page);
 	}
 
