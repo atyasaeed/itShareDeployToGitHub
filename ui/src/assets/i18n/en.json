@@ -380,5 +380,8 @@
   "invitationDescription":"You Have Been Invited To The Fresh Organization!",
   "invitedBy":"Invited By",
   "accept":"Accept",
-  "decline":"Decline"
+  "decline":"Decline",
+  "myOrganizations":"My Organizations",
+  "role":"Role",
+  "organization.name":"Organization Name"
 }

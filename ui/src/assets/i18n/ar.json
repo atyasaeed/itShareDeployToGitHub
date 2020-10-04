@@ -372,8 +372,9 @@
   "edit": "تعديل",
   "organizationDetails": "تفاصيل الشركة",
   "officialDocumentation": "الوثائق الرسمية",
-  "invitationDescription": "You Have Been Invited To The Fresh Organization!",
-  "invitedBy": "Invited By",
+  "invitationDescription": "لقد تم دعوتك للشركة",
+  "invitedBy": "بدعوة من",
   "accept": "اوافق",
-  "decline": "ارفض"
+  "decline": "ارفض",
+  "myOrganizations": "شركاتي"
 }

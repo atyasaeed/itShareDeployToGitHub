@@ -6,4 +6,5 @@ export interface OrgUser extends Entity {
   user: User;
   placedBy: User;
   org: Organization;
+  role: string;
 }
