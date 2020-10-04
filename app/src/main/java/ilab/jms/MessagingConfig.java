@@ -153,11 +153,11 @@ public class MessagingConfig
 	}
 
 	@JmsListener(destination = "${iLab.queues.organizationUserInvitation}")
-	public void processInvitation(Map<String, String> dto)
+	public void processInvitation(UUID id)
 	{
 		try
 		{
-			orgUserService.sendInvitation(dto.get("user"), UUID.fromString(dto.get("organizationUserId")));
+			orgUserService.sendInvitation(id);
 
 		} catch (Exception ex)
 		{
