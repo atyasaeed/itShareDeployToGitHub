@@ -169,4 +169,8 @@ export class OrderCardComponent implements OnInit {
       this.orderEndDate = null;
     }
   }
+
+  showModal(template) {
+    this.modalRef = this.modalService.show(template);
+  }
 }

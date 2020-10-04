@@ -9,12 +9,13 @@ ol li a{
 }
 
 ol li:last-of-type a{
-  color: #007bff;
+  color: #63C6C9;
 
 }
 ol li  :hover{
-  color: #007bff;
+  color: #63C6C9;
 }
-// .active a i:last-of-type{
-//   color: green;
-// }
+
+.breadcrumb{
+  background-color: transparent;
+}

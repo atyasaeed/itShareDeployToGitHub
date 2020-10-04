@@ -1,104 +1,107 @@
-<div class="card mb-3 light-grey-background">
-  <div class="card-header">
-    <div class="row ">
-      <div class="col">
-        <div class="row">
-          <div class="col-md-6 my-auto">
-            <label>{{'order.id'|translate}} :&nbsp;</label>
-            <span>{{order.id.slice(-7)}}</span>
-          </div>
-          <div class="col-md-6 my-auto">
-            <label>{{'orderedAt'|translate}} :&nbsp;</label>
-            <span>{{order.created | date:'fullDate'}}</span>
-          </div>
-          <div class="col-md-6 my-auto">
-            <div *ngIf="showPriceAndEndDate()">
-              <label> {{'order.totalPrice'|translate}} :&nbsp;</label>
-              <span>{{subTotal| currency:'EGP'}}</span>
-            </div>
-          </div>
-          <div class=" col-md-6    my-auto">
-            <div *ngIf="showPriceAndEndDate()">
-              <ng-container *ngIf="order.status == 'QUOTED';else endDate">
-                <label >{{'manufacturingDuration'|translate}} :&nbsp;</label> <span>{{maxDuration}} {{'workingDays'|translate}}</span>
-              </ng-container>
-              <ng-template #endDate>
-                  <label>{{'estimatedEndDate'|translate}} :&nbsp;</label> <span>{{orderEndDate|date:'fullDate'}}</span>
-              </ng-template>
-            </div>
-          </div>
-          <div class=" col-md-6    my-auto" *ngIf="order.status == 'QUOTED' || order.status == 'QUOTE_EXPIRED'">
-            <div>
-              <label>{{'quotedAt'|translate}} :&nbsp;</label> <span
-                class="text-primary">{{order.quotedAt|date:'fullDate'}}</span>
-            </div>
-          </div>
-          <div class=" col-md-6    my-auto" *ngIf="order.status == 'QUOTED' || order.status == 'QUOTE_EXPIRED'">
-            <div>
-              <label>{{'expiredAt'|translate}} :&nbsp;</label> <span
-                class="text-danger">{{order.expiredAt|date:'fullDate'}}</span>
-            </div>
-          </div>
-
-          <div class="col-md-12  my-auto" *ngIf="showStatusBreadcrumb();else terminated">
-            <app-steps [stepsArr]="statusArr" activeStep="{{order.status}}"></app-steps>
-          </div>
-          <ng-template #terminated>
-            <div class="col-md-12  text-center mt-2 mt-md-0">
-              <span class="cancelled">{{order.status | translate}}</span>
-            </div>
-          </ng-template>
-        </div>
+<div class="position-relative mb-3 f-weight-600 site-color-v5">
+  <ng-container *ngIf="!showStatusBreadcrumb()">
+      <div class="overlay position-absolute d-flex" >
+        <span class="cancelled">{{order.status | translate}}</span>
       </div>
+  </ng-container>
+  <div class="custom-card-header p-3">
 
+          <div class="row  ">
+            <div class="col-md-4 my-auto">
+              <div>
+                <label>{{'order.id'|translate}} :&nbsp;</label>
+                <span class="f-weight-400">{{order.id.slice(-7)}}</span>
+              </div>
+              <div *ngIf="showPriceAndEndDate()">
+                <label> {{'order.totalPrice'|translate}} :&nbsp;</label>
+                <span class="f-weight-400">{{subTotal| currency:'EGP'}}</span>
+              </div>
+              <div *ngIf="order.status == 'QUOTED' || order.status == 'QUOTE_EXPIRED'">
+                <label>{{'quotedOn'|translate}} :&nbsp;</label>
+                <span class="f-weight-400">{{order.quotedAt|date:'fullDate'}}</span>
+              </div>
+            </div>
+            <div class="col-md-4 my-auto">
+              <div >
+                <label>{{'orderedAt'|translate}} :&nbsp;</label>
+                <span class="f-weight-400">{{order.created | date:'fullDate'}}</span>
+              </div>
+              <div *ngIf="showPriceAndEndDate()">
+                <ng-container *ngIf="order.status == 'QUOTED';else endDate">
+                  <label >{{'manufacturingDuration'|translate}} :&nbsp;</label>
+                  <span class="f-weight-400">{{maxDuration}} {{'workingDays'|translate}}</span>
+                </ng-container>
+                <ng-template #endDate>
+                    <label>{{'estimatedEndDate'|translate}} :&nbsp;</label>
+                    <span class="f-weight-400">{{orderEndDate|date:'fullDate'}}</span>
+                </ng-template>
+              </div>
+              <div *ngIf="order.status == 'QUOTED' || order.status == 'QUOTE_EXPIRED'">
+                <label>{{'expiredOn'|translate}} :&nbsp;</label>
+                <span class="f-weight-400">{{order.expiredAt|date:'fullDate'}}</span>
+              </div>
+            </div>
 
-      <!-- Stand alone button to cancel all order -->
-      <div class=" col-md-2  text-center   my-auto" *ngIf="showOrderInteractBtns()">
+            <div class="col-md-4  my-auto" *ngIf="showOrderInteractBtns()">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-md-6 ml-auto mt-1" *ngIf="order.status == 'QUOTED'">
+                    <button class="custom-btn w-100  btn-primary "
+                    (click)="approveQuotation()">{{'approve' | translate}} </button>
+                  </div>
+                  <div class="col-md-6 ml-auto mt-1" *ngIf="order.status == 'QUOTED'">
+                    <button class="custom-btn w-100 v5  "
+                    (click)="rejectQuotation()">{{'reject' | translate}}</button>
+                  </div>
+                  <div class="col-md-6 ml-auto mt-1" *ngIf="order.status == 'QUOTED' || order.status == 'QUOTE_ACCEPTED'">
+                    <button [useExistingCss]="true" printSectionId="{{order.id}}" ngxPrint type="button"
+                    class="custom-btn btn-secondary w-100  ">{{'printQuotation'|translate}}</button>
+                  </div>
+                  <div class="col-md-6 ml-auto mt-1" *ngIf="showCancelOrderBtn() ">
+                    <input type="submit" class="custom-btn w-100  btn-danger   text-center"
+                    value="{{'Cancel Order'|translate}}" (click)="showModal(cancelOrderAlert)">
+                  </div>
+                </div>
+              </div>
 
-        <button class="btn btn-primary btn-block btn-sm m-1" *ngIf="order.status == 'QUOTED'"
-          (click)="approveQuotation()">{{'approve' | translate}} </button>
-        <button class="btn btn-primary btn-block btn-sm  m-1" *ngIf="order.status == 'QUOTED'"
-          (click)="rejectQuotation()">{{'reject' | translate}}</button>
+            </div>
+            <div class="col-md-4 text-center my-auto" *ngIf="order.status == 'ORDER_REJECTED' ">
+              <button type="button" (click)="orderRejectReasonModal(orderRejectReasons)"
+                class="btn  btn-danger btn-block btn-sm m-1">{{'viewReasons'|translate}}</button>
+            </div>
+            <div class="col-md-12 px-md-5  my-auto" *ngIf="showStatusBreadcrumb()">
+              <app-steps [stepsArr]="statusArr" activeStep="{{order.status}}"></app-steps>
+            </div>
 
-        <button [useExistingCss]="true" printSectionId="{{order.id}}" ngxPrint type="button"
-          class="btn btn-secondary btn-block btn-sm  m-1"
-          *ngIf="order.status == 'QUOTED' || order.status == 'QUOTE_ACCEPTED'">{{'printQuotation'|translate}}</button>
+          </div>
 
-        <input type="submit" class="btn btn-sm btn-danger btn-block m-1 text-center" *ngIf="showCancelOrderBtn() "
-          value="{{'Cancel Order'|translate}}" (click)="cancelOrder()">
-      </div>
-      <div class="col-md-2 text-center my-auto" *ngIf="order.status == 'ORDER_REJECTED' ">
-        <button type="button" (click)="orderRejectReasonModal(orderRejectReasons)"
-          class="btn  btn-danger btn-block btn-sm m-1">{{'viewReasons'|translate}}</button>
-      </div>
     </div>
-  </div>
-  <div class="card-body">
-    <!-- <h5 class="card-title text-center">Order Details</h5> -->
+    <div class="custom-card p-3">
+      <!-- <h5 class="card-title text-center">Order Details</h5> -->
 
-    <!-- The Section tag hold all order body even the cancel button -->
-    <section class="shopping-cart dark">
+      <!-- The Section tag hold all order body even the cancel button -->
+      <section class="shopping-cart dark">
 
-      <!-- container tag hold all order elements or all line items -->
-      <div>
-        <!-- page Head -->
-        <!-- End page Head -->
+        <!-- container tag hold all order elements or all line items -->
+        <div>
+          <!-- page Head -->
+          <!-- End page Head -->
 
-        <!-- Page Content -->
-        <div class="content">
-          <app-line-item *ngFor="let lineItem of order.lineItems" [lineItem]="lineItem" orderStatus='{{order.status}}'
-            (itemChanged)="getOrder($event)">
-          </app-line-item>
+          <!-- Page Content -->
+          <div class="content">
+            <app-line-item *ngFor="let lineItem of order.lineItems" [lineItem]="lineItem" orderStatus='{{order.status}}'
+              (itemChanged)="getOrder($event)">
+            </app-line-item>
+          </div>
+          <!-- End Page Content -->
+
         </div>
-        <!-- End Page Content -->
-
-      </div>
 
 
 
-    </section>
+      </section>
 
-  </div>
+    </div>
 
 </div>
 
@@ -280,4 +283,27 @@
       <button type="button" class="btn btn-sm btn-secondary" (click)="modalRef.hide()">{{'close'|translate}}</button>
     </div>
   </div>
+</ng-template>
+
+<ng-template #cancelOrderAlert>
+    <div class="modal-body ">
+      <div>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="text-center mt-2 text-danger">
+        <i class="fas fa-times fa-5x"></i>
+      </div>
+      <div class="text-center mt-2 site-color-v3 f-weight-600 f-size-20">
+        {{'areYouSure'|translate}}
+      </div>
+      <div class="text-center f-size-14 text-grey mt-2">
+        {{'deleteDescription'|translate}}
+      </div>
+      <div class="text-center my-2 f-weight-600">
+        <button class="custom-btn v4 mr-3" (click)="modalRef.hide()">{{'no'|translate}}</button>
+        <button class="custom-btn btn-danger" (click)="cancelOrder();modalRef.hide()">{{'yes'|translate}}</button>
+      </div>
+    </div>
 </ng-template>

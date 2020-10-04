@@ -3,9 +3,6 @@
 //     //font-size: 80%;
 // }
 
-label {
-    font-weight: 600;
-}
 
 
 .card-form {
@@ -42,8 +39,8 @@ label {
 }
 
 .dropdown-divider{
-    height: 3px;
-    background: white;
+    height: 4px;
+    background: #00000010;
 }
 
 .overlay{
@@ -68,8 +65,8 @@ label {
   font-weight: 600;
   padding: 5px 10px;
   font-size: 17px;
-  color: red;
-  border: 3px dashed red;
+  color:  #FF0000;;
+  border: 4px solid  #FF0000;
 }
 
 .rejection-reason{
@@ -90,12 +87,32 @@ label {
 
 }
 
-// .custom-control-input:checked ~ .custom-control-label::before{
-// opacity: 0;
-// }
-// .custom-control-input:checked ~ .custom-control-label::after{
-// opacity: 0;
-// }
-// .custom-radio .custom-control-label::before{
-//   opacity: 0;
-// }
+
+img{
+  border-radius: 8px;
+}
+
+.sky-section{
+  background: #0270ff1a 0% 0% no-repeat padding-box;
+  border-radius: 8px;
+}
+
+.accept-radio {
+  color: #B5B9BD;
+  input{
+    display: none;
+  }
+  input:checked ~ *{
+    color: #007BFF !important;
+  }
+}
+
+.reject-radio {
+  color: #B5B9BD;
+  input{
+    display: none;
+  }
+  input:checked ~ *{
+    color: #DC3545 !important;
+  }
+}

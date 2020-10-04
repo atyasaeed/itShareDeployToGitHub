@@ -1,5 +1,7 @@
 package ilab.core.domain;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -16,53 +18,52 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @MappedSuperclass
-@JsonIgnoreProperties({  	"updated","version" })
 public abstract class AbstractEntity<T extends AbstractEntity<?>>
 {
 	@Id
-	@GenericGenerator(name="UUID",strategy="org.hibernate.id.UUIDGenerator")
-	@GeneratedValue(generator="UUID")
+	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@GeneratedValue(generator = "UUID")
 	private UUID id;
-	
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	private LocalDateTime created;
-	
-	
-	@Column(nullable=false)
+
+	@Column(nullable = false)
+	@JsonView(Views.Admin.class)
 	private LocalDateTime updated;
 	@Version
-	private int version;
-	
+	@JsonView(Views.Admin.class)
+	private long version;
+
 	@PrePersist
 	protected void onCreate()
 	{
-		updated=created=LocalDateTime.now();
+		updated = created = LocalDateTime.now();
 	}
-	
+
 	@PreUpdate
 	protected void onUpdate()
 	{
-		updated=LocalDateTime.now();
+		updated = LocalDateTime.now();
 	}
-	
-	
+
 	public UUID getId()
 	{
 		return id;
 	}
+
 	public T setId(UUID id)
 	{
 		this.id = id;
-		return (T)this;
+		return (T) this;
 	}
-	
-	
-	
-	public int getVersion()
+
+	public long getVersion()
 	{
 		return version;
 	}
-	public void setVersion(int version)
+
+	public void setVersion(long version)
 	{
 		this.version = version;
 	}
