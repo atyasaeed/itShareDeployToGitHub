@@ -14,10 +14,10 @@ export class orgUserService extends RestService<OrgUser> {
   }
 
   memberAcceptInvitation(id) {
-    return this.http.get<OrgUser>(this.appConfig.getResourceUrl(this.resource) + '/accept/' + id);
+    return this.http.put<OrgUser>(this.appConfig.getResourceUrl(this.resource) + '/accept/' + id, null);
   }
 
   memberDeclineInvitation(id) {
-    return this.http.get<OrgUser>(this.appConfig.getResourceUrl(this.resource) + '/decline/' + id);
+    return this.http.delete(this.appConfig.getResourceUrl(this.resource) + '/' + id);
   }
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TdLoadingService } from '@covalent/core/loading';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 import { OrgUser } from 'src/app/shared/domain/orgUser.model';
 import { orgUserService } from 'src/app/shared/services/org-user.service';
 
@@ -14,7 +16,9 @@ export class OrgMemberInvitationComponent implements OnInit {
     private activeRoute: ActivatedRoute,
     private service: orgUserService,
     private router: Router,
-    private loadingService: TdLoadingService
+    private loadingService: TdLoadingService,
+    private toastr: ToastrService,
+    private translate: TranslateService
   ) {}
   entity: OrgUser;
   entityId: OrgUser;
@@ -40,10 +44,13 @@ export class OrgMemberInvitationComponent implements OnInit {
     this.loadingService.register('loading');
     this.service.memberAcceptInvitation(this.entityId).subscribe(
       (res) => {
+        this.toastr.success(this.translate.instant('acceptInvitation'));
         this.loadingService.resolve('loading');
+        this.router.navigateByUrl('/home');
       },
       (err) => {
         this.loadingService.resolve('loading');
+        this.toastr.error(this.translate.instant('server.error'));
       }
     );
   }
@@ -52,10 +59,12 @@ export class OrgMemberInvitationComponent implements OnInit {
     this.loadingService.register('loading');
     this.service.memberDeclineInvitation(this.entityId).subscribe(
       (res) => {
+        this.toastr.success(this.translate.instant('declineInvitation'));
         this.loadingService.resolve('loading');
         this.router.navigateByUrl('/home');
       },
       (err) => {
+        this.toastr.error(this.translate.instant('server.error'));
         this.loadingService.resolve('loading');
       }
     );

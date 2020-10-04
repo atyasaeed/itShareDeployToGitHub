@@ -30,7 +30,7 @@ export class MyOrganizationsComponent extends DefaultListComponent<OrgUser, orgU
   set searchTerm(searchTerm: string) {
     this._searchTerm = searchTerm;
     if (searchTerm) {
-      this.service.searchTerm = `name:'*${searchTerm.toLowerCase()}*'`;
+      this.service.searchTerm = `id:'*${searchTerm.toLowerCase()}*' OR name:'*${searchTerm.toLowerCase()}*'`;
     } else {
       this.service.searchTerm = '';
     }
