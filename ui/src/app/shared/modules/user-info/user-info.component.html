@@ -1,46 +1,86 @@
-<div [@routerTransition]>
+<div [@routerTransition] class="custom-card">
   <form *ngIf="user" [formGroup]='form' (ngSubmit)="save()">
-    <mat-card *tdLoading="'loadingUser'">
+    <div *tdLoading="'loadingUser'" class="p-3 row">
+      <div class="col-md-6">
+        <div class="row mb-4">
+          <div class="px-3">
+            <img src="assets\images\noun_Edit Profile_3245070.png"
+              class="height-fluid cursor-pointer pointer img-profile">
+          </div>
+          <div>
+            <h6 class="f-size-20 site-color-v3 m-0">{{"editProfile"|translate}}</h6>
+            <span class="f-size-14 text-grey">{{'update your personal information' |translate}}</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email" class="brand font-weight-bold">{{"email"|translate}}</label>
+          <input type="email" class="form-control f-size-14 text-grey f-weight-500" id="email"
+            placeholder="{{ 'enterEmail' | translate }}" formControlName="email" #email>
+          <div *ngIf="form.controls.email.touched && !form.controls.email.valid" class="text-danger">
+            <div *ngIf="form.controls.email.errors.required">{{ 'email.error.required' | translate }}
+            </div>
+            <div *ngIf="form.controls.email.errors.pattern">
+              {{ 'email.error.invalid' | translate }}</div>
 
-      <mat-card-content class="form-rtl">
+          </div>
+        </div>
+        <section class="row my-4">
+          <div class="col-md-6"><label for="firstname" class="brand font-weight-bold">{{"firstName"|translate}}</label>
+            <input type="text" formControlName="firstName" class="form-control f-size-14 text-grey f-weight-500"
+              id="firstname" placeholder="{{'enterFirstName' | translate }}" #firstName>
+            <div *ngIf="form.controls.firstName.touched && !form.controls.firstName.valid" class="text-danger">
+              <div *ngIf="form.controls.firstName.errors.required">
+                {{ 'firstName.error.required' | translate }}
+              </div>
+              <div *ngIf="form.controls.firstName.errors.minlength">
+                {{ 'firstName.error.minlength' | translate }}
+              </div>
+              <div *ngIf="form.controls.firstName.errors.maxlength">
+                {{ 'firstName.error.maxlength' | translate }}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label for="lastname" class="brand font-weight-bold">{{"lastName"|translate}}</label>
+            <input type="text" formControlName="lastName" class="form-control f-size-14 text-grey f-weight-500"
+              id="lastname" placeholder="{{'enterLastName' | translate }}" #lastName>
+            <div *ngIf="form.controls.lastName.touched && !form.controls.lastName.valid" class="text-danger">
+              <div *ngIf="form.controls.lastName.errors.required">
+                {{ 'lastName.error.required' | translate }}</div>
+              <div *ngIf="form.controls.lastName.errors.minlength">
+                {{ 'firstName.error.minlength' | translate }}
+              </div>
+              <div *ngIf="form.controls.lastName.errors.maxlength">
+                {{ 'firstName.error.maxlength' | translate }}
+              </div>
+            </div>
+          </div>
+        </section>
+        <div class="form-group">
+          <label for="personalphonenumber" class="brand font-weight-bold">{{"personalPhoneNumber"|translate}}</label>
 
-        <mat-form-field class="form-rtl">
-          <input matInput type="text" placeholder="{{'userName'|translate}}" required formControlName='username'>
-          <mat-error *ngIf="hasError('username')">{{'userName.error.required'|translate}}</mat-error>
-        </mat-form-field>
+          <input type="text" formControlName="mobileNo" class="form-control f-size-14 text-grey f-weight-500"
+            id="personalphonenumber" placeholder="{{'enterPersonalPhoneNumber' | translate }}" #mobileNo>
+          <div *ngIf="form.controls.mobileNo.touched && !form.controls.mobileNo.valid" class="text-danger">
+            <div *ngIf="form.controls.mobileNo.errors.required">
+              {{ 'personalPhoneNumber.error.required' | translate }}</div>
+            <div *ngIf="form.controls.mobileNo.errors.pattern">
+              {{ 'personalPhoneNumber.error.invalid' | translate }}</div>
+          </div>
 
-        <mat-form-field class="form-rtl">
-          <input name="email" matInput type="text" placeholder="{{'email'|translate}}" required formControlName='email'>
-          <mat-error *ngIf="hasError('email')">{{'email.error.required'|translate}}</mat-error>
-        </mat-form-field>
+        </div>
+        <div class="form-rtl">
 
-        <mat-form-field class="form-rtl">
-          <input name="firstName" matInput type="text" placeholder=" {{'firstName'|translate}}" required
-            formControlName='firstName'>
-          <mat-error *ngIf="hasError('firstName')">{{'firstName.error.required'|translate}}</mat-error>
-        </mat-form-field>
+          <button type="button" class="custom-btn custom-btn.v1 site-color-v3 f-size-16 font-weight-bold"
+            (click)="cancel()">{{'cancel'|translate}}</button> &nbsp;
+          <button type="button" *ngIf="!user.enabled" (click)="status(user)" mat-raised-button
+            color="primary">{{'Enable'|translate}}</button>
+          <button type="submit" class="custom-btn custom-bg  f-size-16 font-weight-bold"
+            [disabled]="f().invalid">{{'SaveUpdate'|translate}}</button>
+          <!-- <button type="button" *ngIf="entity.enabled" (click)="status(entity)" mat-raised-button color="warn">{{'Disable'|translate}}</button> -->
+        </div>
 
-        <mat-form-field class="form-rtl">
-          <input name="lastName" matInput type="text" placeholder="{{'lastName'|translate}}" required
-            formControlName='lastName'>
-          <mat-error *ngIf="hasError('lastName')">{{'lastName.error.required'|translate}}</mat-error>
-        </mat-form-field>
-        <mat-form-field class="form-rtl">
-          <input name="phone" matInput type="text" placeholder="{{'personalPhoneNumber'|translate}}" required
-            formControlName='mobileNo'>
-          <mat-error *ngIf="hasError('mobileNo')">{{'personalPhoneNumber.error.required'|translate}}</mat-error>
-        </mat-form-field>
-      </mat-card-content>
-      <mat-card-actions class="form-rtl">
-
-        <button type="button" mat-button (click)="cancel()">{{'Back'|translate}}</button> &nbsp;
-        <button type="button" *ngIf="!user.enabled" (click)="status(user)" mat-raised-button
-          color="primary">{{'Enable'|translate}}</button>
-        <button type="submit" mat-raised-button color="primary" [disabled]="f().invalid">{{'Save'|translate}}</button>
-        <!-- <button type="button" *ngIf="entity.enabled" (click)="status(entity)" mat-raised-button color="warn">{{'Disable'|translate}}</button> -->
-      </mat-card-actions>
-
-
-    </mat-card>
+      </div>
+    </div>
   </form>
 </div>
