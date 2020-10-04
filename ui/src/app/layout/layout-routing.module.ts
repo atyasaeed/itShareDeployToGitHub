@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LayoutComponent } from './layout.component';
 import { AdminGuard, AuthGuard } from '../shared/guard';
+import { PartnerGuard } from '../shared/guard/partner.guard';
 
 const routes: Routes = [
   {
@@ -69,6 +70,12 @@ const routes: Routes = [
         path: 'organizations-list',
         loadChildren: () => import('./organizations/organizations-list.module').then((m) => m.OrganizationsListModule),
         canActivate: [AdminGuard],
+      },
+      {
+        path: 'org-member-invitation/:entityId',
+        loadChildren: () =>
+          import('./org-member-invitation/org-member-invitation.module').then((m) => m.OrgMemberInvitationModule),
+        //canActivate: [PartnerGuard],
       },
     ],
   },
