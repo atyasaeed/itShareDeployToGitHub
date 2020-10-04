@@ -1,10 +1,30 @@
-<div class="p-4" [@routerTransition]>
+<div class="p-4" [@routerTransition] *tdLoading="'loading' strategy:'overlay'">
   <app-page-header [breadCrumbs]="breadcrumbs"></app-page-header>
+
+  <!-- <mat-spinner *ngIf="loading" class="m-auto"></mat-spinner> -->
+
+  <div class="text-center custom-card p-4 my-5">
+    <h4 class="site-color-v1 py-4 text-center">{{"inviteMember" |translate}}</h4>
+    <div class="form-group w-50 m-auto text-center">
+      <label for="first" class="brand f-size-20">{{"emailTeam"|translate}}</label>
+      <input type="text" class="w-50" placeholder="{{ 'enterEmail' | translate }} " [formControl]="email"
+        class="form-control" id="first">
+      <div class="text-danger" *ngIf="email.touched && email.invalid">{{'email.error.required'|translate}}
+      </div>
+    </div>
+    <!--  col-md-6   -->
+    <div class="my-4 text-center">
+      <button class="v1 custom-btn" type="button" [disabled]="email.invalid" (click)="save()"><i
+          class="fas fa-paper-plane" #btun></i>
+        &nbsp; {{ 'invite' | translate }}</button>
+    </div>
+  </div>
+
   <form>
     <div class="form-group form-inline row">
       <div class="col-md-8">
         <span class="site-color-v5 f-size-20 f-weight-600">
-          {{'mySpace'|translate}}
+          {{'organizationTeam'|translate}}
         </span>
         <input class="search-input form-control ml-2" [class.rtl]="lang==='ar'" type="text"
           placeholder="{{'Search'|translate}}" name="searchTerm" [(ngModel)]="searchTerm" />
@@ -13,15 +33,16 @@
 
     </div>
     <div class="table-responsive">
-      <table class="table " *tdLoading="'loading'">
+      <table class="table">
         <thead>
           <tr>
             <!-- <th scope="col">#</th> -->
-            <th scope="col">{{'id'|translate}}</th>
+            <th scope="col">{{'#'|translate}}</th>
             <th scope="col">{{'name'|translate}}</th>
-            <th scope="col" sortable="created" (sort)="onSort($event)">{{'created'|translate}}</th>
-            <th scope="col">{{'image'|translate}}</th>
-            <th scope="col">{{'actions'|translate}}</th>
+            <th scope="col">{{'email'|translate}}</th>
+            <th scope="col">{{'role'|translate}}</th>
+            <th scope="col">{{'status'|translate}}</th>
+            <th scope="col"></th>
 
           </tr>
         </thead>
@@ -29,15 +50,28 @@
           <tr *ngFor="let entity of entities$ | async; let i=index">
             <!-- <th scope="row">{{ i+1 }}</th> -->
             <td>
-              <ngb-highlight [result]="entity.id.slice(-7)" [term]="searchTerm" #id></ngb-highlight>
+              <ngb-highlight [result]="i+1" [term]="searchTerm" #id></ngb-highlight>
             </td>
 
             <td>
-              <ngb-highlight [result]="entity.name" [term]="searchTerm"></ngb-highlight>
+              <ngb-highlight [result]="entity.user.firstName" [term]="searchTerm"></ngb-highlight>
 
             </td>
             <td>
-              <ngb-highlight [result]="entity.created  | date: 'dd/MM/yyyy'" [term]="searchTerm"></ngb-highlight>
+              <ngb-highlight [result]="entity.user.email" [term]="searchTerm"></ngb-highlight>
+
+            </td>
+            <td>
+              <ngb-highlight [result]="entity.role" [term]="searchTerm"></ngb-highlight>
+
+            </td>
+            <td>
+              <ngb-highlight [result]="entity.user.defaultOrg.status" [term]="searchTerm"></ngb-highlight>
+
+            </td>
+            <td>
+              <a href="javascript:void(0)" (click)="delete(entity)"> <i
+                  class="fas fa-trash-alt f-size-20 text-danger"></i></a>
 
             </td>
           </tr>

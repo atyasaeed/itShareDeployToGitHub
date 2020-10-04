@@ -372,5 +372,10 @@
   "edit": "تعديل",
   "organizationDetails": "تفاصيل الشركة",
   "officialDocumentation": "الوثائق الرسمية",
-  "organizationTeam": "الفريق"
+  "organizationTeam": "الفريق",
+  "organization-team": "أعضاء الفريق",
+  "inviteMember": "قم بدعوة عضو جديد بالفريق",
+  "emailTeam": "عنوان البريد الإلكتروني للفريق",
+  "invite": "دعوة",
+  "role": "الوظيفة"
 }
