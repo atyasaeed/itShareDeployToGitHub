@@ -69,7 +69,7 @@ public class OrganizationUserService
 		orgUser.setOrg(org);
 		orgUser.setUser(invitee);
 		orgUser.setPlacedBy(inviter);
-		orgUser.setStatus(Role.ROLE_INVITED);
+		orgUser.setRole(Role.ROLE_INVITED);
 		orgUserRepo.save(orgUser);
 
 		jmsTemplate.convertAndSend(organizationUserInvitationQueue, orgUser.getId());
@@ -91,7 +91,7 @@ public class OrganizationUserService
 
 		if (orgUser.getUser().getEmail().equals(auth.getName()))
 		{
-			orgUser.setStatus(Role.ROLE_MEMBER);
+			orgUser.setRole(Role.ROLE_MEMBER);
 			return orgUserRepo.save(orgUser);
 
 		} else
@@ -107,12 +107,12 @@ public class OrganizationUserService
 
 	public Page<OrganizationUser> findByUser(Authentication auth, Pageable page)
 	{
-		return orgUserRepo.findAllByUser_username(auth.getName(), page);
+		return orgUserRepo.findByUser_usernameIgnoreCase(auth.getName(), page);
 	}
 
 	public Page<OrganizationUser> findByOrg(Authentication auth, Pageable page)
 	{
-		return orgUserRepo.findAllByOrg_owner_username(auth.getName(), page);
+		return orgUserRepo.findByOrg_owner_usernameIgnoreCase(auth.getName(), page);
 	}
 
 	public Optional<OrganizationUser> findbyId(UUID id)
@@ -147,5 +147,10 @@ public class OrganizationUserService
 	public User findByemail(String email)
 	{
 		return userRepo.findByemailIgnoreCase(email).orElseThrow();
+	}
+
+	public OrganizationUser findById(UUID id, Authentication auth)
+	{
+		return orgUserRepo.findByIdAndUser_usernameIgnoreCase(id,auth.getName()).orElseThrow();
 	}
 }
