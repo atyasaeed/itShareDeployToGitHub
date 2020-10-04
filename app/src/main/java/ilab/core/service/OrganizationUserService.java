@@ -107,12 +107,12 @@ public class OrganizationUserService
 
 	public Page<OrganizationUser> findByUser(Authentication auth, Pageable page)
 	{
-		return orgUserRepo.findAllByUser_username(auth.getName(), page);
+		return orgUserRepo.findByUser_usernameIgnoreCase(auth.getName(), page);
 	}
 
 	public Page<OrganizationUser> findByOrg(Authentication auth, Pageable page)
 	{
-		return orgUserRepo.findAllByOrg_owner_username(auth.getName(), page);
+		return orgUserRepo.findByOrg_owner_usernameIgnoreCase(auth.getName(), page);
 	}
 
 	public Optional<OrganizationUser> findbyId(UUID id)
@@ -151,6 +151,6 @@ public class OrganizationUserService
 
 	public OrganizationUser findById(UUID id, Authentication auth)
 	{
-		return orgUserRepo.findByIdAndUser(id, userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow()).orElseThrow();
+		return orgUserRepo.findByIdAndUser_usernameIgnoreCase(id,auth.getName()).orElseThrow();
 	}
 }
