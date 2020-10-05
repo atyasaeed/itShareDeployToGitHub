@@ -376,5 +376,12 @@
   "updatePersInfo": "update your personal information",
   "edit": "Edit",
   "organizationDetails": "Organization details",
-  "officialDocumentation": "Official documentation"
+  "officialDocumentation": "Official documentation",
+  "invitationDescription":"You Have Been Invited To",
+  "invitedBy":"Invited By",
+  "accept":"Accept",
+  "decline":"Decline",
+  "myOrganizations":"My Organizations",
+  "role":"Role",
+  "organization.name":"Organization Name"
 }

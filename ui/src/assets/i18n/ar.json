@@ -371,5 +371,10 @@
   "updatePersInfo": "تحديث معلوماتك الشخصية",
   "edit": "تعديل",
   "organizationDetails": "تفاصيل الشركة",
-  "officialDocumentation": "الوثائق الرسمية"
+  "officialDocumentation": "الوثائق الرسمية",
+  "invitationDescription": "لقد تم دعوتك لشركة",
+  "invitedBy": "بدعوة من",
+  "accept": "اوافق",
+  "decline": "ارفض",
+  "myOrganizations": "شركاتي"
 }

@@ -7,6 +7,7 @@ import { arabicLangDirective } from '../../directives/arabicLang.directive';
 import { englishLangDirective } from '../../directives/englishLang.directive';
 import { IsAuthDirective } from '../../directives/isAuth.directive';
 import { noAuthDirective } from '../../directives/noAuth.directive';
+import { IsPartnerDirective } from '../../directives/isPartner.directive';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { noAuthDirective } from '../../directives/noAuth.directive';
     noAuthDirective,
     arabicLangDirective,
     englishLangDirective,
+    IsPartnerDirective,
   ],
   imports: [CommonModule],
   exports: [
@@ -27,6 +29,7 @@ import { noAuthDirective } from '../../directives/noAuth.directive';
     noAuthDirective,
     arabicLangDirective,
     englishLangDirective,
+    IsPartnerDirective,
   ],
 })
 export class SharedModule {}
