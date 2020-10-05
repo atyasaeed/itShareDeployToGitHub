@@ -34,6 +34,7 @@ export class OrgMemberInvitationComponent implements OnInit {
           },
           (err) => {
             this.loadingService.resolve('loading');
+            this.router.navigateByUrl('/home');
           }
         );
       }

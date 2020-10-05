@@ -79,6 +79,7 @@ const routes: Routes = [
         path: 'org-member-invitation/:entityId',
         loadChildren: () =>
           import('./org-member-invitation/org-member-invitation.module').then((m) => m.OrgMemberInvitationModule),
+        canActivate: [AuthGuard],
       },
       {
         path: 'my-organizations',

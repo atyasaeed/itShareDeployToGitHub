@@ -388,5 +388,14 @@
   "myOrganizations": "My Organizations",
   "role": "Role",
   "organization.name": "Organization Name",
-  "removeMemeber": "remove this member"
+  "removeMemeber": "remove this member",
+  "WelcomeToFabrihubMmanufacturingCommunity": "Welcome to fabrihub manufacturing community get started and upload your official documents so you can have jobs",
+  "organizationOfficialDocumnets": "You have to complete registeration and upload organization official documnets",
+  "takeMeThere": "Take me there",
+  "documentsUploaded ": "Thank you, your documents uploaded and waiting for approval",
+  "orgAccountSuccessfuly": "You have created your organization account successfuly",
+  "uploadPapers": "Upload Your Official Papers",
+  "createAccount": "Create account",
+  "contactYou": "We Will Contact You",
+  "congratulations": "Congratulations, Done"
 }
