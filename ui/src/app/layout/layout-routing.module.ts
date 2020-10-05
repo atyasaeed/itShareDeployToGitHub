@@ -65,7 +65,6 @@ const routes: Routes = [
         loadChildren: () => import('./reasons-list/reasons-list.module').then((m) => m.ReasonsListModule),
         canActivate: [AdminGuard],
       },
-
       {
         path: 'organizations-list',
         loadChildren: () => import('./organizations/organizations-list.module').then((m) => m.OrganizationsListModule),
@@ -75,6 +74,16 @@ const routes: Routes = [
         path: 'organization-team',
         loadChildren: () =>
           import('./organization-team/organization-team.module').then((m) => m.OrganizationTeamModule),
+      },
+      {
+        path: 'org-member-invitation/:entityId',
+        loadChildren: () =>
+          import('./org-member-invitation/org-member-invitation.module').then((m) => m.OrgMemberInvitationModule),
+        canActivate: [PartnerGuard],
+      },
+      {
+        path: 'my-organizations',
+        loadChildren: () => import('./my-organizations/my-organizations.module').then((m) => m.MyOrganizationsModule),
         canActivate: [PartnerGuard],
       },
     ],

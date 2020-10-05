@@ -377,5 +377,11 @@
   "inviteMember": "قم بدعوة عضو جديد بالفريق",
   "emailTeam": "عنوان البريد الإلكتروني للفريق",
   "invite": "دعوة",
-  "role": "الوظيفة"
+  "role": "الوظيفة",
+  "invitationDescription": "لقد تم دعوتك لشركة",
+  "invitedBy": "بدعوة من",
+  "accept": "اوافق",
+  "decline": "ارفض",
+  "myOrganizations": "شركاتي",
+  "removeMemeber": "إزالة هذا العضو"
 }

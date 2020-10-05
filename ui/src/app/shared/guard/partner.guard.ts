@@ -16,7 +16,8 @@ export class PartnerGuard implements CanActivate {
   user = {} as User;
   constructor(private router: Router, private service: UserService, private appStore: Store<fromStore.AppState>) {
     appStore.select(fromStore.getAuthUser).subscribe((user) => {
-      if (user.defaultOrgType === 'PARTNER') {
+      console.log(user);
+      if (user?.defaultOrgType === 'PARTNER') {
         this.isPartner = true;
       }
     });

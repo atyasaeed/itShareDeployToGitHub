@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Organization } from 'src/app/shared/domain/organization.model';
 import { OrgUserService } from 'src/app/shared/services/org-user.service';
 import * as fromStore from 'src/app/store';
@@ -9,6 +9,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { routerTransition } from 'src/app/router.animations';
 import { OrgUser } from 'src/app/shared/domain/orgUser.model';
 import { Observable } from 'rxjs';
+import { TdDialogService } from '@covalent/core/dialogs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-organization-team',
@@ -26,7 +28,9 @@ export class OrganizationTeamComponent extends DefaultListComponent<OrgUser, Org
     service: OrgUserService,
     private appStore: Store<fromStore.AppState>,
     loadingService: TdLoadingService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private _dialogService: TdDialogService,
+    private translate: TranslateService
   ) {
     super(service, loadingService);
     this.service.searchUrl = 'search/org';
@@ -51,6 +55,26 @@ export class OrganizationTeamComponent extends DefaultListComponent<OrgUser, Org
     this.purge(entity).subscribe((result) => {
       this.appStore.dispatch(new fromStore.LoadInitState());
     });
+  }
+
+  openConfirm(entity): void {
+    this._dialogService
+      .openConfirm({
+        title: this.translate.instant('areYouSure'),
+        message: this.translate.instant('removeMemeber'),
+        cancelButton: this.translate.instant('no'),
+        acceptButton: this.translate.instant('yes'),
+        width: '500px',
+      })
+      .afterClosed()
+      .subscribe((accept: boolean) => {
+        if (accept) {
+          this.purge(entity).subscribe((result) => {
+            this.appStore.dispatch(new fromStore.LoadInitState());
+          });
+        } else {
+        }
+      });
   }
   save() {
     this.loadingService.register(this.key);

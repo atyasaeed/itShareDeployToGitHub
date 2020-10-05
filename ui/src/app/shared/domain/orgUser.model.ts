@@ -4,7 +4,7 @@ import { User } from './user.model';
 
 export interface OrgUser extends Entity {
   user: User;
-  org: Organization;
   placedBy: User;
+  org: Organization;
   role: string;
 }

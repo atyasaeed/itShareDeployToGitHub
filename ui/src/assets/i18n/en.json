@@ -381,5 +381,12 @@
   "inviteMember": "Invite a new team member",
   "emailTeam": "Team email address",
   "invite": "invite",
-  "role": "role"
+  "invitationDescription": "You Have Been Invited To",
+  "invitedBy": "Invited By",
+  "accept": "Accept",
+  "decline": "Decline",
+  "myOrganizations": "My Organizations",
+  "role": "Role",
+  "organization.name": "Organization Name",
+  "removeMemeber": "remove this member"
 }

@@ -12,4 +12,16 @@ export class OrgUserService extends RestService<OrgUser> {
   inviteUser(email) {
     return this.http.post(this.appConfig.getResourceUrl(this.resource), email);
   }
+
+  getInvitationPlacedBy(id) {
+    return this.http.get<OrgUser>(this.appConfig.getResourceUrl(this.resource) + '/' + id);
+  }
+
+  memberAcceptInvitation(id) {
+    return this.http.put<OrgUser>(this.appConfig.getResourceUrl(this.resource) + '/accept/' + id, null);
+  }
+
+  memberDeclineInvitation(id) {
+    return this.http.delete(this.appConfig.getResourceUrl(this.resource) + '/' + id);
+  }
 }
