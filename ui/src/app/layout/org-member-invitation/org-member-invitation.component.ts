@@ -4,7 +4,7 @@ import { TdLoadingService } from '@covalent/core/loading';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { OrgUser } from 'src/app/shared/domain/orgUser.model';
-import { orgUserService } from 'src/app/shared/services/org-user.service';
+import { OrgUserService } from 'src/app/shared/services/org-user.service';
 
 @Component({
   selector: 'app-org-member-invitation',
@@ -14,7 +14,7 @@ import { orgUserService } from 'src/app/shared/services/org-user.service';
 export class OrgMemberInvitationComponent implements OnInit {
   constructor(
     private activeRoute: ActivatedRoute,
-    private service: orgUserService,
+    private service: OrgUserService,
     private router: Router,
     private loadingService: TdLoadingService,
     private toastr: ToastrService,

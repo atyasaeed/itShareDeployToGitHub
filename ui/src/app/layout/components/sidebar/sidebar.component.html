@@ -23,6 +23,11 @@
         <img src="assets\images\palette-solid.png" class="height-fluid cursor-pointer f-size-30 mx-2">
         <span class="f-size-18">{{ 'mySpace' | translate }}</span>
       </a>
+      <a class="list-group-item active-item d-flex" routerLink="/organization-team" *isPartner
+        [routerLinkActive]="['router-link-active']">
+        <img src="assets\images\user-edit-solid (1).png" class="height-fluid cursor-pointer f-size-30 mx-2">
+        <span class="f-size-18">{{ 'organizationTeam' | translate }}</span>
+      </a>
       <div class="nested-menu list-group" *ngIf="hasAdminRole">
         <a class="list-group-item active-item d-flex" (click)="addExpandClass('dashboard')"
           [routerLinkActive]="['router-link-active']">

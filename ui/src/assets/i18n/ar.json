@@ -372,9 +372,16 @@
   "edit": "تعديل",
   "organizationDetails": "تفاصيل الشركة",
   "officialDocumentation": "الوثائق الرسمية",
+  "organizationTeam": "الفريق",
+  "organization-team": "أعضاء الفريق",
+  "inviteMember": "قم بدعوة عضو جديد بالفريق",
+  "emailTeam": "عنوان البريد الإلكتروني للفريق",
+  "invite": "دعوة",
+  "role": "الوظيفة",
   "invitationDescription": "لقد تم دعوتك لشركة",
   "invitedBy": "بدعوة من",
   "accept": "اوافق",
   "decline": "ارفض",
-  "myOrganizations": "شركاتي"
+  "myOrganizations": "شركاتي",
+  "removeMemeber": "إزالة هذا العضو"
 }

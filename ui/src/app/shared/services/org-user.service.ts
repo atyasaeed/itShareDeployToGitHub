@@ -6,8 +6,12 @@ import { OrgUser } from '../domain/orgUser.model';
 @Injectable({
   providedIn: 'root',
 })
-export class orgUserService extends RestService<OrgUser> {
+export class OrgUserService extends RestService<OrgUser> {
   resource = 'orguser';
+
+  inviteUser(email) {
+    return this.http.post(this.appConfig.getResourceUrl(this.resource), email);
+  }
 
   getInvitationPlacedBy(id) {
     return this.http.get<OrgUser>(this.appConfig.getResourceUrl(this.resource) + '/' + id);
