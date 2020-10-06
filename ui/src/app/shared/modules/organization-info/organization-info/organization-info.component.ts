@@ -227,8 +227,16 @@ export class OrganizationInfoComponent implements OnInit {
     return this.appConfig.FILE_URL + id;
   }
 
-  requestApprovalWating(org) {
-    org.status = 'WAITING_APPROVAL';
-    console.log(org.status);
+  requestApproval() {
+    this.loadingService.register('loadingOrg');
+    this.Service.requestApproval(this.org).subscribe(
+      (res) => {
+        this.org.status = 'WAITING_APPROVAL';
+        this.loadingService.resolve('loadingOrg');
+      },
+      (err) => {
+        this.loadingService.resolve('loadingOrg');
+      }
+    );
   }
 }
