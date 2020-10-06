@@ -86,6 +86,11 @@ const routes: Routes = [
         loadChildren: () => import('./my-organizations/my-organizations.module').then((m) => m.MyOrganizationsModule),
         canActivate: [PartnerGuard],
       },
+      {
+        path: 'address-book',
+        loadChildren: () => import('./address-book/address-book.module').then((m) => m.AddressBookModule),
+        canActivate: [AuthGuard],
+      },
     ],
   },
 ];

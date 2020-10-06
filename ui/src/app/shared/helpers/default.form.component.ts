@@ -34,11 +34,16 @@ export abstract class DefaultFormComponent<T extends Entity, K extends RestServi
       (entityId) => {
         if (entityId) {
           this.onUpdate();
-          this.service.get(entityId).subscribe((entity) => {
-            this.form?.patchValue(entity);
-            this.entity = entity;
-            this.loadingService.resolve(this.key);
-          });
+          this.service.get(entityId).subscribe(
+            (entity) => {
+              this.form?.patchValue(entity);
+              this.entity = entity;
+              this.loadingService.resolve(this.key);
+            },
+            (err) => {
+              this.loadingService.resolve(this.key);
+            }
+          );
         } else {
           this.onCreate();
           this.entity = {} as T;
@@ -76,30 +81,34 @@ export abstract class DefaultFormComponent<T extends Entity, K extends RestServi
       });
   }
   save() {
-    this.loadingService.register(this.key);
-    Object.assign(this.entity, this.form.value);
-    if (this.entity.id) {
-      this.service.update(this.entity).subscribe(
-        (response) => {
-          this.onSave();
-          this.cancel();
-          this.loadingService.resolve(this.key);
-        },
-        (err) => {
-          this.loadingService.resolve(this.key);
-        }
-      );
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
     } else {
-      this.service.create(this.entity).subscribe(
-        (response) => {
-          this.cancel();
-          this.onSave();
-          this.loadingService.resolve(this.key);
-        },
-        (err) => {
-          this.loadingService.resolve(this.key);
-        }
-      );
+      this.loadingService.register(this.key);
+      Object.assign(this.entity, this.form.value);
+      if (this.entity.id) {
+        this.service.update(this.entity).subscribe(
+          (response) => {
+            this.onSave();
+            this.cancel();
+            this.loadingService.resolve(this.key);
+          },
+          (err) => {
+            this.loadingService.resolve(this.key);
+          }
+        );
+      } else {
+        this.service.create(this.entity).subscribe(
+          (response) => {
+            this.cancel();
+            this.onSave();
+            this.loadingService.resolve(this.key);
+          },
+          (err) => {
+            this.loadingService.resolve(this.key);
+          }
+        );
+      }
     }
   }
   abstract onCreate(): void;

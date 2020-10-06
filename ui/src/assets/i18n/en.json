@@ -397,5 +397,13 @@
   "uploadPapers": "Upload Your Official Papers",
   "createAccount": "Create account",
   "contactYou": "We Will Contact You",
-  "congratulations": "Congratulations, Done"
+  "congratulations": "Congratulations, Done",
+  "addressBook":"Address Book",
+  "error.required":"Required",
+  "error.minlength":"min length is {{length}}",
+  "error.pattern":"pattern is wrong",
+  "lineOne":"Line One",
+  "lineTwo":"Line Two",
+  "state":"State",
+  "create":"Create"
 }

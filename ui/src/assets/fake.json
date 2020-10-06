@@ -1,0 +1,50 @@
+﻿[
+  {
+    "id": "1",
+    "state": "Cairo",
+    "city": "القاهرة",
+    "lineOne": "القاهرةشسيشسي ",
+    "lineTwo": "القاهرةشسيس سيشسي",
+    "phoneNumber": "0123123213123"
+  },
+  {
+    "id": "2",
+    "state": "Cairo",
+    "city": "القاهرة",
+    "lineOne": "القاهرةشسيشسي ",
+    "lineTwo": "القاهرةشسيس سيشسي",
+    "phoneNumber": "0123123213123"
+  },
+  {
+    "id": "3",
+    "state": "Cairo",
+    "city": "القاهرة",
+    "lineOne": "dasddasda sadasda sadsaasdaddadasdaa asdasdsadsالقاهرةشسيشسي ",
+    "lineTwo": "القاهرةشسيس سيشسي",
+    "phoneNumber": "0123123213123"
+  },
+  {
+    "id": "4",
+    "state": "Cairo",
+    "city": "القاهرة",
+    "lineOne": "القاهرةشسيشسي ",
+    "lineTwo": "القاهرةشسيس سيشسي",
+    "phoneNumber": "0123123213123"
+  },
+  {
+    "id": "5",
+    "state": "Cairo",
+    "city": "القاهرة",
+    "lineOne": "القاهرةشسيشسي ",
+    "lineTwo": "القاهرةشسيس سيشسي",
+    "phoneNumber": "0123123213123"
+  },
+  {
+    "id": "6",
+    "state": "Cairo",
+    "city": "القاهرة",
+    "lineOne": "سشيشيي شيسالقاهرةشسيشسي ",
+    "lineTwo": "القاهرةشسيس سيشسي",
+    "phoneNumber": "0123123213123"
+  }
+]

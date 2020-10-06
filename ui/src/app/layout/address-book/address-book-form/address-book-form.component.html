@@ -1,0 +1,83 @@
+<div [@routerTransition] class="p-3">
+  <app-page-header  [breadCrumbs]="breadcrumbs"></app-page-header>
+  <div  class="custom-card p-3 f-weight-600">
+    <form  [formGroup]='form' (ngSubmit)="save()">
+      <div class="container-fluid">
+        <div *tdLoading="'loading';strategy:'overlay'" class=" row">
+          <div class="col-md-6">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-md-6 form-group">
+                    <label>{{'state' | translate }} :&nbsp;</label>
+                    <select class="form-control " formControlName="state">
+                      <option >asda</option>
+                    </select>
+                    <div class="text-danger" *ngIf="form.controls.state.touched && !form.controls.state.valid">
+                      <div *ngIf="form.controls.state.errors.required">
+                        {{'error.required'|translate}}
+                      </div>
+                    </div>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label>{{'city' | translate }} :&nbsp;</label>
+                    <select class="form-control " formControlName="city">
+                      <option >cairo</option>
+                    </select>
+                    <div class="text-danger" *ngIf="form.controls.city.touched && !form.controls.city.valid">
+                      <div *ngIf="form.controls.city.errors.required">
+                        {{'error.required'|translate}}
+                      </div>
+                    </div>
+                </div>
+                <div class="col-md-12 form-group">
+                    <label>{{'lineOne' | translate }} :&nbsp;</label>
+                    <input type="text" formControlName="lineOne" class="form-control ">
+                    <div class="text-danger" *ngIf="form.controls.lineOne.touched && !form.controls.lineOne.valid">
+                      <div *ngIf="form.controls.lineOne.errors.required">
+                        {{'error.required'|translate}}
+                      </div>
+                      <div *ngIf="form.controls.lineOne.errors.minlength">
+                        {{'error.minlength'|translate:'{length:2}'}}
+                      </div>
+                    </div>
+                </div>
+                <div class="col-md-12 form-group">
+                    <label>{{'lineTwo' | translate }} :&nbsp;</label>
+                    <input type="text" formControlName="lineTwo" class="form-control ">
+                    <div class="text-danger" *ngIf="form.controls.lineTwo.touched && !form.controls.lineTwo.valid">
+                      <div *ngIf="form.controls.lineTwo.errors.required">
+                        {{'error.required'|translate}}
+                      </div>
+                      <div *ngIf="form.controls.lineTwo.errors.minlength">
+                        {{'error.minlength'|translate:'{length:2}'}}
+                      </div>
+                    </div>
+                </div>
+                <div class="col-md-12 form-group">
+                    <label>{{'phoneNumber' | translate }} :&nbsp;</label>
+                    <input type="text" formControlName="phoneNumber" class="form-control ">
+                    <div class="text-danger" *ngIf="form.controls.phoneNumber.touched && !form.controls.phoneNumber.valid">
+                      <div *ngIf="form.controls.phoneNumber.errors.required">
+                        {{'error.required'|translate}}
+                      </div>
+                      <div *ngIf="form.controls.phoneNumber.errors.minlength">
+                        {{'error.minlength'|translate:'{length:11}'}}
+                      </div>
+                      <div *ngIf="form.controls.phoneNumber.errors.pattern">
+                        {{'error.pattern'|translate}}
+                      </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                  <button type="button" class="custom-btn v4 mr-2"
+                  (click)="cancel()">{{'cancel'|translate}}</button>
+                  <button type="submit" class="custom-btn v1 ">{{'save'|translate}}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -409,3 +409,18 @@ body{
   max-width: 1366px !important;
 }
 
+.cursor-pointer{
+  cursor: pointer;
+}
+
+.form-control{
+  color: $textGrey !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+}
+
+label{
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: $siteColorV5 !important;
+}

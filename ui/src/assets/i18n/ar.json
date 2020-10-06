@@ -394,5 +394,13 @@
   "uploadPapers": "قم بتحميل أوراقك الرسمية",
   "createAccount": "إصنع حساب",
   "contactYou": "سوف نتصل بك",
-  "congratulations": "تهانينا ، انتهى"
+  "congratulations": "تهانينا ، انتهى",
+  "addressBook": "عنويني",
+  "error.required": "مطلوب",
+  "error.minlength": "{{length}} اقل عدد",
+  "error.pattern": "الصيغه خاطئه",
+  "lineOne": "الخط الاول",
+  "lineTwo": "الخط الثاني",
+  "state": "المحافظة",
+  "create": "اضافة"
 }
