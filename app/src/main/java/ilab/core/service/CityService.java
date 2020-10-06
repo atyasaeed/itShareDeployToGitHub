@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ public class CityService
 	private CityRepository cityRepo;
 
 	public City create(City city, Authentication auth)
+
 	{
 		return cityRepo.save(city);
 	}
@@ -31,20 +33,14 @@ public class CityService
 		cityRepo.deleteById(id);
 	}
 
-	public Page<City> findByState(State state, Authentication auth, Pageable page)
-	{
-		return cityRepo.findAllByState(state, page);
-	}
-
+	
 	public City findById(UUID id, Authentication auth)
 	{
 		return cityRepo.findById(id).orElseThrow();
 	}
 
-
-
-	public Page<City> findAll(Pageable page)
+	public Page<City> findAll(Specification<City> specs, Pageable page,Authentication auth)
 	{
-		return cityRepo.findAll(page);
+		return cityRepo.findAll(specs, page);
 	}
 }

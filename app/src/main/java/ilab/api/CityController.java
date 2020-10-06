@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.sipios.springsearch.anotation.SearchSpec;
 
 import ilab.core.domain.City;
 import ilab.core.domain.State;
@@ -57,16 +60,11 @@ public class CityController
 		return cityService.findById(id, auth);
 	}
 
-	@GetMapping("/getByState")
-	public Page<City> findByState(@RequestBody State state, Authentication auth, Pageable page)
-	{
-		return cityService.findByState(state, auth, page);
-	}
 
 	@GetMapping("search")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public Page<City> findAll(Pageable page, Authentication auth)
+	public Page<City> findAll(Pageable page, Authentication auth, @SearchSpec Specification<City> specs)
 	{
-		return cityService.findAll(page);
+		return cityService.findAll(specs, page,auth);
 	}
 }
