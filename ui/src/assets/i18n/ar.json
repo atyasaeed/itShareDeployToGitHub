@@ -394,5 +394,9 @@
   "uploadPapers": "قم بتحميل أوراقك الرسمية",
   "createAccount": "إصنع حساب",
   "contactYou": "سوف نتصل بك",
-  "congratulations": "تهانينا ، انتهى"
+  "congratulations": "تهانينا ، انتهى",
+  "emailNotFound": "هذا المستخدم غير موجود",
+  "duplicatedOrganizationUser": "هذا المستخدم موجود بالفعل",
+  "invitationPage.error": "آسف ، لا يمكنك الوصول إلى صفحة الدعوة",
+  "requestApproval": "طلب موافقة"
 }

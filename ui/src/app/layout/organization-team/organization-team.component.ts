@@ -11,6 +11,7 @@ import { OrgUser } from 'src/app/shared/domain/orgUser.model';
 import { Observable } from 'rxjs';
 import { TdDialogService } from '@covalent/core/dialogs';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-organization-team',
@@ -30,7 +31,8 @@ export class OrganizationTeamComponent extends DefaultListComponent<OrgUser, Org
     loadingService: TdLoadingService,
     private formBuilder: FormBuilder,
     private _dialogService: TdDialogService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private toastr: ToastrService
   ) {
     super(service, loadingService);
     this.service.searchUrl = 'search/org';
@@ -84,6 +86,11 @@ export class OrganizationTeamComponent extends DefaultListComponent<OrgUser, Org
         this.email.reset();
       },
       (err) => {
+        if (err.error.details[0] == 'No value present') {
+          this.toastr.error(this.translate.instant('emailNotFound'));
+        } else if (err.error.details[0] == 'duplicatedOrganizationUser') {
+          this.toastr.error(this.translate.instant('duplicatedOrganizationUser'));
+        }
         console.log(err);
         this.loadingService.resolve(this.key);
       }
