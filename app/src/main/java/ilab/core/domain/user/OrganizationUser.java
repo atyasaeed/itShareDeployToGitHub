@@ -10,7 +10,7 @@ import ilab.core.domain.AbstractEntity;
 @Entity
 @Table(uniqueConstraints =
 { @UniqueConstraint(columnNames =
-		{ "user_id", "org_id" }) })
+		{ "user_id", "org_id" }, name = "user_unique_user_id_org_id_idx") })
 public class OrganizationUser extends AbstractEntity<OrganizationUser>
 {
 	@ManyToOne
