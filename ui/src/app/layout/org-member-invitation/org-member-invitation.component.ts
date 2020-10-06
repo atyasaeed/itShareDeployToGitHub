@@ -33,6 +33,7 @@ export class OrgMemberInvitationComponent implements OnInit {
             this.loadingService.resolve('loading');
           },
           (err) => {
+            this.toastr.error(this.translate.instant('invitationPage.error'));
             this.loadingService.resolve('loading');
             this.router.navigateByUrl('/home');
           }

@@ -46,8 +46,6 @@ export class OrganizationInfoComponent implements OnInit {
   @Input() userInput: User = {} as User;
   CommerciaFile = false;
   taxCardFile = false;
-  ownerNationalIDFrontFile = false;
-  ownerNationalIDFBackFile = false;
   formData: FormData = new FormData();
   disabledForm: boolean = false;
   form: FormGroup;
@@ -107,12 +105,7 @@ export class OrganizationInfoComponent implements OnInit {
       if (this.org.taxId) {
         this.taxCardFile = true;
       }
-      if (this.org.frontNatId) {
-        this.ownerNationalIDFrontFile = true;
-      }
-      if (this.org.backNatId) {
-        this.ownerNationalIDFBackFile = true;
-      }
+
       if (!(this.org.status == 'PENDING' || this.org.status == 'REJECTED')) {
         this.form?.removeControl('statusReason');
       } else {
@@ -217,42 +210,6 @@ export class OrganizationInfoComponent implements OnInit {
     this.taxCardFile = false;
     this.formData.delete('file2');
   }
-  ownerNationalIDFront(event) {
-    this.loadingService.register('loadingOrg');
-    this.ownerNationalIDFrontFile = true;
-    this.formData.append('file3', event.target.files[0] as File);
-    const itemBlob = new Blob([JSON.stringify(this.form.value)], {
-      type: 'application/json',
-    });
-    this.formData.append('org', itemBlob);
-    this.Service.updateOrg(this.formData, this.form.get('id').value).subscribe((res: Organization) => {
-      this.org = res;
-      this.form.patchValue(res);
-      this.loadingService.resolve('loadingOrg');
-    });
-  }
-  editOwnerNationalIDFront() {
-    this.ownerNationalIDFrontFile = false;
-    this.formData.delete('file3');
-  }
-  ownerNationalIDBack(event) {
-    this.loadingService.register('loadingOrg');
-    this.ownerNationalIDFBackFile = true;
-    this.formData.append('file4', event.target.files[0] as File);
-    const itemBlob = new Blob([JSON.stringify(this.form.value)], {
-      type: 'application/json',
-    });
-    this.formData.append('org', itemBlob);
-    this.Service.updateOrg(this.formData, this.form.get('id').value).subscribe((res: Organization) => {
-      this.org = res;
-      this.form.patchValue(res);
-      this.loadingService.resolve('loadingOrg');
-    });
-  }
-  editOwnerNationalIDBack() {
-    this.ownerNationalIDFBackFile = false;
-    this.formData.delete('file4');
-  }
 
   onChangeStatus(event) {
     this.org.status = event;
@@ -263,16 +220,15 @@ export class OrganizationInfoComponent implements OnInit {
     }
   }
 
-  getFileUrlBack(id): string {
-    return this.appConfig.FILE_URL + id;
-  }
-  getFileUrlFront(id): string {
-    return this.appConfig.FILE_URL + id;
-  }
   getFileUrlTax(id): string {
     return this.appConfig.FILE_URL + id;
   }
   getFileUrlCommercia(id): string {
     return this.appConfig.FILE_URL + id;
+  }
+
+  requestApprovalWating(org) {
+    org.status = 'WAITING_APPROVAL';
+    console.log(org.status);
   }
 }

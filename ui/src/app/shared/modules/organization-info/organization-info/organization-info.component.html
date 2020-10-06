@@ -4,10 +4,18 @@
     <fieldset [disabled]="!disabledForm">
       <section>
         <div class="form-group form-header row">
-          <h4 class="col-md-8"><i class="fa fa-building-o" aria-hidden="true"></i> {{'organizationDetails'|translate}}
+          <h4 class="col-md-4"><i class="fa fa-building-o" aria-hidden="true"></i> {{'organizationDetails'|translate}}
           </h4>
-          <h6 class="col-md-4 ">{{"status"|translate}} : <span class="text-danger">{{org?.status |translate}}</span>
+          <h6 class="col-md-4 m-auto text-center">{{"status"|translate}} : <span
+              class="text-danger">{{org?.status |translate}}</span>
           </h6>
+
+          <div class="col-md-4 text-right"
+            *ngIf="CommerciaFile && taxCardFile && org?.status =='PENDING' && !roleAdmin">
+            <a class="custom-btn v1" type="button"
+              (click)="requestApprovalWating(org)">{{'requestApproval' |translate}}</a>
+
+          </div>
         </div>
         <div class="text-right pr-3 mt-2"><button type="submit" mat-flat-button color="primary"
             *ngIf="toggleButton">{{ 'save' | translate }}</button>&nbsp;<a href="javascript:void(0)"
@@ -185,7 +193,7 @@
 
         </div>
       </div>
-      <div class="form-row pt-0 row-files">
+      <!-- <div class="form-row pt-0 row-files">
 
         <div class="form-group col-md-6">
           <h6>{{'ownerNationalIDFront'|translate}}</h6>
@@ -226,7 +234,7 @@
                 class="text-primary" (click)="editOwnerNationalIDBack()">{{'edit'|translate}}</a></span> </div>
 
         </div>
-      </div>
+      </div> -->
     </section>
 
   </form>
