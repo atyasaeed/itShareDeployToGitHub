@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ilab.core.domain.FileAsset;
 import ilab.core.domain.user.Organization;
+import ilab.core.domain.user.OrganizationStatus;
 import ilab.core.domain.user.Role;
 import ilab.core.repository.FileAssetRepository;
 import ilab.core.repository.OrganizationRepository;
@@ -51,7 +52,7 @@ public class OrganizationService
 			existingOrg.setFrontNatId(updateFileAsset(org, file3, existingOrg.getFrontNatId(), "frontNatId"));
 		if (file4 != null)
 			existingOrg.setBackNatId(updateFileAsset(org, file4, existingOrg.getBackNatId(), "backNatId"));
-		if(auth.getAuthorities().contains(Role.ROLE_REGISTER_PRIVILEGE))
+		if (auth.getAuthorities().contains(Role.ROLE_REGISTER_PRIVILEGE))
 			SecurityContextHolder.getContext().setAuthentication(null);
 		return existingOrg;
 	}
@@ -95,4 +96,11 @@ public class OrganizationService
 		return orgRepo.findByOwner_username(auth.getName(), page);
 	}
 
+	public Organization changeStatus(UUID id, OrganizationStatus status, Authentication auth)
+	{
+		Organization org = orgRepo.findByIdAndOwner_username(id, auth.getName()).orElseThrow();
+		if (org.getStatus() == OrganizationStatus.PENDING)
+			org.setStatus(status);
+		return org;
+	}
 }
