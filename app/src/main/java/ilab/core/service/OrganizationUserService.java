@@ -48,8 +48,7 @@ public class OrganizationUserService
 
 	public OrganizationUser addMemberToOrg(String email, Authentication auth) throws Exception
 	{
-		User invitee = userRepo.findByemailIgnoreCase(email)
-				.orElseThrow(() -> new IllegalRequestDataException("EmailRequested is not registered"));
+		User invitee = userRepo.findByemailIgnoreCase(email).orElseThrow();
 
 		User inviter = userService.findUser(auth);
 		Organization org = inviter.getDefaultOrg();

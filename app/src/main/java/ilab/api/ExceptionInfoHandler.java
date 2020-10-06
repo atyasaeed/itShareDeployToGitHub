@@ -40,7 +40,7 @@ public class ExceptionInfoHandler
 	public static final String EXCEPTION_DUPLICATE_ENNAME = "exception.user.duplicateEnName";
 	public static final String EXCEPTION_DUPLICATE_PHONENO = "exception.user.duplicatePhoneNo";
 	public static final String EXCEPTION_DUPLICATE_IDNUMBER = "exception.user.duplicateIdNumber";
-	public static final String EXCEPTION_CONSTRAINTVIOLATION = "exception.user.constraintViolationException";
+	public static final String EXCEPTION_CONSTRAINTVIOLATION = "exception.OrganizationUser.constraintViolationException";
 
 	private static final Map<String, String> CONSTRAINS_I18N_MAP = Map.of("user_unique_email_idx",
 			EXCEPTION_DUPLICATE_EMAIL, "user_unique_username_idx", EXCEPTION_DUPLICATE_USERNAME,
