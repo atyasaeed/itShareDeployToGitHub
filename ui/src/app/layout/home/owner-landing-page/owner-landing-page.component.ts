@@ -16,7 +16,7 @@ export class OwnerLandingPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.service.getAuthUserDetails().subscribe((res) => {
-      // console.log(res);
+      console.log(res);
 
       if (res.defaultOrg.status === 'PENDING') {
         this.isPending = true;
