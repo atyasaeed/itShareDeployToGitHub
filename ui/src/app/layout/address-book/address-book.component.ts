@@ -63,7 +63,7 @@ export class AddressBookComponent extends DefaultListComponent<AddressBook, Addr
     );
   }
   setPrimeAddress(entity: AddressBook) {
-    console.log(entity);
+    //console.log(entity);
   }
   openModal(template) {
     this.modalRef = this.modalService.show(template);

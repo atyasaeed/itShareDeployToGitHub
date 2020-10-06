@@ -22,7 +22,12 @@
               <input (change)="setPrimeAddress(entity)" name="address-book" class="custom-control-input f-size-18" type="radio" id="'address_'{{entity.id}}" >
               <label for="'address_'{{entity.id}}" class="custom-control-label">
                 <span class="f-weight-600 site-color-v3">
-                  {{entity.state}}-{{entity.city}}
+                  <ng-container *ngIf="lang==='en'">
+                    {{entity.state.enName}}-{{entity.city.enName}}
+                  </ng-container>
+                  <ng-container *ngIf="lang==='ar'">
+                    {{entity.state.arName}}-{{entity.city.arName}}
+                  </ng-container>
                 </span>
                 <div class="text-grey f-weight-400">
                   {{entity.lineOne}}

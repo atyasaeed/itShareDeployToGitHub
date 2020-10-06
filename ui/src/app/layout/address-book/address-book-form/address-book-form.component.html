@@ -1,16 +1,17 @@
 <div [@routerTransition] class="p-3">
   <app-page-header  [breadCrumbs]="breadcrumbs"></app-page-header>
   <div  class="custom-card p-3 f-weight-600">
-    <form  [formGroup]='form' (ngSubmit)="save()">
+    <form *ngIf="entity" [formGroup]='form' (ngSubmit)="save()">
       <div class="container-fluid">
         <div *tdLoading="'loading';strategy:'overlay'" class=" row">
           <div class="col-md-6">
             <div class="container-fluid">
               <div class="row">
-                <div class="col-md-6 form-group">
+                <div class="form-group" [ngClass]="{'col-md-6':form.controls.state.value!=='empty','col-md-12':form.controls.state.value==='empty'}">
                     <label>{{'state' | translate }} :&nbsp;</label>
-                    <select class="form-control " formControlName="state">
-                      <option >asda</option>
+                    <select class="form-control " (change)="stateChanged($event)" formControlName="state">
+                      <option value="empty" disabled >{{'pleaseSelectValue'|translate}}</option>
+                      <option *ngFor="let state of states$ | async" [value]="state.id">{{state.enName}}</option>
                     </select>
                     <div class="text-danger" *ngIf="form.controls.state.touched && !form.controls.state.valid">
                       <div *ngIf="form.controls.state.errors.required">
@@ -18,7 +19,7 @@
                       </div>
                     </div>
                 </div>
-                <div class="col-md-6 form-group">
+                <div class="col-md-6 form-group" *ngIf="form.controls.state.value!=='empty'">
                     <label>{{'city' | translate }} :&nbsp;</label>
                     <select class="form-control " formControlName="city">
                       <option >cairo</option>
@@ -29,7 +30,7 @@
                       </div>
                     </div>
                 </div>
-                <div class="col-md-12 form-group">
+                <div class="col-md-12 form-group" >
                     <label>{{'lineOne' | translate }} :&nbsp;</label>
                     <input type="text" formControlName="lineOne" class="form-control ">
                     <div class="text-danger" *ngIf="form.controls.lineOne.touched && !form.controls.lineOne.valid">

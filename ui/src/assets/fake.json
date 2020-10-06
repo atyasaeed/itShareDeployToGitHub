@@ -1,49 +1,49 @@
 ﻿[
   {
     "id": "1",
-    "state": "Cairo",
-    "city": "القاهرة",
+    "state": {"id":"1","enName":"asdasd","arName":"شسيشي"},
+    "city": {"id":"1","enName":"sad","arName":"شسيشي"},
     "lineOne": "القاهرةشسيشسي ",
     "lineTwo": "القاهرةشسيس سيشسي",
     "phoneNumber": "0123123213123"
   },
   {
     "id": "2",
-    "state": "Cairo",
-    "city": "القاهرة",
+    "state": {"id":"12","enName":"asdasd","arName":"شسيشي"},
+    "city": {"id":"13","enName":"sad","arName":"شسيشي"},
     "lineOne": "القاهرةشسيشسي ",
     "lineTwo": "القاهرةشسيس سيشسي",
     "phoneNumber": "0123123213123"
   },
   {
     "id": "3",
-    "state": "Cairo",
-    "city": "القاهرة",
-    "lineOne": "dasddasda sadasda sadsaasdaddadasdaa asdasdsadsالقاهرةشسيشسي ",
+       "state": {"id":"1","enName":"asdasd","arName":"شسيشي"},
+    "city": {"id":"1","enName":"sad","arName":"شسيشي"},
+	 "lineOne": "dasddasda sadasda sadsaasdaddadasdaa asdasdsadsالقاهرةشسيشسي ",
     "lineTwo": "القاهرةشسيس سيشسي",
     "phoneNumber": "0123123213123"
   },
   {
     "id": "4",
-    "state": "Cairo",
-    "city": "القاهرة",
-    "lineOne": "القاهرةشسيشسي ",
+    "state": {"id":"31","enName":"asdasd","arName":"شسيشي"},
+    "city": {"id":"21","enName":"sad","arName":"شسيشي"},   
+  "lineOne": "القاهرةشسيشسي ",
     "lineTwo": "القاهرةشسيس سيشسي",
     "phoneNumber": "0123123213123"
   },
   {
     "id": "5",
-    "state": "Cairo",
-    "city": "القاهرة",
-    "lineOne": "القاهرةشسيشسي ",
+    "state": {"id":"1","enName":"asdasd","arName":"شسيشي"},
+    "city": {"id":"1","enName":"sad","arName":"شسيشي"},   
+ "lineOne": "القاهرةشسيشسي ",
     "lineTwo": "القاهرةشسيس سيشسي",
     "phoneNumber": "0123123213123"
   },
   {
     "id": "6",
-    "state": "Cairo",
-    "city": "القاهرة",
-    "lineOne": "سشيشيي شيسالقاهرةشسيشسي ",
+    "state": {"id":"12","enName":"asdasd","arName":"شسيشي"},
+    "city": {"id":"121","enName":"sad","arName":"شسيشي"},   
+ "lineOne": "سشيشيي شيسالقاهرةشسيشسي ",
     "lineTwo": "القاهرةشسيس سيشسي",
     "phoneNumber": "0123123213123"
   }
