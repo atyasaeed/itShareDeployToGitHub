@@ -26,6 +26,7 @@
 
               <th scope="col" sortable="arName" (sort)="onSort($event)">{{'arName'|translate}}</th>
               <th scope="col" sortable="enName" (sort)="onSort($event)">{{'enName'|translate}}</th>
+              <th scope="col" sortable="city" (sort)="onSort($event)">{{'cities'|translate}}</th>
 
               <th></th>
 
@@ -43,6 +44,7 @@
                 <ngb-highlight [result]="entity.enName | titlecase" [term]="searchTerm">
                 </ngb-highlight>
               </td>
+              <td> <a routerLink="/settings/city" [state]="entity.id"> {{"view"}}</a></td>
 
               <td>
                 <a [routerLink]="entity.id"><i class="fa fa-fw fa-edit"></i></a>&nbsp;

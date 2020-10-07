@@ -23,11 +23,13 @@
         <div class="form-group" formGroupName="state">
           <label>{{ 'governorate' | translate }}</label>
           <select class="form-control input-underline input-lg" formControlName="id" #city>
-            <option [value]="city.id" class="d-none"><span *ngIf="lang=='en'">{{city?.enName}}</span>
-              <span *ngIf="lang!=='en'">{{city?.arName}}</span></option>
-            <!-- <option *ngFor="let city of cities" [value]='city?.id'>
-              <span *ngIf="lang=='en'">{{city?.enName}}</span>
-              <span *ngIf="lang!=='en'">{{city?.arName}}</span></option> -->
+            <option *ngIf="entity?.state?.id" [value]="entity?.state?.id" class="d-none"><span
+                *ngIf="lang=='en'">{{entity?.state?.enName}}</span>
+              <span *ngIf="lang!=='en'">{{entity?.state?.arName}}</span></option>
+            <option *ngIf="!entity?.state?.id" value="" disabled>{{'enterGovernorate'|translate}}</option>
+            <option *ngFor="let state of staties" [value]='state?.id'>
+              <span *ngIf="lang=='en'">{{state?.enName}}</span>
+              <span *ngIf="lang!=='en'">{{state?.arName}}</span></option>
           </select>
           <!-- <div *ngIf="form.controls.city.touched && !form.controls.city.valid" class="text-danger text-center">
             <div class="text-center" *ngIf="form.controls.city.errors.required">

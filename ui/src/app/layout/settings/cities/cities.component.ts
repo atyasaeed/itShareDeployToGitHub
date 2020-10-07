@@ -8,6 +8,9 @@ import { CityService } from 'src/app/shared/services/city.service';
 import { getLang } from 'src/app/store';
 import * as fromStore from 'src/app/store';
 import { routerTransition } from 'src/app/router.animations';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cities',
@@ -19,34 +22,46 @@ export class CitiesComponent extends DefaultListComponent<City, CityService> imp
   breadcrumbs = [{ heading: 'city', icon: 'fa-tasks' }];
   private _searchTerm = '';
   lang: string;
-  city: City;
-  cities: City[] = new Array();
+  stateId;
   constructor(
     service: CityService,
     loadingService: TdLoadingService,
     private appStore: Store<fromStore.AppState>,
-    private http: HttpClient
+    private http: HttpClient,
+    private translate: TranslateService,
+    private toastr: ToastrService,
+    private router: Router
   ) {
     super(service, loadingService);
     this.appStore.select(getLang).subscribe((res) => {
       this.lang = res;
     });
-  }
-  ngOnInit() {
-    this.http.get('assets/city.json').subscribe((res: City[]) => {
-      this.cities = res;
-    });
+    console.log(this.router.getCurrentNavigation().extras.state);
+    this.stateId = this.router.getCurrentNavigation().extras.state;
+    if (this.stateId) {
+      this.service.searchParams = `stateId=${this.stateId}`;
+    }
   }
 
   set searchTerm(searchTerm: string) {
     this._searchTerm = searchTerm;
     if (searchTerm) {
-      this.service.searchTerm = `arName:'*${searchTerm}*' `;
+      this.service.searchTerm = `arName:'*${searchTerm}*' OR enName:'*${searchTerm.toLowerCase()}*'OR state.id:'*${searchTerm.toLowerCase()}*' `;
     } else {
       this.service.searchTerm = '';
     }
   }
   get searchTerm() {
     return this._searchTerm;
+  }
+  delete(entity) {
+    this.purge(entity).subscribe(
+      (result) => {},
+      (err) => {
+        if (err.error.typeMessage === 'error.dataError') {
+          this.toastr.error(this.translate.instant('delete.error'));
+        }
+      }
+    );
   }
 }

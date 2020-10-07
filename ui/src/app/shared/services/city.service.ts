@@ -7,5 +7,5 @@ import { State } from '../domain/state.model';
   providedIn: 'root',
 })
 export class CityService extends RestService<City> {
-  resource: string = 'assets/state';
+  resource: string = 'city';
 }

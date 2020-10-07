@@ -39,7 +39,7 @@ export class StatesComponent extends DefaultListComponent<State, StateService> i
   set searchTerm(searchTerm: string) {
     this._searchTerm = searchTerm;
     if (searchTerm) {
-      this.service.searchTerm = `arName:'*${searchTerm}*' `;
+      this.service.searchTerm = `arName:'*${searchTerm}*' OR enName:'*${searchTerm.toLowerCase()}*' `;
     } else {
       this.service.searchTerm = '';
     }

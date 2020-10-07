@@ -6,8 +6,10 @@ import { TdLoadingService } from '@covalent/core/loading';
 import { Store } from '@ngrx/store';
 import { routerTransition } from 'src/app/router.animations';
 import { City } from 'src/app/shared/domain/city.model';
+import { State } from 'src/app/shared/domain/state.model';
 import { DefaultFormComponent } from 'src/app/shared/helpers/default.form.component';
 import { CityService } from 'src/app/shared/services/city.service';
+import { StateService } from 'src/app/shared/services/state.service';
 import * as fromStore from 'src/app/store';
 
 @Component({
@@ -22,6 +24,7 @@ export class CityFormComponent extends DefaultFormComponent<City, CityService> i
     { heading: 'city-Details', icon: 'fa-tasks' },
   ];
   lang: string;
+  staties: State[] = new Array();
   constructor(
     formBuilder: FormBuilder,
     loadingService: TdLoadingService,
@@ -29,11 +32,11 @@ export class CityFormComponent extends DefaultFormComponent<City, CityService> i
     service: CityService,
     route: ActivatedRoute,
     router: Router,
-    private appStore: Store<fromStore.AppState>
+    private appStore: Store<fromStore.AppState>,
+    private stateService: StateService
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
     this.form = this.formBuilder.group({
-      id: [''],
       arName: ['', Validators.required],
       enName: ['', Validators.required],
       state: this.formBuilder.group({
@@ -42,6 +45,10 @@ export class CityFormComponent extends DefaultFormComponent<City, CityService> i
     });
     this.appStore.select(fromStore.getLang).subscribe((lang) => {
       this.lang = lang;
+    });
+    this.stateService.searchTerm = '';
+    this.stateService.model$.subscribe((res: State[]) => {
+      this.staties = res;
     });
   }
 
@@ -52,7 +59,7 @@ export class CityFormComponent extends DefaultFormComponent<City, CityService> i
     // this.breadcrumbs.push({ heading: 'User', icon: 'fa-tasks', link: null });
   }
   cancel(): void {
-    this.router.navigateByUrl('settings/governorate');
+    this.router.navigateByUrl('/settings/city');
   }
   onSave() {
     this.appStore.dispatch(new fromStore.LoadInitState());
