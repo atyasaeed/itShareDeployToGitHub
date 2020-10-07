@@ -46,9 +46,8 @@ public class StateController
 		stateService.delete(id, auth);
 	}
 
-	@PutMapping("/{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public State update(@PathVariable("id") UUID id, @RequestBody State state, Authentication auth)
+	public State update( @RequestBody State state, Authentication auth)
 	{
 
 		return stateService.update(state, auth);
