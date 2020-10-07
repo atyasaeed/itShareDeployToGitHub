@@ -1,6 +1,14 @@
 package ilab.api;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sipios.springsearch.anotation.SearchSpec;
@@ -26,7 +35,6 @@ import ilab.core.service.CityService;
 
 @RestController
 @RequestMapping(path = CityController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class CityController
 {
 	static final String REST_URL = "/api/city";
@@ -61,17 +69,24 @@ public class CityController
 	}
 
 	@GetMapping("search")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public Page<City> findAll(Pageable page, Authentication auth, @SearchSpec Specification<City> specs)
+	@PreAuthorize("permitAll()")
+	public Page<City> findAll(Pageable page, Authentication auth, @SearchSpec Specification<City> specs,
+			@RequestParam(name = "stateId", required = false) UUID stateId)
 	{
+		if (stateId != null)
+		{
+			specs = filterByStateId(stateId).and(specs);
+		}
 		return cityService.findAll(specs, page, auth);
 	}
 
-	@GetMapping("search/state/{id}")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public Page<City> findByStateId(@PathVariable("id") UUID id, Pageable page, Authentication auth,
-			@SearchSpec Specification<City> specs)
+	private Specification<City> filterByStateId(UUID value)
 	{
-		return cityService.findByStateId(id, page, specs);
+		return (Root<City> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
+			List<Predicate> predicates = new ArrayList<>();
+			Path<State> statePath = root.<State>get("state");
+			predicates.add(cb.equal(statePath.<UUID>get("id"), value));
+			return cb.and(predicates.toArray(new Predicate[predicates.size()]));
+		};
 	}
 }

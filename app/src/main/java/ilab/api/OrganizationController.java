@@ -46,49 +46,43 @@ public class OrganizationController
 
 	@PutMapping(path = "/{id}")
 	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_REGISTER_PRIVILEGE')")
-	public Organization updateOrgInfo(
-			@PathVariable("id") UUID id,
+	public Organization updateOrgInfo(@PathVariable("id") UUID id,
 			@RequestPart(name = "org", required = false) Organization org,
 			@RequestPart(name = "file1", required = false) MultipartFile file1,
 			@RequestPart(name = "file2", required = false) MultipartFile file2,
 			@RequestPart(name = "file3", required = false) MultipartFile file3,
-			@RequestPart(name = "file4", required = false) MultipartFile file4,
-			Authentication auth
-	) throws IOException
+			@RequestPart(name = "file4", required = false) MultipartFile file4, Authentication auth) throws IOException
 	{
-		return orgService.updateOrganization(id, org, file1, file2, file3,
-				file4, auth);
+		return orgService.updateOrganization(id, org, file1, file2, file3, file4, auth);
 	}
 
 	@PutMapping("/{id}/admin")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public Organization changeStatus(
-			@PathVariable("id") UUID id, @RequestBody Organization org,
-			Authentication auth
-	)
+	public Organization changeStatus(@PathVariable("id") UUID id, @RequestBody Organization org, Authentication auth)
 	{
 		return orgService.changeStatus(id, org, auth);
 	}
 
+	@PutMapping("/{id}/requestApproval")
+	@PreAuthorize("isAuthenticated()")
+	public Organization requestApproval(@PathVariable("id") UUID id, Authentication auth)
+	{
+		return orgService.changeStatus(id, OrganizationStatus.WAITING_APPROVAL, auth);
+	}
+
 	@GetMapping("search/partners")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public Page<Organization> getPageable(
-			Pageable page, @SearchSpec Specification<Organization> specs,
-			Authentication auth,
-			@RequestParam(value = "status", required = false) List<OrganizationStatus> status
-	)
+	public Page<Organization> getPageable(Pageable page, @SearchSpec Specification<Organization> specs,
+			Authentication auth, @RequestParam(value = "status", required = false) List<OrganizationStatus> status)
 	{
 		specs = new Specification<Organization>()
 		{
 
 			@Override
-			public Predicate toPredicate(
-					Root<Organization> root, CriteriaQuery<?> query,
-					CriteriaBuilder criteriaBuilder
-			)
+			public Predicate toPredicate(Root<Organization> root, CriteriaQuery<?> query,
+					CriteriaBuilder criteriaBuilder)
 			{
-				return root.get("type")
-						.in(Arrays.asList(OrganizationType.PARTNER));
+				return root.get("type").in(Arrays.asList(OrganizationType.PARTNER));
 			}
 		}.and(specs);
 
@@ -99,13 +93,10 @@ public class OrganizationController
 
 	}
 
-	private Specification<Organization> filterByStatus(
-			List<OrganizationStatus> status
-	)
+	private Specification<Organization> filterByStatus(List<OrganizationStatus> status)
 	{
 		// TODO Auto-generated method stub
-		return (Root<Organization> root, CriteriaQuery<?> query,
-				CriteriaBuilder cb) -> {
+		return (Root<Organization> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
 			List<Predicate> predicates = new ArrayList<>();
 			predicates.add(root.get("status").in(status));
 			return cb.and(predicates.toArray(new Predicate[predicates.size()]));
@@ -114,10 +105,7 @@ public class OrganizationController
 
 	@GetMapping("search")
 	@PreAuthorize("hasRole('ROLE_USER')")
-	public Page<Organization> search(
-			Pageable page, @SearchSpec Specification<Organization> specs,
-			Authentication auth
-	)
+	public Page<Organization> search(Pageable page, @SearchSpec Specification<Organization> specs, Authentication auth)
 	{
 
 		return orgService.search(specs, auth, page);

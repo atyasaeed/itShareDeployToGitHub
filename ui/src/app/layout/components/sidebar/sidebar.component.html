@@ -23,6 +23,11 @@
         <img src="assets\images\palette-solid.png" class="height-fluid cursor-pointer f-size-30 mx-2">
         <span class="f-size-18">{{ 'mySpace' | translate }}</span>
       </a>
+      <a class="list-group-item active-item d-flex" routerLink="/organization-team" *isPartner
+        [routerLinkActive]="['router-link-active']">
+        <img src="assets\images\user-edit-solid (1).png" class="height-fluid cursor-pointer f-size-30 mx-2">
+        <span class="f-size-18">{{ 'organizationTeam' | translate }}</span>
+      </a>
       <div class="nested-menu list-group" *ngIf="hasAdminRole">
         <a class="list-group-item active-item d-flex" (click)="addExpandClass('dashboard')"
           [routerLinkActive]="['router-link-active']">
@@ -34,14 +39,15 @@
             <li>
               <a class="list-group-item active-item d-flex" routerLink="/users"
                 [routerLinkActive]="['router-link-active']">
-                <i class="fa fa-monument"></i>&nbsp;
+
+                <i class="fas fa-circle"></i>&nbsp;
                 <span>{{ 'Users' | translate }}</span>
               </a>
             </li>
             <li>
               <a class="list-group-item active-item d-flex" routerLink="/orders-list"
                 [routerLinkActive]="['router-link-active']">
-                <i class="fa fa-monument"></i>&nbsp;
+                <i class="fas fa-circle"></i>&nbsp;
                 <span>{{ 'Orders' | translate }}</span>
               </a>
             </li>
@@ -49,21 +55,21 @@
             <li>
               <a class="list-group-item active-item d-flex" routerLink="/courses"
                 [routerLinkActive]="['router-link-active']">
-                <i class="fa fa-monument"></i>&nbsp;
+                <i class="fas fa-circle"></i>&nbsp;
                 <span>{{ 'Machines' | translate }}</span>
               </a>
             </li>
             <li>
               <a class="list-group-item active-item d-flex" routerLink="javascript:void(0)"
                 [routerLinkActive]="['router-link-active']">
-                <i class="fa fa-monument"></i>&nbsp;
+                <i class="fas fa-circle"></i>&nbsp;
                 <span>{{ 'Jobs' | translate }}</span>
               </a>
             </li>
             <li>
               <a class="list-group-item active-item d-flex" routerLink="/services-list"
                 [routerLinkActive]="['router-link-active']">
-                <i class="fa fa-monument"></i>&nbsp;
+                <i class="fas fa-circle"></i>&nbsp;
                 <span>{{ 'service' | translate }}</span>
               </a>
             </li>
@@ -71,15 +77,14 @@
             <li>
               <a class="list-group-item active-item d-flex" routerLink="/reasons-list"
                 [routerLinkActive]="['router-link-active']">
-                <i class="fa fa-monument"></i>&nbsp;
+                <i class="fas fa-circle"></i>&nbsp;
                 <span>{{ 'rejectionReasons' | translate }}</span>
               </a>
             </li>
             <li>
               <a class="list-group-item active-item d-flex" routerLink="/organizations-list"
                 [routerLinkActive]="['router-link-active']">
-                <i class="fa fa-monument"></i>&nbsp;
-                <span>{{ 'organizations' | translate }}</span>
+                <i class="fas fa-circle"></i>&nbsp;<span>{{ 'organizations' | translate }}</span>
               </a>
             </li>
 

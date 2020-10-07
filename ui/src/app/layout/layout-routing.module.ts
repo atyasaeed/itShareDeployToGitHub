@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LayoutComponent } from './layout.component';
 import { AdminGuard, AuthGuard } from '../shared/guard';
+import { PartnerGuard } from '../shared/guard/partner.guard';
 
 const routes: Routes = [
   {
@@ -64,11 +65,26 @@ const routes: Routes = [
         loadChildren: () => import('./reasons-list/reasons-list.module').then((m) => m.ReasonsListModule),
         canActivate: [AdminGuard],
       },
-
       {
         path: 'organizations-list',
         loadChildren: () => import('./organizations/organizations-list.module').then((m) => m.OrganizationsListModule),
         canActivate: [AdminGuard],
+      },
+      {
+        path: 'organization-team',
+        loadChildren: () =>
+          import('./organization-team/organization-team.module').then((m) => m.OrganizationTeamModule),
+      },
+      {
+        path: 'org-member-invitation/:entityId',
+        loadChildren: () =>
+          import('./org-member-invitation/org-member-invitation.module').then((m) => m.OrgMemberInvitationModule),
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'my-organizations',
+        loadChildren: () => import('./my-organizations/my-organizations.module').then((m) => m.MyOrganizationsModule),
+        canActivate: [PartnerGuard],
       },
     ],
   },

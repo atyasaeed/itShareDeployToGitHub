@@ -1,0 +1,18 @@
+<div class="p-4" *tdLoading="'loading';strategy:'overlay'">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-3"></div>
+      <div class="col-md-6 custom-card p-3 text-center">
+
+          <i class="fas text-grey-v2 mb-3 fa-smile-beam fa-4x"></i>
+          <p class="text-grey text-center">{{'invitationDescription'|translate}} {{entity?.org?.name}}</p>
+          <p class="text-grey text-center">{{'invitedBy'|translate}} {{entity?.placedBy?.firstName}}</p>
+          <div class="text-center">
+            <button class="custom-btn v1 mr-2" (click)="acceptInvitation()">{{'accept'|translate}}</button>
+            <button class="custom-btn btn-danger" (click)="declineInvitation()">{{'decline'|translate}}</button>
+          </div>
+
+      </div>
+    </div>
+  </div>
+</div>
