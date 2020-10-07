@@ -14,7 +14,7 @@
         </a>
       </div>
     </div>
-    <div class="container-fluid " *tdLoading="'loading'">
+    <div  *tdLoading="'loading'">
       <div class="row ">
         <div  class="col-md-3 mb-3 " *ngFor="let entity of entities$ | async; let i=index">
           <div class="p-3 custom-card flex-column  d-flex h-100 position-relative">
@@ -23,14 +23,14 @@
               <label for="'address_'{{entity.id}}" class="custom-control-label">
                 <span class="f-weight-600 site-color-v3">
                   <ng-container *ngIf="lang==='en'">
-                    {{entity.state.enName}}-{{entity.city.enName}}
+                    {{entity.city.state.enName}}-{{entity.city.enName}}
                   </ng-container>
                   <ng-container *ngIf="lang==='ar'">
-                    {{entity.state.arName}}-{{entity.city.arName}}
+                    {{entity.city.state.arName}}-{{entity.city.arName}}
                   </ng-container>
                 </span>
                 <div class="text-grey f-weight-400">
-                  {{entity.lineOne}}
+                  {{entity.name}}
                 </div>
               </label>
             </div>

@@ -14,6 +14,8 @@ import { routerTransition } from 'src/app/router.animations';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { State } from '../../../shared/domain/state.model';
+import { City } from '../../../shared/domain/city.model';
+import { CityService } from 'src/app/shared/services/city.service';
 @Component({
   selector: 'app-address-book-form',
   templateUrl: './address-book-form.component.html',
@@ -23,6 +25,7 @@ import { State } from '../../../shared/domain/state.model';
 export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, AddressBookService> implements OnInit {
   breadcrumbs = [{ heading: this.translate.instant('addressBook'), link: '/address-book' }, { heading: 'create' }];
   states$ = new Observable<State[]>();
+  cities$ = new Observable<City[]>();
   constructor(
     private translate: TranslateService,
     formBuilder: FormBuilder,
@@ -33,28 +36,29 @@ export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, 
     service: AddressBookService,
     @Inject(APP_CONFIG) private appConfig: IAppConfig,
     private appStore: Store<fromStore.AppState>,
-    private http: HttpClient
+    private http: HttpClient,
+    private cityService: CityService
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
     this.form = this.formBuilder.group({
       lineOne: ['', [Validators.required, Validators.minLength(2)]],
       lineTwo: ['', [Validators.required, Validators.minLength(2)]],
-      city: ['', [this.selectValidator]],
-      state: ['empty', [this.selectValidator]],
+      city: ['', [Validators.required]],
+      state: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required, Validators.minLength(11), Validators.pattern(/(?<=\s|^)\d+(?=\s|$)/)]],
     });
     this.states$ = this.http.get<State[]>('assets/state.json');
   }
-  selectValidator(control: AbstractControl): { [key: string]: boolean } | null {
-    if (control.value == 'empty') {
-      return { required: true };
-    }
-    return null;
-  }
+
+  // ngOnInit(): void {}
+
   stateChanged(e) {
     console.log(e.target.value);
+    this.cityService.getCitiesOfState(e.target.value).subscribe((res) => {
+      console.log(res);
+    });
   }
-  // ngOnInit(): void {}
+
   onCreate(): void {}
   onUpdate(): void {
     this.breadcrumbs.splice(1, 1);

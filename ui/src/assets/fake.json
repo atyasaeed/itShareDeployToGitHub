@@ -1,49 +1,57 @@
 ﻿[
   {
     "id": "1",
-    "state": {"id":"1","enName":"asdasd","arName":"شسيشي"},
-    "city": {"id":"1","enName":"sad","arName":"شسيشي"},
+    "city": {"id":"1","enName":"sad","arName":"شسيشي","state": {"id":"1","enName":"asdasd","arName":"شسيشي"}},
+     "name":"asdsadsd sadsada sdas dad adadsa d sda",
     "lineOne": "القاهرةشسيشسي ",
     "lineTwo": "القاهرةشسيس سيشسي",
     "phoneNumber": "0123123213123"
   },
   {
-    "id": "2",
-    "state": {"id":"12","enName":"asdasd","arName":"شسيشي"},
-    "city": {"id":"13","enName":"sad","arName":"شسيشي"},
+    "id": "1",
+    "city": {"id":"1","enName":"sad","arName":"شسيشي","state": {"id":"1","enName":"asdasd","arName":"شسيشي"}},
+     "name":"asdsadsd sadsada sdas dad adadsa d sda",
     "lineOne": "القاهرةشسيشسي ",
     "lineTwo": "القاهرةشسيس سيشسي",
     "phoneNumber": "0123123213123"
   },
-  {
-    "id": "3",
-       "state": {"id":"1","enName":"asdasd","arName":"شسيشي"},
-    "city": {"id":"1","enName":"sad","arName":"شسيشي"},
-	 "lineOne": "dasddasda sadasda sadsaasdaddadasdaa asdasdsadsالقاهرةشسيشسي ",
+{
+    "id": "1",
+    "city": {"id":"1","enName":"sad","arName":"شسيشي","state": {"id":"1","enName":"asdasd","arName":"شسيشي"}},
+     "name":"asdsadsd sadsada sdas dad adadsa d sda",
+    "lineOne": "القاهرةشسيشسي ",
     "lineTwo": "القاهرةشسيس سيشسي",
     "phoneNumber": "0123123213123"
   },
-  {
-    "id": "4",
-    "state": {"id":"31","enName":"asdasd","arName":"شسيشي"},
-    "city": {"id":"21","enName":"sad","arName":"شسيشي"},   
-  "lineOne": "القاهرةشسيشسي ",
+{
+    "id": "1",
+    "city": {"id":"1","enName":"sad","arName":"شسيشي","state": {"id":"1","enName":"asdasd","arName":"شسيشي"}},
+     "name":"asdsadsd sadsada sdas dad adadsa d sda",
+    "lineOne": "القاهرةشسيشسي ",
     "lineTwo": "القاهرةشسيس سيشسي",
     "phoneNumber": "0123123213123"
   },
-  {
-    "id": "5",
-    "state": {"id":"1","enName":"asdasd","arName":"شسيشي"},
-    "city": {"id":"1","enName":"sad","arName":"شسيشي"},   
- "lineOne": "القاهرةشسيشسي ",
+{
+    "id": "1",
+    "city": {"id":"1","enName":"sad","arName":"شسيشي","state": {"id":"1","enName":"asdasd","arName":"شسيشي"}},
+     "name":"asdsadsd sadsada sdas dad adadsa d sda",
+    "lineOne": "القاهرةشسيشسي ",
     "lineTwo": "القاهرةشسيس سيشسي",
     "phoneNumber": "0123123213123"
   },
-  {
-    "id": "6",
-    "state": {"id":"12","enName":"asdasd","arName":"شسيشي"},
-    "city": {"id":"121","enName":"sad","arName":"شسيشي"},   
- "lineOne": "سشيشيي شيسالقاهرةشسيشسي ",
+{
+    "id": "1",
+    "city": {"id":"1","enName":"sad","arName":"شسيشي","state": {"id":"1","enName":"asdasd","arName":"شسيشي"}},
+     "name":"asdsadsd sadsada sdas dad adadsa d sda",
+    "lineOne": "القاهرةشسيشسي ",
+    "lineTwo": "القاهرةشسيس سيشسي",
+    "phoneNumber": "0123123213123"
+  },
+{
+    "id": "1",
+    "city": {"id":"1","enName":"sad","arName":"شسيشي","state": {"id":"1","enName":"asdasd","arName":"شسيشي"}},
+     "name":"asdsadsd sadsada sdas dad adadsa d sda",
+    "lineOne": "القاهرةشسيشسي ",
     "lineTwo": "القاهرةشسيس سيشسي",
     "phoneNumber": "0123123213123"
   }

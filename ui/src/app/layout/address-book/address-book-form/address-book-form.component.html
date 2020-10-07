@@ -7,10 +7,10 @@
           <div class="col-md-6">
             <div class="container-fluid">
               <div class="row">
-                <div class="form-group" [ngClass]="{'col-md-6':form.controls.state.value!=='empty','col-md-12':form.controls.state.value==='empty'}">
+                <div class="form-group" [ngClass]="{'col-md-6':form.controls.state.value!=='','col-md-12':form.controls.state.value===''}">
                     <label>{{'state' | translate }} :&nbsp;</label>
                     <select class="form-control " (change)="stateChanged($event)" formControlName="state">
-                      <option value="empty" disabled >{{'pleaseSelectValue'|translate}}</option>
+                      <option value="" disabled >{{'pleaseSelectValue'|translate}}</option>
                       <option *ngFor="let state of states$ | async" [value]="state.id">{{state.enName}}</option>
                     </select>
                     <div class="text-danger" *ngIf="form.controls.state.touched && !form.controls.state.valid">
@@ -19,9 +19,10 @@
                       </div>
                     </div>
                 </div>
-                <div class="col-md-6 form-group" *ngIf="form.controls.state.value!=='empty'">
+                <div class="col-md-6 form-group" *ngIf="form.controls.state.value!==''">
                     <label>{{'city' | translate }} :&nbsp;</label>
                     <select class="form-control " formControlName="city">
+                      <option value="" disabled >{{'pleaseSelectValue'|translate}}</option>
                       <option >cairo</option>
                     </select>
                     <div class="text-danger" *ngIf="form.controls.city.touched && !form.controls.city.valid">
