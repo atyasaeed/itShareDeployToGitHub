@@ -23,7 +23,7 @@
                     <label>{{'city' | translate }} :&nbsp;</label>
                     <select class="form-control " formControlName="city">
                       <option value="" disabled >{{'pleaseSelectValue'|translate}}</option>
-                      <option >cairo</option>
+                      <option *ngFor="let city of cities " [value]="city.id">{{city.enName}}</option>
                     </select>
                     <div class="text-danger" *ngIf="form.controls.city.touched && !form.controls.city.valid">
                       <div *ngIf="form.controls.city.errors.required">
