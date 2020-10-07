@@ -9,9 +9,9 @@
               <div class="row">
                 <div class="form-group" [ngClass]="{'col-md-6':form.controls.state.value!=='','col-md-12':form.controls.state.value===''}">
                     <label>{{'state' | translate }} :&nbsp;</label>
-                    <select class="form-control " [ngModel]="entity?.city?.state" (ngModelChange)="stateChanged($event)" formControlName="state">
+                    <select class="form-control"  (ngModelChange)="stateChanged($event)" formControlName="state">
                       <option value="" disabled >{{'pleaseSelectValue'|translate}}</option>
-                      <!-- <option    [ngValue]="entity?.city?.state">{{entity?.city?.state?.enName}}</option> -->
+                      <option class="d-none" [value]="entity?.city?.state">{{entity?.city?.state?.enName}}</option>
                       <option *ngFor="let state of states " [ngValue]="state">{{state.enName}}</option>
                     </select>
                     <div class="text-danger" *ngIf="form.controls.state.touched && !form.controls.state.valid">
@@ -24,6 +24,7 @@
                     <label>{{'city' | translate }} :&nbsp;</label>
                     <select class="form-control " formControlName="city">
                       <option value="" disabled >{{'pleaseSelectValue'|translate}}</option>
+                      <option class="d-none" [value]="entity?.city">{{entity?.city?.enName}}</option>
                       <option *ngFor="let city of cities " [ngValue]="city">{{city.enName}}</option>
                     </select>
                     <div class="text-danger" *ngIf="form.controls.city.touched && !form.controls.city.valid">

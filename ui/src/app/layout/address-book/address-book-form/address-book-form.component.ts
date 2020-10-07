@@ -62,7 +62,6 @@ export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, 
     this.stateService.searchTerm = '';
     this.stateService.model$.subscribe((res) => {
       this.states = res;
-      console.log(res[0]);
       this.route.params.pipe(map((params: Params) => params.entityId)).subscribe(
         (entityId) => {
           if (entityId) {
@@ -70,11 +69,12 @@ export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, 
             this.service.get(entityId).subscribe(
               (entity) => {
                 this.cityService.searchParams = `stateId=${entity.city.state.id}`;
-                this.cityService.model$.subscribe((res) => {
-                  this.cities = res;
-                });
-                this.form?.patchValue(entity);
-                console.log(entity.city.state);
+                // this.cityService.model$.subscribe((res) => {
+                //   this.cities = res;
+                //   this.form.controls.city.setValue(entity.city, { onlySelf: true });
+                // });
+                this.form.patchValue(entity);
+                this.form.controls.state.setValue(entity.city.state);
                 this.entity = entity;
                 this.loadingService.resolve(this.key);
               },
@@ -99,8 +99,13 @@ export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, 
     this.cityService.searchParams = `stateId=${e.id}`;
     this.cityService.model$.subscribe((res) => {
       this.cities = res;
-      this.form.controls.city.setValue('');
-      this.form.controls.city.markAsUntouched();
+      if (this.entity?.id) {
+        this.form.controls.city.setValue(this.entity?.city, { onlySelf: true });
+        //this.form.controls.city.setValue('');
+      } else {
+        this.form.controls.city.setValue('');
+        this.form.controls.city.markAsUntouched();
+      }
     });
   }
 
