@@ -25,7 +25,6 @@ import ilab.core.service.StateService;
 
 @RestController
 @RequestMapping(path = StateController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class StateController
 {
 	static final String REST_URL = "/api/state";
@@ -48,20 +47,21 @@ public class StateController
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PutMapping
-	public State update( @RequestBody State state, Authentication auth)
+	public State update(@RequestBody State state, Authentication auth)
 	{
 
 		return stateService.update(state, auth);
 	}
-	
+
 	@GetMapping("/{id}")
 	public State get(@PathVariable("id") UUID id, Authentication auth)
 	{
 		return stateService.get(id, auth);
-	}		
+	}
 
 	@GetMapping("search")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("permitAll()")
+
 	public Page<State> getAll(@SearchSpec Specification<State> specs, Pageable page, Authentication auth)
 	{
 		return stateService.getPageable(specs, page);

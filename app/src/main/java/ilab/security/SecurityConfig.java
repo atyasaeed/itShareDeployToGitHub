@@ -26,7 +26,7 @@ import ilab.core.service.UserService;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true,prePostEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
 	@Autowired
@@ -52,29 +52,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 		csrf.setCookieHttpOnly(true);
 		http.authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/login").permitAll()
 				.antMatchers(HttpMethod.POST, "/login").permitAll()
-				.antMatchers(HttpMethod.GET,"/*","/ui/**", "/api/service/**","/api/reason/**", "/api/user/resetPassword","/api/user/activate","/api/user/resendProvision","/api/utils/initState","/api/gallery/**","/swagger-ui/**","/v3/api-docs/**").permitAll()
-				.antMatchers(HttpMethod.PUT,"/api/user/activate").permitAll()
+				.antMatchers(HttpMethod.GET, "/*", "/ui/**", "/api/service/**", "/api/reason/**",
+						"/api/user/resetPassword", "/api/user/activate", "/api/user/resendProvision",
+						"/api/utils/initState", "/api/gallery/**", "/swagger-ui/**", "/v3/api-docs/**")
+				.permitAll().antMatchers(HttpMethod.PUT, "/api/user/activate").permitAll()
+				.antMatchers(HttpMethod.GET, "/api/city/search", "/api/state/search").permitAll()
 //				.antMatchers(HttpMethod.PUT,"/api/user/**").authenticated()
-				.antMatchers(HttpMethod.PUT,"/api/utils/lang").permitAll()
+				.antMatchers(HttpMethod.PUT, "/api/utils/lang").permitAll()
 				.antMatchers(HttpMethod.POST, "/api/user", "/api/user/resetPassword").permitAll()
+
 				.antMatchers(HttpMethod.POST, "/api/users/savePassword").hasAuthority("CHANGE_PASSWORD_PRIVILEGE")
-				.antMatchers("/assets/**").permitAll()	
-				.antMatchers("/digital-assets/**").permitAll().and().authorizeRequests().anyRequest().authenticated().and()
-				.formLogin()
-					.loginProcessingUrl("/api/login")
-					.failureHandler(customAuthenticationFailureHandler())
-					.successHandler(customAuthenticationSuccessHandler()).and()
-				.logout().logoutUrl("/api/logout").logoutSuccessHandler(new CustomLogoutSuccessHandler()).and()
-				.cors().configurationSource(corsConfigurationSource())
-				.and().csrf().disable()
+				.antMatchers("/assets/**").permitAll().antMatchers("/digital-assets/**").permitAll().and()
+				.authorizeRequests().anyRequest().authenticated().and().formLogin().loginProcessingUrl("/api/login")
+				.failureHandler(customAuthenticationFailureHandler())
+				.successHandler(customAuthenticationSuccessHandler()).and().logout().logoutUrl("/api/logout")
+				.logoutSuccessHandler(new CustomLogoutSuccessHandler()).and().cors()
+				.configurationSource(corsConfigurationSource()).and().csrf().disable()
 //				.and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 //				.and()
-				.headers().frameOptions().sameOrigin()
-				.and().exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
-		
+				.headers().frameOptions().sameOrigin().and().exceptionHandling()
+				.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
 
-		
-		
 //			.and()
 //			.exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint())
 
