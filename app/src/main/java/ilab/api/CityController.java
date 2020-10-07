@@ -60,11 +60,18 @@ public class CityController
 		return cityService.findById(id, auth);
 	}
 
-
 	@GetMapping("search")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public Page<City> findAll(Pageable page, Authentication auth, @SearchSpec Specification<City> specs)
 	{
-		return cityService.findAll(specs, page,auth);
+		return cityService.findAll(specs, page, auth);
+	}
+
+	@GetMapping("search/state/{id}")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public Page<City> findByStateId(@PathVariable("id") UUID id, Pageable page, Authentication auth,
+			@SearchSpec Specification<City> specs)
+	{
+		return cityService.findByStateId(id, page, specs);
 	}
 }
