@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TdDialogService } from '@covalent/core/dialogs';
 import { TdLoadingService } from '@covalent/core/loading';
 import { TranslateService } from '@ngx-translate/core';
@@ -17,6 +17,7 @@ import { State } from '../../../shared/domain/state.model';
 import { City } from '../../../shared/domain/city.model';
 import { CityService } from 'src/app/shared/services/city.service';
 import { StateService } from 'src/app/shared/services/state.service';
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-address-book-form',
   templateUrl: './address-book-form.component.html',
@@ -54,10 +55,39 @@ export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, 
   }
 
   ngOnInit(): void {
+    this.loadingService.register(this.key);
     this.stateService.pageSize = 30;
     this.stateService.searchTerm = '';
     this.stateService.model$.subscribe((res) => {
       this.states = res;
+      this.route.params.pipe(map((params: Params) => params.entityId)).subscribe(
+        (entityId) => {
+          if (entityId) {
+            this.onUpdate();
+            this.service.get(entityId).subscribe(
+              (entity) => {
+                this.cityService.searchTerm = `state.id:'${entity.city.state.id}'`;
+                this.cityService.model$.subscribe((res) => {
+                  this.cities = res;
+                  this.form?.patchValue(entity);
+                  this.entity = entity;
+                  this.loadingService.resolve(this.key);
+                });
+              },
+              (err) => {
+                this.loadingService.resolve(this.key);
+              }
+            );
+          } else {
+            this.onCreate();
+            this.entity = {} as AddressBook;
+            this.loadingService.resolve(this.key);
+          }
+        },
+        (err) => {
+          this.loadingService.resolve(this.key);
+        }
+      );
     });
   }
 

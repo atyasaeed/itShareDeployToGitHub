@@ -7,8 +7,4 @@ import { State } from '../domain/state.model';
 })
 export class StateService extends RestService<State> {
   resource = 'state';
-
-  // getAllStates() {
-  //   return this.http.get<State[]>(this.appConfig.getResourceUrl(this.resource) + '/search');
-  // }
 }
