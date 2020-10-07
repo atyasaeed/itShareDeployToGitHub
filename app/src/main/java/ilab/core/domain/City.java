@@ -9,26 +9,37 @@ import javax.validation.constraints.Size;
 @Entity
 public class City extends AbstractEntity<City>
 {
-
 	@NotNull
 	@NotBlank
 	@Size(min = 3, max = 250)
-	private String name;
+	private String arName;
+	@NotNull
+	@NotBlank
+	@Size(min = 3, max = 250)
+	private String enName;
+
+	public String getArName()
+	{
+		return arName;
+	}
+
+	public void setArName(String arName)
+	{
+		this.arName = arName;
+	}
+
+	public String getEnName()
+	{
+		return enName;
+	}
+
+	public void setEnName(String enName)
+	{
+		this.enName = enName;
+	}
 
 	@ManyToOne
 	private State state;
-
-
-
-	public String getName()
-	{
-		return name;
-	}
-
-	public void setName(String name)
-	{
-		this.name = name;
-	}
 
 	public State getState()
 	{
