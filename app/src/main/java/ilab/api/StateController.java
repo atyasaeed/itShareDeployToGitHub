@@ -47,12 +47,13 @@ public class StateController
 	}
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PutMapping
 	public State update( @RequestBody State state, Authentication auth)
 	{
 
 		return stateService.update(state, auth);
 	}
-
+	
 	@GetMapping("/{id}")
 	public State get(@PathVariable("id") UUID id, Authentication auth)
 	{
