@@ -22,15 +22,19 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ilab.core.domain.City;
 import ilab.core.domain.Reason;
 import ilab.core.domain.Service;
+import ilab.core.domain.State;
 import ilab.core.domain.user.Organization;
 import ilab.core.domain.user.OrganizationStatus;
 import ilab.core.domain.user.OrganizationType;
 import ilab.core.domain.user.Role;
 import ilab.core.domain.user.User;
+import ilab.core.repository.CityRepository;
 import ilab.core.repository.ReasonRepository;
 import ilab.core.repository.ServiceRepository;
+import ilab.core.repository.StateRepository;
 import ilab.core.repository.UserRepository;
 import ilab.core.service.ServiceService;
 import ilab.core.service.UserService;
@@ -55,6 +59,10 @@ public class DevelopmentConfig
 	private ReasonRepository reasonRepo;
 	@Autowired
 	public freemarker.template.Configuration freemarkerConfig;
+	@Autowired
+	public StateRepository stateRepo;
+	@Autowired
+	public CityRepository cityRepo;
 
 	@Bean
 	public CommandLineRunner dataLoader(ServiceRepository serviceRepo, UserRepository userRepo,
@@ -76,7 +84,7 @@ public class DevelopmentConfig
 
 					userRepo.save(user);
 					user = userService.register(createUser("mosalem@itraters.com", "New123456", "Hatem",
-							"mosalem@gmail.com", "01065003100", OrganizationType.PARTNER));
+							"mosalem@itraters.com", "01065003100", OrganizationType.PARTNER));
 					user = userService.enableUser(user.getId(), true, null);
 					user = addRoleAuthority(user);
 					userRepo.save(user);
@@ -108,7 +116,16 @@ public class DevelopmentConfig
 					{
 						reasonRepo.save(reason);
 					}
+					State cairoState = new State();
+					cairoState.setArName("القاهرة");
+					cairoState.setEnName("Cairo");
+					stateRepo.save(cairoState);
 
+					City shroukCity = new City();
+					shroukCity.setArName("مدينة الشروق");
+					shroukCity.setEnName("Shrouk City");
+					shroukCity.setState(cairoState);
+					cityRepo.save(shroukCity);
 					// Service service;
 					// service=serviceRepo.save(createService("3D Printing","3D
 					// Printing Mono
