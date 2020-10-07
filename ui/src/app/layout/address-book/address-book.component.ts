@@ -35,10 +35,6 @@ export class AddressBookComponent extends DefaultListComponent<AddressBook, Addr
     });
   }
 
-  ngOnInit(): void {
-    this.entities$ = this.http.get<AddressBook[]>('assets/fake.json');
-  }
-
   set searchTerm(searchTerm: string) {
     this._searchTerm = searchTerm;
     if (searchTerm) {
@@ -62,9 +58,7 @@ export class AddressBookComponent extends DefaultListComponent<AddressBook, Addr
       }
     );
   }
-  setPrimeAddress(entity: AddressBook) {
-    //console.log(entity);
-  }
+  setPrimeAddress(entity: AddressBook) {}
   openModal(template) {
     this.modalRef = this.modalService.show(template);
   }
