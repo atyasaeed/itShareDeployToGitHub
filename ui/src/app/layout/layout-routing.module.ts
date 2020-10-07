@@ -86,6 +86,11 @@ const routes: Routes = [
         loadChildren: () => import('./my-organizations/my-organizations.module').then((m) => m.MyOrganizationsModule),
         canActivate: [PartnerGuard],
       },
+      {
+        path: 'settings',
+        loadChildren: () => import('./settings/settings.module').then((m) => m.SettingsModule),
+        canActivate: [AdminGuard],
+      },
     ],
   },
 ];
