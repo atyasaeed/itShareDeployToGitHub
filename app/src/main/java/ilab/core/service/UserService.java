@@ -34,11 +34,12 @@ import ilab.core.domain.user.ActivationCode;
 import ilab.core.domain.user.Organization;
 import ilab.core.domain.user.OrganizationStatus;
 import ilab.core.domain.user.OrganizationType;
+import ilab.core.domain.user.OrganizationUser;
 import ilab.core.domain.user.PasswordResetToken;
 import ilab.core.domain.user.Role;
 import ilab.core.domain.user.User;
 import ilab.core.repository.ActivationCodeRepository;
-import ilab.core.repository.OrganizationRepository;
+import ilab.core.repository.OrganizationUserRepository;
 import ilab.core.repository.PasswordTokenRepository;
 import ilab.core.repository.UserRepository;
 import ilab.dto.ChangePasswordDTO;
@@ -56,7 +57,7 @@ public class UserService implements UserDetailsService
 
 	@Value("${ilab.queues.welcome}")
 	private String welcomeQueue;
-	
+
 	@Autowired
 	private UserRepository userRepo;
 	@Autowired
@@ -70,31 +71,34 @@ public class UserService implements UserDetailsService
 	@Autowired
 	private ActivationCodeRepository activationCodeRepo;
 	@Autowired
-	private OrganizationRepository orgRepo;
+	private OrganizationUserRepository orgUserRepo;
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
 	{
-		User user=userRepo.findByUsernameIgnoreCase(username).orElseThrow(()->new UsernameNotFoundException(""));
-		UserBuilder userBuilder=null;
-		userBuilder=org.springframework.security.core.userdetails.User.withUsername(username);
+		User user = userRepo.findByUsernameIgnoreCase(username).orElseThrow(() -> new UsernameNotFoundException(""));
+		UserBuilder userBuilder = null;
+		userBuilder = org.springframework.security.core.userdetails.User.withUsername(username);
 		userBuilder.disabled(!user.isEnabled());
 		userBuilder.password(user.getPassword());
-		String[] authorities=user.getRoles().stream().map(a->a.getAuthority()).toArray(String[]::new);
+		String[] authorities = user.getRoles().stream().map(a -> a.getAuthority()).toArray(String[]::new);
 		userBuilder.authorities(authorities);
-		UserDetails userDetails=userBuilder.build();
+		UserDetails userDetails = userBuilder.build();
 		return userDetails;
 	}
+
 	public User register(User user)
 	{
-	
+
 		user.getRoles().clear();
-		
+
 		user.setEnabled(false);
 		user.setAccountNonExpired(true);
 		user.setAccountNonLocked(true);
 		user.setCredentialsNonExpired(true);
 		user.setPassword(encoder.encode(user.getPassword()));
 		ActivationCode activationCode = new ActivationCode();
+		OrganizationUser orgUser = null;
 		if (userRepo.existsByUsername(user.getEmail()))
 		{
 			User existUser = userRepo.findByUsernameIgnoreCase(user.getEmail()).get();
@@ -110,10 +114,13 @@ public class UserService implements UserDetailsService
 				existUser.setMobileNo(user.getMobileNo());
 				user = existUser;
 			}
-		}
-		if(user.getDefaultOrg()==null)
+		} else
 		{
-			Organization org=new Organization();
+			orgUser = new OrganizationUser();
+		}
+		if (user.getDefaultOrg() == null)
+		{
+			Organization org = new Organization();
 			org.setAddress("address");
 			org.setCity("city");
 			org.setMobileNo(user.getMobileNo());
@@ -122,9 +129,19 @@ public class UserService implements UserDetailsService
 			user.setDefaultOrg(org);
 		}
 		user.getDefaultOrg().setOwner(user);
-		user=userRepo.save(user);
+		user = userRepo.save(user);
+		if (orgUser != null)
+		{
+
+			orgUser.setRole(Role.ROLE_OWNER);
+			orgUser.setOrg(user.getDefaultOrg());
+			orgUser.setUser(user);
+			orgUser.setPlacedBy(user);
+			orgUser = orgUserRepo.save(orgUser);
+		}
 		activationCode.setUser(user);
-		switch(user.getDefaultOrg().getType())
+
+		switch (user.getDefaultOrg().getType())
 		{
 		case INDIVIDUAL:
 			user.getDefaultOrg().setStatus(OrganizationStatus.ACTIVE);
@@ -138,31 +155,34 @@ public class UserService implements UserDetailsService
 
 		jmsTemplate.convertAndSend(activationCodeQueue, activationCode.getId());
 		return user;
-		
+
 	}
-	public Page<User> getUsers(Pageable page,Specification<User> specs)
+
+	public Page<User> getUsers(Pageable page, Specification<User> specs)
 	{
-		return userRepo.findAll(specs,page);
-	} 
+		return userRepo.findAll(specs, page);
+	}
+
 	public void changePassword(ChangePasswordDTO dto)
 	{
-		User user=userRepo.findByUsernameIgnoreCase(dto.getUsername()).orElseThrow();
-		
-		
-		if(!encoder.matches(dto.getOldPassword(), user.getPassword()))
+		User user = userRepo.findByUsernameIgnoreCase(dto.getUsername()).orElseThrow();
+
+		if (!encoder.matches(dto.getOldPassword(), user.getPassword()))
 		{
-			throw new ResponseStatusException(HttpStatus.CONFLICT,"Invalid Old Password");
+			throw new ResponseStatusException(HttpStatus.CONFLICT, "Invalid Old Password");
 		}
 		user.setPassword(encoder.encode(dto.getNewPassword()));
 	}
+
 	public void changePassword(String password)
 	{
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		User user=userRepo.findByemailIgnoreCase(userDetails.getUsername()).orElseThrow();
+		User user = userRepo.findByemailIgnoreCase(userDetails.getUsername()).orElseThrow();
 		user.setPassword(encoder.encode(password));
 		userRepo.save(user);
 		SecurityContextHolder.getContext().setAuthentication(null);
 	}
+
 	public PasswordResetToken resetPassword(String email)
 	{
 		User user = userRepo.findByemailIgnoreCase(email)
@@ -182,6 +202,7 @@ public class UserService implements UserDetailsService
 		jmsTemplate.convertAndSend(passwordTokenQueue, token.getId());
 		return token;
 	}
+
 	private void validateUserForAction(User user)
 	{
 		if (user.isAccountNonExpired() && user.isAccountNonLocked())
@@ -190,50 +211,56 @@ public class UserService implements UserDetailsService
 		}
 		throw new IllegalRequestDataException("User can't reset password because it is not active");
 	}
-	public void resetPassword(UUID userId,UUID token)
+
+	public void resetPassword(UUID userId, UUID token)
 	{
-		Optional<PasswordResetToken> resetToken=passwordTokenRepo.findById(token);
-		if(resetToken.isPresent() && resetToken.get().getUser().getId().equals(userId) )
+		Optional<PasswordResetToken> resetToken = passwordTokenRepo.findById(token);
+		if (resetToken.isPresent() && resetToken.get().getUser().getId().equals(userId))
 		{
-			User user=resetToken.get().getUser();
+			User user = resetToken.get().getUser();
 //			user.setPassword(encoder.encode("hello@123456"));
 			resetToken.get().setUsed(true);
 //			userRepo.save(user);
 //			passwordTokenRepo.delete(resetToken.get());
-			Authentication auth =new UsernamePasswordAuthenticationToken(loadUserByUsername(user.getUsername()), null, Arrays.asList(
-				      new SimpleGrantedAuthority("CHANGE_PASSWORD_PRIVILEGE")));
+			Authentication auth = new UsernamePasswordAuthenticationToken(loadUserByUsername(user.getUsername()), null,
+					Arrays.asList(new SimpleGrantedAuthority("CHANGE_PASSWORD_PRIVILEGE")));
 			SecurityContextHolder.getContext().setAuthentication(auth);
 			return;
 		}
-			
-		throw new ResponseStatusException(HttpStatus.CONFLICT,"Invalid Reset Password Token");
-		
+
+		throw new ResponseStatusException(HttpStatus.CONFLICT, "Invalid Reset Password Token");
+
 	}
+
 	public User findUser(Authentication auth)
 	{
 		return userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
 	}
+
 	public Optional<User> findUser(UUID id)
 	{
 		return userRepo.findById(id);
 	}
-	public User update(User user,Authentication auth)
+
+	public User update(User user, Authentication auth)
 	{
-		User theUser=findUser(auth);
+		User theUser = findUser(auth);
 		theUser.setFirstName(user.getFirstName());
 		theUser.setLastName(user.getLastName());
 		return theUser;
 	}
+
 	public User update(User user)
 	{
-		User existUser=findUser(user.getId()).orElseThrow();
+		User existUser = findUser(user.getId()).orElseThrow();
 		existUser.setEmail(user.getEmail());
 		existUser.setFirstName(user.getFirstName());
 		existUser.setLastName(user.getLastName());
 		existUser.setMobileNo(user.getMobileNo());
 		return existUser;
 	}
-	public User enableUser(UUID userId,boolean isEnabled,Authentication auth)
+
+	public User enableUser(UUID userId, boolean isEnabled, Authentication auth)
 	{
 		User user = userRepo.findById(userId).orElseThrow();
 		if (!isEnabled && user.getUsername().equals(auth.getName()))
@@ -242,81 +269,85 @@ public class UserService implements UserDetailsService
 		return user;
 	}
 
-	public User setUserNonBlocked(UUID userId,boolean isNonBlocked,Authentication auth)
+	public User setUserNonBlocked(UUID userId, boolean isNonBlocked, Authentication auth)
 	{
 		User user = userRepo.findById(userId).orElseThrow(() -> new NotFoundException("User Not Found"));
-		if(user.getUsername().equals(auth.getName()))
+		if (user.getUsername().equals(auth.getName()))
 			throw new IllegalRequestDataException("Can't block the current logged user");
 
 		user.setAccountNonLocked(isNonBlocked);
 		return user;
 	}
-	
-	public Map<String,Object> activate(User user, String activationCode,Authentication auth) throws Exception
+
+	public Map<String, Object> activate(User user, String activationCode, Authentication auth) throws Exception
 	{
 		ActivationCode code = activationCodeRepo.findByUser_UsernameIgnoreCaseAndUsedFalse(user.getUsername())
 				.orElseThrow();
-		user=code.getUser();
-		Map<String, Object> results=new HashMap<String, Object>();
-		if ( code.getCode().equals(activationCode) && !code.isUsed())
+		user = code.getUser();
+		Map<String, Object> results = new HashMap<String, Object>();
+		if (code.getCode().equals(activationCode) && !code.isUsed())
 		{
 			code.setUsed(true);
 			user.setEnabled(true);
-			
+
 			code.getUser().addRole(Role.ROLE_USER);
 			jmsTemplate.convertAndSend(welcomeQueue, code.getUser().getId());
-			results.putAll(Map.of("roles",user.getRoles(),"defaultOrg",user.getDefaultOrg()));
-			if(auth==null&&user.getDefaultOrg().getType()==OrganizationType.PARTNER)
+			results.putAll(Map.of("roles", user.getRoles(), "defaultOrg", user.getDefaultOrg()));
+			if (auth == null && user.getDefaultOrg().getType() == OrganizationType.PARTNER)
 			{
 				auth = new UsernamePasswordAuthenticationToken(loadUserByUsername(user.getUsername()), null,
-					Arrays.asList(Role.ROLE_REGISTER_PRIVILEGE));
+						Arrays.asList(Role.ROLE_REGISTER_PRIVILEGE));
 				SecurityContextHolder.getContext().setAuthentication(auth);
 			}
 
 		}
-		results.put("status",user.isEnabled());
+		results.put("status", user.isEnabled());
 		return results;
 	}
-	public Map<String,Object> activate(UUID userId, String activationCode)
+
+	public Map<String, Object> activate(UUID userId, String activationCode)
 	{
 		ActivationCode code = activationCodeRepo.findByUser_Id(userId).orElseThrow();
-		User user=code.getUser();
+		User user = code.getUser();
 		if (code.getCode().equals(activationCode) && !code.isUsed())
 		{
 			code.setUsed(true);
-			
+
 			user.setEnabled(true);
 			code.getUser().addRole(Role.ROLE_USER);
 			jmsTemplate.convertAndSend(welcomeQueue, code.getUser().getId());
 
 		}
 
-		return Map.of("status",user.isEnabled(),"roles",user.getRoles(),"defaultOrg",user.getDefaultOrg());
+		return Map.of("status", user.isEnabled(), "roles", user.getRoles(), "defaultOrg", user.getDefaultOrg());
 
 	}
+
 	public void sendWelcomeMsg(UUID userId) throws Exception
 	{
 		User user = userRepo.findById(userId).orElse(null);
 
-		if (user != null && user.isEnabled() && user.isAccountNonLocked()&&!user.getRoles().contains(Role.ROLE_USER))
+		if (user != null && user.isEnabled() && user.isAccountNonLocked() && !user.getRoles().contains(Role.ROLE_USER))
 		{
 			emailService.sendTemplateMessage(user.getEmail(), "Welcome to iLab", "welcome-email.ftl", user);
 
 		}
 	}
+
 	public void sendActivation(UUID codeId) throws Exception
 	{
 		ActivationCode code = activationCodeRepo.findByIdAndUsedFalseAndSentFalse(codeId).orElse(null);
 
 		if (code != null && !code.getUser().isEnabled())
 		{
-			System.out.println("Activation Code:"+code.getCode());
+			System.out.println("Activation Code:" + code.getCode());
 			emailService.sendTemplateMessage(code.getUser().getEmail(), "iLab Account Activation",
 					"activation-email.ftl", code);
 			code.setSent(true);
 
 		}
 	}
+
 	public boolean resendActivationCode(String username)
 	{
 		boolean status = false;
@@ -331,7 +362,7 @@ public class UserService implements UserDetailsService
 
 		return status;
 	}
-	
+
 	public void sendResetPasswordToken(UUID tokenId) throws Exception
 	{
 		PasswordResetToken token = passwordTokenRepo.findByIdAndUsedFalseAndSentFalse(tokenId).orElse(null);
@@ -344,5 +375,5 @@ public class UserService implements UserDetailsService
 
 		}
 	}
-	
+
 }

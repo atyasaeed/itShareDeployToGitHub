@@ -406,5 +406,9 @@
   "lineTwo":"Line Two",
   "state":"State",
   "create":"Create",
-  "pleaseSelectValue":"Please Select Value"
+  "pleaseSelectValue":"Please Select Value",
+  "emailNotFound": "This user does not exist",
+  "duplicatedOrganizationUser": "This user already exists",
+  "invitationPage.error": "Sorry , You can not access invitation page",
+  "requestApproval": "Request for Approval"
 }

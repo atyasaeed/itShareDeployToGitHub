@@ -1,5 +1,6 @@
 package ilab.core.service;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -47,7 +48,7 @@ public class OrganizationUserService
 
 	public OrganizationUser addMemberToOrg(String email, Authentication auth) throws Exception
 	{
-		User invitee = findByemail(email);
+		User invitee = userRepo.findByemailIgnoreCase(email).orElseThrow();
 
 		User inviter = userService.findUser(auth);
 		Organization org = inviter.getDefaultOrg();
@@ -144,13 +145,8 @@ public class OrganizationUserService
 
 	}
 
-	public User findByemail(String email)
-	{
-		return userRepo.findByemailIgnoreCase(email).orElseThrow();
-	}
-
 	public OrganizationUser findById(UUID id, Authentication auth)
 	{
-		return orgUserRepo.findByIdAndUser_usernameIgnoreCase(id,auth.getName()).orElseThrow();
+		return orgUserRepo.findByIdAndUser_usernameIgnoreCase(id, auth.getName()).orElseThrow();
 	}
 }
