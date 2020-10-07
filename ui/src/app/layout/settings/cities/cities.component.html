@@ -26,6 +26,7 @@
 
               <th scope="col" sortable="arName" (sort)="onSort($event)">{{'arName'|translate}}</th>
               <th scope="col" sortable="enName" (sort)="onSort($event)">{{'enName'|translate}}</th>
+              <th scope="col" sortable="state" (sort)="onSort($event)">{{'governorate'|translate}}</th>
 
               <th></th>
 
@@ -41,6 +42,14 @@
 
               <td>
                 <ngb-highlight [result]="entity.enName | titlecase" [term]="searchTerm">
+                </ngb-highlight>
+              </td>
+              <td *ngIf="lang =='en'">
+                <ngb-highlight [result]="entity.state.enName | titlecase" [term]="searchTerm">
+                </ngb-highlight>
+              </td>
+              <td *ngIf="lang =='ar'">
+                <ngb-highlight [result]="entity.state.arName | titlecase" [term]="searchTerm">
                 </ngb-highlight>
               </td>
 
