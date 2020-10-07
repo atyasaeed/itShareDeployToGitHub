@@ -13,18 +13,32 @@ public class State extends AbstractEntity<State>
 	@NotBlank
 	@Column(name = "name", unique = true)
 	@Size(min = 3, max = 150)
-	private String name;
+	private String arName;
 
+	@NotNull
+	@NotBlank
+	@Column(name = "name", unique = true)
+	@Size(min = 3, max = 150)
+	private String enName;
 
-	public String getName()
+	public String getArName()
 	{
-		return name;
+		return arName;
 	}
 
-	public void setName(String name)
+	public void setArName(String arName)
 	{
-		this.name = name;
+		this.arName = arName;
 	}
 
+	public String getEnName()
+	{
+		return enName;
+	}
+
+	public void setEnName(String enName)
+	{
+		this.enName = enName;
+	}
 
 }
