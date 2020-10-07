@@ -32,7 +32,6 @@ export class StateFormComponent extends DefaultFormComponent<State, StateService
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
     this.form = this.formBuilder.group({
-      id: [''],
       arName: ['', Validators.required],
       enName: ['', Validators.required],
     });

@@ -12,7 +12,7 @@
           <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
         </div>
         <div class="col-md-3 text-right">
-          <a routerLink="governorate-form" class="btn btn-success">
+          <a routerLink="create" class="btn btn-success">
             <i class="fa fa-plus" aria-hidden="true"></i>
           </a>
         </div>
@@ -32,7 +32,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let entity of staties ; let i=index">
+            <tr *ngFor="let entity of entities$ |async ; let i=index">
               <th scope="row">{{ i+1 }}</th>
               <td>
                 <ngb-highlight [result]="entity.arName" [term]="searchTerm">

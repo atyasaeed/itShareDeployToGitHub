@@ -20,8 +20,6 @@ export class StatesComponent extends DefaultListComponent<State, StateService> i
   breadcrumbs = [{ heading: 'governorate', icon: 'fa-tasks' }];
   private _searchTerm = '';
   lang: string;
-  state: State;
-  staties: State[] = new Array();
   constructor(
     service: StateService,
     loadingService: TdLoadingService,
@@ -31,11 +29,6 @@ export class StatesComponent extends DefaultListComponent<State, StateService> i
     super(service, loadingService);
     this.appStore.select(getLang).subscribe((res) => {
       this.lang = res;
-    });
-  }
-  ngOnInit() {
-    this.http.get('assets/state.json').subscribe((res: State[]) => {
-      this.staties = res;
     });
   }
 
