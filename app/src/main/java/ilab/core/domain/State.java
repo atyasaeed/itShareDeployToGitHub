@@ -11,13 +11,13 @@ public class State extends AbstractEntity<State>
 {
 	@NotNull
 	@NotBlank
-	@Column(name = "name", unique = true)
+	@Column(name = "arName", unique = true)
 	@Size(min = 3, max = 150)
 	private String arName;
 
 	@NotNull
 	@NotBlank
-	@Column(name = "name", unique = true)
+	@Column(name = "enName", unique = true)
 	@Size(min = 3, max = 150)
 	private String enName;
 
