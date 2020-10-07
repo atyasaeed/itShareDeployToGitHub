@@ -1,38 +1,70 @@
 <nav class="sidebar py-2" [ngClass]="{collapsed: collapsed }">
   <div class="list-group">
-    <div>
+    <div class="f-size-15">
       <a class="list-group-item active-item d-flex" routerLink="/home" [routerLinkActive]="['router-link-active']">
-        <img src="assets\images\home-solid.png" class="height-fluid cursor-pointer f-size-30 mx-2">
-        <span class="f-size-18">{{ 'home' | translate }}</span>
+        <img src="assets\images\home-solid.png" class="height-fluid cursor-pointer  mx-2">
+        <span>{{ 'home' | translate }}</span>
       </a>
-      <a class="list-group-item active-item d-flex" *ngIf="hasAdminRole" routerLink="/shopping-cart"
+      <a class="list-group-item active-item d-flex" routerLink="/shopping-cart"
         [routerLinkActive]="['router-link-active']">
-        <img src="assets\images\shopping-cart-solid.png" class="height-fluid cursor-pointer f-size-30 mx-2">
-        <span class="f-size-18">{{ 'Shopping Cart' | translate }}</span>
+        <img src="assets\images\shopping-cart-solid.png" class="height-fluid cursor-pointer  mx-2">
+        <span>{{ 'Shopping Cart' | translate }}</span>
       </a>
       <a class="list-group-item active-item d-flex" *ngIf="hasAdminRole" routerLink="/gallery"
         [routerLinkActive]="['router-link-active']">
-        <img src="assets\images\images-solid.png" class="height-fluid cursor-pointer f-size-30 mx-2">
-        <span class="f-size-18">{{ 'gallery' | translate }}</span>
+        <img src="assets\images\images-solid.png" class="height-fluid cursor-pointer  mx-2">
+        <span>{{ 'gallery' | translate }}</span>
       </a>
       <a class="list-group-item active-item d-flex" routerLink="/my-orders" [routerLinkActive]="['router-link-active']">
-        <img src="assets\images\box-solid.png" class="height-fluid cursor-pointer f-size-30 mx-2">
-        <span class="f-size-18">{{ 'Track-Order' | translate }}</span>
+        <img src="assets\images\box-solid.png" class="height-fluid cursor-pointer  mx-2">
+        <span>{{ 'Track-Order' | translate }}</span>
       </a>
       <a class="list-group-item active-item d-flex" routerLink="/space" [routerLinkActive]="['router-link-active']">
-        <img src="assets\images\palette-solid.png" class="height-fluid cursor-pointer f-size-30 mx-2">
-        <span class="f-size-18">{{ 'mySpace' | translate }}</span>
+        <img src="assets\images\palette-solid.png" class="height-fluid cursor-pointer  mx-2">
+        <span>{{ 'mySpace' | translate }}</span>
       </a>
       <a class="list-group-item active-item d-flex" routerLink="/organization-team" *isPartner
         [routerLinkActive]="['router-link-active']">
-        <img src="assets\images\user-edit-solid (1).png" class="height-fluid cursor-pointer f-size-30 mx-2">
-        <span class="f-size-18">{{ 'organizationTeam' | translate }}</span>
+        <img src="assets\images\user-edit-solid (1).png" class="height-fluid cursor-pointer  mx-2">
+        <span>{{ 'organizationTeam' | translate }}</span>
       </a>
-      <div class="nested-menu list-group" *ngIf="hasAdminRole">
+      <!--///////////////////////////////////////////////////////////////////////////////////////-->
+      <div class="nested-menu list-group f-size-15" *ngIf="hasAdminRole">
+        <a class="list-group-item active-item d-flex" (click)="addExpandClassSetting('settings')"
+          [routerLinkActive]="['router-link-active']">
+          <i class="fa fa-plus height-fluid cursor-pointer my-auto mx-2"></i>&nbsp;
+          <span>{{ 'settings' | translate }}</span>
+        </a>
+        <li class="nested m-auto" [class.expand]="showMenu === 'settings'">
+          <ul class="submenu p-0">
+
+            <li>
+              <a class="list-group-item active-item d-flex" routerLink="/settings/governorate"
+                [routerLinkActive]="['router-link-active']">
+                <i class="fas fa-circle my-auto"></i>&nbsp;
+                <span>{{ 'governorate' | translate }}</span>
+              </a>
+            </li>
+            <li>
+              <a class="list-group-item active-item d-flex" routerLink="/settings/city"
+                [routerLinkActive]="['router-link-active']">
+                <i class="fas fa-circle my-auto"></i>&nbsp;
+                <span>{{ 'city' | translate }}</span>
+              </a>
+            </li>
+
+
+
+
+          </ul>
+        </li>
+      </div>
+      <!--//////////////////////////////////////////////////////////////////////////////////////-->
+      <div class="nested-menu list-group f-size-15" *ngIf="hasAdminRole">
         <a class="list-group-item active-item d-flex" (click)="addExpandClass('dashboard')"
           [routerLinkActive]="['router-link-active']">
-          <i class="fa fa-plus height-fluid cursor-pointer f-size-30 mx-2"></i>&nbsp;
-          <span class="f-size-18">{{ 'Admin Dashboard' | translate }}</span>
+          <i class="fa fa-plus height-fluid cursor-pointer  my-auto mx-2"></i>&nbsp;
+          <span>{{ 'Admin Dashboard' | translate }}</span>
         </a>
         <li class="nested m-auto" [class.expand]="showMenu === 'dashboard'">
           <ul class="submenu">
@@ -107,9 +139,9 @@
       </div>
 
       <ng-container *ngIf="authUser$ |async as user; else anonymous">
-        <div class="nested-menu list-group">
+        <div class="nested-menu list-group f-size-15">
           <a class="list-group-item " (click)="addExpandClass('profile')">
-            <span class="px-2"><i class="fa fa-user f-size-30 m-auto site-color-v2"></i>&nbsp; {{user.username}} &nbsp;
+            <span class="px-2"><i class="fa fa-user  m-auto site-color-v2"></i>&nbsp; {{user.username}} &nbsp;
               <i class="fa fa-caret-down"></i></span>
           </a>
           <li class="nested" [class.expand]="showMenu === 'profile'">
@@ -117,19 +149,19 @@
               <li>
                 <a routerLink='/profile'>
                   <img src="assets\images\user-edit-solid (1).png" class="px-2" /> <span
-                    class="f-size-14 custom-btn.v2 f-weight-600">{{ 'Profile' | translate }}</span>
+                    class="custom-btn.v2 f-weight-600">{{ 'Profile' | translate }}</span>
                 </a>
               </li>
               <li>
                 <a [routerLink]="'/change-password'">
                   <img src="assets\images\unlock-alt-solid.png" class="px-2" /> <span
-                    class="f-size-14 custom-btn.v2 f-weight-600">{{ 'changePassword' | translate }}</span>
+                    class="custom-btn.v2 f-weight-600">{{ 'changePassword' | translate }}</span>
                 </a>
               </li>
               <li>
                 <a (click)="authenticationService.logout()">
                   <img src="assets\images\power-off-solid.png" class="px-2" /> <span
-                    class="f-size-14 custom-btn.v2 f-weight-600">{{ 'Log Out' | translate }}</span>
+                    class="custom-btn.v2 f-weight-600">{{ 'Log Out' | translate }}</span>
                 </a>
               </li>
             </ul>

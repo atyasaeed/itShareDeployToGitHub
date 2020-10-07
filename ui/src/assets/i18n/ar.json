@@ -291,7 +291,7 @@
   "statusReason.error.required": "يجب الاخطار بالسبب",
   "organizations": "الشركات",
   "mobileNo": "المحمول",
-  "city": "المدينه",
+  "city": "المدينة",
   "owner": "المالك",
   "accountInfo": "معلومات الحساب",
   "orgInfo": "معلومات الشركة",
@@ -409,5 +409,12 @@
   "invitationPage.error": "آسف ، لا يمكنك الوصول إلى صفحة الدعوة",
   "requestApproval": "طلب موافقة",
   "declineInvitation": "تم رفض الدعوة",
-  "acceptInvitation": "تم قبول الدعوة"
+  "acceptInvitation": "تم قبول الدعوة",
+  "arName": "الاسم باللغة العربية",
+  "enName": "الاسم باللغة الانجليزية",
+  "arName.error.required": "يجب ادخال الاسم باللغة العربية",
+  "enName.error.required": "يجب ادخال الاسم باللغة الانجليزية",
+  "settings": "الاعدادات",
+  "view": "عرض",
+  "cities": "المدن"
 }
