@@ -38,7 +38,7 @@ export class AddressBookComponent extends DefaultListComponent<AddressBook, Addr
   set searchTerm(searchTerm: string) {
     this._searchTerm = searchTerm;
     if (searchTerm) {
-      this.service.searchTerm = `state:'*${searchTerm.toLowerCase()}*' OR city:'*${searchTerm.toLowerCase()}*'`;
+      this.service.searchTerm = `name:'*${searchTerm.toLowerCase()}*' OR city.enName:'*${searchTerm.toLowerCase()}*' OR city.arName:'*${searchTerm.toLowerCase()}*' OR city.state.enName:'*${searchTerm.toLowerCase()}*' OR city.state.arName:'*${searchTerm.toLowerCase()}*'`;
     } else {
       this.service.searchTerm = '';
     }

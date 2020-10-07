@@ -50,29 +50,33 @@ export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, 
       name: ['', [Validators.required, Validators.minLength(2)]],
       city: ['', [Validators.required]],
       state: ['', [Validators.required]],
-      phoneNumber: ['', [Validators.required, Validators.minLength(11), Validators.pattern(/(?<=\s|^)\d+(?=\s|$)/)]],
+      phoneNo: ['', [Validators.required, Validators.minLength(11), Validators.pattern(/(?<=\s|^)\d+(?=\s|$)/)]],
     });
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  ngAfterViewInit() {
     this.loadingService.register(this.key);
     this.stateService.pageSize = 30;
     this.stateService.searchTerm = '';
     this.stateService.model$.subscribe((res) => {
       this.states = res;
+      console.log(res[0]);
       this.route.params.pipe(map((params: Params) => params.entityId)).subscribe(
         (entityId) => {
           if (entityId) {
             this.onUpdate();
             this.service.get(entityId).subscribe(
               (entity) => {
-                this.cityService.searchParams = `stateId='${entity.city.state.id}'`;
+                this.cityService.searchParams = `stateId=${entity.city.state.id}`;
                 this.cityService.model$.subscribe((res) => {
                   this.cities = res;
-                  this.form?.patchValue(entity);
-                  this.entity = entity;
-                  this.loadingService.resolve(this.key);
                 });
+                this.form?.patchValue(entity);
+                console.log(entity.city.state);
+                this.entity = entity;
+                this.loadingService.resolve(this.key);
               },
               (err) => {
                 this.loadingService.resolve(this.key);
@@ -108,7 +112,7 @@ export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, 
       this.entity.name = this.form.controls.name.value;
       this.entity.lineOne = this.form.controls.lineOne.value;
       this.entity.lineTwo = this.form.controls.lineTwo.value;
-      this.entity.phoneNumber = this.form.controls.phoneNumber.value;
+      this.entity.phoneNo = this.form.controls.phoneNo.value;
       this.entity.city = this.form.controls.city.value;
       this.entity.city.state = this.form.controls.state.value;
       if (this.entity.id) {

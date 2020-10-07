@@ -6,5 +6,5 @@ import { AddressBook } from '../domain/address-book.model';
   providedIn: 'root',
 })
 export class AddressBookService extends RestService<AddressBook> {
-  resource = 'addressbook';
+  resource = 'address';
 }

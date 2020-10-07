@@ -9,8 +9,9 @@
               <div class="row">
                 <div class="form-group" [ngClass]="{'col-md-6':form.controls.state.value!=='','col-md-12':form.controls.state.value===''}">
                     <label>{{'state' | translate }} :&nbsp;</label>
-                    <select class="form-control " (ngModelChange)="stateChanged($event)" formControlName="state">
+                    <select class="form-control " [ngModel]="entity?.city?.state" (ngModelChange)="stateChanged($event)" formControlName="state">
                       <option value="" disabled >{{'pleaseSelectValue'|translate}}</option>
+                      <!-- <option    [ngValue]="entity?.city?.state">{{entity?.city?.state?.enName}}</option> -->
                       <option *ngFor="let state of states " [ngValue]="state">{{state.enName}}</option>
                     </select>
                     <div class="text-danger" *ngIf="form.controls.state.touched && !form.controls.state.valid">
@@ -69,15 +70,15 @@
                 </div>
                 <div class="col-md-12 form-group">
                     <label>{{'phoneNumber' | translate }} :&nbsp;</label>
-                    <input type="text" formControlName="phoneNumber" class="form-control ">
-                    <div class="text-danger" *ngIf="form.controls.phoneNumber.touched && !form.controls.phoneNumber.valid">
-                      <div *ngIf="form.controls.phoneNumber.errors.required">
+                    <input type="text" formControlName="phoneNo" class="form-control ">
+                    <div class="text-danger" *ngIf="form.controls.phoneNo.touched && !form.controls.phoneNo.valid">
+                      <div *ngIf="form.controls.phoneNo.errors.required">
                         {{'error.required'|translate}}
                       </div>
-                      <div *ngIf="form.controls.phoneNumber.errors.minlength">
+                      <div *ngIf="form.controls.phoneNo.errors.minlength">
                         {{'error.minlength'|translate:'{length:11}'}}
                       </div>
-                      <div *ngIf="form.controls.phoneNumber.errors.pattern">
+                      <div *ngIf="form.controls.phoneNo.errors.pattern">
                         {{'error.pattern'|translate}}
                       </div>
                     </div>
