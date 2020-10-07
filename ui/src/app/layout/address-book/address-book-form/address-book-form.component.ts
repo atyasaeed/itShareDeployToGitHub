@@ -16,16 +16,18 @@ import { Observable } from 'rxjs';
 import { State } from '../../../shared/domain/state.model';
 import { City } from '../../../shared/domain/city.model';
 import { CityService } from 'src/app/shared/services/city.service';
+import { StateService } from 'src/app/shared/services/state.service';
 @Component({
   selector: 'app-address-book-form',
   templateUrl: './address-book-form.component.html',
   styleUrls: ['./address-book-form.component.scss'],
   animations: [routerTransition()],
+  providers: [StateService, CityService],
 })
 export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, AddressBookService> implements OnInit {
   breadcrumbs = [{ heading: this.translate.instant('addressBook'), link: '/address-book' }, { heading: 'create' }];
-  states$ = new Observable<State[]>();
-  cities$ = new Observable<City[]>();
+  states: State[];
+  cities: City[];
   constructor(
     private translate: TranslateService,
     formBuilder: FormBuilder,
@@ -37,7 +39,8 @@ export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, 
     @Inject(APP_CONFIG) private appConfig: IAppConfig,
     private appStore: Store<fromStore.AppState>,
     private http: HttpClient,
-    private cityService: CityService
+    private cityService: CityService,
+    private stateService: StateService
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
     this.form = this.formBuilder.group({
@@ -47,15 +50,21 @@ export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, 
       state: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required, Validators.minLength(11), Validators.pattern(/(?<=\s|^)\d+(?=\s|$)/)]],
     });
-    this.states$ = this.http.get<State[]>('assets/state.json');
+    //this.states$ = this.http.get<State[]>('assets/state.json');
   }
 
-  // ngOnInit(): void {}
+  ngOnInit(): void {
+    this.stateService.pageSize = 30;
+    this.stateService.searchTerm = '';
+    this.stateService.model$.subscribe((res) => {
+      this.states = res;
+    });
+  }
 
   stateChanged(e) {
-    console.log(e.target.value);
-    this.cityService.getCitiesOfState(e.target.value).subscribe((res) => {
-      console.log(res);
+    this.cityService.searchTerm = `state.id:'${e.target.value}'`;
+    this.cityService.model$.subscribe((res) => {
+      this.cities = res;
     });
   }
 

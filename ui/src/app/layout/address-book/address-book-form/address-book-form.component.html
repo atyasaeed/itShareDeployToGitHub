@@ -1,7 +1,7 @@
 <div [@routerTransition] class="p-3">
   <app-page-header  [breadCrumbs]="breadcrumbs"></app-page-header>
   <div  class="custom-card p-3 f-weight-600">
-    <form *ngIf="entity" [formGroup]='form' (ngSubmit)="save()">
+    <form  [formGroup]='form' (ngSubmit)="save()">
       <div class="container-fluid">
         <div *tdLoading="'loading';strategy:'overlay'" class=" row">
           <div class="col-md-6">
@@ -11,7 +11,7 @@
                     <label>{{'state' | translate }} :&nbsp;</label>
                     <select class="form-control " (change)="stateChanged($event)" formControlName="state">
                       <option value="" disabled >{{'pleaseSelectValue'|translate}}</option>
-                      <option *ngFor="let state of states$ | async" [value]="state.id">{{state.enName}}</option>
+                      <option *ngFor="let state of states " [value]="state.id">{{state.enName}}</option>
                     </select>
                     <div class="text-danger" *ngIf="form.controls.state.touched && !form.controls.state.valid">
                       <div *ngIf="form.controls.state.errors.required">
