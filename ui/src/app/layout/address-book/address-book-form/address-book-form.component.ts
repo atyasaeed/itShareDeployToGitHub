@@ -18,6 +18,7 @@ import { City } from '../../../shared/domain/city.model';
 import { CityService } from 'src/app/shared/services/city.service';
 import { StateService } from 'src/app/shared/services/state.service';
 import { map } from 'rxjs/operators';
+import { getLang } from 'src/app/store';
 @Component({
   selector: 'app-address-book-form',
   templateUrl: './address-book-form.component.html',
@@ -29,6 +30,7 @@ export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, 
   breadcrumbs = [{ heading: this.translate.instant('addressBook'), link: '/address-book' }, { heading: 'create' }];
   states: State[];
   cities: City[];
+  lang: string;
   constructor(
     private translate: TranslateService,
     formBuilder: FormBuilder,
@@ -52,6 +54,9 @@ export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, 
       state: ['', [Validators.required]],
       phoneNo: ['', [Validators.required, Validators.minLength(11), Validators.pattern(/(?<=\s|^)\d+(?=\s|$)/)]],
     });
+    this.appStore.select(getLang).subscribe((res) => {
+      this.lang = res;
+    });
   }
 
   ngOnInit(): void {}
@@ -69,10 +74,9 @@ export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, 
             this.service.get(entityId).subscribe(
               (entity) => {
                 this.cityService.searchParams = `stateId=${entity.city.state.id}`;
-                // this.cityService.model$.subscribe((res) => {
-                //   this.cities = res;
-                //   this.form.controls.city.setValue(entity.city, { onlySelf: true });
-                // });
+                this.cityService.model$.subscribe((res) => {
+                  this.cities = res;
+                });
                 this.form.patchValue(entity);
                 this.form.controls.state.setValue(entity.city.state);
                 this.entity = entity;
@@ -95,17 +99,12 @@ export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, 
     });
   }
 
-  stateChanged(e: State) {
-    this.cityService.searchParams = `stateId=${e.id}`;
+  stateChanged(state: State) {
+    this.cityService.searchParams = `stateId=${state.id}`;
     this.cityService.model$.subscribe((res) => {
       this.cities = res;
-      if (this.entity?.id) {
-        this.form.controls.city.setValue(this.entity?.city, { onlySelf: true });
-        //this.form.controls.city.setValue('');
-      } else {
-        this.form.controls.city.setValue('');
-        this.form.controls.city.markAsUntouched();
-      }
+      this.form.controls.city.setValue('');
+      this.form.controls.city.markAsUntouched();
     });
   }
 

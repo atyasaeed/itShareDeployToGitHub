@@ -18,7 +18,7 @@
       <div class="row ">
         <div  class="col-md-3 mb-3 " *ngFor="let entity of entities$ | async; let i=index">
           <div class="p-3 custom-card flex-column  d-flex h-100 position-relative">
-            <div class="custom-control custom-radio my-auto ">
+            <!-- <div class="custom-control custom-radio my-auto ">
               <input (change)="setPrimeAddress(entity)" name="address-book" class="custom-control-input f-size-18" type="radio" id="'address_'{{entity.id}}" >
               <label for="'address_'{{entity.id}}" class="custom-control-label">
                 <span class="f-weight-600 site-color-v3">
@@ -33,6 +33,19 @@
                   {{entity.name}}
                 </div>
               </label>
+            </div> -->
+            <div>
+              <span class="f-weight-600 site-color-v3">
+                <ng-container *ngIf="lang==='en'">
+                  {{entity.city.state.enName}}-{{entity.city.enName}}
+                </ng-container>
+                <ng-container *ngIf="lang==='ar'">
+                  {{entity.city.state.arName}}-{{entity.city.arName}}
+                </ng-container>
+              </span>
+              <div class="text-grey f-weight-400">
+                {{entity.name}}
+              </div>
             </div>
             <div class="border-top mt-2 pt-2">
               <span [routerLink]="entity.id" class="cursor-pointer site-color-v1">{{'edit'|translate}}</span>

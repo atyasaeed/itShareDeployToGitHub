@@ -407,5 +407,7 @@
   "emailNotFound": "هذا المستخدم غير موجود",
   "duplicatedOrganizationUser": "هذا المستخدم موجود بالفعل",
   "invitationPage.error": "آسف ، لا يمكنك الوصول إلى صفحة الدعوة",
-  "requestApproval": "طلب موافقة"
+  "requestApproval": "طلب موافقة",
+  "declineInvitation": "تم رفض الدعوة",
+  "acceptInvitation": "تم قبول الدعوة"
 }

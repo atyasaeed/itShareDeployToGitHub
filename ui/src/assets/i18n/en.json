@@ -410,5 +410,7 @@
   "emailNotFound": "This user does not exist",
   "duplicatedOrganizationUser": "This user already exists",
   "invitationPage.error": "Sorry , You can not access invitation page",
-  "requestApproval": "Request for Approval"
+  "requestApproval": "Request for Approval",
+  "declineInvitation":"Invitation Declinded",
+  "acceptInvitation":"Invitation Accepted"
 }
