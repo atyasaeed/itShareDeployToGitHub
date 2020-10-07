@@ -1,0 +1,71 @@
+<div class="p-4">
+  <div [@routerTransition]>
+    <app-page-header [breadCrumbs]="breadcrumbs"></app-page-header>
+    <form>
+      <div class="form-group form-inline row">
+        <div class="col-md-9">
+          <span class="site-color-v5 f-size-20 f-weight-600">
+            {{'governorate'|translate}}
+          </span>
+          <input class="search-input form-control " [class.rtl]="lang==='ar'" type="text"
+            placeholder="{{'Search'|translate}}" name="searchTerm" [(ngModel)]="searchTerm" />
+          <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
+        </div>
+        <div class="col-md-3 text-right">
+          <a routerLink="governorate-form" class="btn btn-success">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+          </a>
+        </div>
+
+      </div>
+      <div class="table-responsive">
+        <table class="table " *tdLoading="'loading'">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+
+              <th scope="col" sortable="arName" (sort)="onSort($event)">{{'arName'|translate}}</th>
+              <th scope="col" sortable="enName" (sort)="onSort($event)">{{'enName'|translate}}</th>
+
+              <th></th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let entity of cities ; let i=index">
+              <th scope="row">{{ i+1 }}</th>
+              <td>
+                <ngb-highlight [result]="entity.arName" [term]="searchTerm">
+                </ngb-highlight>
+              </td>
+
+              <td>
+                <ngb-highlight [result]="entity.enName | titlecase" [term]="searchTerm">
+                </ngb-highlight>
+              </td>
+
+              <td>
+                <a [routerLink]="entity.id"><i class="fa fa-fw fa-edit"></i></a>&nbsp;
+                <a class="text-danger" (click)="purge(entity)" href="javascript:void(0)"><i
+                    class="far fa-trash-alt"></i></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+      <div class="d-flex justify-content-between p-2">
+        <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize">
+        </ngb-pagination>
+
+        <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
+          <option [ngValue]="10">10 items per page</option>
+          <option [ngValue]="25">25 items per page</option>
+          <option [ngValue]="50">50 items per page</option>
+        </select>
+      </div>
+
+    </form>
+  </div>
+</div>

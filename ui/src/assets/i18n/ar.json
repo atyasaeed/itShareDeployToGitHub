@@ -398,5 +398,9 @@
   "emailNotFound": "هذا المستخدم غير موجود",
   "duplicatedOrganizationUser": "هذا المستخدم موجود بالفعل",
   "invitationPage.error": "آسف ، لا يمكنك الوصول إلى صفحة الدعوة",
-  "requestApproval": "طلب موافقة"
+  "requestApproval": "طلب موافقة",
+  "arName": "الاسم باللغة العربية",
+  "enName": "الاسم باللغة الانجليزية",
+  "arName.error.required": "يجب ادخال الاسم باللغة العربية",
+  "enName.error.required": "يجب ادخال الاسم باللغة الانجليزية"
 }

@@ -1,0 +1,50 @@
+<div [@routerTransition] class="p-4">
+  <app-page-header [breadCrumbs]="breadcrumbs">
+  </app-page-header>
+  <form [formGroup]='form' (ngSubmit)="save()">
+    <div *tdLoading="'loadingUser'" class="p-3 row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="ArName" class="brand font-weight-bold">{{"arName"|translate}}</label>
+          <input type="text" class="form-control f-size-14 text-grey f-weight-500" id="ArName"
+            placeholder="{{ 'arName' | translate }}" formControlName="arName" #arName>
+          <div *ngIf="hasError('arName')" class="text-danger">
+            {{'arName.error.required' |translate}}
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="EnName" class="brand font-weight-bold">{{"enName"|translate}}</label>
+          <input type="text" class="form-control f-size-14 text-grey f-weight-500" id="EnName"
+            placeholder="{{ 'enName' | translate }}" formControlName="enName" #enName>
+          <div *ngIf="hasError('enName')" class="text-danger">
+            {{'enName.error.required' |translate}}
+          </div>
+        </div>
+        <div class="form-group" formGroupName="state">
+          <label>{{ 'governorate' | translate }}</label>
+          <select class="form-control input-underline input-lg" formControlName="id" #city>
+            <option [value]="city.id" class="d-none"><span *ngIf="lang=='en'">{{city?.enName}}</span>
+              <span *ngIf="lang!=='en'">{{city?.arName}}</span></option>
+            <!-- <option *ngFor="let city of cities" [value]='city?.id'>
+              <span *ngIf="lang=='en'">{{city?.enName}}</span>
+              <span *ngIf="lang!=='en'">{{city?.arName}}</span></option> -->
+          </select>
+          <!-- <div *ngIf="form.controls.city.touched && !form.controls.city.valid" class="text-danger text-center">
+            <div class="text-center" *ngIf="form.controls.city.errors.required">
+              {{ 'governorate.error.required' | translate }}
+            </div>
+          </div> -->
+        </div>
+
+        <div class="form-group">
+
+          <button type="button" class="custom-btn custom-btn.v1 site-color-v3 f-size-16 font-weight-bold"
+            (click)="cancel()">{{'cancel'|translate}}</button> &nbsp;
+          <button type="submit" class="custom-btn v1 custom-bg  f-size-16 font-weight-bold"
+            [disabled]="f().invalid">{{'SaveUpdate'|translate}}</button>
+          <!-- <button type="button" *ngIf="entity.enabled" (click)="status(entity)" mat-raised-button color="warn">{{'Disable'|translate}}</button> -->
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
