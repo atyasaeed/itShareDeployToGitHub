@@ -9,6 +9,8 @@ import { ReasonService } from 'src/app/shared/services/reason.service';
 import { StateService } from 'src/app/shared/services/state.service';
 import { routerTransition } from 'src/app/router.animations';
 import { HttpClient } from '@angular/common/http';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-states',
@@ -24,7 +26,9 @@ export class StatesComponent extends DefaultListComponent<State, StateService> i
     service: StateService,
     loadingService: TdLoadingService,
     private appStore: Store<fromStore.AppState>,
-    private http: HttpClient
+    private http: HttpClient,
+    private translate: TranslateService,
+    private toastr: ToastrService
   ) {
     super(service, loadingService);
     this.appStore.select(getLang).subscribe((res) => {
@@ -42,5 +46,16 @@ export class StatesComponent extends DefaultListComponent<State, StateService> i
   }
   get searchTerm() {
     return this._searchTerm;
+  }
+
+  delete(entity) {
+    this.purge(entity).subscribe(
+      (result) => {},
+      (err) => {
+        if (err.error.typeMessage === 'error.dataError') {
+          this.toastr.error(this.translate.instant('delete.error'));
+        }
+      }
+    );
   }
 }
