@@ -291,7 +291,7 @@
   "statusReason.error.required": "يجب الاخطار بالسبب",
   "organizations": "الشركات",
   "mobileNo": "المحمول",
-  "city": "المدينه",
+  "city": "المدينة",
   "owner": "المالك",
   "accountInfo": "معلومات الحساب",
   "orgInfo": "معلومات الشركة",
@@ -402,5 +402,8 @@
   "arName": "الاسم باللغة العربية",
   "enName": "الاسم باللغة الانجليزية",
   "arName.error.required": "يجب ادخال الاسم باللغة العربية",
-  "enName.error.required": "يجب ادخال الاسم باللغة الانجليزية"
+  "enName.error.required": "يجب ادخال الاسم باللغة الانجليزية",
+  "settings": "الاعدادات",
+  "view": "عرض",
+  "cities": "المدن"
 }

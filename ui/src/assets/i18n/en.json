@@ -405,5 +405,8 @@
   "arName": "Arabic name",
   "enName": "English name",
   "arName.error.required": "Arabic name is required",
-  "enName.error.required": "English name is required"
+  "enName.error.required": "English name is required",
+  "settings": "Settings",
+  "view": "View",
+  "cities": "Cities"
 }

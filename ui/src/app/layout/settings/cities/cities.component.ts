@@ -46,7 +46,7 @@ export class CitiesComponent extends DefaultListComponent<City, CityService> imp
   set searchTerm(searchTerm: string) {
     this._searchTerm = searchTerm;
     if (searchTerm) {
-      this.service.searchTerm = `arName:'*${searchTerm}*' OR enName:'*${searchTerm.toLowerCase()}*'OR state.id:'*${searchTerm.toLowerCase()}*' `;
+      this.service.searchTerm = `arName:'*${searchTerm}*' OR enName:'*${searchTerm.toLowerCase()} `;
     } else {
       this.service.searchTerm = '';
     }
