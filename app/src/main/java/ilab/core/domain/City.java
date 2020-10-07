@@ -1,6 +1,5 @@
 package ilab.core.domain;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
@@ -17,7 +16,9 @@ public class City extends AbstractEntity<City>
 	private String name;
 
 	@ManyToOne
-	private State governorate;
+	private State state;
+
+
 
 	public String getName()
 	{
@@ -29,14 +30,14 @@ public class City extends AbstractEntity<City>
 		this.name = name;
 	}
 
-	public State getGovernorate()
+	public State getState()
 	{
-		return governorate;
+		return state;
 	}
 
-	public void setGovernorate(State governorate)
+	public void setState(State state)
 	{
-		this.governorate = governorate;
+		this.state = state;
 	}
 
 }
