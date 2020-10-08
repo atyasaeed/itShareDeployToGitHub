@@ -18,7 +18,7 @@
                         {{lang==='en'? (state.enName):(state.arName)}}
                       </option>
                     </select>
-                    <div class="text-danger" *ngIf="form.controls.state.touched && !form.controls.state.valid">
+                    <div class="text-danger" *ngIf="hasError('state')">
                       <div *ngIf="form.controls.state.errors.required">
                         {{'error.required'|translate}}
                       </div>
@@ -35,7 +35,7 @@
                         {{lang==='en'? (city.enName):(city.arName)}}
                       </option>
                     </select>
-                    <div class="text-danger" *ngIf="form.controls.city.touched && !form.controls.city.valid">
+                    <div class="text-danger" *ngIf="hasError('city')">
                       <div *ngIf="form.controls.city.errors.required">
                         {{'error.required'|translate}}
                       </div>
@@ -44,7 +44,7 @@
                 <div class="col-md-12 form-group" >
                     <label>{{'lineOne' | translate }} :&nbsp;</label>
                     <input type="text" formControlName="lineOne" class="form-control ">
-                    <div class="text-danger" *ngIf="form.controls.lineOne.touched && !form.controls.lineOne.valid">
+                    <div class="text-danger" *ngIf="hasError('lineOne')">
                       <div *ngIf="form.controls.lineOne.errors.required">
                         {{'error.required'|translate}}
                       </div>
@@ -56,7 +56,7 @@
                 <div class="col-md-12 form-group">
                     <label>{{'lineTwo' | translate }} :&nbsp;</label>
                     <input type="text" formControlName="lineTwo" class="form-control ">
-                    <div class="text-danger" *ngIf="form.controls.lineTwo.touched && !form.controls.lineTwo.valid">
+                    <div class="text-danger" *ngIf="hasError('lineTwo')">
                       <div *ngIf="form.controls.lineTwo.errors.required">
                         {{'error.required'|translate}}
                       </div>
@@ -68,7 +68,7 @@
                 <div class="col-md-12 form-group">
                     <label>{{'name' | translate }} :&nbsp;</label>
                     <input type="text" formControlName="name" class="form-control ">
-                    <div class="text-danger" *ngIf="form.controls.name.touched && !form.controls.name.valid">
+                    <div class="text-danger" *ngIf="hasError('name')">
                       <div *ngIf="form.controls.name.errors.required">
                         {{'error.required'|translate}}
                       </div>
@@ -80,7 +80,7 @@
                 <div class="col-md-12 form-group">
                     <label>{{'phoneNumber' | translate }} :&nbsp;</label>
                     <input type="text" formControlName="phoneNo" class="form-control ">
-                    <div class="text-danger" *ngIf="form.controls.phoneNo.touched && !form.controls.phoneNo.valid">
+                    <div class="text-danger" *ngIf="hasError('phoneNo')">
                       <div *ngIf="form.controls.phoneNo.errors.required">
                         {{'error.required'|translate}}
                       </div>
