@@ -12,7 +12,6 @@ import * as fromStore from 'src/app/store';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import { routerTransition } from 'src/app/router.animations';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { State } from '../../../shared/domain/state.model';
 import { City } from '../../../shared/domain/city.model';
 import { CityService } from 'src/app/shared/services/city.service';
@@ -57,55 +56,97 @@ export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, 
     this.appStore.select(getLang).subscribe((res) => {
       this.lang = res;
     });
+    this.stateService.pageSize = 5;
+    this.stateService.searchTerm = '';
+    this.stateService.model$.subscribe(
+      (res) => {
+        this.states = res;
+        this.loadingService.resolve(this.key);
+      },
+      (err) => {
+        this.loadingService.resolve(this.key);
+      }
+    );
+    this.cityService.pageSize = 5;
+    this.cityService.model$.subscribe(
+      (res) => {
+        this.cities = res;
+        this.loadingService.resolve(this.key);
+      },
+      (err) => {
+        this.loadingService.resolve(this.key);
+      }
+    );
   }
 
-  ngOnInit(): void {}
-
-  ngAfterViewInit() {
+  ngOnInit(): void {
     this.loadingService.register(this.key);
-    this.stateService.pageSize = 30;
-    this.stateService.searchTerm = '';
-    this.stateService.model$.subscribe((res) => {
-      this.states = res;
-      this.route.params.pipe(map((params: Params) => params.entityId)).subscribe(
-        (entityId) => {
-          if (entityId) {
-            this.onUpdate();
-            this.service.get(entityId).subscribe(
-              (entity) => {
-                this.cityService.searchParams = `stateId=${entity.city.state.id}`;
-                this.cityService.model$.subscribe((res) => {
-                  this.cities = res;
-                });
-                this.form.patchValue(entity);
-                this.form.controls.state.setValue(entity.city.state);
-                this.entity = entity;
-                this.loadingService.resolve(this.key);
-              },
-              (err) => {
-                this.loadingService.resolve(this.key);
-              }
-            );
-          } else {
-            this.onCreate();
-            this.entity = {} as AddressBook;
-            this.loadingService.resolve(this.key);
-          }
-        },
-        (err) => {
+    this.route.params.pipe(map((params: Params) => params.entityId)).subscribe(
+      (entityId) => {
+        if (entityId) {
+          this.onUpdate();
+          this.service.get(entityId).subscribe(
+            (entity) => {
+              this.cityService.searchParams = `stateId=${entity.city.state.id}`;
+              this.cityService.searchTerm = `id:'*${entity.city.id}*'`;
+              this.form.patchValue(entity);
+              this.form.controls.state.setValue(entity.city.state.id);
+              this.form.controls.city.setValue(entity.city.id);
+              this.entity = entity;
+              this.loadingService.resolve(this.key);
+            },
+            (err) => {
+              this.loadingService.resolve(this.key);
+            }
+          );
+        } else {
+          this.onCreate();
+          this.entity = {} as AddressBook;
+          this.entity.city = {} as City;
+          this.entity.city.state = {} as State;
           this.loadingService.resolve(this.key);
         }
-      );
-    });
+      },
+      (err) => {
+        this.loadingService.resolve(this.key);
+      }
+    );
   }
 
-  stateChanged(state: State) {
-    this.cityService.searchParams = `stateId=${state.id}`;
-    this.cityService.model$.subscribe((res) => {
-      this.cities = res;
-      this.form.controls.city.setValue('');
-      this.form.controls.city.markAsUntouched();
-    });
+  stateChanged(id: string) {
+    this.loadingService.register(this.key);
+    this.cityService.searchParams = `stateId=${id}`;
+    this.form.controls.city.setValue('');
+    this.form.controls.city.markAsUntouched();
+  }
+
+  stateFilter(e) {
+    if (e.term.toLowerCase()) {
+      this.stateService.searchTerm = `enName:'*${e.term.toLowerCase()}*' OR arName:'*${e.term.toLowerCase()}*'`;
+    } else {
+      this.stateService.searchTerm = '';
+    }
+  }
+
+  allStates() {
+    this.loadingService.register(this.key);
+    this.stateService.searchTerm = '';
+  }
+
+  allCities() {
+    this.loadingService.register(this.key);
+    this.cityService.searchTerm = '';
+    this.cityService.searchParams = `stateId=${this.form.controls.state.value}`;
+  }
+
+  cityFilter(e) {
+    if (e.term.toLowerCase()) {
+      this.cityService.searchTerm = `enName:'*${e.term.toLowerCase()}*' OR arName:'*${e.term.toLowerCase()}*'`;
+      this.cityService.searchParams = `stateId=${this.form.controls.state.value}`;
+    } else {
+      this.cityService.searchTerm = '';
+      this.cityService.searchParams = `stateId=${this.form.controls.state.value}`;
+    }
   }
 
   save() {
@@ -117,8 +158,8 @@ export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, 
       this.entity.lineOne = this.form.controls.lineOne.value;
       this.entity.lineTwo = this.form.controls.lineTwo.value;
       this.entity.phoneNo = this.form.controls.phoneNo.value;
-      this.entity.city = this.form.controls.city.value;
-      this.entity.city.state = this.form.controls.state.value;
+      this.entity.city.id = this.form.controls.city.value;
+      this.entity.city.state.id = this.form.controls.state.value;
       if (this.entity.id) {
         this.service.update(this.entity).subscribe(
           (response) => {

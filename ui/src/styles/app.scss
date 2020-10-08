@@ -2,6 +2,7 @@
 @import "spinner";
 @import "_rtl";
 @import "_responsive";
+@import "~@ng-select/ng-select/themes/default.theme.css";
 
 $topnav-background-color:  #F7F8F9 0% 0% no-repeat padding-box;
 $lightGreyBackground:#e9ecef;
@@ -415,7 +416,7 @@ body{
   cursor: pointer;
 }
 
-.form-control{
+.form-control,.ng-select{
   color: $textGrey !important;
   font-size: 14px !important;
   font-weight: 400 !important;

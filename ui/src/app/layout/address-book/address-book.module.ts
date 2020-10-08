@@ -11,6 +11,7 @@ import { CovalentLoadingModule } from '@covalent/core/loading';
 import { CovalentDialogsModule } from '@covalent/core/dialogs';
 import { SharedModule } from 'src/app/shared/modules/shared/shared.module';
 import { ModalModule } from 'ngx-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [AddressBookComponent, AddressBookFormComponent],
@@ -26,6 +27,7 @@ import { ModalModule } from 'ngx-bootstrap';
     FormsModule,
     SharedModule,
     ModalModule.forRoot(),
+    NgSelectModule,
   ],
 })
 export class AddressBookModule {}

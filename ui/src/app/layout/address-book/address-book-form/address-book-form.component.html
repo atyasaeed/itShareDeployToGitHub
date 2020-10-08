@@ -9,15 +9,11 @@
               <div class="row">
                 <div class="form-group" [ngClass]="{'col-md-6':form.controls.state.value!=='','col-md-12':form.controls.state.value===''}">
                     <label>{{'state' | translate }} :&nbsp;</label>
-                    <select class="form-control"   formControlName="state">
-                      <option value="" disabled >{{'pleaseSelectValue'|translate}}</option>
-                      <option class="d-none" [value]="entity?.city?.state">
-                        {{lang==='en'? (entity?.city?.state?.enName): (entity?.city?.state?.arName)}}
-                      </option>
-                      <option *ngFor="let state of states " (click)="stateChanged(state)" [ngValue]="state">
+                    <ng-select (open)="allStates()" [clearable]="false" formControlName="state" (change)="stateChanged($event)" (search)="stateFilter($event)">
+                      <ng-option *ngFor="let state of states "  [value]="state.id">
                         {{lang==='en'? (state.enName):(state.arName)}}
-                      </option>
-                    </select>
+                      </ng-option>
+                    </ng-select>
                     <div class="text-danger" *ngIf="hasError('state')">
                       <div *ngIf="form.controls.state.errors.required">
                         {{'error.required'|translate}}
@@ -26,15 +22,11 @@
                 </div>
                 <div class="col-md-6 form-group" *ngIf="form.controls.state.value!==''">
                     <label>{{'city' | translate }} :&nbsp;</label>
-                    <select class="form-control " formControlName="city">
-                      <option value="" disabled >{{'pleaseSelectValue'|translate}}</option>
-                      <option class="d-none" [value]="entity?.city">
-                        {{lang==='en'? (entity?.city?.enName):(entity?.city?.arName)}}
-                      </option>
-                      <option *ngFor="let city of cities " [ngValue]="city">
+                    <ng-select formControlName="city" (open)="allCities()" [clearable]="false" (search)="cityFilter($event)">
+                      <ng-option *ngFor="let city of cities "  [value]="city.id">
                         {{lang==='en'? (city.enName):(city.arName)}}
-                      </option>
-                    </select>
+                      </ng-option>
+                    </ng-select>
                     <div class="text-danger" *ngIf="hasError('city')">
                       <div *ngIf="form.controls.city.errors.required">
                         {{'error.required'|translate}}
