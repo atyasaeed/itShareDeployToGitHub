@@ -113,16 +113,20 @@ export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, 
     );
   }
 
-  stateChanged(id: string) {
+  stateChanged(state: State) {
     this.loadingService.register(this.key);
-    this.cityService.searchParams = `stateId=${id}`;
+    this.cityService.searchParams = `stateId=${state.id}`;
     this.form.controls.city.setValue('');
     this.form.controls.city.markAsUntouched();
   }
 
   stateFilter(e) {
     if (e.term.toLowerCase()) {
-      this.stateService.searchTerm = `enName:'*${e.term.toLowerCase()}*' OR arName:'*${e.term.toLowerCase()}*'`;
+      if (this.lang === 'en') {
+        this.stateService.searchTerm = `enName:'*${e.term.toLowerCase()}*'`;
+      } else {
+        this.stateService.searchTerm = `arName:'*${e.term.toLowerCase()}*'`;
+      }
     } else {
       this.stateService.searchTerm = '';
     }
@@ -141,7 +145,11 @@ export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, 
 
   cityFilter(e) {
     if (e.term.toLowerCase()) {
-      this.cityService.searchTerm = `enName:'*${e.term.toLowerCase()}*' OR arName:'*${e.term.toLowerCase()}*'`;
+      if (this.lang === 'en') {
+        this.cityService.searchTerm = `enName:'*${e.term.toLowerCase()}*'`;
+      } else {
+        this.cityService.searchTerm = `arName:'*${e.term.toLowerCase()}*'`;
+      }
       this.cityService.searchParams = `stateId=${this.form.controls.state.value}`;
     } else {
       this.cityService.searchTerm = '';

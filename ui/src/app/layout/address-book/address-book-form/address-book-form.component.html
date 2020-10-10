@@ -9,10 +9,21 @@
               <div class="row">
                 <div class="form-group" [ngClass]="{'col-md-6':form.controls.state.value!=='','col-md-12':form.controls.state.value===''}">
                     <label>{{'state' | translate }} :&nbsp;</label>
-                    <ng-select (open)="allStates()" [clearable]="false" formControlName="state" (change)="stateChanged($event)" (search)="stateFilter($event)">
-                      <ng-option *ngFor="let state of states "  [value]="state.id">
-                        {{lang==='en'? (state.enName):(state.arName)}}
-                      </ng-option>
+                    <ng-select
+                        formControlName="state"
+                        [items]="states"
+                        [bindLabel]="lang==='en'? 'enName':'arName'"
+                        bindValue="id"
+                        (open)="allStates()"
+                        [clearable]="false"
+                        (change)="stateChanged($event)"
+                        (search)="stateFilter($event)">
+                          <ng-template ng-label-tmp let-item="item">
+                              <span >{{ lang==='en'?(item.enName):(item.arName) }}</span>
+                          </ng-template>
+                          <ng-template ng-option-tmp let-item="item" let-search="searchTerm" let-index="index">
+                                <span >{{ lang==='en'?(item.enName):(item.arName) }}</span>
+                          </ng-template>
                     </ng-select>
                     <div class="text-danger" *ngIf="hasError('state')">
                       <div *ngIf="form.controls.state.errors.required">
@@ -22,10 +33,20 @@
                 </div>
                 <div class="col-md-6 form-group" *ngIf="form.controls.state.value!==''">
                     <label>{{'city' | translate }} :&nbsp;</label>
-                    <ng-select formControlName="city" (open)="allCities()" [clearable]="false" (search)="cityFilter($event)">
-                      <ng-option *ngFor="let city of cities "  [value]="city.id">
-                        {{lang==='en'? (city.enName):(city.arName)}}
-                      </ng-option>
+                    <ng-select
+                        formControlName="city"
+                        [items]="cities"
+                        [bindLabel]="lang==='en'? 'enName':'arName'"
+                        bindValue="id"
+                        (open)="allCities()"
+                        [clearable]="false"
+                        (search)="cityFilter($event)">
+                         <ng-template ng-label-tmp let-item="item">
+                              <span >{{ lang==='en'?(item.enName):(item.arName) }}</span>
+                          </ng-template>
+                          <ng-template ng-option-tmp let-item="item" let-search="searchTerm" let-index="index">
+                                <span >{{ lang==='en'?(item.enName):(item.arName) }}</span>
+                          </ng-template>
                     </ng-select>
                     <div class="text-danger" *ngIf="hasError('city')">
                       <div *ngIf="form.controls.city.errors.required">

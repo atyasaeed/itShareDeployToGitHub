@@ -416,7 +416,8 @@ body{
   cursor: pointer;
 }
 
-.form-control,.ng-select{
+.form-control,.ng-select,.ng-select.ng-select-single .ng-select-container .ng-value-container,
+.ng-select.ng-select-single .ng-select-container .ng-value-container .ng-value{
   color: $textGrey !important;
   font-size: 14px !important;
   font-weight: 400 !important;
