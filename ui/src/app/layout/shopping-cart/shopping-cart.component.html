@@ -16,11 +16,11 @@
                     <!-- One Item Row -->
                     <div class="custom-card  p-3 mt-4" *ngFor="let entity of items;let i =index">
                       <div class="row">
-                        <div class="col-md-3 service-image mb-2">
+                        <div class="col-md-3 text-center service-image mb-2">
                           <img class="img-fluid " [src]="appConfig.FILE_URL + entity.files[0].asset_id"
                             *ngIf="getFileExtension(entity) == 'image';else stlExtension">
                           <ng-template #stlExtension>
-                            <div *ngIf="getFileExtension(entity) == 'stl';else serviceImage">
+                            <div class="text-center" *ngIf="getFileExtension(entity) == 'stl';else serviceImage">
 
                               <img class="img-fluid " [src]="appConfig.serviceImage(entity.service)">
                               <app-stl-modal [stlPath]="appConfig.FILE_URL + entity.files[0].asset_id"></app-stl-modal>

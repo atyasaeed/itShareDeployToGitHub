@@ -51,11 +51,11 @@
           <li class="nav-item  my-auto">
 
             <div class="btn-group pointer position-relative" dropdown>
-              <a dropdownToggle *englishLang class="dropdown-toggle nav-link f-size-16 f-weight-600 custom-align ">
+              <a dropdownToggle *ngIf="lang==='en'" class="dropdown-toggle nav-link f-size-16 f-weight-600 custom-align ">
 
                 {{ 'english' | translate }}
               </a>
-              <a dropdownToggle *arabicLang class="dropdown-toggle nav-link f-size-16 f-weight-600 custom-align ">
+              <a dropdownToggle *ngIf="lang==='ar'" class="dropdown-toggle nav-link f-size-16 f-weight-600 custom-align ">
 
                 {{ 'arabic' | translate }}
               </a>
