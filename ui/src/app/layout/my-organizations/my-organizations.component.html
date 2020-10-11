@@ -1,13 +1,13 @@
 <div class="p-4" [@routerTransition]>
-  <app-page-header  [breadCrumbs]="breadcrumbs"></app-page-header>
+  <app-page-header [breadCrumbs]="breadcrumbs"></app-page-header>
   <form>
     <div class="form-group form-inline row">
       <div class="col-md-6">
         <span class="site-color-v5 f-size-20 f-weight-600">
           {{'myOrganizations'|translate}}
         </span>
-        <input class="search-input form-control " [class.rtl]="lang==='ar'" type="text" placeholder="{{'Search'|translate}}" name="searchTerm"
-          [(ngModel)]="searchTerm" />
+        <input class="search-input form-control " [class.rtl]="lang==='ar'" type="text"
+          placeholder="{{'Search'|translate}}" name="searchTerm" [(ngModel)]="searchTerm" />
         <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
       </div>
     </div>
@@ -42,6 +42,7 @@
             <td>
               {{entity.role}}
             </td>
+            <td></td>
 
           </tr>
         </tbody>

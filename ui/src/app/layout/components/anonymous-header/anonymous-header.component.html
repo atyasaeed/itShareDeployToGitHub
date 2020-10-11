@@ -15,18 +15,12 @@
 
     <div class="collapse navbar-collapse col-md-10" [class.show]="isOpen">
       <ul class="navbar-nav   f-size-16 f-weight-600 w-100 row">
-        <div class="col-lg-6 d-flex justify-content-around">
+        <div class="col-lg-5 d-flex justify-content-around">
 
           <li class="nav-item">
             <a class="site-color-v2 nav-link f-size-16 f-weight-600 custom-align "
               [routerLink]="'/shopping-cart/CartItem'" fragment="service">
               {{ 'service' | translate }}
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="site-color-v2 nav-link f-size-16 f-weight-600 custom-align" [routerLink]="'/gallery'"
-              fragment="gallery">
-              {{ 'gallery' | translate }}
             </a>
           </li>
           <li class="nav-item">
@@ -36,7 +30,7 @@
             </a>
           </li>
         </div>
-        <div class="col-lg-6 d-flex justify-content-around">
+        <div class="col-lg-7 d-flex justify-content-around">
           <li class="nav-item my-auto">
             <a class="dropdown-item custom-btn v1 custom-align" [routerLink]="'/login'">
               {{ 'Login' | translate }}

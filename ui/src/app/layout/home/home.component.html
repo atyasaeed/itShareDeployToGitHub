@@ -5,7 +5,7 @@
         <div class="container">
           <div class="row py-5 px-3  landing-page-section">
             <div class="col-md-6 my-auto">
-              <h3 class="f-weight-700 f-size-30 site-color-v2">{{'landingPageTitle'|translate}}</h3>
+              <h3 class="f-weight-700 f-size-30 site-color-v2">{{'welcomeDescription'|translate}}</h3>
               <p class="text-grey mt-4">
                 {{'landingPageText'|translate}}
               </p>
@@ -87,20 +87,37 @@
     </div>
   </div>
   <div *isAuth>
-    <div class="container-fluid ">
+    <div class="container-fluid">
       <div class="row py-4">
         <div class="col-md-12">
           <div class="welcome-section px-5">
             <div>
               <h6 class="f-size-30 f-weight-600">{{'welcomeTitle'|translate}}</h6>
               <p>{{'welcomeDescription'|translate}}</p>
+
             </div>
             <div>
             </div>
           </div>
         </div>
-        <div class="col-md-3"></div>
-        <div class="col-md-6 mt-4">
+        <div class="col-md-3" *notPartner></div>
+        <div class="col-md-6 mt-4" *isPartner>
+          <div class="custom-card px-5 py-4 text-center">
+            <h6 class="f-size-20 f-weight-600 site-color-v3 text-center">{{'Jobs'|translate}}</h6>
+            <p class="text-grey f-size-14 text-center"></p>
+            <a routerLink="javascript:void(0)" class="custom-btn v1 f-weight-600 ">{{'show'|translate}}</a>
+          </div>
+
+        </div>
+        <div class="col-md-6 mt-4" *isPartner>
+          <div class="custom-card px-5 py-4 text-center">
+            <h6 class="f-size-20 f-weight-600 site-color-v3 text-center">{{'organizationTeam'|translate}}</h6>
+            <p class="text-grey f-size-14 text-center"></p>
+            <a routerLink="/organization-team" class="custom-btn v1 f-weight-600 ">{{'show'|translate}}</a>
+          </div>
+
+        </div>
+        <div class="col-md-6 mt-4" *notPartner>
           <div class="custom-card px-5 py-4 text-center">
             <h6 class="f-size-20 f-weight-600 site-color-v3 text-center">{{'summary'|translate}}</h6>
             <p class="text-grey f-size-14 text-center">{{'summaryDescription'|translate}}</p>
@@ -108,22 +125,24 @@
               class="custom-btn v1 f-weight-600 ">{{'placeOrder'|translate}}</a>
           </div>
         </div>
-        <div class="col-md-12 mt-3 f-weight-600">
+        <div class="col-md-12 mt-3 f-weight-600" *notPartner>
           {{'fabrihubServices'|translate}}
         </div>
-        <div *ngFor="let service of services;let i=index" class="col-md-3">
-          <div class="custom-card p-4 mt-3" *ngIf="i<4">
-            <div class="service-v2">
-              <div class="service-img mr-2">
-                <img [src]="appConfig.serviceImage(service)" class="img-fluid" alt="">
-              </div>
-              <div class="service-content f-weight-600">
-                <p class="mb-0 f-size-18 site-color-v3 ">{{service.name | slice:0:11}}</p>
-                <a [routerLink]='["/shopping-cart/CartItem"]'>
-                  <span class="mr-2 site-color-v1">{{'placeOrder'|translate}}</span>
-                  <img *englishLang src="assets/images/right-arrow.png" alt="">
-                  <img *arabicLang src="assets/images/left-arrow.png" alt="">
-                </a>
+        <div class="row container-fluid" *notPartner>
+          <div *ngFor="let service of services;let i=index" class="col-md-3">
+            <div class="custom-card p-4 mt-3" *ngIf="i<4">
+              <div class="service-v2">
+                <div class="service-img mr-2">
+                  <img [src]="appConfig.serviceImage(service)" class="img-fluid" alt="">
+                </div>
+                <div class="service-content f-weight-600">
+                  <p class="mb-0 f-size-18 site-color-v3 ">{{service.name | slice:0:11}}</p>
+                  <a [routerLink]='["/shopping-cart/CartItem"]'>
+                    <span class="mr-2 site-color-v1">{{'placeOrder'|translate}}</span>
+                    <img *englishLang src="assets/images/right-arrow.png" alt="">
+                    <img *arabicLang src="assets/images/left-arrow.png" alt="">
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -131,4 +150,6 @@
       </div>
     </div>
   </div>
+
+
 </div>
