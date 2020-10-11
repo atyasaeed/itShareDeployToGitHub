@@ -246,10 +246,14 @@
 
   <ng-template #checkOutModal>
     <div class="modal-body ">
-      <div>
+      <div class="overflow-hidden">
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
           <span aria-hidden="true">&times;</span>
         </button>
+        <a (click)="modalRef.hide()" routerLink="/address-book/create"
+          [state]="{'fromRoute':'/shopping-cart'}"  class="float-left custom-btn btn-success" >
+          {{'addAddress'|translate}}
+        </a>
       </div>
       <div class="text-center mt-2 site-color-v1">
         <i class="fas fa-shipping-fast fa-3x"></i>
@@ -257,29 +261,30 @@
       <div class="text-center mt-2 site-color-v3 f-weight-600 f-size-20">
         {{'chooseShippingAddress'|translate}}
       </div>
-
-      <div *ngFor="let address of myAddressess;let i=index;" class="d-flex  align-items-center my-3">
-        <div class="custom-control custom-radio my-auto w-100">
-          <input (change)="changeShippingAddress($event)"  [value]="address.id"
-          [checked]="myShippingAddress ? (address.id===myShippingAddress) : i===0" name="shipping-address"
-          class="custom-control-input f-size-18" type="radio" id="'address_'{{address.id}}" >
-          <label for="'address_'{{address.id}}" class="custom-control-label">
-            <span class="f-weight-600 site-color-v3">
-              <ng-container *ngIf="lang==='en'">
-                {{address.city.state.enName}}-{{address.city.enName}}
-              </ng-container>
-              <ng-container *ngIf="lang==='ar'">
-                {{address.city.state.arName}}-{{address.city.arName}}
-              </ng-container>
-            </span>
-            <div class="text-grey f-weight-400">
-              {{address.name}} - {{address.lineOne}} - {{address.lineTwo}}
-            </div>
-          </label>
-        </div>
-        <div class="border-left ml-2 pl-2">
-          <span (click)="modalRef.hide()" routerLink="/address-book/{{address.id}}"
-          [state]="{'fromRoute':'/shopping-cart'}" class="cursor-pointer site-color-v1">{{'edit'|translate}}</span>
+      <div class="max-height-scroll px-2">
+        <div *ngFor="let address of myAddressess;let i=index;" class="d-flex  align-items-center my-3">
+          <div class="custom-control custom-radio my-auto w-100">
+            <input (change)="changeShippingAddress($event)"  [value]="address.id"
+            [checked]="myShippingAddress ? (address.id===myShippingAddress) : i===0" name="shipping-address"
+            class="custom-control-input f-size-18" type="radio" id="'address_'{{address.id}}" >
+            <label for="'address_'{{address.id}}" class="custom-control-label">
+              <span class="f-weight-600 site-color-v3">
+                <ng-container *ngIf="lang==='en'">
+                  {{address.city.state.enName}}-{{address.city.enName}}
+                </ng-container>
+                <ng-container *ngIf="lang==='ar'">
+                  {{address.city.state.arName}}-{{address.city.arName}}
+                </ng-container>
+              </span>
+              <div class="text-grey f-weight-400">
+                {{address.name}} - {{address.lineOne}} - {{address.lineTwo}}
+              </div>
+            </label>
+          </div>
+          <div class="border-left ml-2 pl-2">
+            <span (click)="modalRef.hide()" routerLink="/address-book/{{address.id}}"
+            [state]="{'fromRoute':'/shopping-cart'}" class="cursor-pointer site-color-v1">{{'edit'|translate}}</span>
+          </div>
         </div>
       </div>
       <div class="text-center my-2 f-weight-600">

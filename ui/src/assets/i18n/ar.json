@@ -419,5 +419,6 @@
   "cities": "المدن",
   "errors.extension":"الملفات المسموحة هي",
   "chooseShippingAddress":"اختر عنوان الشحن",
-  "confirm":"تاكيد"
+  "confirm":"تاكيد",
+  "addAddress":"اضافة عنوان"
 }

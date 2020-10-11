@@ -422,5 +422,6 @@
   "cities": "Cities",
   "errors.extension":"Allowed Files Are",
   "chooseShippingAddress":"Choose Shipping Address",
-  "confirm":"Confirm"
+  "confirm":"Confirm",
+  "addAddress":"Add Address"
 }
