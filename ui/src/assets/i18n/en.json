@@ -420,5 +420,7 @@
   "settings": "Settings",
   "view": "View",
   "cities": "Cities",
-  "errors.extension":"Allowed Files Are"
+  "errors.extension":"Allowed Files Are",
+  "chooseShippingAddress":"Choose Shipping Address",
+  "confirm":"Confirm"
 }

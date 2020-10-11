@@ -417,5 +417,7 @@
   "settings": "الاعدادات",
   "view": "عرض",
   "cities": "المدن",
-  "errors.extension":"الملفات المسموحة هي"
+  "errors.extension":"الملفات المسموحة هي",
+  "chooseShippingAddress":"اختر عنوان الشحن",
+  "confirm":"تاكيد"
 }

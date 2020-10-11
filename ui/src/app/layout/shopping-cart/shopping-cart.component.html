@@ -14,7 +14,7 @@
                 <div class="col-md-8 " [ngClass]="{'pl-0': lang==='en', 'pr-0': lang==='ar'}">
                   <div class="items">
                     <!-- One Item Row -->
-                    <div class="custom-card  p-3 mt-4" *ngFor="let entity of items;let i =index">
+                    <div class="custom-card  p-3 mb-4" *ngFor="let entity of items;let i =index">
                       <div class="row">
                         <div class="col-md-3 text-center service-image mb-2">
                           <img class="img-fluid " [src]="appConfig.FILE_URL + entity.files[0].asset_id"
@@ -70,7 +70,7 @@
                                 </a>
 
                                 <button type="button" [disabled]="loading" class="btn btn-outline-danger btn-xs ml-3"
-                                  tooltip="{{'delete' | translate}}" hide-delay="0" (click)="deleteItemModal(deleteConfirm)">
+                                  tooltip="{{'delete' | translate}}" hide-delay="0" (click)="openModal(deleteConfirm)">
                                   <i class="fa fa-trash" aria-hidden="true"></i>
                                 </button>
                                 <ng-template #deleteConfirm>
@@ -209,7 +209,7 @@
                 <!-- End Cart Items Table -->
 
                 <!-- Cart Summary & Checkout -->
-                <div class="col-md-4 mt-4 p-4 stick-to-top custom-card f-weight-600">
+                <div class="col-md-4  p-4 stick-to-top custom-card f-weight-600">
 
                     <h3 class="text-center pb-3 border-bottom site-color-v3  f-size-24">{{'summary' | translate }}</h3>
                     <div class="mt-3 pb-3 border-bottom text-center site-color-v3  f-size-20">
@@ -217,7 +217,7 @@
                     </div>
 
                     <button type="button" class="mt-3 custom-btn py-2 v1 btn-block"
-                      (click)="checkout()">{{ 'confirmOrder' | translate }}</button>
+                      (click)="openModal(checkOutModal)">{{ 'confirmOrder' | translate }}</button>
                     <button type="button" *ngIf="hasAdminRole" class="py-2 custom-btn v4 btn-block"
                       (click)="convertToGallery()">{{ 'convertToGallery' | translate }}</button>
                     <button type="button" class="custom-btn py-2 v2 btn-block "
@@ -243,3 +243,48 @@
     </section>
   </main>
 </div>
+
+  <ng-template #checkOutModal>
+    <div class="modal-body ">
+      <div>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="text-center mt-2 site-color-v1">
+        <i class="fas fa-shipping-fast fa-3x"></i>
+      </div>
+      <div class="text-center mt-2 site-color-v3 f-weight-600 f-size-20">
+        {{'chooseShippingAddress'|translate}}
+      </div>
+
+      <div *ngFor="let address of myAddressess;let i=index;" class="d-flex  align-items-center my-3">
+        <div class="custom-control custom-radio my-auto w-100">
+          <input (change)="changeShippingAddress($event)"  [value]="address.id"
+          [checked]="myShippingAddress ? (address.id===myShippingAddress) : i===0" name="shipping-address"
+          class="custom-control-input f-size-18" type="radio" id="'address_'{{address.id}}" >
+          <label for="'address_'{{address.id}}" class="custom-control-label">
+            <span class="f-weight-600 site-color-v3">
+              <ng-container *ngIf="lang==='en'">
+                {{address.city.state.enName}}-{{address.city.enName}}
+              </ng-container>
+              <ng-container *ngIf="lang==='ar'">
+                {{address.city.state.arName}}-{{address.city.arName}}
+              </ng-container>
+            </span>
+            <div class="text-grey f-weight-400">
+              {{address.name}} - {{address.lineOne}} - {{address.lineTwo}}
+            </div>
+          </label>
+        </div>
+        <div class="border-left ml-2 pl-2">
+          <span (click)="modalRef.hide()" routerLink="/address-book/{{address.id}}"
+          [state]="{'fromRoute':'/shopping-cart'}" class="cursor-pointer site-color-v1">{{'edit'|translate}}</span>
+        </div>
+      </div>
+      <div class="text-center my-2 f-weight-600">
+        <button class="custom-btn v4 mr-3" (click)="modalRef.hide()">{{'cancel'|translate}}</button>
+        <button class="custom-btn v1" (click)="checkout();modalRef.hide()">{{'confirm'|translate}}</button>
+      </div>
+    </div>
+  </ng-template>
