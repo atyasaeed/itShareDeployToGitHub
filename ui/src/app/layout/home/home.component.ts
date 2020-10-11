@@ -17,6 +17,7 @@ import { ActivatedRoute } from '@angular/router';
 export class HomeComponent implements OnInit {
   services: Service[];
   private fragment: string;
+  lang: string;
   constructor(
     private http: HttpClient,
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
@@ -26,6 +27,9 @@ export class HomeComponent implements OnInit {
   ) {
     this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
       this.services = res;
+    });
+    this.appStore.select(fromStore.getLang).subscribe((res) => {
+      this.lang = res;
     });
   }
 

@@ -19,19 +19,6 @@
     background: rgba(0,0,0,0.03);
   }
 
-  // app-line-item{
-  //   border-bottom: 3px solid white;
-  // }
-
-
-
-.cancelled{
-  font-weight: 600;
-  padding: 5px 10px;
-  font-size: 17px;
-  color: red;
-  border: 3px dashed red;
-}
 
 .print-header{
   border-top: 2px solid #8080801f;
@@ -57,25 +44,6 @@
 .footer-info .border-left{
   border-left: 2px solid #80808081 !important;
 }
-.quot{
-    background: #dee2e6ed;
-    position: relative;
-}
-.quot:before {
-    content: '';
-  position: absolute;
-    top: 0; right: 0;
-    border-top: 52px solid  #dee2e6 ;
-    border-left: 80px solid white;
-    width: 0;
-   transform: rotate(180deg);
-   height: 100%;
-}
-
-.table  th,
-.table  td{
-  vertical-align: middle !important;
-}
 
 
 .rejection-reason{
@@ -94,42 +62,6 @@
 .logo-img{
   height:50px;
 }
-
-
-.table.quotation{
-  thead{
-    tr{
-      background: #337AB7;
-      color: white;
-    }
-  }
-  td,th{
-    border: 1px solid #E2E2E3 !important;
-  }
-  tr.white-background{
-    td{
-      border:1px solid white !important
-    }
-    td.custom-td{
-      border: 1px solid #E2E2E3 !important;
-    }
-    td.custom-td.custom-back{
-      background: #337AB7;
-      color: White !important;
-    }
-  }
-}
-
-
-.quotation-note{
-  background: #FAFAFB 0% 0% no-repeat padding-box;
-  border: 1px solid #E2E2E3;
-}
-
-.print-quote{
-  color: #000000CC;
-}
-
 
 
 .overlay{

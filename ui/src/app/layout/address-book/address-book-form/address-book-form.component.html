@@ -1,0 +1,120 @@
+<div [@routerTransition] class="p-3">
+  <app-page-header  [breadCrumbs]="breadcrumbs"></app-page-header>
+  <div  class="custom-card p-3 f-weight-600">
+    <form  [formGroup]='form' (ngSubmit)="save()">
+      <div class="container-fluid">
+        <div *tdLoading="'loading';strategy:'overlay'" class=" row">
+          <div class="col-md-6">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-md-12 form-group">
+                    <label>{{'name' | translate }} :&nbsp;</label>
+                    <input type="text" formControlName="name" class="form-control ">
+                    <div class="text-danger" *ngIf="hasError('name')">
+                      <div *ngIf="form.controls.name.errors.required">
+                        {{'error.required'|translate}}
+                      </div>
+                      <div *ngIf="form.controls.name.errors.minlength">
+                        {{'error.minlength'|translate:'{length:2}'}}
+                      </div>
+                    </div>
+                </div>
+                <div class="form-group" [ngClass]="{'col-md-6':form.controls.state.value!=='','col-md-12':form.controls.state.value===''}">
+                    <label>{{'governorate' | translate }} :&nbsp;</label>
+                    <ng-select
+                        formControlName="state"
+                        [items]="states"
+                        [bindLabel]="lang==='en'? 'enName':'arName'"
+                        bindValue="id"
+                        (open)="allStates()"
+                        [clearable]="false"
+                        (change)="stateChanged($event)"
+                        (search)="stateFilter($event)">
+                          <ng-template ng-label-tmp let-item="item">
+                              <span >{{ lang==='en'?(item.enName):(item.arName) }}</span>
+                          </ng-template>
+                          <ng-template ng-option-tmp let-item="item" let-search="searchTerm" let-index="index">
+                                <span >{{ lang==='en'?(item.enName):(item.arName) }}</span>
+                          </ng-template>
+                    </ng-select>
+                    <div class="text-danger" *ngIf="hasError('state')">
+                      <div *ngIf="form.controls.state.errors.required">
+                        {{'error.required'|translate}}
+                      </div>
+                    </div>
+                </div>
+                <div class="col-md-6 form-group" *ngIf="form.controls.state.value!==''">
+                    <label>{{'city' | translate }} :&nbsp;</label>
+                    <ng-select
+                        formControlName="city"
+                        [items]="cities"
+                        [bindLabel]="lang==='en'? 'enName':'arName'"
+                        bindValue="id"
+                        (open)="allCities()"
+                        [clearable]="false"
+                        (search)="cityFilter($event)">
+                         <ng-template ng-label-tmp let-item="item">
+                              <span >{{ lang==='en'?(item.enName):(item.arName) }}</span>
+                          </ng-template>
+                          <ng-template ng-option-tmp let-item="item" let-search="searchTerm" let-index="index">
+                                <span >{{ lang==='en'?(item.enName):(item.arName) }}</span>
+                          </ng-template>
+                    </ng-select>
+                    <div class="text-danger" *ngIf="hasError('city')">
+                      <div *ngIf="form.controls.city.errors.required">
+                        {{'error.required'|translate}}
+                      </div>
+                    </div>
+                </div>
+                <div class="col-md-12 form-group" >
+                    <label>{{'lineOne' | translate }} :&nbsp;</label>
+                    <input type="text" formControlName="lineOne" class="form-control ">
+                    <div class="text-danger" *ngIf="hasError('lineOne')">
+                      <div *ngIf="form.controls.lineOne.errors.required">
+                        {{'error.required'|translate}}
+                      </div>
+                      <div *ngIf="form.controls.lineOne.errors.minlength">
+                        {{'error.minlength'|translate:'{length:2}'}}
+                      </div>
+                    </div>
+                </div>
+                <div class="col-md-12 form-group">
+                    <label>{{'lineTwo' | translate }} :&nbsp;</label>
+                    <input type="text" formControlName="lineTwo" class="form-control ">
+                    <div class="text-danger" *ngIf="hasError('lineTwo')">
+                      <div *ngIf="form.controls.lineTwo.errors.required">
+                        {{'error.required'|translate}}
+                      </div>
+                      <div *ngIf="form.controls.lineTwo.errors.minlength">
+                        {{'error.minlength'|translate:'{length:2}'}}
+                      </div>
+                    </div>
+                </div>
+                <div class="col-md-12 form-group">
+                    <label>{{'phoneNumber' | translate }} :&nbsp;</label>
+                    <input type="text" formControlName="phoneNo" class="form-control ">
+                    <div class="text-danger" *ngIf="hasError('phoneNo')">
+                      <div *ngIf="form.controls.phoneNo.errors.required">
+                        {{'error.required'|translate}}
+                      </div>
+                      <div *ngIf="form.controls.phoneNo.errors.minlength">
+                        {{'error.minlength'|translate:'{length:11}'}}
+                      </div>
+                      <div *ngIf="form.controls.phoneNo.errors.pattern">
+                        {{'error.pattern'|translate}}
+                      </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                  <button type="button" class="custom-btn v4 mr-2"
+                  (click)="cancel()">{{'cancel'|translate}}</button>
+                  <button type="submit" class="custom-btn v1 ">{{'save'|translate}}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

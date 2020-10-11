@@ -141,7 +141,12 @@
                 <a class="dropdown-item px-2" routerLink='/profile'>
                   <img src="assets\images\user-edit-solid (1).png" class="px-2" /> <span
                     class="f-size-14 custom-btn.v2 f-weight-600">{{ 'Profile' | translate }}</span>
-
+                </a>
+              </li>
+              <li role="menuitem">
+                <a class="dropdown-item px-2" routerLink='/address-book'>
+                  <i class="f-size-20 site-color-v1 mx-2 fas fa-address-book"></i>
+                  <span class="f-size-14 custom-btn.v2 f-weight-600">{{ 'addressBook' | translate }}</span>
                 </a>
               </li>
               <li role="menuitem" *isAuth>

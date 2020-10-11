@@ -54,7 +54,8 @@
                     (click)="rejectQuotation()">{{'reject' | translate}}</button>
                   </div>
                   <div class="col-md-6 ml-auto mt-1" *ngIf="order.status == 'QUOTED' || order.status == 'QUOTE_ACCEPTED'">
-                    <button [useExistingCss]="true" printSectionId="{{order.id}}" ngxPrint type="button"
+                    <button  styleSheetFile="assets/printCss/printQuotation.css"
+                    printSectionId="{{order.id}}" ngxPrint type="button"
                     class="custom-btn btn-secondary w-100  ">{{'printQuotation'|translate}}</button>
                   </div>
                   <div class="col-md-6 ml-auto mt-1" *ngIf="showCancelOrderBtn() ">
@@ -138,7 +139,7 @@
       <div class="col-md-12">
         <table class="f-size-13 table quotation mt-2">
           <thead>
-            <tr class="f-weight-700">
+            <tr class="f-weight-700 print-table-head">
               <th scope="col">#</th>
               <th scope="col">{{'lineItem.service.name' | translate}}</th>
               <th scope="col">{{'lineItem.service.description'|translate}}</th>
