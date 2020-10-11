@@ -419,5 +419,6 @@
   "enName.error.required": "English name is required",
   "settings": "Settings",
   "view": "View",
-  "cities": "Cities"
+  "cities": "Cities",
+  "errors.extension":"Allowed Files Are"
 }
