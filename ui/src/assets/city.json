@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "enName": "nasr-city",
+    "arName": "مدينة نصر"
+  },
+  {
+    "id": 2,
+    "enName": "Abs",
+    "arName": "العباسية"
+  },
+  {
+    "id": 3,
+    "enName": "rehab",
+    "arName": "الرحاب"
+  },
+  {
+    "id": 4,
+    "enName": "rmsiis",
+    "arName": "رمسيس"
+  },
+  {
+    "id": 5,
+    "enName": "Asyut",
+    "arName": "أسيوط"
+  },
+  {
+    "id": 6,
+    "enName": "Zagazig",
+    "arName": "الزقازيق"
+  }
+]

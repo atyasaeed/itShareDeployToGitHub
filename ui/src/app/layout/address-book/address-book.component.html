@@ -1,0 +1,97 @@
+<div class="p-4" [@routerTransition]>
+  <app-page-header  [breadCrumbs]="breadcrumbs"></app-page-header>
+  <form>
+    <div class="form-group form-inline row">
+      <div class="col-md-12">
+        <span class="site-color-v5 f-size-20 f-weight-600">
+          {{'addressBook'|translate}}
+        </span>
+        <input class="search-input form-control " [class.rtl]="lang==='ar'" type="text" placeholder="{{'Search'|translate}}" name="searchTerm"
+          [(ngModel)]="searchTerm" />
+        <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
+        <a routerLink="create" class="btn btn-success float-right">
+          <i class="fa fa-plus" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
+    <div  *tdLoading="'loading'">
+      <div class="row ">
+        <div  class="col-md-3 mb-3 " *ngFor="let entity of entities$ | async; let i=index">
+          <div class="p-3 custom-card flex-column  d-flex h-100 position-relative">
+            <!-- <div class="custom-control custom-radio my-auto ">
+              <input (change)="setPrimeAddress(entity)" name="address-book" class="custom-control-input f-size-18" type="radio" id="'address_'{{entity.id}}" >
+              <label for="'address_'{{entity.id}}" class="custom-control-label">
+                <span class="f-weight-600 site-color-v3">
+                  <ng-container *ngIf="lang==='en'">
+                    {{entity.city.state.enName}}-{{entity.city.enName}}
+                  </ng-container>
+                  <ng-container *ngIf="lang==='ar'">
+                    {{entity.city.state.arName}}-{{entity.city.arName}}
+                  </ng-container>
+                </span>
+                <div class="text-grey f-weight-400">
+                  {{entity.name}}
+                </div>
+              </label>
+            </div> -->
+            <div class="my-auto">
+              <span class="f-weight-600 site-color-v3">
+                <ng-container *ngIf="lang==='en'">
+                  {{entity.city.state.enName}}-{{entity.city.enName}}
+                </ng-container>
+                <ng-container *ngIf="lang==='ar'">
+                  {{entity.city.state.arName}}-{{entity.city.arName}}
+                </ng-container>
+              </span>
+              <div class="text-grey f-weight-400">
+                {{entity.name}}
+              </div>
+            </div>
+            <div class="border-top mt-2 pt-2">
+              <span [routerLink]="entity.id" class="cursor-pointer site-color-v1">{{'edit'|translate}}</span>
+                |
+              <span (click)="openModal(deleteConfirm)" class="text-danger cursor-pointer">{{'remove'|translate}}</span>
+            </div>
+            <ng-template #deleteConfirm>
+              <div class="modal-body ">
+                <div>
+                  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="text-center mt-2 text-danger">
+                  <i class="fa fa-trash fa-3x" aria-hidden="true"></i>
+                </div>
+                <div class="text-center mt-2 site-color-v3 f-weight-600 f-size-20">
+                  {{'deleteItem'|translate}}
+                </div>
+                <div class="text-center f-size-14 text-grey mt-2">
+                  {{'deleteDescription'|translate}}
+                </div>
+                <div class="text-center my-2 f-weight-600">
+                  <button class="custom-btn v4 mr-3" (click)="modalRef.hide()">{{'cancel'|translate}}</button>
+                  <button class="custom-btn btn-danger" (click)="delete(entity);modalRef.hide()">{{'delete'|translate}}</button>
+                </div>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="d-flex justify-content-between p-2">
+      <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize">
+      </ngb-pagination>
+
+      <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
+        <option [ngValue]="10">10 items per page</option>
+        <option [ngValue]="25">25 items per page</option>
+        <option [ngValue]="50">50 items per page</option>
+      </select>
+    </div>
+
+  </form>
+
+</div>
+
