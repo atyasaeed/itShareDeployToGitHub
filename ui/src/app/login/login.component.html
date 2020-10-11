@@ -18,7 +18,13 @@
             <label for="first" class="brand font-weight-bold">{{"email"|translate}}</label>
             <input type="text" placeholder="{{ 'enterEmail' | translate }} " formControlName="username"
               class="form-control" id="first">
-            <div class="text-danger" *ngIf="hasError('username')">{{'email.error.invalid'|translate}}</div>
+            <div *ngIf="loginForm.controls.username.touched && !loginForm.controls.username.valid" class="text-danger">
+              <div *ngIf="loginForm.controls.username.errors.required">{{ 'email.error.required' | translate }}
+              </div>
+              <div *ngIf="loginForm.controls.username.errors.email">
+                {{ 'email.error.invalid' | translate }}</div>
+
+            </div>
           </div>
 
           <!--  col-md-6   -->
@@ -41,7 +47,12 @@
                 </span>
               </div>
             </div>
-            <div class="text-danger" *ngIf="hasError('password')">{{'password.error.invalid'|translate}}</div>
+            <div *ngIf="loginForm.controls.password.touched && !loginForm.controls.password.valid" class="text-danger">
+              <div *ngIf="loginForm.controls.password.errors.required">
+                {{ 'password.error.required' | translate }}</div>
+              <div *ngIf="loginForm.controls.password.errors.pattern">
+                {{ 'password.error.pattern' | translate }}</div>
+            </div>
           </div>
 
 

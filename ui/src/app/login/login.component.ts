@@ -34,8 +34,8 @@ export class LoginComponent implements OnInit {
     private loadingService: TdLoadingService
   ) {
     this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required],
+      username: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')]],
     });
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
   }
@@ -96,9 +96,6 @@ export class LoginComponent implements OnInit {
   }
   f() {
     return this.loginForm;
-  }
-  hasError(controlName: string) {
-    return this.loginForm.get(controlName).touched && this.loginForm.get(controlName).invalid;
   }
   toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType;

@@ -91,7 +91,7 @@ export class SignupComponent implements OnInit, CanComponentDeactivate {
     this.registrationForm = this.formBuilder.group({
       firstName: ['', [Validators.required, Validators.maxLength(80), Validators.minLength(2)]],
       lastName: ['', [Validators.required, Validators.maxLength(80), Validators.minLength(2)]],
-      mobileNo: ['', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]],
+      mobileNo: ['', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{11}$')]],
       email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$')]],
       // username: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')]],
