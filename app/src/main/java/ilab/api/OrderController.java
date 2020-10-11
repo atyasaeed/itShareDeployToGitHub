@@ -107,13 +107,7 @@ public class OrderController
 		return orderService.updateItem(id, item, auth);
 	}
 
-	@PutMapping(path = "checkout")
-	public OrderEntity checkoutCart(Authentication auth)
-	{
-		return orderService.checkout(auth);
-	}
 
-	
 
 	@GetMapping(path="{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
