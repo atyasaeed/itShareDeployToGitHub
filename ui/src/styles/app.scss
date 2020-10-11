@@ -2,6 +2,7 @@
 @import "spinner";
 @import "_rtl";
 @import "_responsive";
+@import "~@ng-select/ng-select/themes/default.theme.css";
 
 $topnav-background-color:  #F7F8F9 0% 0% no-repeat padding-box;
 $lightGreyBackground:#e9ecef;
@@ -411,3 +412,19 @@ body{
   max-width: 1366px !important;
 }
 
+.cursor-pointer{
+  cursor: pointer;
+}
+
+.form-control,.ng-select,.ng-select.ng-select-single .ng-select-container .ng-value-container,
+.ng-select.ng-select-single .ng-select-container .ng-value-container .ng-value{
+  color: $textGrey !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+}
+
+label{
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: $siteColorV5 !important;
+}
