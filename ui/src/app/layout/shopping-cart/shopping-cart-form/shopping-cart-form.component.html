@@ -61,7 +61,7 @@
                           <span class="text-danger" *ngIf="form.controls.file.errors.required && form.controls.file.touched">
                             *{{'file.field.error.required'|translate}}</span>
                           <span class="text-danger" *ngIf="form.controls.file.errors.extension "> |
-                            *{{'file.errors.extensions'|translate}} {{form.controls.file.errors.extension}} </span>
+                            *{{'errors.extension'|translate}} {{form.controls.file.errors.extension}} </span>
                         </span>
                         <label class="custom-input-file form-control">
                           <span class="browse-button" [class.uploaded]="filename">{{filename ? ('replaceFile'|translate):('chooseFile'|translate)}}</span> <span>{{filename?.name}}</span>

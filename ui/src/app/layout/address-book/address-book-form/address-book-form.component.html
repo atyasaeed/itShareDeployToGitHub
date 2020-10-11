@@ -7,8 +7,20 @@
           <div class="col-md-6">
             <div class="container-fluid">
               <div class="row">
+                <div class="col-md-12 form-group">
+                    <label>{{'name' | translate }} :&nbsp;</label>
+                    <input type="text" formControlName="name" class="form-control ">
+                    <div class="text-danger" *ngIf="hasError('name')">
+                      <div *ngIf="form.controls.name.errors.required">
+                        {{'error.required'|translate}}
+                      </div>
+                      <div *ngIf="form.controls.name.errors.minlength">
+                        {{'error.minlength'|translate:'{length:2}'}}
+                      </div>
+                    </div>
+                </div>
                 <div class="form-group" [ngClass]="{'col-md-6':form.controls.state.value!=='','col-md-12':form.controls.state.value===''}">
-                    <label>{{'state' | translate }} :&nbsp;</label>
+                    <label>{{'governorate' | translate }} :&nbsp;</label>
                     <ng-select
                         formControlName="state"
                         [items]="states"
@@ -74,18 +86,6 @@
                         {{'error.required'|translate}}
                       </div>
                       <div *ngIf="form.controls.lineTwo.errors.minlength">
-                        {{'error.minlength'|translate:'{length:2}'}}
-                      </div>
-                    </div>
-                </div>
-                <div class="col-md-12 form-group">
-                    <label>{{'name' | translate }} :&nbsp;</label>
-                    <input type="text" formControlName="name" class="form-control ">
-                    <div class="text-danger" *ngIf="hasError('name')">
-                      <div *ngIf="form.controls.name.errors.required">
-                        {{'error.required'|translate}}
-                      </div>
-                      <div *ngIf="form.controls.name.errors.minlength">
                         {{'error.minlength'|translate:'{length:2}'}}
                       </div>
                     </div>

@@ -47,24 +47,10 @@
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
-
-
-
-
-
         </div>
       </div>
-
-
-
-
-
-
-
-
       <div class="row py-5 white-background">
         <div class="col-md-12 text-center">
           <img src="assets/images/handshake.png" class="img-fluid" alt="">
@@ -111,7 +97,7 @@
         <div class="col-md-12 mt-3 f-weight-600">
           {{'fabrihubServices'|translate}}
         </div>
-        <div *ngFor="let service of services;let i=index" class="col-md-3">
+        <div *ngFor="let service of services;let i=index" class="col-lg-3 col-md-6">
           <div class="custom-card p-4 mt-3" *ngIf="i<4">
             <div class="service-v2">
               <div class="service-img mr-2">
@@ -121,8 +107,8 @@
                 <p class="mb-0 f-size-18 site-color-v3 ">{{service.name | slice:0:11}}</p>
                 <a [routerLink]='["/shopping-cart/CartItem"]'>
                   <span class="mr-2 site-color-v1">{{'placeOrder'|translate}}</span>
-                  <img *englishLang src="assets/images/right-arrow.png" alt="">
-                  <img *arabicLang src="assets/images/left-arrow.png" alt="">
+                  <img *ngIf="lang==='en'" src="assets/images/right-arrow.png" alt="">
+                  <img *ngIf="lang==='ar'" src="assets/images/left-arrow.png" alt="">
                 </a>
               </div>
             </div>
