@@ -90,6 +90,8 @@ export class OrganizationTeamComponent extends DefaultListComponent<OrgUser, Org
           this.toastr.error(this.translate.instant('emailNotFound'));
         } else if (err.error.details[0] == 'duplicatedOrganizationUser') {
           this.toastr.error(this.translate.instant('duplicatedOrganizationUser'));
+        } else if (err.error.details[0] == 'Organization is not active') {
+          this.toastr.error(this.translate.instant('organizationIsNotActive'));
         }
         console.log(err);
         this.loadingService.resolve(this.key);

@@ -21,8 +21,8 @@
         <div *ngIf="!isWaitingAproval">
           <p>{{'organizationOfficialDocumnets'|translate}}</p>
           <div>
-            <button *ngIf="!isWaitingAproval" type="button" mat-button
-              [routerLink]="['/profile']">{{'takeMeThere'|translate}}</button>
+            <button *ngIf="!isWaitingAproval" type="button" mat-button [routerLink]="['/profile']"
+              fragment="landing-page">{{'takeMeThere'|translate}}</button>
           </div>
         </div>
         <div *ngIf="isWaitingAproval">

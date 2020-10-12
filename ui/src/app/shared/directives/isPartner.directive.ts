@@ -16,7 +16,7 @@ export class IsPartnerDirective {
     this.appStore.select(fromStore.getAuthUser).subscribe((user) => {
       this.vcr.clear();
       this.hasView = false;
-      if (user?.defaultOrgType == 'PARTNER' && user?.defaultOrgStatus == 'ACTIVE' && !this.hasView) {
+      if (user?.defaultOrgType == 'PARTNER' && !this.hasView) {
         this.vcr.createEmbeddedView(this.templateRef);
         this.hasView = true;
       } else {

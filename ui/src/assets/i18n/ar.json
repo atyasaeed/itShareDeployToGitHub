@@ -319,10 +319,10 @@
   "quickLinks": "روابط سريعة",
   "customerLogin": "تسجيل دخول عميل",
   "partnerLogin": "تسجيل دخول شريك",
-  "requestQuote": "Request Quote",
+  "requestQuote": "get quotation",
   "getInTouch": "Get In Touch",
   "footerAddress": "New Cairo, Egypt",
-  "footerCopyRight": "© 2020 Fabri Hub. All rights reserved.",
+  "footerCopyRight": "©   Fabri Hub. All rights reserved.",
   "signup": "انشاء حساب",
   "don'tHaveAnAccount?": "ليس لديك حساب؟",
   "enterEmail": "أدخل عنوان بريدك الالكتروني",
@@ -421,5 +421,6 @@
   "addItem": "اضافة عنصر",
   "quotationRequest": "عروض",
   "show": "عرض",
-  "errors.extension":"الملفات المسموحة هي"
+  "errors.extension": "الملفات المسموحة هي",
+  "organizationIsNotActive": "الشركة غير نشطة"
 }
