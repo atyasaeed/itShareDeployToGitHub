@@ -6,6 +6,7 @@ import { IsAdminDirective } from '../../directives/isAdmin.directive';
 import { IsAuthDirective } from '../../directives/isAuth.directive';
 import { noAuthDirective } from '../../directives/noAuth.directive';
 import { IsPartnerDirective } from '../../directives/isPartner.directive';
+import { NotPartnerDirective } from '../../directives/notPartner.directive';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { IsPartnerDirective } from '../../directives/isPartner.directive';
     IsAuthDirective,
     noAuthDirective,
     IsPartnerDirective,
+    NotPartnerDirective,
   ],
   imports: [CommonModule],
   exports: [
@@ -24,6 +26,7 @@ import { IsPartnerDirective } from '../../directives/isPartner.directive';
     IsAuthDirective,
     noAuthDirective,
     IsPartnerDirective,
+    NotPartnerDirective,
   ],
 })
 export class SharedModule {}
