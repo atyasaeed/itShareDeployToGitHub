@@ -30,6 +30,7 @@ export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, 
   states: State[];
   cities: City[];
   lang: string;
+  routeAfterSave: string;
   constructor(
     private translate: TranslateService,
     formBuilder: FormBuilder,
@@ -46,6 +47,7 @@ export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, 
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
     this.form = this.formBuilder.group({
+      contactName: ['', [Validators.required, Validators.minLength(2)]],
       lineOne: ['', [Validators.required, Validators.minLength(2)]],
       lineTwo: ['', [Validators.required, Validators.minLength(2)]],
       name: ['', [Validators.required, Validators.minLength(2)]],
@@ -77,6 +79,9 @@ export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, 
         this.loadingService.resolve(this.key);
       }
     );
+    if (this.router.getCurrentNavigation()?.extras.state) {
+      this.routeAfterSave = this.router.getCurrentNavigation()?.extras.state.fromRoute;
+    }
   }
 
   ngOnInit(): void {
@@ -166,13 +171,13 @@ export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, 
       this.entity.lineOne = this.form.controls.lineOne.value;
       this.entity.lineTwo = this.form.controls.lineTwo.value;
       this.entity.phoneNo = this.form.controls.phoneNo.value;
+      this.entity.contactName = this.form.controls.contactName.value;
       this.entity.city.id = this.form.controls.city.value;
       this.entity.city.state.id = this.form.controls.state.value;
       if (this.entity.id) {
         this.service.update(this.entity).subscribe(
           (response) => {
             this.onSave();
-            this.cancel();
             this.loadingService.resolve(this.key);
           },
           (err) => {
@@ -182,7 +187,6 @@ export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, 
       } else {
         this.service.create(this.entity).subscribe(
           (response) => {
-            this.cancel();
             this.onSave();
             this.loadingService.resolve(this.key);
           },
@@ -193,7 +197,17 @@ export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, 
       }
     }
   }
-
+  onSave() {
+    if (this.routeAfterSave) {
+      if (this.routeAfterSave === '/shopping-cart') {
+        this.router.navigate([this.routeAfterSave], { state: { fromRoute: '/address-book-form' } });
+      } else {
+        this.router.navigateByUrl(this.routeAfterSave);
+      }
+    } else {
+      this.cancel();
+    }
+  }
   onCreate(): void {}
   onUpdate(): void {
     this.breadcrumbs.splice(1, 1);

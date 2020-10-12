@@ -44,11 +44,11 @@
                 </ng-container>
               </span>
               <div class="text-grey f-weight-400">
-                {{entity.name}}
+                {{entity.name}} - {{entity.lineOne}} - {{entity.lineTwo}}
               </div>
             </div>
             <div class="border-top mt-2 pt-2">
-              <span [routerLink]="entity.id" class="cursor-pointer site-color-v1">{{'edit'|translate}}</span>
+              <span [routerLink]="entity.id" [state]="{'fromRoute':'/address-book'}" class="cursor-pointer site-color-v1">{{'edit'|translate}}</span>
                 |
               <span (click)="openModal(deleteConfirm)" class="text-danger cursor-pointer">{{'remove'|translate}}</span>
             </div>

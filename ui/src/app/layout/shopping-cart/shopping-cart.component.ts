@@ -1,6 +1,6 @@
 import { ToastrService } from 'ngx-toastr';
 import { User } from '../../shared/domain/user.model';
-import { Component, OnInit, Inject, ElementRef, TemplateRef } from '@angular/core';
+import { Component, OnInit, Inject, ElementRef, TemplateRef, ViewChild } from '@angular/core';
 import { ShoppingCartItem, Order, LineItem } from 'src/app/shared/domain';
 import { ShoppingCartService } from '../../shared/services/shoppingcart.service';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
@@ -14,6 +14,10 @@ import { debounce, debounceTime, switchMap, delay } from 'rxjs/operators';
 import { TdLoadingService } from '@covalent/core/loading';
 import { GalleryService } from 'src/app/shared/services/gallery.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { AddressBookService } from 'src/app/shared/services/address-book.service';
+import { AddressBook } from 'src/app/shared/domain/address-book.model';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -34,6 +38,9 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
   dropdownSettings: IDropdownSettings = {};
   selectedItemsArray;
   modalRef: BsModalRef;
+  myAddressess: AddressBook[];
+  myShippingAddress: string;
+  @ViewChild('checkOutModal') checkOutModal: ElementRef;
   constructor(
     service: ShoppingCartService,
     private appStore: Store<fromStore.AppState>,
@@ -41,7 +48,10 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
     loadingService: TdLoadingService,
     private galleryService: GalleryService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private addressBookService: AddressBookService,
+    private router: Router,
+    private translateService:TranslateService
   ) {
     super(service, loadingService);
     this.authUser$ = this.appStore.select(fromStore.getAuthUser);
@@ -67,6 +77,10 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
         }
       });
     });
+    this.addressBookService.searchTerm = '';
+    this.addressBookService.model$.subscribe((res) => {
+      this.myAddressess = res;
+    });
   }
 
   ngOnInit() {
@@ -75,7 +89,11 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     });
   }
 
-  ngAfterViewInit() {}
+  ngAfterViewInit() {
+    if (this.router.getCurrentNavigation()?.extras.state) {
+      this.modalRef = this.modalService.show(this.checkOutModal);
+    }
+  }
 
   delete(entity) {
     this.loadingService.register(this.key);
@@ -92,8 +110,7 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
 
   checkout() {
     this.loadingService.register(this.key);
-
-    this.service.checkout().subscribe(
+    this.service.checkout(this.myShippingAddress).subscribe(
       (resp) => {
         this.service.searchTerm = '';
         this.loadingService.resolve(this.key);
@@ -181,8 +198,17 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     );
   }
 
-  deleteItemModal(template) {
+  openModal(template) {
     this.modalRef = this.modalService.show(template);
+  }
+
+  confirmOrderModal(template) {
+    if (this.myAddressess.length > 0) {
+      this.modalRef = this.modalService.show(template);
+    } else {
+      this.toastr.warning(this.translateService.instant('pleaseAddAddress'))
+      this.router.navigate(['/address-book/create'],{ state: { fromRoute: '/shopping-cart' } });
+    }
   }
 
   textAreaChange(item: ShoppingCartItem, notes) {
@@ -304,7 +330,6 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     element.innerText = '';
     let newItem = JSON.parse(JSON.stringify(item));
     newItem.files[0]['processes'] = event;
-    console.log(newItem);
     this.service.update(newItem).subscribe(
       (res) => {
         this.appStore.dispatch(new fromStore.LoadInitState());
@@ -315,7 +340,12 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
       }
     );
   }
+
   onDeSelectAll(element: HTMLElement) {
     element.innerText = '*processes is required';
+  }
+
+  changeShippingAddress(event) {
+    this.myShippingAddress = event.target.value;
   }
 }
