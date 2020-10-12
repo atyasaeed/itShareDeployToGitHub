@@ -113,10 +113,17 @@ public class OrganizationController
 
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("admin/{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public Organization get(Authentication auth, @PathVariable("id") UUID id)
 	{
 		return orgService.getById(id, auth);
+	}
+
+	@GetMapping("/{id}")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	public Organization getAdmin(Authentication auth, @PathVariable("id") UUID id)
+	{
+		return orgService.getByIdandUser(id, auth);
 	}
 }
