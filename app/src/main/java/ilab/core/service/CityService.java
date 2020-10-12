@@ -43,7 +43,8 @@ public class CityService
 		return cityRepo.findAll(specs, page);
 	}
 
-	public Page<City> findByStateId(UUID id,Pageable page ,Specification<City> specs){
+	public Page<City> findByStateId(UUID id, Pageable page, Specification<City> specs)
+	{
 		return cityRepo.findByState_Id(id, page, specs);
 	}
 

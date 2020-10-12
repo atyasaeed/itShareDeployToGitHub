@@ -50,7 +50,8 @@ import ilab.utils.exception.NotFoundException;
 
 @Service
 @Transactional
-public class OrderService {
+public class OrderService
+{
 	@Value("${iLab.queues.orderRejection}")
 	private String orderRejectionQueue;
 	@Value("${iLab.queues.orderQuoted}")
@@ -81,29 +82,35 @@ public class OrderService {
 	@Autowired
 	private AddressRepository addressRepo;
 
-	public Iterable<OrderEntity> getOrders(Authentication auth) {
+	public Iterable<OrderEntity> getOrders(Authentication auth)
+	{
 		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
 		return orderRepo.findByOrganization(OrderStatus.SHOPPING_CART, user.getDefaultOrg().getId(),
 				PageRequest.of(0, 100));
 	}
 
-	public OrderEntity getOrder(UUID orderId) {
+	public OrderEntity getOrder(UUID orderId)
+	{
 		return orderRepo.findById(orderId).orElse(null);
 	}
 
-	public Page<OrderEntity> getOrders(Pageable page, Specification<OrderEntity> specs, Authentication auth) {
+	public Page<OrderEntity> getOrders(Pageable page, Specification<OrderEntity> specs, Authentication auth)
+	{
 		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
 		return orderRepo.findAll(filterByOrgId(user.getDefaultOrg().getId()).and(specs), page);
 
 	}
 
-	public Page<OrderEntity> getOrders(Pageable page, Specification<OrderEntity> specs) {
+	public Page<OrderEntity> getOrders(Pageable page, Specification<OrderEntity> specs)
+	{
 		return orderRepo.findAll(filterByOrderStatus(OrderStatus.SHOPPING_CART).and(specs), page);
 
 	}
 
-	public Specification<OrderEntity> filterByOrgId(UUID orgId) {
-		return (Root<OrderEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
+	public Specification<OrderEntity> filterByOrgId(UUID orgId)
+	{
+		return (Root<OrderEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) ->
+		{
 			List<Predicate> predicates = new ArrayList<>();
 
 			Path<Organization> organizationPath = root.<Organization>get("organization");
@@ -114,8 +121,10 @@ public class OrderService {
 		};
 	}
 
-	public Specification<OrderEntity> filterByOrderStatus(OrderStatus status) {
-		return (Root<OrderEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
+	public Specification<OrderEntity> filterByOrderStatus(OrderStatus status)
+	{
+		return (Root<OrderEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) ->
+		{
 			List<Predicate> predicates = new ArrayList<>();
 
 			predicates.add(cb.notEqual(root.<OrderStatus>get("status"), status));
@@ -123,18 +132,22 @@ public class OrderService {
 		};
 	}
 
-	public OrderEntity acceptQuote(UUID orderId, Authentication auth) {
+	public OrderEntity acceptQuote(UUID orderId, Authentication auth)
+	{
 		List<LineItemStatus> eligibleStatus = Arrays.asList(LineItemStatus.QUOTED, LineItemStatus.QUOTE_ACCEPTED,
 				LineItemStatus.QUOTE_REJECTED, LineItemStatus.CANCELLED, LineItemStatus.ITEM_REJECTED);
 		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
 		OrderEntity order = orderRepo.findById(orderId).orElseThrow();
 		if (order.getOrganization().getId().equals(user.getDefaultOrg().getId())
-				&& order.getStatus() == OrderStatus.QUOTED) {
+				&& order.getStatus() == OrderStatus.QUOTED)
+		{
 			order.setStatus(OrderStatus.QUOTE_ACCEPTED);
-			for (LineItem item : order.getLineItems()) {
+			for (LineItem item : order.getLineItems())
+			{
 				if (!eligibleStatus.contains(item.getStatus()))
 					throw new IllegalRequestDataException("Items are not in suitable status");
-				if (item.getStatus().equals(LineItemStatus.QUOTED)) {
+				if (item.getStatus().equals(LineItemStatus.QUOTED))
+				{
 					item.setStatus(LineItemStatus.QUOTE_ACCEPTED);
 					item.setEstimatedStartDate(LocalDateTime.now().plusDays(1));
 				}
@@ -144,38 +157,45 @@ public class OrderService {
 		return order;
 	}
 
-	public OrderEntity rejectQuote(UUID orderId, Authentication auth) {
+	public OrderEntity rejectQuote(UUID orderId, Authentication auth)
+	{
 		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
 		OrderEntity order = orderRepo.findById(orderId).orElseThrow();
 		if (order.getOrganization().getId().equals(user.getDefaultOrg().getId())
-				&& order.getStatus() == OrderStatus.QUOTED) {
+				&& order.getStatus() == OrderStatus.QUOTED)
+		{
 			order.setStatus(OrderStatus.QUOTE_REJECTED);
 
 		}
 		return order;
 	}
 
-	public OrderEntity cancelOrder(UUID orderId, Authentication auth) {
+	public OrderEntity cancelOrder(UUID orderId, Authentication auth)
+	{
 		List<OrderStatus> eligibleStatus = Arrays.asList(OrderStatus.QUOTED, OrderStatus.WAIT_QUOTE,
 				OrderStatus.PENDING, OrderStatus.QUOTE_ACCEPTED);
 		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
 		OrderEntity order = orderRepo.findById(orderId).orElseThrow();
 		if (order.getOrganization().getId().equals(user.getDefaultOrg().getId())
-				&& eligibleStatus.contains(order.getStatus())) {
+				&& eligibleStatus.contains(order.getStatus()))
+		{
 			order.setStatus(OrderStatus.CANCELLED);
 		}
 		return order;
 	}
 
-	public LineItem addItemToCart(LineItem item, MultipartFile files[], Authentication auth) throws Exception {
+	public LineItem addItemToCart(LineItem item, MultipartFile files[], Authentication auth) throws Exception
+	{
 		OrderEntity order = getShoppingCart(auth);
 
 		item.setOrderEntity(order);
 		order.addLineItem(item);
 		int index = 0;
-		for (HyperFile hyperFile : item.getFiles()) {
+		for (HyperFile hyperFile : item.getFiles())
+		{
 			// Todo: Validate the user owns the file asset if its ID!=null
-			if (hyperFile.getAsset().getId() == null) {
+			if (hyperFile.getAsset().getId() == null)
+			{
 				FileAsset digitalAsset = new FileAsset();
 				digitalAsset.setName(files[index].getOriginalFilename());
 				digitalAsset.setOrganization(order.getOrganization());
@@ -187,7 +207,8 @@ public class OrderService {
 				files[index].transferTo(destPath);
 				hyperFile.setAsset(digitalAsset);
 				index++;
-			} else {
+			} else
+			{
 				FileAsset digitalAsset = assetsRepo.findById(hyperFile.getAsset().getId()).orElseThrow();
 				if (!digitalAsset.getOrganization().getId().equals(order.getOrganization().getId()))
 					throw new IllegalRequestDataException("The file is not belonging to the user");
@@ -205,14 +226,16 @@ public class OrderService {
 		return item;
 	}
 
-	public void deleteCartItem(UUID id, Authentication auth) {
+	public void deleteCartItem(UUID id, Authentication auth)
+	{
 		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
 		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Organization_Id(id, user.getDefaultOrg().getId())
 				.orElseThrow();
 
 //		OrderEntity orderEntity = orderRepo.findById(item.getOrderEntity().getId()).orElseThrow();
 		OrderEntity orderEntity = item.getOrderEntity();
-		if (orderEntity.getStatus().equals(OrderStatus.SHOPPING_CART) && orderEntity.getLineItems().contains(item)) {
+		if (orderEntity.getStatus().equals(OrderStatus.SHOPPING_CART) && orderEntity.getLineItems().contains(item))
+		{
 			orderEntity.getLineItems().remove(item);
 			orderRepo.save(orderEntity);
 			lineItemRepo.delete(item);
@@ -220,25 +243,30 @@ public class OrderService {
 
 	}
 
-	public OrderEntity getShoppingCart(UUID OrgId) {
+	public OrderEntity getShoppingCart(UUID OrgId)
+	{
 		List<OrderEntity> orders = orderRepo.findShoppingCart(OrderStatus.SHOPPING_CART, OrgId, PageRequest.of(0, 1));
 		OrderEntity order = null;
-		if (!orders.isEmpty()) {
+		if (!orders.isEmpty())
+		{
 			order = orders.get(0);
 		}
 
 		return order;
 	}
 
-	public Iterable<LineItem> getGalleryItems() {
+	public Iterable<LineItem> getGalleryItems()
+	{
 		return null;
 	}
 
-	public OrderEntity getShoppingCart(Authentication auth) {
+	public OrderEntity getShoppingCart(Authentication auth)
+	{
 		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
 		UUID orgId = user.getDefaultOrg().getId();
 		OrderEntity order = getShoppingCart(orgId);
-		if (order == null) {
+		if (order == null)
+		{
 			order = new OrderEntity();
 			order.setStatus(OrderStatus.SHOPPING_CART);
 			order.setPlacedBy(user);
@@ -248,14 +276,17 @@ public class OrderService {
 		return order;
 	}
 
-	public OrderEntity getGalleryCart(Authentication auth) {
+	public OrderEntity getGalleryCart(Authentication auth)
+	{
 		List<OrderEntity> orders = orderRepo.findGalleryCart(OrderStatus.GALLERY_CART, PageRequest.of(0, 1));
 		OrderEntity gallery = null;
-		if (!orders.isEmpty()) {
+		if (!orders.isEmpty())
+		{
 			gallery = orders.get(0);
 		}
 
-		if (gallery == null) {
+		if (gallery == null)
+		{
 
 			User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
 
@@ -268,15 +299,18 @@ public class OrderService {
 		return gallery;
 	}
 
-	public LineItem updateItem(UUID id, LineItem newItem, Authentication auth) {
+	public LineItem updateItem(UUID id, LineItem newItem, Authentication auth)
+	{
 		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
 		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Organization_Id(id, user.getDefaultOrg().getId())
 				.orElseThrow();
-		if (item != null) {
+		if (item != null)
+		{
 			item.setQuantity(newItem.getQuantity());
 			item.setNotes(newItem.getNotes());
 			// TODO: need support for multiple files
-			if (item.getFiles().size() > 0 && newItem.getFiles().size() > 0) {
+			if (item.getFiles().size() > 0 && newItem.getFiles().size() > 0)
+			{
 				HyperFile hf = item.getFiles().get(0);
 				HyperFile newHf = newItem.getFiles().get(0);
 				hf.setHeight(newHf.getHeight());
@@ -293,11 +327,13 @@ public class OrderService {
 		return item;
 	}
 
-	public LineItem updateItem(LineItem newItem) {
+	public LineItem updateItem(LineItem newItem)
+	{
 		List<LineItemStatus> eligibleStatus = Arrays.asList(LineItemStatus.QUOTED, LineItemStatus.ITEM_REJECTED,
 				LineItemStatus.PENDING);
 		LineItem item = lineItemRepo.findById(newItem.getId()).orElseThrow();
-		if (item.getOrderEntity().getStatus() == OrderStatus.PENDING && eligibleStatus.contains(item.getStatus())) {
+		if (item.getOrderEntity().getStatus() == OrderStatus.PENDING && eligibleStatus.contains(item.getStatus()))
+		{
 			item.setDuration(newItem.getDuration());
 			item.setUnitPrice(newItem.getUnitPrice());
 		} else
@@ -306,15 +342,18 @@ public class OrderService {
 		return item;
 	}
 
-	public OrderEntity checkout(Authentication auth, UUID id) {
+	public OrderEntity checkout(Authentication auth, UUID id)
+	{
 		OrderEntity order = getShoppingCart(auth);
 		Address address = addressRepo.findById(id).orElseThrow();
-		if (!address.getUser().getEmail().equals(auth.getName())) {
+		if (!address.getUser().getEmail().equals(auth.getName()))
+		{
 			throw new IllegalRequestDataException("Not The User's Address");
 		}
 		if (order.getLineItems().isEmpty())
 			order = null;
-		else {
+		else
+		{
 			order.setStatus(OrderStatus.PENDING);
 			order.setCreated(LocalDateTime.now());
 			order.setCity(address.getCity());
@@ -326,10 +365,12 @@ public class OrderService {
 		return order;
 	}
 
-	public void convertCartToGallery(Authentication auth) {
+	public void convertCartToGallery(Authentication auth)
+	{
 		OrderEntity cart = getShoppingCart(auth);
 		OrderEntity gallery = getGalleryCart(auth);
-		for (LineItem item : cart.getLineItems()) {
+		for (LineItem item : cart.getLineItems())
+		{
 
 			item.setOrderEntity(gallery);
 			gallery.addLineItem(item);
@@ -338,7 +379,8 @@ public class OrderService {
 		cart.getLineItems().clear();
 	}
 
-	public LineItem cloneGalleryItemToCart(UUID id, Authentication authentication) throws IOException {
+	public LineItem cloneGalleryItemToCart(UUID id, Authentication authentication) throws IOException
+	{
 		LineItem item = lineItemRepo.findById(id).orElseThrow(() -> new NotFoundException("Line item was not found"));
 		if (item.getOrderEntity().getStatus() != OrderStatus.GALLERY_CART)
 			throw new IllegalRequestDataException("This item is not a gallery item");
@@ -351,7 +393,8 @@ public class OrderService {
 		newItem.setService(item.getService());
 		newItem.setUnitPrice(item.getUnitPrice());
 		newItem.setStatus(LineItemStatus.PENDING);
-		for (HyperFile hyperFile : item.getFiles()) {
+		for (HyperFile hyperFile : item.getFiles())
+		{
 			FileAsset digitalAsset = new FileAsset();
 			digitalAsset.setName(hyperFile.getAsset().getName());
 			digitalAsset.setOrganization(cart.getOrganization());
@@ -381,12 +424,14 @@ public class OrderService {
 		return newItem;
 	}
 
-	public OrderEntity quote(UUID id, Authentication auth) {
+	public OrderEntity quote(UUID id, Authentication auth)
+	{
 		List<LineItemStatus> eligibleStatus = Arrays.asList(LineItemStatus.QUOTED, LineItemStatus.ITEM_REJECTED,
 				LineItemStatus.CANCELLED);
 		OrderEntity order = orderRepo.findById(id).orElseThrow();
 		if (order.getStatus() == OrderStatus.PENDING
-				&& order.getLineItems().stream().allMatch((item) -> eligibleStatus.contains(item.getStatus()))) {
+				&& order.getLineItems().stream().allMatch((item) -> eligibleStatus.contains(item.getStatus())))
+		{
 
 			order.setStatus(OrderStatus.QUOTED);
 			order.setQuotedAt(LocalDateTime.now());
@@ -398,11 +443,14 @@ public class OrderService {
 		return order;
 	}
 
-	public OrderEntity rejectOrder(UUID id, OrderEntity order, Authentication auth) {
+	public OrderEntity rejectOrder(UUID id, OrderEntity order, Authentication auth)
+	{
 		OrderEntity persistedOrder = orderRepo.findById(id).orElseThrow();
-		if (persistedOrder.getStatus() == OrderStatus.PENDING) {
+		if (persistedOrder.getStatus() == OrderStatus.PENDING)
+		{
 			persistedOrder.setStatus(OrderStatus.ORDER_REJECTED);
-			if (order != null) {
+			if (order != null)
+			{
 				if (order.getRejectionReasons() == null || order.getRejectionReasons().size() == 0
 						|| !order.getRejectionReasons().stream()
 								.anyMatch((reason) -> reason.getStatus() != ReasonStatus.PUBLISHED))
@@ -417,13 +465,15 @@ public class OrderService {
 		return persistedOrder;
 	}
 
-	public OrderEntity processOrder(UUID id, Authentication auth) {
+	public OrderEntity processOrder(UUID id, Authentication auth)
+	{
 		List<LineItemStatus> eligibleStatus = Arrays.asList(LineItemStatus.ITEM_REJECTED, LineItemStatus.CANCELLED,
 				LineItemStatus.QUOTE_REJECTED, LineItemStatus.QUOTE_ACCEPTED);
 		OrderEntity order = orderRepo.findById(id).orElseThrow();
 		if (order.getStatus() == OrderStatus.QUOTE_ACCEPTED && order.getLineItems().stream()
 //				.noneMatch((item) -> item.getUnitPrice() == null || item.getEstimatedEndDate() == null))
-				.allMatch((item) -> eligibleStatus.contains(item.getStatus()))) {
+				.allMatch((item) -> eligibleStatus.contains(item.getStatus())))
+		{
 			order.setStatus(OrderStatus.IN_PROGRESS);
 			Map<String, String> dto = Map.of("AcctMgr", auth.getName(), "orderId", order.getId().toString());
 			jmsTemplate.convertAndSend(orderInprogressQueue, dto);
@@ -432,9 +482,11 @@ public class OrderService {
 		return order;
 	}
 
-	public OrderEntity expireOrder(UUID id, Authentication auth) {
+	public OrderEntity expireOrder(UUID id, Authentication auth)
+	{
 		OrderEntity order = orderRepo.findById(id).orElseThrow();
-		if (order.getStatus() == OrderStatus.QUOTED) {
+		if (order.getStatus() == OrderStatus.QUOTED)
+		{
 			order.setStatus(OrderStatus.QUOTE_EXPIRED);
 			Map<String, String> dto = Map.of("AcctMgr", auth.getName(), "orderId", order.getId().toString());
 			jmsTemplate.convertAndSend(orderExpiredQueue, dto);
@@ -443,13 +495,15 @@ public class OrderService {
 		return order;
 	}
 
-	public OrderEntity finishOrder(UUID id, Authentication auth) {
+	public OrderEntity finishOrder(UUID id, Authentication auth)
+	{
 		List<LineItemStatus> eligibleStatus = Arrays.asList(LineItemStatus.ITEM_REJECTED, LineItemStatus.CANCELLED,
 				LineItemStatus.QUOTE_REJECTED, LineItemStatus.FINISHED, LineItemStatus.DELIVERED);
 		OrderEntity order = orderRepo.findById(id).orElseThrow();
 		if (order.getStatus() == OrderStatus.IN_PROGRESS && order.getLineItems().stream()
 //				.noneMatch((item) -> item.getUnitPrice() == null || item.getEstimatedEndDate() == null))
-				.allMatch((item) -> eligibleStatus.contains(item.getStatus()))) {
+				.allMatch((item) -> eligibleStatus.contains(item.getStatus())))
+		{
 			order.setStatus(OrderStatus.FINISHED);
 			Map<String, String> dto = Map.of("AcctMgr", auth.getName(), "orderId", order.getId().toString());
 			jmsTemplate.convertAndSend(orderFinishedQueue, dto);
@@ -457,13 +511,15 @@ public class OrderService {
 		return order;
 	}
 
-	public OrderEntity deliverOrder(UUID id, Authentication auth) {
+	public OrderEntity deliverOrder(UUID id, Authentication auth)
+	{
 		List<LineItemStatus> eligibleStatus = Arrays.asList(LineItemStatus.ITEM_REJECTED, LineItemStatus.CANCELLED,
 				LineItemStatus.QUOTE_REJECTED, LineItemStatus.DELIVERED);
 		OrderEntity order = orderRepo.findById(id).orElseThrow();
 		if (order.getStatus() == OrderStatus.FINISHED && order.getLineItems().stream()
 //				.noneMatch((item) -> item.getUnitPrice() == null || item.getEstimatedEndDate() == null))
-				.allMatch((item) -> eligibleStatus.contains(item.getStatus()))) {
+				.allMatch((item) -> eligibleStatus.contains(item.getStatus())))
+		{
 			order.setStatus(OrderStatus.DELIVERED);
 			Map<String, String> dto = Map.of("AcctMgr", auth.getName(), "orderId", order.getId().toString());
 			jmsTemplate.convertAndSend(orderDeliveredQueue, dto);
@@ -471,7 +527,8 @@ public class OrderService {
 		return order;
 	}
 
-	public LineItem cancelItem(UUID id, Authentication auth) {
+	public LineItem cancelItem(UUID id, Authentication auth)
+	{
 		List<LineItemStatus> eligibleItemStatus = Arrays.asList(LineItemStatus.PENDING, LineItemStatus.QUOTED,
 				LineItemStatus.QUOTE_ACCEPTED, LineItemStatus.QUOTE_REJECTED, LineItemStatus.ITEM_REJECTED);
 		List<OrderStatus> eligibleOrderStatus = Arrays.asList(OrderStatus.PENDING, OrderStatus.QUOTED,
@@ -482,14 +539,16 @@ public class OrderService {
 				.orElseThrow();
 
 		if (eligibleItemStatus.contains(item.getStatus())
-				&& eligibleOrderStatus.contains(item.getOrderEntity().getStatus())) {
+				&& eligibleOrderStatus.contains(item.getOrderEntity().getStatus()))
+		{
 			item.setStatus(LineItemStatus.CANCELLED);
 		} else
 			throw new IllegalRequestDataException("Can't cancel item");
 		return item;
 	}
 
-	public LineItem rejectItemQuote(UUID id, Authentication auth) {
+	public LineItem rejectItemQuote(UUID id, Authentication auth)
+	{
 		List<LineItemStatus> eligibleItemStatus = Arrays.asList(LineItemStatus.QUOTED, LineItemStatus.QUOTE_ACCEPTED);
 		List<OrderStatus> eligibleOrderStatus = Arrays.asList(OrderStatus.QUOTED);
 		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
@@ -497,14 +556,16 @@ public class OrderService {
 				.orElseThrow();
 
 		if (eligibleItemStatus.contains(item.getStatus())
-				&& eligibleOrderStatus.contains(item.getOrderEntity().getStatus())) {
+				&& eligibleOrderStatus.contains(item.getOrderEntity().getStatus()))
+		{
 			item.setStatus(LineItemStatus.QUOTE_REJECTED);
 		} else
 			throw new IllegalRequestDataException("Can't reject item quote");
 		return item;
 	}
 
-	public LineItem acceptItemQuote(UUID id, Authentication auth) {
+	public LineItem acceptItemQuote(UUID id, Authentication auth)
+	{
 		List<LineItemStatus> eligibleItemStatus = Arrays.asList(LineItemStatus.QUOTED, LineItemStatus.QUOTE_REJECTED);
 		List<OrderStatus> eligibleOrderStatus = Arrays.asList(OrderStatus.QUOTED);
 		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
@@ -512,36 +573,42 @@ public class OrderService {
 				.orElseThrow();
 
 		if (eligibleItemStatus.contains(item.getStatus())
-				&& eligibleOrderStatus.contains(item.getOrderEntity().getStatus())) {
+				&& eligibleOrderStatus.contains(item.getOrderEntity().getStatus()))
+		{
 			item.setStatus(LineItemStatus.QUOTE_ACCEPTED);
 		} else
 			throw new IllegalRequestDataException("Can't accept  item quote");
 		return item;
 	}
 
-	public LineItem quoteItem(UUID id, Authentication auth) {
+	public LineItem quoteItem(UUID id, Authentication auth)
+	{
 		List<LineItemStatus> eligibleItemStatus = Arrays.asList(LineItemStatus.PENDING, LineItemStatus.QUOTED,
 				LineItemStatus.ITEM_REJECTED);
 		List<OrderStatus> eligibleOrderStatus = Arrays.asList(OrderStatus.PENDING);
 		LineItem item = lineItemRepo.findById(id).orElseThrow();
 		if (eligibleOrderStatus.contains(item.getOrderEntity().getStatus())
 				&& eligibleItemStatus.contains(item.getStatus()) && item.getDuration() > 0
-				&& item.getUnitPrice() != null) {
+				&& item.getUnitPrice() != null)
+		{
 			item.setStatus(LineItemStatus.QUOTED);
 		} else
 			throw new IllegalRequestDataException("Can't quote  the item ");
 		return item;
 	}
 
-	public LineItem rejectItem(UUID id, LineItem item, Authentication auth) {
+	public LineItem rejectItem(UUID id, LineItem item, Authentication auth)
+	{
 		List<LineItemStatus> eligibleItemStatus = Arrays.asList(LineItemStatus.PENDING, LineItemStatus.QUOTED,
 				LineItemStatus.ITEM_REJECTED);
 		List<OrderStatus> eligibleOrderStatus = Arrays.asList(OrderStatus.PENDING);
 		LineItem existingItem = lineItemRepo.findById(id).orElseThrow();
 		if (eligibleOrderStatus.contains(existingItem.getOrderEntity().getStatus())
-				&& eligibleItemStatus.contains(existingItem.getStatus())) {
+				&& eligibleItemStatus.contains(existingItem.getStatus()))
+		{
 			existingItem.setStatus(LineItemStatus.ITEM_REJECTED);
-			if (item != null) {
+			if (item != null)
+			{
 				if (item.getRejectionReasons() == null || item.getRejectionReasons().size() == 0
 						|| !item.getRejectionReasons().stream()
 								.anyMatch((reason) -> reason.getStatus() != ReasonStatus.PUBLISHED))
@@ -554,49 +621,57 @@ public class OrderService {
 		return existingItem;
 	}
 
-	public LineItem processItem(UUID id, Authentication auth) {
+	public LineItem processItem(UUID id, Authentication auth)
+	{
 		List<LineItemStatus> eligibleItemStatus = Arrays.asList(LineItemStatus.QUOTE_ACCEPTED);
 		List<OrderStatus> eligibleOrderStatus = Arrays.asList(OrderStatus.IN_PROGRESS);
 		LineItem item = lineItemRepo.findById(id).orElseThrow();
 		if (eligibleOrderStatus.contains(item.getOrderEntity().getStatus())
-				&& eligibleItemStatus.contains(item.getStatus())) {
+				&& eligibleItemStatus.contains(item.getStatus()))
+		{
 			item.setStatus(LineItemStatus.IN_PROGRESS);
 		} else
 			throw new IllegalRequestDataException("Can't process  the item ");
 		return item;
 	}
 
-	public LineItem finishItem(UUID id, Authentication auth) {
+	public LineItem finishItem(UUID id, Authentication auth)
+	{
 		List<LineItemStatus> eligibleItemStatus = Arrays.asList(LineItemStatus.IN_PROGRESS);
 		List<OrderStatus> eligibleOrderStatus = Arrays.asList(OrderStatus.IN_PROGRESS);
 		LineItem item = lineItemRepo.findById(id).orElseThrow();
 
 		if (eligibleOrderStatus.contains(item.getOrderEntity().getStatus())
-				&& eligibleItemStatus.contains(item.getStatus())) {
+				&& eligibleItemStatus.contains(item.getStatus()))
+		{
 			item.setStatus(LineItemStatus.FINISHED);
 		} else
 			throw new IllegalRequestDataException("Can't finish  the item ");
 		return item;
 	}
 
-	public LineItem deliverItem(UUID id, Authentication auth) {
+	public LineItem deliverItem(UUID id, Authentication auth)
+	{
 		List<LineItemStatus> eligibleStatus = Arrays.asList(LineItemStatus.FINISHED);
 		List<OrderStatus> eligibleOrderStatus = Arrays.asList(OrderStatus.FINISHED, OrderStatus.IN_PROGRESS);
 		LineItem item = lineItemRepo.findById(id).orElseThrow();
 
 		if (eligibleOrderStatus.contains(item.getOrderEntity().getStatus())
-				&& eligibleStatus.contains(item.getStatus())) {
+				&& eligibleStatus.contains(item.getStatus()))
+		{
 			item.setStatus(LineItemStatus.DELIVERED);
 		} else
 			throw new IllegalRequestDataException("Can't Deliver  the item ");
 		return item;
 	}
 
-	public LineItem reset(UUID id, Authentication auth) {
+	public LineItem reset(UUID id, Authentication auth)
+	{
 		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
 		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Organization_Id(id, user.getDefaultOrg().getId())
 				.orElseThrow();
-		if (item.getOrderEntity().getStatus() == OrderStatus.PENDING && item.getStatus() != LineItemStatus.CANCELLED) {
+		if (item.getOrderEntity().getStatus() == OrderStatus.PENDING && item.getStatus() != LineItemStatus.CANCELLED)
+		{
 			item.setStatus(LineItemStatus.PENDING);
 		} else
 			throw new IllegalRequestDataException("Can't reset item");
@@ -604,14 +679,17 @@ public class OrderService {
 	}
 
 	@Scheduled(fixedDelay = 1000 * 60 * 60) // Every hour to run
-	public void orderScheduler() {
+	public void orderScheduler()
+	{
 
 	}
 
-	public void sendOrderRejectionMsg(String email, UUID orderId) throws Exception {
+	public void sendOrderRejectionMsg(String email, UUID orderId) throws Exception
+	{
 		OrderEntity order = orderRepo.findById(orderId).orElseThrow();
 		User acctMgr = userRepo.findByUsernameIgnoreCase(email).orElseThrow();
-		if (acctMgr != null && order.getStatus() == OrderStatus.ORDER_REJECTED) {
+		if (acctMgr != null && order.getStatus() == OrderStatus.ORDER_REJECTED)
+		{
 			Map<String, String> dto = Map.of("user", order.getPlacedBy().getFirstName(), "acctMgr",
 					acctMgr.getFirstName(), "orderId", order.getId().toString());
 			emailService.sendTemplateMessage(order.getPlacedBy().getEmail(),
@@ -622,10 +700,12 @@ public class OrderService {
 
 	}
 
-	public void sendOrderQuotedMsg(String email, UUID orderId) throws Exception {
+	public void sendOrderQuotedMsg(String email, UUID orderId) throws Exception
+	{
 		OrderEntity order = orderRepo.findById(orderId).orElseThrow();
 		User acctMgr = userRepo.findByUsernameIgnoreCase(email).orElseThrow();
-		if (acctMgr != null && order.getStatus() == OrderStatus.QUOTED) {
+		if (acctMgr != null && order.getStatus() == OrderStatus.QUOTED)
+		{
 			Map<String, String> dto = Map.of("user", order.getPlacedBy().getFirstName(), "acctMgr",
 					acctMgr.getFirstName(), "orderId", order.getId().toString());
 			emailService.sendTemplateMessage(order.getPlacedBy().getEmail(),
@@ -635,10 +715,12 @@ public class OrderService {
 
 	}
 
-	public void sendOrderInprogressMsg(String email, UUID orderId) throws Exception {
+	public void sendOrderInprogressMsg(String email, UUID orderId) throws Exception
+	{
 		OrderEntity order = orderRepo.findById(orderId).orElseThrow();
 		User acctMgr = userRepo.findByUsernameIgnoreCase(email).orElseThrow();
-		if (acctMgr != null && order.getStatus() == OrderStatus.IN_PROGRESS) {
+		if (acctMgr != null && order.getStatus() == OrderStatus.IN_PROGRESS)
+		{
 			Map<String, String> dto = Map.of("user", order.getPlacedBy().getFirstName(), "acctMgr",
 					acctMgr.getFirstName(), "orderId", order.getId().toString());
 			emailService.sendTemplateMessage(order.getPlacedBy().getEmail(),
@@ -648,10 +730,12 @@ public class OrderService {
 
 	}
 
-	public void sendOrderExpiredMsg(String email, UUID orderId) throws Exception {
+	public void sendOrderExpiredMsg(String email, UUID orderId) throws Exception
+	{
 		OrderEntity order = orderRepo.findById(orderId).orElseThrow();
 		User acctMgr = userRepo.findByUsernameIgnoreCase(email).orElseThrow();
-		if (acctMgr != null && order.getStatus() == OrderStatus.QUOTE_EXPIRED) {
+		if (acctMgr != null && order.getStatus() == OrderStatus.QUOTE_EXPIRED)
+		{
 			Map<String, String> dto = Map.of("user", order.getPlacedBy().getFirstName(), "acctMgr",
 					acctMgr.getFirstName(), "orderId", order.getId().toString());
 			emailService.sendTemplateMessage(order.getPlacedBy().getEmail(),
@@ -662,10 +746,12 @@ public class OrderService {
 
 	}
 
-	public void sendOrderFinishedMsg(String email, UUID orderId) throws Exception {
+	public void sendOrderFinishedMsg(String email, UUID orderId) throws Exception
+	{
 		OrderEntity order = orderRepo.findById(orderId).orElseThrow();
 		User acctMgr = userRepo.findByUsernameIgnoreCase(email).orElseThrow();
-		if (acctMgr != null && order.getStatus() == OrderStatus.FINISHED) {
+		if (acctMgr != null && order.getStatus() == OrderStatus.FINISHED)
+		{
 			Map<String, String> dto = Map.of("user", order.getPlacedBy().getFirstName(), "acctMgr",
 					acctMgr.getFirstName(), "orderId", order.getId().toString());
 			emailService.sendTemplateMessage(order.getPlacedBy().getEmail(),
@@ -675,10 +761,12 @@ public class OrderService {
 
 	}
 
-	public void sendOrderDeliveredMsg(String email, UUID orderId) throws Exception {
+	public void sendOrderDeliveredMsg(String email, UUID orderId) throws Exception
+	{
 		OrderEntity order = orderRepo.findById(orderId).orElseThrow();
 		User acctMgr = userRepo.findByUsernameIgnoreCase(email).orElseThrow();
-		if (acctMgr != null && order.getStatus() == OrderStatus.FINISHED) {
+		if (acctMgr != null && order.getStatus() == OrderStatus.FINISHED)
+		{
 			Map<String, String> dto = Map.of("user", order.getPlacedBy().getFirstName(), "acctMgr",
 					acctMgr.getFirstName(), "orderId", order.getId().toString());
 			emailService.sendTemplateMessage(order.getPlacedBy().getEmail(),
