@@ -103,4 +103,14 @@ public class OrganizationService
 			org.setStatus(status);
 		return org;
 	}
+
+	public Organization getById(UUID id, Authentication auth)
+	{
+		return orgRepo.findById(id).orElseThrow();
+	}
+
+	public Organization getByIdandUser(UUID id, Authentication auth)
+	{
+		return orgRepo.findByIdAndOwner_username(id, auth.getName().toLowerCase()).orElseThrow();
+	}
 }

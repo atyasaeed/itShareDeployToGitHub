@@ -85,8 +85,8 @@ public class ShoppingCartController
 		return orderService.updateItem(item.getId(), item, auth);
 	}
 
-	@PutMapping(path = "checkout")
-	public OrderEntity checkoutCart(Authentication auth, @RequestBody UUID id)
+	@PutMapping(path = "checkout/{id}")
+	public OrderEntity checkoutCart(Authentication auth, @PathVariable("id") UUID id)
 	{
 		return orderService.checkout(auth, id);
 	}

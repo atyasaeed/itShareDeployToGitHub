@@ -96,7 +96,8 @@ public class OrganizationController
 	private Specification<Organization> filterByStatus(List<OrganizationStatus> status)
 	{
 		// TODO Auto-generated method stub
-		return (Root<Organization> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
+		return (Root<Organization> root, CriteriaQuery<?> query, CriteriaBuilder cb) ->
+		{
 			List<Predicate> predicates = new ArrayList<>();
 			predicates.add(root.get("status").in(status));
 			return cb.and(predicates.toArray(new Predicate[predicates.size()]));
@@ -110,5 +111,19 @@ public class OrganizationController
 
 		return orgService.search(specs, auth, page);
 
+	}
+
+	@GetMapping("admin/{id}")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public Organization get(Authentication auth, @PathVariable("id") UUID id)
+	{
+		return orgService.getById(id, auth);
+	}
+
+	@GetMapping("/{id}")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	public Organization getAdmin(Authentication auth, @PathVariable("id") UUID id)
+	{
+		return orgService.getByIdandUser(id, auth);
 	}
 }
