@@ -48,7 +48,12 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
     if (this.router.getCurrentNavigation()?.extras.state) {
       Object.assign(this.org, this.router.getCurrentNavigation().extras.state);
     } else {
-      super.ngOnInit();
+      this.route.params.subscribe(param => {
+        console.log(param.entityId)
+        this.service.getOrgAdmin(param.entityId).subscribe((res :Organization)  => {
+          this.org =res
+        })
+      })
     }
   }
   ngOnInit() {}
