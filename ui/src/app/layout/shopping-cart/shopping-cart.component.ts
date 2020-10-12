@@ -51,7 +51,7 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     private modalService: BsModalService,
     private addressBookService: AddressBookService,
     private router: Router,
-    private translateService:TranslateService
+    private translateService: TranslateService
   ) {
     super(service, loadingService);
     this.authUser$ = this.appStore.select(fromStore.getAuthUser);
@@ -206,8 +206,8 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     if (this.myAddressess.length > 0) {
       this.modalRef = this.modalService.show(template);
     } else {
-      this.toastr.warning(this.translateService.instant('pleaseAddAddress'))
-      this.router.navigate(['/address-book/create'],{ state: { fromRoute: '/shopping-cart' } });
+      this.toastr.warning(this.translateService.instant('pleaseAddAddress'));
+      this.router.navigate(['/address-book/create'], { state: { fromRoute: '/shopping-cart' } });
     }
   }
 

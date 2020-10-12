@@ -215,7 +215,6 @@ export class OrganizationInfoComponent implements OnInit {
 
   onChangeStatus(event) {
     this.org.status = event;
-    console.log(event);
     if (event === 'PENDING' || event === 'REJECTED') {
       this.form.addControl('statusReason', new FormControl('', Validators.required));
       this.checkState = true;

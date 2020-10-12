@@ -14,5 +14,4 @@ export class ShoppingCartService extends RestService<ShoppingCartItem> {
   checkout(addressId: string) {
     return this.http.put<Order>(this.appConfig.CHECKOUT_URL + '/' + addressId, null);
   }
-
 }
