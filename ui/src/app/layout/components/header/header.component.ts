@@ -84,14 +84,4 @@ export class HeaderComponent extends DefaultListComponent<ShoppingCartItem, Shop
   signupPartner() {
     this.router.navigate(['/signup'], { queryParams: { partner: 'true' } });
   }
-
-  checkout() {
-    this.service.checkout().subscribe((resp) => {
-      // this.service.searchTerm = '';
-      // this.refresh();
-      this.appStore.dispatch(new fromStore.LoadInitState());
-    });
-  }
-
-  // Shopping Cart Icon
 }

@@ -44,17 +44,18 @@ import ilab.core.service.OrderService;
 @PreAuthorize("hasRole('ROLE_USER')")
 public class ShoppingCartController
 {
-	static final String REST_URL="/api/cart";
+	static final String REST_URL = "/api/cart";
 	@Autowired
 	private OrderService orderService;
 	@Autowired
 	private LineItemRepository lineItemRepo;
+
 	@GetMapping()
 	public OrderEntity getShoppingCart(Authentication auth)
 	{
 		return orderService.getShoppingCart(auth);
 	}
-	
+
 //	@PostMapping(path = "cart", consumes = "application/json")
 //	@ResponseStatus(HttpStatus.CREATED)
 //	public Iterable<LineItem> postCartItem(@RequestBody LineItem	lineItem,Authentication authentication)
@@ -64,47 +65,49 @@ public class ShoppingCartController
 //	}
 	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
-	public LineItem postCartItem(@RequestPart("item") LineItem item,@RequestParam(required = false) MultipartFile files[],Authentication authentication) throws Exception
+	public LineItem postCartItem(@RequestPart("item") LineItem item,
+			@RequestParam(required = false) MultipartFile files[], Authentication authentication) throws Exception
 	{
-		LineItem lineItem= orderService.addItemToCart(item,files,authentication);
+		LineItem lineItem = orderService.addItemToCart(item, files, authentication);
 		return lineItem;
 	}
+
 	@DeleteMapping(path = "/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteCartItem(@PathVariable("id") UUID id,Authentication authentication)
+	public void deleteCartItem(@PathVariable("id") UUID id, Authentication authentication)
 	{
-		orderService.deleteCartItem(id,authentication);
+		orderService.deleteCartItem(id, authentication);
 	}
 
-	
-	
 	@PutMapping()
-	public LineItem updateCartItem(@RequestBody LineItem item,Authentication auth)
+	public LineItem updateCartItem(@RequestBody LineItem item, Authentication auth)
 	{
 		return orderService.updateItem(item.getId(), item, auth);
 	}
-	@PutMapping(path="checkout")
-	public OrderEntity checkoutCart(Authentication auth)
+
+	@PutMapping(path = "checkout")
+	public OrderEntity checkoutCart(Authentication auth, @RequestBody UUID id)
 	{
-		return orderService.checkout(auth);
+		return orderService.checkout(auth, id);
 	}
-	
+
 	@GetMapping("search")
-	public Page<LineItem> getPageable(Pageable page, @SearchSpec Specification<LineItem> specs,Authentication auth)
+	public Page<LineItem> getPageable(Pageable page, @SearchSpec Specification<LineItem> specs, Authentication auth)
 	{
-		
-		OrderEntity order=orderService.getShoppingCart(auth);
-		Specification<LineItem> combined=filterByOrderId( order.getId()).and(specs);
+
+		OrderEntity order = orderService.getShoppingCart(auth);
+		Specification<LineItem> combined = filterByOrderId(order.getId()).and(specs);
 		return lineItemRepo.findAll(combined, page);
 
-		
 	}
-	
-	private  Specification<LineItem> filterByOrderId(UUID value) {
-		return  (Root<LineItem> root, CriteriaQuery<?> query, CriteriaBuilder cb)->{
+
+	private Specification<LineItem> filterByOrderId(UUID value)
+	{
+		return (Root<LineItem> root, CriteriaQuery<?> query, CriteriaBuilder cb) ->
+		{
 			List<Predicate> predicates = new ArrayList<>();
-			
-			Path<OrderEntity> orderPath=root.<OrderEntity>get("orderEntity");
+
+			Path<OrderEntity> orderPath = root.<OrderEntity>get("orderEntity");
 			predicates.add(cb.equal(orderPath.<UUID>get("id"), value));
 			predicates.add(cb.equal(orderPath.<OrderStatus>get("status"), OrderStatus.SHOPPING_CART));
 			return cb.and(predicates.toArray(new Predicate[predicates.size()]));

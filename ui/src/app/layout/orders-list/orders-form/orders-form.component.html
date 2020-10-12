@@ -14,14 +14,20 @@
           <span style="display:block;">{{'order.totalPrice'|translate}} :<span
               class="f-weight-400">{{getSubTotal(entity.lineItems)| currency:'EGP'}}</span></span>
         </div>
-        <div class="col-md-4 form-rtl">
+        <div class="col-md-4 form-rtl ">
           <span>{{'firstName'|translate}} : </span>
           <span class="f-weight-400"> {{entity?.placedBy?.firstName}}</span>
           <span style="display:block;">{{'phoneNumber'|translate}} :<span class="f-weight-400">
               {{entity?.placedBy?.mobileNo}}</span>
           </span>
-          <a [routerLink]="['/users', entity.placedBy.id]" class="d-block">{{'viewProfile'|translate}}
+          <a [routerLink]="['/users', entity.placedBy.id]" class="f-weight-400 d-block">{{'viewProfile'|translate}}
           </a>
+          <div>
+            <span class="f-weight-400 text-primary cursor-pointer"
+            (click)="viewShippingAddressModal(showOrderShippingAddress)">
+              {{'viewShippingAddress'|translate}}
+            </span>
+          </div>
         </div>
 
 
@@ -512,3 +518,24 @@
 
 
 </div>
+
+
+<ng-template #showOrderShippingAddress>
+    <div class="modal-body ">
+      <div>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="text-center mt-2 site-color-v1">
+        <i class="fas fa-shipping-fast fa-3x"></i>
+      </div>
+      <div class="text-center f-size-14 text-grey mt-2">
+        {{entity.orderAddress|translate}} - {{lang==='en'? (entity?.city?.state?.enName):(entity?.city?.state?.arName)}}
+        - {{lang==='en'? (entity?.city?.enName):(entity?.city?.arName)}}
+      </div>
+      <div class="text-center my-2 f-weight-600">
+        <button class="custom-btn v4 mr-3" (click)="modalRef.hide()">{{'cancel'|translate}}</button>
+      </div>
+    </div>
+</ng-template>

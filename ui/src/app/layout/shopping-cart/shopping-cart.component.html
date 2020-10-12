@@ -9,34 +9,25 @@
         <ng-container *ngIf="(items)?.length!=0 else anonymous">
           <!-- <ng-container> -->
           <div class="container-fluid">
-            <div class="row align-items-start">
-              <!-- Cart Items Table -->
-              <div class="col-md-8 " [ngClass]="{'pl-0': lang==='en', 'pr-0': lang==='ar'}">
-                <div class="items">
-                  <!-- One Item Row -->
-                  <div class="custom-card  p-3 mt-4" *ngFor="let entity of items;let i =index">
-                    <div class="row">
-                      <div class="col-md-3 text-center service-image mb-2">
-                        <img class="img-fluid " [src]="appConfig.FILE_URL + entity.files[0].asset_id"
-                          *ngIf="getFileExtension(entity) == 'image';else stlExtension">
-                        <ng-template #stlExtension>
-                          <div class="text-center" *ngIf="getFileExtension(entity) == 'stl';else serviceImage">
-
+              <div class="row align-items-start">
+                <!-- Cart Items Table -->
+                <div class="col-md-8 " [ngClass]="{'pl-0': lang==='en', 'pr-0': lang==='ar'}">
+                  <div class="items">
+                    <!-- One Item Row -->
+                    <div class="custom-card  p-3 mb-4" *ngFor="let entity of items;let i =index">
+                      <div class="row">
+                        <div class="col-md-3 text-center service-image mb-2">
+                          <img class="img-fluid " [src]="appConfig.FILE_URL + entity.files[0].asset_id"
+                            *ngIf="getFileExtension(entity) == 'image';else stlExtension">
+                          <ng-template #stlExtension>
+                            <div class="text-center" *ngIf="getFileExtension(entity) == 'stl';else serviceImage">
+                              <img class="img-fluid " [src]="appConfig.serviceImage(entity.service)">
+                              <app-stl-modal [stlPath]="appConfig.FILE_URL + entity.files[0].asset_id"></app-stl-modal>
+                            </div>
+                          </ng-template>
+                          <ng-template #serviceImage>
                             <img class="img-fluid " [src]="appConfig.serviceImage(entity.service)">
-                            <app-stl-modal [stlPath]="appConfig.FILE_URL + entity.files[0].asset_id"></app-stl-modal>
-                          </div>
-                        </ng-template>
-                        <ng-template #serviceImage>
-                          <img class="img-fluid " [src]="appConfig.serviceImage(entity.service)">
-                          <app-stl-modal [stlPath]="appConfig.FILE_URL + entity.files[0].asset_id"></app-stl-modal>
-
-                        </ng-template>
-                        <ng-template #serviceImage>
-                          <img class="img-fluid " [src]="appConfig.serviceImage(entity.service)">
-                        </ng-template>
-
-
-
+                          </ng-template>
                       </div>
                       <div class="col-md-9">
                         <div class="info">
@@ -65,46 +56,41 @@
                                     <button (click)="increaseQuantity(entity, quantity.value)"><i class="fa fa-plus"
                                         aria-hidden="true"></i></button>
                                   </div>
-
                                 </div>
                               </div>
                             </div>
-                            <div class="col-md-4 price text-right my-auto">
+                              <div class="col-md-4 price text-right my-auto">
 
-                              <a class="btn btn-outline-success btn-xs" [href]="getFileUrl(entity)"
-                                tooltip="{{'download' | translate}}" hide-delay="0">
-                                <i class="fa fa-download" aria-hidden="true"></i>
-                              </a>
+                                <a class="btn btn-outline-success btn-xs" [href]="getFileUrl(entity)"
+                                  tooltip="{{'download' | translate}}" hide-delay="0">
+                                  <i class="fa fa-download" aria-hidden="true"></i>
+                                </a>
 
-                              <button type="button" [disabled]="loading" class="btn btn-outline-danger btn-xs ml-3"
-                                tooltip="{{'delete' | translate}}" hide-delay="0"
-                                (click)="deleteItemModal(deleteConfirm)">
-                                <i class="fa fa-trash" aria-hidden="true"></i>
-                              </button>
-                              <ng-template #deleteConfirm>
-                                <div class="modal-body ">
-                                  <div>
-                                    <button type="button" class="close pull-right" aria-label="Close"
-                                      (click)="modalRef.hide()">
-                                      <span aria-hidden="true">&times;</span>
-                                    </button>
+                                <button type="button" [disabled]="loading" class="btn btn-outline-danger btn-xs ml-3"
+                                  tooltip="{{'delete' | translate}}" hide-delay="0" (click)="openModal(deleteConfirm)">
+                                  <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                                <ng-template #deleteConfirm>
+                                  <div class="modal-body ">
+                                    <div>
+                                      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="text-center mt-2 text-danger">
+                                      <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="text-center mt-2 site-color-v3 f-weight-600 f-size-20">
+                                      {{'deleteItem'|translate}}
+                                    </div>
+                                    <div class="text-center f-size-14 text-grey mt-2">
+                                      {{'deleteDescription'|translate}}
+                                    </div>
+                                    <div class="text-center my-2 f-weight-600">
+                                      <button class="custom-btn v4 mr-3" (click)="modalRef.hide()">{{'cancel'|translate}}</button>
+                                      <button class="custom-btn btn-danger" (click)="delete(entity);modalRef.hide()">{{'delete'|translate}}</button>
+                                    </div>
                                   </div>
-                                  <div class="text-center mt-2 text-danger">
-                                    <i class="fa fa-trash" aria-hidden="true"></i>
-                                  </div>
-                                  <div class="text-center mt-2 site-color-v3 f-weight-600 f-size-20">
-                                    {{'deleteItem'|translate}}
-                                  </div>
-                                  <div class="text-center f-size-14 text-grey mt-2">
-                                    {{'deleteDescription'|translate}}
-                                  </div>
-                                  <div class="text-center my-2 f-weight-600">
-                                    <button class="custom-btn v4 mr-3"
-                                      (click)="modalRef.hide()">{{'cancel'|translate}}</button>
-                                    <button class="custom-btn btn-danger"
-                                      (click)="delete(entity);modalRef.hide()">{{'delete'|translate}}</button>
-                                  </div>
-                                </div>
                               </ng-template>
 
 
@@ -213,25 +199,25 @@
                       </div>
                     </div>
                   </div>
-                  <!-- End One Item Row -->
-
                 </div>
+                <!-- End Cart Items Table -->
+
               </div>
+
+                <!-- Cart Summary & Checkout -->
+            <div class="col-md-4  p-4 stick-to-top custom-card f-weight-600">
               <!-- End Cart Items Table -->
-
-              <!-- Cart Summary & Checkout -->
-              <div class="col-md-4 mt-4 p-4 stick-to-top custom-card f-weight-600">
-
                 <h3 class="text-center pb-3 border-bottom site-color-v3  f-size-24">{{'summary' | translate }}</h3>
                 <div class="mt-3 pb-3 border-bottom text-center site-color-v3  f-size-20">
                   {{items.length}} {{'servicesAreAdded'|translate}}
                 </div>
 
                 <button type="button" class="mt-3 custom-btn py-2 v1 btn-block"
-                  (click)="checkout()">{{ 'confirmOrder' | translate }}</button>
+                  (click)="confirmOrderModal(checkOutModal)">{{ 'confirmOrder' | translate }}</button>
                 <!-- <button type="button" *ngIf="hasAdminRole" class="py-2 custom-btn v4 btn-block"
-                      (click)="convertToGallery()">{{ 'convertToGallery' | translate }}</button> -->
-                <button type="button" class="custom-btn py-2 v2 btn-block " routerLink="/shopping-cart/CartItem">
+                  (click)="convertToGallery()">{{ 'convertToGallery' | translate }}</button> -->
+                <button type="button" class="custom-btn py-2 v2 btn-block "
+                  routerLink="/shopping-cart/CartItem">
                   {{ 'continueShopping' | translate }}
                 </button>
 
@@ -253,3 +239,53 @@
     </section>
   </main>
 </div>
+
+  <ng-template #checkOutModal>
+    <div class="modal-body ">
+      <div class="overflow-hidden">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <a (click)="modalRef.hide()" routerLink="/address-book/create"
+          [state]="{'fromRoute':'/shopping-cart'}"  class="float-left custom-btn btn-success" >
+          {{'addAddress'|translate}}
+        </a>
+      </div>
+      <div class="text-center mt-2 site-color-v1">
+        <i class="fas fa-shipping-fast fa-3x"></i>
+      </div>
+      <div class="text-center mt-2 site-color-v3 f-weight-600 f-size-20">
+        {{'chooseShippingAddress'|translate}}
+      </div>
+      <div class="max-height-scroll px-2">
+        <div *ngFor="let address of myAddressess;let i=index;" class="d-flex  align-items-center my-3">
+          <div class="custom-control custom-radio my-auto w-100">
+            <input (change)="changeShippingAddress($event)"  [value]="address.id"
+            [checked]="myShippingAddress ? (address.id===myShippingAddress) : i===0" name="shipping-address"
+            class="custom-control-input f-size-18" type="radio" id="'address_'{{address.id}}" >
+            <label for="'address_'{{address.id}}" class="custom-control-label">
+              <span class="f-weight-600 site-color-v3">
+                <ng-container *ngIf="lang==='en'">
+                  {{address.city.state.enName}}-{{address.city.enName}}
+                </ng-container>
+                <ng-container *ngIf="lang==='ar'">
+                  {{address.city.state.arName}}-{{address.city.arName}}
+                </ng-container>
+              </span>
+              <div class="text-grey f-weight-400">
+                {{address.name}} - {{address.lineOne}} - {{address.lineTwo}}
+              </div>
+            </label>
+          </div>
+          <div class="border-left ml-2 pl-2">
+            <span (click)="modalRef.hide()" routerLink="/address-book/{{address.id}}"
+            [state]="{'fromRoute':'/shopping-cart'}" class="cursor-pointer site-color-v1">{{'edit'|translate}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="text-center my-2 f-weight-600">
+        <button class="custom-btn v4 mr-3" (click)="modalRef.hide()">{{'cancel'|translate}}</button>
+        <button class="custom-btn v1" (click)="checkout();modalRef.hide()">{{'confirm'|translate}}</button>
+      </div>
+    </div>
+  </ng-template>
