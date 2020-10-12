@@ -47,6 +47,7 @@ export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, 
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
     this.form = this.formBuilder.group({
+      contactName: ['', [Validators.required, Validators.minLength(2)]],
       lineOne: ['', [Validators.required, Validators.minLength(2)]],
       lineTwo: ['', [Validators.required, Validators.minLength(2)]],
       name: ['', [Validators.required, Validators.minLength(2)]],
@@ -198,8 +199,8 @@ export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, 
   onSave() {
     if (this.routeAfterSave) {
       if (this.routeAfterSave === '/shopping-cart') {
-        this.router.navigate([this.routeAfterSave], { state: { fromRoute: 'address-book-form' } });
-      }  else {
+        this.router.navigate([this.routeAfterSave], { state: { fromRoute: '/address-book-form' } });
+      } else {
         this.router.navigateByUrl(this.routeAfterSave);
       }
     } else {

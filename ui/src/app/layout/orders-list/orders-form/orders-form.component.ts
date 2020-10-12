@@ -13,7 +13,8 @@ import { DefaultFormComponent } from 'src/app/shared/helpers/default.form.compon
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { TdLoadingService } from '@covalent/core/loading';
 import { TdDialogService } from '@covalent/core/dialogs';
-
+import * as fromStore from 'src/app/store';
+import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { routerTransition } from 'src/app/router.animations';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
@@ -34,6 +35,7 @@ import { OrderService } from 'src/app/shared/services/order.service';
 import { ReasonService } from 'src/app/shared/services/reason.service';
 import { map } from 'rxjs/operators';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { getLang } from 'src/app/store';
 
 @Component({
   selector: 'app-orders-form',
@@ -64,7 +66,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
 
   rejectionReason: RejectionReason = {} as RejectionReason;
   reasonList: Reason[] = [{ id: '', name: '', status: '' }];
-
+  lang: string;
   selectedItems = [];
   dropdownSettings: IDropdownSettings = {};
   constructor(
@@ -82,7 +84,8 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
     private modalService: BsModalService,
     private rejectionReasonService: ReasonService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private appStore: Store<fromStore.AppState>,
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
 
@@ -96,7 +99,9 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
       itemsShowLimit: 3,
       allowSearchFilter: true,
     };
-
+    this.appStore.select(getLang).subscribe((res) => {
+      this.lang = res;
+    });
     this.minDate = new Date();
     this.activatedRoute.params.subscribe((paramsId) => {
       this.orderId = paramsId.entityId;
@@ -498,6 +503,10 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
     this.modalRef = this.modalService.show(template);
   }
   itemRejectReasonModal(template) {
+    this.modalRef = this.modalService.show(template);
+  }
+
+  viewShippingAddressModal(template) {
     this.modalRef = this.modalService.show(template);
   }
 

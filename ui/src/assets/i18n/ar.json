@@ -420,5 +420,8 @@
   "errors.extension":"الملفات المسموحة هي",
   "chooseShippingAddress":"اختر عنوان الشحن",
   "confirm":"تاكيد",
-  "addAddress":"اضافة عنوان"
+  "addAddress":"اضافة عنوان",
+  "pleaseAddAddress":"You Have No Addresses To Confirm Order , Please Add Address First",
+  "viewShippingAddress":"عنوان التوصيل",
+  "contactName":"اسم جهة الاتصال"
 }

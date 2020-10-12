@@ -17,6 +17,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { AddressBookService } from 'src/app/shared/services/address-book.service';
 import { AddressBook } from 'src/app/shared/domain/address-book.model';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -49,7 +50,8 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     private galleryService: GalleryService,
     private modalService: BsModalService,
     private addressBookService: AddressBookService,
-    private router:Router
+    private router: Router,
+    private translateService:TranslateService
   ) {
     super(service, loadingService);
     this.authUser$ = this.appStore.select(fromStore.getAuthUser);
@@ -76,10 +78,9 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
       });
     });
     this.addressBookService.searchTerm = '';
-    this.addressBookService.model$.subscribe(res => {
+    this.addressBookService.model$.subscribe((res) => {
       this.myAddressess = res;
-    })
-
+    });
   }
 
   ngOnInit() {
@@ -199,6 +200,15 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
 
   openModal(template) {
     this.modalRef = this.modalService.show(template);
+  }
+
+  confirmOrderModal(template) {
+    if (this.myAddressess.length > 0) {
+      this.modalRef = this.modalService.show(template);
+    } else {
+      this.toastr.warning(this.translateService.instant('pleaseAddAddress'))
+      this.router.navigate(['/address-book/create'],{ state: { fromRoute: '/shopping-cart' } });
+    }
   }
 
   textAreaChange(item: ShoppingCartItem, notes) {
@@ -338,5 +348,4 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
   changeShippingAddress(event) {
     this.myShippingAddress = event.target.value;
   }
-
 }

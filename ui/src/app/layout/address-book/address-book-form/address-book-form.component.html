@@ -91,6 +91,18 @@
                     </div>
                 </div>
                 <div class="col-md-12 form-group">
+                    <label>{{'contactName' | translate }} :&nbsp;</label>
+                    <input type="text" formControlName="contactName" class="form-control ">
+                    <div class="text-danger" *ngIf="hasError('contactName')">
+                      <div *ngIf="form.controls.contactName.errors.required">
+                        {{'error.required'|translate}}
+                      </div>
+                      <div *ngIf="form.controls.contactName.errors.minlength">
+                        {{'error.minlength'|translate:'{length:2}'}}
+                      </div>
+                    </div>
+                </div>
+                <div class="col-md-12 form-group">
                     <label>{{'phoneNumber' | translate }} :&nbsp;</label>
                     <input type="text" formControlName="phoneNo" class="form-control ">
                     <div class="text-danger" *ngIf="hasError('phoneNo')">

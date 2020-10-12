@@ -4,11 +4,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { OrderService } from '../../../shared/services/order.service';
 import { IAppConfig, APP_CONFIG } from 'src/app/shared/app.config';
 import { HttpClient } from '@angular/common/http';
-//import { Observable } from 'rxjs';
-
+import * as fromStore from 'src/app/store';
+import { Store } from '@ngrx/store';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { UserService } from 'src/app/shared/services/user.service';
 import { TdLoadingService } from '@covalent/core/loading';
+import { getLang } from 'src/app/store';
 
 @Component({
   selector: 'app-order-card',
@@ -25,6 +26,7 @@ export class OrderCardComponent implements OnInit {
   modalRef: BsModalRef;
   otherKey = 'loadingOrder';
   orderEndDate: Date;
+  lang: string;
   constructor(
     private orderService: OrderService,
     private route: ActivatedRoute,
@@ -34,8 +36,13 @@ export class OrderCardComponent implements OnInit {
     private http: HttpClient,
     private modalService: BsModalService,
     private userService: UserService,
-    private loadingService: TdLoadingService
-  ) {}
+    private loadingService: TdLoadingService,
+    private appStore: Store<fromStore.AppState>,
+  ) {
+     this.appStore.select(getLang).subscribe((res) => {
+      this.lang = res;
+    });
+  }
 
   ngOnInit() {
     this.userService.getAuthUserDetails().subscribe((user) => {
@@ -123,9 +130,6 @@ export class OrderCardComponent implements OnInit {
     }
   }
 
-  orderRejectReasonModal(template) {
-    this.modalRef = this.modalService.show(template);
-  }
 
   showPriceAndEndDate() {
     if (this.order.status != 'PENDING' && this.order.status != 'CANCELLED' && this.order.status != 'ORDER_REJECTED') {
@@ -170,7 +174,7 @@ export class OrderCardComponent implements OnInit {
     }
   }
 
-  showModal(template) {
+  openModal(template) {
     this.modalRef = this.modalService.show(template);
   }
 }

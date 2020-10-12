@@ -423,5 +423,8 @@
   "errors.extension":"Allowed Files Are",
   "chooseShippingAddress":"Choose Shipping Address",
   "confirm":"Confirm",
-  "addAddress":"Add Address"
+  "addAddress":"Add Address",
+  "pleaseAddAddress":"You Have No Addresses To Confirm Order , Please Add Address First",
+  "viewShippingAddress":"View Shipping Address",
+  "contactName":"Contact Name"
 }

@@ -6,5 +6,6 @@ export interface AddressBook extends Entity {
   city: City;
   lineOne: string;
   lineTwo: string;
+  contactName:string;
   phoneNo: number;
 }

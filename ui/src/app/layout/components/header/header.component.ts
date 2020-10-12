@@ -84,6 +84,4 @@ export class HeaderComponent extends DefaultListComponent<ShoppingCartItem, Shop
   signupPartner() {
     this.router.navigate(['/signup'], { queryParams: { partner: 'true' } });
   }
-
-
 }
