@@ -84,7 +84,7 @@ const routes: Routes = [
       {
         path: 'my-organizations',
         loadChildren: () => import('./my-organizations/my-organizations.module').then((m) => m.MyOrganizationsModule),
-        canActivate: [PartnerGuard],
+        canActivate: [AuthGuard],
       },
       {
         path: 'address-book',

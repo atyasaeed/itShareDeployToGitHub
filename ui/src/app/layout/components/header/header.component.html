@@ -4,7 +4,7 @@
     <div style="height: 40px;" class="col-3">
       <a routerLink=""><img src="assets\images\Fabri Hub_Logo@2x.png" class="height-fluid cursor-pointer pointer" /></a>
     </div>
-    <div class="col-8 text-right navbar-toggler">
+    <div class="col-8 text-right navbar-toggler" *notPartner>
       <div class="row">
         <li class="nav-item pointer col-10">
           <div class="btn-group" dropdown>
@@ -27,7 +27,7 @@
                 <div class="col-4 text-center my-auto f-size-13">
                   <div class="media-body">
                     <h5 class="mt-0 mb-1 f-size-13">{{ entity.service.name }}</h5>
-                    <p class="last"> Quantity: {{ entity.quantity }} </p>
+                    <p class="last"> {{'quantity'}}: {{ entity.quantity }} </p>
                   </div>
                 </div>
                 <div class="col-4 text-center my-auto">
@@ -72,11 +72,6 @@
       <li class="nav-item" *ngIf="!userLogin">
         <a class="site-color-v2 nav-link f-size-16 f-weight-600 custom-align " [routerLink]="'/service'">
           {{ 'service' | translate }}
-        </a>
-      </li>
-      <li class="nav-item" *ngIf="!userLogin">
-        <a class="site-color-v2 nav-link f-size-16 f-weight-600 custom-align" [routerLink]="'/gallery'">
-          {{ 'gallery' | translate }}
         </a>
       </li>
       <li class="nav-item" *ngIf="!userLogin">
@@ -153,9 +148,9 @@
                   <span class="f-size-14 custom-btn.v2 f-weight-600">{{ 'addressBook' | translate }}</span>
                 </a>
               </li>
-              <li role="menuitem" *isPartner>
+              <li role="menuitem" *isAuth>
                 <a class="dropdown-item px-2" routerLink='/my-organizations'>
-                  <i class="f-size-20 site-color-v1 fas fa-building mx-2" ></i>
+                  <i class="f-size-20 site-color-v1 fas fa-building mx-2"></i>
                   <span class="f-size-14 custom-btn.v2 f-weight-600">{{ 'myOrganizations' | translate }}</span>
                 </a>
               </li>
@@ -178,9 +173,9 @@
         </li>
         &nbsp;
 
-        <li class="nav-item pointer">
+        <li class="nav-item pointer" *notPartner>
           <div class="btn-group" dropdown>
-        <li  dropdownToggle class=" px-2 position-relative dropdown-toggle nav-link">
+        <li dropdownToggle class=" px-2 position-relative dropdown-toggle nav-link">
           <!-- <img #cartPosition src="assets\images\cart-plus-solid.png" class="px-2" /> -->
           <i #cartPosition class="fas px-2 site-color-v1 fa-cart-plus fa-2x"></i>
           <span class="position-absolute f-size-14  quan-cart">{{quantitiesCount}}</span>
@@ -199,7 +194,7 @@
                 <div class="col-md-4 text-center my-auto f-size-13">
                   <div class="media-body">
                     <h5 class="mt-0 f-size-13">{{ entity.service.name }}</h5>
-                    <p class="last"> Quantity: {{ entity.quantity }} </p>
+                    <p class="last"> {{'quantity'}}: {{ entity.quantity }} </p>
                   </div>
                 </div>
                 <div class="col-md-4 text-center my-auto">

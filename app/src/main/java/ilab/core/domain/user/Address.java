@@ -17,6 +17,7 @@ public class Address extends AbstractEntity<Address>
 	private String lineOne;
 	private String lineTwo;
 	private String phoneNo;
+	private String contactName;
 
 	@OneToOne
 	private City city;
@@ -82,6 +83,16 @@ public class Address extends AbstractEntity<Address>
 	public void setPhoneNo(String phoneNo)
 	{
 		this.phoneNo = phoneNo;
+	}
+
+	public String getContactName()
+	{
+		return contactName;
+	}
+
+	public void setContactName(String contactName)
+	{
+		this.contactName = contactName;
 	}
 
 }

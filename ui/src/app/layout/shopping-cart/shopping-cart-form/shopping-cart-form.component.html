@@ -1,13 +1,13 @@
 <div class="p-4" [@routerTransition]>
   <div>
-    <app-page-header  [breadCrumbs]="breadcrumbs"></app-page-header>
+    <app-page-header [breadCrumbs]="breadcrumbs"></app-page-header>
   </div>
 
   <div class="container-fluid">
     <div class="row custom-card p-3 f-size-14">
       <div class="col-md-6 mb-3">
         <div class="site-color-v3 f-weight-600 f-size-20">
-          {{'placeOrder'|translate}}
+          {{'addItem'|translate}}
         </div>
         <label class="text-grey f-weight-400">{{'service.select' | translate }} </label> :
         <select class="form-control" (change)="buildForm($event.target.value)" [formControl]="selectService">
@@ -22,7 +22,8 @@
     </div>
   </div>
 
-  <article class="mt-4  custom-card p-3 form-rtl" [@simpleFadeAnimation]='serviceContentAnimation' *tdLoading="'loading';strategy:'overlay'">
+  <article class="mt-4  custom-card p-3 form-rtl" [@simpleFadeAnimation]='serviceContentAnimation'
+    *tdLoading="'loading';strategy:'overlay'">
 
     <form [formGroup]='form' (ngSubmit)="submit()">
       <div class="container-fluid mt-4">
@@ -58,15 +59,18 @@
                       <div *ngIf="radioGroup.value =='option1'">
                         <label>{{'File'|translate}} :</label>
                         <span *ngIf="form.controls.file.errors != null">
-                          <span class="text-danger" *ngIf="form.controls.file.errors.required && form.controls.file.touched">
+                          <span class="text-danger"
+                            *ngIf="form.controls.file.errors.required && form.controls.file.touched">
                             *{{'file.field.error.required'|translate}}</span>
                           <span class="text-danger" *ngIf="form.controls.file.errors.extension "> |
                             *{{'errors.extension'|translate}} {{form.controls.file.errors.extension}} </span>
                         </span>
                         <label class="custom-input-file form-control">
-                          <span class="browse-button" [class.uploaded]="filename">{{filename ? ('replaceFile'|translate):('chooseFile'|translate)}}</span> <span>{{filename?.name}}</span>
+                          <span class="browse-button"
+                            [class.uploaded]="filename">{{filename ? ('replaceFile'|translate):('chooseFile'|translate)}}</span>
+                          <span>{{filename?.name}}</span>
                           <input type="file" [accept]="extFile" formControlName="file" class="form-control mb-3 border"
-                          (change)="handleFileInput($event)">
+                            (change)="handleFileInput($event)">
                         </label>
                       </div>
                       <div *ngIf="radioGroup.value =='option2'">
@@ -94,16 +98,19 @@
                     <span class="text-danger"
                       *ngIf="form.controls.quantity.errors.required && form.controls.quantity.touched">
                       *{{'quantity.error.required'|translate}}</span>
-                    <span class="text-danger" *ngIf="form.controls.quantity.errors.min && form.controls.quantity.touched"> |
+                    <span class="text-danger"
+                      *ngIf="form.controls.quantity.errors.min && form.controls.quantity.touched"> |
                       *{{'quantity.error.min'|translate}}</span>
-                    <span class="text-danger" *ngIf="form.controls.quantity.errors.NaN && form.controls.quantity.dirty"> |
+                    <span class="text-danger" *ngIf="form.controls.quantity.errors.NaN && form.controls.quantity.dirty">
+                      |
                       *{{'quantity.error.nan'|translate}}</span>
                   </span>
                   <input type="number" formControlName="quantity" class="form-control mb-3">
 
                   <label>{{'file.height'|translate}} :</label>
                   <span *ngIf="form.controls.height.errors != null">
-                    <span class="text-danger" *ngIf="form.controls.height.errors.required && form.controls.height.touched">
+                    <span class="text-danger"
+                      *ngIf="form.controls.height.errors.required && form.controls.height.touched">
                       *{{'file.field.error.required' | translate}}</span>
                     <span class="text-danger" *ngIf="form.controls.height.errors.min && form.controls.height.touched"> |
                       *{{'file.field.error.min' | translate}}</span>
@@ -114,7 +121,8 @@
 
                   <label>{{'file.width' | translate}} :</label>
                   <span *ngIf="form.controls.width.errors != null">
-                    <span class="text-danger" *ngIf="form.controls.width.errors.required && form.controls.width.touched">
+                    <span class="text-danger"
+                      *ngIf="form.controls.width.errors.required && form.controls.width.touched">
                       *{{'file.field.error.required' | translate}}</span>
                     <span class="text-danger" *ngIf="form.controls.width.errors.min && form.controls.width.touched"> |
                       *{{'file.field.error.min' | translate}}</span>
@@ -131,7 +139,8 @@
 
                   <div *ngIf="activeService?.materials != undefined" class="mb-3">
                     <label>{{'file.material' | translate}} :</label>
-                    <span class="text-danger" *ngIf="!form?.controls?.material?.valid && form.controls.material.touched">
+                    <span class="text-danger"
+                      *ngIf="!form?.controls?.material?.valid && form.controls.material.touched">
                       *{{'file.field.error.required' | translate}}</span>
                     <select formControlName="material" class="form-control">
                       <option disabled selected value="undefined">{{'file.material.select' | translate}}</option>
@@ -142,7 +151,8 @@
                   </div>
                   <div *ngIf="activeService?.thickness != undefined" class="mb-3">
                     <label>{{'file.thickness' | translate}} :</label>
-                    <span class="text-danger" *ngIf="!form.controls?.thickness?.valid && form.controls?.thickness?.touched">
+                    <span class="text-danger"
+                      *ngIf="!form.controls?.thickness?.valid && form.controls?.thickness?.touched">
                       *{{'file.field.error.required' | translate}}</span>
                     <select formControlName="thickness" class="form-control">
 
@@ -195,8 +205,9 @@
                       *ngIf="(!form.controls?.mprocesses?.valid && form.controls?.mprocesses?.touched) || ( !form.controls?.processes?.valid && form.controls?.processes?.touched )">
                       *{{'file.field.error.required' | translate}}</span>
                     <div *ngIf="activeService.processes.multi==true;else processesSingle">
-                      <ng-multiselect-dropdown formControlName="mprocesses" placeholder="{{'file.process.select'|translate}}"
-                        [settings]="dropdownSettings" [data]="activeService.processes.values">
+                      <ng-multiselect-dropdown formControlName="mprocesses"
+                        placeholder="{{'file.process.select'|translate}}" [settings]="dropdownSettings"
+                        [data]="activeService.processes.values">
                       </ng-multiselect-dropdown>
                     </div>
                     <ng-template #processesSingle>
@@ -233,8 +244,8 @@
         <div class="modal-header">
           <div class="form-group form-inline row">
             <div class="col-md-6">
-              <input class="search-input form-control ml-2" [class.rtl]="lang==='ar'" type="text" placeholder="{{'Search'|translate}}" name="searchTerm"
-                [(ngModel)]="searchTerm" />
+              <input class="search-input form-control ml-2" [class.rtl]="lang==='ar'" type="text"
+                placeholder="{{'Search'|translate}}" name="searchTerm" [(ngModel)]="searchTerm" />
               <span class="ml-3" *ngIf="spaceService.loading$ | async">Loading...</span>
             </div>
 

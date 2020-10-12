@@ -1,5 +1,5 @@
 <nav class="sidebar py-2" [ngClass]="{collapsed: collapsed }">
-  <div class="list-group">
+  <div class="list-group" *notPartner>
     <div class="f-size-15">
       <a class="list-group-item active-item d-flex" routerLink="/home" [routerLinkActive]="['router-link-active']">
         <img src="assets\images\home-solid.png" class="height-fluid cursor-pointer  mx-2">
@@ -9,11 +9,6 @@
         [routerLinkActive]="['router-link-active']">
         <img src="assets\images\shopping-cart-solid.png" class="height-fluid cursor-pointer  mx-2">
         <span>{{ 'Shopping Cart' | translate }}</span>
-      </a>
-      <a class="list-group-item active-item d-flex" *ngIf="hasAdminRole" routerLink="/gallery"
-        [routerLinkActive]="['router-link-active']">
-        <img src="assets\images\images-solid.png" class="height-fluid cursor-pointer  mx-2">
-        <span>{{ 'gallery' | translate }}</span>
       </a>
       <a class="list-group-item active-item d-flex" routerLink="/my-orders" [routerLinkActive]="['router-link-active']">
         <img src="assets\images\box-solid.png" class="height-fluid cursor-pointer  mx-2">
@@ -221,6 +216,33 @@
 
     </div>
   </div>
+
+  <!--//////////////////////////////////-->
+  <div class="list-group" *isPartner>
+    <div class="f-size-15">
+      <a class="list-group-item active-item d-flex" routerLink="/home" [routerLinkActive]="['router-link-active']">
+        <img src="assets\images\home-solid.png" class="height-fluid cursor-pointer  mx-2">
+        <span>{{ 'home' | translate }}</span>
+      </a>
+      <a class="list-group-item active-item d-flex" routerLink="/shopping-cart"
+        [routerLinkActive]="['router-link-active']">
+        <img src="assets\images\images-solid.png" class="height-fluid cursor-pointer  mx-2">
+        <span>{{ 'quotationRequest' | translate }}</span>
+      </a>
+      <a class="list-group-item active-item d-flex" routerLink="javascript:void(0)"
+        [routerLinkActive]="['router-link-active']">
+        <img src="assets\images\palette-solid.png" class="height-fluid cursor-pointer  mx-2">
+        <span>{{ 'Jobs' | translate }}</span>
+      </a>
+      <a class="list-group-item active-item d-flex" routerLink="/organization-team" *isPartner
+        [routerLinkActive]="['router-link-active']">
+        <img src="assets\images\user-edit-solid (1).png" class="height-fluid cursor-pointer  mx-2">
+        <span>{{ 'organizationTeam' | translate }}</span>
+      </a>
+
+    </div>
+  </div>
+  <!--//////////////////////////////////-->
 
   <div *isAuth>
     <div *ngIf="lang == 'en'" class="toggle-button" [ngClass]="{collapsed: collapsed}" (click)="toggleCollapsed()">

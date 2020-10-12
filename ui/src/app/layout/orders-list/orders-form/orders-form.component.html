@@ -8,7 +8,8 @@
         <div class="col-md-4 form-rtl">
           <span>{{'order.id'|translate}} : </span>
           <span class="f-weight-400"> {{entity?.id.slice(-7)}}</span>
-          <span style="display:block;">{{'order.status'|translate}} :<span class="f-weight-400"> {{entity?.status}}</span>
+          <span style="display:block;">{{'order.status'|translate}} :<span class="f-weight-400">
+              {{entity?.status}}</span>
           </span>
           <span style="display:block;">{{'order.totalPrice'|translate}} :<span
               class="f-weight-400">{{getSubTotal(entity.lineItems)| currency:'EGP'}}</span></span>
@@ -258,7 +259,7 @@
                               <mat-error *ngIf="estimatedEndDate.hasError('required')">
                               </mat-error>
                             </mat-form-field> -->
-                            <mat-form-field class="form-rtl" *ngIf="lineItem.status !=='CANCELLED'">
+                            <mat-form-field class="w-75" *ngIf="lineItem.status !=='CANCELLED'">
                               <!-- <mat-label></mat-label> -->
                               <input matInput type="number" placeholder="{{'manufacturingDuration'|translate}}"
                                 (change)='updateItem(entity,lineItem)' [(ngModel)]="lineItem.duration"
@@ -272,7 +273,7 @@
                         <div class="col-md-6" *ngIf="lineItem.status !== 'ITEM_REJECTED'">
                           <div>
 
-                            <mat-form-field class="form-rtl" *ngIf="lineItem.status !=='CANCELLED'">
+                            <mat-form-field class="w-75" *ngIf="lineItem.status !=='CANCELLED'">
 
                               <input matInput type="number" placeholder="{{'unitPrice'|translate}}" min="1"
                                 (change)='updateItem(entity,lineItem)' [(ngModel)]="lineItem.unitPrice"
@@ -297,7 +298,7 @@
                             <div class="product-info">
 
                               <div class=" quantity f-size-14">
-                                <label >{{ 'quantity' | translate }} :&nbsp;</label>
+                                <label>{{ 'quantity' | translate }} :&nbsp;</label>
                                 <span class="text-grey-v2" #heightErr>{{lineItem.quantity}}</span>
 
                               </div>
@@ -311,7 +312,7 @@
 
                       </div>
 
-                      <div class="row f-size-14  mt-3" *ngFor="let file of lineItem.files ;index as j" >
+                      <div class="row f-size-14  mt-3" *ngFor="let file of lineItem.files ;index as j">
 
 
                         <div class="form-body">

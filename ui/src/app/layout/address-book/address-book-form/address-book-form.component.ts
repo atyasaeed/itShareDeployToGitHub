@@ -171,6 +171,7 @@ export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, 
       this.entity.lineOne = this.form.controls.lineOne.value;
       this.entity.lineTwo = this.form.controls.lineTwo.value;
       this.entity.phoneNo = this.form.controls.phoneNo.value;
+      this.entity.contactName = this.form.controls.contactName.value;
       this.entity.city.id = this.form.controls.city.value;
       this.entity.city.state.id = this.form.controls.state.value;
       if (this.entity.id) {
