@@ -106,6 +106,6 @@ public class OrganizationService
 
 	public Organization getById(UUID id, Authentication auth)
 	{
-		return orgRepo.findByIdAndOwner_username(id, auth.getName().toLowerCase()).orElseThrow();
+		return orgRepo.findById(id).orElseThrow();
 	}
 }

@@ -114,7 +114,7 @@ public class OrganizationController
 	}
 
 	@GetMapping("/{id}")
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public Organization get(Authentication auth, @PathVariable("id") UUID id)
 	{
 		return orgService.getById(id, auth);
