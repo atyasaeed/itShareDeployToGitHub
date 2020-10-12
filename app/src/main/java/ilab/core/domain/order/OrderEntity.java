@@ -62,7 +62,7 @@ public class OrderEntity extends AbstractEntity<OrderEntity>
 	@Column
 	private LocalDateTime expiredAt;
 	private String rejectionNote;
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	private City city;
 
 	private String lineOne;

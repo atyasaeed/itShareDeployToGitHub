@@ -345,23 +345,20 @@ public class OrderService
 	public OrderEntity checkout(Authentication auth, UUID id)
 	{
 		OrderEntity order = getShoppingCart(auth);
-		Address address = addressRepo.findById(id).orElseThrow();
-		if (!address.getUser().getEmail().equals(auth.getName()))
-		{
-			throw new IllegalRequestDataException("Not The User's Address");
-		}
-		if (order.getLineItems().isEmpty())
-			order = null;
-		else
-		{
-			order.setStatus(OrderStatus.PENDING);
-			order.setCreated(LocalDateTime.now());
-			order.setCity(address.getCity());
-			order.setAddressName(address.getName());
-			order.setLineOne(address.getLineOne());
-			order.setLineTwo(address.getLineTwo());
-			order.setPhoneNumber(address.getPhoneNo());
-		}
+		Address address = addressRepo.findByIdAndUser_username(id, auth.getName().toLowerCase()).orElseThrow();
+
+			if (order.getLineItems().isEmpty())
+				order = null;
+			else
+			{
+				order.setStatus(OrderStatus.PENDING);
+				order.setCreated(LocalDateTime.now());
+				order.setCity(address.getCity());
+				order.setAddressName(address.getName());
+				order.setLineOne(address.getLineOne());
+				order.setLineTwo(address.getLineTwo());
+				order.setPhoneNumber(address.getPhoneNo());
+			}
 		return order;
 	}
 
