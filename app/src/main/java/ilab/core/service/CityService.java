@@ -33,19 +33,14 @@ public class CityService
 		cityRepo.deleteById(id);
 	}
 
+	
 	public City findById(UUID id, Authentication auth)
 	{
 		return cityRepo.findById(id).orElseThrow();
 	}
 
-	public Page<City> findAll(Specification<City> specs, Pageable page, Authentication auth)
+	public Page<City> findAll(Specification<City> specs, Pageable page,Authentication auth)
 	{
 		return cityRepo.findAll(specs, page);
 	}
-
-	public Page<City> findByStateId(UUID id, Pageable page, Specification<City> specs)
-	{
-		return cityRepo.findByState_Id(id, page, specs);
-	}
-
 }
