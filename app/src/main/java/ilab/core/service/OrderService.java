@@ -18,6 +18,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -35,6 +36,7 @@ import ilab.core.domain.HyperFile;
 import ilab.core.domain.ReasonStatus;
 import ilab.core.domain.order.LineItem;
 import ilab.core.domain.order.LineItemStatus;
+import ilab.core.domain.order.OrderAddress;
 import ilab.core.domain.order.OrderEntity;
 import ilab.core.domain.order.OrderStatus;
 import ilab.core.domain.user.Address;
@@ -109,8 +111,7 @@ public class OrderService
 
 	public Specification<OrderEntity> filterByOrgId(UUID orgId)
 	{
-		return (Root<OrderEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) ->
-		{
+		return (Root<OrderEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
 			List<Predicate> predicates = new ArrayList<>();
 
 			Path<Organization> organizationPath = root.<Organization>get("organization");
@@ -123,8 +124,7 @@ public class OrderService
 
 	public Specification<OrderEntity> filterByOrderStatus(OrderStatus status)
 	{
-		return (Root<OrderEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) ->
-		{
+		return (Root<OrderEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
 			List<Predicate> predicates = new ArrayList<>();
 
 			predicates.add(cb.notEqual(root.<OrderStatus>get("status"), status));
@@ -347,18 +347,16 @@ public class OrderService
 		OrderEntity order = getShoppingCart(auth);
 		Address address = addressRepo.findByIdAndUser_username(id, auth.getName().toLowerCase()).orElseThrow();
 
-			if (order.getLineItems().isEmpty())
-				order = null;
-			else
-			{
-				order.setStatus(OrderStatus.PENDING);
-				order.setCreated(LocalDateTime.now());
-				order.setCity(address.getCity());
-				order.setAddressName(address.getName());
-				order.setLineOne(address.getLineOne());
-				order.setLineTwo(address.getLineTwo());
-				order.setPhoneNumber(address.getPhoneNo());
-			}
+		if (order.getLineItems().isEmpty())
+			order = null;
+		else
+		{
+			order.setStatus(OrderStatus.PENDING);
+			order.setCreated(LocalDateTime.now());
+			if (order.getShippingAddress() == null)
+				order.setShippingAddress(new OrderAddress());
+			BeanUtils.copyProperties(address, order.getShippingAddress());
+		}
 		return order;
 	}
 

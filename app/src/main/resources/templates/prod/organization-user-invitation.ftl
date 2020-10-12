@@ -7,10 +7,7 @@
 		 
 		You are Invited to be a member of Organization ${org.name}
 		   
-		<a href="http://fabrihub.net:4200/api/orguser/accept/${id}"> accept Invitation</a> <br><br>
-		
-		<br>
-		Or <a href="http://fabrihub.net:8080/org-member-invitation/${id}"> See Invitation</a> <br><br>
+		<a href="http://fabrihub.net/org-member-invitation/${id}"> See Invitation</a> <br><br>
 		
 		
 		
