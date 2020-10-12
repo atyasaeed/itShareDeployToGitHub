@@ -327,8 +327,10 @@
         <i class="fas fa-shipping-fast fa-3x"></i>
       </div>
       <div class="text-center f-size-14 text-grey mt-2">
-        {{order.orderAddress|translate}} - {{lang==='en'? (order?.city?.state?.enName):(order?.city?.state?.arName)}}
-        - {{lang==='en'? (order?.city?.enName):(order?.city?.arName)}}
+        {{order.shippingAddress.lineOne}} - {{order.shippingAddress.lineTwo}}
+        - {{lang==='en'? (order?.shippingAddress?.city?.state?.enName):(order?.shippingAddress?.city?.state?.arName)}}
+        - {{lang==='en'? (order?.shippingAddress?.city?.enName):(order?.shippingAddress?.city?.arName)}}
+        - {{order.shippingAddress.contactName}} - {{order.shippingAddress.phoneNo}}
       </div>
       <div class="text-center my-2 f-weight-600">
         <button class="custom-btn v4 mr-3" (click)="modalRef.hide()">{{'cancel'|translate}}</button>

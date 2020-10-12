@@ -3,7 +3,7 @@ import { Entity } from './entity';
 import { Reason } from './reason.model';
 import { LineItem } from './line-item.model';
 import { User } from './user.model';
-import { City } from './city.model';
+import { AddressBook } from './address-book.model';
 
 export interface Order extends Entity {
   id: string;
@@ -17,6 +17,5 @@ export interface Order extends Entity {
   expiredAt: Date;
   duration: number;
   placedBy?: User;
-  orderAddress: string;
-  city: City;
+  shippingAddress: AddressBook;
 }

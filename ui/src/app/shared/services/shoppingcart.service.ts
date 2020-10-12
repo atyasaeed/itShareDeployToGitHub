@@ -11,8 +11,7 @@ import { IAppConfig, APP_CONFIG } from 'src/app/shared/app.config';
 export class ShoppingCartService extends RestService<ShoppingCartItem> {
   resource = 'cart';
 
-  checkout(addressId: string) {
+  checkout(addressId: number | string) {
     return this.http.put<Order>(this.appConfig.CHECKOUT_URL + '/' + addressId, null);
   }
-
 }
