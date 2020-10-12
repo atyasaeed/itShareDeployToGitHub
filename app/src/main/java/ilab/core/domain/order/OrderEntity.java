@@ -9,6 +9,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -16,7 +17,6 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.OrderColumn;
 import javax.validation.constraints.NotNull;
@@ -27,7 +27,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import ilab.core.domain.AbstractEntity;
-import ilab.core.domain.City;
 import ilab.core.domain.Reason;
 import ilab.core.domain.user.Organization;
 import ilab.core.domain.user.User;
@@ -62,54 +61,9 @@ public class OrderEntity extends AbstractEntity<OrderEntity>
 	@Column
 	private LocalDateTime expiredAt;
 	private String rejectionNote;
-	@OneToOne
-	private City city;
 
-	private String lineOne;
-	private String lineTwo;
-	private String phoneNumber;
-
-	public String getLineOne()
-	{
-		return lineOne;
-	}
-
-	public void setLineOne(String lineOne)
-	{
-		this.lineOne = lineOne;
-	}
-
-	public String getLineTwo()
-	{
-		return lineTwo;
-	}
-
-	public void setLineTwo(String lineTwo)
-	{
-		this.lineTwo = lineTwo;
-	}
-
-	public String getPhoneNumber()
-	{
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(String phoneNumber)
-	{
-		this.phoneNumber = phoneNumber;
-	}
-
-	public String getAddressName()
-	{
-		return addressName;
-	}
-
-	public void setAddressName(String addressName)
-	{
-		this.addressName = addressName;
-	}
-
-	private String addressName;
+	@Embedded()
+	OrderAddress shippingAddress = new OrderAddress();
 
 	public List<LineItem> getLineItems()
 	{
@@ -206,14 +160,14 @@ public class OrderEntity extends AbstractEntity<OrderEntity>
 		this.organization = organization;
 	}
 
-	public City getCity()
+	public OrderAddress getShippingAddress()
 	{
-		return city;
+		return shippingAddress;
 	}
 
-	public void setCity(City city)
+	public void setShippingAddress(OrderAddress shippingAddress)
 	{
-		this.city = city;
+		this.shippingAddress = shippingAddress;
 	}
 
 }

@@ -1,41 +1,17 @@
-package ilab.core.domain.user;
+package ilab.core.domain.order;
 
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonView;
-
-import ilab.core.domain.AbstractEntity;
 import ilab.core.domain.City;
-import ilab.core.domain.Views;
 
-@Entity
 @Embeddable
-public class Address extends AbstractEntity<Address>
+public class OrderAddress
 {
-	private String name;
 	private String lineOne;
 	private String lineTwo;
 	private String phoneNo;
 	private String contactName;
-
-	@OneToOne
-	private City city;
-	@JsonView(Views.Admin.class)
-	@ManyToOne
-	private User user;
-
-	public String getName()
-	{
-		return name;
-	}
-
-	public void setName(String name)
-	{
-		this.name = name;
-	}
 
 	public String getLineOne()
 	{
@@ -57,26 +33,6 @@ public class Address extends AbstractEntity<Address>
 		this.lineTwo = lineTwo;
 	}
 
-	public City getCity()
-	{
-		return city;
-	}
-
-	public void setCity(City city)
-	{
-		this.city = city;
-	}
-
-	public User getUser()
-	{
-		return user;
-	}
-
-	public void setUser(User user)
-	{
-		this.user = user;
-	}
-
 	public String getPhoneNo()
 	{
 		return phoneNo;
@@ -95,6 +51,19 @@ public class Address extends AbstractEntity<Address>
 	public void setContactName(String contactName)
 	{
 		this.contactName = contactName;
+	}
+
+	@OneToOne
+	private City city;
+
+	public City getCity()
+	{
+		return city;
+	}
+
+	public void setCity(City city)
+	{
+		this.city = city;
 	}
 
 }
