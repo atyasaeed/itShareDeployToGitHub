@@ -49,7 +49,7 @@ export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, 
     this.form = this.formBuilder.group({
       contactName: ['', [Validators.required, Validators.minLength(2)]],
       lineOne: ['', [Validators.required, Validators.minLength(2)]],
-      lineTwo: ['', [Validators.required, Validators.minLength(2)]],
+      lineTwo: ['', [Validators.minLength(2)]],
       name: ['', [Validators.required, Validators.minLength(2)]],
       city: ['', [Validators.required]],
       state: ['', [Validators.required]],

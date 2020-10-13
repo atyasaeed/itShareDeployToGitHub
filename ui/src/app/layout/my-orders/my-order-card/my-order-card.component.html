@@ -60,7 +60,8 @@
                     (click)="rejectQuotation()">{{'reject' | translate}}</button>
                   </div>
                   <div class="col-md-6 ml-auto mt-1" *ngIf="order.status == 'QUOTED' || order.status == 'QUOTE_ACCEPTED'">
-                    <button  styleSheetFile="assets/printCss/printQuotation.css"
+                    <button
+                    [styleSheetFile]="lang==='en'?'assets/printCss/printQuotation.css':'assets/printCss/printQuotation.css,assets/printCss/printQuotationRtl.css'"
                     printSectionId="{{order.id}}" ngxPrint type="button"
                     class="custom-btn btn-secondary w-100  ">{{'printQuotation'|translate}}</button>
                   </div>
@@ -114,7 +115,7 @@
 
 
 <!-- <ng-template> d-none -->
-<div id="{{order.id}}" class="d-none m-4 print-quote white-background">
+<div id="{{order.id}}" class="d-none m-4 print-quote white-background" >
   <div class="container-fluid">
     <div class="row ">
       <div class="col-4 logo-img my-auto">
@@ -125,20 +126,20 @@
         {{'quotation'|translate}}
       </div>
 
-      <div class="text-right f-size-14 my-auto f-weight-400 text-grey-v2 col-4">
-        <div>
+      <div class="f-size-14 my-auto f-weight-400 text-grey-v2 col-4">
+        <div class="text-right">
           {{'fabrihubLtd'|translate}}
         </div>
-        <div>
+        <div class="text-right">
           {{'fabrihubStreet'|translate}}
         </div>
-        <div>
+        <div class="text-right">
           {{'fabrihubBox'|translate}}
         </div>
-        <div>
+        <div class="text-right">
           {{'fabrihubCity'|translate}}
         </div>
-        <div>
+        <div class="text-right">
           {{'fabrihubPhone'|translate}}
         </div>
       </div>

@@ -1,0 +1,13 @@
+*{
+  direction: rtl;
+  text-align: right;
+}
+
+
+.text-left{
+  text-align: right !important;
+}
+
+.text-right{
+  text-align: left !important;
+}
