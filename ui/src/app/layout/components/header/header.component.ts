@@ -56,7 +56,6 @@ export class HeaderComponent extends DefaultListComponent<ShoppingCartItem, Shop
     });
   }
 
-
   toggleSidebar() {
     const dom: any = document.querySelector('body');
     dom.classList.toggle(this.pushRightClass);
