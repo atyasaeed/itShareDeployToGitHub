@@ -1,6 +1,5 @@
 package ilab.core.service;
 
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,7 +19,6 @@ import ilab.core.domain.user.OrganizationStatus;
 import ilab.core.domain.user.OrganizationUser;
 import ilab.core.domain.user.Role;
 import ilab.core.domain.user.User;
-import ilab.core.repository.OrganizationRepository;
 import ilab.core.repository.OrganizationUserRepository;
 import ilab.core.repository.UserRepository;
 import ilab.utils.exception.IllegalRequestDataException;
@@ -37,8 +35,6 @@ public class OrganizationUserService
 	@Autowired
 	private EmailService emailService;
 
-	@Autowired
-	private OrganizationRepository orgRepo;
 	@Autowired
 	private UserRepository userRepo;
 	@Autowired
@@ -108,7 +104,7 @@ public class OrganizationUserService
 
 	public Page<OrganizationUser> findByUser(Authentication auth, Pageable page)
 	{
-		return orgUserRepo.findByUser_usernameIgnoreCase(auth.getName(), page);
+		return orgUserRepo.findByUser_usernameIgnoreCaseAndRoleNotAndRoleOrRole(auth.getName(), page, Role.ROLE_OWNER,Role.ROLE_INVITED,Role.ROLE_MEMBER);
 	}
 
 	public Page<OrganizationUser> findByOrg(Authentication auth, Pageable page)
@@ -124,8 +120,14 @@ public class OrganizationUserService
 	public void deleteOrganizationUser(UUID orgUserId, Authentication auth)
 	{
 		OrganizationUser orgUser = orgUserRepo.findById(orgUserId).orElseThrow();
-		if (orgUser.getUser().getEmail().equals(auth.getName())
-				|| orgUser.getOrg().getOwner().getEmail().equals(auth.getName()))
+
+		if (orgUser.getOrg().getOwner().getEmail().toLowerCase().equals(auth.getName().toLowerCase()))
+		{
+			throw new IllegalRequestDataException("Owner can not delte himself");
+
+		}
+		if ((orgUser.getUser().getEmail().equals(auth.getName())
+				|| orgUser.getOrg().getOwner().getEmail().equals(auth.getName())))
 		{
 			orgUserRepo.delete(orgUser);
 		} else
