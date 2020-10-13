@@ -27,8 +27,7 @@ public interface OrganizationUserRepository
 
 	Optional<OrganizationUser> findByIdAndUser_usernameIgnoreCase(UUID id, String username);
 
-	Page<OrganizationUser> findByUser_usernameIgnoreCaseAndRoleNotAndRoleOrRole(String username, Pageable page,
-			Role role, Role role1, Role role2);
+	
 
 	Page<OrganizationUser> findByOrg_typeAndUser_usernameIgnoreCaseAndRoleNot( Pageable page, OrganizationType type,String username,Role role);
 
