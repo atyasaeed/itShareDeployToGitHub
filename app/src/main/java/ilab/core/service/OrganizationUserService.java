@@ -22,6 +22,7 @@ import ilab.core.domain.user.User;
 import ilab.core.repository.OrganizationUserRepository;
 import ilab.core.repository.UserRepository;
 import ilab.utils.exception.IllegalRequestDataException;
+import ilab.core.domain.user.*;
 
 @Service
 @Transactional
@@ -104,7 +105,8 @@ public class OrganizationUserService
 
 	public Page<OrganizationUser> findByUser(Authentication auth, Pageable page)
 	{
-		return orgUserRepo.findByUser_usernameIgnoreCaseAndRoleNotAndRoleOrRole(auth.getName(), page, Role.ROLE_OWNER,Role.ROLE_INVITED,Role.ROLE_MEMBER);
+		return orgUserRepo.findByOrg_typeAndUser_usernameIgnoreCaseAndRoleNot(page, OrganizationType.PARTNER,
+				auth.getName(), Role.ROLE_OWNER);
 	}
 
 	public Page<OrganizationUser> findByOrg(Authentication auth, Pageable page)

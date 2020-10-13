@@ -12,6 +12,7 @@ import ilab.core.domain.user.Organization;
 import ilab.core.domain.user.OrganizationUser;
 import ilab.core.domain.user.Role;
 import ilab.core.domain.user.User;
+import ilab.core.domain.user.*;
 
 public interface OrganizationUserRepository
 		extends PagingAndSortingRepository<OrganizationUser, UUID>, JpaSpecificationExecutor<OrganizationUser>
@@ -25,7 +26,10 @@ public interface OrganizationUserRepository
 	Page<OrganizationUser> findByOrg(Organization org, Pageable page);
 
 	Optional<OrganizationUser> findByIdAndUser_usernameIgnoreCase(UUID id, String username);
-	
-	Page<OrganizationUser> findByUser_usernameIgnoreCaseAndRoleNotAndRoleOrRole(String username, Pageable page,Role role,Role role1,Role role2);
+
+	Page<OrganizationUser> findByUser_usernameIgnoreCaseAndRoleNotAndRoleOrRole(String username, Pageable page,
+			Role role, Role role1, Role role2);
+
+	Page<OrganizationUser> findByOrg_typeAndUser_usernameIgnoreCaseAndRoleNot( Pageable page, OrganizationType type,String username,Role role);
 
 }
