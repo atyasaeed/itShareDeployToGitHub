@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef, AfterViewInit, HostListener } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/shared/services';
@@ -10,6 +10,7 @@ import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import { ShoppingCartService } from '../../../shared/services/shoppingcart.service';
 import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
 import { TdLoadingService } from '@covalent/core/loading';
+import { AnimationService } from 'src/app/shared/services/animation.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -22,7 +23,13 @@ export class HeaderComponent extends DefaultListComponent<ShoppingCartItem, Shop
   items$: LineItem[];
   quantitiesCount;
   userLogin;
+  scrWidth: number;
   @ViewChild('cartPosition') cartPosition: ElementRef;
+  @ViewChild('cartPositionSmallScreen') cartPositionSmallScreen: ElementRef;
+  @HostListener('window:resize', ['$event'])
+    getScreenSize(event?) {
+      this.scrWidth = window.innerWidth;
+    }
   constructor(
     private translate: TranslateService,
     public authenticationService: AuthenticationService,
@@ -30,7 +37,8 @@ export class HeaderComponent extends DefaultListComponent<ShoppingCartItem, Shop
     private appStore: Store<fromStore.AppState>,
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
     private router: Router,
-    loadingService: TdLoadingService
+    loadingService: TdLoadingService,
+    private cartAnimation:AnimationService
   ) {
     super(service, loadingService);
     this.appStore.dispatch(new fromStore.LoadInitState());
@@ -42,6 +50,7 @@ export class HeaderComponent extends DefaultListComponent<ShoppingCartItem, Shop
       this.quantitiesCount = res?.lineItems.length;
       //console.log(this.quantitiesCount);
     });
+    this.scrWidth = window.screen.width;
   }
 
   ngOnInit() {
@@ -54,6 +63,17 @@ export class HeaderComponent extends DefaultListComponent<ShoppingCartItem, Shop
     this.appStore.select(fromStore.getLang).subscribe((res) => {
       this.lang = res;
     });
+
+  }
+
+  ngAfterViewChecked() {
+    this.appStore.select(fromStore.getAuthUser).subscribe(res => {
+      if (this.scrWidth > 992) {
+      this.cartAnimation.getCartPosition(this.cartPosition);
+      } else {
+        this.cartAnimation.getCartPosition(this.cartPositionSmallScreen);
+      }
+    })
   }
 
   toggleSidebar() {
