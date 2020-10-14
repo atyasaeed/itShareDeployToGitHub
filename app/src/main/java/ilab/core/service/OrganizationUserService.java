@@ -62,6 +62,11 @@ public class OrganizationUserService
 		{
 			throw new IllegalRequestDataException("Invitee is the owner");
 		}
+		if (org.getType() != OrganizationType.PARTNER)
+		{
+			throw new IllegalRequestDataException("Organization must be Partner organization");
+
+		}
 
 		OrganizationUser orgUser = new OrganizationUser();
 		orgUser.setOrg(org);
