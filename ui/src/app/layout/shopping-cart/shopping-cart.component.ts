@@ -15,7 +15,7 @@ import { TdLoadingService } from '@covalent/core/loading';
 import { GalleryService } from 'src/app/shared/services/gallery.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { AddressBookService } from 'src/app/shared/services/address-book.service';
-import { AddressBook } from 'src/app/shared/domain/address-book.model';
+import { Address } from 'src/app/shared/domain/address.model';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -38,7 +38,7 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
   dropdownSettings: IDropdownSettings = {};
   selectedItemsArray;
   modalRef: BsModalRef;
-  myAddressess: AddressBook[];
+  myAddressess: Address[];
   myShippingAddress: number | string;
   @ViewChild('checkOutModal') checkOutModal: ElementRef;
   constructor(

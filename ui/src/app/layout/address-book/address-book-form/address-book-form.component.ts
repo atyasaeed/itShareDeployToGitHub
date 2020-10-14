@@ -4,7 +4,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TdDialogService } from '@covalent/core/dialogs';
 import { TdLoadingService } from '@covalent/core/loading';
 import { TranslateService } from '@ngx-translate/core';
-import { AddressBook } from 'src/app/shared/domain/address-book.model';
+import { Address } from 'src/app/shared/domain/address.model';
 import { DefaultFormComponent } from 'src/app/shared/helpers/default.form.component';
 import { AddressBookService } from 'src/app/shared/services/address-book.service';
 import { Store } from '@ngrx/store';
@@ -25,7 +25,7 @@ import { getLang } from 'src/app/store';
   animations: [routerTransition()],
   providers: [StateService, CityService],
 })
-export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, AddressBookService> implements OnInit {
+export class AddressBookFormComponent extends DefaultFormComponent<Address, AddressBookService> implements OnInit {
   breadcrumbs = [{ heading: this.translate.instant('addressBook'), link: '/address-book' }, { heading: 'create' }];
   states: State[];
   cities: City[];
@@ -106,7 +106,7 @@ export class AddressBookFormComponent extends DefaultFormComponent<AddressBook, 
           );
         } else {
           this.onCreate();
-          this.entity = {} as AddressBook;
+          this.entity = {} as Address;
           this.entity.city = {} as City;
           this.entity.city.state = {} as State;
           this.loadingService.resolve(this.key);
