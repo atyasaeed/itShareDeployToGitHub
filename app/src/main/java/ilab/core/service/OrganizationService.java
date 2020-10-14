@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import javax.transaction.Transactional;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,13 +46,17 @@ public class OrganizationService
 			BeanUtils.copyProperties(org, existingOrg, "owner", "status", "type", "comReg", "taxId", "frontNatId",
 					"backNatId");
 		if (file1 != null)
-			existingOrg.setComReg(updateFileAsset(org, file1, existingOrg.getComReg(), "commercialReg"));
+			existingOrg.setComReg(updateFileAsset(org, file1, existingOrg.getComReg(),
+					"commercialReg." + FilenameUtils.getExtension(file1.getOriginalFilename())));
 		if (file2 != null)
-			existingOrg.setTaxId(updateFileAsset(org, file2, existingOrg.getTaxId(), "taxId"));
+			existingOrg.setTaxId(updateFileAsset(org, file2, existingOrg.getTaxId(),
+					"taxId." + FilenameUtils.getExtension(file2.getOriginalFilename())));
 		if (file3 != null)
-			existingOrg.setFrontNatId(updateFileAsset(org, file3, existingOrg.getFrontNatId(), "frontNatId"));
+			existingOrg.setFrontNatId(updateFileAsset(org, file3, existingOrg.getFrontNatId(),
+					"frontNatId." + FilenameUtils.getExtension(file3.getOriginalFilename())));
 		if (file4 != null)
-			existingOrg.setBackNatId(updateFileAsset(org, file4, existingOrg.getBackNatId(), "backNatId"));
+			existingOrg.setBackNatId(updateFileAsset(org, file4, existingOrg.getBackNatId(),
+					"backNatId." + FilenameUtils.getExtension(file4.getOriginalFilename())));
 		if (auth.getAuthorities().contains(Role.ROLE_REGISTER_PRIVILEGE))
 			SecurityContextHolder.getContext().setAuthentication(null);
 		return existingOrg;
@@ -63,13 +68,13 @@ public class OrganizationService
 		if (digitalAsset == null)
 		{
 			digitalAsset = new FileAsset();
-			digitalAsset.setName(name);
+
 			digitalAsset.setOrganization(org);
 			digitalAsset = assetRepo.save(digitalAsset);
 
 		}
-		File destPath = new File(
-				filesPath + File.pathSeparator + org.getId() + File.pathSeparator + digitalAsset.getId());
+		digitalAsset.setName(name);
+		File destPath = new File(filesPath + File.separator + org.getId() + File.separator + digitalAsset.getId());
 		Path path = destPath.toPath();
 		if (!destPath.getParentFile().exists())
 			Files.createDirectories(path);
