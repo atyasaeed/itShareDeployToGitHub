@@ -27,9 +27,9 @@ export class HeaderComponent extends DefaultListComponent<ShoppingCartItem, Shop
   @ViewChild('cartPosition') cartPosition: ElementRef;
   @ViewChild('cartPositionSmallScreen') cartPositionSmallScreen: ElementRef;
   @HostListener('window:resize', ['$event'])
-    getScreenSize(event?) {
-      this.scrWidth = window.innerWidth;
-    }
+  getScreenSize(event?) {
+    this.scrWidth = window.innerWidth;
+  }
   constructor(
     private translate: TranslateService,
     public authenticationService: AuthenticationService,
@@ -38,7 +38,7 @@ export class HeaderComponent extends DefaultListComponent<ShoppingCartItem, Shop
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
     private router: Router,
     loadingService: TdLoadingService,
-    private cartAnimation:AnimationService
+    private cartAnimation: AnimationService
   ) {
     super(service, loadingService);
     this.appStore.dispatch(new fromStore.LoadInitState());
@@ -63,17 +63,16 @@ export class HeaderComponent extends DefaultListComponent<ShoppingCartItem, Shop
     this.appStore.select(fromStore.getLang).subscribe((res) => {
       this.lang = res;
     });
-
   }
 
   ngAfterViewChecked() {
-    this.appStore.select(fromStore.getAuthUser).subscribe(res => {
+    this.appStore.select(fromStore.getAuthUser).subscribe((res) => {
       if (this.scrWidth > 992) {
-      this.cartAnimation.getCartPosition(this.cartPosition);
+        this.cartAnimation.getCartPosition(this.cartPosition);
       } else {
         this.cartAnimation.getCartPosition(this.cartPositionSmallScreen);
       }
-    })
+    });
   }
 
   toggleSidebar() {

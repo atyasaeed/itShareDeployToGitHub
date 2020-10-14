@@ -80,7 +80,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterContentChecked {
     public spaceService: MySpaceService,
     private modalService: BsModalService,
     private loadingService: TdLoadingService,
-    private cartAnimation:AnimationService
+    private cartAnimation: AnimationService
   ) {
     this.spaceService.searchTerm = '';
     this.spaceService.model$.subscribe((res) => {

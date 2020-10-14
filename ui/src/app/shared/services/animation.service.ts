@@ -3,7 +3,6 @@ import { Injectable, ElementRef } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-
 export class AnimationService {
   cartPosition: ElementRef;
   animationDuration: number = 700;
