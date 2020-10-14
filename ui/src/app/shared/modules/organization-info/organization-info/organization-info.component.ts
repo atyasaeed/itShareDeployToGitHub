@@ -143,7 +143,7 @@ export class OrganizationInfoComponent implements OnInit {
       address: ['', [Validators.required]],
       website: ['', [Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?')]],
       // file: ['', []],
-      services: [null],
+      services: [null,[Validators.required]]
     });
   }
   save() {
@@ -225,10 +225,18 @@ export class OrganizationInfoComponent implements OnInit {
   }
 
   getFileUrlTax(id): string {
-    return this.appConfig.FILE_URL + id;
+    if (this.roleAdmin) {
+      return this.appConfig.FILE_URL_ADMIN + id;
+    } else {
+      return this.appConfig.FILE_URL + id;
+    }
   }
   getFileUrlCommercia(id): string {
-    return this.appConfig.FILE_URL + id;
+    if (this.roleAdmin) {
+      return this.appConfig.FILE_URL_ADMIN + id;
+    } else {
+      return this.appConfig.FILE_URL + id;
+    }
   }
 
   requestApproval() {

@@ -17,6 +17,6 @@ export class OrganizationService extends RestService<Organization> {
     return this.http.put(this.url + '/' + org.id + '/requestApproval', '');
   }
   getOrgAdmin(id) {
-    return this.http.get(this.url + '/admin' + '/' + id  )
+    return this.http.get(this.url + '/admin' + '/' + id);
   }
 }
