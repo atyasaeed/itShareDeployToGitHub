@@ -25,7 +25,7 @@ public class PricingForPrinting implements PricingStrategy
 		{
 			if (hyperFile == null)
 				continue;
-			File destPath = new File(filesPath + item.getOrderEntity().getOrganization().getId() + File.pathSeparator
+			File destPath = new File(filesPath + item.getOrderEntity().getOrganization().getId() + File.separator
 					+ hyperFile.getAsset().getId());
 			PDDocument doc;
 			try

@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
@@ -65,15 +66,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 				.antMatchers(HttpMethod.POST, "/api/users/savePassword").hasAuthority("CHANGE_PASSWORD_PRIVILEGE")
 				.antMatchers("/assets/**").permitAll().antMatchers("/digital-assets/**").permitAll().and()
 				.authorizeRequests().anyRequest().authenticated().and().formLogin().loginProcessingUrl("/api/login")
-				.failureHandler(customAuthenticationFailureHandler())
+				.loginPage("/login").failureHandler(customAuthenticationFailureHandler())
 				.successHandler(customAuthenticationSuccessHandler()).and().logout().logoutUrl("/api/logout")
 				.logoutSuccessHandler(new CustomLogoutSuccessHandler()).and().cors()
 				.configurationSource(corsConfigurationSource()).and().csrf().disable()
 //				.and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 //				.and()
-				.headers().frameOptions().sameOrigin()
-//				.and().exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-				.and().exceptionHandling().accessDeniedPage("/login");
+				.headers().frameOptions().sameOrigin().and().exceptionHandling()
+//				.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.FORBIDDEN))
+//				.accessDeniedPage("/accessdenied");
+				.and().exceptionHandling().accessDeniedHandler(accessDeniedHandler());
 
 //			.and()
 //			.exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint())
@@ -175,5 +177,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
+	}
+
+	@Bean
+	public AccessDeniedHandler accessDeniedHandler()
+	{
+		return new CustomAccessDeniedHandler();
 	}
 }
