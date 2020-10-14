@@ -49,6 +49,7 @@ export class OrganizationInfoComponent implements OnInit {
   taxCardFile = false;
   formData: FormData = new FormData();
   disabledForm: boolean = false;
+  checkFileSize: boolean;
   form: FormGroup;
   constructor(
     private Service: OrganizationService,
@@ -177,6 +178,10 @@ export class OrganizationInfoComponent implements OnInit {
   }
 
   Commercial(event) {
+    console.log(event.target.files[0].size);
+    if (event.target.files[0].size > 200000) {
+      return;
+    }
     this.loadingService.register('loadingOrg');
     this.CommerciaFile = true;
     this.formData.append('file1', event.target.files[0] as File);
@@ -195,6 +200,9 @@ export class OrganizationInfoComponent implements OnInit {
     this.formData.delete('file1');
   }
   taxCard(event) {
+    if (event.target.files[0].size > 200000) {
+      return;
+    }
     this.taxCardFile = true;
     this.loadingService.register('loadingOrg');
     this.formData.append('file2', event.target.files[0] as File);

@@ -45,18 +45,6 @@
             <td>
 
               <a [routerLink]="entity.id" title="{{'user.view' | translate}}"><i class="fa fa-fw fa-edit"></i></a>&nbsp;
-              <button type="button" *ngIf="!entity.enabled" (click)="status(entity)" mat-stroked-button
-                color="primary">{{'Enable'|translate}}</button>
-              <a *ngIf="entity.enabled" href="javascript:void(0)" title="{{'enabled' | translate}}">
-                <i class="fa fa-check" aria-hidden="true"></i>
-              </a>
-              <!-- <button type="button" *ngIf="entity.enabled" (click)="status(entity)" mat-stroked-button color="warn">{{'Disable'|translate}}</button> -->
-
-
-              <!-- <a><i class="fa fa-fw fa-edit"></i></a>&nbsp; -->
-              <!-- <a (click)="delete(entity)" href="javascript:void(0)"><i class="fa fa-fw fa-trash"></i></a> -->
-
-              <!-- <a><i class="fa fa-fw fa-trash"></i></a> -->
             </td>
           </tr>
         </tbody>

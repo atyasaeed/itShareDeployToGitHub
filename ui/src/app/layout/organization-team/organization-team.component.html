@@ -7,7 +7,7 @@
     <h4 class="site-color-v1 py-4 text-center">{{"inviteMember" |translate}}</h4>
     <div class="form-group w-50 m-auto text-center">
       <label for="first" class="brand f-size-20">{{"emailTeam"|translate}}</label>
-      <input type="text" class="w-50" placeholder="{{ 'enterEmail' | translate }} " [formControl]="email"
+      <input type="text" class="w-50" placeholder="{{ 'enterEmailMember' | translate }} " [formControl]="email"
         class="form-control" id="first">
       <div class="text-danger" *ngIf="email.touched && email.invalid">{{'email.error.required'|translate}}
       </div>
