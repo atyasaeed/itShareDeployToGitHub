@@ -35,18 +35,20 @@ export class HomeComponent implements OnInit {
       this.fragment = fragment;
       console.log(this.fragment);
     });
-
   }
   ngAfterViewInit(): void {
     try {
       document.querySelector('#' + this.fragment).scrollIntoView();
-    } catch (e) { }
+    } catch (e) {}
     this.loadingService.register('loading');
-    this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
-      this.services = res;
-      this.loadingService.resolve('loading');
-    }, err => {
-      this.loadingService.resolve('loading');
-    });
+    this.appStore.select(fromStore.getAuthServices).subscribe(
+      (res) => {
+        this.services = res;
+        this.loadingService.resolve('loading');
+      },
+      (err) => {
+        this.loadingService.resolve('loading');
+      }
+    );
   }
 }
