@@ -23,8 +23,7 @@ export interface IAppConfig {
 }
 class DefaultAppConfig implements IAppConfig {
   public API_END_POINT = '/';
-  //public AWSUrl = 'https://ihub-tdc.s3.amazonaws.com/static-assets/';
-  public AWSUrl = 'https://s3.amazonaws.com/fabrihub.net/services/';
+  public AWSUrl = 'https://s3.amazonaws.com/prod.fabrihub.net/';
   public SLIDER_URL = 'https://s3.amazonaws.com/fabrihub.net/static-assets/sliders.json';
 
   public get LOGIN_URL() {
@@ -70,11 +69,12 @@ class DefaultAppConfig implements IAppConfig {
     return this.API_END_POINT + 'api/' + resource;
   }
   public serviceImage(entity: Service) {
-    return this.AWSUrl + entity.id + '/' + entity.image;
+    return this.AWSUrl + 'services/' + entity.id + '/' + entity.image;
   }
 }
 class ProdAppConfig extends DefaultAppConfig {
   public API_END_POINT = environment.baseUrl;
+  public AWSUrl = environment.AWSUrl;
 }
 class DevAppConfig extends DefaultAppConfig {}
 
