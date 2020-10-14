@@ -210,7 +210,6 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
       this.toastr.warning(this.translateService.instant('prompt.addAddress'));
       this.router.navigate(['/address-book/create'], { state: { fromRoute: '/shopping-cart' } });
     }
-
   }
 
   textAreaChange(item: ShoppingCartItem, notes) {
