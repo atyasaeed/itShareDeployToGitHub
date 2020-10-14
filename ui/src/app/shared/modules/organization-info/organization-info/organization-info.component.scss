@@ -18,4 +18,6 @@ margin: auto;
     border-bottom: 5px solid #e9ecef;
     margin-bottom: 10px;
 }
-
+div.row-files:last-child{
+  border-bottom: none !important;
+}

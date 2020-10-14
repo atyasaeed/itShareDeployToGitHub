@@ -1,6 +1,6 @@
 package ilab.api;
 
-
+import java.io.File;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -29,80 +29,81 @@ import ilab.core.service.AssetService;
 @RequestMapping(path = AssetsController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class AssetsController implements AbstractRestController<FileAsset, UUID>
 {
-	static final String REST_URL="/api/digital-assets";
+	static final String REST_URL = "/api/digital-assets";
 	@Value("${iLab.paths.images}")
 	String imagesPath;
 	@Value("${iLab.paths.files}")
 	String filesPath;
 	@Autowired
 	private AssetService assetsService;
-//	@GetMapping(value="images/{id}",produces = MediaType.IMAGE_JPEG_VALUE)
-//    @ResponseBody
-//    public ResponseEntity<Resource> getImageAsResource(@PathVariable("id") String id) {
-//        final HttpHeaders headers = new HttpHeaders();
-////        Resource resource = new ServletContextResource(servletContext, "/WEB-INF/images/image-example.jpg");
-//        Resource resource=new FileSystemResource(imagesPath+id+".jpg");
-//        return new ResponseEntity<>(resource, headers, HttpStatus.OK);
-//    }
+
 	@GetMapping("files/{id}")
-    @ResponseBody
-    public ResponseEntity<Resource> getFileAsResource(@PathVariable("id") UUID id,Authentication auth) throws Exception{
-        Resource resource=new FileSystemResource(filesPath+id);
-        String filename=id.toString();
-        if(!resource.getFile().exists()&&auth!=null)
-        {
-        	
-        	Optional<FileAsset> optional= assetsService.getAssetFile(id, auth);
-        	FileAsset fileAsset=optional.isEmpty()?null:optional.get();
-        	if(fileAsset!=null)
-        	{
-        		resource=new FileSystemResource(filesPath+fileAsset.getOrganization().getId()+"\\"+id);
-        		filename=fileAsset.getName();
-        	}
-        }
-        return ResponseEntity.ok().contentType(MediaType.parseMediaType("application/octet-stream"))
-        	.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
-        	.body(resource);
-    }
+	@ResponseBody
+	public ResponseEntity<Resource> getFileAsResource(@PathVariable("id") UUID id, Authentication auth) throws Exception
+	{
+		Resource resource = new FileSystemResource(filesPath + id);
+		String filename = id.toString();
+		if (!resource.getFile().exists() && auth != null)
+		{
+
+			Optional<FileAsset> optional = assetsService.getAssetFile(id, auth);
+			FileAsset fileAsset = optional.isEmpty() ? null : optional.get();
+			if (fileAsset != null)
+			{
+				resource = new FileSystemResource(
+						filesPath + fileAsset.getOrganization().getId() + File.pathSeparator + id);
+				filename = fileAsset.getName();
+			}
+		}
+		return ResponseEntity.ok().contentType(MediaType.parseMediaType("application/octet-stream"))
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"").body(resource);
+	}
+
 	@GetMapping("files/admin/{id}")
-    @ResponseBody
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Resource> getAdminFileAsResource(@PathVariable("id") UUID id,Authentication auth) throws Exception{
-        Resource resource=new FileSystemResource(filesPath+id);
-        String filename=id.toString();
-        if(!resource.getFile().exists()&&auth!=null)
-        {
-        	
-        	FileAsset fileAsset= assetsService.getAssetFile(id).orElseThrow();
-    		resource=new FileSystemResource(filesPath+fileAsset.getOrganization().getId()+"\\"+id);
-    		filename=fileAsset.getName();
-        }
-        return ResponseEntity.ok().contentType(MediaType.parseMediaType("application/octet-stream"))
-        	.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
-        	.body(resource);
-    }
+	@ResponseBody
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public ResponseEntity<Resource> getAdminFileAsResource(@PathVariable("id") UUID id, Authentication auth)
+			throws Exception
+	{
+		Resource resource = new FileSystemResource(filesPath + id);
+		String filename = id.toString();
+		if (!resource.getFile().exists() && auth != null)
+		{
+
+			FileAsset fileAsset = assetsService.getAssetFile(id).orElseThrow();
+			resource = new FileSystemResource(
+					filesPath + fileAsset.getOrganization().getId() + File.pathSeparator + id);
+			filename = fileAsset.getName();
+		}
+		return ResponseEntity.ok().contentType(MediaType.parseMediaType("application/octet-stream"))
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"").body(resource);
+	}
 
 	@Override
 	public Page<FileAsset> getPageable(Pageable page, Specification<FileAsset> specs, Authentication auth)
 	{
 		return assetsService.getFiles(page, specs, auth);
 	}
+
 	@Override
 	public FileAsset create(FileAsset entity, Authentication auth)
 	{
 		throw new UnsupportedOperationException();
 	}
+
 	@Override
 	public FileAsset update(FileAsset entity, Authentication auth)
 	{
 		throw new UnsupportedOperationException();
 	}
+
 	@Override
 	public void delete(UUID id, Authentication authentication)
 	{
 		throw new UnsupportedOperationException();
-		
+
 	}
+
 	@Override
 	public FileAsset get(UUID id, Authentication authentication)
 	{

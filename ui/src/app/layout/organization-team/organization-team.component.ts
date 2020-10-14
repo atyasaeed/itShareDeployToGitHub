@@ -73,7 +73,11 @@ export class OrganizationTeamComponent extends DefaultListComponent<OrgUser, Org
         if (accept) {
           this.purge(entity).subscribe((result) => {
             this.appStore.dispatch(new fromStore.LoadInitState());
-          });
+          }, err =>
+          {
+            if (err.error.details[0] === 'Owner can not delte himself') {
+          this.toastr.error(this.translate.instant('ownerCanNotDelteHimself'));
+        }});
         } else {
         }
       });
@@ -86,12 +90,14 @@ export class OrganizationTeamComponent extends DefaultListComponent<OrgUser, Org
         this.email.reset();
       },
       (err) => {
-        if (err.error.details[0] == 'No value present') {
+        if (err.error.details[0] === 'No value present') {
           this.toastr.error(this.translate.instant('emailNotFound'));
-        } else if (err.error.details[0] == 'duplicatedOrganizationUser') {
+        } else if (err.error.details[0] === 'duplicatedOrganizationUser') {
           this.toastr.error(this.translate.instant('duplicatedOrganizationUser'));
+        } else if (err.error.details[0] === 'Organization is not active') {
+          this.toastr.error(this.translate.instant('organizationIsNotActive'));
         }
-        console.log(err);
+
         this.loadingService.resolve(this.key);
       }
     );

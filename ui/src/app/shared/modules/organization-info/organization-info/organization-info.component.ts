@@ -32,6 +32,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class OrganizationInfoComponent implements OnInit {
   public totalfiles: Array<File> = [];
   lang: string;
+  checkState: boolean = true;
   public totalFileName = [];
   city: City = {} as City;
   cities: City[] = new Array();
@@ -108,8 +109,8 @@ export class OrganizationInfoComponent implements OnInit {
 
       if (!(this.org.status == 'PENDING' || this.org.status == 'REJECTED')) {
         this.form?.removeControl('statusReason');
-      } else {
-        this.form?.get('statusReason')?.clearValidators();
+      } else if (this.org.status == 'PENDING' && !this.roleAdmin) {
+        this.form?.removeControl('statusReason');
       }
     }
   }
@@ -118,7 +119,8 @@ export class OrganizationInfoComponent implements OnInit {
     if (this.org) {
       this.form?.patchValue(this.org);
       if (!this.form?.get('statusReason').value) {
-        this.form?.get('statusReason').setValue('Pending');
+        this.form?.get('statusReason')?.clearValidators();
+        this.checkState = false;
       }
     }
 
@@ -213,18 +215,28 @@ export class OrganizationInfoComponent implements OnInit {
 
   onChangeStatus(event) {
     this.org.status = event;
-    if (event == 'PENDING' || event == 'REJECTED') {
+    if (event === 'PENDING' || event === 'REJECTED') {
       this.form.addControl('statusReason', new FormControl('', Validators.required));
+      this.checkState = true;
     } else {
       this.form.removeControl('statusReason');
+      this.checkState = false;
     }
   }
 
   getFileUrlTax(id): string {
-    return this.appConfig.FILE_URL + id;
+    if (this.roleAdmin) {
+      return this.appConfig.FILE_URL_ADMIN + id;
+    } else {
+      return this.appConfig.FILE_URL + id;
+    }
   }
   getFileUrlCommercia(id): string {
-    return this.appConfig.FILE_URL + id;
+    if (this.roleAdmin) {
+      return this.appConfig.FILE_URL_ADMIN + id;
+    } else {
+      return this.appConfig.FILE_URL + id;
+    }
   }
 
   requestApproval() {

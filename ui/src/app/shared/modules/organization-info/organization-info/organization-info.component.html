@@ -126,7 +126,7 @@
 
           </div>
           <div class="col-md-4 notes">
-            <div class="form-row">
+            <div class="form-row" *ngIf="roleAdmin">
               <div class="form-group col-md-12" *ngIf="org?.status == 'PENDING' || org?.status == 'REJECTED'">
                 <label for="inputCity">{{ 'reasons' | translate }}</label>
                 <textarea formControlName="statusReason" style="width: 100%;" [readonly]="!roleAdmin"></textarea>
@@ -135,6 +135,13 @@
                   <div class="text-center" *ngIf="form?.controls?.statusReason?.errors?.required">
                     {{ 'statusReason.error.required' | translate }}</div>
                 </div>
+              </div>
+            </div>
+            <div class="form-row" *ngIf="!roleAdmin && org?.statusReason">
+              <div class="form-group col-md-12" *ngIf="org?.status == 'PENDING' || org?.status == 'REJECTED'">
+                <label for="inputCity">{{ 'reasons' | translate }}</label>
+                <textarea style="width: 100%;" [readonly]="!roleAdmin">{{org?.statusReason}}</textarea>
+
               </div>
             </div>
           </div>

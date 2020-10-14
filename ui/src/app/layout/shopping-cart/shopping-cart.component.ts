@@ -207,9 +207,10 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     if (this.myAddressess.length > 0) {
       this.modalRef = this.modalService.show(template);
     } else {
-      this.toastr.warning(this.translateService.instant('pleaseAddAddress'));
+      this.toastr.warning(this.translateService.instant('prompt.addAddress'));
       this.router.navigate(['/address-book/create'], { state: { fromRoute: '/shopping-cart' } });
     }
+
   }
 
   textAreaChange(item: ShoppingCartItem, notes) {
