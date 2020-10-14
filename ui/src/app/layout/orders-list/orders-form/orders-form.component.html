@@ -24,7 +24,7 @@
           </a>
           <div>
             <span class="f-weight-400 text-primary cursor-pointer"
-            (click)="viewShippingAddressModal(showOrderShippingAddress)">
+              (click)="viewShippingAddressModal(showOrderShippingAddress)">
               {{'viewShippingAddress'|translate}}
             </span>
           </div>
@@ -90,14 +90,8 @@
                     <button type="button" (click)="itemRejectReasonModal(itemRejectReasons)"
                       *ngIf="lineItem.status == 'ITEM_REJECTED'"
                       class="custom-btn  btn-danger mt-2">{{'viewReasons'|translate}}</button>
-                    <!-- <span *ngIf="lineItem.status == 'ITEM_REJECTED'" class="rejection-reason p-2 mt-2"></span> -->
                   </div>
                   <div class="col-md-3 service-image mb-2">
-                    <!-- <img class="img-fluid " [src]="getFileExtension(lineItem)"
-                    *ngIf="getFileExtension(lineItem) != false;else serviceImage">
-                  <ng-template #serviceImage>
-                    <img class="img-fluid " [src]="appConfig.serviceImage(lineItem.service)">
-                  </ng-template> -->
                     <img class="img-fluid " [src]="appConfig.FILE_URL + lineItem.files[0].asset_id"
                       *ngIf="getFileExtension(lineItem) == 'image';else stlExtension">
                     <ng-template #stlExtension>
@@ -146,15 +140,6 @@
                             <i class="fa fa-download" aria-hidden="true"></i>
                           </a>
 
-                          <!-- <div *ngIf="lineItem.status === 'PENDING' && isButtonVisible" style="margin-right: 10px;">
-                          <button (click)="isButtonVisible = false" class="btn btn-danger"
-                            #statusRejectBtn>{{'order.status.reject'|translate}}</button>
-                        </div> -->
-                          <!-- <div *ngIf="lineItem.status === 'PENDING' && !isButtonVisible" style="margin-right: 10px;">
-                          <button (click)="lineItemReject(lineItem) ;isButtonVisible"
-                            class="btn btn-info">{{'Save'|translate}}</button>
-                        </div> -->
-
 
 
                           <button class="btn btn-outline-danger btn-xs mr-2" tooltip="{{'reject' | translate}}"
@@ -173,10 +158,6 @@
                             *ngIf=" (lineItem.status === 'ITEM_REJECTED' || lineItem.status === 'QUOTED') && entity.status ==='PENDING'">
                             <!-- <i class="fa fa-refresh" aria-hidden="true"></i> -->
                             <i class="fa fa-undo"></i>
-                            <!-- <span class="fa-stack">
-                            <i class="fa fa-circle fa-stack-2x"></i>
-                            <i class="fa fa-undo fa-stack-1x fa-inverse"></i>
-                          </span> -->
 
 
                           </button>
@@ -245,43 +226,28 @@
                       <div class="row">
 
                         <div class="col-md-6" *ngIf="lineItem.status !== 'ITEM_REJECTED'">
-                          <div>
-                            <!-- <mat-form-field class="form-rtl" *ngIf="lineItem.status !=='CANCELLED'">
-                              <mat-label>{{ 'estimatedEndDate' | translate }}</mat-label>
+                          <div class="form-group" *ngIf="lineItem.status !=='CANCELLED'">
+                            <label for="ManufacturingDuration"
+                              class="w-100">{{"manufacturingDuration"|translate}}</label>
+                            <input type="number" class="w-75" id="ManufacturingDuration"
+                              (change)='updateItem(entity,lineItem)' [(ngModel)]="lineItem.duration" #duration='ngModel'
+                              [disabled]="isEnabled || lineItem.status !=='PENDING'" required>
+                            <div *ngIf="duration.hasError('required') && duration.touched" class="text-danger">
+                              {{'manufacturingDuration.error'|translate}}
+                            </div>
 
-                              <input matInput [matDatepicker]="picker" [min]="minDate" [max]="maxDate"
-                                (dateChange)="updateItem(entity,lineItem)" [(ngModel)]="lineItem.estimatedEndDate"
-                                #estimatedEndDate='ngModel' [disabled]="isEnabled || lineItem.status !=='PENDING'">
-                              <mat-datepicker-toggle matSuffix [for]="picker"
-                                [disabled]="isEnabled || lineItem.status !=='PENDING'">
-                              </mat-datepicker-toggle>
-                              <mat-datepicker #picker disabled="false"></mat-datepicker>
-                              <mat-error *ngIf="estimatedEndDate.hasError('required')">
-                              </mat-error>
-                            </mat-form-field> -->
-                            <mat-form-field class="w-75" *ngIf="lineItem.status !=='CANCELLED'">
-                              <!-- <mat-label></mat-label> -->
-                              <input matInput type="number" placeholder="{{'manufacturingDuration'|translate}}"
-                                (change)='updateItem(entity,lineItem)' [(ngModel)]="lineItem.duration"
-                                #duration='ngModel' [disabled]="isEnabled || lineItem.status !=='PENDING'" required>
-                              <mat-error *ngIf="duration.hasError('required')">
-                                {{'manufacturingDuration.error'|translate}}
-                              </mat-error>
-                            </mat-form-field>
                           </div>
                         </div>
                         <div class="col-md-6" *ngIf="lineItem.status !== 'ITEM_REJECTED'">
-                          <div>
+                          <div class="form-group" *ngIf="lineItem.status !=='CANCELLED'">
+                            <label for="UnitPrice" class="w-100">{{"unitPrice"|translate}}</label>
+                            <input type="number" class="w-75" min="1" id="UnitPrice"
+                              (change)='updateItem(entity,lineItem)' [(ngModel)]="lineItem.unitPrice"
+                              #unitPrice='ngModel' [disabled]="isEnabled || lineItem.status !=='PENDING'" required>
 
-                            <mat-form-field class="w-75" *ngIf="lineItem.status !=='CANCELLED'">
-
-                              <input matInput type="number" placeholder="{{'unitPrice'|translate}}" min="1"
-                                (change)='updateItem(entity,lineItem)' [(ngModel)]="lineItem.unitPrice"
-                                #unitPrice='ngModel' [disabled]="isEnabled || lineItem.status !=='PENDING'" required>
-                              <mat-error *ngIf="unitPrice.hasError('required')">
-                                {{'unitPrice.error'|translate}}
-                              </mat-error>
-                            </mat-form-field>
+                            <div *ngIf="unitPrice.hasError('required')  && unitPrice.touched" class="text-danger">
+                              {{'unitPrice.error'|translate}}
+                            </div>
 
 
                           </div>
@@ -521,23 +487,23 @@
 
 
 <ng-template #showOrderShippingAddress>
-    <div class="modal-body ">
-      <div>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="text-center mt-2 site-color-v1">
-        <i class="fas fa-shipping-fast fa-3x"></i>
-      </div>
-      <div class="text-center f-size-14 text-grey mt-2">
-        {{entity.shippingAddress.lineOne}} - {{entity.shippingAddress.lineTwo}}
-        - {{lang==='en'? (entity?.shippingAddress?.city?.state?.enName):(entity?.shippingAddress?.city?.state?.arName)}}
-        - {{lang==='en'? (entity?.shippingAddress?.city?.enName):(entity?.shippingAddress?.city?.arName)}}
-        - {{entity.shippingAddress.contactName}} - {{entity.shippingAddress.phoneNo}}
-      </div>
-      <div class="text-center my-2 f-weight-600">
-        <button class="custom-btn v4 mr-3" (click)="modalRef.hide()">{{'cancel'|translate}}</button>
-      </div>
+  <div class="modal-body ">
+    <div>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
+    <div class="text-center mt-2 site-color-v1">
+      <i class="fas fa-shipping-fast fa-3x"></i>
+    </div>
+    <div class="text-center f-size-14 text-grey mt-2">
+      {{entity.shippingAddress.lineOne}} - {{entity.shippingAddress.lineTwo}}
+      - {{lang==='en'? (entity?.shippingAddress?.city?.state?.enName):(entity?.shippingAddress?.city?.state?.arName)}}
+      - {{lang==='en'? (entity?.shippingAddress?.city?.enName):(entity?.shippingAddress?.city?.arName)}}
+      - {{entity.shippingAddress.contactName}} - {{entity.shippingAddress.phoneNo}}
+    </div>
+    <div class="text-center my-2 f-weight-600">
+      <button class="custom-btn v4 mr-3" (click)="modalRef.hide()">{{'cancel'|translate}}</button>
+    </div>
+  </div>
 </ng-template>

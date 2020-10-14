@@ -73,11 +73,8 @@
 
           <button type="button" class="custom-btn custom-btn.v1 site-color-v3 f-size-16 font-weight-bold"
             (click)="cancel()">{{'cancel'|translate}}</button> &nbsp;
-          <button type="button" *ngIf="!user.enabled" (click)="status(user)" mat-raised-button
-            color="primary">{{'Enable'|translate}}</button>
           <button type="submit" class="custom-btn custom-bg  f-size-16 font-weight-bold"
             [disabled]="f().invalid">{{'SaveUpdate'|translate}}</button>
-          <!-- <button type="button" *ngIf="entity.enabled" (click)="status(entity)" mat-raised-button color="warn">{{'Disable'|translate}}</button> -->
         </div>
 
       </div>

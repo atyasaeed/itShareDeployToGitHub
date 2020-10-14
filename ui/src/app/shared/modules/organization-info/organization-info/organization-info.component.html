@@ -159,11 +159,13 @@
           <h6>{{'commercialRegister'|translate}}</h6>
         </div>
         <div class="form-group col-md-6" *ngIf="!CommerciaFile">
-          <input #CommercialInput hidden="true" type="file" (change)="Commercial($event)" />
+          <input #CommercialInput hidden="true" type="file" (change)="Commercial($event)" accept=".PNG,.JPEG,.PDF" />
           <button mat-flat-button color="primary" type="button" (click)="CommercialInput.click()"
             [disabled]='roleAdmin'><i class="fa fa-upload"></i>
             {{'upload'|translate}}</button>
+          <div class="text-danger" *ngIf="CommercialInput.value">{{"maxSize2mg"|translate}}</div>
         </div>
+
         <div class="form-group col-md-6 " *ngIf="CommerciaFile">
           <div class="text-success"><i class="fa fa-check" aria-hidden="true"></i> {{'uploaded'|translate}}
           </div>
@@ -183,10 +185,12 @@
           <h6>{{'taxCard'|translate}}</h6>
         </div>
         <div class="form-group col-md-6" *ngIf="!taxCardFile">
-          <input #taxCardInput hidden="true" type="file" (change)="taxCard($event)" />
+          <input #taxCardInput hidden="true" type="file" (change)="taxCard($event)" accept=".PNG,.JPEG,.PDF" />
+
           <button mat-flat-button color="primary" type="button" (click)="taxCardInput.click()" [disabled]='roleAdmin'><i
               class="fa fa-upload"></i>
             {{'upload'|translate}}</button>
+          <div class="text-danger" *ngIf="taxCardInput.value">{{"maxSize2mg"|translate}}</div>
         </div>
         <div class="form-group col-md-6" *ngIf="taxCardFile">
           <span class="text-success"><i class="fa fa-check" aria-hidden="true"></i> {{'uploaded'|translate}}</span>

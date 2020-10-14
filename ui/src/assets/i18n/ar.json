@@ -91,6 +91,7 @@
   "Upload Your Design File": "قم بتحميل ملف التصميم الخاص بك",
   "file is required": "يجب رفع الملف",
   "Size must less than 5MB": "يجب أن يكون الحجم أقل من 5 ميغابايت",
+  "maxSize2mg":"يجب أن يكون الحجم أقل من 2 ميغابايت",
   "Units Used In File": "الوحدات المستخدمة في الملف",
   "Unit is required": "يجب اختيار الوحدة المطلوبه",
   "Material": "المواد",
