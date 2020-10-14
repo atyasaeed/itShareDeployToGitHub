@@ -19,6 +19,9 @@ import { UserService } from 'src/app/shared/services/user.service';
 export class ProfileComponent extends DefaultFormComponent<User, UserService> implements OnInit {
   breadcrumbs = [{ heading: 'Update Profile', icon: 'fa-tasks', link: '/profile' }];
   user: User = {} as User;
+  checkFragment: boolean;
+  accountInfo = 'accountInfo';
+  orgInfo = 'orgInfo';
   constructor(
     formBuilder: FormBuilder,
     loadingService: TdLoadingService,
@@ -33,6 +36,14 @@ export class ProfileComponent extends DefaultFormComponent<User, UserService> im
 
     this.service.getUserProfile().subscribe((res: User) => {
       this.user = res;
+    });
+
+    this.route.fragment.subscribe((fragment) => {
+      if (fragment) {
+        this.checkFragment = true;
+        this.accountInfo = 'orgInfo';
+        this.orgInfo = 'accountInfo';
+      }
     });
   }
   onCreate(): void {

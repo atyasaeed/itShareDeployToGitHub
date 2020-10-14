@@ -29,7 +29,7 @@ import { Organization } from 'src/app/shared/domain/organization.model';
 export class OrganizationFormComponent extends DefaultFormComponent<Organization, OrganizationService>
   implements OnInit {
   breadcrumbs = [
-    { heading: 'organization', icon: 'fa-tasks', link: '/organizations' },
+    { heading: 'organization', icon: 'fa-tasks', link: '/organizations-list' },
     { heading: 'organization-Details', icon: 'fa-tasks' },
   ];
   org: Organization = {} as Organization;
@@ -48,7 +48,12 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
     if (this.router.getCurrentNavigation()?.extras.state) {
       Object.assign(this.org, this.router.getCurrentNavigation().extras.state);
     } else {
-      super.ngOnInit();
+      this.route.params.subscribe((param) => {
+        console.log(param.entityId);
+        this.service.getOrgAdmin(param.entityId).subscribe((res: Organization) => {
+          this.org = res;
+        });
+      });
     }
   }
   ngOnInit() {}

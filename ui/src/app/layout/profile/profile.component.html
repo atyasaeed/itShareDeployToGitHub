@@ -3,21 +3,31 @@
     <app-page-header [breadCrumbs]="breadcrumbs">
     </app-page-header>
 
-    <mat-tab-group>
-      <mat-tab label="{{'accountInfo' |translate}}">
-        <div *ngIf="user">
-          <app-user-info [user]="user"></app-user-info>
+    <ng-template #content1>
 
-        </div>
+      <div *ngIf="user">
+        <app-organization-info [org]='user.defaultOrg'>
+        </app-organization-info>
+      </div>
+    </ng-template>
+    <ng-template #content2>
+      <div *ngIf="user">
+        <app-user-info [user]="user"></app-user-info>
+      </div>
+    </ng-template>
+
+    <mat-tab-group>
+      <mat-tab [label]="accountInfo |translate">
+        <div *ngIf="checkFragment; then content1 else content2"> </div>
       </mat-tab>
-      <mat-tab *ngIf="user?.defaultOrg?.type == 'PARTNER'" label="{{'orgInfo' |translate}}">
-        <div *ngIf="user">
-          <app-organization-info [org]='user.defaultOrg'>
-          </app-organization-info>
-        </div>
+      <mat-tab *ngIf="user?.defaultOrg?.type == 'PARTNER'" [label]="orgInfo |translate">
+        <div *ngIf="checkFragment; then content2 else content1"> </div>
       </mat-tab>
     </mat-tab-group>
 
-
   </div>
+
+
+
+
 </div>

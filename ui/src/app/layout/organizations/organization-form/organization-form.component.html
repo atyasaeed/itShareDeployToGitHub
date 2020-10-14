@@ -7,13 +7,13 @@
       <mat-tab label="{{'orgInfo' |translate}}">
 
         <div *ngIf="org">
-          <app-organization-info [org]="org || entity">
+          <app-organization-info [org]="org">
           </app-organization-info>
         </div>
       </mat-tab>
       <mat-tab label="{{'owner' |translate}}">
         <div *ngIf="org">
-          <app-user-info [user]="org?.owner || entity?.owner"></app-user-info>
+          <app-user-info [user]="org?.owner"></app-user-info>
         </div>
       </mat-tab>
     </mat-tab-group>
