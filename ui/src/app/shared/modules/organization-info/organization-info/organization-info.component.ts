@@ -143,7 +143,7 @@ export class OrganizationInfoComponent implements OnInit {
       address: ['', [Validators.required]],
       website: ['', [Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?')]],
       // file: ['', []],
-      services: [null,[Validators.required]]
+      services: [null],
     });
   }
   save() {
