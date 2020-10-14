@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { RestService } from 'src/app/shared/services';
-import { AddressBook } from '../domain/address-book.model';
+import { Address } from '../domain/address.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AddressBookService extends RestService<AddressBook> {
+export class AddressBookService extends RestService<Address> {
   resource = 'address';
 }

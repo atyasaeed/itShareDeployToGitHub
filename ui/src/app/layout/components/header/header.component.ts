@@ -9,7 +9,6 @@ import { User, ShoppingCartItem, LineItem } from 'src/app/shared/domain';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import { ShoppingCartService } from '../../../shared/services/shoppingcart.service';
 import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
-import { AnimationService } from 'src/app/shared/services/animation.service';
 import { TdLoadingService } from '@covalent/core/loading';
 @Component({
   selector: 'app-header',
@@ -31,7 +30,6 @@ export class HeaderComponent extends DefaultListComponent<ShoppingCartItem, Shop
     private appStore: Store<fromStore.AppState>,
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
     private router: Router,
-    private animationService: AnimationService,
     loadingService: TdLoadingService
   ) {
     super(service, loadingService);
@@ -55,14 +53,6 @@ export class HeaderComponent extends DefaultListComponent<ShoppingCartItem, Shop
     console.log(`${this.translate.getBrowserLang()},${this.translate.getDefaultLang()}`);
     this.appStore.select(fromStore.getLang).subscribe((res) => {
       this.lang = res;
-    });
-  }
-
-  ngAfterViewInit() {
-    //console.log(this.cartPosition);
-    this.authUser$.subscribe((res) => {
-      //console.log(this.cartPosition);
-      this.animationService.getCartPosition(this.cartPosition);
     });
   }
 

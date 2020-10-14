@@ -1,11 +1,11 @@
 import { Entity } from './entity';
 import { City } from './city.model';
 
-export interface AddressBook extends Entity {
+export interface Address extends Entity {
   name: string;
   city: City;
   lineOne: string;
   lineTwo: string;
-  contactName:string;
+  contactName: string;
   phoneNo: number;
 }

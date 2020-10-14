@@ -22,9 +22,7 @@ import { Store } from '@ngrx/store';
 import { routerTransition } from 'src/app/router.animations';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { delay } from 'rxjs/operators';
-
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
-import { AnimationService } from 'src/app/shared/services/animation.service';
 import { MySpaceService } from 'src/app/shared/services/my-space.service';
 import { TdLoadingService } from '@covalent/core/loading';
 import { getLang } from 'src/app/store';
@@ -80,7 +78,6 @@ export class ShoppingCartFormComponent implements OnInit, AfterContentChecked {
     private cdr: ChangeDetectorRef,
     public spaceService: MySpaceService,
     private modalService: BsModalService,
-    private animationService: AnimationService,
     private loadingService: TdLoadingService
   ) {
     this.spaceService.searchTerm = '';
@@ -310,12 +307,9 @@ export class ShoppingCartFormComponent implements OnInit, AfterContentChecked {
           this.form.markAsPristine();
           this.form.updateValueAndValidity();
           this.filename = undefined;
-          this.animationService.flyToCartAnimation(this.flyToCart, 'white');
-          setTimeout(() => {
-            this.loadingService.resolve('loading');
-            this.appStore.dispatch(new fromStore.LoadInitState());
-            this.router.navigateByUrl('shopping-cart');
-          }, 700);
+          this.loadingService.resolve('loading');
+          this.appStore.dispatch(new fromStore.LoadInitState());
+          this.router.navigateByUrl('shopping-cart');
         },
         (err) => {
           this.loadingService.resolve('loading');

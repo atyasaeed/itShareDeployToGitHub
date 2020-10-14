@@ -85,7 +85,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
     private modalService: BsModalService,
     private rejectionReasonService: ReasonService,
     private cd: ChangeDetectorRef,
-    private appStore: Store<fromStore.AppState>,
+    private appStore: Store<fromStore.AppState>
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
 
