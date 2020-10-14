@@ -37,9 +37,9 @@ export class OrderCardComponent implements OnInit {
     private modalService: BsModalService,
     private userService: UserService,
     private loadingService: TdLoadingService,
-    private appStore: Store<fromStore.AppState>,
+    private appStore: Store<fromStore.AppState>
   ) {
-     this.appStore.select(getLang).subscribe((res) => {
+    this.appStore.select(getLang).subscribe((res) => {
       this.lang = res;
     });
   }
@@ -129,7 +129,6 @@ export class OrderCardComponent implements OnInit {
       }
     }
   }
-
 
   showPriceAndEndDate() {
     if (this.order.status != 'PENDING' && this.order.status != 'CANCELLED' && this.order.status != 'ORDER_REJECTED') {

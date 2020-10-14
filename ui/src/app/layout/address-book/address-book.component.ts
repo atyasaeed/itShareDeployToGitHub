@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TdLoadingService } from '@covalent/core/loading';
 import { TranslateService } from '@ngx-translate/core';
-import { AddressBook } from 'src/app/shared/domain/address-book.model';
+import { Address } from 'src/app/shared/domain/address.model';
 import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
 import { AddressBookService } from 'src/app/shared/services/address-book.service';
 import * as fromStore from 'src/app/store';
@@ -16,7 +16,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap';
   styleUrls: ['./address-book.component.scss'],
   animations: [routerTransition()],
 })
-export class AddressBookComponent extends DefaultListComponent<AddressBook, AddressBookService> implements OnInit {
+export class AddressBookComponent extends DefaultListComponent<Address, AddressBookService> implements OnInit {
   breadcrumbs = [{ heading: this.translate.instant('addressBook') }];
   private _searchTerm = '';
   lang: string;
@@ -46,7 +46,7 @@ export class AddressBookComponent extends DefaultListComponent<AddressBook, Addr
   get searchTerm() {
     return this._searchTerm;
   }
-  delete(entity: AddressBook) {
+  delete(entity: Address) {
     this.loadingService.register(this.key);
     this.purge(entity).subscribe(
       (result) => {
@@ -58,7 +58,7 @@ export class AddressBookComponent extends DefaultListComponent<AddressBook, Addr
       }
     );
   }
-  setPrimeAddress(entity: AddressBook) {}
+  setPrimeAddress(entity: Address) {}
   openModal(template) {
     this.modalRef = this.modalService.show(template);
   }

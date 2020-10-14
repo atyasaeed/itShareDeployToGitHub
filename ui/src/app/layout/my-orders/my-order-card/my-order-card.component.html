@@ -60,7 +60,8 @@
                     (click)="rejectQuotation()">{{'reject' | translate}}</button>
                   </div>
                   <div class="col-md-6 ml-auto mt-1" *ngIf="order.status == 'QUOTED' || order.status == 'QUOTE_ACCEPTED'">
-                    <button  styleSheetFile="assets/printCss/printQuotation.css"
+                    <button
+                    [styleSheetFile]="lang==='en'?'assets/printCss/printQuotation.css':'assets/printCss/printQuotation.css,assets/printCss/printQuotationRtl.css'"
                     printSectionId="{{order.id}}" ngxPrint type="button"
                     class="custom-btn btn-secondary w-100  ">{{'printQuotation'|translate}}</button>
                   </div>
@@ -114,32 +115,84 @@
 
 
 <!-- <ng-template> d-none -->
-<div id="{{order.id}}" class="d-none m-4 print-quote white-background">
+<div id="{{order.id}}" class="d-none m-4 print-quote white-background" >
   <div class="container-fluid">
     <div class="row ">
-      <div class="col-md-12 logo-img">
+      <div class="col-4 logo-img my-auto">
         <img src="assets/images/logo-v1.png" class="height-fluid" alt="">
       </div>
 
-      <div class="my-4 f-size-30 f-weight-700 col-md-12">
-        {{'orderQuotation'|translate}}
+      <div class="my-auto f-size-30 f-weight-700 col-4 text-center">
+        {{'quotation'|translate}}
       </div>
-      <div class="col-md-7 f-size-13">
-        <label class="f-weight-600">{{'offeredTo'|translate}} :&nbsp;</label><span class="text-grey-v2">{{user?.firstName}}</span>
+
+      <div class="f-size-14 my-auto f-weight-400 text-grey-v2 col-4">
+        <div class="text-right">
+          {{'fabrihubLtd'|translate}}
+        </div>
+        <div class="text-right">
+          {{'fabrihubStreet'|translate}}
+        </div>
+        <div class="text-right">
+          {{'fabrihubBox'|translate}}
+        </div>
+        <div class="text-right">
+          {{'fabrihubCity'|translate}}
+        </div>
+        <div class="text-right">
+          {{'fabrihubPhone'|translate}}
+        </div>
       </div>
-      <div class="col-md-5 f-size-13">
+
+      <div class="col-6 f-size-13">
+        <div>
+          <label class="f-weight-600">{{'quotedTo'|translate}} :&nbsp;</label>
+          <span class="text-grey-v2">
+            {{user?.defaultOrgType==='PARTNER' ? (user?.defaultOrg?.name):((user?.firstName))}} /
+            ({{order.shippingAddress.lineOne}} - {{order.shippingAddress.lineTwo}}
+            - {{lang==='en'? (order?.shippingAddress?.city?.state?.enName):(order?.shippingAddress?.city?.state?.arName)}}
+            - {{lang==='en'? (order?.shippingAddress?.city?.enName):(order?.shippingAddress?.city?.arName)}}
+            - {{order.shippingAddress.contactName}} - {{order.shippingAddress.phoneNo}})
+          </span>
+        </div>
+        <div >
+          <label class="f-weight-600">{{'contactEmail'|translate}} :&nbsp;</label>
+          <span class="text-grey-v2">
+            {{user?.username}}
+          </span>
+        </div>
+        <div *ngIf="user?.defaultOrgType==='PARTNER'">
+          <label class="f-weight-600">{{'customerContactName'|translate}} :&nbsp;</label>
+          <span class="text-grey-v2">
+            {{user?.firstName}}
+          </span>
+        </div>
+        <div>
+          <label class="f-weight-600">{{'contactMobile'|translate}} :&nbsp;</label>
+          <span class="text-grey-v2">{{user?.defaultOrgType==='PARTNER' ? (user?.defaultOrg?.mobileNo):((user?.mobileNo))}}</span>
+        </div>
+      </div>
+      <div class="col-6 f-size-13">
         <div *ngIf="order.status == 'QUOTED'">
           <label class="f-weight-600">{{'quotedAt'|translate}} :&nbsp;</label>
           <span class="text-grey-v2">{{order.quotedAt|date:'dd/MM/yyyy'}}</span>
         </div>
-      </div>
-      <div class="col-md-7 f-size-13">
-        <label class="f-weight-600">{{'phoneNumber'|translate}} :&nbsp;</label><span class="text-grey-v2">{{user?.mobileNo}}</span>
-      </div>
-      <div class="col-md-5 f-size-13">
         <div *ngIf="order.status == 'QUOTED'">
           <label class="f-weight-600">{{'expiredAt'|translate}} :&nbsp;</label>
           <span class="text-grey-v2">{{order.expiredAt|date:'dd/MM/yyyy'}}</span>
+        </div>
+        <div >
+          <label class="f-weight-600">{{'leadTime'|translate}} :&nbsp;</label>
+          <span *ngIf="order.status==='QUOTED';else endDatePrintQuotation" class="text-grey-v2">
+            {{maxDuration}} {{'workingDays'|translate}}
+          </span>
+          <ng-template #endDatePrintQuotation>
+            <span class="f-weight-400">{{orderEndDate|date:'dd/MM/yyyy'}}</span>
+          </ng-template>
+        </div>
+        <div>
+          <label class="f-weight-600">{{'terms'|translate}} :&nbsp;</label>
+          <span class="text-grey-v2">{{'dueOnQuote'|translate}}</span>
         </div>
       </div>
       <div class="col-md-12">
@@ -217,6 +270,24 @@
               <td></td>
               <td></td>
               <td></td>
+              <td class="custom-td custom-back f-weight-600 f-size-14"><label >{{'salesTax'|translate}}</label></td>
+              <td class="custom-td"><span>{{0 | currency:'EGP'}}</span></td>
+            </tr>
+            <tr class="white-background">
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="custom-td custom-back f-weight-600 f-size-14"><label >{{'others'|translate}}</label></td>
+              <td class="custom-td"><span>{{0 | currency:'EGP'}}</span></td>
+            </tr>
+            <tr class="white-background">
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
               <td class="custom-td custom-back f-weight-600 f-size-14"><label >{{'total'|translate}}</label></td>
               <td class="custom-td"><span>{{subTotal | currency:'EGP'}}</span></td>
             </tr>
@@ -232,26 +303,15 @@
         </div>
       </div>
       <div class="col-md-12 quotation-note text-grey p-3">
-        <h6 class="text-black f-weight-700">{{'note'|translate}} : </h6>
-        <p>{{'quotationNoteDescription'|translate}}</p>
-      </div>
-      <div class="col-md-12 px-0 mt-4">
-
-          <div class="row ">
-            <div class="col-md-8 text-grey">
-              <h6 class="text-black f-weight-700">
-                {{'office'|translate}} :
-              </h6>
-              <p>{{'quotationFooterDescription'|translate}}</p>
-            </div>
-            <div class="col-md-4 text-grey">
-              <h6 class="text-black f-weight-700">{{'contact'|translate}} : </h6>
-              <div>Eng. Mohamed Essa</div>
-              <div>divresales engineer</div>
-              <div>01021556618</div>
-            </div>
-          </div>
-
+        <p >
+          <span class="text-grey-v2 f-weight-600">
+            {{'quotationNoteDescription1'|translate}}
+          </span>
+          {{'quotationNoteDescription2'|translate}}
+        </p>
+        <p class="mt-4">
+          {{'quotationNoteDescription3'|translate}}
+        </p>
       </div>
     </div>
   </div>
@@ -327,8 +387,10 @@
         <i class="fas fa-shipping-fast fa-3x"></i>
       </div>
       <div class="text-center f-size-14 text-grey mt-2">
-        {{order.orderAddress|translate}} - {{lang==='en'? (order?.city?.state?.enName):(order?.city?.state?.arName)}}
-        - {{lang==='en'? (order?.city?.enName):(order?.city?.arName)}}
+        {{order.shippingAddress.lineOne}} - {{order.shippingAddress.lineTwo}}
+        - {{lang==='en'? (order?.shippingAddress?.city?.state?.enName):(order?.shippingAddress?.city?.state?.arName)}}
+        - {{lang==='en'? (order?.shippingAddress?.city?.enName):(order?.shippingAddress?.city?.arName)}}
+        - {{order.shippingAddress.contactName}} - {{order.shippingAddress.phoneNo}}
       </div>
       <div class="text-center my-2 f-weight-600">
         <button class="custom-btn v4 mr-3" (click)="modalRef.hide()">{{'cancel'|translate}}</button>
