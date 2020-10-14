@@ -26,11 +26,13 @@ import ilab.core.domain.City;
 import ilab.core.domain.Reason;
 import ilab.core.domain.Service;
 import ilab.core.domain.State;
+import ilab.core.domain.user.Address;
 import ilab.core.domain.user.Organization;
 import ilab.core.domain.user.OrganizationStatus;
 import ilab.core.domain.user.OrganizationType;
 import ilab.core.domain.user.Role;
 import ilab.core.domain.user.User;
+import ilab.core.repository.AddressRepository;
 import ilab.core.repository.CityRepository;
 import ilab.core.repository.ReasonRepository;
 import ilab.core.repository.ServiceRepository;
@@ -63,6 +65,8 @@ public class DevelopmentConfig
 	public StateRepository stateRepo;
 	@Autowired
 	public CityRepository cityRepo;
+	@Autowired
+	private AddressRepository addressRepo;
 
 	@Bean
 	public CommandLineRunner dataLoader(ServiceRepository serviceRepo, UserRepository userRepo,
@@ -76,12 +80,15 @@ public class DevelopmentConfig
 			{
 				try
 				{
+					Address address = new Address();
 
 					User user = userService.register(createUser("hatem.salem@ihub.asu.edu.eg", "New123456", "Admin",
 							"hatem.salem@ihub.asu.edu.eg", "01065002100", OrganizationType.INDIVIDUAL));
 					user = userService.enableUser(user.getId(), true, null);
 					user = addAdminRoleAuthority(user);
-
+					address.setUser(user);
+					address.setLineOne("Street 16 New Cairo");
+					address.setPhoneNo(user.getMobileNo());
 					userRepo.save(user);
 					user = userService.register(createUser("mosalem@itraters.com", "New123456", "Hatem",
 							"mosalem@itraters.com", "01065003100", OrganizationType.PARTNER));
@@ -125,7 +132,10 @@ public class DevelopmentConfig
 					shroukCity.setArName("مدينة الشروق");
 					shroukCity.setEnName("Shrouk City");
 					shroukCity.setState(cairoState);
+					address.setCity(shroukCity);
 					cityRepo.save(shroukCity);
+					addressRepo.save(address);
+
 					// Service service;
 					// service=serviceRepo.save(createService("3D Printing","3D
 					// Printing Mono
@@ -269,5 +279,7 @@ public class DevelopmentConfig
 		user.addRole(Role.ROLE_USER);
 		return user;
 	}
+
+	
 
 }

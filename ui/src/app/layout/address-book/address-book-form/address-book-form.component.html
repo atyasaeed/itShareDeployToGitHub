@@ -82,9 +82,6 @@
                     <label>{{'lineTwo' | translate }} :&nbsp;</label>
                     <input type="text" formControlName="lineTwo" class="form-control ">
                     <div class="text-danger" *ngIf="hasError('lineTwo')">
-                      <div *ngIf="form.controls.lineTwo.errors.required">
-                        {{'error.required'|translate}}
-                      </div>
                       <div *ngIf="form.controls.lineTwo.errors.minlength">
                         {{'error.minlength'|translate:'{length:2}'}}
                       </div>
