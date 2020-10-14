@@ -86,11 +86,11 @@ export class OrganizationTeamComponent extends DefaultListComponent<OrgUser, Org
         this.email.reset();
       },
       (err) => {
-        if (err.error.details[0] == 'No value present') {
+        if (err.error.details[0] === 'No value present') {
           this.toastr.error(this.translate.instant('emailNotFound'));
-        } else if (err.error.details[0] == 'duplicatedOrganizationUser') {
+        } else if (err.error.details[0] === 'duplicatedOrganizationUser') {
           this.toastr.error(this.translate.instant('duplicatedOrganizationUser'));
-        } else if (err.error.details[0] == 'Organization is not active') {
+        } else if (err.error.details[0] === 'Organization is not active') {
           this.toastr.error(this.translate.instant('organizationIsNotActive'));
         }
         console.log(err);
