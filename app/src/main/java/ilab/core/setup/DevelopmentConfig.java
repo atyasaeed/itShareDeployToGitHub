@@ -126,57 +126,6 @@ public class DevelopmentConfig
 					shroukCity.setEnName("Shrouk City");
 					shroukCity.setState(cairoState);
 					cityRepo.save(shroukCity);
-					// Service service;
-					// service=serviceRepo.save(createService("3D Printing","3D
-					// Printing Mono
-					// Color",1,"serviceTemplate.json","serviceFileExtensions.json","Working
-					// Area 1","3d"));
-					// Files.copy(new
-					// File(initFilesPath+service.getName()+".jpg"), new
-					// File(imagesPath+service.getId()+".jpg"));
-					//
-					// service=serviceRepo.save(createService("3D Printing2","3D
-					// Printing Multi
-					// Color",2,"serviceTemplate.json","serviceFileExtensions.json","Working
-					// Area 2","3d"));
-					// Files.copy(new
-					// File(initFilesPath+service.getName()+".jpg"), new
-					// File(imagesPath+service.getId()+".jpg"));
-					//
-					// service=serviceRepo.save(createService("Laser
-					// Scanning","Laser Cutting
-					// Description",1,"serviceTemplate2.json","serviceFileExtensions.json","Working
-					// Area 2","15"));
-					// Files.copy(new
-					// File(initFilesPath+service.getName()+".jpg"), new
-					// File(imagesPath+service.getId()+".jpg"));
-					//
-					// service=serviceRepo.save(createService("CNC Routers","CNC
-					// Routers
-					// Description",3,"serviceTemplate3.json","serviceFileExtensions.json","Working
-					// Area 3","20"));
-					// Files.copy(new
-					// File(initFilesPath+service.getName()+".jpg"), new
-					// File(imagesPath+service.getId()+".jpg"));
-					//
-					// service=createService("Photocopy","ASU, Faculty of
-					// Engineering, Notes for the first
-					// year",0,"serviceTemplate4.json","serviceFileExtensions.json","Working
-					// Area 3","30");
-					// service.setAttendance(false);
-					// service=serviceRepo.save(service);
-					// Files.copy(new
-					// File(initFilesPath+service.getName()+".jpg"), new
-					// File(imagesPath+service.getId()+".jpg"));
-					// service=createService("Photocopy 2","ASU, Faculty of
-					// Engineering, Notes for the first
-					// year",1,"serviceTemplate4.json","printFileExtensions.json","Working
-					// Area 3","printing");
-					// service.setAttendance(false);
-					// service=serviceRepo.save(service);
-					// Files.copy(new
-					// File(initFilesPath+service.getName()+".jpg"), new
-					// File(imagesPath+service.getId()+".jpg"));
 
 				} catch (Exception e)
 				{
@@ -211,26 +160,6 @@ public class DevelopmentConfig
 		return content;
 
 	}
-	// private Service createService(String name,String desc,int maxFiles,String
-	// templateFile,String fileExtensions,String workingArea,String pricing)
-	// throws Exception
-	// {
-	// Service service=new Service();
-	// service.setName(name);
-	// service.setDescription(desc);
-	// service.setMaxFiles(maxFiles);
-	// service.setWorkingArea(workingArea);
-	//
-	// service.setTemplate(getFileContent(templateFile).replaceAll("\\s", ""));
-	// service.setExtensions(getFileContent(fileExtensions).replaceAll("\\s",
-	// ""));
-	// service.setAttendance(new Random().nextInt()%2==0);
-	//
-	// service.setUnits(getFileContent("serviceFileUnits.json").replaceAll("\\s",
-	// ""));
-	// service.setPricing(pricing);
-	// return service;
-	// }
 
 	private User createUser(String username, String password, String firstName, String email, String mobileNo,
 			OrganizationType type)

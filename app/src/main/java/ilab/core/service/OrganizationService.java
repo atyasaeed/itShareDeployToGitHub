@@ -68,7 +68,8 @@ public class OrganizationService
 			digitalAsset = assetRepo.save(digitalAsset);
 
 		}
-		File destPath = new File(filesPath + "\\" + org.getId() + "\\" + digitalAsset.getId());
+		File destPath = new File(
+				filesPath + File.pathSeparator + org.getId() + File.pathSeparator + digitalAsset.getId());
 		Path path = destPath.toPath();
 		if (!destPath.getParentFile().exists())
 			Files.createDirectories(path);
