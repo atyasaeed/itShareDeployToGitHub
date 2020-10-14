@@ -20,9 +20,18 @@
             </div>
             <div class="form-group">
               <label>{{'image' | translate}} : </label>
-              <input type="file" accept=".jpg,.png" class="form-control" formControlName="image"
+                <!-- <input type="file" accept=".jpg,.png" class="form-control" formControlName="image"
                 (change)="uploadImage($event)"
-                [class.border-danger]="!form.get('image').valid && form.get('image').touched">
+                [class.border-danger]="!form.get('image').valid && form.get('image').touched"> -->
+              <label  class="custom-input-file form-control"
+              [class.border-danger]="!form.get('image').valid && form.get('image').touched">
+                <span class="browse-button"
+                  [class.uploaded]="file">{{file ? ('replaceFile'|translate):('chooseFile'|translate)}}
+                </span>
+                <span>{{file?.name}}</span>
+                <input type="file" accept=".jpg,.png" formControlName="image" class="form-control"
+                  (change)="uploadImage($event)">
+              </label>
             </div>
             <div class="form-group">
               <label>{{'description' | translate}} : </label>

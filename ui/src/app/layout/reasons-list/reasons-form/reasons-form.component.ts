@@ -41,7 +41,6 @@ export class ReasonsFormComponent extends DefaultFormComponent<Reason, ReasonSer
     });
   }
 
-
   onCreate(): void {}
   onUpdate(): void {}
   cancel(): void {
