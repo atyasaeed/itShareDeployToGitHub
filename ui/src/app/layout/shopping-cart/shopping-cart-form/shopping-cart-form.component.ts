@@ -154,7 +154,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterContentChecked {
   createForm() {
     this.form = this.formBuilder.group({
       quantity: ['1', [Validators.required, Validators.min(1), this.numberValidator]],
-      notes: [''],
+      notes: ['',Validators.maxLength(250)],
       width: ['', [Validators.required, Validators.min(1), this.numberValidator]],
       height: ['', [Validators.required, Validators.min(1), this.numberValidator]],
     });

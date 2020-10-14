@@ -37,13 +37,10 @@ export class ReasonsFormComponent extends DefaultFormComponent<Reason, ReasonSer
     super(formBuilder, loadingService, dialogService, service, route, router);
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
-      status: [{ value: '' }, [Validators.required]],
+      status: ['', [Validators.required]],
     });
   }
 
-  ngOnInit(): void {
-    super.ngOnInit();
-  }
 
   onCreate(): void {}
   onUpdate(): void {}

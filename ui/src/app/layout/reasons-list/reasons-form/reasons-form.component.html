@@ -1,35 +1,43 @@
-<div *tdLoading="'emp-case'" [@routerTransition]>
-  <app-page-header [heading]="'Update Profile'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs">
+<div class="p-4"  [@routerTransition]>
+  <app-page-header  [breadCrumbs]="breadcrumbs">
   </app-page-header>
-  <form *ngIf="entity" [formGroup]='form' (ngSubmit)="save()">
-    <mat-card *tdLoading="'loading'">
-
-      <mat-card-content class="form-rtl">
-
-        <mat-form-field class="form-rtl">
-          <input name="name" matInput type="text" placeholder="{{'name'|translate}}" required formControlName='name'>
-          <mat-error *ngIf="hasError('name')">{{'name.error.required'|translate}}</mat-error>
-        </mat-form-field>
-
-        <mat-form-field class="form-rtl">
-          <mat-label>{{'status' | translate}}</mat-label>
-          <mat-select name="status" place="Type" formControlName="status" required>
-            <mat-option class="form-rtl" [value]="status" *ngFor="let status of statuses$">
-              <span>{{status | titlecase | translate}}</span>
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-      </mat-card-content>
-      <mat-card-actions class="form-rtl">
-
-        <button type="button" mat-button (click)="cancel()">{{'Back'|translate}}</button> &nbsp;
-
-        <button type="submit" mat-raised-button color="primary" [disabled]="f().invalid">{{'Save'|translate}}</button>
-      </mat-card-actions>
-
-
-    </mat-card>
+  <form class="custom-card p-3" *ngIf="entity" [formGroup]='form' (ngSubmit)="save()">
+    <div class="container-fluid" *tdLoading="'loading';strategy:'overlay'">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="container-fluid">
+            <div class="row">
+            <div class="col-md-12 form-group">
+              <label>{{'name' | translate }} :&nbsp;</label>
+              <input type="text" formControlName="name" class="form-control ">
+              <div class="text-danger" *ngIf="hasError('name')">
+                <div *ngIf="form.controls.name.errors.required">
+                  {{'error.required'|translate}}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 form-group">
+              <label>{{'status' | translate }} :&nbsp;</label>
+              <select formControlName="status"  class="form-control">
+                <option [value]="status" *ngFor="let status of statuses$">
+                  {{status | titlecase | translate}}
+                </option>
+              </select>
+              <div class="text-danger" *ngIf="hasError('status')">
+                <div *ngIf="form.controls.status.errors.required">
+                  {{'error.required'|translate}}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <button type="button" class="custom-btn v4 mr-2"
+              (click)="cancel()">{{'cancel'|translate}}</button>
+              <button type="submit" class="custom-btn v1 ">{{'save'|translate}}</button>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </form>
-
 </div>

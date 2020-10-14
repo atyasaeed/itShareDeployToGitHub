@@ -400,6 +400,7 @@
   "addressBook": "Address Book",
   "error.required": "Required",
   "error.minlength": "min length is {{length}}",
+  "error.maxlength": "max length is {{length}}",
   "error.pattern": "pattern is wrong",
   "lineOne": "Line One",
   "lineTwo": "Line Two",
