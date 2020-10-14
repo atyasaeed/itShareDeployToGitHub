@@ -114,21 +114,25 @@
         <div class="col-md-12 mt-3 f-weight-600" *notPartner>
           {{'fabrihubServices'|translate}}
         </div>
-        <div class="row container-fluid" *notPartner>
-          <div *ngFor="let service of services;let i=index" class="col-md-3">
-            <div class="custom-card p-4 mt-3" *ngIf="i<4">
+        <div class="col-md-12 text-center">
+          <div class="container-fluid" *tdLoading="'loading'">
+            <div class="row " *notPartner>
+              <div *ngFor="let service of services;let i=index" class="col-md-3">
+              <div class="custom-card p-4 mt-3" *ngIf="i<4">
               <div class="service-v2">
                 <div class="service-img mr-2">
                   <img [src]="appConfig.serviceImage(service)" class="img-fluid" alt="">
                 </div>
-                <div class="service-content f-weight-600">
-                  <p class="mb-0 f-size-18 site-color-v3 ">{{service.name | slice:0:11}}</p>
+                <div class="service-content text-left f-weight-600">
+                  <p class="mb-0 f-size-18 site-color-v3 ellipsis">{{service.name}}</p>
                   <a [routerLink]='["/shopping-cart/CartItem"]'>
                     <span class="mr-2 site-color-v1">{{'placeOrder'|translate}}</span>
                     <img *englishLang src="assets/images/right-arrow.png" alt="">
                     <img *arabicLang src="assets/images/left-arrow.png" alt="">
                   </a>
                 </div>
+              </div>
+            </div>
               </div>
             </div>
           </div>
