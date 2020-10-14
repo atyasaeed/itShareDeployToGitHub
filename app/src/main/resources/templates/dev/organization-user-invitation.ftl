@@ -7,10 +7,7 @@
 		 
 		You are Invited to be a member of Organization ${org.name}
 		   
-		<a href="http://localhost:4200/api/orguser/accept/${id}"> accept Invitation</a> <br><br>
-		
-		<br>
-		Or <a href="http://localhost:4200/api/orguser/decline/${id}"> decline Invitation</a> <br><br>
+		<a href="http://localhost:4200/org-member-invitation/${id}"> See Invitation</a> <br><br>
 		
 		
 		
