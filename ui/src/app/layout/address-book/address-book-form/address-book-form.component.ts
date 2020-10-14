@@ -58,7 +58,7 @@ export class AddressBookFormComponent extends DefaultFormComponent<Address, Addr
     this.appStore.select(getLang).subscribe((res) => {
       this.lang = res;
     });
-    this.stateService.pageSize = 5;
+    this.stateService.pageSize = 25;
     this.stateService.searchTerm = '';
     this.stateService.model$.subscribe(
       (res) => {
@@ -69,7 +69,7 @@ export class AddressBookFormComponent extends DefaultFormComponent<Address, Addr
         this.loadingService.resolve(this.key);
       }
     );
-    this.cityService.pageSize = 5;
+    this.cityService.pageSize = 25;
     this.cityService.model$.subscribe(
       (res) => {
         this.cities = res;

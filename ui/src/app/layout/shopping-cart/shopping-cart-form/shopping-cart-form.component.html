@@ -132,6 +132,11 @@
                   <input type="number" formControlName="width" class="form-control mb-3">
 
                   <label>{{'notes'|translate}} :</label>
+                  <span *ngIf="form.controls.notes.errors != null">
+                    <span class="text-danger"
+                      *ngIf="form.controls.notes.errors.maxlength && form.controls.notes.touched">
+                      *{{'error.maxlength' | translate:'{length:250}'}}</span>
+                  </span>
                   <textarea class="form-control" rows="2" formControlName="notes"></textarea>
 
                 </div>
