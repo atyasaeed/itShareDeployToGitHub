@@ -29,7 +29,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 		Map<String, Object> data = new HashMap<>();
 		data.put("timestamp", Calendar.getInstance().getTime());
 		data.put("exception", exception.getMessage());
-		data.put("code",exception.getClass());
+		data.put("code", exception.getClass());
 
 		response.getOutputStream().println(objectMapper.writeValueAsString(data));
 	}

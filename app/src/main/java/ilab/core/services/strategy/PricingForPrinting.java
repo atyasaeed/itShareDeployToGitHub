@@ -16,19 +16,22 @@ public class PricingForPrinting implements PricingStrategy
 {
 	@Value("${iLab.paths.files}")
 	String filesPath;
+
 	@Override
 	public void price(LineItem item)
 	{
-		int totalPages=0;
-		for(HyperFile hyperFile:item.getFiles())
+		int totalPages = 0;
+		for (HyperFile hyperFile : item.getFiles())
 		{
-			if(hyperFile==null) continue;
-			File destPath=new File(filesPath+item.getOrderEntity().getOrganization().getId()+"\\"+hyperFile.getAsset().getId());
+			if (hyperFile == null)
+				continue;
+			File destPath = new File(filesPath + item.getOrderEntity().getOrganization().getId() + File.pathSeparator
+					+ hyperFile.getAsset().getId());
 			PDDocument doc;
 			try
 			{
 				doc = PDDocument.load(destPath);
-				totalPages+= doc.getNumberOfPages();
+				totalPages += doc.getNumberOfPages();
 				doc.close();
 			} catch (IOException e)
 			{
@@ -36,9 +39,9 @@ public class PricingForPrinting implements PricingStrategy
 				e.printStackTrace();
 				return;
 			}
-			
+
 		}
-		item.setUnitPrice(new BigDecimal(totalPages*.1));
+		item.setUnitPrice(new BigDecimal(totalPages * .1));
 	}
 
 }
