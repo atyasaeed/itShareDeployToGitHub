@@ -71,13 +71,16 @@ export class OrganizationTeamComponent extends DefaultListComponent<OrgUser, Org
       .afterClosed()
       .subscribe((accept: boolean) => {
         if (accept) {
-          this.purge(entity).subscribe((result) => {
-            this.appStore.dispatch(new fromStore.LoadInitState());
-          }, err =>
-          {
-            if (err.error.details[0] === 'Owner can not delte himself') {
-          this.toastr.error(this.translate.instant('ownerCanNotDelteHimself'));
-        }});
+          this.purge(entity).subscribe(
+            (result) => {
+              this.appStore.dispatch(new fromStore.LoadInitState());
+            },
+            (err) => {
+              if (err.error.details[0] === 'Owner can not delte himself') {
+                this.toastr.error(this.translate.instant('ownerCanNotDelteHimself'));
+              }
+            }
+          );
         } else {
         }
       });

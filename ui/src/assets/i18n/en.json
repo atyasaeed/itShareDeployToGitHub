@@ -45,7 +45,7 @@
   "confirmPassword.error.mismatch": "Confirm Password Is Mismatch",
   "confirmPassword.error.required": "Confirm Password Is Required",
   "register": "Register",
-  "registeration.success": " Registeration Success",
+  "registeration.success": "user registration successful",
   "registeration.success.verify": "Please check your email to get the activation link",
   "registration.title": "FabriHub Registration",
   "forgetPassword": "Forget Password?",
@@ -92,6 +92,7 @@
   "Upload Your Design File": "Upload Your Design File",
   "file is required": "file is required",
   "Size must less than 5MB": "Size must less than 5MB",
+  "maxSize2mg": "Size must less than 2MB",
   "Units Used In File": "Units Used In File",
   "Unit is required": "Unit is required",
   "Material": "Material",
@@ -299,7 +300,7 @@
   "commercialRegister": "Commercial Register",
   "upload": "Upload",
   "uploaded": "Uploaded",
-  "taxCard": "taxCard",
+  "taxCard": "Tax Card",
   "ownerNationalIDFront": "owner National ID Front",
   "ownerNationalIDBack": "owner National ID Back",
   "landingPageText": "Our platform allows you to manufacture high-quality parts and prototypes at the click of a button!",
@@ -378,7 +379,7 @@
   "organizationTeam": "Team",
   "organization-team": "Team Members",
   "inviteMember": "Invite a new team member",
-  "emailTeam": "Team email address",
+  "emailTeam": "add a team member to your organization",
   "invite": "invite",
   "invitationDescription": "You Have Been Invited To",
   "invitedBy": "Invited By",
@@ -448,5 +449,6 @@
   "quotationNoteDescription1": "QUOTATION IS VALID WITHIN 7 DAYS. ORDER LEAD TIME . WHEN APPROVING AN ORDER QUOTATION, AN AUTOMATIC PO IS SENT TO FABRIHUB. ANY QUESTIONS REGARDING THIS QUOTATION, PLEASE LEAVE YOUR COMMENTS IN THE DEDICATED SECTION ON FABRIHUB PLATFORM OR CONTACT FABRIHUB AT XXXXX OR EMAIL XXXXX@FABRIHUB.NET. CLERICAL ERRORS SUBJECT TO CORRECTION PLEASE NOTE: FABRIHUB HAS FLEXIBLE PAYMENT METHODS.",
   "quotationNoteDescription2": "FabriHUB accepts payment in Egyptian pounds, via any of the available payment methods. All taxes are the FabriHUB’s responsibility and included in this quotation. An accurate shipping address is the customer’s responsibility and may be subject to extra-charge in case of delivery failure by any means. Lead-times quoted begin from the date that payment is received by FabriHUB. Policy Statement: FabriHUB Company will strive to provide best customer value by being highly competitive, consistent, flexible in terms, and oriented towards long term partner relationships. Candid feedback is appreciated and solicited.",
   "quotationNoteDescription3": "Any required available certifications are subject to extra-charge per item. FabriHUB reserves the right to ship 2-3 days more, or less, than the quoted lead-time. FabriHUB is not responsible or liable for any customer’s intellectual properties, unless otherwise a prior written letter has been introduced by FabriHUB; and the customer must introduce, by any means, the related proofed documents before approving the quotation. Item’s tolerances are as specified in the documents provided by customer. Return of order / item requires prior authorization. All claims must be made before ship date. Raw materials or items are not warranted for any particular application and liability is limited to replacement according to a certain criteria. Complete terms and conditions are available at https://www.fabrihub.net/customer-service-agreement and these terms and conditions supercede all other agreements.",
-  "ownerCanNotDelteHimself": "Owner can not delte himself"
+  "ownerCanNotDelteHimself": "Owner can not delte himself",
+  "enterEmailMember": "Enter the member's email address"
 }
