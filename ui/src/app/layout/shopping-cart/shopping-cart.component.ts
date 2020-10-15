@@ -115,6 +115,7 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
       (resp) => {
         this.service.searchTerm = '';
         this.loadingService.resolve(this.key);
+        this.router.navigate(['/my-orders']);
         this.appStore.dispatch(new fromStore.LoadInitState());
       },
       (err) => {

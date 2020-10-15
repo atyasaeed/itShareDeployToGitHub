@@ -399,6 +399,7 @@
   "error.required": "مطلوب",
   "error.minlength": "{{length}} اقل عدد",
   "error.maxlength": "{{length}} أكبر عدد",
+  "error.size": "ميجا بايت {{size}} اكبر حجم",
   "error.pattern": "الصيغه خاطئه",
   "lineOne": "الخط الاول",
   "lineTwo": "الخط الثاني",

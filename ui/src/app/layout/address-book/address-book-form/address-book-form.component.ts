@@ -205,7 +205,7 @@ export class AddressBookFormComponent extends DefaultFormComponent<Address, Addr
         this.router.navigateByUrl(this.routeAfterSave);
       }
     } else {
-      this.cancel();
+      this.router.navigateByUrl(this.breadcrumbs[0].link);
     }
   }
   onCreate(): void {}
@@ -214,6 +214,10 @@ export class AddressBookFormComponent extends DefaultFormComponent<Address, Addr
     this.breadcrumbs.push({ heading: 'edit' });
   }
   cancel(): void {
-    this.router.navigateByUrl(this.breadcrumbs[0].link);
+    if (this.routeAfterSave === '/shopping-cart') {
+      this.router.navigate([this.routeAfterSave], { state: { fromRoute: '/address-book-form' } });
+    } else {
+      this.router.navigateByUrl(this.breadcrumbs[0].link);
+    }
   }
 }
