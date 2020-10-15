@@ -62,6 +62,11 @@ public class OrganizationUserService
 		{
 			throw new IllegalRequestDataException("Invitee is the owner");
 		}
+		if (org.getType() != OrganizationType.PARTNER)
+		{
+			throw new IllegalRequestDataException("Organization must be Partner organization");
+
+		}
 
 		OrganizationUser orgUser = new OrganizationUser();
 		orgUser.setOrg(org);
@@ -105,8 +110,8 @@ public class OrganizationUserService
 
 	public Page<OrganizationUser> findByUser(Authentication auth, Pageable page)
 	{
-		return orgUserRepo.findByOrg_typeAndUser_usernameIgnoreCaseAndRoleNot(page, OrganizationType.PARTNER,
-				auth.getName(), Role.ROLE_OWNER);
+		return orgUserRepo.findByUser_usernameIgnoreCaseAndOrg_typeNotOrRoleNot(page, auth.getName(), OrganizationType.INDIVIDUAL,
+				Role.ROLE_OWNER);
 	}
 
 	public Page<OrganizationUser> findByOrg(Authentication auth, Pageable page)
