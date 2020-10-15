@@ -133,6 +133,18 @@
                 </a>
               </li>
               <li>
+                <a class="list-group-item active-item d-flex align-items-center" routerLink='/address-book'>
+                  <i class="mx-2 text-grey-v3 fas fa-address-book"></i>
+                  <span class="f-weight-600">{{ 'addressBook' | translate }}</span>
+                </a>
+              </li>
+              <li>
+                <a class="list-group-item active-item d-flex align-items-center" routerLink='/my-organizations'>
+                  <i class="text-grey-v3 fas fa-building mx-2"></i>
+                  <span class="f-weight-600">{{ 'myOrganizations' | translate }}</span>
+                </a>
+              </li>
+              <li>
                 <a [routerLink]="'/change-password'" class="list-group-item active-item d-flex align-items-center">
                   <i class="fas fa-unlock-alt mx-2 text-grey-v3"></i>
                   <span class=" f-weight-600">{{ 'changePassword' | translate }}</span>

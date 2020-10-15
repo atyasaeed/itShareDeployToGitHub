@@ -329,7 +329,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterContentChecked {
   handleFileInput(fileInput) {
     this.filename = fileInput.target.files[0];
     if (this.filename.size > 10000000) {
-      this.form.get('file').setErrors({ size: true })
+      this.form.get('file').setErrors({ size: true });
     }
     let fileExtension = this.filename.name.split('.');
     if (this.activeService.supportedExtensions != undefined) {
