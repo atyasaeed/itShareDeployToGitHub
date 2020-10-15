@@ -128,7 +128,7 @@ public class OrganizationUserService
 	{
 		OrganizationUser orgUser = orgUserRepo.findById(orgUserId).orElseThrow();
 
-		if (orgUser.getOrg().getOwner().getEmail().toLowerCase().equals(auth.getName().toLowerCase()))
+		if (orgUser.getRole()==Role.ROLE_OWNER)
 		{
 			throw new IllegalRequestDataException("Owner can not delte himself");
 
