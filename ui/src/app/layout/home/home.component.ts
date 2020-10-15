@@ -21,13 +21,10 @@ export class HomeComponent implements OnInit {
   constructor(
     private http: HttpClient,
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
-    loadingService: TdLoadingService,
+    private loadingService: TdLoadingService,
     private appStore: Store<fromStore.AppState>,
     private route: ActivatedRoute
   ) {
-    this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
-      this.services = res;
-    });
     this.appStore.select(fromStore.getLang).subscribe((res) => {
       this.lang = res;
     });
@@ -43,5 +40,15 @@ export class HomeComponent implements OnInit {
     try {
       document.querySelector('#' + this.fragment).scrollIntoView();
     } catch (e) {}
+    this.loadingService.register('loading');
+    this.appStore.select(fromStore.getAuthServices).subscribe(
+      (res) => {
+        this.services = res;
+        this.loadingService.resolve('loading');
+      },
+      (err) => {
+        this.loadingService.resolve('loading');
+      }
+    );
   }
 }

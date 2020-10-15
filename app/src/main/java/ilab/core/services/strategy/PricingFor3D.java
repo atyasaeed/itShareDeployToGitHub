@@ -21,41 +21,43 @@ import org.springframework.stereotype.Component;
 
 import ilab.core.domain.HyperFile;
 import ilab.core.domain.order.LineItem;
+
 @Component
 public class PricingFor3D implements PricingStrategy
 {
 	@Value("${iLab.paths.files}")
 	String filesPath;
+
 	@Override
 	public void price(LineItem item)
 	{
-		double totalTime=0;
-		double totalWeight=0;
+		double totalTime = 0;
+		double totalWeight = 0;
 		HttpPost post = new HttpPost("http://3dpartprice.com/3dpartpricelib/api-caller.php");
-		MultipartEntityBuilder builder = MultipartEntityBuilder.create()
-				.setMode(HttpMultipartMode.BROWSER_COMPATIBLE)
+		MultipartEntityBuilder builder = MultipartEntityBuilder.create().setMode(HttpMultipartMode.BROWSER_COMPATIBLE)
 				.addPart("material", new StringBody("PC", ContentType.MULTIPART_FORM_DATA))
 				.addPart("color", new StringBody("#FF8324", ContentType.MULTIPART_FORM_DATA))
 				.addPart("layerHeight", new StringBody("0.2", ContentType.MULTIPART_FORM_DATA))
 				.addPart("infillPercentage", new StringBody("20", ContentType.MULTIPART_FORM_DATA))
 				.addPart("shipping", new StringBody("delivery", ContentType.MULTIPART_FORM_DATA));
-		for(HyperFile hyperFile:item.getFiles())
+		for (HyperFile hyperFile : item.getFiles())
 		{
-			if(hyperFile==null) continue;
+			if (hyperFile == null)
+				continue;
 
-			File file=new File(filesPath+item.getOrderEntity().getOrganization().getId()+"\\"+hyperFile.getAsset().getId());
-			builder.addBinaryBody("stlFiles[]", file,ContentType.DEFAULT_BINARY,hyperFile.getAsset().getName());
+			File file = new File(filesPath + item.getOrderEntity().getOrganization().getId() + File.separator
+					+ hyperFile.getAsset().getId());
+			builder.addBinaryBody("stlFiles[]", file, ContentType.DEFAULT_BINARY, hyperFile.getAsset().getName());
 		}
-		
-		
+
 		try
 		{
 			HttpEntity entity = builder.build();
 			CloseableHttpClient httpclient = HttpClients.createDefault();
 			post.setEntity(entity);
-			CloseableHttpResponse response= httpclient.execute(post);
-			
-			String result=EntityUtils.toString(response.getEntity()).replaceAll("\\s", "");
+			CloseableHttpResponse response = httpclient.execute(post);
+
+			String result = EntityUtils.toString(response.getEntity()).replaceAll("\\s", "");
 			Pattern pattern = Pattern.compile("\\[amount\\]=>(\\d*.\\d*)\\[unit]");
 			Matcher matcher = pattern.matcher(result);
 			if (matcher.find() & matcher.groupCount() == 1)
@@ -65,14 +67,13 @@ public class PricingFor3D implements PricingStrategy
 				{
 					totalTime = Double.parseDouble(matcher.group(1));
 				}
-				item.setUnitPrice(new BigDecimal((totalWeight*.6+totalTime*31.0/3600.0+20)*1.15));
+				item.setUnitPrice(new BigDecimal((totalWeight * .6 + totalTime * 31.0 / 3600.0 + 20) * 1.15));
 			}
-			
+
 		} catch (NumberFormatException | IOException e)
 		{
 		}
-		
-		
+
 	}
 
 }

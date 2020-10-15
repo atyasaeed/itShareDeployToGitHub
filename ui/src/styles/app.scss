@@ -430,3 +430,25 @@ label{
   color: $siteColorV5 !important;
   margin-bottom: 0;
 }
+
+
+.custom-input-file {
+  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  display: flex;
+  padding: 3px;
+  align-items: center;
+  input[type="file"]{
+    display: none;
+  }
+  .browse-button{
+    background: #EFEFEF;
+    padding: 3px 10px;
+    border-radius: 4px;
+  }
+  .browse-button.uploaded{
+    background:  #63C6C9;
+    color: white;
+  }
+}

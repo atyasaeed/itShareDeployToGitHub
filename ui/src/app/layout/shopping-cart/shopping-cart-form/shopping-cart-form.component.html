@@ -43,7 +43,7 @@
                 <div class="mb-3 col-md-12 f-size-20 site-color-v3">
                   {{activeService?.name}}
                 </div>
-                <div *ngIf="activeService" class="col-md-12 f-weight-600 f-size-13 site-color-v5">
+                <div *ngIf="activeService" class="col-md-12 form-group f-weight-600 f-size-13 site-color-v5">
                   <div class="row">
                     <div class="col-md-6 my-auto">
                       <mat-radio-group class="row" [formControl]='selection' #radioGroup="matRadioGroup">
@@ -132,6 +132,11 @@
                   <input type="number" formControlName="width" class="form-control mb-3">
 
                   <label>{{'notes'|translate}} :</label>
+                  <span *ngIf="form.controls.notes.errors != null">
+                    <span class="text-danger"
+                      *ngIf="form.controls.notes.errors.maxlength && form.controls.notes.touched">
+                      *{{'error.maxlength' | translate:'{length:250}'}}</span>
+                  </span>
                   <textarea class="form-control" rows="2" formControlName="notes"></textarea>
 
                 </div>

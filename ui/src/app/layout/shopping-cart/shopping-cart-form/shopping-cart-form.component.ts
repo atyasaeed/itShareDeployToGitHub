@@ -26,6 +26,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { MySpaceService } from 'src/app/shared/services/my-space.service';
 import { TdLoadingService } from '@covalent/core/loading';
 import { getLang } from 'src/app/store';
+import { AnimationService } from 'src/app/shared/services/animation.service';
 
 @Component({
   selector: 'app-shopping-cart-form',
@@ -78,7 +79,8 @@ export class ShoppingCartFormComponent implements OnInit, AfterContentChecked {
     private cdr: ChangeDetectorRef,
     public spaceService: MySpaceService,
     private modalService: BsModalService,
-    private loadingService: TdLoadingService
+    private loadingService: TdLoadingService,
+    private cartAnimation: AnimationService
   ) {
     this.spaceService.searchTerm = '';
     this.spaceService.model$.subscribe((res) => {
@@ -152,7 +154,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterContentChecked {
   createForm() {
     this.form = this.formBuilder.group({
       quantity: ['1', [Validators.required, Validators.min(1), this.numberValidator]],
-      notes: [''],
+      notes: ['', Validators.maxLength(250)],
       width: ['', [Validators.required, Validators.min(1), this.numberValidator]],
       height: ['', [Validators.required, Validators.min(1), this.numberValidator]],
     });
@@ -307,9 +309,12 @@ export class ShoppingCartFormComponent implements OnInit, AfterContentChecked {
           this.form.markAsPristine();
           this.form.updateValueAndValidity();
           this.filename = undefined;
-          this.loadingService.resolve('loading');
-          this.appStore.dispatch(new fromStore.LoadInitState());
-          this.router.navigateByUrl('shopping-cart');
+          this.cartAnimation.flyToCartAnimation(this.flyToCart, 'white');
+          setTimeout(() => {
+            this.loadingService.resolve('loading');
+            this.appStore.dispatch(new fromStore.LoadInitState());
+            this.router.navigateByUrl('shopping-cart');
+          }, this.cartAnimation.animationDuration);
         },
         (err) => {
           this.loadingService.resolve('loading');

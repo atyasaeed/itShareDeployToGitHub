@@ -200,7 +200,8 @@ public class OrderService
 				digitalAsset.setName(files[index].getOriginalFilename());
 				digitalAsset.setOrganization(order.getOrganization());
 				digitalAsset = assetsRepo.save(digitalAsset);
-				File destPath = new File(filesPath + order.getOrganization().getId() + "\\" + digitalAsset.getId());
+				File destPath = new File(
+						filesPath + order.getOrganization().getId() + File.separator + digitalAsset.getId());
 				System.out.println(destPath.getParentFile().getAbsolutePath());
 				if (!destPath.getParentFile().exists())
 					Files.createDirectory(destPath.getParentFile().toPath());
@@ -394,9 +395,10 @@ public class OrderService
 			digitalAsset.setName(hyperFile.getAsset().getName());
 			digitalAsset.setOrganization(cart.getOrganization());
 			digitalAsset = assetsRepo.save(digitalAsset);
-			File sourcePath = new File(
-					filesPath + item.getOrderEntity().getOrganization().getId() + "\\" + hyperFile.getAsset().getId());
-			File destPath = new File(filesPath + cart.getOrganization().getId() + "\\" + digitalAsset.getId());
+			File sourcePath = new File(filesPath + item.getOrderEntity().getOrganization().getId() + File.separator
+					+ hyperFile.getAsset().getId());
+			File destPath = new File(
+					filesPath + cart.getOrganization().getId() + File.separator + digitalAsset.getId());
 			if (!destPath.getParentFile().exists())
 				Files.createDirectory(destPath.getParentFile().toPath());
 			Files.copy(sourcePath.toPath(), destPath.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -660,11 +662,9 @@ public class OrderService
 		return item;
 	}
 
-	public LineItem reset(UUID id, Authentication auth)
+	public LineItem reset(UUID id)
 	{
-		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
-		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Organization_Id(id, user.getDefaultOrg().getId())
-				.orElseThrow();
+		LineItem item = lineItemRepo.findById(id).orElseThrow();
 		if (item.getOrderEntity().getStatus() == OrderStatus.PENDING && item.getStatus() != LineItemStatus.CANCELLED)
 		{
 			item.setStatus(LineItemStatus.PENDING);
