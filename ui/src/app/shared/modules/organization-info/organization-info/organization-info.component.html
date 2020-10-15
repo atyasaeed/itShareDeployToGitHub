@@ -1,19 +1,21 @@
-<div [@routerTransition] class="custom-card my-4">
+<div [@routerTransition] class="my-4">
 
   <form [formGroup]='form' (ngSubmit)="save()" *ngIf="form">
     <fieldset [disabled]="!disabledForm">
-      <section>
-        <div class="form-group form-header row">
-          <h4 class="col-md-4"><i class="fa fa-building-o" aria-hidden="true"></i> {{'organizationDetails'|translate}}
-          </h4>
-          <h6 class="col-md-4 m-auto text-center">{{"status"|translate}} : <span
-              class="text-danger">{{org?.status |translate}}</span>
-          </h6>
+      <section class="custom-card">
+        <div class=" custom-card-header ">
+          <div class="form-group p-2  row">
+            <h4 class="col-md-4"><i class="fa fa-building-o" aria-hidden="true"></i> {{'organizationDetails'|translate}}
+            </h4>
+            <h6 class="col-md-4 m-auto text-center">{{"status"|translate}} : <span
+                class="text-danger">{{org?.status |translate}}</span>
+            </h6>
 
-          <div class="col-md-4 text-right"
-            *ngIf="CommerciaFile && taxCardFile && org?.status =='PENDING' && !roleAdmin">
-            <a class="custom-btn v1" type="button" (click)="requestApproval()">{{'requestApproval' |translate}}</a>
+            <div class="col-md-4 text-right"
+              *ngIf="CommerciaFile && taxCardFile && org?.status =='PENDING' && !roleAdmin">
+              <a class="custom-btn v1" type="button" (click)="requestApproval()">{{'requestApproval' |translate}}</a>
 
+            </div>
           </div>
         </div>
         <div class="text-right pr-3 mt-2"><button type="submit" mat-flat-button color="primary"
@@ -149,8 +151,8 @@
       </section>
     </fieldset>
     <!--/////////////////////////////////-->
-    <section class="my-3">
-      <div class="form-group form-header">
+    <section class="my-3 custom-card ">
+      <div class="form-group custom-card-header p-2">
         <h4><i class="fa fa-paperclip"></i> {{'officialDocumentation'|translate}}</h4>
       </div>
       <div class="form-row pt-0 row-files mt-2">

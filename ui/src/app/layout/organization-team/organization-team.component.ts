@@ -63,7 +63,7 @@ export class OrganizationTeamComponent extends DefaultListComponent<OrgUser, Org
     this._dialogService
       .openConfirm({
         title: this.translate.instant('areYouSure'),
-        message: this.translate.instant('removeMemeber'),
+        message: this.translate.instant('deleteDescription'),
         cancelButton: this.translate.instant('no'),
         acceptButton: this.translate.instant('yes'),
         width: '500px',
@@ -76,9 +76,8 @@ export class OrganizationTeamComponent extends DefaultListComponent<OrgUser, Org
               this.appStore.dispatch(new fromStore.LoadInitState());
             },
             (err) => {
-              if (err.error.details[0] === 'Owner can not delte himself') {
-                this.toastr.error(this.translate.instant('ownerCanNotDelteHimself'));
-              }
+                this.toastr.error(this.translate.instant(err.error.details[0]));
+
             }
           );
         } else {

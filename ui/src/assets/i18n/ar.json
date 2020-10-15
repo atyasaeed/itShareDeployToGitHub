@@ -354,7 +354,7 @@
   "servicesAreAdded": "الخدمات المضافه",
   "confirmOrder": "تاكيد الطلب",
   "deleteItem": "حذف",
-  "deleteDescription": "It is a long established fact that a reader will be distracted by the readable content.",
+  "deleteDescription": "لا يمكنك العودة مرة أخرى بعد هذا الإجراء",
   "actions": "Actions",
   "quotation": "Quotation",
   "quotedTo": "Quoted To",
