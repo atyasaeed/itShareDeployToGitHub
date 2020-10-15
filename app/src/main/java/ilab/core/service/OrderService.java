@@ -662,11 +662,9 @@ public class OrderService
 		return item;
 	}
 
-	public LineItem reset(UUID id, Authentication auth)
+	public LineItem reset(UUID id)
 	{
-		User user = userRepo.findByUsernameIgnoreCase(auth.getName()).orElseThrow();
-		LineItem item = lineItemRepo.findOneByIdAndOrderEntity_Organization_Id(id, user.getDefaultOrg().getId())
-				.orElseThrow();
+		LineItem item = lineItemRepo.findById(id).orElseThrow();
 		if (item.getOrderEntity().getStatus() == OrderStatus.PENDING && item.getStatus() != LineItemStatus.CANCELLED)
 		{
 			item.setStatus(LineItemStatus.PENDING);
