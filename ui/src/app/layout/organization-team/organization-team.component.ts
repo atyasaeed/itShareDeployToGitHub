@@ -76,9 +76,8 @@ export class OrganizationTeamComponent extends DefaultListComponent<OrgUser, Org
               this.appStore.dispatch(new fromStore.LoadInitState());
             },
             (err) => {
-              if (err.error.details[0] === 'Owner can not delte himself') {
-                this.toastr.error(this.translate.instant('ownerCanNotDeleteHimself'));
-              }
+                this.toastr.error(this.translate.instant(err.error.details[0]));
+
             }
           );
         } else {
