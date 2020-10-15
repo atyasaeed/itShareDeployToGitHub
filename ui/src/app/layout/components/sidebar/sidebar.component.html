@@ -1,211 +1,171 @@
 <nav class="sidebar py-2" [ngClass]="{collapsed: collapsed }">
   <div class="list-group" *notPartner>
     <div class="f-size-15">
-      <a class="list-group-item active-item d-flex" routerLink="/home" [routerLinkActive]="['router-link-active']">
-        <img src="assets\images\home-solid.png" class="height-fluid cursor-pointer  mx-2">
+      <a class="list-group-item active-item d-flex align-items-center" routerLink="/home" [routerLinkActive]="['router-link-active']">
+        <i class="fas fa-home f-size-24 mx-2 text-grey-v3"></i>
         <span>{{ 'home' | translate }}</span>
       </a>
-      <a class="list-group-item active-item d-flex" routerLink="/shopping-cart"
+      <a class="list-group-item active-item d-flex align-items-center" routerLink="/shopping-cart"
         [routerLinkActive]="['router-link-active']">
-        <img src="assets\images\shopping-cart-solid.png" class="height-fluid cursor-pointer  mx-2">
+        <i class="fas fa-shopping-cart f-size-24 mx-2 text-grey-v3"></i>
         <span>{{ 'Shopping Cart' | translate }}</span>
       </a>
-      <a class="list-group-item active-item d-flex" routerLink="/my-orders" [routerLinkActive]="['router-link-active']">
-        <img src="assets\images\box-solid.png" class="height-fluid cursor-pointer  mx-2">
+      <a class="list-group-item active-item d-flex align-items-center" routerLink="/my-orders" [routerLinkActive]="['router-link-active']">
+        <i class="fas fa-box f-size-24 mx-2 text-grey-v3"></i>
         <span>{{ 'Track-Order' | translate }}</span>
       </a>
-      <a class="list-group-item active-item d-flex" routerLink="/space" [routerLinkActive]="['router-link-active']">
-        <img src="assets\images\palette-solid.png" class="height-fluid cursor-pointer  mx-2">
+      <a class="list-group-item active-item d-flex align-items-center" routerLink="/space" [routerLinkActive]="['router-link-active']">
+        <i class="fas fa-palette f-size-24 mx-2 text-grey-v3"></i>
         <span>{{ 'mySpace' | translate }}</span>
       </a>
-      <a class="list-group-item active-item d-flex" routerLink="/organization-team" *isPartner
+      <a class="list-group-item active-item d-flex align-items-center" routerLink="/organization-team" *isPartner
         [routerLinkActive]="['router-link-active']">
-        <img src="assets\images\user-edit-solid (1).png" class="height-fluid cursor-pointer  mx-2">
+        <i class="fas fa-user-edit f-size-24 mx-2 text-grey-v3"></i>
         <span>{{ 'organizationTeam' | translate }}</span>
       </a>
       <!--///////////////////////////////////////////////////////////////////////////////////////-->
       <div class="nested-menu list-group f-size-15" *ngIf="hasAdminRole">
-        <a class="list-group-item active-item d-flex" (click)="addExpandClassSetting('settings')"
+        <a class="list-group-item active-item d-flex align-items-center" (click)="addExpandClassSetting('settings')"
           [routerLinkActive]="['router-link-active']">
-          <i class="fa fa-plus height-fluid cursor-pointer my-auto mx-2"></i>&nbsp;
+          <i class="fa fa-plus f-size-24 text-grey-v3 mx-2"></i>&nbsp;
           <span>{{ 'settings' | translate }}</span>
         </a>
         <li class="nested m-auto" [class.expand]="showMenu === 'settings'">
           <ul class="submenu p-0">
 
             <li>
-              <a class="list-group-item active-item d-flex" routerLink="/settings/governorate"
+              <a class="list-group-item active-item d-flex align-items-center" routerLink="/settings/governorate"
                 [routerLinkActive]="['router-link-active']">
-                <i class="fas fa-circle my-auto"></i>&nbsp;
+                <i class="fas fa-circle  text-grey-v3 mx-2"></i>&nbsp;
                 <span>{{ 'governorate' | translate }}</span>
               </a>
             </li>
             <li>
-              <a class="list-group-item active-item d-flex" routerLink="/settings/city"
+              <a class="list-group-item active-item d-flex align-items-center" routerLink="/settings/city"
                 [routerLinkActive]="['router-link-active']">
-                <i class="fas fa-circle my-auto"></i>&nbsp;
+                <i class="fas fa-circle text-grey-v3 mx-2"></i>&nbsp;
                 <span>{{ 'city' | translate }}</span>
               </a>
             </li>
-
-
-
-
           </ul>
         </li>
       </div>
       <!--//////////////////////////////////////////////////////////////////////////////////////-->
       <div class="nested-menu list-group f-size-15" *ngIf="hasAdminRole">
-        <a class="list-group-item active-item d-flex" (click)="addExpandClass('dashboard')"
+        <a class="list-group-item active-item d-flex align-items-center" (click)="addExpandClass('dashboard')"
           [routerLinkActive]="['router-link-active']">
-          <i class="fa fa-plus height-fluid cursor-pointer  my-auto mx-2"></i>&nbsp;
+          <i class="fa fa-plus text-grey-v3 f-size-24 mx-2"></i>&nbsp;
           <span>{{ 'Admin Dashboard' | translate }}</span>
         </a>
         <li class="nested m-auto" [class.expand]="showMenu === 'dashboard'">
-          <ul class="submenu">
+          <ul class="submenu p-0">
             <li>
-              <a class="list-group-item active-item d-flex" routerLink="/users"
+              <a class="list-group-item active-item d-flex align-items-center" routerLink="/users"
                 [routerLinkActive]="['router-link-active']">
-
-                <i class="fas fa-circle"></i>&nbsp;
+                <i class="fas fa-circle text-grey-v3 mx-2"></i>&nbsp;
                 <span>{{ 'Users' | translate }}</span>
               </a>
             </li>
             <li>
-              <a class="list-group-item active-item d-flex" routerLink="/orders-list"
+              <a class="list-group-item active-item d-flex align-items-center" routerLink="/orders-list"
                 [routerLinkActive]="['router-link-active']">
-                <i class="fas fa-circle"></i>&nbsp;
+                <i class="fas fa-circle text-grey-v3 mx-2"></i>&nbsp;
                 <span>{{ 'Orders' | translate }}</span>
               </a>
             </li>
 
-            <li>
-              <a class="list-group-item active-item d-flex" routerLink="/courses"
+            <!-- <li>
+              <a class="list-group-item active-item d-flex align-items-center" routerLink="/courses"
                 [routerLinkActive]="['router-link-active']">
-                <i class="fas fa-circle"></i>&nbsp;
+                <i class="fas fa-circle text-grey-v3 mx-2"></i>&nbsp;
                 <span>{{ 'Machines' | translate }}</span>
               </a>
-            </li>
-            <li>
-              <a class="list-group-item active-item d-flex" routerLink="javascript:void(0)"
+            </li> -->
+            <!-- <li>
+              <a class="list-group-item active-item d-flex align-items-center" routerLink="javascript:void(0)"
                 [routerLinkActive]="['router-link-active']">
-                <i class="fas fa-circle"></i>&nbsp;
+                <i class="fas fa-circle text-grey-v3 mx-2"></i>&nbsp;
                 <span>{{ 'Jobs' | translate }}</span>
               </a>
-            </li>
+            </li> -->
             <li>
-              <a class="list-group-item active-item d-flex" routerLink="/services-list"
+              <a class="list-group-item active-item d-flex align-items-center" routerLink="/services-list"
                 [routerLinkActive]="['router-link-active']">
-                <i class="fas fa-circle"></i>&nbsp;
+                <i class="fas fa-circle text-grey-v3 mx-2"></i>&nbsp;
                 <span>{{ 'service' | translate }}</span>
               </a>
             </li>
 
             <li>
-              <a class="list-group-item active-item d-flex" routerLink="/reasons-list"
+              <a class="list-group-item active-item d-flex align-items-center" routerLink="/reasons-list"
                 [routerLinkActive]="['router-link-active']">
-                <i class="fas fa-circle"></i>&nbsp;
+                <i class="fas fa-circle text-grey-v3 mx-2"></i>&nbsp;
                 <span>{{ 'rejectionReasons' | translate }}</span>
               </a>
             </li>
             <li>
-              <a class="list-group-item active-item d-flex" routerLink="/organizations-list"
+              <a class="list-group-item active-item d-flex align-items-center" routerLink="/organizations-list"
                 [routerLinkActive]="['router-link-active']">
-                <i class="fas fa-circle"></i>&nbsp;<span>{{ 'organizations' | translate }}</span>
+                <i class="fas fa-circle text-grey-v3 mx-2"></i>&nbsp;<span>{{ 'organizations' | translate }}</span>
               </a>
             </li>
-
           </ul>
         </li>
       </div>
     </div>
 
-    <div class="header-fields">
-      <div *noAuth>
-        <a class="list-group-item d-flex" routerLink="/service" [routerLinkActive]="['router-link-active']">
-          <span class="f-size-18 m-auto site-color-v2">{{ 'service' | translate }}</span>
-        </a>
-        <a class="list-group-item d-flex" routerLink="/gallery" [routerLinkActive]="['router-link-active']">
-          <span class="f-size-18  m-auto site-color-v2">{{ 'gallery' | translate }}</span>
-        </a>
-        <a class="list-group-item d-flex" routerLink="/contactUs" [routerLinkActive]="['router-link-active']">
-          <span class="f-size-18 m-auto site-color-v2">{{ 'contactUs' | translate }}</span>
-        </a>
-      </div>
+    <div class="header-fields p-0">
 
-      <ng-container *ngIf="authUser$ |async as user; else anonymous">
+      <ng-container *ngIf="authUser$ |async as user">
         <div class="nested-menu list-group f-size-15">
-          <a class="list-group-item " (click)="addExpandClass('profile')">
-            <span class="px-2"><i class="fa fa-user  m-auto site-color-v2"></i>&nbsp; {{user.username}} &nbsp;
-              <i class="fa fa-caret-down"></i></span>
+          <a class="list-group-item d-flex align-items-center" (click)="addExpandClass('profile')">
+              <i class="fa fa-plus text-grey-v3 f-size-24 mx-2"></i>
+              <span class="ellipsis">
+                {{user.username}}
+              </span>
           </a>
           <li class="nested" [class.expand]="showMenu === 'profile'">
-            <ul class="submenu">
+            <ul class="submenu py-0 ">
               <li>
-                <a routerLink='/profile'>
-                  <img src="assets\images\user-edit-solid (1).png" class="px-2" /> <span
-                    class="custom-btn.v2 f-weight-600">{{ 'Profile' | translate }}</span>
+                <a routerLink='/profile' class="list-group-item active-item d-flex align-items-center">
+                  <i class="fas fa-user-edit  mx-2 text-grey-v3"></i>
+                  <span class="f-weight-600">{{ 'Profile' | translate }}</span>
                 </a>
               </li>
               <li>
-                <a [routerLink]="'/change-password'">
-                  <img src="assets\images\unlock-alt-solid.png" class="px-2" /> <span
-                    class="custom-btn.v2 f-weight-600">{{ 'changePassword' | translate }}</span>
+                <a [routerLink]="'/change-password'" class="list-group-item active-item d-flex align-items-center">
+                  <i class="fas fa-unlock-alt mx-2 text-grey-v3"></i>
+                  <span class=" f-weight-600">{{ 'changePassword' | translate }}</span>
                 </a>
               </li>
               <li>
-                <a (click)="authenticationService.logout()">
-                  <img src="assets\images\power-off-solid.png" class="px-2" /> <span
-                    class="custom-btn.v2 f-weight-600">{{ 'Log Out' | translate }}</span>
+                <a (click)="authenticationService.logout()" class="list-group-item active-item d-flex align-items-center">
+                  <i class="fas fa-power-off mx-2 text-grey-v3"></i>
+                  <span class=" f-weight-600">{{ 'Log Out' | translate }}</span>
                 </a>
               </li>
             </ul>
           </li>
         </div>
       </ng-container>
-      <ng-template #anonymous>
-        <div class="nested-menu">
-          <a class="list-group-item text-center site-color-v2" (click)="addExpandClass('anonymous')">
-            <span class="site-color-v2"><i class="fa fa-user"></i>&nbsp; {{'Welcome'| translate }} &nbsp; <i
-                class="fa fa-caret-down"></i></span>
-          </a>
-          <li class="nested" [class.expand]="showMenu === 'anonymous'">
-            <ul class="submenu">
-              <li>
-                <a [routerLink]="'/login'">
-                  <span><i class="fa fa-fw fa-user"></i> {{ 'Login' | translate }}</span>
-                </a>
-              </li>
-              <li>
-                <a [routerLink]="'/signup'">
-                  <span> {{ 'Register' | translate }}</span>
-                </a>
-              </li>
-              <li>
-                <a>
-                  <span (click)="signupPartner()">{{'becomaApartner'|translate}}</span>
-                </a>
-              </li>
-            </ul>
-          </li>
-        </div>
-      </ng-template>
+
       <div class="nested-menu list-group">
 
-        <a class="list-group-item d-flex" (click)="addExpandClass('languages')">
-
-          <span class="m-auto site-color-v2">
-            &nbsp;{{ 'Language' | translate }} &nbsp; <i class="fa fa-caret-down"></i></span>
+        <a class="list-group-item d-flex align-items-center" (click)="addExpandClass('languages')">
+          <i class="fa fa-plus text-grey-v3 f-size-24 mx-2"></i>
+          <span >
+            {{ 'Language' | translate }}
+          </span>
         </a>
         <li class="nested" [class.expand]="showMenu === 'languages'">
-          <ul class="submenu">
+          <ul class="submenu py-0">
             <li>
-              <a (click)="changeLang('en')">
+              <a (click)="changeLang('en')" class="list-group-item active-item d-flex align-items-center">
                 <span>{{ 'english' | translate }}</span>
               </a>
             </li>
             <li>
-              <a (click)="changeLang('ar')">
+              <a (click)="changeLang('ar')" class="list-group-item active-item d-flex align-items-center">
                 <span>{{ 'arabic' | translate }}</span>
               </a>
             </li>
@@ -220,21 +180,21 @@
   <!--//////////////////////////////////-->
   <div class="list-group" *isPartner>
     <div class="f-size-15">
-      <a class="list-group-item active-item d-flex" routerLink="/home" [routerLinkActive]="['router-link-active']">
-        <img src="assets\images\home-solid.png" class="height-fluid cursor-pointer  mx-2">
+      <a class="list-group-item active-item d-flex align-items-center" routerLink="/home" [routerLinkActive]="['router-link-active']">
+        <i class="fas fa-home f-size-24 mx-2"></i>
         <span>{{ 'home' | translate }}</span>
       </a>
-      <a class="list-group-item active-item d-flex" [routerLinkActive]="['router-link-active']">
-        <img src="assets\images\images-solid.png" class="height-fluid cursor-pointer  mx-2">
+      <a class="list-group-item active-item d-flex align-items-center" [routerLinkActive]="['router-link-active']">
+        <i class="fas fa-images f-size-24 mx-2"></i>
         <span>{{ 'quotationRequest' | translate }}</span>
       </a>
-      <a class="list-group-item active-item d-flex" [routerLinkActive]="['router-link-active']">
-        <img src="assets\images\palette-solid.png" class="height-fluid cursor-pointer  mx-2">
+      <a class="list-group-item active-item d-flex align-items-center" [routerLinkActive]="['router-link-active']">
+        <i class="fas fa-palette f-size-24 mx-2"></i>
         <span>{{ 'Jobs' | translate }}</span>
       </a>
-      <a class="list-group-item active-item d-flex" routerLink="/organization-team" *isPartner
+      <a class="list-group-item active-item d-flex align-items-center" routerLink="/organization-team" *isPartner
         [routerLinkActive]="['router-link-active']">
-        <img src="assets\images\user-edit-solid (1).png" class="height-fluid cursor-pointer  mx-2">
+        <i class="fas fa-user-edit f-size-24 mx-2"></i>
         <span>{{ 'organizationTeam' | translate }}</span>
       </a>
 
