@@ -124,6 +124,9 @@ export class OrganizationInfoComponent implements OnInit {
         this.checkState = false;
       }
     }
+    if (!this.roleAdmin) {
+      this.form.get('services').setValidators(Validators.required);
+    }
 
     this.appStore.select(fromStore.getLang).subscribe((lang) => {
       this.lang = lang;

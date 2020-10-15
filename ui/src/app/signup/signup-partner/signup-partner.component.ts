@@ -59,16 +59,6 @@ export class SignupPartnerComponent implements OnInit, CanComponentDeactivate {
       console.log(res);
       this.cities = res;
     });
-    // this.dropdownList = [
-    //   'PENDING',
-    //   'QUOTED',
-    //   'QUOTE_ACCEPTED',
-    //   'IN_PROGRESS',
-    //   'FINISHED',
-    //   'DELIVERED',
-    //   'CANCELLED',
-    //   'QUOTE_REJECTED',
-    // ];
 
     this.dropdownSettings = {
       idField: 'id',
@@ -81,36 +71,21 @@ export class SignupPartnerComponent implements OnInit, CanComponentDeactivate {
     };
   }
   onItemSelect(item: any) {
-    // console.log(item);
-    // this.selectedItems.push(item);
-    // console.log(this.selectedItems);
-    // this.registrationForm.get('services').setValue(this.selectedItems);
-    console.log(this.registrationForm.get('services').value);
   }
   onItemDeSelect(item) {
-    // console.log(item);
-    // console.log(this.selectedItems);
-    console.log(this.registrationForm.get('services').value);
   }
 
   onSelectAll(items: any) {
-    // console.log(items);
-    console.log(items);
     this.registrationForm.get('services').setValue(items);
     console.log(this.registrationForm.get('services').value);
   }
   onDeSelectAll(items: any) {
-    // console.log(items);
-    // console.log(items.toString());
     this.registrationForm.get('services').setValue(items);
-
-    console.log(this.registrationForm.get('services').value);
   }
 
   ngOnInit(): void {
     this.createForm();
     this.userService.get('').subscribe((res) => {
-      console.log(res);
       this.registrationForm.patchValue(res.defaultOrg);
     });
     // console.log(this.user);
@@ -131,7 +106,7 @@ export class SignupPartnerComponent implements OnInit, CanComponentDeactivate {
       city: ['', [Validators.required]],
       address: ['', [Validators.required]],
       website: ['', [Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?')]],
-      services: [null],
+      services: [null,[Validators.required]],
     });
   }
 
