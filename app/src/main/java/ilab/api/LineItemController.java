@@ -44,11 +44,13 @@ public class LineItemController
 	{
 		return orderService.rejectItemQuote(id, auth);
 	}
+
 	@PutMapping(path = "/{id}/approveQuote")
 	public LineItem approveQuote(@PathVariable("id") UUID id, Authentication auth)
 	{
 		return orderService.acceptItemQuote(id, auth);
 	}
+
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public LineItem postCartItem(@RequestPart("item") LineItem item, @RequestParam MultipartFile files[],
@@ -77,6 +79,7 @@ public class LineItemController
 	{
 		return orderService.updateItem(id, item, auth);
 	}
+
 	@PutMapping(path = "/{id}/quote")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public LineItem quote(@PathVariable("id") UUID id, Authentication auth)
@@ -86,33 +89,38 @@ public class LineItemController
 
 	@PutMapping(path = "/{id}/rejectItem")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public LineItem rejectItem(@PathVariable("id") UUID id, @RequestBody(required = false) LineItem item, Authentication auth)
+	public LineItem rejectItem(@PathVariable("id") UUID id, @RequestBody(required = false) LineItem item,
+			Authentication auth)
 	{
-		
+
 		return orderService.rejectItem(id, item, auth);
 	}
+
 	@PutMapping(path = "/{id}/process")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public LineItem process(@PathVariable("id") UUID id, Authentication auth)
 	{
 		return orderService.processItem(id, auth);
 	}
+
 	@PutMapping(path = "/{id}/finish")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public LineItem finish(@PathVariable("id") UUID id, Authentication auth)
 	{
 		return orderService.finishItem(id, auth);
 	}
+
 	@PutMapping(path = "/{id}/deliver")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public LineItem deliver(@PathVariable("id") UUID id, Authentication auth)
 	{
 		return orderService.deliverItem(id, auth);
 	}
+
 	@PutMapping(path = "/{id}/reset")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public LineItem reset(@PathVariable("id") UUID id, Authentication auth)
 	{
-		return orderService.reset(id, auth);
+		return orderService.reset(id);
 	}
 }
