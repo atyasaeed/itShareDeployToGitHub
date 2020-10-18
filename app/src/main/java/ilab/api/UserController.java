@@ -1,7 +1,5 @@
 package ilab.api;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -26,14 +24,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.sipios.springsearch.anotation.SearchSpec;
 
 import ilab.core.domain.user.PasswordResetToken;
 import ilab.core.domain.user.User;
-import ilab.core.service.CSVHelper;
 import ilab.core.service.UserService;
 import ilab.dto.ChangePasswordDTO;
 import ilab.utils.exception.NotFoundException;
@@ -169,29 +165,6 @@ public class UserController
 	public boolean resendProvisionCode(@RequestParam("username") String username)
 	{
 		return userService.resendActivationCode(username);
-	}
-
-	@PostMapping("/csv")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public HashMap<String, Boolean> addBulkUser(@RequestParam("file") MultipartFile file, Authentication auth)
-			throws Exception
-	{
-		List<User> users = CSVHelper.csvToTutorials(file.getInputStream());
-		HashMap<String, Boolean> map = new HashMap<String, Boolean>();
-
-		for (User user : users)
-		{
-			try
-			{
-				User user1 = userService.register(user);
-				map.put(user.getEmail(), true);
-				System.out.print(user1.toString());
-			} catch (Exception e)
-			{
-				map.put(user.getEmail(), false);
-			}
-		}
-		return map;
 	}
 
 }

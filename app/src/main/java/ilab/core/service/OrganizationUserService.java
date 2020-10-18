@@ -16,13 +16,13 @@ import org.springframework.stereotype.Service;
 
 import ilab.core.domain.user.Organization;
 import ilab.core.domain.user.OrganizationStatus;
+import ilab.core.domain.user.OrganizationType;
 import ilab.core.domain.user.OrganizationUser;
 import ilab.core.domain.user.Role;
 import ilab.core.domain.user.User;
 import ilab.core.repository.OrganizationUserRepository;
 import ilab.core.repository.UserRepository;
 import ilab.utils.exception.IllegalRequestDataException;
-import ilab.core.domain.user.*;
 
 @Service
 @Transactional
@@ -110,8 +110,8 @@ public class OrganizationUserService
 
 	public Page<OrganizationUser> findByUser(Authentication auth, Pageable page)
 	{
-		return orgUserRepo.findByUser_usernameIgnoreCaseAndOrg_typeNotOrRoleNot(page, auth.getName(), OrganizationType.INDIVIDUAL,
-				Role.ROLE_OWNER);
+		return orgUserRepo.findByUser_usernameIgnoreCaseAndOrg_typeNotOrRoleNot(page, auth.getName(),
+				OrganizationType.INDIVIDUAL, Role.ROLE_OWNER);
 	}
 
 	public Page<OrganizationUser> findByOrg(Authentication auth, Pageable page)
@@ -128,9 +128,9 @@ public class OrganizationUserService
 	{
 		OrganizationUser orgUser = orgUserRepo.findById(orgUserId).orElseThrow();
 
-		if (orgUser.getRole()==Role.ROLE_OWNER)
+		if (orgUser.getRole() == Role.ROLE_OWNER)
 		{
-			throw new IllegalRequestDataException("Owner can not delte himself");
+			throw new IllegalRequestDataException("Owner can not delete himself");
 
 		}
 		if ((orgUser.getUser().getEmail().equals(auth.getName())
