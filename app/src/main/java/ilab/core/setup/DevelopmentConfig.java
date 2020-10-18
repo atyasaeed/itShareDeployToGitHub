@@ -34,6 +34,8 @@ import ilab.core.domain.user.Role;
 import ilab.core.domain.user.User;
 import ilab.core.repository.AddressRepository;
 import ilab.core.repository.CityRepository;
+import ilab.core.repository.OrganizationRepository;
+import ilab.core.repository.OrganizationUserRepository;
 import ilab.core.repository.ReasonRepository;
 import ilab.core.repository.ServiceRepository;
 import ilab.core.repository.StateRepository;
@@ -60,6 +62,11 @@ public class DevelopmentConfig
 	@Autowired
 	private ReasonRepository reasonRepo;
 	@Autowired
+	private OrganizationUserRepository orgUserRepo;
+	@Autowired
+	private OrganizationRepository orgRepo;
+
+	@Autowired
 	public freemarker.template.Configuration freemarkerConfig;
 	@Autowired
 	public StateRepository stateRepo;
@@ -85,6 +92,7 @@ public class DevelopmentConfig
 					User user = userService.register(createUser("hatem.salem@ihub.asu.edu.eg", "New123456", "Admin",
 							"hatem.salem@ihub.asu.edu.eg", "01065002100", OrganizationType.INDIVIDUAL));
 					user = userService.enableUser(user.getId(), true, null);
+					user.getDefaultOrg().setStatus(OrganizationStatus.ACTIVE);
 					user = addAdminRoleAuthority(user);
 					address.setUser(user);
 					address.setLineOne("Street 16 New Cairo");
@@ -93,6 +101,10 @@ public class DevelopmentConfig
 					user = userService.register(createUser("mosalem@itraters.com", "New123456", "Hatem",
 							"mosalem@itraters.com", "01065003100", OrganizationType.PARTNER));
 					user = userService.enableUser(user.getId(), true, null);
+					Organization org = orgRepo.findById(user.getDefaultOrg().getId()).get();
+					org.setStatus(OrganizationStatus.ACTIVE);
+					orgRepo.save(org);
+
 					user = addRoleAuthority(user);
 					userRepo.save(user);
 					user = userService.register(createUser("Karafat1998@gmail.com", "New123456", "Hatem",
@@ -135,7 +147,6 @@ public class DevelopmentConfig
 					address.setCity(shroukCity);
 					cityRepo.save(shroukCity);
 					addressRepo.save(address);
-
 
 				} catch (Exception e)
 				{
@@ -187,7 +198,7 @@ public class DevelopmentConfig
 		org.setCity("city");
 		org.setAddress("address");
 		org.setType(type);
-		org.setStatus(OrganizationStatus.PENDING);
+		org.setStatus(OrganizationStatus.ACTIVE);
 		user.setDefaultOrg(org);
 		user.addRole(Role.ROLE_USER);
 		// user.setEnabled(true);
@@ -208,7 +219,5 @@ public class DevelopmentConfig
 		user.addRole(Role.ROLE_USER);
 		return user;
 	}
-
-	
 
 }
