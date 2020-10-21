@@ -448,5 +448,10 @@
   "quotationNoteDescription2": "FabriHUB accepts payment in Egyptian pounds, via any of the available payment methods. All taxes are the FabriHUB’s responsibility and included in this quotation. An accurate shipping address is the customer’s responsibility and may be subject to extra-charge in case of delivery failure by any means. Lead-times quoted begin from the date that payment is received by FabriHUB. Policy Statement: FabriHUB Company will strive to provide best customer value by being highly competitive, consistent, flexible in terms, and oriented towards long term partner relationships. Candid feedback is appreciated and solicited.",
   "quotationNoteDescription3": "Any required available certifications are subject to extra-charge per item. FabriHUB reserves the right to ship 2-3 days more, or less, than the quoted lead-time. FabriHUB is not responsible or liable for any customer’s intellectual properties, unless otherwise a prior written letter has been introduced by FabriHUB; and the customer must introduce, by any means, the related proofed documents before approving the quotation. Item’s tolerances are as specified in the documents provided by customer. Return of order / item requires prior authorization. All claims must be made before ship date. Raw materials or items are not warranted for any particular application and liability is limited to replacement according to a certain criteria. Complete terms and conditions are available at https://www.fabrihub.net/customer-service-agreement and these terms and conditions supercede all other agreements.",
   "enterEmailMember": "أدخل عنوان البريد الإلكتروني للعضو",
-  "Owner can not delte himself": "لا يمكن للمالك أن يحذف نفسه"
+  "Owner can not delte himself": "لا يمكن للمالك أن يحذف نفسه",
+  "enterManufacturingDuration": "أدخل مدة التصنيع",
+  "enterUnitPrice": "أدخل سعر الوحدة",
+  "confirmQuote": " Quote Item With",
+  "egpPerUnite": "جنيه مصري للوحدة",
+  "days": "أيام"
 }

@@ -70,10 +70,8 @@ export class SignupPartnerComponent implements OnInit, CanComponentDeactivate {
       allowSearchFilter: true,
     };
   }
-  onItemSelect(item: any) {
-  }
-  onItemDeSelect(item) {
-  }
+  onItemSelect(item: any) {}
+  onItemDeSelect(item) {}
 
   onSelectAll(items: any) {
     this.registrationForm.get('services').setValue(items);
@@ -106,7 +104,7 @@ export class SignupPartnerComponent implements OnInit, CanComponentDeactivate {
       city: ['', [Validators.required]],
       address: ['', [Validators.required]],
       website: ['', [Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?')]],
-      services: [null,[Validators.required]],
+      services: [null, [Validators.required]],
     });
   }
 
