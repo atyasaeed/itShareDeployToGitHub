@@ -1,13 +1,11 @@
 package ilab.core.service;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +21,6 @@ import ilab.core.domain.user.Quotation;
 import ilab.core.domain.user.QuotationStatus;
 import ilab.core.domain.user.User;
 import ilab.core.repository.LineItemRepository;
-import ilab.core.repository.OrderRepository;
 import ilab.core.repository.OrganizationRepository;
 import ilab.core.repository.QuotationRepository;
 import ilab.core.repository.UserRepository;
@@ -36,9 +33,7 @@ public class QuotationService
 
 	@Autowired
 	private QuotationRepository quotationRepo;
-	@Autowired
-	private OrderRepository orderRepo;
-
+	
 	@Autowired
 	private UserRepository userRepo;
 	@Autowired
@@ -46,7 +41,7 @@ public class QuotationService
 	@Autowired
 	private LineItemRepository lineItemRepo;
 
-	public List<Quotation> requestForQuotation(UUID id)
+	public List<Quotation> requestForQuotation(UUID id, int duration)
 	{
 		LineItem item = lineItemRepo.findById(id).orElseThrow();
 		List<Organization> list = orgRepo.findAllByServicesAndTypeAndStatus(item.getService(), OrganizationType.PARTNER,
@@ -54,12 +49,12 @@ public class QuotationService
 		List<Quotation> quoteList = new ArrayList<Quotation>();
 		for (Organization org : list)
 		{
-			quoteList.add(makeManualQuotation(item, org));
+			quoteList.add(makeManualQuotation(item, org, duration));
 		}
 		return quoteList;
 	}
 
-	public Quotation makeManualQuotation(LineItem item, Organization org)
+	public Quotation makeManualQuotation(LineItem item, Organization org, int duration)
 	{
 		if (!org.getStatus().equals(OrganizationStatus.ACTIVE))
 		{
@@ -83,6 +78,7 @@ public class QuotationService
 		}
 
 		Quotation quotation = new Quotation();
+		quotation.setDurationExpiration(duration);
 		quotation.setLineItem(item);
 		quotation.setOrg(org);
 		quotation.setPlacedBy(item.getOrderEntity().getPlacedBy());

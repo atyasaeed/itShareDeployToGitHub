@@ -32,6 +32,8 @@ public class Quotation extends AbstractEntity<Quotation>
 
 	private BigDecimal unitPrice;
 
+	private int durationExpiration;
+
 	private QuotationStatus status;
 
 	@JsonFormat(pattern = "yyyy-MM-dd")
@@ -95,6 +97,16 @@ public class Quotation extends AbstractEntity<Quotation>
 	public void setEndDate(Date endDate)
 	{
 		this.endDate = endDate;
+	}
+
+	public int getDurationExpiration()
+	{
+		return durationExpiration;
+	}
+
+	public void setDurationExpiration(int durationExpiration)
+	{
+		this.durationExpiration = durationExpiration;
 	}
 
 }

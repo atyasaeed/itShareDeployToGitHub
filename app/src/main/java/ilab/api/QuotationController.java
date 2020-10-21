@@ -35,17 +35,18 @@ public class QuotationController
 
 	@PostMapping("/{id}") // lineItem id
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public List<Quotation> requestForQuotations(Authentication auth, @PathVariable("id") UUID id)
+	public List<Quotation> requestForQuotations(Authentication auth, @PathVariable("id") UUID id,
+			@RequestBody int duration)
 	{
-		return quotationService.requestForQuotation(id);
+		return quotationService.requestForQuotation(id, duration);
 	}
 
 	@PostMapping("manual/{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public Quotation manualQuotation(Authentication auth, @RequestPart("item") LineItem item,
-			@RequestPart("org") Organization org)
+			@RequestPart("org") Organization org, @RequestPart("duration") int duration)
 	{
-		return quotationService.makeManualQuotation(item, org);
+		return quotationService.makeManualQuotation(item, org, duration);
 	}
 
 	@GetMapping("search/accepted")
@@ -55,7 +56,7 @@ public class QuotationController
 		return quotationService.findByAccepted(auth, page);
 	}
 
-	@GetMapping("search/sent")
+	@GetMapping("/search/sent")
 	@PreAuthorize("isAuthenticated()")
 	public Page<Quotation> getSentQuotation(Authentication auth, Pageable page)
 	{
