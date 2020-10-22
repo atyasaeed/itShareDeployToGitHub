@@ -97,9 +97,8 @@ const routes: Routes = [
         canActivate: [AdminGuard],
       },
       {
-        path: 'quotation-requests',
-        loadChildren: () =>
-          import('./quotation-requests/quotation-requests.module').then((m) => m.QuotationRequestsModule),
+        path: 'quotation',
+        loadChildren: () => import('./quotation/quotation.module').then((m) => m.QuotationModule),
       },
     ],
   },

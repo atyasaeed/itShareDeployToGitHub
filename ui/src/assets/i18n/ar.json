@@ -453,5 +453,9 @@
   "enterUnitPrice": "أدخل سعر الوحدة",
   "confirmQuote": " Quote Item With",
   "egpPerUnite": "جنيه مصري للوحدة",
-  "days": "أيام"
+  "days": "أيام",
+  "current": "الحالى",
+  "quoted": "مقتبس",
+  "requestDate": " تاريخ الطلب :",
+  "respondBefore": "أجب قبل :"
 }

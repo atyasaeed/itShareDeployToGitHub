@@ -1,10 +1,9 @@
 <div class="p-4" [@routerTransition]>
-  <app-page-header [breadCrumbs]="breadcrumbs"></app-page-header>
 
   <div class="form-group form-inline row">
     <div class="col-md-6">
       <span class="site-color-v5 f-size-20 f-weight-600">
-        {{'orders'|translate}}
+        {{'current'|translate}}
       </span>
       <input class="search-input form-control ml-2" [class.rtl]="lang==='ar'" type="text"
         placeholder="{{'Search'|translate}}" name="searchTerm" [(ngModel)]="searchTerm" />
@@ -17,19 +16,22 @@
       <section class="custom-card" *ngFor="let lineItem of entity.lineItems ;index as i ">
 
         <div class="border-bottom mb-2">
-          <div class="form-group p-2  row">
-            <div class="col-md-5"> {{"requestDate:" | translate}} <span>{{lineItem.created | date:'medium'}}</span>
-            </div>
-            <div class="col-md-5"> {{"respondBefore:" | translate}} <span
-                class="text-danger">{{lineItem.created | date:'medium'}}</span>
-            </div>
+          <div class="form-group p-2 row">
+
+
+            <div class="col-md-5  f-size-20 font-weight-bold"><span>{{lineItem.service.name}} -
+                {{'id'|translate }} {{lineItem.id.slice(-7)}}</span></div>
+
+            <div class="col-md-2">{{'quantity' |translate}} : {{lineItem.quantity}}</div>
+            <div class="col-md-3">{{'status' |translate}} : {{lineItem.status}}</div>
             <div class="col-md-2 d-flex justify-content-end"><i class="fa fa-angle-down f-size-24 px-3"
                 [ngClass]="{'fa-angle-down': !isCollapsed[i], 'fa-angle-up': isCollapsed[i]}"
                 (click)="isCollapsed[i] = !isCollapsed[i]"></i></div>
-            <div class="col-md-6 ml-3 f-size-20 font-weight-bold"><span>{{lineItem.service.name}} -
-                {{'id'|translate }} {{lineItem.id.slice(-7)}}</span></div>
-
-            <div class="col-md-5 ml-3">{{'quantity' |translate}} : {{lineItem.quantity}}</div>
+            <div class="col-md-5"> {{"requestDate" | translate}} <span>{{lineItem.created | date:'medium'}}</span>
+            </div>
+            <div class="col-md-5"> {{"respondBefore" | translate}} <span
+                class="text-danger">{{lineItem.created | date:'medium'}}</span>
+            </div>
           </div>
 
         </div>

@@ -455,5 +455,9 @@
   "enterUnitPrice": "Enter Unit Price",
   "confirmQuote": " Quote Item With",
   "egpPerUnite": "EGP per unite",
-  "days": "Days"
+  "days": "Days",
+  "current": "Current",
+  "quoted": "Quoted",
+  "requestDate": "Request Date :",
+  "respondBefore": "Respond Before :"
 }

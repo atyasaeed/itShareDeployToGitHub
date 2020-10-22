@@ -1,22 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { QuotationRequestsRoutingModule } from './quotation-requests-routing.module';
-import { QuotationRequestsComponent } from './quotation-requests.component';
+import { QuotationRoutingModule } from './quotation-routing.module';
+import { QuotationComponent } from './quotation.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CovalentLoadingModule } from '@covalent/core/loading';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
+import { TooltipModule } from 'ngx-bootstrap';
 import { PageHeaderModule } from 'src/app/shared/modules/page-header/page-header.module';
 import { SharedModule } from 'src/app/shared/modules/shared/shared.module';
 import { StlModalModule } from 'src/app/shared/modules/stl-modal/stl-modal.module';
-import { CovalentLoadingModule } from '@covalent/core/loading';
-import { TooltipModule } from 'ng2-tooltip-directive';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
-  declarations: [QuotationRequestsComponent],
+  declarations: [QuotationComponent],
   imports: [
     CommonModule,
-    QuotationRequestsRoutingModule,
     TranslateModule,
     NgbModule,
     FormsModule,
@@ -26,6 +26,8 @@ import { TooltipModule } from 'ng2-tooltip-directive';
     ReactiveFormsModule,
     CovalentLoadingModule,
     TooltipModule,
+    QuotationRoutingModule,
+    MatTabsModule,
   ],
 })
-export class QuotationRequestsModule {}
+export class QuotationModule {}
