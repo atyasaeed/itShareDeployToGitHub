@@ -184,7 +184,7 @@ export class OrganizationInfoComponent implements OnInit {
           this.loadingService.resolve('loadingOrg');
         },
         (err) => {
-          this.toastr.error(this.translate.instant(err));
+          this.toastr.error(this.translate.instant(err.message));
         }
       );
     }
