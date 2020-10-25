@@ -164,6 +164,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
           },
           (err) => {
             this.toastr.error(this.translate.instant(err.message));
+            this.loadingService.resolve(this.key);
           }
         );
       } else {
@@ -263,6 +264,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
           },
           (err) => {
             this.toastr.error(this.translate.instant(err.message));
+            this.loadingService.resolve(this.key);
           }
         );
 
@@ -275,6 +277,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
           },
           (err) => {
             this.toastr.error(this.translate.instant(err.message));
+            this.loadingService.resolve(this.key);
           }
         );
         break;
@@ -384,11 +387,13 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
             },
             (err) => {
               this.toastr.error(this.translate.instant(err.message));
+              this.loadingService.resolve(this.key);
             }
           );
         },
         (err) => {
           this.toastr.error(this.translate.instant(err.message));
+          this.loadingService.resolve(this.key);
         }
       );
     }
@@ -439,6 +444,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
               },
               (err) => {
                 this.loadingService.resolve(this.key);
+                this.toastr.error(this.translate.instant(err.message));
               }
             );
           },
@@ -456,6 +462,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
           },
           (err) => {
             this.toastr.error(this.translate.instant(err.message));
+            this.loadingService.resolve(this.key);
           }
         );
         break;
@@ -468,6 +475,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
           },
           (err) => {
             this.toastr.error(this.translate.instant(err.message));
+            this.loadingService.resolve(this.key);
           }
         );
 
@@ -502,12 +510,14 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
               },
               (err) => {
                 this.toastr.error(this.translate.instant(err.message));
+                this.loadingService.resolve(this.key);
               }
             );
             this.loadingService.resolve(this.key);
           },
           (err) => {
             this.toastr.error(this.translate.instant(err.message));
+            this.loadingService.resolve(this.key);
           }
         );
 

@@ -31,6 +31,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class OrganizationInfoComponent implements OnInit {
   public totalfiles: Array<File> = [];
+
   lang: string;
   checkState: boolean = true;
   public totalFileName = [];
@@ -172,6 +173,7 @@ export class OrganizationInfoComponent implements OnInit {
         },
         (err) => {
           this.toastr.error(this.translate.instant(err.message));
+          this.loadingService.resolve('loadingOrg');
         }
       );
     } else {
@@ -185,6 +187,7 @@ export class OrganizationInfoComponent implements OnInit {
         },
         (err) => {
           this.toastr.error(this.translate.instant(err.message));
+          this.loadingService.resolve('loadingOrg');
         }
       );
     }
@@ -208,7 +211,10 @@ export class OrganizationInfoComponent implements OnInit {
         this.form.patchValue(res);
         this.loadingService.resolve('loadingOrg');
       },
-      (err) => this.toastr.error(this.translate.instant(err.message))
+      (err) => {
+        this.toastr.error(this.translate.instant(err.message));
+        this.loadingService.resolve('loadingOrg');
+      }
     );
   }
   editCommercial() {
@@ -234,6 +240,7 @@ export class OrganizationInfoComponent implements OnInit {
       },
       (err) => {
         this.toastr.error(this.translate.instant(err.message));
+        this.loadingService.resolve('loadingOrg');
       }
     );
   }

@@ -85,6 +85,7 @@ export class OrganizationTeamComponent extends DefaultListComponent<OrgUser, Org
                 this.toastr.error(this.translate.instant(err.error.details[0]));
               } else {
                 this.toastr.error(this.translate.instant(err.message));
+                this.loadingService.resolve(this.key);
               }
             }
           );
