@@ -62,8 +62,6 @@ export class SignupComponent implements OnInit, CanComponentDeactivate {
   partner: boolean = true;
 
   ngOnInit(): void {
-    // this.route.snapshot.queryParams;
-    // console.log(this.router.getCurrentNavigation().extras.state);
     if (this.route.snapshot.queryParams['partner']) {
       this.partner = true;
     } else {
@@ -75,14 +73,11 @@ export class SignupComponent implements OnInit, CanComponentDeactivate {
     this.createForm();
 
     this.http.get('assets/cities.json').subscribe((res: City[]) => {
-      console.log(res);
       this.cities = res;
     });
   }
 
   ngAfterViewInit() {
-    //this.changeRecaptchaLanguage();
-
     this.captchaService.captchaInit(this.emptyCaptcha);
     this.cdref.detectChanges();
   }
@@ -93,7 +88,6 @@ export class SignupComponent implements OnInit, CanComponentDeactivate {
       lastName: ['', [Validators.required, Validators.maxLength(80), Validators.minLength(2)]],
       mobileNo: ['', [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{11}$')]],
       email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$')]],
-      // username: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')]],
       confirmPassword: ['', [Validators.required]],
     });
@@ -133,22 +127,14 @@ export class SignupComponent implements OnInit, CanComponentDeactivate {
       this.user.defaultOrg.city = 'القاهرة';
       this.user.defaultOrg.mobileNo = this.user.mobileNo;
     }
-    console.log(this.user);
-    // this.user.defaultOrg = {} as Organization;
-    // this.user.defaultOrg.type = 'PARTNER';
-
     this.userService.register(this.user).subscribe(
       (res) => {
-        // this.router.navigateByUrl('signup/activation');
         this.registrationForm.markAsPristine();
         this.router.navigate(['signup/activation'], {
           state: res,
         });
         this.loadingService.resolve('loading');
-
         this.alertservice.success(this.translate.instant('registeration.success.verify'));
-
-        // this.alertservice.success('please check your email');
       },
       (err) => {
         this.loadingService.resolve('loading');
@@ -159,8 +145,10 @@ export class SignupComponent implements OnInit, CanComponentDeactivate {
           this.toastr.error(this.translate.instant('duplicated.arName'));
         } else if (err.error.details[0] == 'duplicateEnName') {
           this.toastr.error(this.translate.instant('duplicated.enName'));
+        } else if (err.statusText == 'Unknown Error') {
+          this.toastr.error(this.translate.instant('serverDown'));
         } else {
-          this.toastr.error(this.translate.instant('tryAgain'));
+          this.toastr.error(this.translate.instant(err.message));
         }
       }
     );

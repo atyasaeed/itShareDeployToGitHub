@@ -31,6 +31,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class OrganizationInfoComponent implements OnInit {
   public totalfiles: Array<File> = [];
+
   lang: string;
   checkState: boolean = true;
   public totalFileName = [];
@@ -162,21 +163,33 @@ export class OrganizationInfoComponent implements OnInit {
     });
     this.formData.append('org', itemBlob);
     if (this.roleAdmin) {
-      this.Service.updateAdminOrg(this.form.value, this.form.get('id').value).subscribe((res: Organization) => {
-        this.org = res;
-        this.form.patchValue(res);
-        this.disabledForm = false;
-        this.toastr.success(this.translate.instant('success'));
-        this.loadingService.resolve('loadingOrg');
-      });
+      this.Service.updateAdminOrg(this.form.value, this.form.get('id').value).subscribe(
+        (res: Organization) => {
+          this.org = res;
+          this.form.patchValue(res);
+          this.disabledForm = false;
+          this.toastr.success(this.translate.instant('success'));
+          this.loadingService.resolve('loadingOrg');
+        },
+        (err) => {
+          this.toastr.error(this.translate.instant(err.message));
+          this.loadingService.resolve('loadingOrg');
+        }
+      );
     } else {
-      this.Service.updateOrg(this.formData, this.form.get('id').value).subscribe((res: Organization) => {
-        this.org = res;
-        this.form.patchValue(res);
-        this.disabledForm = false;
-        this.toastr.success(this.translate.instant('success'));
-        this.loadingService.resolve('loadingOrg');
-      });
+      this.Service.updateOrg(this.formData, this.form.get('id').value).subscribe(
+        (res: Organization) => {
+          this.org = res;
+          this.form.patchValue(res);
+          this.disabledForm = false;
+          this.toastr.success(this.translate.instant('success'));
+          this.loadingService.resolve('loadingOrg');
+        },
+        (err) => {
+          this.toastr.error(this.translate.instant(err.message));
+          this.loadingService.resolve('loadingOrg');
+        }
+      );
     }
   }
 
@@ -192,11 +205,17 @@ export class OrganizationInfoComponent implements OnInit {
       type: 'application/json',
     });
     this.formData.append('org', itemBlob);
-    this.Service.updateOrg(this.formData, this.form.get('id').value).subscribe((res: Organization) => {
-      this.org = res;
-      this.form.patchValue(res);
-      this.loadingService.resolve('loadingOrg');
-    });
+    this.Service.updateOrg(this.formData, this.form.get('id').value).subscribe(
+      (res: Organization) => {
+        this.org = res;
+        this.form.patchValue(res);
+        this.loadingService.resolve('loadingOrg');
+      },
+      (err) => {
+        this.toastr.error(this.translate.instant(err.message));
+        this.loadingService.resolve('loadingOrg');
+      }
+    );
   }
   editCommercial() {
     this.CommerciaFile = false;
@@ -213,11 +232,17 @@ export class OrganizationInfoComponent implements OnInit {
       type: 'application/json',
     });
     this.formData.append('org', itemBlob);
-    this.Service.updateOrg(this.formData, this.form.get('id').value).subscribe((res: Organization) => {
-      this.org = res;
-      this.form.patchValue(res);
-      this.loadingService.resolve('loadingOrg');
-    });
+    this.Service.updateOrg(this.formData, this.form.get('id').value).subscribe(
+      (res: Organization) => {
+        this.org = res;
+        this.form.patchValue(res);
+        this.loadingService.resolve('loadingOrg');
+      },
+      (err) => {
+        this.toastr.error(this.translate.instant(err.message));
+        this.loadingService.resolve('loadingOrg');
+      }
+    );
   }
   editTaxCard() {
     this.taxCardFile = false;
@@ -258,6 +283,7 @@ export class OrganizationInfoComponent implements OnInit {
         this.loadingService.resolve('loadingOrg');
       },
       (err) => {
+        this.toastr.error(this.translate.instant(err.message));
         this.loadingService.resolve('loadingOrg');
       }
     );

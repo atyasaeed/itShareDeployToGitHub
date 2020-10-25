@@ -60,6 +60,8 @@ export class CitiesComponent extends DefaultListComponent<City, CityService> imp
       (err) => {
         if (err.error.typeMessage === 'error.dataError') {
           this.toastr.error(this.translate.instant('delete.error'));
+        } else {
+          this.toastr.error(this.translate.instant(err.message));
         }
       }
     );

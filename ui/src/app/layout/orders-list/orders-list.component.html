@@ -1,23 +1,15 @@
 <div class="p-4" [@routerTransition]>
-  <app-page-header  [breadCrumbs]="breadcrumbs"></app-page-header>
+  <app-page-header [breadCrumbs]="breadcrumbs"></app-page-header>
   <form>
     <div class="form-group form-inline row">
       <div class="col-md-6">
         <span class="site-color-v5 f-size-20 f-weight-600">
           {{'orders'|translate}}
         </span>
-        <input class="search-input form-control ml-2" [class.rtl]="lang==='ar'" type="text" placeholder="{{'Search'|translate}}" name="searchTerm"
-          [(ngModel)]="searchTerm" />
+        <input class="search-input form-control ml-2" [class.rtl]="lang==='ar'" type="text"
+          placeholder="{{'Search'|translate}}" name="searchTerm" [(ngModel)]="searchTerm" />
         <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
       </div>
-
-      <!-- <div class="col-md-6">
-        <ng-multiselect-dropdown placeholder="{{'order.status'|translate}}" [settings]="dropdownSettings"
-          [data]="dropdownList" [settings]="dropdownSettings" [(ngModel)]="selectedItems"
-          (onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeSelect($event)" (onSelectAll)="onSelectAll($event)"
-          [ngModelOptions]="{standalone: true}">
-        </ng-multiselect-dropdown>
-      </div> -->
     </div>
 
     <div class="table-responsive">

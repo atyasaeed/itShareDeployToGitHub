@@ -9,6 +9,8 @@ import { OrderService } from '../../services/order.service';
 import { UserService } from '../../services/user.service';
 import * as fromStore from 'src/app/store';
 import { routerTransition } from 'src/app/router.animations';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-user-info',
@@ -23,12 +25,10 @@ export class UserInfoComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private loadingService: TdLoadingService,
-    private dialogService: TdDialogService,
     private service: UserService,
-    private route: ActivatedRoute,
     private router: Router,
-    private appStore: Store<fromStore.AppState>,
-    private orderservice: OrderService
+    private toastr: ToastrService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -65,7 +65,7 @@ export class UserInfoComponent implements OnInit {
             this.loadingService.resolve('loadingUser');
           },
           (err) => {
-            // this.loadingService.resolve('loadingUser');
+            this.toastr.error(this.translate.instant(err.message));
             this.loadingService.resolve('loadingUser');
           }
         );
@@ -75,6 +75,7 @@ export class UserInfoComponent implements OnInit {
             this.loadingService.resolve('loadingUser');
           },
           (err) => {
+            this.toastr.error(this.translate.instant(err.message));
             this.loadingService.resolve('loadingUser');
           }
         );
@@ -85,6 +86,7 @@ export class UserInfoComponent implements OnInit {
           this.loadingService.resolve('loadingUser');
         },
         (err) => {
+          this.toastr.error(this.translate.instant(err.message));
           this.loadingService.resolve('loadingUser');
         }
       );

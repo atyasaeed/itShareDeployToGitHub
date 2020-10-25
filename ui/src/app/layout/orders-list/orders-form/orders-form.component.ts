@@ -151,16 +151,22 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
     this.route.params.pipe(map((params: Params) => params.entityId)).subscribe((entityId) => {
       if (entityId) {
         this.onUpdate();
-        this.service.get(entityId).subscribe((entity) => {
-          this.form.patchValue(entity);
-          this.entity = entity;
-          this.loadingService.resolve(this.key);
-          this.entity.lineItems.forEach((e) => {
-            if (e.duration == 0) {
-              e.duration = undefined;
-            }
-          });
-        });
+        this.service.get(entityId).subscribe(
+          (entity) => {
+            this.form.patchValue(entity);
+            this.entity = entity;
+            this.loadingService.resolve(this.key);
+            this.entity.lineItems.forEach((e) => {
+              if (e.duration == 0) {
+                e.duration = undefined;
+              }
+            });
+          },
+          (err) => {
+            this.toastr.error(this.translate.instant(err.message));
+            this.loadingService.resolve(this.key);
+          }
+        );
       } else {
         this.onCreate();
         this.entity = {} as Order;
@@ -215,6 +221,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
         lineItem = res;
       },
       (err) => {
+        this.toastr.error(this.translate.instant(err.message));
         this.loadingService.resolve(this.key);
       }
     );
@@ -249,18 +256,30 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
 
     switch (order.status) {
       case 'PENDING':
-        this.service.orderStatus(order.id, 'quote').subscribe((res: Order) => {
-          this.entity = res;
-          this.isEnabled = true;
-          this.loadingService.resolve(this.key);
-        });
+        this.service.orderStatus(order.id, 'quote').subscribe(
+          (res: Order) => {
+            this.entity = res;
+            this.isEnabled = true;
+            this.loadingService.resolve(this.key);
+          },
+          (err) => {
+            this.toastr.error(this.translate.instant(err.message));
+            this.loadingService.resolve(this.key);
+          }
+        );
 
         break;
       case 'QUOTE_ACCEPTED':
-        this.service.orderStatus(order.id, 'process').subscribe((res: Order) => {
-          this.entity = res;
-          this.loadingService.resolve(this.key);
-        });
+        this.service.orderStatus(order.id, 'process').subscribe(
+          (res: Order) => {
+            this.entity = res;
+            this.loadingService.resolve(this.key);
+          },
+          (err) => {
+            this.toastr.error(this.translate.instant(err.message));
+            this.loadingService.resolve(this.key);
+          }
+        );
         break;
       case 'IN_PROGRESS':
         this.service.orderStatus(order.id, 'finish').subscribe((res: Order) => {
@@ -337,34 +356,46 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
       this.rejectionReason.reason = this.selectedItems;
       lineItem.rejectionReasons = this.rejectionReason.reason;
       lineItem.rejectionNote = this.rejectionReason.notes;
-      this.itemservice.itemReject(lineItem.id, lineItem).subscribe((res: LineItem) => {
-        this.rejectionReason = {} as RejectionReason;
-        this.selectedItems = [];
-        this.modalRef.hide();
-        lineItem.status = res.status;
-        this.toastr.success(this.translate.instant('Successful'));
-        this.service.get(this.orderId).subscribe((res: Order) => {
-          res.lineItems.forEach((e) => {
-            if (e.status == 'QUOTED' || e.status == 'ITEM_REJECTED') {
-              arrLineItems.push(true);
-            } else {
-              arrLineItems.push(false);
-            }
-            if (e.status == 'ITEM_REJECTED') {
-              arrLineItemsReject.push(true);
-            } else {
-              arrLineItemsReject.push(false);
-            }
-            this.loadingService.resolve(this.key);
-          });
+      this.itemservice.itemReject(lineItem.id, lineItem).subscribe(
+        (res: LineItem) => {
+          this.rejectionReason = {} as RejectionReason;
+          this.selectedItems = [];
+          this.modalRef.hide();
+          lineItem.status = res.status;
+          this.toastr.success(this.translate.instant('Successful'));
+          this.service.get(this.orderId).subscribe(
+            (res: Order) => {
+              res.lineItems.forEach((e) => {
+                if (e.status == 'QUOTED' || e.status == 'ITEM_REJECTED') {
+                  arrLineItems.push(true);
+                } else {
+                  arrLineItems.push(false);
+                }
+                if (e.status == 'ITEM_REJECTED') {
+                  arrLineItemsReject.push(true);
+                } else {
+                  arrLineItemsReject.push(false);
+                }
+                this.loadingService.resolve(this.key);
+              });
 
-          if (arrLineItems.indexOf(false) == -1 && arrLineItemsReject.indexOf(false) != -1) {
-            this.found = true;
-          } else {
-            this.found = false;
-          }
-        });
-      });
+              if (arrLineItems.indexOf(false) == -1 && arrLineItemsReject.indexOf(false) != -1) {
+                this.found = true;
+              } else {
+                this.found = false;
+              }
+            },
+            (err) => {
+              this.toastr.error(this.translate.instant(err.message));
+              this.loadingService.resolve(this.key);
+            }
+          );
+        },
+        (err) => {
+          this.toastr.error(this.translate.instant(err.message));
+          this.loadingService.resolve(this.key);
+        }
+      );
     }
   }
   lineItemStatus(lineItem: LineItem) {
@@ -413,56 +444,82 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
               },
               (err) => {
                 this.loadingService.resolve(this.key);
+                this.toastr.error(this.translate.instant(err.message));
               }
             );
           },
           (err) => {
+            this.toastr.error(this.translate.instant(err.message));
             this.loadingService.resolve(this.key);
           }
         );
         break;
       case 'QUOTE_ACCEPTED':
-        this.itemservice.itemStatus(lineItem.id, 'process').subscribe((res: LineItem) => {
-          lineItem.status = res.status;
-          this.loadingService.resolve(this.key);
-        });
+        this.itemservice.itemStatus(lineItem.id, 'process').subscribe(
+          (res: LineItem) => {
+            lineItem.status = res.status;
+            this.loadingService.resolve(this.key);
+          },
+          (err) => {
+            this.toastr.error(this.translate.instant(err.message));
+            this.loadingService.resolve(this.key);
+          }
+        );
         break;
       case 'IN_PROGRESS':
-        this.itemservice.itemStatus(lineItem.id, 'finish').subscribe((res: LineItem) => {
-          lineItem.status = res.status;
-          this.checkOrderStatus();
-          this.loadingService.resolve(this.key);
-        });
+        this.itemservice.itemStatus(lineItem.id, 'finish').subscribe(
+          (res: LineItem) => {
+            lineItem.status = res.status;
+            this.checkOrderStatus();
+            this.loadingService.resolve(this.key);
+          },
+          (err) => {
+            this.toastr.error(this.translate.instant(err.message));
+            this.loadingService.resolve(this.key);
+          }
+        );
 
         break;
       case 'FINISHED':
-        this.itemservice.itemStatus(lineItem.id, 'deliver').subscribe((res: LineItem) => {
-          lineItem.status = res.status;
-          this.checkOrderStatus();
-          this.service.get(this.orderId).subscribe((res: Order) => {
-            res.lineItems.forEach((e) => {
-              if (
-                e.status == 'DELIVERED' ||
-                e.status == 'QUOTE_ACCEPTED' ||
-                e.status == 'IN_PROGRESS' ||
-                e.status == 'QUOTE_REJECTED' ||
-                e.status == 'ITEM_REJECTED' ||
-                e.status == 'CANCELLED'
-              ) {
-                arrLineItems.push(true);
-              } else {
-                arrLineItems.push(false);
-              }
-            });
+        this.itemservice.itemStatus(lineItem.id, 'deliver').subscribe(
+          (res: LineItem) => {
+            lineItem.status = res.status;
+            this.checkOrderStatus();
+            this.service.get(this.orderId).subscribe(
+              (res: Order) => {
+                res.lineItems.forEach((e) => {
+                  if (
+                    e.status == 'DELIVERED' ||
+                    e.status == 'QUOTE_ACCEPTED' ||
+                    e.status == 'IN_PROGRESS' ||
+                    e.status == 'QUOTE_REJECTED' ||
+                    e.status == 'ITEM_REJECTED' ||
+                    e.status == 'CANCELLED'
+                  ) {
+                    arrLineItems.push(true);
+                  } else {
+                    arrLineItems.push(false);
+                  }
+                });
 
-            if (arrLineItems.indexOf(false) == -1) {
-              this.check = true;
-            } else {
-              this.check = false;
-            }
-          });
-          this.loadingService.resolve(this.key);
-        });
+                if (arrLineItems.indexOf(false) == -1) {
+                  this.check = true;
+                } else {
+                  this.check = false;
+                }
+              },
+              (err) => {
+                this.toastr.error(this.translate.instant(err.message));
+                this.loadingService.resolve(this.key);
+              }
+            );
+            this.loadingService.resolve(this.key);
+          },
+          (err) => {
+            this.toastr.error(this.translate.instant(err.message));
+            this.loadingService.resolve(this.key);
+          }
+        );
 
         break;
       case 'Delivered':
@@ -483,6 +540,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
         this.loadingService.resolve(this.key);
       },
       (err) => {
+        this.toastr.error(this.translate.instant(err.message));
         this.loadingService.resolve(this.key);
       }
     );
@@ -497,6 +555,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
         this.loadingService.resolve(this.key);
       },
       (err) => {
+        this.toastr.error(this.translate.instant(err.message));
         this.loadingService.resolve(this.key);
       }
     );
@@ -539,6 +598,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
         }
       },
       (err) => {
+        this.toastr.error(this.translate.instant(err.message));
         this.loadingService.resolve(this.key);
       }
     );

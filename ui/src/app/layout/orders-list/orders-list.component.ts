@@ -60,18 +60,9 @@ export class OrdersListComponent extends DefaultListComponent<Order, OrderServic
       allowSearchFilter: true,
     };
   }
-  onItemSelect(item: any) {
-    console.log(item);
-    console.log(this.selectedItems.toString());
-  }
-  onItemDeSelect(item) {
-    console.log(item);
-    console.log(this.selectedItems.toString());
-  }
-  onSelectAll(items: any) {
-    console.log(items);
-    console.log(items.toString());
-  }
+  onItemSelect(item: any) {}
+  onItemDeSelect(item) {}
+  onSelectAll(items: any) {}
 
   set searchTerm(searchTerm: string) {
     this._searchTerm = searchTerm;
