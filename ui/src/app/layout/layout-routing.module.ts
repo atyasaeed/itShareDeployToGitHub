@@ -96,10 +96,6 @@ const routes: Routes = [
         loadChildren: () => import('./settings/settings.module').then((m) => m.SettingsModule),
         canActivate: [AdminGuard],
       },
-      {
-        path: 'quotation',
-        loadChildren: () => import('./quotation/quotation.module').then((m) => m.QuotationModule),
-      },
     ],
   },
 ];
