@@ -54,9 +54,14 @@ export class OrganizationTeamComponent extends DefaultListComponent<OrgUser, Org
   }
 
   delete(entity) {
-    this.purge(entity).subscribe((result) => {
-      this.appStore.dispatch(new fromStore.LoadInitState());
-    });
+    this.purge(entity).subscribe(
+      (result) => {
+        this.appStore.dispatch(new fromStore.LoadInitState());
+      },
+      (err) => {
+        this.toastr.error(this.translate.instant(err.message));
+      }
+    );
   }
 
   openConfirm(entity): void {
@@ -76,8 +81,12 @@ export class OrganizationTeamComponent extends DefaultListComponent<OrgUser, Org
               this.appStore.dispatch(new fromStore.LoadInitState());
             },
             (err) => {
+              if (err.error.details) {
                 this.toastr.error(this.translate.instant(err.error.details[0]));
-
+              } else {
+                this.toastr.error(this.translate.instant(err.message));
+                this.loadingService.resolve(this.key);
+              }
             }
           );
         } else {
@@ -98,6 +107,8 @@ export class OrganizationTeamComponent extends DefaultListComponent<OrgUser, Org
           this.toastr.error(this.translate.instant('duplicatedOrganizationUser'));
         } else if (err.error.details[0] === 'Organization is not active') {
           this.toastr.error(this.translate.instant('organizationIsNotActive'));
+        } else {
+          this.toastr.error(this.translate.instant(err.message));
         }
 
         this.loadingService.resolve(this.key);

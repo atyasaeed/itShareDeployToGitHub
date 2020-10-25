@@ -51,12 +51,10 @@ export class SignupPartnerComponent implements OnInit, CanComponentDeactivate {
     private _viewContainerRef: ViewContainerRef
   ) {
     this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
-      console.log(res);
       this.dropdownList = res;
     });
 
     this.http.get('assets/cities.json').subscribe((res: City[]) => {
-      console.log(res);
       this.cities = res;
     });
 
@@ -70,14 +68,11 @@ export class SignupPartnerComponent implements OnInit, CanComponentDeactivate {
       allowSearchFilter: true,
     };
   }
-  onItemSelect(item: any) {
-  }
-  onItemDeSelect(item) {
-  }
+  onItemSelect(item: any) {}
+  onItemDeSelect(item) {}
 
   onSelectAll(items: any) {
     this.registrationForm.get('services').setValue(items);
-    console.log(this.registrationForm.get('services').value);
   }
   onDeSelectAll(items: any) {
     this.registrationForm.get('services').setValue(items);
@@ -85,11 +80,14 @@ export class SignupPartnerComponent implements OnInit, CanComponentDeactivate {
 
   ngOnInit(): void {
     this.createForm();
-    this.userService.get('').subscribe((res) => {
-      this.registrationForm.patchValue(res.defaultOrg);
-    });
-    // console.log(this.user);
-    // this.registrationForm.get('services').patchValue([]);
+    this.userService.get('').subscribe(
+      (res) => {
+        this.registrationForm.patchValue(res.defaultOrg);
+      },
+      (err) => {
+        this.alertservice.error(this.translate.instant(err.message));
+      }
+    );
     this.appStore.select(fromStore.getLang).subscribe((lang) => {
       this.lang = lang;
     });
@@ -106,17 +104,9 @@ export class SignupPartnerComponent implements OnInit, CanComponentDeactivate {
       city: ['', [Validators.required]],
       address: ['', [Validators.required]],
       website: ['', [Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?')]],
-      services: [null,[Validators.required]],
+      services: [null, [Validators.required]],
     });
   }
-
-  // checkLanguage() {
-  //   const element = document.querySelector('body');
-  //   if (element.classList.contains('rtl')) {
-  //     return true;
-  //   }
-  // }
-
   onSubmit() {
     this.loading = true;
     this.loadingService.register('loading');
@@ -142,6 +132,7 @@ export class SignupPartnerComponent implements OnInit, CanComponentDeactivate {
         // this.alertservice.success('please check your email');
       },
       (err) => {
+        this.alertservice.error(this.translate.instant(err.message));
         this.loadingService.resolve('loading');
         this.loading = false;
       }

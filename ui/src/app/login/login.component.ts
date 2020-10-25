@@ -76,12 +76,7 @@ export class LoginComponent implements OnInit {
           this.loading = false;
           this.loadingService.resolve('loading');
 
-          console.log(err);
-          // this.alertService.error('Sorry Your Username or Password Is Incorrect');
           if (err.error.code == 'org.springframework.security.authentication.DisabledException') {
-            // this.router.navigateByUrl('signup/activation');
-            // this.user = this.loginForm.value;
-            // this.user.roles.concat('ROLE_REGISTER_PRIVILEGE');
             this.router.navigate(['signup/activation'], {
               state: this.loginForm.value,
             });
@@ -90,6 +85,8 @@ export class LoginComponent implements OnInit {
             this.toastr.error(this.translate.instant('badCredential'));
           } else if (err.statusText == 'Unknown Error') {
             this.toastr.error(this.translate.instant('serverDown'));
+          } else {
+            this.toastr.error(this.translate.instant(err.message));
           }
         }
       );
