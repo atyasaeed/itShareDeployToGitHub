@@ -228,9 +228,13 @@
         <img src="assets\images\images-solid.png" class="height-fluid cursor-pointer  mx-2">
         <span>{{ 'quotationRequest' | translate }}</span>
       </a>
+      <a class="list-group-item active-item d-flex" routerLink="/quotation" [routerLinkActive]="['router-link-active']">
+        <img src="assets\images\palette-solid.png" class="height-fluid cursor-pointer  mx-2">
+        <span>{{ 'quotation' | translate }}</span>
+      </a>
       <a class="list-group-item active-item d-flex" [routerLinkActive]="['router-link-active']">
         <img src="assets\images\palette-solid.png" class="height-fluid cursor-pointer  mx-2">
-        <span>{{ 'Jobs' | translate }}</span>
+        <span>{{ '' | translate }}</span>
       </a>
       <a class="list-group-item active-item d-flex" routerLink="/organization-team" *isPartner
         [routerLinkActive]="['router-link-active']">

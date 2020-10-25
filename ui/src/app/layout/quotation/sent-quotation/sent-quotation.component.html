@@ -24,7 +24,7 @@
 
             <div class="col-md-2">{{'quantity' |translate}} : {{lineItem.quantity}}</div>
             <div class="col-md-3">{{'status' |translate}} : {{lineItem.status}}</div>
-            <div class="col-md-2 d-flex justify-content-end"><i class="fa fa-angle-down f-size-24 px-3"
+            <div class="col-md-2 d-flex justify-content-end cursor-pointer"><i class="fa fa-angle-down f-size-24 px-3"
                 [ngClass]="{'fa-angle-down': !isCollapsed[i], 'fa-angle-up': isCollapsed[i]}"
                 (click)="isCollapsed[i] = !isCollapsed[i]"></i></div>
             <div class="col-md-5"> {{"requestDate" | translate}} <span>{{lineItem.created | date:'medium'}}</span>

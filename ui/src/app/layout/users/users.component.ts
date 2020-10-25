@@ -39,14 +39,10 @@ export class UsersComponent extends DefaultListComponent<User, UserService> {
     return this._searchTerm;
   }
   delete(entity) {
-    // this.purge(entity).subscribe((result) => {
-    //   this.appStore.dispatch(new fromStore.LoadInitState());
-    // });
     this.service.delete(entity.id);
   }
 
   status(entity) {
     this.service.userState(entity.id);
-    // entity.enabled = !entity.enabled;
   }
 }

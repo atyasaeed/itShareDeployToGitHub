@@ -162,21 +162,31 @@ export class OrganizationInfoComponent implements OnInit {
     });
     this.formData.append('org', itemBlob);
     if (this.roleAdmin) {
-      this.Service.updateAdminOrg(this.form.value, this.form.get('id').value).subscribe((res: Organization) => {
-        this.org = res;
-        this.form.patchValue(res);
-        this.disabledForm = false;
-        this.toastr.success(this.translate.instant('success'));
-        this.loadingService.resolve('loadingOrg');
-      });
+      this.Service.updateAdminOrg(this.form.value, this.form.get('id').value).subscribe(
+        (res: Organization) => {
+          this.org = res;
+          this.form.patchValue(res);
+          this.disabledForm = false;
+          this.toastr.success(this.translate.instant('success'));
+          this.loadingService.resolve('loadingOrg');
+        },
+        (err) => {
+          this.toastr.error(this.translate.instant(err.message));
+        }
+      );
     } else {
-      this.Service.updateOrg(this.formData, this.form.get('id').value).subscribe((res: Organization) => {
-        this.org = res;
-        this.form.patchValue(res);
-        this.disabledForm = false;
-        this.toastr.success(this.translate.instant('success'));
-        this.loadingService.resolve('loadingOrg');
-      });
+      this.Service.updateOrg(this.formData, this.form.get('id').value).subscribe(
+        (res: Organization) => {
+          this.org = res;
+          this.form.patchValue(res);
+          this.disabledForm = false;
+          this.toastr.success(this.translate.instant('success'));
+          this.loadingService.resolve('loadingOrg');
+        },
+        (err) => {
+          this.toastr.error(this.translate.instant(err));
+        }
+      );
     }
   }
 
@@ -192,11 +202,14 @@ export class OrganizationInfoComponent implements OnInit {
       type: 'application/json',
     });
     this.formData.append('org', itemBlob);
-    this.Service.updateOrg(this.formData, this.form.get('id').value).subscribe((res: Organization) => {
-      this.org = res;
-      this.form.patchValue(res);
-      this.loadingService.resolve('loadingOrg');
-    });
+    this.Service.updateOrg(this.formData, this.form.get('id').value).subscribe(
+      (res: Organization) => {
+        this.org = res;
+        this.form.patchValue(res);
+        this.loadingService.resolve('loadingOrg');
+      },
+      (err) => this.toastr.error(this.translate.instant(err.message))
+    );
   }
   editCommercial() {
     this.CommerciaFile = false;
@@ -213,11 +226,16 @@ export class OrganizationInfoComponent implements OnInit {
       type: 'application/json',
     });
     this.formData.append('org', itemBlob);
-    this.Service.updateOrg(this.formData, this.form.get('id').value).subscribe((res: Organization) => {
-      this.org = res;
-      this.form.patchValue(res);
-      this.loadingService.resolve('loadingOrg');
-    });
+    this.Service.updateOrg(this.formData, this.form.get('id').value).subscribe(
+      (res: Organization) => {
+        this.org = res;
+        this.form.patchValue(res);
+        this.loadingService.resolve('loadingOrg');
+      },
+      (err) => {
+        this.toastr.error(this.translate.instant(err.message));
+      }
+    );
   }
   editTaxCard() {
     this.taxCardFile = false;
@@ -258,6 +276,7 @@ export class OrganizationInfoComponent implements OnInit {
         this.loadingService.resolve('loadingOrg');
       },
       (err) => {
+        this.toastr.error(this.translate.instant(err.message));
         this.loadingService.resolve('loadingOrg');
       }
     );

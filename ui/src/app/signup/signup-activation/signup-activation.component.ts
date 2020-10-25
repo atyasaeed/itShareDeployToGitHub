@@ -102,7 +102,6 @@ export class SignupActivationComponent implements OnInit {
               this.router.navigate(['signup/partner'], {
                 state: this.user,
               });
-              console.log(res);
               this.loadingService.resolve('loading');
             } else {
               this.router.navigateByUrl('/login');
@@ -115,20 +114,24 @@ export class SignupActivationComponent implements OnInit {
           }
         },
         (err) => {
+          this.toastr.error(this.translate.instant(err.message));
           this.loadingService.resolve('loading');
-
-          console.log(err);
         }
       );
     }
   }
   resolved(captchaResponse: string) {
     console.log(`Resolved captcha with response: ${captchaResponse}`);
-    this.userService.resendCode(this.user.email).subscribe((res) => {
-      this.loading = false;
+    this.userService.resendCode(this.user.email).subscribe(
+      (res) => {
+        this.loading = false;
 
-      console.log(res);
-    });
+        console.log(res);
+      },
+      (err) => {
+        this.toastr.error(this.translate.instant(err.message));
+      }
+    );
   }
   resendCode() {
     this.loadingService.register('loading');
@@ -137,20 +140,20 @@ export class SignupActivationComponent implements OnInit {
 
     this.loading = true;
     console.log(this.user);
-    // this.router.navigateByUrl('/signup/partner');
 
-    this.userService.resendCode(this.user.username).subscribe((res) => {
-      this.loading = true;
-      this.loadingService.resolve('loading');
+    this.userService.resendCode(this.user.username).subscribe(
+      (res) => {
+        this.loading = true;
+        this.loadingService.resolve('loading');
 
-      this.alertservice.success(this.translate.instant('registeration.success.verify'));
+        this.alertservice.success(this.translate.instant('registeration.success.verify'));
 
-      grecaptcha.reset();
-      console.log(res);
-    });
+        grecaptcha.reset();
+        console.log(res);
+      },
+      (err) => {
+        this.toastr.error(this.translate.instant(err.message));
+      }
+    );
   }
-  // test(event) {
-  //   console.log(event);
-  //   console.log('plaplapla');
-  // }
 }
