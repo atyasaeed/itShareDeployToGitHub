@@ -21,8 +21,9 @@ import ilab.core.domain.user.QuotationStatus;
 public interface QuotationRepository
 		extends PagingAndSortingRepository<Quotation, UUID>, JpaSpecificationExecutor<Quotation>
 {
-	Page<Quotation> findByOrgAndStatus(Organization org, QuotationStatus status, Pageable page);
+	Page<Quotation> findByPartnerAndStatus(Organization org, QuotationStatus status, Pageable page);
 
-	Page<Quotation> findByStatus( QuotationStatus status, Pageable page);
+	Page<Quotation> findByStatus(QuotationStatus status, Pageable page);
+
 
 }

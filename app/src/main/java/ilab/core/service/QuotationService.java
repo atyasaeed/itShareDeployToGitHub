@@ -1,7 +1,5 @@
 package ilab.core.service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -13,7 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import ilab.core.domain.order.LineItem;
-import ilab.core.domain.order.OrderStatus;
+import ilab.core.domain.order.LineItemStatus;
 import ilab.core.domain.user.Organization;
 import ilab.core.domain.user.OrganizationStatus;
 import ilab.core.domain.user.OrganizationType;
@@ -33,7 +31,7 @@ public class QuotationService
 
 	@Autowired
 	private QuotationRepository quotationRepo;
-	
+
 	@Autowired
 	private UserRepository userRepo;
 	@Autowired
@@ -41,143 +39,78 @@ public class QuotationService
 	@Autowired
 	private LineItemRepository lineItemRepo;
 
-	public List<Quotation> requestForQuotation(UUID id, int duration)
+	public Page<Quotation> adminSearchRRFQ(Pageable page)
 	{
-		LineItem item = lineItemRepo.findById(id).orElseThrow();
-		List<Organization> list = orgRepo.findAllByServicesAndTypeAndStatus(item.getService(), OrganizationType.PARTNER,
-				OrganizationStatus.ACTIVE);
-		List<Quotation> quoteList = new ArrayList<Quotation>();
-		for (Organization org : list)
-		{
-			quoteList.add(makeManualQuotation(item, org, duration));
-		}
-		return quoteList;
+		return quotationRepo.findByStatus(QuotationStatus.QUOTED_PARTNER, page);
 	}
 
-	public Quotation makeManualQuotation(LineItem item, Organization org, int duration)
+	public Page<LineItem> pendingLineItem(Authentication auth, Pageable page, UUID id)
 	{
-		if (!org.getStatus().equals(OrganizationStatus.ACTIVE))
+		User user = userRepo.findByemailIgnoreCase(auth.getName().toLowerCase()).orElseThrow();
+		if (orgValidation(user.getDefaultOrg()))
 		{
-			throw new IllegalRequestDataException("Organization must be active");
+			return lineItemRepo.findByService_idAndStatus(id, LineItemStatus.RRFQ, page);
 		}
-
-		if (!org.getType().equals(OrganizationType.PARTNER))
-		{
-			throw new IllegalRequestDataException("Organization must be Partner");
-
-		}
-		if (!org.getServices().contains(item.getService()))
-		{
-			throw new IllegalRequestDataException("Organization must contain the same service of this item ");
-
-		}
-		if (!item.getOrderEntity().getStatus().equals(OrderStatus.PENDING))
-		{
-			throw new IllegalRequestDataException("Order must be pending ");
-
-		}
-
-		Quotation quotation = new Quotation();
-		quotation.setDurationExpiration(duration);
-		quotation.setLineItem(item);
-		quotation.setOrg(org);
-		quotation.setPlacedBy(item.getOrderEntity().getPlacedBy());
-		quotation.setStatus(QuotationStatus.QUOTE_SENT);
-
-		return quotationRepo.save(quotation);
+		return null;
 
 	}
 
-	public Quotation acceptQuotation(Authentication auth, Quotation quotationCopyFrom, UUID id)
+	public Quotation Rffq(Authentication auth, Quotation quotation)
+	{
+		User user = userRepo.findByemailIgnoreCase(auth.getName().toLowerCase()).orElseThrow();
+		LineItem item = lineItemRepo.findById(quotation.getLineItem().getId()).orElseThrow();
+		System.out.println("ahmed");
+		if (orgValidation(user.getDefaultOrg()) && quotationValidation(quotation)
+				&& item.getStatus().equals(LineItemStatus.RRFQ))
+		{
+			quotation.setPartner(user.getDefaultOrg());
+			quotation.setStatus(QuotationStatus.QUOTED_PARTNER);
+			quotation.setPlacedBy(item.getOrderEntity().getPlacedBy());
+			quotationRepo.save(quotation);
+			return quotation;
+		}
+		return null;
+
+	}
+	
+	public Quotation adminChoose(UUID id)
 	{
 		Quotation quotation = quotationRepo.findById(id).orElseThrow();
-		Organization org = userRepo.findByemailIgnoreCase(auth.getName().toLowerCase()).orElseThrow().getDefaultOrg();
-		if (!quotation.getOrg().getId().equals(org.getId()))
+		if (quotation.getStatus().equals(QuotationStatus.QUOTED_PARTNER))
 		{
-			throw new IllegalRequestDataException("Access is denies for this quotation");
-
-		}
-		if (!org.getStatus().equals(OrganizationStatus.ACTIVE))
-		{
-			throw new IllegalRequestDataException("Organization must be active");
-		}
-
-		if (!org.getType().equals(OrganizationType.PARTNER))
-		{
-			throw new IllegalRequestDataException("Organization must be Partner");
-
-		}
-		if (quotationCopyFrom.getUnitPrice() == null)
-		{
-			throw new IllegalRequestDataException("Set price please");
-
-		}
-		if (quotationCopyFrom.getEndDate() == null)
-		{
-			throw new IllegalRequestDataException("Set End Date please");
-
-		}
-
-		quotation.setUnitPrice(quotationCopyFrom.getUnitPrice());
-		quotation.setEndDate(quotationCopyFrom.getEndDate());
-		quotation.setStatus(QuotationStatus.QUOTE_ACCEPTED_PARTNER);
-		return quotationRepo.save(quotation);
-
-	}
-
-	public void rejectQuotatation(Authentication auth, UUID id)
-	{
-		Quotation quotation = quotationRepo.findById(id).orElseThrow();
-		User user = userRepo.findByemailIgnoreCase(auth.getName()).orElseThrow();
-		if (user.getDefaultOrg().equals(quotation.getOrg()))
-		{
-			throw new IllegalRequestDataException(
-					"The quotation must be placed by the user or assigned to organization owned by the user  ");
-		}
-
-		quotationRepo.delete(quotation);
-
-	}
-
-	public Page<Quotation> findBySent(Authentication auth, Pageable page)
-	{
-		Organization org = userRepo.findByemailIgnoreCase(auth.getName().toLowerCase()).orElseThrow().getDefaultOrg();
-		return quotationRepo.findByOrgAndStatus(org, QuotationStatus.QUOTE_SENT, page);
-	}
-
-	public Page<Quotation> findByAccepted(Authentication auth, Pageable page)
-	{
-		Organization org = userRepo.findByemailIgnoreCase(auth.getName().toLowerCase()).orElseThrow().getDefaultOrg();
-		return quotationRepo.findByOrgAndStatus(org, QuotationStatus.QUOTE_ACCEPTED_PARTNER, page);
-	}
-
-	public Page<Quotation> adminSearchAcceptedPartnerQuotations(Authentication auth, Pageable page)
-	{
-		return quotationRepo.findByStatus(QuotationStatus.QUOTE_ACCEPTED_PARTNER, page);
-	}
-
-	public Quotation adminApproval(Authentication auth, UUID id)
-	{
-		Quotation quotation = quotationRepo.findById(id).orElseThrow();
-
-		if (quotation.getStatus().equals(QuotationStatus.QUOTE_ACCEPTED_PARTNER))
-		{
-
-			quotation.setStatus(QuotationStatus.QUOTE_APPROVED_ADMIN);
-			return quotationRepo.save(quotation);
+			quotation.setStatus(QuotationStatus.QUOTE_CHOSEN);
+			return quotation;
 		}
 		return null;
 	}
 
-	public void adminRefusal(Authentication auth, UUID id)
+	public Page<Quotation> getMyQuoted(Authentication auth, Pageable page)
 	{
-		Quotation quotation = quotationRepo.findById(id).orElseThrow();
-
-		if (quotation.getStatus().equals(QuotationStatus.QUOTE_ACCEPTED_PARTNER))
-		{
-
-			quotationRepo.delete(quotation);
-		}
+		User user = userRepo.findByemailIgnoreCase(auth.getName()).orElseThrow();
+		return quotationRepo.findByPartnerAndStatus(user.getDefaultOrg(), QuotationStatus.QUOTED_PARTNER, page);
 	}
 
+	private boolean orgValidation(Organization org)
+	{
+		if (org.getStatus().equals(OrganizationStatus.ACTIVE) && org.getType().equals(OrganizationType.PARTNER))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public boolean quotationValidation(Quotation quotation)
+	{
+		if (quotation.getWorkDays() == 0)
+		{
+			throw new IllegalRequestDataException("fill work Days");
+		}
+		if (quotation.getUnitPrice() == null)
+		{
+			throw new IllegalRequestDataException("fill price");
+
+		}
+
+		return true;
+	}
 }

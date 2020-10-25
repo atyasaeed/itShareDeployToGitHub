@@ -17,7 +17,7 @@ import ilab.core.domain.order.LineItem;
 @Entity
 @Table(uniqueConstraints =
 { @UniqueConstraint(columnNames =
-		{ "line_item_id", "org_id" }) })
+		{ "line_item_id", "partner_id" }) })
 public class Quotation extends AbstractEntity<Quotation>
 {
 
@@ -28,11 +28,11 @@ public class Quotation extends AbstractEntity<Quotation>
 	private User placedBy;
 
 	@OneToOne
-	private Organization org;
+	private Organization partner;
 
 	private BigDecimal unitPrice;
 
-	private int durationExpiration;
+	private int workDays;
 
 	private QuotationStatus status;
 
@@ -69,14 +69,14 @@ public class Quotation extends AbstractEntity<Quotation>
 		this.placedBy = placedBy;
 	}
 
-	public Organization getOrg()
+	public Organization getPartner()
 	{
-		return org;
+		return partner;
 	}
 
-	public void setOrg(Organization org)
+	public void setPartner(Organization partner)
 	{
-		this.org = org;
+		this.partner = partner;
 	}
 
 	public QuotationStatus getStatus()
@@ -99,14 +99,14 @@ public class Quotation extends AbstractEntity<Quotation>
 		this.endDate = endDate;
 	}
 
-	public int getDurationExpiration()
+	public int getWorkDays()
 	{
-		return durationExpiration;
+		return workDays;
 	}
 
-	public void setDurationExpiration(int durationExpiration)
+	public void setWorkDays(int durationExpiration)
 	{
-		this.durationExpiration = durationExpiration;
+		this.workDays = durationExpiration;
 	}
 
 }
