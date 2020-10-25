@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 import { TdLoadingService } from '@covalent/core/loading';
 import { MySpaceService } from 'src/app/shared/services/my-space.service';
 import { getLang } from 'src/app/store';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-my-space',
@@ -38,9 +40,11 @@ export class MySpaceComponent extends DefaultListComponent<AssetFile, MySpaceSer
     private appStore: Store<fromStore.AppState>,
     private modalService: BsModalService,
     private router: Router,
-    loadingService: TdLoadingService
+    loadingService: TdLoadingService,
+    translate: TranslateService,
+    toastr: ToastrService
   ) {
-    super(service, loadingService);
+    super(service, loadingService, translate, toastr);
     this.appStore.select(fromStore.getAuthServices).subscribe((res) => {
       this.Authservices = res;
     });

@@ -19,6 +19,8 @@ import { HttpClient } from '@angular/common/http';
 import { UserService } from 'src/app/shared/services/user.service';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import { Organization } from 'src/app/shared/domain/organization.model';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-organization-form',
@@ -42,9 +44,11 @@ export class OrganizationFormComponent extends DefaultFormComponent<Organization
     router: Router,
     private userService: UserService,
     @Inject(APP_CONFIG) private appConfig: IAppConfig,
-    private appStore: Store<fromStore.AppState>
+    private appStore: Store<fromStore.AppState>,
+    translate: TranslateService,
+    toastr: ToastrService
   ) {
-    super(formBuilder, loadingService, dialogService, service, route, router);
+    super(formBuilder, loadingService, dialogService, service, route, router, translate, toastr);
     if (this.router.getCurrentNavigation()?.extras.state) {
       Object.assign(this.org, this.router.getCurrentNavigation().extras.state);
     } else {

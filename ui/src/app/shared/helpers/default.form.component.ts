@@ -8,6 +8,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { TdLoadingService } from '@covalent/core/loading';
 import { TdDialogService } from '@covalent/core/dialogs';
 import { ActivatedRoute, Router, Params } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 export abstract class DefaultFormComponent<T extends Entity, K extends RestService<T>> implements OnInit {
   entity: T;
@@ -20,7 +22,9 @@ export abstract class DefaultFormComponent<T extends Entity, K extends RestServi
     protected dialogService: TdDialogService,
     protected service: K,
     protected route: ActivatedRoute,
-    protected router: Router
+    protected router: Router,
+    protected translate: TranslateService,
+    protected toastr: ToastrService
   ) {}
   f() {
     return this.form;
@@ -42,6 +46,7 @@ export abstract class DefaultFormComponent<T extends Entity, K extends RestServi
             },
             (err) => {
               this.loadingService.resolve(this.key);
+              this.toastr.error(this.translate.instant(err));
             }
           );
         } else {
@@ -52,6 +57,7 @@ export abstract class DefaultFormComponent<T extends Entity, K extends RestServi
       },
       (err) => {
         this.loadingService.resolve(this.key);
+        this.toastr.error(this.translate.instant(err));
       }
     );
   }
@@ -75,6 +81,7 @@ export abstract class DefaultFormComponent<T extends Entity, K extends RestServi
             },
             (err) => {
               this.loadingService.resolve(this.key);
+              this.toastr.error(this.translate.instant(err));
             }
           );
         }
@@ -95,6 +102,7 @@ export abstract class DefaultFormComponent<T extends Entity, K extends RestServi
           },
           (err) => {
             this.loadingService.resolve(this.key);
+            this.toastr.error(this.translate.instant(err));
           }
         );
       } else {
@@ -106,6 +114,7 @@ export abstract class DefaultFormComponent<T extends Entity, K extends RestServi
           },
           (err) => {
             this.loadingService.resolve(this.key);
+            this.toastr.error(this.translate.instant(err));
           }
         );
       }

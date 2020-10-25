@@ -18,6 +18,7 @@ import { CityService } from 'src/app/shared/services/city.service';
 import { StateService } from 'src/app/shared/services/state.service';
 import { map } from 'rxjs/operators';
 import { getLang } from 'src/app/store';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-address-book-form',
   templateUrl: './address-book-form.component.html',
@@ -32,7 +33,7 @@ export class AddressBookFormComponent extends DefaultFormComponent<Address, Addr
   lang: string;
   routeAfterSave: string;
   constructor(
-    private translate: TranslateService,
+    translate: TranslateService,
     formBuilder: FormBuilder,
     loadingService: TdLoadingService,
     dialogService: TdDialogService,
@@ -43,9 +44,10 @@ export class AddressBookFormComponent extends DefaultFormComponent<Address, Addr
     private appStore: Store<fromStore.AppState>,
     private http: HttpClient,
     private cityService: CityService,
-    private stateService: StateService
+    private stateService: StateService,
+    toastr: ToastrService
   ) {
-    super(formBuilder, loadingService, dialogService, service, route, router);
+    super(formBuilder, loadingService, dialogService, service, route, router, translate, toastr);
     this.form = this.formBuilder.group({
       contactName: ['', [Validators.required, Validators.minLength(2)]],
       lineOne: ['', [Validators.required, Validators.minLength(2)]],
@@ -67,6 +69,7 @@ export class AddressBookFormComponent extends DefaultFormComponent<Address, Addr
       },
       (err) => {
         this.loadingService.resolve(this.key);
+        this.toastr.error(this.translate.instant(err.message));
       }
     );
     this.cityService.pageSize = 25;
@@ -77,6 +80,7 @@ export class AddressBookFormComponent extends DefaultFormComponent<Address, Addr
       },
       (err) => {
         this.loadingService.resolve(this.key);
+        this.toastr.error(this.translate.instant(err.message));
       }
     );
     if (this.router.getCurrentNavigation()?.extras.state) {
@@ -102,6 +106,7 @@ export class AddressBookFormComponent extends DefaultFormComponent<Address, Addr
             },
             (err) => {
               this.loadingService.resolve(this.key);
+              this.toastr.error(this.translate.instant(err.message));
             }
           );
         } else {
@@ -114,6 +119,7 @@ export class AddressBookFormComponent extends DefaultFormComponent<Address, Addr
       },
       (err) => {
         this.loadingService.resolve(this.key);
+        this.toastr.error(this.translate.instant(err.message));
       }
     );
   }
@@ -182,6 +188,7 @@ export class AddressBookFormComponent extends DefaultFormComponent<Address, Addr
           },
           (err) => {
             this.loadingService.resolve(this.key);
+            this.toastr.error(this.translate.instant(err.message));
           }
         );
       } else {
@@ -192,6 +199,7 @@ export class AddressBookFormComponent extends DefaultFormComponent<Address, Addr
           },
           (err) => {
             this.loadingService.resolve(this.key);
+            this.toastr.error(this.translate.instant(err.message));
           }
         );
       }

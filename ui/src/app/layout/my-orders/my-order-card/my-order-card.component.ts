@@ -10,6 +10,8 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { UserService } from 'src/app/shared/services/user.service';
 import { TdLoadingService } from '@covalent/core/loading';
 import { getLang } from 'src/app/store';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-order-card',
@@ -37,7 +39,9 @@ export class OrderCardComponent implements OnInit {
     private modalService: BsModalService,
     private userService: UserService,
     private loadingService: TdLoadingService,
-    private appStore: Store<fromStore.AppState>
+    private appStore: Store<fromStore.AppState>,
+    private toastr: ToastrService,
+    private translate: TranslateService
   ) {
     this.appStore.select(getLang).subscribe((res) => {
       this.lang = res;
@@ -45,9 +49,14 @@ export class OrderCardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.getAuthUserDetails().subscribe((user) => {
-      this.user = user;
-    });
+    this.userService.getAuthUserDetails().subscribe(
+      (user) => {
+        this.user = user;
+      },
+      (err) => {
+        this.toastr.error(this.translate.instant(err.message));
+      }
+    );
   }
 
   ngAfterViewInit() {
@@ -82,26 +91,44 @@ export class OrderCardComponent implements OnInit {
 
   cancelOrder() {
     this.loadingService.register(this.otherKey);
-    this.orderService.cancel(this.order.id).subscribe((res) => {
-      this.order = res;
-      this.loadingService.resolve(this.otherKey);
-    });
+    this.orderService.cancel(this.order.id).subscribe(
+      (res) => {
+        this.order = res;
+        this.loadingService.resolve(this.otherKey);
+      },
+      (err) => {
+        this.loadingService.resolve(this.otherKey);
+        this.toastr.error(this.translate.instant(err.message));
+      }
+    );
   }
 
   approveQuotation() {
     this.loadingService.register(this.otherKey);
-    this.orderService.approve(this.order.id).subscribe((res) => {
-      this.order = res;
-      this.loadingService.resolve(this.otherKey);
-    });
+    this.orderService.approve(this.order.id).subscribe(
+      (res) => {
+        this.order = res;
+        this.loadingService.resolve(this.otherKey);
+      },
+      (err) => {
+        this.loadingService.resolve(this.otherKey);
+        this.toastr.error(this.translate.instant(err.message));
+      }
+    );
   }
 
   rejectQuotation() {
     this.loadingService.register(this.otherKey);
-    this.orderService.reject(this.order.id).subscribe((res) => {
-      this.order = res;
-      this.loadingService.resolve(this.otherKey);
-    });
+    this.orderService.reject(this.order.id).subscribe(
+      (res) => {
+        this.order = res;
+        this.loadingService.resolve(this.otherKey);
+      },
+      (err) => {
+        this.loadingService.resolve(this.otherKey);
+        this.toastr.error(this.translate.instant(err.message));
+      }
+    );
   }
 
   getOrder(lineItem: LineItem) {

@@ -27,10 +27,10 @@ export class StatesComponent extends DefaultListComponent<State, StateService> i
     loadingService: TdLoadingService,
     private appStore: Store<fromStore.AppState>,
     private http: HttpClient,
-    private translate: TranslateService,
-    private toastr: ToastrService
+    translate: TranslateService,
+    toastr: ToastrService
   ) {
-    super(service, loadingService);
+    super(service, loadingService, translate, toastr);
     this.appStore.select(getLang).subscribe((res) => {
       this.lang = res;
     });

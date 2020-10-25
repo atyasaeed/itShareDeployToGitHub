@@ -9,6 +9,8 @@ import { TdLoadingService } from '@covalent/core/loading';
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { getLang } from 'src/app/store';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-services-list',
@@ -20,8 +22,14 @@ export class ServicesListComponent extends DefaultListComponent<Service, Service
   breadcrumbs = [{ heading: 'services', icon: 'fa-tasks' }];
   private _searchTerm = '';
   lang: string;
-  constructor(service: ServiceService, loadingService: TdLoadingService, private appStore: Store<fromStore.AppState>) {
-    super(service, loadingService);
+  constructor(
+    service: ServiceService,
+    loadingService: TdLoadingService,
+    private appStore: Store<fromStore.AppState>,
+    translate: TranslateService,
+    toastr: ToastrService
+  ) {
+    super(service, loadingService, translate, toastr);
     this.appStore.select(getLang).subscribe((res) => {
       this.lang = res;
     });

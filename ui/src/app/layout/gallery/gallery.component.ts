@@ -13,6 +13,7 @@ import { routerTransition } from 'src/app/router.animations';
 import { Observable } from 'rxjs';
 import * as THREE from 'three/build/three.module.js';
 import { TdLoadingService } from '@covalent/core/loading';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-gallery',
   templateUrl: './gallery.component.html',
@@ -32,10 +33,11 @@ export class GalleryComponent extends DefaultListComponent<ShoppingCartItem, Gal
     service: GalleryService,
     private appStore: Store<fromStore.AppState>,
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
-    private toastr: ToastrService,
-    loadingService: TdLoadingService
+    toastr: ToastrService,
+    loadingService: TdLoadingService,
+    translate: TranslateService
   ) {
-    super(service, loadingService);
+    super(service, loadingService, translate, toastr);
     this.authUser$ = this.appStore.select(fromStore.getAuthUser);
     this.appStore.select(fromStore.getLang).subscribe((lang) => {
       this.lang = lang;
@@ -78,6 +80,7 @@ export class GalleryComponent extends DefaultListComponent<ShoppingCartItem, Gal
       },
       (err) => {
         this.loadingService.resolve(this.key);
+        this.toastr.error(this.translate.instant(err.message));
       }
     );
   }
@@ -93,6 +96,7 @@ export class GalleryComponent extends DefaultListComponent<ShoppingCartItem, Gal
       },
       (err) => {
         this.loadingService.resolve(this.key);
+        this.toastr.error(this.translate.instant(err.message));
       }
     );
   }

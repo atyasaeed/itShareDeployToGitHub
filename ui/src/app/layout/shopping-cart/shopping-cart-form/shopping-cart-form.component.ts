@@ -27,6 +27,8 @@ import { MySpaceService } from 'src/app/shared/services/my-space.service';
 import { TdLoadingService } from '@covalent/core/loading';
 import { getLang } from 'src/app/store';
 import { AnimationService } from 'src/app/shared/services/animation.service';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-shopping-cart-form',
@@ -80,7 +82,9 @@ export class ShoppingCartFormComponent implements OnInit, AfterContentChecked {
     public spaceService: MySpaceService,
     private modalService: BsModalService,
     private loadingService: TdLoadingService,
-    private cartAnimation: AnimationService
+    private cartAnimation: AnimationService,
+    private translate: TranslateService,
+    private toastr: ToastrService
   ) {
     this.spaceService.searchTerm = '';
     this.spaceService.model$.subscribe((res) => {
@@ -318,6 +322,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterContentChecked {
         },
         (err) => {
           this.loadingService.resolve('loading');
+          this.toastr.error(this.translate.instant(err));
         }
       );
     } else {

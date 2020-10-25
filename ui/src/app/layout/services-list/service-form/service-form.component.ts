@@ -12,6 +12,7 @@ import { Store } from '@ngrx/store';
 import { CanComponentDeactivate } from 'src/app/shared/guard/can-deactivate-guard.service';
 import { Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-service-form',
   templateUrl: './service-form.component.html',
@@ -75,9 +76,10 @@ export class ServiceFormComponent extends DefaultFormComponent<Service, ServiceS
     private appStore: Store<fromStore.AppState>,
     private _dialogService: TdDialogService,
     private _viewContainerRef: ViewContainerRef,
-    private translate: TranslateService
+    translate: TranslateService,
+    toastr: ToastrService
   ) {
-    super(formBuilder, loadingService, dialogService, service, route, router);
+    super(formBuilder, loadingService, dialogService, service, route, router, translate, toastr);
   }
 
   ngOnInit(): void {
@@ -111,30 +113,38 @@ export class ServiceFormComponent extends DefaultFormComponent<Service, ServiceS
   ngAfterViewInit() {
     this.stepTwo.nativeElement.style.display = 'none';
     if (this.route.snapshot.params['entityId']) {
-      this.service.get(this.route.snapshot.params['entityId']).subscribe((res) => {
-        this.optionalRef.forEach((e) => {
-          for (const key in res) {
-            if (key == e.nativeElement.getAttribute('id').toLowerCase()) {
-              //console.log(key + ' = ' + res[key]);
-              e.nativeElement['checked'] = true;
-              this.form.addControl(key, new FormArray([]));
-              if (key == 'processes') {
-                this.form.addControl('multi', new FormControl(res.processes.multi, Validators.required));
-                this.multiProcesses = true;
-                res.processes.values.forEach((x) => {
-                  const control = new FormControl(x, Validators.required);
-                  (<FormArray>this.form.get(key)).push(control);
-                });
-              } else {
-                res[key].forEach((element) => {
-                  const control = new FormControl(element, Validators.required);
-                  (<FormArray>this.form.get(key)).push(control);
-                });
+      this.loadingService.register('loading');
+      this.service.get(this.route.snapshot.params['entityId']).subscribe(
+        (res) => {
+          this.optionalRef.forEach((e) => {
+            for (const key in res) {
+              if (key == e.nativeElement.getAttribute('id').toLowerCase()) {
+                //console.log(key + ' = ' + res[key]);
+                e.nativeElement['checked'] = true;
+                this.form.addControl(key, new FormArray([]));
+                if (key == 'processes') {
+                  this.form.addControl('multi', new FormControl(res.processes.multi, Validators.required));
+                  this.multiProcesses = true;
+                  res.processes.values.forEach((x) => {
+                    const control = new FormControl(x, Validators.required);
+                    (<FormArray>this.form.get(key)).push(control);
+                  });
+                } else {
+                  res[key].forEach((element) => {
+                    const control = new FormControl(element, Validators.required);
+                    (<FormArray>this.form.get(key)).push(control);
+                  });
+                }
               }
             }
-          }
-        });
-      });
+          });
+          this.loadingService.resolve('loading');
+        },
+        (err) => {
+          this.loadingService.resolve('loading');
+          this.toastr.error(this.translate.instant(err.message));
+        }
+      );
     }
   }
 
@@ -198,6 +208,7 @@ export class ServiceFormComponent extends DefaultFormComponent<Service, ServiceS
           },
           (err) => {
             this.loadingService.resolve('loading');
+            this.toastr.error(this.translate.instant(err.message));
           }
         );
       } else {
@@ -210,6 +221,7 @@ export class ServiceFormComponent extends DefaultFormComponent<Service, ServiceS
           },
           (err) => {
             this.loadingService.resolve('loading');
+            this.toastr.error(this.translate.instant(err.message));
           }
         );
       }
