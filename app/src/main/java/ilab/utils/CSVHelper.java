@@ -12,6 +12,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.web.multipart.MultipartFile;
 
+import ilab.core.domain.user.Role;
 import ilab.core.domain.user.User;
 
 public class CSVHelper
@@ -51,7 +52,7 @@ public class CSVHelper
 				user.setMobileNo(csvRecord.get(2));
 				user.setEmail(csvRecord.get(3));
 				user.setPassword(csvRecord.get(4));
-
+				user.addRole(Role.ROLE_USER);
 				users.add(user);
 			}
 
