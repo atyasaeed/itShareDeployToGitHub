@@ -96,6 +96,11 @@ const routes: Routes = [
         loadChildren: () => import('./settings/settings.module').then((m) => m.SettingsModule),
         canActivate: [AdminGuard],
       },
+      {
+        path: 'rfq-list/:entityId',
+        loadChildren: () => import('./rfq-list/rfq-list.module').then((m) => m.RfqListModule),
+        canActivate: [AdminGuard],
+      },
     ],
   },
 ];

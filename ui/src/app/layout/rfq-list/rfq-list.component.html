@@ -1,0 +1,117 @@
+<div class="p-4">
+  <div [@routerTransition]>
+    <app-page-header  [breadCrumbs]="breadcrumbs"></app-page-header>
+    <form>
+      <div class="form-group form-inline row">
+        <div class="col-md-6 my-auto">
+          <span class="site-color-v5 f-size-20 f-weight-600">
+            {{'RFQs'|translate}}
+          </span>
+          <input class="search-input form-control " [class.rtl]="lang==='ar'" type="text" placeholder="{{'Search'|translate}}" name="searchTerm"
+            [(ngModel)]="searchTerm" />
+          <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
+        </div>
+        <div class="col-md-6 my-auto">
+          <div class="text-right mb-3">
+            <span class="text-danger">
+              {{'RFQsExpiringOn'|translate}} :
+            </span>
+            <span class="text-grey">
+              11/23/2020
+            </span>
+          </div>
+          <div class="text-right">
+            <button (click)="openModal(stopReceivingQuotationAlert)" class="custom-btn btn-danger" type="button">
+              {{'stopReceivingQuotations'|translate}}
+            </button>
+            <button class="btn btn-primary" type="button">
+              <i class="fas fa-undo"></i>
+            </button>
+          </div>
+        </div>
+
+      </div>
+      <div class="table-responsive">
+        <table class="table " *tdLoading="'loading'">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+
+              <th scope="col" sortable="requestedBy.defaultOrg.name" (sort)="onSort($event)">{{'organization'|translate}}</th>
+              <th scope="col" sortable="status" (sort)="onSort($event)">{{'status'|translate}}</th>
+              <th scope="col" sortable="price" (sort)="onSort($event)">{{'price'|translate}}</th>
+              <th scope="col" sortable="duration" (sort)="onSort($event)">{{'duration'|translate}}</th>
+
+              <th>{{'actions'|translate}}</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let entity of entities$ | async; let i=index">
+              <th scope="row">{{ i+1 }}</th>
+              <td>
+                <a routerLink="/organizations-list/{{entity.requestedBY.defaultOrg.id}}">
+                  <ngb-highlight [result]="entity.requestedBY.defaultOrg.name" [term]="searchTerm">
+                  </ngb-highlight>
+                </a>
+              </td>
+
+              <td>
+                {{entity.status | titlecase}}
+              </td>
+
+              <td>
+                {{entity.price | titlecase}}
+              </td>
+
+              <td>
+                {{entity.duration | titlecase}}
+              </td>
+
+              <td>
+                <button class="custom-btn v1" type="button">
+                  {{'accept'|translate}}
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+      <div class="d-flex justify-content-between p-2">
+        <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize">
+        </ngb-pagination>
+
+        <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
+          <option [ngValue]="10">10 items per page</option>
+          <option [ngValue]="25">25 items per page</option>
+          <option [ngValue]="50">50 items per page</option>
+        </select>
+      </div>
+
+    </form>
+  </div>
+</div>
+<ng-template #stopReceivingQuotationAlert>
+    <div class="modal-body ">
+      <div>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="text-center mt-2 text-danger">
+        <i class="fas fa-times fa-5x"></i>
+      </div>
+      <div class="text-center mt-2 site-color-v3 f-weight-600 f-size-20">
+        {{'areYouSure'|translate}}
+      </div>
+      <div class="text-center f-size-14 text-grey mt-2">
+        {{'deleteDescription'|translate}}
+      </div>
+      <div class="text-center my-2 f-weight-600">
+        <button class="custom-btn v4 mr-3" (click)="modalRef.hide()">{{'no'|translate}}</button>
+        <button class="custom-btn btn-danger" (click)="modalRef.hide()">{{'yes'|translate}}</button>
+      </div>
+    </div>
+</ng-template>

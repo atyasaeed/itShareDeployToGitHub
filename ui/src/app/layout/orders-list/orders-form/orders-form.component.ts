@@ -62,13 +62,13 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
   arrBooleanRejectItems: boolean[] = new Array();
   rejectItems: boolean = true;
   lineItem: LineItem = {} as LineItem;
-  // order: Observable<Order>;
-
   rejectionReason: RejectionReason = {} as RejectionReason;
   reasonList: Reason[] = [{ id: '', name: '', status: '' }];
   lang: string;
   selectedItems = [];
   dropdownSettings: IDropdownSettings = {};
+  sendRFQForm: FormGroup;
+  currentRouteUrl: string;
   constructor(
     formBuilder: FormBuilder,
     loadingService: TdLoadingService,
@@ -88,8 +88,12 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
     private appStore: Store<fromStore.AppState>
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router);
-
+    this.currentRouteUrl = this.router.url;
     this.form = this.formBuilder.group({});
+    this.sendRFQForm = this.formBuilder.group({
+      expirationDuration: ['', [Validators.required, Validators.pattern(/(?<=\s|^)\d+(?=\s|$)/)]],
+      notes: ['', [Validators.minLength(2), Validators.maxLength(250)]],
+    });
     this.dropdownSettings = {
       idField: 'id',
       textField: 'name',
@@ -510,6 +514,10 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
     this.modalRef = this.modalService.show(template);
   }
 
+  sendRFQModal(template) {
+    this.modalRef = this.modalService.show(template);
+  }
+
   checkOrderStatus() {
     this.loadingService.register(this.key);
     let arrLineItems: boolean[] = new Array();
@@ -542,5 +550,12 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
         this.loadingService.resolve(this.key);
       }
     );
+  }
+  submitSendRFQ() {
+    if (this.sendRFQForm.invalid) {
+      this.sendRFQForm.markAllAsTouched();
+    } else {
+      console.log(this.sendRFQForm.value);
+    }
   }
 }

@@ -16,6 +16,10 @@ const routes: Routes = [
         path: 'city',
         loadChildren: () => import('./cities/cities.module').then((m) => m.CitiesModule),
       },
+      {
+        path: 'rfq',
+        loadChildren: () => import('./rfq/rfq.module').then((m) => m.RfqModule),
+      },
     ],
   },
 ];
