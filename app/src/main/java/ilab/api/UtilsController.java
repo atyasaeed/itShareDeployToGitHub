@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import ilab.core.domain.user.Role;
 import ilab.core.domain.user.User;
 import ilab.core.repository.ServiceRepository;
+import ilab.core.repository.UserRepository;
 import ilab.core.service.OrderService;
 import ilab.core.service.UserService;
 import ilab.dto.InitStateDTO;
@@ -37,6 +39,8 @@ public class UtilsController
 	private ServiceRepository serviceRepository;
 	@Autowired
 	UserService userService;
+	@Autowired
+	UserRepository userRepo;
 
 	@GetMapping("/initState")
 	public InitStateDTO getInitState(Authentication auth, Locale locale)
@@ -85,6 +89,9 @@ public class UtilsController
 				user = userService.register(user);
 				System.out.println("Registeration finished");
 				user = userService.enableUser(user.getId(), true, null);
+				user.addRole(Role.ROLE_USER);
+				userRepo.save(user);
+
 				System.out.println("User Enabled");
 				map.put(user.getEmail(), true);
 				System.out.print(user.toString());
