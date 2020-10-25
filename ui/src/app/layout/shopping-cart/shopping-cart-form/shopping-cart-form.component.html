@@ -64,6 +64,8 @@
                             *{{'file.field.error.required'|translate}}</span>
                           <span class="text-danger" *ngIf="form.controls.file.errors.extension "> |
                             *{{'errors.extension'|translate}} {{form.controls.file.errors.extension}} </span>
+                          <span class="text-danger" *ngIf="form.controls.file.errors.size "> |
+                            *{{'error.size'|translate:'{size:10}'}}</span>
                         </span>
                         <label class="custom-input-file form-control">
                           <span class="browse-button"

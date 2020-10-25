@@ -65,7 +65,7 @@
                     </div>
 
                   </div>
-                  <div class="container-fluid" *ngIf="orderStatus!=='PENDING'">
+                  <div class="container-fluid" >
                     <div class="row my-2 sky-section f-size-14 p-2">
                       <div class="col-md-6"
                         *ngIf="lineItem.duration && lineItem.unitPrice && orderStatus != 'PENDING'">
@@ -81,23 +81,21 @@
                           <span class="text-grey-v2">{{ itemEndDate | date:'fullDate' }}
                           </span></div>
                         </ng-template>
-
-
                         <div><label>{{ 'price' | translate }}
                           :&nbsp;</label>
                           <span class="text-grey-v2">{{lineItem.unitPrice *lineItem.quantity|currency:'EGP'}}
                           </span>
                         </div>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-6 my-auto">
                         <div><label>{{ 'quantity' | translate }} :&nbsp;</label><span>{{lineItem.quantity}}</span></div>
-                        <div *ngIf="lineItem.notes">
+                      </div>
+                      <div *ngIf="lineItem.notes" class="col-md-12">
                             <label>{{ 'notes' | translate }}
                             :&nbsp;</label>
-                            <span class="text-grey-v2">{{(lineItem.notes.length>40)? (lineItem.notes | slice:0:40)+'....':(lineItem.notes)}}</span>
-                        </div>
+                            <!-- <span class="text-grey-v2">{{(lineItem.notes.length>40)? (lineItem.notes | slice:0:40)+'....':(lineItem.notes)}}</span> -->
+                            <span class="text-grey-v2">{{lineItem.notes}}</span>
                       </div>
-
                     </div>
                   </div>
                   <div class="row f-size-14" *ngFor="let file of lineItem.files ;index as i">

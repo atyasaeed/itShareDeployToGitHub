@@ -14,6 +14,8 @@ import { User } from 'src/app/shared/domain';
 import { OrderService } from 'src/app/shared/services/order.service';
 
 import { UserService } from 'src/app/shared/services/user.service';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-form',
@@ -37,9 +39,11 @@ export class UserFormComponent extends DefaultFormComponent<User, UserService> i
     route: ActivatedRoute,
     router: Router,
     private appStore: Store<fromStore.AppState>,
-    private orderservice: OrderService
+    private orderservice: OrderService,
+    translate: TranslateService,
+    toastr: ToastrService
   ) {
-    super(formBuilder, loadingService, dialogService, service, route, router);
+    super(formBuilder, loadingService, dialogService, service, route, router, translate, toastr);
   }
 
   onCreate(): void {

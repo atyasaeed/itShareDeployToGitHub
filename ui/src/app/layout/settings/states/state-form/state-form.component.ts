@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TdDialogService } from '@covalent/core/dialogs';
 import { TdLoadingService } from '@covalent/core/loading';
 import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 import { routerTransition } from 'src/app/router.animations';
 import { State } from 'src/app/shared/domain/state.model';
 import { DefaultFormComponent } from 'src/app/shared/helpers/default.form.component';
@@ -28,9 +30,11 @@ export class StateFormComponent extends DefaultFormComponent<State, StateService
     service: StateService,
     route: ActivatedRoute,
     router: Router,
-    private appStore: Store<fromStore.AppState>
+    private appStore: Store<fromStore.AppState>,
+    translate: TranslateService,
+    toastr: ToastrService
   ) {
-    super(formBuilder, loadingService, dialogService, service, route, router);
+    super(formBuilder, loadingService, dialogService, service, route, router, translate, toastr);
     this.form = this.formBuilder.group({
       arName: ['', Validators.required],
       enName: ['', Validators.required],

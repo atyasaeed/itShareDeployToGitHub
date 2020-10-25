@@ -10,6 +10,8 @@ import { OrderService } from 'src/app/shared/services/order.service';
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { getLang } from 'src/app/store';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-orders-list',
@@ -26,8 +28,14 @@ export class OrdersListComponent extends DefaultListComponent<Order, OrderServic
   selectedItems = [];
   // dropdownSettings = {};
   dropdownSettings: IDropdownSettings = {};
-  constructor(service: OrderService, loadingService: TdLoadingService, private appStore: Store<fromStore.AppState>) {
-    super(service, loadingService);
+  constructor(
+    service: OrderService,
+    loadingService: TdLoadingService,
+    private appStore: Store<fromStore.AppState>,
+    translate: TranslateService,
+    toastr: ToastrService
+  ) {
+    super(service, loadingService, translate, toastr);
     this.appStore.select(fromStore.getLang).subscribe((lang) => {
       this.lang = lang;
     });

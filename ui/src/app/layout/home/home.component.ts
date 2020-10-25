@@ -7,6 +7,8 @@ import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { Service } from 'src/app/shared/domain';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home',
@@ -23,7 +25,9 @@ export class HomeComponent implements OnInit {
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
     private loadingService: TdLoadingService,
     private appStore: Store<fromStore.AppState>,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastr: ToastrService,
+    private translate: TranslateService
   ) {
     this.appStore.select(fromStore.getLang).subscribe((res) => {
       this.lang = res;
@@ -48,6 +52,7 @@ export class HomeComponent implements OnInit {
       },
       (err) => {
         this.loadingService.resolve('loading');
+        this.toastr.error(this.translate.instant(err.message));
       }
     );
   }

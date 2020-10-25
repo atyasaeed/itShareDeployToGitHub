@@ -7,6 +7,8 @@ import { getLang } from 'src/app/store';
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { routerTransition } from 'src/app/router.animations';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-my-organizations',
@@ -19,8 +21,14 @@ export class MyOrganizationsComponent extends DefaultListComponent<OrgUser, OrgU
   private _searchTerm = '';
   lang: string;
 
-  constructor(service: OrgUserService, loadingService: TdLoadingService, private appStore: Store<fromStore.AppState>) {
-    super(service, loadingService);
+  constructor(
+    service: OrgUserService,
+    loadingService: TdLoadingService,
+    private appStore: Store<fromStore.AppState>,
+    translate: TranslateService,
+    toastr: ToastrService
+  ) {
+    super(service, loadingService, translate, toastr);
     this.service.searchUrl = 'search/user';
     this.appStore.select(getLang).subscribe((res) => {
       this.lang = res;

@@ -11,6 +11,7 @@ import { ShoppingCartService } from '../../../shared/services/shoppingcart.servi
 import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
 import { TdLoadingService } from '@covalent/core/loading';
 import { AnimationService } from 'src/app/shared/services/animation.service';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -31,16 +32,17 @@ export class HeaderComponent extends DefaultListComponent<ShoppingCartItem, Shop
     this.scrWidth = window.innerWidth;
   }
   constructor(
-    private translate: TranslateService,
+    translate: TranslateService,
     public authenticationService: AuthenticationService,
     service: ShoppingCartService,
     private appStore: Store<fromStore.AppState>,
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
     private router: Router,
     loadingService: TdLoadingService,
-    private cartAnimation: AnimationService
+    private cartAnimation: AnimationService,
+    toastr: ToastrService
   ) {
-    super(service, loadingService);
+    super(service, loadingService, translate, toastr);
     this.appStore.dispatch(new fromStore.LoadInitState());
 
     this.appStore.select(fromStore.getShoppingCart).subscribe((res) => {

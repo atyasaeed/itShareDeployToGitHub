@@ -28,11 +28,11 @@ export class CitiesComponent extends DefaultListComponent<City, CityService> imp
     loadingService: TdLoadingService,
     private appStore: Store<fromStore.AppState>,
     private http: HttpClient,
-    private translate: TranslateService,
-    private toastr: ToastrService,
+    translate: TranslateService,
+    toastr: ToastrService,
     private router: Router
   ) {
-    super(service, loadingService);
+    super(service, loadingService, translate, toastr);
     this.appStore.select(getLang).subscribe((res) => {
       this.lang = res;
     });

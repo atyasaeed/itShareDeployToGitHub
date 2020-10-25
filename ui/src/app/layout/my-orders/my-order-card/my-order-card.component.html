@@ -182,7 +182,7 @@
           <span class="text-grey-v2">{{order.expiredAt|date:'dd/MM/yyyy'}}</span>
         </div>
         <div >
-          <label class="f-weight-600">{{'leadTime'|translate}} :&nbsp;</label>
+          <label class="f-weight-600">{{order.status==='QUOTED' ? ('leadTime'|translate):('estimatedEndDate'|translate)}} :&nbsp;</label>
           <span *ngIf="order.status==='QUOTED';else endDatePrintQuotation" class="text-grey-v2">
             {{maxDuration}} {{'workingDays'|translate}}
           </span>
