@@ -130,11 +130,11 @@ $topnav-background-color: #FFFFFF;
         // }
           a.router-link-active  {
           background-color: rgba(99,198,201,0.2) !important;
-
           color:#63C6C9 !important ;
           border-left: 4px solid  #63C6C9 ;
-
-
+          i{
+            color: #63C6C9 !important ;
+          }
         }
 
     ////////////////
@@ -209,10 +209,7 @@ $topnav-background-color: #FFFFFF;
     i {
         font-size: 23px;
     }
-    &:hover {
-        // background: darken($topnav-background-color, 5%);
-        // color: #fff;
-    }
+
     border-top: 1px solid #999;
     -webkit-transition: all 0.2s ease-in-out;
     -moz-transition: all 0.2s ease-in-out;
@@ -237,12 +234,13 @@ $topnav-background-color: #FFFFFF;
     // border:none !important;
 }
 a.active-item.router-link-active  {
-          background-color: rgba(99,198,201,0.2) !important;
+  background-color: rgba(99,198,201,0.2) !important;
 
-          color:#63C6C9 !important ;
-          border-left: 4px solid  #63C6C9  ;
-
-
-        }
+  color:#63C6C9 !important ;
+  border-left: 4px solid  #63C6C9  ;
+  i{
+    color: #63C6C9 !important ;
+  }
+}
 
 

@@ -13,6 +13,8 @@ import { Order } from 'src/app/shared/domain';
 import { TdLoadingService } from '@covalent/core/loading';
 import { routerTransition } from 'src/app/router.animations';
 import { OrderService } from 'src/app/shared/services/order.service';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-linkable',
   templateUrl: './linkable.component.html',
@@ -23,8 +25,13 @@ export class LinkableComponent extends DefaultListComponent<Order, OrderService>
   breadcrumbs = [{ heading: 'Orders', icon: 'fa-tasks' }];
   private _searchTerm = '';
   lang: string;
-  constructor(service: OrderService, loadingService: TdLoadingService) {
-    super(service, loadingService);
+  constructor(
+    service: OrderService,
+    loadingService: TdLoadingService,
+    toastr: ToastrService,
+    translate: TranslateService
+  ) {
+    super(service, loadingService, translate, toastr);
     // this.appStore.select(fromStore.getLang).subscribe((lang) => {
     //   this.lang = lang;
     // });

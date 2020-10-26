@@ -10,6 +10,8 @@ import { Store } from '@ngrx/store';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import { User } from 'src/app/shared/domain';
 import { UserService } from 'src/app/shared/services/user.service';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -30,9 +32,11 @@ export class ProfileComponent extends DefaultFormComponent<User, UserService> im
     route: ActivatedRoute,
     router: Router,
     @Inject(APP_CONFIG) private appConfig: IAppConfig,
-    private appStore: Store<fromStore.AppState>
+    private appStore: Store<fromStore.AppState>,
+    translate: TranslateService,
+    toastr: ToastrService
   ) {
-    super(formBuilder, loadingService, dialogService, service, route, router);
+    super(formBuilder, loadingService, dialogService, service, route, router, translate, toastr);
 
     this.service.getUserProfile().subscribe((res: User) => {
       this.user = res;

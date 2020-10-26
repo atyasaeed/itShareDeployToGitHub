@@ -31,10 +31,10 @@ export class OrganizationTeamComponent extends DefaultListComponent<OrgUser, Org
     loadingService: TdLoadingService,
     private formBuilder: FormBuilder,
     private _dialogService: TdDialogService,
-    private translate: TranslateService,
-    private toastr: ToastrService
+    translate: TranslateService,
+    toastr: ToastrService
   ) {
-    super(service, loadingService);
+    super(service, loadingService, translate, toastr);
     this.service.searchUrl = 'search/org';
     this.appStore.select(fromStore.getLang).subscribe((lang) => {
       this.lang = lang;
@@ -83,8 +83,10 @@ export class OrganizationTeamComponent extends DefaultListComponent<OrgUser, Org
             (err) => {
               if (err.error.details) {
                 this.toastr.error(this.translate.instant(err.error.details[0]));
+                this.loadingService.resolve(this.key);
               } else {
                 this.toastr.error(this.translate.instant(err.message));
+                this.loadingService.resolve(this.key);
               }
             }
           );

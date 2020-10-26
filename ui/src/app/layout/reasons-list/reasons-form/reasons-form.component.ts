@@ -12,6 +12,8 @@ import * as fromStore from 'src/app/store';
 import { routerTransition } from 'src/app/router.animations';
 import { ReasonService } from 'src/app/shared/services/reason.service';
 import { OrderService } from 'src/app/shared/services/order.service';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-reasons-form',
   templateUrl: './reasons-form.component.html',
@@ -32,9 +34,11 @@ export class ReasonsFormComponent extends DefaultFormComponent<Reason, ReasonSer
     route: ActivatedRoute,
     router: Router,
     private appStore: Store<fromStore.AppState>,
-    private orderservice: OrderService
+    private orderservice: OrderService,
+    translate: TranslateService,
+    toastr: ToastrService
   ) {
-    super(formBuilder, loadingService, dialogService, service, route, router);
+    super(formBuilder, loadingService, dialogService, service, route, router, translate, toastr);
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
       status: ['', [Validators.required]],

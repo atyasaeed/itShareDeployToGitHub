@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { LineItemService } from '../../../shared/services/line-item.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { TdLoadingService } from '@covalent/core/loading';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-line-item',
@@ -23,7 +24,7 @@ export class LineItemComponent implements OnInit {
   itemEndDate: Date;
   constructor(
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
-    //private http: HttpClient,
+    private translate: TranslateService,
     private toastr: ToastrService,
     private service: LineItemService,
     private modalService: BsModalService,
@@ -62,13 +63,19 @@ export class LineItemComponent implements OnInit {
 
   cancelItem() {
     this.loadingService.register(this.key);
-    this.service.cancel(this.lineItem.id).subscribe((res: LineItem) => {
-      this.lineItem = res;
-      this.itemChanged.emit(res);
-      this.toastr.success('Item Cancelled');
-      this.modalRef.hide();
-      this.loadingService.resolve(this.key);
-    });
+    this.service.cancel(this.lineItem.id).subscribe(
+      (res: LineItem) => {
+        this.lineItem = res;
+        this.itemChanged.emit(res);
+        this.toastr.success('Item Cancelled');
+        this.modalRef.hide();
+        this.loadingService.resolve(this.key);
+      },
+      (err) => {
+        this.loadingService.resolve(this.key);
+        this.toastr.error(this.translate.instant(err.message));
+      }
+    );
   }
 
   quotedActionsChanged(event) {

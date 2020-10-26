@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { getLang } from 'src/app/store';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-organizations-list',
   templateUrl: './organizations-list.component.html',
@@ -28,9 +29,11 @@ export class OrganizationsListComponent extends DefaultListComponent<Organizatio
     service: OrganizationService,
     loadingService: TdLoadingService,
     private http: HttpClient,
-    private appStore: Store<fromStore.AppState>
+    private appStore: Store<fromStore.AppState>,
+    translate: TranslateService,
+    toastr: ToastrService
   ) {
-    super(service, loadingService);
+    super(service, loadingService, translate, toastr);
     service.searchUrl = 'search/partners';
     this.dropdownSettings = {
       singleSelection: false,

@@ -10,6 +10,7 @@ import { routerTransition } from 'src/app/router.animations';
 import { HttpClient } from '@angular/common/http';
 import { getLang } from 'src/app/store';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-address-book',
   templateUrl: './address-book.component.html',
@@ -25,11 +26,12 @@ export class AddressBookComponent extends DefaultListComponent<Address, AddressB
     service: AddressBookService,
     loadingService: TdLoadingService,
     private appStore: Store<fromStore.AppState>,
-    private translate: TranslateService,
+    translate: TranslateService,
     private http: HttpClient,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    toastr: ToastrService
   ) {
-    super(service, loadingService);
+    super(service, loadingService, translate, toastr);
     this.appStore.select(getLang).subscribe((res) => {
       this.lang = res;
     });
@@ -55,6 +57,7 @@ export class AddressBookComponent extends DefaultListComponent<Address, AddressB
       },
       (err) => {
         this.loadingService.resolve(this.key);
+        this.toastr.error(this.translate.instant(err.message));
       }
     );
   }

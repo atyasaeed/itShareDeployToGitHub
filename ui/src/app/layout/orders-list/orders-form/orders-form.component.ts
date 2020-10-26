@@ -78,16 +78,16 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
     route: ActivatedRoute,
     router: Router,
     private alertService: AlertService,
-    private toastr: ToastrService,
+    toastr: ToastrService,
     private activatedRoute: ActivatedRoute,
-    private translate: TranslateService,
+    translate: TranslateService,
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
     private modalService: BsModalService,
     private rejectionReasonService: ReasonService,
     private cd: ChangeDetectorRef,
     private appStore: Store<fromStore.AppState>
   ) {
-    super(formBuilder, loadingService, dialogService, service, route, router);
+    super(formBuilder, loadingService, dialogService, service, route, router, translate, toastr);
 
     this.form = this.formBuilder.group({});
     this.dropdownSettings = {
@@ -164,6 +164,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
           },
           (err) => {
             this.toastr.error(this.translate.instant(err.message));
+            this.loadingService.resolve(this.key);
           }
         );
       } else {
@@ -263,6 +264,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
           },
           (err) => {
             this.toastr.error(this.translate.instant(err.message));
+            this.loadingService.resolve(this.key);
           }
         );
 
@@ -275,6 +277,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
           },
           (err) => {
             this.toastr.error(this.translate.instant(err.message));
+            this.loadingService.resolve(this.key);
           }
         );
         break;
@@ -384,11 +387,13 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
             },
             (err) => {
               this.toastr.error(this.translate.instant(err.message));
+              this.loadingService.resolve(this.key);
             }
           );
         },
         (err) => {
           this.toastr.error(this.translate.instant(err.message));
+          this.loadingService.resolve(this.key);
         }
       );
     }
@@ -439,6 +444,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
               },
               (err) => {
                 this.loadingService.resolve(this.key);
+                this.toastr.error(this.translate.instant(err.message));
               }
             );
           },
@@ -456,6 +462,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
           },
           (err) => {
             this.toastr.error(this.translate.instant(err.message));
+            this.loadingService.resolve(this.key);
           }
         );
         break;
@@ -468,6 +475,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
           },
           (err) => {
             this.toastr.error(this.translate.instant(err.message));
+            this.loadingService.resolve(this.key);
           }
         );
 
@@ -502,12 +510,14 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
               },
               (err) => {
                 this.toastr.error(this.translate.instant(err.message));
+                this.loadingService.resolve(this.key);
               }
             );
             this.loadingService.resolve(this.key);
           },
           (err) => {
             this.toastr.error(this.translate.instant(err.message));
+            this.loadingService.resolve(this.key);
           }
         );
 

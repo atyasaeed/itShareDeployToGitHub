@@ -44,16 +44,16 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
   constructor(
     service: ShoppingCartService,
     private appStore: Store<fromStore.AppState>,
-    private toastr: ToastrService,
+    toastr: ToastrService,
     @Inject(APP_CONFIG) public appConfig: IAppConfig,
     loadingService: TdLoadingService,
     private galleryService: GalleryService,
     private modalService: BsModalService,
     private addressBookService: AddressBookService,
     private router: Router,
-    private translateService: TranslateService
+    translate: TranslateService
   ) {
-    super(service, loadingService);
+    super(service, loadingService, translate, toastr);
     this.authUser$ = this.appStore.select(fromStore.getAuthUser);
     this.appStore.select(fromStore.getLang).subscribe((lang) => {
       this.lang = lang;
@@ -85,9 +85,17 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
   }
 
   ngOnInit() {
-    this.authUser$.subscribe((user) => {
-      this.hasAdminRole = user && user.roles.includes('ROLE_ADMIN');
-    });
+    this.loadingService.register(this.key);
+    this.authUser$.subscribe(
+      (user) => {
+        this.hasAdminRole = user && user.roles.includes('ROLE_ADMIN');
+        this.loadingService.resolve(this.key);
+      },
+      (err) => {
+        this.loadingService.resolve(this.key);
+        this.toastr.error(this.translate.instant(err));
+      }
+    );
   }
 
   ngAfterViewInit() {
@@ -105,6 +113,7 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
       },
       (err) => {
         this.loadingService.resolve(this.key);
+        this.toastr.error(this.translate.instant(err));
       }
     );
   }
@@ -115,10 +124,12 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
       (resp) => {
         this.service.searchTerm = '';
         this.loadingService.resolve(this.key);
+        this.router.navigate(['/my-orders']);
         this.appStore.dispatch(new fromStore.LoadInitState());
       },
       (err) => {
         this.loadingService.resolve(this.key);
+        this.toastr.error(this.translate.instant(err));
       }
     );
   }
@@ -132,6 +143,7 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
       },
       (err) => {
         this.loadingService.resolve(this.key);
+        this.toastr.error(this.translate.instant(err));
       }
     );
   }
@@ -153,6 +165,7 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
       (err) => {
         this.loading = false;
         this.loadingService.resolve(this.key);
+        this.toastr.error(this.translate.instant(err));
       }
     );
   }
@@ -174,6 +187,7 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
       (err) => {
         this.loading = false;
         this.loadingService.resolve(this.key);
+        this.toastr.error(this.translate.instant(err));
       }
     );
   }
@@ -195,6 +209,7 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
       (err) => {
         this.loading = false;
         this.loadingService.resolve(this.key);
+        this.toastr.error(this.translate.instant(err));
       }
     );
   }
@@ -207,7 +222,7 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
     if (this.myAddressess.length > 0) {
       this.modalRef = this.modalService.show(template);
     } else {
-      this.toastr.warning(this.translateService.instant('prompt.addAddress'));
+      this.toastr.warning(this.translate.instant('prompt.addAddress'));
       this.router.navigate(['/address-book/create'], { state: { fromRoute: '/shopping-cart' } });
     }
   }
@@ -222,7 +237,10 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
         this.appStore.dispatch(new fromStore.LoadInitState());
         this.loadingService.resolve(this.key);
       },
-      (err) => this.loadingService.resolve(this.key)
+      (err) => {
+        this.loadingService.resolve(this.key);
+        this.toastr.error(this.translate.instant(err));
+      }
     );
   }
 
@@ -255,6 +273,7 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
       },
       (err) => {
         this.loadingService.resolve(this.key);
+        this.toastr.error(this.translate.instant(err));
       }
     );
   }
@@ -285,6 +304,7 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
           },
           (err) => {
             this.loadingService.resolve(this.key);
+            this.toastr.error(this.translate.instant(err));
           }
         );
     }
@@ -303,6 +323,7 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
       },
       (err) => {
         this.loadingService.resolve(this.key);
+        this.toastr.error(this.translate.instant(err));
       }
     );
   }
@@ -322,6 +343,7 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
         },
         (err) => {
           this.loadingService.resolve(this.key);
+          this.toastr.error(this.translate.instant(err));
         }
       );
     }
@@ -336,8 +358,9 @@ export class ShoppingCartComponent extends DefaultListComponent<ShoppingCartItem
         this.appStore.dispatch(new fromStore.LoadInitState());
         this.loadingService.resolve(this.key);
       },
-      (res) => {
+      (err) => {
         this.loadingService.resolve(this.key);
+        this.toastr.error(this.translate.instant(err));
       }
     );
   }

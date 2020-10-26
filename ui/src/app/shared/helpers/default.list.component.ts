@@ -5,6 +5,8 @@ import { RestService } from '../services';
 import { tap, first, share } from 'rxjs/operators';
 import { Entity } from '../domain';
 import { TdLoadingService } from '@covalent/core/loading';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 export class DefaultListComponent<T extends Entity, K extends RestService<T>> implements OnInit {
   entities$: Observable<T[]>;
@@ -12,9 +14,13 @@ export class DefaultListComponent<T extends Entity, K extends RestService<T>> im
   total$: Observable<number>;
   service: K;
   @ViewChildren(SortableHeaderDirective) headers: QueryList<SortableHeaderDirective>;
-  constructor(service: K, protected loadingService: TdLoadingService) {
+  constructor(
+    service: K,
+    protected loadingService: TdLoadingService,
+    protected translate: TranslateService,
+    protected toastr: ToastrService
+  ) {
     this.service = service;
-    console.log('Constructor called');
   }
   ngOnInit(): void {
     this.entities$ = this.service.model$;
@@ -23,13 +29,13 @@ export class DefaultListComponent<T extends Entity, K extends RestService<T>> im
     this.loadingService.register(this.key);
     this.service.loading$.subscribe(
       (res) => {
-        //console.log(res);
         if (!res) {
           this.loadingService.resolve(this.key);
         }
       },
       (err) => {
         this.loadingService.resolve(this.key);
+        this.toastr.error(this.translate.instant(err));
       }
     );
   }
@@ -52,6 +58,7 @@ export class DefaultListComponent<T extends Entity, K extends RestService<T>> im
         },
         (err) => {
           this.loadingService.resolve(this.key);
+          this.toastr.error(this.translate.instant(err));
         }
       )
     );

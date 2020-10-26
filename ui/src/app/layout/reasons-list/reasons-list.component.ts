@@ -7,6 +7,8 @@ import { ReasonService } from 'src/app/shared/services/reason.service';
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { getLang } from 'src/app/store';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 // import { ReasonsService } from './reasons.service';
 
@@ -21,8 +23,14 @@ export class ReasonsListComponent extends DefaultListComponent<Reason, ReasonSer
   breadcrumbs = [{ heading: 'reasons', icon: 'fa-tasks' }];
   private _searchTerm = '';
   lang: string;
-  constructor(service: ReasonService, loadingService: TdLoadingService, private appStore: Store<fromStore.AppState>) {
-    super(service, loadingService);
+  constructor(
+    service: ReasonService,
+    loadingService: TdLoadingService,
+    private appStore: Store<fromStore.AppState>,
+    translate: TranslateService,
+    toastr: ToastrService
+  ) {
+    super(service, loadingService, translate, toastr);
     service.searchUrl = 'search/admin';
     this.appStore.select(getLang).subscribe((res) => {
       this.lang = res;

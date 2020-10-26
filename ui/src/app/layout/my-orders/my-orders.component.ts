@@ -9,6 +9,8 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { TdLoadingService } from '@covalent/core/loading';
 import { ActivatedRoute } from '@angular/router';
 import { SortDirection } from 'src/app/shared/directives/sortable.directive';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-order',
   templateUrl: './my-orders.component.html',
@@ -28,9 +30,11 @@ export class OrderComponent extends DefaultListComponent<Order, OrderService> im
     service: OrderService,
     private appStore: Store<fromStore.AppState>,
     loadingService: TdLoadingService,
-    private activeRoute: ActivatedRoute
+    private activeRoute: ActivatedRoute,
+    translate: TranslateService,
+    toastr: ToastrService
   ) {
-    super(service, loadingService);
+    super(service, loadingService, translate, toastr);
   }
 
   ngOnInit() {
