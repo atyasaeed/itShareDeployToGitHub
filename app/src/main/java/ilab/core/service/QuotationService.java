@@ -72,13 +72,19 @@ public class QuotationService
 		return null;
 
 	}
-	
+
 	public Quotation adminChoose(UUID id)
 	{
 		Quotation quotation = quotationRepo.findById(id).orElseThrow();
+		LineItem item = lineItemRepo.findById(quotation.getLineItem().getId()).orElseThrow();
+
 		if (quotation.getStatus().equals(QuotationStatus.QUOTED_PARTNER))
 		{
 			quotation.setStatus(QuotationStatus.QUOTE_CHOSEN);
+			item.setUnitPrice(quotation.getUnitPrice());
+			item.setDuration(quotation.getWorkDays());
+			quotationRepo.save(quotation);
+			lineItemRepo.save(item);
 			return quotation;
 		}
 		return null;
