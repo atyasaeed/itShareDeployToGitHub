@@ -39,53 +39,47 @@ public class QuotationService
 	@Autowired
 	private LineItemRepository lineItemRepo;
 
-	public Page<Quotation> adminSearchRRFQ(Pageable page)
+	public Page<Quotation> adminSearchRRFQ(Pageable page, UUID id)
 	{
-		return quotationRepo.findByStatus(QuotationStatus.QUOTED_PARTNER, page);
+		return quotationRepo.findByStatusAndLineItem_id(QuotationStatus.QUOTED, id, page);
 	}
 
-	public Page<LineItem> pendingLineItem(Authentication auth, Pageable page, UUID id)
+	public Page<LineItem> readyRFQitem(Authentication auth, Pageable page)
 	{
 		User user = userRepo.findByemailIgnoreCase(auth.getName().toLowerCase()).orElseThrow();
 		if (orgValidation(user.getDefaultOrg()))
 		{
-			return lineItemRepo.findByService_idAndStatus(id, LineItemStatus.RRFQ, page);
+			return lineItemRepo.findByStatusAndServiceIn(LineItemStatus.RRFQ, user.getDefaultOrg().getServices(), page);
 		}
 		return null;
 
 	}
 
-	public Quotation Rffq(Authentication auth, Quotation quotation)
+	public Quotation PartnerQuote(Authentication auth, Quotation quotation)
 	{
-		User user = userRepo.findByemailIgnoreCase(auth.getName().toLowerCase()).orElseThrow();
-		LineItem item = lineItemRepo.findById(quotation.getLineItem().getId()).orElseThrow();
-		System.out.println("ahmed");
-		if (orgValidation(user.getDefaultOrg()) && quotationValidation(quotation)
-				&& item.getStatus().equals(LineItemStatus.RRFQ))
+		Organization org = orgRepo.findByOwner_usernameAndServicesAndStatusAndType(auth.getName(),
+				quotation.getLineItem().getService(), OrganizationStatus.ACTIVE, OrganizationType.PARTNER)
+				.orElseThrow();
+		if (orgValidation(org) && quotationValidation(quotation)
+				&& quotation.getLineItem().getStatus().equals(LineItemStatus.RRFQ))
 		{
-			quotation.setPartner(user.getDefaultOrg());
-			quotation.setStatus(QuotationStatus.QUOTED_PARTNER);
-			quotation.setPlacedBy(item.getOrderEntity().getPlacedBy());
-			quotationRepo.save(quotation);
-			return quotation;
+			quotation.setPartner(org);
+			quotation.setStatus(QuotationStatus.QUOTED);
+			quotation.setPlacedBy(org.getOwner());
+			return quotationRepo.save(quotation);
 		}
 		return null;
 
 	}
 
-	public Quotation adminChoose(UUID id)
+	public Quotation adminSelect(UUID id)
 	{
 		Quotation quotation = quotationRepo.findById(id).orElseThrow();
-		LineItem item = lineItemRepo.findById(quotation.getLineItem().getId()).orElseThrow();
 
-		if (quotation.getStatus().equals(QuotationStatus.QUOTED_PARTNER))
+		if (quotation.getStatus().equals(QuotationStatus.QUOTED))
 		{
-			quotation.setStatus(QuotationStatus.QUOTE_CHOSEN);
-			item.setUnitPrice(quotation.getUnitPrice());
-			item.setDuration(quotation.getWorkDays());
-			quotationRepo.save(quotation);
-			lineItemRepo.save(item);
-			return quotation;
+			quotation.setStatus(QuotationStatus.SELECTED);
+			return quotationRepo.save(quotation);
 		}
 		return null;
 	}
@@ -93,12 +87,12 @@ public class QuotationService
 	public Page<Quotation> getMyQuoted(Authentication auth, Pageable page)
 	{
 		User user = userRepo.findByemailIgnoreCase(auth.getName()).orElseThrow();
-		return quotationRepo.findByPartnerAndStatus(user.getDefaultOrg(), QuotationStatus.QUOTED_PARTNER, page);
+		return quotationRepo.findByPartnerAndStatus(user.getDefaultOrg(), QuotationStatus.QUOTED, page);
 	}
 
 	private boolean orgValidation(Organization org)
 	{
-		if (org.getStatus().equals(OrganizationStatus.ACTIVE) && org.getType().equals(OrganizationType.PARTNER))
+		if (org.getStatus().equals(OrganizationStatus.ACTIVE) && org.getType() == OrganizationType.PARTNER)
 		{
 			return true;
 		}
@@ -107,7 +101,7 @@ public class QuotationService
 
 	public boolean quotationValidation(Quotation quotation)
 	{
-		if (quotation.getWorkDays() == 0)
+		if (quotation.getDuration() == 0)
 		{
 			throw new IllegalRequestDataException("fill work Days");
 		}

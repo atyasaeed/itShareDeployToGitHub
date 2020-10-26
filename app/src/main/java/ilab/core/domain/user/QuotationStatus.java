@@ -3,7 +3,7 @@ package ilab.core.domain.user;
 public enum QuotationStatus
 {
 
-	QUOTED_PARTNER,QUOTE_CHOSEN
+	QUOTED,SELECTED,REJECTED
 
 }
 /*

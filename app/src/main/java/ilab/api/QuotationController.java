@@ -29,38 +29,32 @@ public class QuotationController
 	@Autowired
 	private QuotationService quotationService;
 
-	@GetMapping("/pending/{id}")
+	@GetMapping("/pending")
 	@PreAuthorize("hasRole('ROLE_USER')")
-	public Page<LineItem> getPending(Authentication auth, Pageable page, @PathVariable("id") UUID id)
+	public Page<LineItem> getRFQ(Authentication auth, Pageable page)
 	{
-		return quotationService.pendingLineItem(auth, page, id);
+		return quotationService.readyRFQitem(auth, page);
 	}
 
 	@PostMapping("/quote")
 	@PreAuthorize("hasRole('ROLE_USER')")
 	public Quotation quote(Authentication auth, @RequestBody Quotation quotation)
 	{
-		return quotationService.Rffq(auth, quotation);
+		return quotationService.PartnerQuote(auth, quotation);
 	}
 
-	@GetMapping("quoted")
-	@PreAuthorize("hasRole('ROLE_USER')")
-	public Page<Quotation> quote(Authentication auth, Pageable page)
+	@GetMapping("admin/search/{id}/quoted")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public Page<Quotation> quotedByPartner(Pageable page, @PathVariable("id") UUID id)
 	{
-		return null;
+		return quotationService.adminSearchRRFQ(page, id);
 	}
 
-	@PutMapping("admin/choose/{id}")
+	@PutMapping("admin/{id}/select")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public Quotation adminAccept(@PathVariable("id") UUID id)
 	{
-		return quotationService.adminChoose(id);
+		return quotationService.adminSelect(id);
 	}
 
-	@GetMapping("admin/search/quoted")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public Page<Quotation> quotedByPartner( Pageable page)
-	{
-		return quotationService.adminSearchRRFQ(page);
-	}
 }

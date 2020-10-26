@@ -115,7 +115,7 @@ public class DevelopmentConfig
 
 					user = addRoleAuthority(user);
 					userRepo.save(user);
-					user = userService.register(createUser("Karafat1998@gmail.com", "New123456", "Hatem",
+					user = userService.register(createUser("karafat1998@gmail.com", "New123456", "Hatem",
 							"karafat1998@gmail.com", "01002222392", OrganizationType.PARTNER));
 					user = userService.enableUser(user.getId(), true, null);
 					user = addRoleAuthority(user);

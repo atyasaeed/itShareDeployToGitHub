@@ -1,7 +1,8 @@
 package ilab.core.domain.user;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.Period;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -32,12 +33,12 @@ public class Quotation extends AbstractEntity<Quotation>
 
 	private BigDecimal unitPrice;
 
-	private int workDays;
+	private int duration;
 
 	private QuotationStatus status;
 
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	private Date endDate;
+	private LocalDate endDate;
 
 	public BigDecimal getUnitPrice()
 	{
@@ -89,24 +90,24 @@ public class Quotation extends AbstractEntity<Quotation>
 		this.status = status;
 	}
 
-	public Date getEndDate()
+	public LocalDate getEndDate()
 	{
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate)
+	public void setEndDate(LocalDate endDate)
 	{
 		this.endDate = endDate;
 	}
 
-	public int getWorkDays()
+	public int getDuration()
 	{
-		return workDays;
+		return duration;
 	}
 
-	public void setWorkDays(int durationExpiration)
+	public void setDuration(int durationExpiration)
 	{
-		this.workDays = durationExpiration;
+		this.duration = durationExpiration;
 	}
 
 }

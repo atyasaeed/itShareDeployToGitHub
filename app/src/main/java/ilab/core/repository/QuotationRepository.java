@@ -10,8 +10,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
-import ilab.core.domain.Reason;
-import ilab.core.domain.order.OrderStatus;
 import ilab.core.domain.user.Organization;
 import ilab.core.domain.user.Quotation;
 import ilab.core.domain.user.QuotationStatus;
@@ -23,7 +21,6 @@ public interface QuotationRepository
 {
 	Page<Quotation> findByPartnerAndStatus(Organization org, QuotationStatus status, Pageable page);
 
-	Page<Quotation> findByStatus(QuotationStatus status, Pageable page);
-
+	Page<Quotation> findByStatusAndLineItem_id(QuotationStatus status, UUID id, Pageable page);
 
 }

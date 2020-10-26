@@ -1,11 +1,9 @@
 package ilab.core.service;
 
 import java.io.File;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -19,21 +17,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import ilab.core.domain.FileAsset;
-import ilab.core.domain.Service;
 import ilab.core.domain.user.Organization;
 import ilab.core.domain.user.OrganizationStatus;
-import ilab.core.domain.user.OrganizationType;
 import ilab.core.domain.user.Role;
-import ilab.core.domain.user.User;
 import ilab.core.repository.FileAssetRepository;
 import ilab.core.repository.OrganizationRepository;
-import ilab.core.repository.ServiceRepository;
-import ilab.core.repository.UserRepository;
 
-@org.springframework.stereotype.Service
+@Service
 @Transactional
 public class OrganizationService
 {
@@ -44,10 +38,7 @@ public class OrganizationService
 	@Autowired
 	private OrganizationRepository orgRepo;
 
-	@Autowired
-	private UserRepository userRepo;
-	@Autowired
-	private ServiceRepository serviceRepo;
+
 
 	public Organization updateOrganization(UUID orgId, Organization org, MultipartFile file1, MultipartFile file2,
 			MultipartFile file3, MultipartFile file4, Authentication auth) throws IOException
@@ -110,7 +101,7 @@ public class OrganizationService
 	public Page<Organization> search(Specification<Organization> specs, Authentication auth, Pageable page)
 	{
 
-		return orgRepo.findByOwner_username(auth.getName(), page);
+		return orgRepo.findByOwner_username(auth.getName().toLowerCase(), page);
 	}
 
 	public Organization changeStatus(UUID id, OrganizationStatus status, Authentication auth)
@@ -131,35 +122,7 @@ public class OrganizationService
 		return orgRepo.findByIdAndOwner_username(id, auth.getName().toLowerCase()).orElseThrow();
 	}
 
-	public List<Organization> getOrgByService(Authentication auth, Service service)
-	{
-		return orgRepo.findAllByServicesAndTypeAndStatus(service, OrganizationType.PARTNER, OrganizationStatus.ACTIVE);
-	}
+	
 
-	public Organization addServiceToOrganization(Authentication auth, String serviceName)
-	{
-		User user = userRepo.findByemailIgnoreCase(auth.getName().toLowerCase()).orElseThrow();
-		if (user.getDefaultOrg().getStatus().equals(OrganizationStatus.ACTIVE)
-				&& user.getDefaultOrg().getType().equals(OrganizationType.PARTNER))
-		{
-			user.getDefaultOrg().getServices().add(serviceRepo.findByName(serviceName));
-			return orgRepo.save(user.getDefaultOrg());
-
-		}
-
-		return null;
-	}
-
-	public Organization addServiceToOrganizationById(UUID id, String serviceName)
-	{
-		Organization org = orgRepo.findById(id).orElseThrow();
-		if (org.getStatus().equals(OrganizationStatus.ACTIVE) && org.getType().equals(OrganizationType.PARTNER))
-		{
-			org.getServices().add(serviceRepo.findByName(serviceName));
-			return orgRepo.save(org);
-
-		}
-
-		return null;
-	}
+	
 }

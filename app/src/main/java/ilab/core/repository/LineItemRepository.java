@@ -23,5 +23,5 @@ public interface LineItemRepository
 {
 	Optional<LineItem> findOneByIdAndOrderEntity_Organization_Id(UUID id, UUID orgId);
 
-	Page<LineItem> findByService_idAndStatus(UUID id, LineItemStatus status,Pageable page);
+	Page<LineItem> findByStatusAndServiceIn(LineItemStatus status, List<Service> services, Pageable page);
 }

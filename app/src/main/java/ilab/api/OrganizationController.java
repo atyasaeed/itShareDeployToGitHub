@@ -20,7 +20,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +30,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.sipios.springsearch.anotation.SearchSpec;
 
-import ilab.core.domain.Service;
 import ilab.core.domain.user.Organization;
 import ilab.core.domain.user.OrganizationStatus;
 import ilab.core.domain.user.OrganizationType;
@@ -129,20 +127,6 @@ public class OrganizationController
 		return orgService.getByIdandUser(id, auth);
 	}
 
-	@GetMapping("/service")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public List<Organization> findByService(Authentication auth, @RequestBody Service service)
-	{
-		return orgService.getOrgByService(auth, service);
-	}
 
-	
-
-	@PutMapping("/service/{id}")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public Organization addService(@PathVariable("id") UUID id, @RequestBody String name)
-	{
-		return orgService.addServiceToOrganizationById(id, name);
-	}
 
 }

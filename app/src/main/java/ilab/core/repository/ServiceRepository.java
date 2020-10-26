@@ -14,5 +14,5 @@ import ilab.core.domain.Service;
 @Transactional
 public interface ServiceRepository extends PagingAndSortingRepository<Service, UUID>,JpaSpecificationExecutor<Service>
 {
-	Service findByName(String name);
+
 }

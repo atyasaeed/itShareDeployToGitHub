@@ -1,7 +1,7 @@
 package ilab.core.repository;
 
-import java.util.List;
 import java.util.Optional;
+
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -9,7 +9,6 @@ import javax.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
@@ -27,7 +26,7 @@ public interface OrganizationRepository
 
 	Page<Organization> findByOwner_username(String username, Pageable page);
 
-	@Query(value = "SELECT DISTINCT org FROM Organization org JOIN org.services a WHERE a = ?1")
-	List<Organization> findAllByServicesAndTypeAndStatus( Service service,OrganizationType type,OrganizationStatus status);
+	Optional<Organization> findByOwner_usernameAndServicesAndStatusAndType(String username, Service service,
+			OrganizationStatus status, OrganizationType type);
 
 }
