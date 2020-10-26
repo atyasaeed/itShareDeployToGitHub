@@ -7,7 +7,7 @@ import { OwnerLandingPageComponent } from './owner-landing-page/owner-landing-pa
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'partner', component: OwnerLandingPageComponent,canActivate:[NotActivePartnerGuard] },
+  { path: 'partner', component: OwnerLandingPageComponent, canActivate: [NotActivePartnerGuard] },
 ];
 
 @NgModule({

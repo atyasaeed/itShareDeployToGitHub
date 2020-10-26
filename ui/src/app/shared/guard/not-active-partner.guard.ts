@@ -10,11 +10,13 @@ import { Store } from '@ngrx/store';
   providedIn: 'root',
 })
 export class NotActivePartnerGuard implements CanActivate {
-
-  notActivePartner:boolean = false;
+  notActivePartner: boolean = false;
   constructor(private router: Router, private service: UserService, private appStore: Store<fromStore.AppState>) {
     appStore.select(fromStore.getAuthUser).subscribe((user) => {
-      if (user?.defaultOrgType === 'PARTNER' && (user?.defaultOrgStatus === 'PENDING' || user?.defaultOrgStatus === 'WAITING_APPROVAL')) {
+      if (
+        user?.defaultOrgType === 'PARTNER' &&
+        (user?.defaultOrgStatus === 'PENDING' || user?.defaultOrgStatus === 'WAITING_APPROVAL')
+      ) {
         this.notActivePartner = true;
       }
     });

@@ -28,14 +28,14 @@ export class HomeComponent implements OnInit {
     private route: ActivatedRoute,
     private toastr: ToastrService,
     private translate: TranslateService,
-    private router:Router
+    private router: Router
   ) {
     this.appStore.select(fromStore.getLang).subscribe((res) => {
       this.lang = res;
     });
     this.appStore.select(fromStore.getAuthUser).subscribe((user) => {
       if (user?.defaultOrgType === 'PARTNER' && user?.defaultOrgStatus === 'PENDING') {
-        console.log(user?.defaultOrgType)
+        console.log(user?.defaultOrgType);
         this.router.navigate(['/home/partner']);
       }
     });

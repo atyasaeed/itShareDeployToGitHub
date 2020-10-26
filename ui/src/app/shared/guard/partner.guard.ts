@@ -11,7 +11,7 @@ import { Store } from '@ngrx/store';
 })
 export class PartnerGuard implements CanActivate {
   private isPartner = false;
-  user :User;
+  user: User;
   constructor(private router: Router, private service: UserService, private appStore: Store<fromStore.AppState>) {
     appStore.select(fromStore.getAuthUser).subscribe((user) => {
       if (user?.defaultOrgType === 'PARTNER') {
@@ -25,7 +25,7 @@ export class PartnerGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (this.isPartner) {
-      if (this.user?.defaultOrgStatus === 'PENDING' ) {
+      if (this.user?.defaultOrgStatus === 'PENDING') {
         this.router.navigate(['/home/partner']);
         return false;
       }
