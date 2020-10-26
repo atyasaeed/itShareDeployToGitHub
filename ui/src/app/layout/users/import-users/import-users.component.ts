@@ -15,14 +15,14 @@ import { UserService } from 'src/app/shared/services/user.service';
   animations: [routerTransition()],
 })
 export class ImportUsersComponent implements OnInit {
-     breadcrumbs = [
+  breadcrumbs = [
     { heading: 'Users', icon: 'fa-tasks', link: '/users' },
     { heading: 'importUsers', icon: 'fa-tasks' },
   ];
   loading: boolean;
   formData: FormData = new FormData();
-  entity: any[] = new Array()
-  checkvalue:boolean
+  entity: any[] = new Array();
+  checkvalue: boolean;
   constructor(
     private router: Router,
     private alertService: AlertService,
@@ -31,24 +31,24 @@ export class ImportUsersComponent implements OnInit {
     private translate: TranslateService,
     private toastr: ToastrService,
     private loadingService: TdLoadingService,
-    private  service: UserService,
+    private service: UserService
   ) {}
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
   uploadFile(event) {
-     this.loadingService.register("loadingUsers");
+    this.loadingService.register('loadingUsers');
     this.formData?.append('file', event.target.files[0] as File);
-    this.service.importUsers(this.formData).subscribe(res => {
-      this.entity = Object.keys(res).map((key) => [key, res[key]]);
-      this.loadingService.resolve("loadingUsers");
-      this.formData.delete('file');
-    }, err => {
-        this.toastr.error(this.translate.instant(err.message))
-        this.loadingService.resolve("loadingUsers");
+    this.service.importUsers(this.formData).subscribe(
+      (res) => {
+        this.entity = Object.keys(res).map((key) => [key, res[key]]);
+        this.loadingService.resolve('loadingUsers');
         this.formData.delete('file');
-})
+      },
+      (err) => {
+        this.toastr.error(this.translate.instant(err.message));
+        this.loadingService.resolve('loadingUsers');
+        this.formData.delete('file');
+      }
+    );
   }
-
 }

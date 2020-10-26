@@ -22,11 +22,7 @@ export class UsersComponent extends DefaultListComponent<User, UserService> {
   private _searchTerm = '';
   modalRef: BsModalRef;
 
-  constructor(
-    service: UserService,
-    private appStore: Store<fromStore.AppState>,
-    loadingService: TdLoadingService,
-  ) {
+  constructor(service: UserService, private appStore: Store<fromStore.AppState>, loadingService: TdLoadingService) {
     super(service, loadingService);
     this.appStore.select(fromStore.getLang).subscribe((lang) => {
       this.lang = lang;
