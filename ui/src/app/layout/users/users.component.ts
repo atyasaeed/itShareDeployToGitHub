@@ -9,6 +9,7 @@ import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { TdLoadingService } from '@covalent/core/loading';
 import { UserService } from 'src/app/shared/services/user.service';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -19,8 +20,13 @@ export class UsersComponent extends DefaultListComponent<User, UserService> {
   breadcrumbs = [{ heading: 'Users', icon: 'fa-tasks' }];
   lang: string;
   private _searchTerm = '';
+  modalRef: BsModalRef;
 
-  constructor(service: UserService, private appStore: Store<fromStore.AppState>, loadingService: TdLoadingService) {
+  constructor(
+    service: UserService,
+    private appStore: Store<fromStore.AppState>,
+    loadingService: TdLoadingService,
+  ) {
     super(service, loadingService);
     this.appStore.select(fromStore.getLang).subscribe((lang) => {
       this.lang = lang;

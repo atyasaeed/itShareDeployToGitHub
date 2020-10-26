@@ -459,5 +459,8 @@
   "current": "Current",
   "quoted": "Quoted",
   "requestDate": "Request Date :",
-  "respondBefore": "Respond Before :"
+  "respondBefore": "Respond Before :",
+  "importUsers": "Import Users",
+  "uploadUsersFile": "upload users file",
+  "uploadedUsers": "Uploaded users"
 }
