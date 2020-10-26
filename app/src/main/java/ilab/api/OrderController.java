@@ -107,81 +107,90 @@ public class OrderController
 		return orderService.updateItem(id, item, auth);
 	}
 
-
-
-	@GetMapping(path="{id}")
+	@GetMapping(path = "{id}")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public OrderEntity getOrder(@PathVariable("id") UUID orderId)
 	{
 		return orderService.getOrder(orderId);
 	}
+
 	@PutMapping(path = "/{id}/quote")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public OrderEntity quote(@PathVariable("id") UUID id, Authentication auth)
 	{
 		return orderService.quote(id, auth);
 	}
+
 	@PutMapping(path = "/{id}/rejectOrder")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public OrderEntity rejectOrder(@PathVariable("id") UUID id, @RequestBody(required = false) OrderEntity order,Authentication auth)
+	public OrderEntity rejectOrder(@PathVariable("id") UUID id, @RequestBody(required = false) OrderEntity order,
+			Authentication auth)
 	{
-		return orderService.rejectOrder(id,order, auth);
+		return orderService.rejectOrder(id, order, auth);
 	}
+
 	@PutMapping(path = "/{id}/finish")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public OrderEntity finishOrder(@PathVariable("id") UUID id, Authentication auth)
 	{
 		return orderService.finishOrder(id, auth);
 	}
+
 	@PutMapping(path = "/{id}/deliver")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public OrderEntity deliverOrder(@PathVariable("id") UUID id, Authentication auth)
 	{
 		return orderService.deliverOrder(id, auth);
 	}
+
 	@PutMapping(path = "/{id}/process")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public OrderEntity processOrder(@PathVariable("id") UUID id, Authentication auth)
 	{
 		return orderService.processOrder(id, auth);
 	}
+
 	@PutMapping(path = "lineItem")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public LineItem updateCartItem(@RequestBody LineItem item, Authentication auth)
 	{
-		return orderService.updateItem( item);
+		return orderService.updateItem(item);
 	}
+
 	@PutMapping(path = "/{id}/expire")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public OrderEntity expireOrderQuotation(@PathVariable("id") UUID id, Authentication auth)
 	{
 		return orderService.expireOrder(id, auth);
 	}
+
 	@GetMapping("search/admin")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public Page<OrderEntity> getAllOrders(@PageableDefault(value = 10, sort =
-	{ "status" }) Pageable page, @SearchSpec Specification<OrderEntity> specs,Authentication auth,@RequestParam(value = "status",required = false) List<OrderStatus> status)
+	{ "status" }) Pageable page, @SearchSpec Specification<OrderEntity> specs, Authentication auth,
+			@RequestParam(value = "status", required = false) List<OrderStatus> status)
 	{
-		if(status!=null&&status.size()>0)
-			specs=filterByStatus(status).and( specs);
+		if (status != null && status.size() > 0)
+			specs = filterByStatus(status).and(specs);
 
 		return orderService.getOrders(page, specs);
 	}
-	
+
 	@GetMapping("search")
 	@PreAuthorize("hasRole('ROLE_USER')")
 	public Page<OrderEntity> getUserOrders(Pageable page, @SearchSpec Specification<OrderEntity> specs,
-			Authentication auth,@RequestParam(value = "status",required = false) List<OrderStatus> status)
+			Authentication auth, @RequestParam(value = "status", required = false) List<OrderStatus> status)
 	{
-		if(status!=null&&status.size()>0)
-			specs=filterByStatus(status).and( specs);
+		if (status != null && status.size() > 0)
+			specs = filterByStatus(status).and(specs);
 
-		
 		return orderService.getOrders(page, specs, auth);
 
 	}
-	private  Specification<OrderEntity> filterByStatus(List<OrderStatus> status) {
-		return  (Root<OrderEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb)->{
+
+	private Specification<OrderEntity> filterByStatus(List<OrderStatus> status)
+	{
+		return (Root<OrderEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) -> {
 			List<Predicate> predicates = new ArrayList<>();
 			predicates.add(root.get("status").in(status));
 			return cb.and(predicates.toArray(new Predicate[predicates.size()]));

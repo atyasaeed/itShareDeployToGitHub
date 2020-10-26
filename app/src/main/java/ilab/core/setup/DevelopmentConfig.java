@@ -74,6 +74,10 @@ public class DevelopmentConfig
 	public CityRepository cityRepo;
 	@Autowired
 	private AddressRepository addressRepo;
+	@Autowired
+	private UserRepository userRepo;
+	@Autowired
+	private ServiceRepository serviceRepo;
 
 	@Bean
 	public CommandLineRunner dataLoader(ServiceRepository serviceRepo, UserRepository userRepo,
@@ -88,6 +92,7 @@ public class DevelopmentConfig
 				try
 				{
 					Address address = new Address();
+					Address address1 = new Address();
 
 					User user = userService.register(createUser("hatem.salem@ihub.asu.edu.eg", "New123456", "Admin",
 							"hatem.salem@ihub.asu.edu.eg", "01065002100", OrganizationType.INDIVIDUAL));
@@ -103,11 +108,14 @@ public class DevelopmentConfig
 					user = userService.enableUser(user.getId(), true, null);
 					Organization org = orgRepo.findById(user.getDefaultOrg().getId()).get();
 					org.setStatus(OrganizationStatus.ACTIVE);
+					address1.setUser(user);
+					address1.setLineOne("Street 16 New Cairo");
+					address1.setPhoneNo(user.getMobileNo());
 					orgRepo.save(org);
 
 					user = addRoleAuthority(user);
 					userRepo.save(user);
-					user = userService.register(createUser("Karafat1998@gmail.com", "New123456", "Hatem",
+					user = userService.register(createUser("karafat1998@gmail.com", "New123456", "Hatem",
 							"karafat1998@gmail.com", "01002222392", OrganizationType.PARTNER));
 					user = userService.enableUser(user.getId(), true, null);
 					user = addRoleAuthority(user);
@@ -145,8 +153,11 @@ public class DevelopmentConfig
 					shroukCity.setEnName("Shrouk City");
 					shroukCity.setState(cairoState);
 					address.setCity(shroukCity);
+					address1.setCity(shroukCity);
 					cityRepo.save(shroukCity);
 					addressRepo.save(address);
+					addressRepo.save(address1);
+
 
 				} catch (Exception e)
 				{
@@ -220,4 +231,5 @@ public class DevelopmentConfig
 		return user;
 	}
 
+	
 }
