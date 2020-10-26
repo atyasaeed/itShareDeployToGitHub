@@ -1,7 +1,7 @@
 <div class="p-4" [@routerTransition]>
   <app-page-header [breadCrumbs]="breadcrumbs"></app-page-header>
-  <form>
-    <div class="form-group form-inline">
+  <div class="form-group form-inline d-flex justify-content-between">
+    <div>
       <span class="site-color-v5 f-size-20 f-weight-600">
         {{'users'|translate}}
       </span>
@@ -9,59 +9,64 @@
         placeholder="{{'Search'|translate}}" name="searchTerm" [(ngModel)]="searchTerm" />
       <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
     </div>
-    <div class="table-responsive">
-      <table class="table " *tdLoading="'loading'">
-        <thead>
-          <tr>
-
-            <th scope="col">#</th>
-            <th scope="col" sortable="firstName" (sort)="onSort($event)">{{'firstName'|translate}}</th>
-            <th scope="col" sortable="lasName" (sort)="onSort($event)">{{'lastName'|translate}}</th>
-            <th scope="col" sortable="email" (sort)="onSort($event)">{{'email'|translate}}</th>
-            <th scope="col">{{'Phone'|translate}}</th>
-            <th scope="col" sortable="username" (sort)="onSort($event)">{{'Username'|translate}}</th>
-            <th></th>
-
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let entity of entities$ | async; let i=index">
-            <th scope="row">{{ i+1 }}</th>
-            <td>
-              <ngb-highlight [result]="entity.firstName" [term]="searchTerm"></ngb-highlight>
-            </td>
-            <td>
-              <ngb-highlight [result]="entity.lastName" [term]="searchTerm"></ngb-highlight>
-            </td>
-            <td>
-              <ngb-highlight [result]="entity.email" [term]="searchTerm"></ngb-highlight>
-            </td>
-            <td>
-              <ngb-highlight [result]="entity.mobileNo" [term]="searchTerm"></ngb-highlight>
-            </td>
-            <td>
-              <ngb-highlight [result]="entity.username" [term]="searchTerm"></ngb-highlight>
-            </td>
-            <td>
-
-              <a [routerLink]="entity.id" title="{{'user.view' | translate}}"><i class="fa fa-fw fa-edit"></i></a>&nbsp;
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div>
+      <a class="custom-btn v1" routerLink='import-users'>{{"importUsers"|translate}}</a>
     </div>
-    <div class="d-flex justify-content-between p-2">
-      <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize">
-      </ngb-pagination>
+  </div>
+  <div class="table-responsive">
+    <table class="table " *tdLoading="'loading'">
+      <thead>
+        <tr>
 
-      <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
-        <option [ngValue]="10">10 items per page</option>
-        <option [ngValue]="25">25 items per page</option>
-        <option [ngValue]="50">50 items per page</option>
-      </select>
-    </div>
+          <th scope="col">#</th>
+          <th scope="col" sortable="firstName" (sort)="onSort($event)">{{'firstName'|translate}}</th>
+          <th scope="col" sortable="lasName" (sort)="onSort($event)">{{'lastName'|translate}}</th>
+          <th scope="col" sortable="email" (sort)="onSort($event)">{{'email'|translate}}</th>
+          <th scope="col">{{'Phone'|translate}}</th>
+          <th scope="col" sortable="username" (sort)="onSort($event)">{{'Username'|translate}}</th>
+          <th></th>
 
-  </form>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let entity of entities$ | async; let i=index">
+          <th scope="row">{{ i+1 }}</th>
+          <td>
+            <ngb-highlight [result]="entity.firstName" [term]="searchTerm"></ngb-highlight>
+          </td>
+          <td>
+            <ngb-highlight [result]="entity.lastName" [term]="searchTerm"></ngb-highlight>
+          </td>
+          <td>
+            <ngb-highlight [result]="entity.email" [term]="searchTerm"></ngb-highlight>
+          </td>
+          <td>
+            <ngb-highlight [result]="entity.mobileNo" [term]="searchTerm"></ngb-highlight>
+          </td>
+          <td>
+            <ngb-highlight [result]="entity.username" [term]="searchTerm"></ngb-highlight>
+          </td>
+          <td>
+
+            <a [routerLink]="entity.id" title="{{'user.view' | translate}}"><i class="fa fa-fw fa-edit"></i></a>&nbsp;
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="d-flex justify-content-between p-2">
+    <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize">
+    </ngb-pagination>
+
+    <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
+      <option [ngValue]="10">10 items per page</option>
+      <option [ngValue]="25">25 items per page</option>
+      <option [ngValue]="50">50 items per page</option>
+    </select>
+  </div>
+
   <!-- {{entities$ |async|json}} -->
+
+
 
 </div>

@@ -459,5 +459,9 @@
   "current": "الحالى",
   "quoted": "مقتبس",
   "requestDate": " تاريخ الطلب :",
+  "importUsers": "اضافة مستخدمين",
+  "uploadUsersFile": "تحميل ملف المستخدمين",
+  "replaceFile": "استبدل الملف",
+  "uploadedUsers": "المستخدمون الذين تم رفعهم",
   "respondBefore": "أجب قبل :"
 }

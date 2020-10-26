@@ -24,9 +24,11 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { LinkableModule } from '../linkable/linkable.module';
 import { OrganizationInfoModule } from 'src/app/shared/modules/organization-info/organization-info.module';
 import { UserInfoModule } from 'src/app/shared/modules/user-info/user-info.module';
+import { ImportUsersComponent } from './import-users/import-users.component';
+import { ModalModule } from 'ngx-bootstrap';
 
 @NgModule({
-  declarations: [UsersComponent, UserFormComponent],
+  declarations: [UsersComponent, UserFormComponent, ImportUsersComponent],
   imports: [
     CommonModule,
     UsersRoutingModule,
@@ -51,6 +53,7 @@ import { UserInfoModule } from 'src/app/shared/modules/user-info/user-info.modul
     MatDatepickerModule,
     MatNativeDateModule,
     MatMomentDateModule,
+    ModalModule.forRoot(),
   ],
 })
 export class UsersModule {}
