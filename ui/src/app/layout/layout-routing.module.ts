@@ -74,6 +74,7 @@ const routes: Routes = [
         path: 'organization-team',
         loadChildren: () =>
           import('./organization-team/organization-team.module').then((m) => m.OrganizationTeamModule),
+        canActivate:[PartnerGuard]
       },
       {
         path: 'org-member-invitation/:entityId',

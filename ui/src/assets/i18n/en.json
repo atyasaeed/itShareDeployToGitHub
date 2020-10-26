@@ -391,11 +391,11 @@
   "removeMemeber": "remove this member",
   "WelcomeToFabrihubMmanufacturingCommunity": "Welcome to fabrihub manufacturing community get started and upload your official documents so you can have jobs",
   "organizationOfficialDocumnets": "You have to complete registeration and upload organization official documnets",
-  "takeMeThere": "Take me there",
+  "takeMeThere": "Take Me There",
   "documentsUploaded ": "Thank you, your documents uploaded and waiting for approval",
   "orgAccountSuccessfuly": "You have created your organization account successfuly",
   "uploadPapers": "Upload Your Official Papers",
-  "createAccount": "Create account",
+  "createAccount": "Create Account",
   "contactYou": "We Will Contact You",
   "congratulations": "Congratulations, Done",
   "addressBook": "Address Book",
@@ -461,5 +461,7 @@
   "current": "Current",
   "quoted": "Quoted",
   "requestDate": "Request Date :",
-  "respondBefore": "Respond Before :"
+  "respondBefore": "Respond Before :",
+  "welcome":"Welcome",
+  "waitingForApproval":"There is only one step left to get jobs our account manager will contact you very soon for the onboarding process, be ready"
 }

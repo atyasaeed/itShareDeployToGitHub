@@ -9,14 +9,13 @@ import { Store } from '@ngrx/store';
 @Injectable({
   providedIn: 'root',
 })
-export class PartnerGuard implements CanActivate {
-  private isPartner = false;
-  user :User;
+export class NotActivePartnerGuard implements CanActivate {
+
+  notActivePartner:boolean = false;
   constructor(private router: Router, private service: UserService, private appStore: Store<fromStore.AppState>) {
     appStore.select(fromStore.getAuthUser).subscribe((user) => {
-      if (user?.defaultOrgType === 'PARTNER') {
-        this.isPartner = true;
-        this.user = user;
+      if (user?.defaultOrgType === 'PARTNER' && (user?.defaultOrgStatus === 'PENDING' || user?.defaultOrgStatus === 'WAITING_APPROVAL')) {
+        this.notActivePartner = true;
       }
     });
   }
@@ -24,11 +23,7 @@ export class PartnerGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (this.isPartner) {
-      if (this.user?.defaultOrgStatus === 'PENDING' ) {
-        this.router.navigate(['/home/partner']);
-        return false;
-      }
+    if (this.notActivePartner) {
       return true;
     } else {
       this.router.navigate(['']);

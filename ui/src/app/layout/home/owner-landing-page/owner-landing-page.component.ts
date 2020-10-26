@@ -10,10 +10,10 @@ import { UserService } from 'src/app/shared/services/user.service';
   styleUrls: ['./owner-landing-page.component.scss'],
 })
 export class OwnerLandingPageComponent implements OnInit {
-  breadcrumbs = [{ heading: 'organization', icon: 'fa-tasks' }];
-  isPending = false;
-  isWaitingAproval = false;
-
+  breadcrumbs = [{ heading: 'welcome' }];
+  stepsArr: string[] = ['createAccount', 'uploadPapers', 'contactYou', 'congratulations'];
+  activeStep: string;
+  status: string;
   constructor(
     private router: Router,
     private service: UserService,
@@ -24,13 +24,12 @@ export class OwnerLandingPageComponent implements OnInit {
   ngOnInit(): void {
     this.service.getAuthUserDetails().subscribe(
       (res) => {
-        console.log(res);
-
         if (res.defaultOrg.status === 'PENDING') {
-          this.isPending = true;
+          this.status = 'PENDING';
+          this.activeStep = 'uploadPapers';
         } else if (res.defaultOrg.status === 'WAITING_APPROVAL') {
-          this.isPending = true;
-          this.isWaitingAproval = true;
+          this.status = 'WAITING_APPROVAL';
+          this.activeStep = 'contactYou';
         } else {
           this.router.navigate(['']);
         }
@@ -39,6 +38,12 @@ export class OwnerLandingPageComponent implements OnInit {
         this.toastr.error(this.translate.instant(err.message));
       }
     );
-    console.log(this.isWaitingAproval);
+  }
+
+  uploadPapers() {
+    this.activeStep = 'uploadPapers';
+  }
+  contactYou() {
+    this.activeStep = 'contactYou';
   }
 }

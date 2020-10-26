@@ -6,7 +6,7 @@ import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { Service } from 'src/app/shared/domain';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -27,10 +27,17 @@ export class HomeComponent implements OnInit {
     private appStore: Store<fromStore.AppState>,
     private route: ActivatedRoute,
     private toastr: ToastrService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private router:Router
   ) {
     this.appStore.select(fromStore.getLang).subscribe((res) => {
       this.lang = res;
+    });
+    this.appStore.select(fromStore.getAuthUser).subscribe((user) => {
+      if (user?.defaultOrgType === 'PARTNER' && user?.defaultOrgStatus === 'PENDING') {
+        console.log(user?.defaultOrgType)
+        this.router.navigate(['/home/partner']);
+      }
     });
   }
 
