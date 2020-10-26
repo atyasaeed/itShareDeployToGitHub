@@ -47,14 +47,6 @@ public class OrderController
 	@Autowired
 	private OrderService orderService;
 
-	@PutMapping("/{id}")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public LineItem ReadyForQuotation(@PathVariable("id")UUID id,Authentication auth ) {
-		return orderService.changeToRRFQ(id, auth);
-		
-	}
-	
-
 	@GetMapping()
 	public Iterable<OrderEntity> getOrders(Authentication auth)
 	{

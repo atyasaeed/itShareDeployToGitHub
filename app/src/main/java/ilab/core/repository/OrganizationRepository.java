@@ -1,7 +1,6 @@
 package ilab.core.repository;
 
 import java.util.Optional;
-
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -26,7 +25,7 @@ public interface OrganizationRepository
 
 	Page<Organization> findByOwner_username(String username, Pageable page);
 
-	Optional<Organization> findByOwner_usernameAndServicesAndStatusAndType(String username, Service service,
+	Optional<Organization> findByOwner_usernameAndServicesContainingAndStatusAndType(String username, Service service,
 			OrganizationStatus status, OrganizationType type);
 
 }

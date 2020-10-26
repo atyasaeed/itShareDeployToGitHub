@@ -12,16 +12,15 @@ import org.springframework.stereotype.Service;
 
 import ilab.core.domain.order.LineItem;
 import ilab.core.domain.order.LineItemStatus;
+import ilab.core.domain.order.Quotation;
+import ilab.core.domain.order.QuotationStatus;
 import ilab.core.domain.user.Organization;
 import ilab.core.domain.user.OrganizationStatus;
 import ilab.core.domain.user.OrganizationType;
-import ilab.core.domain.user.Quotation;
-import ilab.core.domain.user.QuotationStatus;
 import ilab.core.domain.user.User;
 import ilab.core.repository.LineItemRepository;
 import ilab.core.repository.OrganizationRepository;
 import ilab.core.repository.QuotationRepository;
-import ilab.core.repository.UserRepository;
 import ilab.utils.exception.IllegalRequestDataException;
 
 @Service
@@ -33,35 +32,37 @@ public class QuotationService
 	private QuotationRepository quotationRepo;
 
 	@Autowired
-	private UserRepository userRepo;
+	private UserService userService;
 	@Autowired
 	private OrganizationRepository orgRepo;
 	@Autowired
 	private LineItemRepository lineItemRepo;
 
-	public Page<Quotation> adminSearchRRFQ(Pageable page, UUID id)
+	public Page<Quotation> getItemQuotes(Pageable page, UUID id)
 	{
 		return quotationRepo.findByStatusAndLineItem_id(QuotationStatus.QUOTED, id, page);
 	}
 
-	public Page<LineItem> readyRFQitem(Authentication auth, Pageable page)
+	public Page<LineItem> readyRFQs(Authentication auth, Pageable page)
 	{
-		User user = userRepo.findByemailIgnoreCase(auth.getName().toLowerCase()).orElseThrow();
+		User user = userService.findUser(auth);
 		if (orgValidation(user.getDefaultOrg()))
 		{
 			return lineItemRepo.findByStatusAndServiceIn(LineItemStatus.RRFQ, user.getDefaultOrg().getServices(), page);
 		}
+		// TODO: should return empty page;
 		return null;
-
 	}
 
-	public Quotation PartnerQuote(Authentication auth, Quotation quotation)
+	public Quotation create(Authentication auth, UUID itemId, Quotation quotation)
 	{
-		Organization org = orgRepo.findByOwner_usernameAndServicesAndStatusAndType(auth.getName(),
-				quotation.getLineItem().getService(), OrganizationStatus.ACTIVE, OrganizationType.PARTNER)
+		Organization org = orgRepo
+				.findByOwner_usernameAndServicesContainingAndStatusAndType(auth.getName(),
+						quotation.getLineItem().getService(), OrganizationStatus.ACTIVE, OrganizationType.PARTNER)
 				.orElseThrow();
-		if (orgValidation(org) && quotationValidation(quotation)
-				&& quotation.getLineItem().getStatus().equals(LineItemStatus.RRFQ))
+		LineItem lineItem = lineItemRepo.findById(itemId).orElseThrow();
+		quotation.setLineItem(lineItem);
+		if (validateQuotation(quotation) && lineItem.getStatus().equals(LineItemStatus.RRFQ))
 		{
 			quotation.setPartner(org);
 			quotation.setStatus(QuotationStatus.QUOTED);
@@ -72,21 +73,24 @@ public class QuotationService
 
 	}
 
-	public Quotation adminSelect(UUID id)
+	public Quotation select(UUID id)
 	{
 		Quotation quotation = quotationRepo.findById(id).orElseThrow();
-
-		if (quotation.getStatus().equals(QuotationStatus.QUOTED))
+		LineItem item = quotation.getLineItem();
+		if (quotation.getStatus() == QuotationStatus.QUOTED
+				&& (item.getStatus() == LineItemStatus.RRFQ || item.getStatus() == LineItemStatus.HRFQ))
 		{
 			quotation.setStatus(QuotationStatus.SELECTED);
+			item.setUnitPrice(quotation.getUnitPrice());
+			item.setDuration(quotation.getDuration());
 			return quotationRepo.save(quotation);
 		}
 		return null;
 	}
 
-	public Page<Quotation> getMyQuoted(Authentication auth, Pageable page)
+	public Page<Quotation> getQuotations(Authentication auth, Pageable page)
 	{
-		User user = userRepo.findByemailIgnoreCase(auth.getName()).orElseThrow();
+		User user = userService.findUser(auth);
 		return quotationRepo.findByPartnerAndStatus(user.getDefaultOrg(), QuotationStatus.QUOTED, page);
 	}
 
@@ -99,7 +103,7 @@ public class QuotationService
 		return false;
 	}
 
-	public boolean quotationValidation(Quotation quotation)
+	public boolean validateQuotation(Quotation quotation)
 	{
 		if (quotation.getDuration() == 0)
 		{

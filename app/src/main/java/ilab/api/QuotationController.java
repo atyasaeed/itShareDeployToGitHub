@@ -10,14 +10,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ilab.core.domain.order.LineItem;
-import ilab.core.domain.user.Quotation;
+import ilab.core.domain.order.Quotation;
 import ilab.core.service.QuotationService;
 
 @RestController
@@ -29,32 +27,27 @@ public class QuotationController
 	@Autowired
 	private QuotationService quotationService;
 
-	@GetMapping("/pending")
+	@GetMapping("/rfqs")
 	@PreAuthorize("hasRole('ROLE_USER')")
+	// TODO: Refactor to return DTO for RFQ
 	public Page<LineItem> getRFQ(Authentication auth, Pageable page)
 	{
-		return quotationService.readyRFQitem(auth, page);
+		return quotationService.readyRFQs(auth, page);
 	}
 
-	@PostMapping("/quote")
+	@GetMapping()
 	@PreAuthorize("hasRole('ROLE_USER')")
-	public Quotation quote(Authentication auth, @RequestBody Quotation quotation)
+	// TODO: Refactor to return DTO for RFQ
+	public Page<Quotation> get(Authentication auth, Pageable page)
 	{
-		return quotationService.PartnerQuote(auth, quotation);
-	}
-
-	@GetMapping("admin/search/{id}/quoted")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public Page<Quotation> quotedByPartner(Pageable page, @PathVariable("id") UUID id)
-	{
-		return quotationService.adminSearchRRFQ(page, id);
+		return quotationService.getQuotations(auth, page);
 	}
 
 	@PutMapping("admin/{id}/select")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public Quotation adminAccept(@PathVariable("id") UUID id)
 	{
-		return quotationService.adminSelect(id);
+		return quotationService.select(id);
 	}
 
 }

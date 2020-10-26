@@ -1,4 +1,4 @@
-package ilab.core.domain.user;
+package ilab.core.domain.order;
 
 public enum QuotationStatus
 {

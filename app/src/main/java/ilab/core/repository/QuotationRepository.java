@@ -10,9 +10,9 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
+import ilab.core.domain.order.Quotation;
+import ilab.core.domain.order.QuotationStatus;
 import ilab.core.domain.user.Organization;
-import ilab.core.domain.user.Quotation;
-import ilab.core.domain.user.QuotationStatus;
 
 @Repository
 @Transactional

@@ -1,8 +1,7 @@
-package ilab.core.domain.user;
+package ilab.core.domain.order;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.Period;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -10,10 +9,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import ilab.core.domain.AbstractEntity;
-import ilab.core.domain.order.LineItem;
+import ilab.core.domain.user.Organization;
+import ilab.core.domain.user.User;
 
 @Entity
 @Table(uniqueConstraints =
@@ -37,7 +35,6 @@ public class Quotation extends AbstractEntity<Quotation>
 
 	private QuotationStatus status;
 
-	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate endDate;
 
 	public BigDecimal getUnitPrice()
