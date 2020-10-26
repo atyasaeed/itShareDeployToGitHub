@@ -461,7 +461,10 @@
   "current": "Current",
   "quoted": "Quoted",
   "requestDate": "Request Date :",
-  "respondBefore": "Respond Before :",
   "welcome":"Welcome",
-  "waitingForApproval":"There is only one step left to get jobs our account manager will contact you very soon for the onboarding process, be ready"
+  "waitingForApproval":"There is only one step left to get jobs our account manager will contact you very soon for the onboarding process, be ready",
+  "importUsers": "Import Users",
+  "uploadUsersFile": "upload users file",
+  "uploadedUsers": "Uploaded users",
+  "respondBefore": "Respond Before :"
 }

@@ -27,7 +27,7 @@ public class Organization extends AbstractEntity<Organization>
 	@Column(nullable = false)
 	@NotBlank
 	private String name;
-	
+
 	private String website;
 
 	@Size(min = 11, max = 18)
@@ -44,15 +44,14 @@ public class Organization extends AbstractEntity<Organization>
 	@Column(nullable = false)
 	@NotBlank
 	private String address;
-	
+
 	@ManyToMany
 //	@OrderBy(value = "rank")
 //	@OrderColumn(name = "rank")
 //	@ListIndexBase(value = 1)
 //	look at this issue https://www.intertech.com/Blog/hibernate-why-are-there-nulls-in-my-collection/
-	private List<Service> services=new ArrayList<Service>();
+	private List<Service> services = new ArrayList<Service>();
 
-	
 	@OneToOne
 	private FileAsset comReg;
 
@@ -64,16 +63,17 @@ public class Organization extends AbstractEntity<Organization>
 
 	@OneToOne
 	private FileAsset frontNatId;
-	
+
 	@ManyToOne(optional = false)
-	@JsonIgnoreProperties("defaultOrg")
-	private User owner ;
-	
+	@JsonIgnoreProperties(value =
+	{ "defaultOrg" }, allowSetters = true)
+	private User owner;
+
 	private OrganizationType type;
-	
+
 	private OrganizationStatus status;
 	private String statusReason;
-	
+
 	public String getName()
 	{
 		return name;
@@ -123,7 +123,6 @@ public class Organization extends AbstractEntity<Organization>
 	{
 		this.address = address;
 	}
-
 
 	public User getOwner()
 	{
@@ -215,5 +214,4 @@ public class Organization extends AbstractEntity<Organization>
 		this.frontNatId = frontNatId;
 	}
 
-	
 }

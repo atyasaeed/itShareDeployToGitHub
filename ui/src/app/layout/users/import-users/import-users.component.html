@@ -1,0 +1,30 @@
+<div class="p-4" [@routerTransition] *tdLoading="'loading' strategy:'overlay'">
+  <app-page-header [breadCrumbs]="breadcrumbs"></app-page-header>
+
+  <div class="text-center custom-card p-4 my-5">
+    <h4 class="site-color-v1 py-4 text-center">{{"uploadUsersFile" |translate}}</h4>
+    <div class="form-group">
+      <input #fileInput hidden="true" type="file" (change)="uploadFile($event)" accept=".csv" multiple />
+      <button mat-flat-button color="primary" type="button" (click)="fileInput.click()"><i class="fa fa-upload"></i>
+        {{'upload'|translate}}</button>
+    </div>
+  </div>
+
+  <div class="p-4" [@routerTransition]>
+
+    <div class="table-responsive" *tdLoading="'loadingUsers'">
+      <table class="table" *ngIf="entity.length>0">
+        <thead>
+          <tr>
+            <th scope="col">{{'uploadedUsers'|translate}}</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let item of entity">
+          <tr>
+            <th [ngClass]="{'text-danger': item[1] == false ,'text-primary': item[1] == true}">{{item[0]}}</th>
+          </tr>
+        </tbody>
+
+      </table>
+    </div>
+  </div>

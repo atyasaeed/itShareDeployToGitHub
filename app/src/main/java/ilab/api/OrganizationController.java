@@ -126,4 +126,7 @@ public class OrganizationController
 	{
 		return orgService.getByIdandUser(id, auth);
 	}
+
+
+
 }
