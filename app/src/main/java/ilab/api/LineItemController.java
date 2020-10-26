@@ -3,6 +3,8 @@ package ilab.api;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
@@ -22,7 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import ilab.core.domain.order.LineItem;
+import ilab.core.domain.order.Quotation;
 import ilab.core.service.OrderService;
+import ilab.core.service.QuotationService;
 
 @RestController
 @RequestMapping(path = LineItemController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -32,6 +36,16 @@ public class LineItemController
 	static final String REST_URL = "/api/item";
 	@Autowired
 	private OrderService orderService;
+	@Autowired
+	private QuotationService quotationService;
+
+	@PutMapping("/{id}/RRFQ")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public LineItem ReadyForQuotation(@PathVariable("id") UUID id, Authentication auth)
+	{
+		return orderService.changeItemToRRFQ(id, auth);
+
+	}
 
 	@PutMapping(path = "/{id}/cancel")
 	public LineItem cancelItem(@PathVariable("id") UUID id, Authentication auth)
@@ -80,11 +94,11 @@ public class LineItemController
 		return orderService.updateItem(id, item, auth);
 	}
 
-	@PutMapping(path = "/{id}/quote")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public LineItem quote(@PathVariable("id") UUID id, Authentication auth)
+	@PostMapping(path = "/{id}/quote")
+	@PreAuthorize("hasRole('ROLE_USER')")
+	public Quotation quote(@PathVariable("id") UUID id, @RequestBody Quotation quotation, Authentication auth)
 	{
-		return orderService.quoteItem(id, auth);
+		return quotationService.create(auth, id, quotation);
 	}
 
 	@PutMapping(path = "/{id}/rejectItem")
@@ -123,4 +137,12 @@ public class LineItemController
 	{
 		return orderService.reset(id);
 	}
+
+	@GetMapping("/admin/{id}/quotes")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public Page<Quotation> getItemQuotes(Pageable page, @PathVariable("id") UUID id)
+	{
+		return quotationService.getItemQuotes(page, id);
+	}
+
 }

@@ -770,4 +770,15 @@ public class OrderService
 		}
 
 	}
+
+	public LineItem changeItemToRRFQ(UUID id, Authentication auth)
+	{
+		LineItem item = lineItemRepo.findById(id).orElseThrow();
+		if (item.getStatus().equals(LineItemStatus.PENDING))
+		{
+			item.setStatus(LineItemStatus.RRFQ);
+			item = lineItemRepo.save(item);
+		}
+		return item;
+	}
 }

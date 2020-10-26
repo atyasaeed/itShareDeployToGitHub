@@ -38,6 +38,8 @@ public class OrganizationService
 	@Autowired
 	private OrganizationRepository orgRepo;
 
+
+
 	public Organization updateOrganization(UUID orgId, Organization org, MultipartFile file1, MultipartFile file2,
 			MultipartFile file3, MultipartFile file4, Authentication auth) throws IOException
 	{
@@ -99,7 +101,7 @@ public class OrganizationService
 	public Page<Organization> search(Specification<Organization> specs, Authentication auth, Pageable page)
 	{
 
-		return orgRepo.findByOwner_username(auth.getName(), page);
+		return orgRepo.findByOwner_username(auth.getName().toLowerCase(), page);
 	}
 
 	public Organization changeStatus(UUID id, OrganizationStatus status, Authentication auth)
@@ -119,4 +121,8 @@ public class OrganizationService
 	{
 		return orgRepo.findByIdAndOwner_username(id, auth.getName().toLowerCase()).orElseThrow();
 	}
+
+	
+
+	
 }
