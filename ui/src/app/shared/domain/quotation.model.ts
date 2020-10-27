@@ -10,6 +10,6 @@ export interface Quotation extends Entity {
   partner: Organization;
   unitPrice?: number;
   duration?: number;
-  endDate: Date
-  status :string
+  endDate: Date;
+  status: string;
 }

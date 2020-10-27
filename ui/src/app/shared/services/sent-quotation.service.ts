@@ -3,8 +3,8 @@ import { RestService } from '.';
 import { LineItem, Order } from '../domain';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class QuotationService extends RestService<LineItem> {
+export class SentQuotationService extends RestService<LineItem> {
   resource: string = 'quotation/rfqs';
 }

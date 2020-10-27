@@ -62,7 +62,7 @@
                 <div class="form-group">
                   <label for="ManufacturingDuration"
                     class="brand font-weight-bold">{{"manufacturingDuration"|translate}}</label>
-                  <input type="number" placeholder="enterManufacturingDuration"
+                  <input type="number" placeholder="{{'enterManufacturingDuration' |translate}}"
                     class="form-control f-size-14 text-grey f-weight-500" id="ManufacturingDuration"
                     [(ngModel)]="lineItem.duration" #duration='ngModel' [ngModelOptions]="{standalone: true}" required>
                   <div *ngIf="duration.hasError('required') && checkInput ||lineItem.duration === 0"
@@ -75,7 +75,7 @@
               <div class="col-md-5">
                 <div class="form-group">
                   <label for="UnitPrice" class="brand font-weight-bold">{{"unitPrice"|translate}}</label>
-                  <input type="number" placeholder="enterUnitPrice"
+                  <input type="number" placeholder="{{'enterUnitPrice' |translate}}"
                     class="form-control f-size-14 text-grey f-weight-500" min="1" id="UnitPrice"
                     [(ngModel)]="lineItem.unitPrice" #unitPrice='ngModel' [ngModelOptions]="{standalone: true}"
                     required>
@@ -154,7 +154,7 @@
           <div class="text-center f-size-14 text-grey mt-2">
             <div class="text-center">{{'confirmQuote'|translate}}</div>
             <div class="text-center">{{lineItem.duration}} {{'days'|translate}} , {{lineItem.unitPrice}}
-              {{'egpPerUnite'|translate}}</div>
+              {{'egpPerUnit'|translate}}</div>
           </div>
           <div class="text-center my-2 f-weight-600">
             <button class="custom-btn v4 mr-3" (click)="modalRef.hide()">{{'cancel'|translate}}</button>

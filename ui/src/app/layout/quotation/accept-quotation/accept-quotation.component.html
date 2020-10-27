@@ -13,23 +13,25 @@
   </div>
 
   <div *tdLoading="'loading'">
-    <div *ngFor="let entity of entities$|async">
-      <section class="custom-card" *ngFor="let lineItem of entity.lineItems ;index as i ">
+    <div *ngFor="let quotation of entities$|async ;index as i">
+
+      <section class="custom-card">
 
         <div class="border-bottom mb-2">
-          <div class="form-group p-2  row">
-            <div class="col-md-5"> {{"requestDate" | translate}} <span>{{lineItem.created | date:'medium'}}</span>
+          <div class="form-group p-2 row">
+
+
+            <div class="col-md-3  f-size-20 font-weight-bold"><span>{{quotation.lineItem.service.name}} -
+                {{'id'|translate }} {{quotation.id.slice(-7)}}</span></div>
+
+            <div class="col-md-2">{{'quantity' |translate}} : {{quotation.lineItem.quantity}}</div>
+            <div class="col-md-2">{{'status' |translate}} : {{quotation.status}}</div>
+            <div class="col-md-4"> {{"requestDate" | translate}} <span>{{quotation.created | date:'medium'}}</span>
             </div>
-            <div class="col-md-5"> {{"respondBefore" | translate}} <span
-                class="text-danger">{{lineItem.created | date:'medium'}}</span>
-            </div>
-            <div class="col-md-2 d-flex justify-content-end cursor-pointer"><i class="fa fa-angle-down f-size-24 px-3"
+            <div class="col-md-1 d-flex justify-content-end cursor-pointer"><i class="fa fa-angle-down f-size-24 px-3"
                 [ngClass]="{'fa-angle-down': !isCollapsed[i], 'fa-angle-up': isCollapsed[i]}"
                 (click)="isCollapsed[i] = !isCollapsed[i]"></i></div>
-            <div class="col-md-6 ml-3 f-size-20 font-weight-bold"><span>{{lineItem.service.name}} -
-                {{'id'|translate }} {{lineItem.id.slice(-7)}}</span></div>
 
-            <div class="col-md-5 ml-3">{{'quantity' |translate}} : {{lineItem.quantity}}</div>
           </div>
 
         </div>
@@ -37,20 +39,20 @@
         <div class="row ml-2 mb-3" [ngbCollapse]="!isCollapsed[i]">
           <div class="col-md-3">
             <div class="service-image mb-2">
-              <img class="img-fluid" [src]="appConfig.FILE_URL + lineItem.files[0].asset_id"
-                *ngIf="getFileExtension(lineItem) == 'image';else stlExtension">
+              <img class="img-fluid" [src]="appConfig.FILE_URL + quotation.lineItem.files[0].asset_id"
+                *ngIf="getFileExtension(quotation.lineItem) == 'image';else stlExtension">
               <ng-template #stlExtension>
-                <div *ngIf="getFileExtension(lineItem) == 'stl';else serviceImage">
-                  <img class="img-fluid " [src]="appConfig.serviceImage(lineItem.service)">
-                  <app-stl-modal [stlPath]="appConfig.FILE_URL + lineItem.files[0].asset_id"></app-stl-modal>
+                <div *ngIf="getFileExtension(quotation.lineItem) == 'stl';else serviceImage">
+                  <img class="img-fluid " [src]="appConfig.serviceImage(quotation.lineItem.service)">
+                  <app-stl-modal [stlPath]="appConfig.FILE_URL + quotation.lineItem.files[0].asset_id"></app-stl-modal>
                 </div>
 
               </ng-template>
               <ng-template #serviceImage>
-                <img class="img-fluid " [src]="appConfig.serviceImage(lineItem.service)">
+                <img class="img-fluid " [src]="appConfig.serviceImage(quotation.lineItem.service)">
               </ng-template>
             </div>
-            <div class="text-center mb-2"><a [href]="getFileUrl(lineItem)">
+            <div class="text-center mb-2"><a [href]="getFileUrl(quotation.lineItem)">
                 {{'download' | translate}}
               </a></div>
 
@@ -63,28 +65,20 @@
                   <div class="form-group">
                     <label for="ManufacturingDuration"
                       class="brand font-weight-bold">{{"manufacturingDuration"|translate}}</label>
-                    <input type="number" placeholder="enterManufacturingDuration"
+                    <input type="number" placeholder="{{'enterManufacturingDuration' |translate}}"
                       class="form-control f-size-14 text-grey f-weight-500" id="ManufacturingDuration"
-                      [(ngModel)]="lineItem.duration" #duration='ngModel' [ngModelOptions]="{standalone: true}"
+                      [(ngModel)]="quotation.duration" #duration='ngModel' [ngModelOptions]="{standalone: true}"
                       readonly>
-                    <div *ngIf="duration.hasError('required') && checkInput ||lineItem.duration === 0"
-                      class="text-danger">
-                      {{'manufacturingDuration.error'|translate}}
-                    </div>
 
                   </div>
                 </div>
                 <div class="col-md-5">
                   <div class="form-group">
                     <label for="UnitPrice" class="brand font-weight-bold">{{"unitPrice"|translate}}</label>
-                    <input type="number" placeholder="enterUnitPrice"
+                    <input type="number" placeholder="{{'enterUnitPrice' |translate}}"
                       class="form-control f-size-14 text-grey f-weight-500" min="1" id="UnitPrice"
-                      [(ngModel)]="lineItem.unitPrice" #unitPrice='ngModel' [ngModelOptions]="{standalone: true}"
+                      [(ngModel)]="quotation.unitPrice" #unitPrice='ngModel' [ngModelOptions]="{standalone: true}"
                       readonly>
-
-                    <div *ngIf="unitPrice.hasError('required')  && checkInput" class="text-danger">
-                      {{'unitPrice.error'|translate}}
-                    </div>
 
 
                   </div>
@@ -102,7 +96,7 @@
               </div>
             </div>
             <div class="container-fluid">
-              <div class="row" *ngFor="let file of lineItem?.files">
+              <div class="row" *ngFor="let file of quotation.lineItem?.files">
                 <div class="col-md-6" *ngIf="file.height">
                   <label>{{'file.height' | translate }} :&nbsp;</label>
                   <span class="text-grey-v2" #heightErr>{{file.height}}</span>

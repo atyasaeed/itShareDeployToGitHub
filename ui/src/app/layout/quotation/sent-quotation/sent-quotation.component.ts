@@ -11,7 +11,7 @@ import { Quotation } from 'src/app/shared/domain/quotation.model';
 import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
 import { LineItemService } from 'src/app/shared/services/line-item.service';
 import { OrderService } from 'src/app/shared/services/order.service';
-import { QuotationService } from 'src/app/shared/services/quotation.service';
+import { SentQuotationService } from 'src/app/shared/services/sent-quotation.service';
 import * as fromStore from 'src/app/store';
 
 @Component({
@@ -20,14 +20,14 @@ import * as fromStore from 'src/app/store';
   styleUrls: ['./sent-quotation.component.scss'],
   animations: [routerTransition()],
 })
-export class SentQuotationComponent extends DefaultListComponent<LineItem, QuotationService> implements OnInit {
+export class SentQuotationComponent extends DefaultListComponent<LineItem, SentQuotationService> implements OnInit {
   private _searchTerm = '';
   lang: string;
   checkInput: boolean;
   modalRef: BsModalRef;
   public isCollapsed: boolean[] = [];
   constructor(
-    service: QuotationService,
+    service: SentQuotationService,
     private lineItemService: LineItemService,
     loadingService: TdLoadingService,
     private appStore: Store<fromStore.AppState>,
@@ -80,12 +80,16 @@ export class SentQuotationComponent extends DefaultListComponent<LineItem, Quota
   }
   confirmQuoteItem(lineitem: LineItem) {
     console.log(lineitem);
-    let quotation: Quotation = {} as Quotation
-    quotation.unitPrice = lineitem.unitPrice
-    quotation.duration = lineitem.duration
-    this.lineItemService.quoteItem(quotation,lineitem.id).subscribe(res => {
-      console.log(res)
-    })
-
+    let quotation: Quotation = {} as Quotation;
+    quotation.unitPrice = lineitem.unitPrice;
+    quotation.duration = lineitem.duration;
+    this.lineItemService.quoteItem(quotation, lineitem.id).subscribe(
+      (res) => {
+        this.toastr.success(this.translate.instant('quoted'));
+      },
+      (err) => {
+        this.toastr.error(this.translate.instant(err.error.details[0]));
+      }
+    );
   }
 }

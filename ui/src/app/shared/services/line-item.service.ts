@@ -31,7 +31,7 @@ export class LineItemService extends RestService<LineItem> {
     return this.http.put(this.appConfig.getResourceUrl(this.resource) + `/${id}/${action}`, '');
   }
 
-  quoteItem(quoteItem:Quotation , id :string) {
-    return this.http.post(this.url + `/${id}/quote` ,quoteItem)
+  quoteItem(quoteItem: Quotation, id: string) {
+    return this.http.post(this.url + `/${id}/quote`, quoteItem);
   }
 }

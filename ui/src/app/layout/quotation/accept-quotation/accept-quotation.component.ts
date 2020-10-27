@@ -10,20 +10,23 @@ import * as fromStore from 'src/app/store';
 import { routerTransition } from 'src/app/router.animations';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { Quotation } from 'src/app/shared/domain/quotation.model';
+import { AcceptQuotationService } from 'src/app/shared/services/accept-quotation.service';
 @Component({
   selector: 'app-accept-quotation',
   templateUrl: './accept-quotation.component.html',
   styleUrls: ['./accept-quotation.component.scss'],
   animations: [routerTransition()],
 })
-export class AcceptQuotationComponent extends DefaultListComponent<Order, OrderService> implements OnInit {
+export class AcceptQuotationComponent extends DefaultListComponent<Quotation, AcceptQuotationService>
+  implements OnInit {
   private _searchTerm = '';
   lang: string;
   checkInput: boolean;
   modalRef: BsModalRef;
   public isCollapsed: boolean[] = [];
   constructor(
-    service: OrderService,
+    service: AcceptQuotationService,
     loadingService: TdLoadingService,
     private appStore: Store<fromStore.AppState>,
     private modalService: BsModalService,
