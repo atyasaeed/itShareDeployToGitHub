@@ -41,12 +41,12 @@ public class ExceptionInfoHandler
 	public static final String EXCEPTION_DUPLICATE_PHONENO = "exception.user.duplicatePhoneNo";
 	public static final String EXCEPTION_DUPLICATE_IDNUMBER = "exception.user.duplicateIdNumber";
 	public static final String EXCEPTION_CONSTRAINTVIOLATION = "exception.organizationUser.constraintViolationException";
-
+	public static final String EXCEPTION_PARTNER_ITEM_UNIQUE="exception.Quotation.constraintViolationException";
 	private static final Map<String, String> CONSTRAINS_I18N_MAP = Map.of("user_unique_email_idx",
 			EXCEPTION_DUPLICATE_EMAIL, "user_unique_username_idx", EXCEPTION_DUPLICATE_USERNAME,
 			"user_unique_arname_idx", EXCEPTION_DUPLICATE_ARNAME, "user_unique_enname_idx", EXCEPTION_DUPLICATE_ENNAME,
 			"user_unique_phone_idx", EXCEPTION_DUPLICATE_PHONENO, "user_unique_idnumber_idx",
-			EXCEPTION_DUPLICATE_IDNUMBER, "user_unique_user_id_org_id_idx", EXCEPTION_CONSTRAINTVIOLATION);
+			EXCEPTION_DUPLICATE_IDNUMBER, "user_unique_user_id_org_id_idx", EXCEPTION_CONSTRAINTVIOLATION,"line_item_partner_id_unique",EXCEPTION_PARTNER_ITEM_UNIQUE);
 
 	@Autowired
 	private MessageUtil messageUtil;
