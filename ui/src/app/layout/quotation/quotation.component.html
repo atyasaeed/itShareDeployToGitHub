@@ -1,0 +1,13 @@
+<div class="p-4">
+  <app-page-header [breadCrumbs]="breadcrumbs"></app-page-header>
+
+
+</div>
+<div class="f-size-18 mx-4 custom-card-header d-flex justify-content-center align-content-center">
+  <a routerLink="sent" class="active text-grey mx-4"
+    [routerLinkActive]="['router-link-active']">{{'current'|translate}}</a>&nbsp;&nbsp;
+  <a routerLink="accept" class="active text-grey mx-4"
+    [routerLinkActive]="['router-link-active']">{{'quoted'|translate}}</a>
+</div>
+
+<router-outlet></router-outlet>
