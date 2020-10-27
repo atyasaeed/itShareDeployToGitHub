@@ -66,7 +66,7 @@ public class Organization extends AbstractEntity<Organization>
 
 	@ManyToOne(optional = false)
 	@JsonIgnoreProperties(value =
-	{ "defaultOrg" }, allowSetters = true)
+	{ "defaultOrg" })
 	private User owner;
 
 	private OrganizationType type;

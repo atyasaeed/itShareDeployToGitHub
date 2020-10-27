@@ -43,12 +43,13 @@ public class QuotationService
 		return quotationRepo.findByStatusAndLineItem_id(QuotationStatus.QUOTED, id, page);
 	}
 
-	public Page<LineItem> readyRFQs(Authentication auth, Pageable page)
+	public Page<LineItem> readyFMs(Authentication auth, Pageable page)
 	{
 		User user = userService.findUser(auth);
 		if (orgValidation(user.getDefaultOrg()))
 		{
-			return lineItemRepo.findByStatusAndServiceIn(LineItemStatus.RRFQ, user.getDefaultOrg().getServices(), page);
+			return lineItemRepo.getServiceAndFilesByStatusAndServiceIn(LineItemStatus.RFM,
+					user.getDefaultOrg().getServices(), page);
 		}
 		// TODO: should return empty page;
 		return null;
@@ -62,7 +63,7 @@ public class QuotationService
 				.orElseThrow();
 		LineItem lineItem = lineItemRepo.findById(itemId).orElseThrow();
 		quotation.setLineItem(lineItem);
-		if (validateQuotation(quotation) && lineItem.getStatus().equals(LineItemStatus.RRFQ))
+		if (validateQuotation(quotation) && lineItem.getStatus().equals(LineItemStatus.RFM))
 		{
 			quotation.setPartner(org);
 			quotation.setStatus(QuotationStatus.QUOTED);
@@ -77,12 +78,19 @@ public class QuotationService
 	{
 		Quotation quotation = quotationRepo.findById(id).orElseThrow();
 		LineItem item = quotation.getLineItem();
+
 		if (quotation.getStatus() == QuotationStatus.QUOTED
-				&& (item.getStatus() == LineItemStatus.RRFQ || item.getStatus() == LineItemStatus.HRFQ))
+				&& (item.getStatus() == LineItemStatus.RFM || item.getStatus() == LineItemStatus.HRFQ))
 		{
 			quotation.setStatus(QuotationStatus.SELECTED);
 			item.setUnitPrice(quotation.getUnitPrice());
 			item.setDuration(quotation.getDuration());
+			if (item.getSelected() != null)
+			{
+				item.getSelected().setStatus(QuotationStatus.QUOTED);
+				quotationRepo.save(item.getSelected());
+			}
+			item.setSelected(quotation);
 			return quotationRepo.save(quotation);
 		}
 		return null;

@@ -27,12 +27,12 @@ public class QuotationController
 	@Autowired
 	private QuotationService quotationService;
 
-	@GetMapping("/rfqs")
+	@GetMapping("/rfqs/search")
 	@PreAuthorize("hasRole('ROLE_USER')")
 	// TODO: Refactor to return DTO for RFQ
-	public Page<LineItem> getRFQ(Authentication auth, Pageable page)
+	public Page<LineItem> getRFM(Authentication auth, Pageable page)
 	{
-		return quotationService.readyRFQs(auth, page);
+		return quotationService.readyFMs(auth, page);
 	}
 
 	@GetMapping()
