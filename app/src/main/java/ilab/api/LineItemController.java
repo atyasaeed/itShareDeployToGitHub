@@ -3,8 +3,6 @@ package ilab.api;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.annotation.Secured;
@@ -136,13 +134,6 @@ public class LineItemController
 	public LineItem reset(@PathVariable("id") UUID id, Authentication auth)
 	{
 		return orderService.reset(id);
-	}
-
-	@GetMapping("/admin/{id}/quotes")
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public Page<Quotation> getItemQuotes(Pageable page, @PathVariable("id") UUID id)
-	{
-		return quotationService.getItemQuotes(page, id);
 	}
 
 }
