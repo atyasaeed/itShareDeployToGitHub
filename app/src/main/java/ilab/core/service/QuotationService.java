@@ -54,11 +54,10 @@ public class QuotationService
 
 	public Quotation create(Authentication auth, UUID itemId, Quotation quotation)
 	{
-		Organization org = orgRepo
-				.findByOwner_usernameAndServicesContainingAndStatusAndType(auth.getName(),
-						quotation.getLineItem().getService(), OrganizationStatus.ACTIVE, OrganizationType.PARTNER)
-				.orElseThrow();
 		LineItem lineItem = lineItemRepo.findById(itemId).orElseThrow();
+		Organization org = orgRepo.findByOwner_usernameAndServicesContainingAndStatusAndType(auth.getName(),
+				lineItem.getService(), OrganizationStatus.ACTIVE, OrganizationType.PARTNER).orElseThrow();
+
 		quotation.setLineItem(lineItem);
 		if (validateQuotation(quotation) && lineItem.getStatus().equals(LineItemStatus.RFM))
 		{
