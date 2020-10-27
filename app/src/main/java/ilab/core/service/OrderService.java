@@ -771,14 +771,34 @@ public class OrderService
 
 	}
 
-	public LineItem changeItemToRRFQ(UUID id, Authentication auth)
+	public LineItem changeItemToRFM(UUID id, Authentication auth)
+	{
+		return changeItemStatus(id, LineItemStatus.PENDING, LineItemStatus.RFM);
+	}
+
+	public LineItem changeItemToHoldRFQ(UUID id)
+	{
+		return changeItemStatus(id, LineItemStatus.RFM, LineItemStatus.HRFQ);
+
+	}
+
+	public LineItem resumeRFM(UUID id)
+	{
+
+		return changeItemStatus(id, LineItemStatus.HRFQ, LineItemStatus.RFM);
+	}
+
+	public LineItem changeItemStatus(UUID id, LineItemStatus changeFrom, LineItemStatus changeTo)
 	{
 		LineItem item = lineItemRepo.findById(id).orElseThrow();
-		if (item.getStatus().equals(LineItemStatus.PENDING))
+
+		if (item.getStatus().equals(changeFrom) && item.getOrderEntity().getStatus().equals(OrderStatus.PENDING))
 		{
-			item.setStatus(LineItemStatus.RRFQ);
+			item.setStatus(changeTo);
 			item = lineItemRepo.save(item);
+			return item;
 		}
 		return item;
+
 	}
 }

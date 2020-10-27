@@ -18,6 +18,7 @@ import { SharedModule } from 'src/app/shared/modules/shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { StepsModule } from 'src/app/shared/modules/steps/steps.module';
 
 @NgModule({
   declarations: [HomeComponent, ServiceCardComponent, OwnerLandingPageComponent],
@@ -32,6 +33,7 @@ import { BrowserModule } from '@angular/platform-browser';
     PageHeaderModule,
     MatButtonModule,
     SharedModule,
+    StepsModule,
   ],
 })
 export class HomeModule {}

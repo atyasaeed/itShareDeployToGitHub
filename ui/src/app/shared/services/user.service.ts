@@ -70,6 +70,9 @@ export class UserService extends RestService<User> {
     // console.log(this.appConfig.API_END_POINT + `api/users/resendProvision?username=${username}`);
     return this.http.get<User>(this.appConfig.API_END_POINT + `api/user/resendProvision?username=${username}`);
   }
+  importUsers(formdata) {
+    return this.http.post(this.appConfig.API_END_POINT + 'api/utils/importUsers', formdata);
+  }
 
   userState(id) {
     this.resource = this.resource + `/${id}/enable`;
