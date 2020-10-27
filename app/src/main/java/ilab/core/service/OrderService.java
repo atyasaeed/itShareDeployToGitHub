@@ -773,22 +773,22 @@ public class OrderService
 
 	public LineItem changeItemToRFM(UUID id, Authentication auth)
 	{
-		return changeStatus(id, LineItemStatus.PENDING, LineItemStatus.RFM);
+		return changeItemStatus(id, LineItemStatus.PENDING, LineItemStatus.RFM);
 	}
 
 	public LineItem changeItemToHoldRFQ(UUID id)
 	{
-		return changeStatus(id, LineItemStatus.RFM, LineItemStatus.HRFQ);
+		return changeItemStatus(id, LineItemStatus.RFM, LineItemStatus.HRFQ);
 
 	}
 
 	public LineItem resumeRFM(UUID id)
 	{
 
-		return changeStatus(id, LineItemStatus.HRFQ, LineItemStatus.RFM);
+		return changeItemStatus(id, LineItemStatus.HRFQ, LineItemStatus.RFM);
 	}
 
-	public LineItem changeStatus(UUID id, LineItemStatus changeFrom, LineItemStatus changeTo)
+	public LineItem changeItemStatus(UUID id, LineItemStatus changeFrom, LineItemStatus changeTo)
 	{
 		LineItem item = lineItemRepo.findById(id).orElseThrow();
 
