@@ -39,11 +39,11 @@ public class LineItemController
 	@Autowired
 	private QuotationService quotationService;
 
-	@PutMapping("/{id}/RRFQ")
+	@PutMapping("admin/{id}/RFM")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public LineItem ReadyForQuotation(@PathVariable("id") UUID id, Authentication auth)
 	{
-		return orderService.changeItemToRRFQ(id, auth);
+		return orderService.changeItemToRFM(id, auth);
 
 	}
 
@@ -143,6 +143,22 @@ public class LineItemController
 	public Page<Quotation> getItemQuotes(Pageable page, @PathVariable("id") UUID id)
 	{
 		return quotationService.getItemQuotes(page, id);
+	}
+
+	@PutMapping("/admin/{id}/holdRFM")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public LineItem holdRFQ(@PathVariable("id") UUID id)
+	{
+		return orderService.changeItemToHoldRFQ(id);
+
+	}
+	
+	@PutMapping("/admin/{id}/resumeRFM")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public LineItem resumeRFQ(@PathVariable("id") UUID id)
+	{
+		return orderService.resumeRFM(id);
+
 	}
 
 }
