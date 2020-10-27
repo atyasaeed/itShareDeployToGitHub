@@ -7,4 +7,8 @@ import { Quotation } from '../domain/quotation.model';
 })
 export class QuotationService extends RestService<Quotation> {
   resource = 'quotation';
+
+  adminSelectQuotation(id: string) {
+    return this.http.put<Quotation>(this.appConfig.getResourceUrl(this.resource) + '/admin/' + id + '/select', null);
+  }
 }

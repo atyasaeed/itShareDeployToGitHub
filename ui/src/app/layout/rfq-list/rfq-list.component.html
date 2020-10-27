@@ -32,12 +32,12 @@
 
       </div>
       <div class="table-responsive">
-        <table class="table " *tdLoading="'loading'">
+        <table class="table " *tdLoading="'loading';strategy:'overlay'">
           <thead>
             <tr>
               <th scope="col">#</th>
 
-              <th scope="col" sortable="entity.partner.name" (sort)="onSort($event)">{{'organization'|translate}}</th>
+              <th scope="col" sortable="partner.name" (sort)="onSort($event)">{{'organization'|translate}}</th>
               <th scope="col" sortable="status" (sort)="onSort($event)">{{'status'|translate}}</th>
               <th scope="col" sortable="unitPrice" (sort)="onSort($event)">{{'price'|translate}}</th>
               <th scope="col" sortable="duration" (sort)="onSort($event)">{{'duration'|translate}}</th>
@@ -59,17 +59,24 @@
               </td>
 
               <td>
-                {{entity.unitPrice | titlecase}}
+                {{entity.unitPrice }}
               </td>
 
               <td>
-                {{entity.duration | titlecase}}
+                {{entity.duration }}
               </td>
 
               <td>
-                <button class="custom-btn v1" type="button">
-                  {{'accept'|translate}}
-                </button>
+                <div class="custom-control custom-radio d-flex align-items-center ">
+                  <input (change)="acceptQuotation($event)"  [value]="entity.id"
+                  name="selected-quotation" [checked]="entity.status==='SELECTED'"
+                  class="custom-control-input f-size-18" type="radio" id="'quotation_'{{entity.id}}" >
+                  <label for="'quotation_'{{entity.id}}" class="custom-control-label">
+                    <div class="text-primary f-weight-400 f-size-15">
+                      {{'accept'|translate}}
+                    </div>
+                  </label>
+                </div>
               </td>
             </tr>
           </tbody>

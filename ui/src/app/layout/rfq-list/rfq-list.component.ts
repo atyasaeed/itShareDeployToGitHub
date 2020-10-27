@@ -64,7 +64,17 @@ export class RfqListComponent extends DefaultListComponent<Quotation, QuotationS
   get searchTerm() {
     return this._searchTerm;
   }
-  openModal(template) {
-    this.modalRef = this.modalService.show(template);
+  // openModal(template) {
+  //   this.modalRef = this.modalService.show(template);
+  // }
+  acceptQuotation(event) {
+    this.loadingService.register(this.key);
+    this.service.adminSelectQuotation(event.target.value).subscribe(res => {
+      this.loadingService.resolve(this.key);
+      this.toastr.success(this.translate.instant('quotationSelected'));
+    }, err => {
+      this.loadingService.resolve(this.key);
+      this.toastr.error(this.translate.instant(err.message));
+    });
   }
 }
