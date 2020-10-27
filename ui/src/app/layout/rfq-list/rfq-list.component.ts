@@ -3,19 +3,20 @@ import { TdLoadingService } from '@covalent/core/loading';
 import { Store } from '@ngrx/store';
 import { Quotation } from 'src/app/shared/domain/quotation.model';
 import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
-import { RfqService } from 'src/app/shared/services/rfq.service';
 import { getLang } from 'src/app/store';
 import * as fromStore from 'src/app/store';
 import { routerTransition } from 'src/app/router.animations';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { Router } from '@angular/router';
+
+import { QuotationService } from 'src/app/shared/services/quotation.service';
 @Component({
   selector: 'app-rfq-list',
   templateUrl: './rfq-list.component.html',
   styleUrls: ['./rfq-list.component.scss'],
   animations: [routerTransition()],
 })
-export class RfqListComponent extends DefaultListComponent<Quotation, RfqService> implements OnInit {
+export class RfqListComponent extends DefaultListComponent<Quotation, QuotationService> implements OnInit {
   breadcrumbs = [
     { heading: 'orders', link: '/orders-list' },
     { heading: 'orderDetails', link: '' },
@@ -25,7 +26,7 @@ export class RfqListComponent extends DefaultListComponent<Quotation, RfqService
   lang: string;
   modalRef: BsModalRef;
   constructor(
-    service: RfqService,
+    service: QuotationService,
     loadingService: TdLoadingService,
     private appStore: Store<fromStore.AppState>,
     private modalService: BsModalService,

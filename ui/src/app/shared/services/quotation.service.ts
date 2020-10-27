@@ -5,6 +5,6 @@ import { Quotation } from '../domain/quotation.model';
 @Injectable({
   providedIn: 'root',
 })
-export class RfqService extends RestService<Quotation> {
-  resource = 'rfq';
+export class QuotationService extends RestService<Quotation> {
+  resource = 'quotation';
 }

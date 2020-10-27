@@ -90,10 +90,10 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
     super(formBuilder, loadingService, dialogService, service, route, router);
     this.currentRouteUrl = this.router.url;
     this.form = this.formBuilder.group({});
-    this.sendRFQForm = this.formBuilder.group({
-      expirationDuration: ['', [Validators.required, Validators.pattern(/(?<=\s|^)\d+(?=\s|$)/)]],
-      notes: ['', [Validators.minLength(2), Validators.maxLength(250)]],
-    });
+    // this.sendRFQForm = this.formBuilder.group({
+    //   expirationDuration: ['', [Validators.required, Validators.pattern(/(?<=\s|^)\d+(?=\s|$)/)]],
+    //   notes: ['', [Validators.minLength(2), Validators.maxLength(250)]],
+    // });
     this.dropdownSettings = {
       idField: 'id',
       textField: 'name',
@@ -514,9 +514,9 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
     this.modalRef = this.modalService.show(template);
   }
 
-  sendRFQModal(template) {
-    this.modalRef = this.modalService.show(template);
-  }
+  // sendRFQModal(template) {
+  //   this.modalRef = this.modalService.show(template);
+  // }
 
   checkOrderStatus() {
     this.loadingService.register(this.key);
@@ -551,11 +551,24 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
       }
     );
   }
-  submitSendRFQ() {
-    if (this.sendRFQForm.invalid) {
-      this.sendRFQForm.markAllAsTouched();
-    } else {
-      console.log(this.sendRFQForm.value);
-    }
+  // submitSendRFQ() {
+  //   if (this.sendRFQForm.invalid) {
+  //     this.sendRFQForm.markAllAsTouched();
+  //   } else {
+  //     console.log(this.sendRFQForm.value);
+  //   }
+  // }
+  itemRFM(lineItem: LineItem) {
+    this.loadingService.register(this.key);
+    this.itemservice.itemStatus(lineItem.id, 'RRFQ').subscribe(
+      (res: LineItem) => {
+        lineItem.status = res.status;
+        this.loadingService.resolve(this.key);
+      },
+      (err) => {
+        this.loadingService.resolve(this.key);
+        this.toastr.error(this.translate.instant(err.message));
+      }
+    );
   }
 }

@@ -176,12 +176,12 @@
                             *ngIf="lineItem.status === 'FINISHED'">
                             {{'order.status.delivered'|translate}}
                           </button>
-                          <button class="custom-btn v1 mt-2" (click)="sendRFQModal(sendRFQ)"
+                          <button class="custom-btn v1 mt-2" (click)="itemRFM(lineItem)"
                             *ngIf="lineItem.status === 'PENDING' && entity.status === 'PENDING'">
                             {{'sendRFQ'|translate}}
                           </button>
                           <a routerLink="/rfq-list/{{lineItem.id}}" [state]="{'adminOrderRoute':currentRouteUrl}"
-                          *ngIf="lineItem.status === 'PENDING' && entity.status === 'PENDING'">
+                          *ngIf="lineItem.status === 'RRFQ' && entity.status === 'PENDING'">
                             {{'viewRFQs'|translate}}
                           </a>
                         </div>
@@ -238,7 +238,7 @@
                               class="w-100">{{"manufacturingDuration"|translate}}</label>
                             <input type="number" class="form-control" id="ManufacturingDuration"
                               (change)='updateItem(entity,lineItem)' [(ngModel)]="lineItem.duration" #duration='ngModel'
-                              [disabled]="isEnabled || lineItem.status !=='PENDING'" >
+                              [disabled]="isEnabled || lineItem.status !=='PENDING' && lineItem.status !=='RRFQ'" >
                             <div *ngIf="duration.hasError('required') && duration.touched" class="text-danger">
                               {{'manufacturingDuration.error'|translate}}
                             </div>
@@ -250,7 +250,7 @@
                             <label for="UnitPrice" class="w-100">{{"unitPrice"|translate}}</label>
                             <input type="number" class="form-control" min="1" id="UnitPrice"
                               (change)='updateItem(entity,lineItem)' [(ngModel)]="lineItem.unitPrice"
-                              #unitPrice='ngModel' [disabled]="isEnabled || lineItem.status !=='PENDING'" >
+                              #unitPrice='ngModel' [disabled]="isEnabled || lineItem.status !=='PENDING' && lineItem.status !=='RRFQ'" >
 
                             <div *ngIf="unitPrice.hasError('required')  && unitPrice.touched" class="text-danger">
                               {{'unitPrice.error'|translate}}
@@ -517,7 +517,7 @@
 
 
 
-<ng-template #sendRFQ>
+<!-- <ng-template #sendRFQ>
   <div class="modal-body ">
     <div>
       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
@@ -579,4 +579,4 @@
       </div>
     </ng-template>
   </div>
-</ng-template>
+</ng-template> -->

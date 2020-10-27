@@ -5,10 +5,11 @@ import { TdDialogService } from '@covalent/core/dialogs';
 import { TdLoadingService } from '@covalent/core/loading';
 import { Quotation } from 'src/app/shared/domain/quotation.model';
 import { DefaultFormComponent } from 'src/app/shared/helpers/default.form.component';
-import { RfqService } from 'src/app/shared/services/rfq.service';
 import { Store } from '@ngrx/store';
 import * as fromStore from 'src/app/store';
 import { routerTransition } from 'src/app/router.animations';
+import { LineItem } from 'src/app/shared/domain';
+import { LineItemService } from 'src/app/shared/services/line-item.service';
 
 @Component({
   selector: 'app-rfq',
@@ -16,7 +17,7 @@ import { routerTransition } from 'src/app/router.animations';
   styleUrls: ['./rfq.component.scss'],
   animations: [routerTransition()],
 })
-export class RfqComponent extends DefaultFormComponent<Quotation, RfqService> implements OnInit {
+export class RfqComponent extends DefaultFormComponent<LineItem, LineItemService> implements OnInit {
   breadcrumbs = [{ heading: 'RFQ-Settings' }];
   lang: string;
   private _searchTerm = '';
@@ -25,7 +26,7 @@ export class RfqComponent extends DefaultFormComponent<Quotation, RfqService> im
     formBuilder: FormBuilder,
     loadingService: TdLoadingService,
     dialogService: TdDialogService,
-    service: RfqService,
+    service: LineItemService,
     route: ActivatedRoute,
     router: Router,
     private appStore: Store<fromStore.AppState>

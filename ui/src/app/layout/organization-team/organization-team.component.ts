@@ -76,8 +76,7 @@ export class OrganizationTeamComponent extends DefaultListComponent<OrgUser, Org
               this.appStore.dispatch(new fromStore.LoadInitState());
             },
             (err) => {
-                this.toastr.error(this.translate.instant(err.error.details[0]));
-
+              this.toastr.error(this.translate.instant(err.error.details[0]));
             }
           );
         } else {
