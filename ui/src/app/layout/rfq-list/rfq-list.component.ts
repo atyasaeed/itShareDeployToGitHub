@@ -7,7 +7,7 @@ import { getLang } from 'src/app/store';
 import * as fromStore from 'src/app/store';
 import { routerTransition } from 'src/app/router.animations';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { QuotationService } from 'src/app/shared/services/quotation.service';
 import { ToastrService } from 'ngx-toastr';
@@ -34,10 +34,11 @@ export class RfqListComponent extends DefaultListComponent<Quotation, QuotationS
     private modalService: BsModalService,
     private router: Router,
     translate: TranslateService,
-    toastr: ToastrService
+    toastr: ToastrService,
+    private activeRoute:ActivatedRoute
   ) {
     super(service, loadingService, translate, toastr);
-    // service.searchUrl = 'search/admin';
+    this.service.searchUrl = 'admin/search';
     this.appStore.select(getLang).subscribe((res) => {
       this.lang = res;
     });
@@ -46,7 +47,11 @@ export class RfqListComponent extends DefaultListComponent<Quotation, QuotationS
     }
   }
 
-  ngOnInit() {}
+  ngAfterViewInit() {
+    this.activeRoute.params.subscribe((params: Params) => {
+      this.service.searchParams = `id=${params['entityId']}`;
+    })
+  }
 
   set searchTerm(searchTerm: string) {
     this._searchTerm = searchTerm;

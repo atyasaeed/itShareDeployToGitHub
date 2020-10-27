@@ -1,6 +1,7 @@
 import { Service } from './service.model';
 import { Entity } from './entity';
 import { Reason } from './reason.model';
+import { Quotation } from './quotation.model';
 
 export interface LineItem extends Entity {
   id: string;
@@ -21,6 +22,7 @@ export interface LineItem extends Entity {
   status: string;
   rejectionReasons: Reason[];
   rejectionNote: string;
+  quotation?: Quotation;
 }
 export class hyperFile {
   material: string;
