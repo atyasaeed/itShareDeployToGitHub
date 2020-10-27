@@ -48,7 +48,8 @@ public class QuotationService
 		User user = userService.findUser(auth);
 		if (orgValidation(user.getDefaultOrg()))
 		{
-			return lineItemRepo.findByStatusAndServiceIn(LineItemStatus.RFM, user.getDefaultOrg().getServices(), page);
+			return lineItemRepo.getServiceAndFilesByStatusAndServiceIn(LineItemStatus.RFM,
+					user.getDefaultOrg().getServices(), page);
 		}
 		// TODO: should return empty page;
 		return null;
@@ -77,17 +78,18 @@ public class QuotationService
 	{
 		Quotation quotation = quotationRepo.findById(id).orElseThrow();
 		LineItem item = quotation.getLineItem();
-		if (item.getSelected() != null)
-		{
-			item.getSelected().setStatus(QuotationStatus.QUOTED);
-			quotationRepo.save(item.getSelected());
-		}
+
 		if (quotation.getStatus() == QuotationStatus.QUOTED
 				&& (item.getStatus() == LineItemStatus.RFM || item.getStatus() == LineItemStatus.HRFQ))
 		{
 			quotation.setStatus(QuotationStatus.SELECTED);
 			item.setUnitPrice(quotation.getUnitPrice());
 			item.setDuration(quotation.getDuration());
+			if (item.getSelected() != null)
+			{
+				item.getSelected().setStatus(QuotationStatus.QUOTED);
+				quotationRepo.save(item.getSelected());
+			}
 			item.setSelected(quotation);
 			return quotationRepo.save(quotation);
 		}
