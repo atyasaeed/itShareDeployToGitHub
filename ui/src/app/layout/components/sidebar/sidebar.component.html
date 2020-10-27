@@ -1,7 +1,8 @@
 <nav class="sidebar py-2" [ngClass]="{collapsed: collapsed }">
   <div class="list-group" *notPartner>
     <div class="f-size-15">
-      <a class="list-group-item active-item d-flex align-items-center" routerLink="/home" [routerLinkActive]="['router-link-active']">
+      <a class="list-group-item active-item d-flex align-items-center" routerLink="/home"
+        [routerLinkActive]="['router-link-active']">
         <i class="fas fa-home f-size-24 mx-2 text-grey-v3"></i>
         <span>{{ 'home' | translate }}</span>
       </a>
@@ -10,11 +11,13 @@
         <i class="fas fa-shopping-cart f-size-24 mx-2 text-grey-v3"></i>
         <span>{{ 'Shopping Cart' | translate }}</span>
       </a>
-      <a class="list-group-item active-item d-flex align-items-center" routerLink="/my-orders" [routerLinkActive]="['router-link-active']">
+      <a class="list-group-item active-item d-flex align-items-center" routerLink="/my-orders"
+        [routerLinkActive]="['router-link-active']">
         <i class="fas fa-box f-size-24 mx-2 text-grey-v3"></i>
         <span>{{ 'Track-Order' | translate }}</span>
       </a>
-      <a class="list-group-item active-item d-flex align-items-center" routerLink="/space" [routerLinkActive]="['router-link-active']">
+      <a class="list-group-item active-item d-flex align-items-center" routerLink="/space"
+        [routerLinkActive]="['router-link-active']">
         <i class="fas fa-palette f-size-24 mx-2 text-grey-v3"></i>
         <span>{{ 'mySpace' | translate }}</span>
       </a>
@@ -119,10 +122,10 @@
       <ng-container *ngIf="authUser$ |async as user">
         <div class="nested-menu list-group f-size-15">
           <a class="list-group-item d-flex align-items-center" (click)="addExpandClass('profile')">
-              <i class="fa fa-plus text-grey-v3 f-size-24 mx-2"></i>
-              <span class="ellipsis">
-                {{user.username}}
-              </span>
+            <i class="fa fa-plus text-grey-v3 f-size-24 mx-2"></i>
+            <span class="ellipsis">
+              {{user.username}}
+            </span>
           </a>
           <li class="nested" [class.expand]="showMenu === 'profile'">
             <ul class="submenu py-0 ">
@@ -151,7 +154,8 @@
                 </a>
               </li>
               <li>
-                <a (click)="authenticationService.logout()" class="list-group-item active-item d-flex align-items-center">
+                <a (click)="authenticationService.logout()"
+                  class="list-group-item active-item d-flex align-items-center">
                   <i class="fas fa-power-off mx-2 text-grey-v3"></i>
                   <span class=" f-weight-600">{{ 'Log Out' | translate }}</span>
                 </a>
@@ -165,7 +169,7 @@
 
         <a class="list-group-item d-flex align-items-center" (click)="addExpandClass('languages')">
           <i class="fa fa-plus text-grey-v3 f-size-24 mx-2"></i>
-          <span >
+          <span>
             {{ 'Language' | translate }}
           </span>
         </a>
@@ -192,13 +196,15 @@
   <!--//////////////////////////////////-->
   <div class="list-group" *isPartner>
     <div class="f-size-15">
-      <a class="list-group-item active-item d-flex align-items-center" routerLink="/home" [routerLinkActive]="['router-link-active']">
+      <a class="list-group-item active-item d-flex align-items-center" routerLink="/home"
+        [routerLinkActive]="['router-link-active']">
         <i class="fas fa-home f-size-24 mx-2"></i>
         <span>{{ 'home' | translate }}</span>
       </a>
-      <a class="list-group-item active-item d-flex align-items-center" [routerLinkActive]="['router-link-active']">
+      <a class="list-group-item active-item d-flex align-items-center" routerLink="/quotation"
+        [routerLinkActive]="['router-link-active']">
         <i class="fas fa-images f-size-24 mx-2"></i>
-        <span>{{ 'quotationRequest' | translate }}</span>
+        <span>{{ 'quotations' | translate }}</span>
       </a>
       <a class="list-group-item active-item d-flex align-items-center" [routerLinkActive]="['router-link-active']">
         <i class="fas fa-palette f-size-24 mx-2"></i>

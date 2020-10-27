@@ -19,6 +19,7 @@
             <th scope="col" sortable="id" (sort)="onSort($event)">{{'id'|translate}}</th>
             <th scope="col" sortable="org.name" (sort)="onSort($event)">{{'organization.name'|translate}}</th>
             <th scope="col" sortable="org.status" (sort)="onSort($event)">{{'status'|translate}}</th>
+            <th scope="col">{{'RFQs'|translate}}</th>
             <th scope="col" sortable="role" (sort)="onSort($event)">{{'role'|translate}}</th>
             <th></th>
 
@@ -38,6 +39,9 @@
             </td>
             <td>
               {{entity.org.status}}
+            </td>
+            <td>
+              <a routerLink="/quotation">{{'view' |translate}}</a>
             </td>
             <td>
               {{entity.role}}

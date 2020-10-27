@@ -456,15 +456,17 @@
   "enterManufacturingDuration": "Enter Manufacturing Duration",
   "enterUnitPrice": "Enter Unit Price",
   "confirmQuote": " Quote Item With",
-  "egpPerUnite": "EGP per unite",
   "days": "Days",
   "current": "Current",
   "quoted": "Quoted",
   "requestDate": "Request Date :",
-  "welcome":"Welcome",
-  "waitingForApproval":"There is only one step left to get jobs our account manager will contact you very soon for the onboarding process, be ready",
+  "welcome": "Welcome",
+  "waitingForApproval": "There is only one step left to get jobs our account manager will contact you very soon for the onboarding process, be ready",
   "importUsers": "Import Users",
   "uploadUsersFile": "upload users file",
   "uploadedUsers": "Uploaded users",
-  "respondBefore": "Respond Before :"
+  "respondBefore": "Respond Before :",
+  "quotations": "Quotations",
+  "RFQs": "RFQs",
+  "egpPerUnit": "EGP per unit"
 }
