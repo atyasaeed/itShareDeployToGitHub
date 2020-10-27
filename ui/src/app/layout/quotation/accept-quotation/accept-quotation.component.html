@@ -1,0 +1,159 @@
+<div class="p-4" [@routerTransition]>
+
+
+  <div class="form-group form-inline row">
+    <div class="col-md-6">
+      <span class="site-color-v5 f-size-20 f-weight-600">
+        {{'quoted'|translate}}
+      </span>
+      <input class="search-input form-control ml-2" [class.rtl]="lang==='ar'" type="text"
+        placeholder="{{'Search'|translate}}" name="searchTerm" [(ngModel)]="searchTerm" />
+      <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
+    </div>
+  </div>
+
+  <div *tdLoading="'loading'">
+    <div *ngFor="let quotation of entities$|async ;index as i">
+
+      <section class="custom-card">
+
+        <div class="border-bottom mb-2">
+          <div class="form-group p-2 row">
+
+
+            <div class="col-md-3  f-size-20 font-weight-bold"><span>{{quotation.lineItem.service.name}} -
+                {{'id'|translate }} {{quotation.id.slice(-7)}}</span></div>
+
+            <div class="col-md-2">{{'quantity' |translate}} : {{quotation.lineItem.quantity}}</div>
+            <div class="col-md-2">{{'status' |translate}} : {{quotation.status}}</div>
+            <div class="col-md-4"> {{"requestDate" | translate}} <span>{{quotation.created | date:'medium'}}</span>
+            </div>
+            <div class="col-md-1 d-flex justify-content-end cursor-pointer"><i class="fa fa-angle-down f-size-24 px-3"
+                [ngClass]="{'fa-angle-down': !isCollapsed[i], 'fa-angle-up': isCollapsed[i]}"
+                (click)="isCollapsed[i] = !isCollapsed[i]"></i></div>
+
+          </div>
+
+        </div>
+
+        <div class="row ml-2 mb-3" [ngbCollapse]="!isCollapsed[i]">
+          <div class="col-md-3">
+            <div class="service-image mb-2">
+              <img class="img-fluid" [src]="appConfig.FILE_URL + quotation.lineItem.files[0].asset_id"
+                *ngIf="getFileExtension(quotation.lineItem) == 'image';else stlExtension">
+              <ng-template #stlExtension>
+                <div *ngIf="getFileExtension(quotation.lineItem) == 'stl';else serviceImage">
+                  <img class="img-fluid " [src]="appConfig.serviceImage(quotation.lineItem.service)">
+                  <app-stl-modal [stlPath]="appConfig.FILE_URL + quotation.lineItem.files[0].asset_id"></app-stl-modal>
+                </div>
+
+              </ng-template>
+              <ng-template #serviceImage>
+                <img class="img-fluid " [src]="appConfig.serviceImage(quotation.lineItem.service)">
+              </ng-template>
+            </div>
+            <div class="text-center mb-2"><a [href]="getFileUrl(quotation.lineItem)">
+                {{'download' | translate}}
+              </a></div>
+
+          </div>
+          <div class="col-md-9">
+            <div class="container-fluid">
+              <div class="row">
+
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="ManufacturingDuration"
+                      class="brand font-weight-bold">{{"manufacturingDuration"|translate}}</label>
+                    <input type="number" placeholder="{{'enterManufacturingDuration' |translate}}"
+                      class="form-control f-size-14 text-grey f-weight-500" id="ManufacturingDuration"
+                      [(ngModel)]="quotation.duration" #duration='ngModel' [ngModelOptions]="{standalone: true}"
+                      readonly>
+
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="UnitPrice" class="brand font-weight-bold">{{"unitPrice"|translate}}</label>
+                    <input type="number" placeholder="{{'enterUnitPrice' |translate}}"
+                      class="form-control f-size-14 text-grey f-weight-500" min="1" id="UnitPrice"
+                      [(ngModel)]="quotation.unitPrice" #unitPrice='ngModel' [ngModelOptions]="{standalone: true}"
+                      readonly>
+
+
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <label class="brand font-weight-bold"></label>
+                  <div>
+                  </div>
+
+
+                </div>
+
+                <div>
+                </div>
+              </div>
+            </div>
+            <div class="container-fluid">
+              <div class="row" *ngFor="let file of quotation.lineItem?.files">
+                <div class="col-md-6" *ngIf="file.height">
+                  <label>{{'file.height' | translate }} :&nbsp;</label>
+                  <span class="text-grey-v2" #heightErr>{{file.height}}</span>
+                </div>
+                <div class="col-md-6" *ngIf="file.width">
+                  <label>{{'file.width' | translate }} :&nbsp;</label>
+                  <span class="text-grey-v2" #heightErr>{{file.width}}</span>
+                </div>
+                <div class="col-md-6" *ngIf="file.material">
+                  <label>{{'file.material' | translate }} :&nbsp;</label>
+                  <span class="text-grey-v2" #heightErr>{{file.material}}</span>
+                </div>
+                <div class="col-md-6" *ngIf="file.type">
+                  <label>{{'file.type' | translate }} :&nbsp;</label>
+                  <span class="text-grey-v2" #heightErr>{{file.type}}</span>
+                </div>
+                <div class="col-md-6" *ngIf="file.thickness">
+                  <label>{{'file.thickness' | translate }} :&nbsp;</label>
+                  <span class="text-grey-v2" #heightErr>{{file.thickness}}</span>
+                </div>
+                <div class="col-md-6" *ngIf="file.processes">
+                  <label>{{'file.processes' | translate }} :&nbsp;</label>
+                  <span class="text-grey-v2" #heightErr>{{file.processes}}</span>
+                </div>
+                <div class="col-md-6" *ngIf="file.color">
+                  <label>{{'file.color' | translate }} :&nbsp;</label>
+                  <span class="text-grey-v2" #heightErr>{{file.color}}</span>
+                </div>
+                <div class="col-md-6" *ngIf="file.unit">
+                  <label>{{'file.unit' | translate }} :&nbsp;</label>
+                  <span class="text-grey-v2" #heightErr>{{file.unit}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--//////////////////////////////////////////////////////////MODAL//////////////////////////////////////////////////-->
+
+        <!--//////////////////////////////////////////////////////////MODAL//////////////////////////////////////////////////-->
+
+      </section>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-between p-2">
+    <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="service.page" [pageSize]="service.pageSize">
+    </ngb-pagination>
+
+    <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
+      <option [ngValue]="10">10 items per page</option>
+      <option [ngValue]="25">25 items per page</option>
+      <option [ngValue]="50">50 items per page</option>
+    </select>
+  </div>
+
+
+  <!-- <button mat-fab class="mat-fab-top-right fixed mat-accent mat-fab button-left" routerLink="create">
+    <mat-icon>{{'add'|translate}}</mat-icon>
+  </button> -->
+</div>

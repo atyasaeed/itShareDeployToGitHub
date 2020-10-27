@@ -454,13 +454,12 @@
   "enterManufacturingDuration": "أدخل مدة التصنيع",
   "enterUnitPrice": "أدخل سعر الوحدة",
   "confirmQuote": " Quote Item With",
-  "egpPerUnite": "جنيه مصري للوحدة",
   "days": "أيام",
   "current": "الحالى",
   "quoted": "مقتبس",
   "requestDate": " تاريخ الطلب :",
-  "welcome":"مرحبا",
-  "waitingForApproval":"There is only one step left to get jobs our account manager will contact you very soon for the onboarding process, be ready",
+  "welcome": "مرحبا",
+  "waitingForApproval": "There is only one step left to get jobs our account manager will contact you very soon for the onboarding process, be ready",
   "importUsers": "اضافة مستخدمين",
   "uploadUsersFile": "تحميل ملف المستخدمين",
   "replaceFile": "استبدل الملف",
@@ -474,5 +473,7 @@
   "noPartnersToQuote":"لا يوجد شركاء لتسعير هذا المنتج",
   "RFQs":"طلبات السعر",
   "RFQsExpiringOn":"تاريخ الإنتهاء",
-  "stopReceivingQuotations":"وقف استقبال عروض الأسعار"
+  "stopReceivingQuotations":"وقف استقبال عروض الأسعار",
+  "quotations": "Quotations",
+  "egpPerUnit": "جنيه مصري للوحدة"
 }

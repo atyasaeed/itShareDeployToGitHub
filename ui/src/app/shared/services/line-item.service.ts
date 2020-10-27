@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LineItem } from 'src/app/shared/domain';
 import { RestService } from 'src/app/shared/services';
+import { Quotation } from '../domain/quotation.model';
 
 @Injectable({
   providedIn: 'root',
@@ -28,5 +29,9 @@ export class LineItemService extends RestService<LineItem> {
   }
   itemStatus(id, action: string) {
     return this.http.put(this.appConfig.getResourceUrl(this.resource) + `/${id}/${action}`, '');
+  }
+
+  quoteItem(quoteItem: Quotation, id: string) {
+    return this.http.post(this.url + `/${id}/quote`, quoteItem);
   }
 }

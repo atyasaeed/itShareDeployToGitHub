@@ -619,7 +619,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
   //     console.log(this.sendRFQForm.value);
   //   }
   // }
-  updateItemStatus(lineItem: LineItem,status:string) {
+  updateItemStatus(lineItem: LineItem, status: string) {
     this.loadingService.register(this.key);
     this.itemservice.itemStatus(lineItem.id, status).subscribe(
       (res: LineItem) => {

@@ -35,7 +35,7 @@ export class RfqListComponent extends DefaultListComponent<Quotation, QuotationS
     private router: Router,
     translate: TranslateService,
     toastr: ToastrService,
-    private activeRoute:ActivatedRoute
+    private activeRoute: ActivatedRoute
   ) {
     super(service, loadingService, translate, toastr);
     this.service.searchUrl = 'admin/search';
@@ -50,7 +50,7 @@ export class RfqListComponent extends DefaultListComponent<Quotation, QuotationS
   ngAfterViewInit() {
     this.activeRoute.params.subscribe((params: Params) => {
       this.service.searchParams = `id=${params['entityId']}`;
-    })
+    });
   }
 
   set searchTerm(searchTerm: string) {

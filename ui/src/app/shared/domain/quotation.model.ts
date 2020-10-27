@@ -7,8 +7,8 @@ export interface Quotation extends Entity {
   lineItem: LineItem;
   placedBy: User;
   partner: Organization;
-  unitPrice: number;
-  duration: number;
+  unitPrice?: number;
+  duration?: number;
+  endDate: Date;
   status: string;
-  endDate: string;
 }
