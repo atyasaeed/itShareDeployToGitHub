@@ -47,10 +47,7 @@ public class QuotationService
 	{
 		User user = userService.findUser(auth);
 		if (orgValidation(user.getDefaultOrg()))
-		{
-			return lineItemRepo.getServiceAndFilesByStatusAndServiceIn(LineItemStatus.RFM,
-					user.getDefaultOrg().getServices(), page);
-		}
+			return lineItemRepo.findByStatusAndServiceIn(LineItemStatus.RFM, user.getDefaultOrg().getServices(), page);
 		// TODO: should return empty page;
 		return null;
 	}
@@ -105,23 +102,16 @@ public class QuotationService
 	private boolean orgValidation(Organization org)
 	{
 		if (org.getStatus().equals(OrganizationStatus.ACTIVE) && org.getType() == OrganizationType.PARTNER)
-		{
 			return true;
-		}
 		return false;
 	}
 
 	public boolean validateQuotation(Quotation quotation)
 	{
 		if (quotation.getDuration() == 0)
-		{
 			throw new IllegalRequestDataException("fill work Days");
-		}
 		if (quotation.getUnitPrice() == null)
-		{
 			throw new IllegalRequestDataException("fill price");
-
-		}
 
 		return true;
 	}
