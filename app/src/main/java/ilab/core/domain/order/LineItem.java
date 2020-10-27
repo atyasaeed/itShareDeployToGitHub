@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -56,18 +55,7 @@ public class LineItem extends AbstractEntity<LineItem>
 	private int duration;
 	private String notes;
 	@OneToOne
-	private Quotation selected;
-	
-
-	public Quotation getSelected()
-	{
-		return selected;
-	}
-
-	public void setSelected(Quotation quotation)
-	{
-		this.selected = quotation;
-	}
+	private Quotation quotation;
 
 	public int getDuration()
 	{
@@ -78,8 +66,6 @@ public class LineItem extends AbstractEntity<LineItem>
 	{
 		this.duration = duration;
 	}
-
-	
 
 	public long getQuantity()
 	{
@@ -189,5 +175,15 @@ public class LineItem extends AbstractEntity<LineItem>
 	public void setRejectionNote(String rejectionNote)
 	{
 		this.rejectionNote = rejectionNote;
+	}
+
+	public Quotation getQuotation()
+	{
+		return quotation;
+	}
+
+	public void setQuotation(Quotation quotation)
+	{
+		this.quotation = quotation;
 	}
 }

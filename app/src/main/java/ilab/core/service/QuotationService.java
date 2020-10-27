@@ -81,12 +81,12 @@ public class QuotationService
 			quotation.setStatus(QuotationStatus.SELECTED);
 			item.setUnitPrice(quotation.getUnitPrice());
 			item.setDuration(quotation.getDuration());
-			if (item.getSelected() != null)
+			if (item.getQuotation() != null)
 			{
-				item.getSelected().setStatus(QuotationStatus.QUOTED);
-				quotationRepo.save(item.getSelected());
+				item.getQuotation().setStatus(QuotationStatus.QUOTED);
+				quotationRepo.save(item.getQuotation());
 			}
-			item.setSelected(quotation);
+			item.setQuotation(quotation);
 			return quotationRepo.save(quotation);
 		}
 		return null;
