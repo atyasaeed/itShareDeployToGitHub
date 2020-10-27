@@ -1,5 +1,7 @@
 <div class="p-4 site-color-v5 f-weight-600" *tdLoading="'loading';strategy:'overlay'" [@routerTransition]>
-  <app-page-header [heading]="'Employee Case'" [icon]="'fa-bar-chart-o'" [breadCrumbs]="breadcrumbs"></app-page-header>
+  <div class="f-weight-400">
+    <app-page-header  [breadCrumbs]="breadcrumbs"></app-page-header>
+  </div>
   <div class=" mb-3 form-rtl" *ngIf="entity">
 
     <div class="custom-card-header p-3">
@@ -174,9 +176,14 @@
                             *ngIf="lineItem.status === 'FINISHED'">
                             {{'order.status.delivered'|translate}}
                           </button>
-
-
-
+                          <button class="custom-btn v1 mt-2" (click)="itemRFM(lineItem)"
+                            *ngIf="lineItem.status === 'PENDING' && entity.status === 'PENDING'">
+                            {{'sendRFQ'|translate}}
+                          </button>
+                          <a routerLink="/rfq-list/{{lineItem.id}}" [state]="{'adminOrderRoute':currentRouteUrl}"
+                          *ngIf="lineItem.status === 'RRFQ' && entity.status === 'PENDING'">
+                            {{'viewRFQs'|translate}}
+                          </a>
                         </div>
                       </div>
                       <!-- modal-->
@@ -229,9 +236,9 @@
                           <div class="form-group" *ngIf="lineItem.status !=='CANCELLED'">
                             <label for="ManufacturingDuration"
                               class="w-100">{{"manufacturingDuration"|translate}}</label>
-                            <input type="number" class="w-75" id="ManufacturingDuration"
+                            <input type="number" class="form-control" id="ManufacturingDuration"
                               (change)='updateItem(entity,lineItem)' [(ngModel)]="lineItem.duration" #duration='ngModel'
-                              [disabled]="isEnabled || lineItem.status !=='PENDING'" required>
+                              [disabled]="isEnabled || lineItem.status !=='PENDING' && lineItem.status !=='RRFQ'" >
                             <div *ngIf="duration.hasError('required') && duration.touched" class="text-danger">
                               {{'manufacturingDuration.error'|translate}}
                             </div>
@@ -241,9 +248,9 @@
                         <div class="col-md-6" *ngIf="lineItem.status !== 'ITEM_REJECTED'">
                           <div class="form-group" *ngIf="lineItem.status !=='CANCELLED'">
                             <label for="UnitPrice" class="w-100">{{"unitPrice"|translate}}</label>
-                            <input type="number" class="w-75" min="1" id="UnitPrice"
+                            <input type="number" class="form-control" min="1" id="UnitPrice"
                               (change)='updateItem(entity,lineItem)' [(ngModel)]="lineItem.unitPrice"
-                              #unitPrice='ngModel' [disabled]="isEnabled || lineItem.status !=='PENDING'" required>
+                              #unitPrice='ngModel' [disabled]="isEnabled || lineItem.status !=='PENDING' && lineItem.status !=='RRFQ'" >
 
                             <div *ngIf="unitPrice.hasError('required')  && unitPrice.touched" class="text-danger">
                               {{'unitPrice.error'|translate}}
@@ -507,3 +514,69 @@
     </div>
   </div>
 </ng-template>
+
+
+
+<!-- <ng-template #sendRFQ>
+  <div class="modal-body ">
+    <div>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div >
+      <div class="text-center mt-2 site-color-v1">
+        <i class="fas fa-search-dollar fa-4x"></i>
+      </div>
+      <div class="text-center mt-2 site-color-v3 f-weight-600 f-size-20">
+        {{'RFQ'|translate}}
+      </div>
+      <div class="text-center f-size-14 text-grey mt-2">
+        {{'RFQDescription'|translate}} : <span class="site-color-v1">{{2}}</span>
+      </div>
+      <div>
+        <form [formGroup]='sendRFQForm' (ngSubmit)="submitSendRFQ()">
+          <div class="form-group">
+              <label>{{'expirationDuration' | translate }} :&nbsp;</label>
+              <input type="text" formControlName="expirationDuration" class="form-control ">
+              <div class="text-danger" *ngIf="sendRFQForm.controls.expirationDuration.invalid && sendRFQForm.controls.expirationDuration.touched">
+                <div *ngIf="sendRFQForm.controls.expirationDuration.errors.required">
+                  {{'error.required'|translate}}
+                </div>
+                <div *ngIf="sendRFQForm.controls.expirationDuration.errors.pattern">
+                  {{'error.pattern'|translate}}
+                </div>
+              </div>
+          </div>
+          <div class="form-group">
+              <label>{{'notes' | translate }} :&nbsp;</label>
+              <textarea  formControlName="notes" class="form-control "></textarea>
+              <div class="text-danger" *ngIf="sendRFQForm.controls.notes.invalid && sendRFQForm.controls.notes.touched">
+                <div *ngIf="sendRFQForm.controls.notes.errors.minlength">
+                  {{'error.minlength'|translate:'{length:2}'}}
+                </div>
+                <div *ngIf="sendRFQForm.controls.notes.errors.maxlength">
+                  {{'error.maxlength'|translate:'{length:250}'}}
+                </div>
+              </div>
+          </div>
+          <div class="text-center my-2 f-weight-600">
+            <button class="custom-btn v4 mr-3" (click)="modalRef.hide()">{{'cancel'|translate}}</button>
+            <button class="custom-btn v1" type="submit" (click)="sendRFQForm.valid ? modalRef.hide() : null">{{'confirm'|translate}}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <ng-template>
+      <div class="text-center mt-2 site-color-v1">
+        <i class="fas fa-frown fa-5x"></i>
+      </div>
+      <div class="text-center f-size-14 text-grey mt-2">
+        {{'noPartnersToQuote'|translate}}
+      </div>
+      <div class="text-center my-2 f-weight-600">
+        <button class="custom-btn v4 mr-3" (click)="modalRef.hide()">{{'cancel'|translate}}</button>
+      </div>
+    </ng-template>
+  </div>
+</ng-template> -->

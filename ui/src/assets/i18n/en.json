@@ -466,5 +466,14 @@
   "importUsers": "Import Users",
   "uploadUsersFile": "upload users file",
   "uploadedUsers": "Uploaded users",
-  "respondBefore": "Respond Before :"
+  "respondBefore": "Respond Before :",
+  "RFQ":"RFQ",
+  "sendRFQ":"Send RFQ",
+  "viewRFQs":"View RFQs",
+  "RFQDescription":"Number Of Partners RFQs Will Be Sent To",
+  "expirationDuration":"Expiration Duration",
+  "noPartnersToQuote":"No Availble Partners To Quote THis Item",
+  "RFQs":"RFQs",
+  "RFQsExpiringOn":"RFQs Expiring On",
+  "stopReceivingQuotations":"Stop Receiving Quotations"
 }

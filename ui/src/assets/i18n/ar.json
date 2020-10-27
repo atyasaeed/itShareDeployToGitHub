@@ -465,5 +465,14 @@
   "uploadUsersFile": "تحميل ملف المستخدمين",
   "replaceFile": "استبدل الملف",
   "uploadedUsers": "المستخدمون الذين تم رفعهم",
-  "respondBefore": "أجب قبل :"
+  "respondBefore": "أجب قبل :",
+  "RFQ":"طلب السعر",
+  "sendRFQ":"أرسال طلب السعر",
+  "viewRFQs":"عرض طلبات السعر",
+  "RFQDescription":"عدد الشركاء الذين سيتم أرسال لهم طلب السعر هو",
+  "expirationDuration":"تاريخ الإنتهاء",
+  "noPartnersToQuote":"لا يوجد شركاء لتسعير هذا المنتج",
+  "RFQs":"طلبات السعر",
+  "RFQsExpiringOn":"تاريخ الإنتهاء",
+  "stopReceivingQuotations":"وقف استقبال عروض الأسعار"
 }
