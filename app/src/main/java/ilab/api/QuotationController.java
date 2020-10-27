@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ilab.core.domain.order.LineItem;
@@ -27,15 +28,15 @@ public class QuotationController
 	@Autowired
 	private QuotationService quotationService;
 
-	@GetMapping("/rfqs")
+	@GetMapping("/rfqs/search")
 	@PreAuthorize("hasRole('ROLE_USER')")
 	// TODO: Refactor to return DTO for RFQ
-	public Page<LineItem> getRFQ(Authentication auth, Pageable page)
+	public Page<LineItem> getRFM(Authentication auth, Pageable page)
 	{
-		return quotationService.readyRFQs(auth, page);
+		return quotationService.readyFMs(auth, page);
 	}
 
-	@GetMapping()
+	@GetMapping("/search")
 	@PreAuthorize("hasRole('ROLE_USER')")
 	// TODO: Refactor to return DTO for RFQ
 	public Page<Quotation> get(Authentication auth, Pageable page)
@@ -48,6 +49,13 @@ public class QuotationController
 	public Quotation adminAccept(@PathVariable("id") UUID id)
 	{
 		return quotationService.select(id);
+	}
+
+	@GetMapping("/admin/search")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public Page<Quotation> getItemQuotes(Pageable page, @RequestParam(name = "id", required = true) UUID id)
+	{
+		return quotationService.getItemQuotes(page, id);
 	}
 
 }
