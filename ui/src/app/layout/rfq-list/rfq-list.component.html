@@ -11,24 +11,24 @@
             [(ngModel)]="searchTerm" />
           <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
         </div>
-        <div class="col-md-6 my-auto">
-          <!-- <div class="text-right mb-3">
+        <!-- <div class="col-md-6 my-auto">
+          <div class="text-right mb-3">
             <span class="text-danger">
               {{'RFQsExpiringOn'|translate}} :
             </span>
             <span class="text-grey">
               11/23/2020
             </span>
-          </div> -->
+          </div>
           <div class="text-right">
             <button (click)="openModal(stopReceivingQuotationAlert)" class="custom-btn btn-danger" type="button">
               {{'stopReceivingQuotations'|translate}}
             </button>
-            <!-- <button class="btn btn-primary" type="button">
+            <button class="btn btn-primary" type="button">
               <i class="fas fa-undo"></i>
-            </button> -->
+            </button>
           </div>
-        </div>
+        </div> -->
 
       </div>
       <div class="table-responsive">
@@ -91,7 +91,7 @@
     </form>
   </div>
 </div>
-<ng-template #stopReceivingQuotationAlert>
+<!-- <ng-template #stopReceivingQuotationAlert>
     <div class="modal-body ">
       <div>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
@@ -112,4 +112,4 @@
         <button class="custom-btn btn-danger" (click)="modalRef.hide()">{{'yes'|translate}}</button>
       </div>
     </div>
-</ng-template>
+</ng-template> -->

@@ -154,6 +154,17 @@
                             *ngIf="lineItem.quotation && entity.status ==='PENDING'">
                             <i class="fa fa-check" aria-hidden="true"></i>
                           </button>
+                          <button class="btn btn-danger btn-xs mr-2" (click)="updateItemStatus(lineItem,'holdRFM')"
+                            tooltip="{{'holdRFQ' | translate}}"
+                            *ngIf="lineItem.status==='RFM' && entity.status ==='PENDING'">
+                            <i class="fas fa-pause"></i>
+                          </button>
+                          <button class="btn btn-success btn-xs mr-2" (click)="updateItemStatus(lineItem,'resumeRFM')"
+                            tooltip="{{'resumeRFQ' | translate}}"
+                            *ngIf="lineItem.status==='HRFQ' && entity.status ==='PENDING'">
+                            <i class="fas fa-play"></i>
+                          </button>
+
 
                           <button class="btn btn-outline-info btn-xs mr-2" (click)="updateItemPending(lineItem)"
                             tooltip="{{'reset' | translate}}"
@@ -176,12 +187,12 @@
                             *ngIf="lineItem.status === 'FINISHED'">
                             {{'order.status.delivered'|translate}}
                           </button>
-                          <button class="custom-btn v1 mt-2" (click)="itemRFM(lineItem)"
+                          <button class="custom-btn v1 mt-2" (click)="updateItemStatus(lineItem,'RFM')"
                             *ngIf="lineItem.status === 'PENDING' && entity.status === 'PENDING'">
-                            {{'sendRFQ'|translate}}
+                            {{'RFM'|translate}}
                           </button>
                           <a routerLink="/rfq-list/{{lineItem.id}}" [state]="{'adminOrderRoute':currentRouteUrl}"
-                          *ngIf="lineItem.status === 'RFM' && entity.status === 'PENDING'">
+                          *ngIf="lineItem.status !== 'PENDING' && entity.status === 'PENDING'">
                             {{'viewRFQs'|translate}}
                           </a>
                         </div>
@@ -238,7 +249,7 @@
                               class="w-100">{{"manufacturingDuration"|translate}}</label>
                             <input type="number" class="form-control" id="ManufacturingDuration"
                               (change)='updateItem(entity,lineItem)' [(ngModel)]="lineItem.duration" #duration='ngModel'
-                              [disabled]="isEnabled || lineItem.status !=='PENDING' && lineItem.status !=='RFM'" >
+                              [disabled]="isEnabled || lineItem.status !=='PENDING' && lineItem.status !=='RFM' && lineItem.status !=='HRFQ'" >
                             <div *ngIf="duration.hasError('required') && duration.touched" class="text-danger">
                               {{'manufacturingDuration.error'|translate}}
                             </div>
@@ -250,7 +261,7 @@
                             <label for="UnitPrice" class="w-100">{{"unitPrice"|translate}}</label>
                             <input type="number" class="form-control" min="1" id="UnitPrice"
                               (change)='updateItem(entity,lineItem)' [(ngModel)]="lineItem.unitPrice"
-                              #unitPrice='ngModel' [disabled]="isEnabled || lineItem.status !=='PENDING' && lineItem.status !=='RFM'" >
+                              #unitPrice='ngModel' [disabled]="isEnabled || lineItem.status !=='PENDING' && lineItem.status !=='RFM' && lineItem.status !=='HRFQ'" >
 
                             <div *ngIf="unitPrice.hasError('required')  && unitPrice.touched" class="text-danger">
                               {{'unitPrice.error'|translate}}
