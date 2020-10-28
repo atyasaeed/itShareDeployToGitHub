@@ -16,7 +16,7 @@ import ilab.core.domain.user.User;
 @Entity
 @Table(uniqueConstraints =
 { @UniqueConstraint(columnNames =
-		{ "line_item_id", "partner_id" }) })
+		{ "line_item_id", "partner_id" },name="line_item_partner_id_unique") })
 public class Quotation extends AbstractEntity<Quotation>
 {
 
