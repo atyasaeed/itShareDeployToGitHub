@@ -1,5 +1,7 @@
 package ilab.core.service;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -41,7 +43,8 @@ public class QuotationService
 
 	public Page<Quotation> getItemQuotes(Pageable page, UUID id)
 	{
-		return quotationRepo.findByStatusAndLineItem_id(QuotationStatus.QUOTED, id, page);
+		List<QuotationStatus> eligibleStatus = Arrays.asList(QuotationStatus.QUOTED, QuotationStatus.SELECTED);
+		return quotationRepo.findByStatusInAndLineItem_id(eligibleStatus, id, page);
 	}
 
 	public Page<RFQDto> readyFMs(Authentication auth, Pageable page)
