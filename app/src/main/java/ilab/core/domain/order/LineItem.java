@@ -19,6 +19,7 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -55,6 +56,7 @@ public class LineItem extends AbstractEntity<LineItem>
 	private int duration;
 	private String notes;
 	@OneToOne
+	@JsonIgnoreProperties("lineItem")
 	private Quotation quotation;
 
 	public int getDuration()
