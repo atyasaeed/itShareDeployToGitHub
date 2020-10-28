@@ -463,6 +463,38 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
         this.itemservice.itemStatus(lineItem.id, 'commit').subscribe(
           (res: LineItem) => {
             lineItem.status = res.status;
+            this.service.get(this.orderId).subscribe(
+              (res: Order) => {
+                res.lineItems.forEach((e) => {
+                  if (e.status == 'QUOTED' || e.status == 'ITEM_REJECTED' || e.status == 'CANCELLED') {
+                    arrLineItems.push(true);
+                  } else {
+                    arrLineItems.push(false);
+                  }
+                  if (e.status == 'ITEM_REJECTED') {
+                    arrBooleanRejectItems.push(true);
+                  } else {
+                    arrBooleanRejectItems.push(false);
+                  }
+                });
+
+                if (arrLineItems.indexOf(false) == -1) {
+                  this.found = true;
+                } else {
+                  this.found = false;
+                }
+                if (arrBooleanRejectItems.indexOf(false) == -1) {
+                  this.rejectItems = false;
+                } else {
+                  this.rejectItems = true;
+                }
+                this.loadingService.resolve(this.key);
+              },
+              (err) => {
+                this.loadingService.resolve(this.key);
+                this.toastr.error(this.translate.instant(err.message));
+              }
+            );
             this.toastr.success(this.translate.instant('quotedSuccessfully'));
             this.loadingService.resolve(this.key);
           },
@@ -476,6 +508,38 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
         this.itemservice.itemStatus(lineItem.id, 'commit').subscribe(
           (res: LineItem) => {
             lineItem.status = res.status;
+            this.service.get(this.orderId).subscribe(
+              (res: Order) => {
+                res.lineItems.forEach((e) => {
+                  if (e.status == 'QUOTED' || e.status == 'ITEM_REJECTED' || e.status == 'CANCELLED') {
+                    arrLineItems.push(true);
+                  } else {
+                    arrLineItems.push(false);
+                  }
+                  if (e.status == 'ITEM_REJECTED') {
+                    arrBooleanRejectItems.push(true);
+                  } else {
+                    arrBooleanRejectItems.push(false);
+                  }
+                });
+
+                if (arrLineItems.indexOf(false) == -1) {
+                  this.found = true;
+                } else {
+                  this.found = false;
+                }
+                if (arrBooleanRejectItems.indexOf(false) == -1) {
+                  this.rejectItems = false;
+                } else {
+                  this.rejectItems = true;
+                }
+                this.loadingService.resolve(this.key);
+              },
+              (err) => {
+                this.loadingService.resolve(this.key);
+                this.toastr.error(this.translate.instant(err.message));
+              }
+            );
             this.toastr.success(this.translate.instant('quotedSuccessfully'));
             this.loadingService.resolve(this.key);
           },
