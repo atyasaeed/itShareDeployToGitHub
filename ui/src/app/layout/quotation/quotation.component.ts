@@ -18,6 +18,7 @@ import { QuotationService } from 'src/app/shared/services/quotation.service';
   templateUrl: './quotation.component.html',
   styleUrls: ['./quotation.component.scss'],
   animations: [routerTransition()],
+  providers:[QuotationService]
 })
 export class QuotationComponent extends DefaultListComponent<Quotation, QuotationService> implements OnInit {
   breadcrumbs = [{ heading: 'quotation', icon: 'fa-tasks', link: '/quotation' }];

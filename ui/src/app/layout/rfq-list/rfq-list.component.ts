@@ -17,6 +17,7 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './rfq-list.component.html',
   styleUrls: ['./rfq-list.component.scss'],
   animations: [routerTransition()],
+  providers:[QuotationService]
 })
 export class RfqListComponent extends DefaultListComponent<Quotation, QuotationService> implements OnInit {
   breadcrumbs = [
