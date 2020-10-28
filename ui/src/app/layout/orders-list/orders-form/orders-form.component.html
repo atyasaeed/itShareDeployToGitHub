@@ -192,7 +192,7 @@
                             {{'RFM'|translate}}
                           </button>
                           <a routerLink="/rfq-list/{{lineItem.id}}" [state]="{'adminOrderRoute':currentRouteUrl}"
-                          *ngIf="lineItem.status !== 'PENDING' && entity.status === 'PENDING'">
+                          *ngIf="lineItem.status !== 'PENDING'">
                             {{'viewRFQs'|translate}}
                           </a>
                         </div>

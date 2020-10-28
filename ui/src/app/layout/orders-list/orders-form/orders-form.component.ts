@@ -405,12 +405,12 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
   }
   lineItemStatus(lineItem: LineItem) {
     this.loadingService.register(this.key);
-    if (!lineItem.duration || !lineItem.unitPrice) {
-      this.toastr.error(this.translate.instant('lineItem.update.error'));
-      this.loadingService.resolve(this.key);
+    // if (!lineItem.duration || !lineItem.unitPrice) {
+    //   this.toastr.error(this.translate.instant('lineItem.update.error'));
+    //   this.loadingService.resolve(this.key);
 
-      return;
-    }
+    //   return;
+    // }
     let arrLineItems: boolean[] = new Array();
     let arrBooleanRejectItems: boolean[] = new Array();
 
@@ -452,6 +452,32 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
                 this.toastr.error(this.translate.instant(err.message));
               }
             );
+          },
+          (err) => {
+            this.toastr.error(this.translate.instant(err.message));
+            this.loadingService.resolve(this.key);
+          }
+        );
+        break;
+      case 'RFM':
+        this.itemservice.itemStatus(lineItem.id, 'quote').subscribe(
+          (res: LineItem) => {
+            lineItem.status = res.status;
+            this.toastr.error(this.translate.instant('quotedSuccessfully'));
+            this.loadingService.resolve(this.key);
+          },
+          (err) => {
+            this.toastr.error(this.translate.instant(err.message));
+            this.loadingService.resolve(this.key);
+          }
+        );
+        break;
+       case 'HRFQ':
+        this.itemservice.itemStatus(lineItem.id, 'quote').subscribe(
+          (res: LineItem) => {
+            lineItem.status = res.status;
+            this.toastr.error(this.translate.instant('quotedSuccessfully'));
+            this.loadingService.resolve(this.key);
           },
           (err) => {
             this.toastr.error(this.translate.instant(err.message));
@@ -624,6 +650,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
     this.itemservice.itemStatus(lineItem.id, status).subscribe(
       (res: LineItem) => {
         lineItem.status = res.status;
+        this.toastr.success(this.translate.instant(status))
         this.loadingService.resolve(this.key);
       },
       (err) => {
