@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 import ilab.core.domain.Service;
 import ilab.core.domain.order.LineItem;
 import ilab.core.domain.order.LineItemStatus;
-import ilab.dto.QuotationDto;
+import ilab.dto.RFQDto;
 
 @Repository
 @Transactional
@@ -24,5 +24,5 @@ public interface LineItemRepository
 {
 	Optional<LineItem> findOneByIdAndOrderEntity_Organization_Id(UUID id, UUID orgId);
 
-	Page<QuotationDto> findByStatusAndServiceIn(LineItemStatus status, List<Service> services, Pageable page);
+	Page<RFQDto> findByStatusAndServiceIn(LineItemStatus status, List<Service> services, Pageable page);
 }

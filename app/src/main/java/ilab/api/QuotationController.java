@@ -15,10 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import ilab.core.domain.order.LineItem;
 import ilab.core.domain.order.Quotation;
 import ilab.core.service.QuotationService;
-import ilab.dto.QuotationDto;
+import ilab.dto.RFQDto;
 
 @RestController
 @RequestMapping(path = QuotationController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -32,7 +31,7 @@ public class QuotationController
 	@GetMapping("/rfqs/search")
 	@PreAuthorize("hasRole('ROLE_USER')")
 	// TODO: Refactor to return DTO for RFQ
-	public Page<QuotationDto> getRFM(Authentication auth, Pageable page)
+	public Page<RFQDto> getRFM(Authentication auth, Pageable page)
 	{
 		return quotationService.readyFMs(auth, page);
 	}

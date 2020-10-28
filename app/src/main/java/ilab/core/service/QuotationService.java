@@ -21,7 +21,7 @@ import ilab.core.domain.user.User;
 import ilab.core.repository.LineItemRepository;
 import ilab.core.repository.OrganizationRepository;
 import ilab.core.repository.QuotationRepository;
-import ilab.dto.QuotationDto;
+import ilab.dto.RFQDto;
 import ilab.utils.exception.IllegalRequestDataException;
 
 @Service
@@ -44,7 +44,7 @@ public class QuotationService
 		return quotationRepo.findByStatusAndLineItem_id(QuotationStatus.QUOTED, id, page);
 	}
 
-	public Page<QuotationDto> readyFMs(Authentication auth, Pageable page)
+	public Page<RFQDto> readyFMs(Authentication auth, Pageable page)
 	{
 		User user = userService.findUser(auth);
 		if (orgValidation(user.getDefaultOrg()))
