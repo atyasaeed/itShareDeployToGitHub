@@ -20,7 +20,7 @@ import { QuotationService } from 'src/app/shared/services/quotation.service';
   animations: [routerTransition()],
 })
 export class QuotationComponent extends DefaultListComponent<Quotation, QuotationService> implements OnInit {
-    breadcrumbs = [{ heading: 'quotation', icon: 'fa-tasks', link: '/quotation' }];
+  breadcrumbs = [{ heading: 'quotation', icon: 'fa-tasks', link: '/quotation' }];
   private _searchTerm = '';
   lang: string;
   checkInput: boolean;
