@@ -1,5 +1,6 @@
 <div class="p-4" [@routerTransition]>
-
+  <app-page-header [breadCrumbs]="breadcrumbs">
+  </app-page-header>
   <div class="form-group form-inline row">
     <div class="col-md-6">
       <span class="site-color-v5 f-size-20 f-weight-600">
@@ -13,17 +14,17 @@
 
   <div *tdLoading="'loading'">
 
-    <section class="custom-card" *ngFor="let lineItem of entities$ |async  ;index as i ">
+    <section class="custom-card" *ngFor="let rfq of entities$ |async  ;index as i ">
 
       <div class="border-bottom mb-2">
         <div class="form-group p-2 row">
 
 
-          <div class="col-md-4  f-size-20 font-weight-bold"><span>{{lineItem.service.name}} -
-              {{'id'|translate }} {{lineItem.id.slice(-7)}}</span></div>
+          <div class="col-md-4  f-size-20 font-weight-bold"><span>{{rfq.service.name}} -
+              {{'id'|translate }} {{rfq.id | slice:0:7}}</span></div>
 
-          <div class="col-md-2">{{'quantity' |translate}} : {{lineItem.quantity}}</div>
-          <div class="col-md-5"> {{"requestDate" | translate}} <span>{{lineItem.created | date:'medium'}}</span>
+          <div class="col-md-2">{{'quantity' |translate}} : {{rfq.quantity}}</div>
+          <div class="col-md-5"> {{"requestDate" | translate}} <span>{{rfq.created | date:'medium'}}</span>
           </div>
           <div class="col-md-1 d-flex justify-content-end cursor-pointer"><i class="fa fa-angle-down f-size-24 px-3"
               [ngClass]="{'fa-angle-down': !isCollapsed[i], 'fa-angle-up': isCollapsed[i]}"
@@ -36,20 +37,20 @@
       <div class="row ml-2 mb-3" [ngbCollapse]="!isCollapsed[i]">
         <div class="col-md-3">
           <div class="service-image mb-2">
-            <img class="img-fluid" [src]="appConfig.FILE_URL + lineItem.files[0].asset_id"
-              *ngIf="getFileExtension(lineItem) == 'image';else stlExtension">
+            <img class="img-fluid" [src]="appConfig.FILE_URL + rfq.files[0].asset_id"
+              *ngIf="getFileExtension(rfq) == 'image';else stlExtension">
             <ng-template #stlExtension>
-              <div *ngIf="getFileExtension(lineItem) == 'stl';else serviceImage">
-                <img class="img-fluid " [src]="appConfig.serviceImage(lineItem.service)">
-                <app-stl-modal [stlPath]="appConfig.FILE_URL + lineItem.files[0].asset_id"></app-stl-modal>
+              <div *ngIf="getFileExtension(rfq) == 'stl';else serviceImage">
+                <img class="img-fluid " [src]="appConfig.serviceImage(rfq.service)">
+                <app-stl-modal [stlPath]="appConfig.FILE_URL + rfq.files[0].asset_id"></app-stl-modal>
               </div>
 
             </ng-template>
             <ng-template #serviceImage>
-              <img class="img-fluid " [src]="appConfig.serviceImage(lineItem.service)">
+              <img class="img-fluid " [src]="appConfig.serviceImage(rfq.service)">
             </ng-template>
           </div>
-          <div class="text-center mb-2"><a [href]="getFileUrl(lineItem)">
+          <div class="text-center mb-2"><a [href]="getFileUrl(rfq)">
               {{'download' | translate}}
             </a></div>
 
@@ -64,9 +65,8 @@
                     class="brand font-weight-bold">{{"manufacturingDuration"|translate}}</label>
                   <input type="number" placeholder="{{'enterManufacturingDuration' |translate}}"
                     class="form-control f-size-14 text-grey f-weight-500" id="ManufacturingDuration"
-                    [(ngModel)]="lineItem.duration" #duration='ngModel' [ngModelOptions]="{standalone: true}" required>
-                  <div *ngIf="duration.hasError('required') && checkInput ||lineItem.duration === 0"
-                    class="text-danger">
+                    [(ngModel)]="rfq.duration" #duration='ngModel' [ngModelOptions]="{standalone: true}" required>
+                  <div *ngIf="(duration.hasError('required') && checkInput) || duration.value ===0" class="text-danger">
                     {{'manufacturingDuration.error'|translate}}
                   </div>
 
@@ -77,10 +77,10 @@
                   <label for="UnitPrice" class="brand font-weight-bold">{{"unitPrice"|translate}}</label>
                   <input type="number" placeholder="{{'enterUnitPrice' |translate}}"
                     class="form-control f-size-14 text-grey f-weight-500" min="1" id="UnitPrice"
-                    [(ngModel)]="lineItem.unitPrice" #unitPrice='ngModel' [ngModelOptions]="{standalone: true}"
-                    required>
+                    [(ngModel)]="rfq.unitPrice" #unitPrice='ngModel' [ngModelOptions]="{standalone: true}" required>
 
-                  <div *ngIf="unitPrice.hasError('required')  && checkInput" class="text-danger">
+                  <div *ngIf="(unitPrice.hasError('required')  && checkInput) || unitPrice.value ===0"
+                    class="text-danger">
                     {{'unitPrice.error'|translate}}
                   </div>
 
@@ -92,7 +92,7 @@
                 <div>
                   <button type="button" data-toggle="modal" data-target="#exampleModal"
                     class="custom-btn v1 f-size-16 font-weight-bold"
-                    (click)="quoteItem(lineItem,confirmQuote)">{{'quote'|translate}}</button>
+                    (click)="quoteItem(rfq,confirmQuote)">{{'quote'|translate}}</button>
                 </div>
 
 
@@ -103,7 +103,7 @@
             </div>
           </div>
           <div class="container-fluid">
-            <div class="row" *ngFor="let file of lineItem?.files">
+            <div class="row" *ngFor="let file of rfq?.files">
               <div class="col-md-6" *ngIf="file.height">
                 <label>{{'file.height' | translate }} :&nbsp;</label>
                 <span class="text-grey-v2" #heightErr>{{file.height}}</span>
@@ -153,13 +153,13 @@
           </div>
           <div class="text-center f-size-14 text-grey mt-2">
             <div class="text-center">{{'confirmQuote'|translate}}</div>
-            <div class="text-center">{{lineItem.duration}} {{'days'|translate}} , {{lineItem.unitPrice}}
+            <div class="text-center">{{rfq.duration}} {{'days'|translate}} , {{rfq.unitPrice}}
               {{'egpPerUnit'|translate}}</div>
           </div>
           <div class="text-center my-2 f-weight-600">
             <button class="custom-btn v4 mr-3" (click)="modalRef.hide()">{{'cancel'|translate}}</button>
             <button type="button" class="custom-btn v1 f-size-16 font-weight-bold"
-              (click)="confirmQuoteItem(lineItem);modalRef.hide()">{{'quote'|translate}}</button>
+              (click)="confirmQuoteItem(rfq);modalRef.hide()">{{'quote'|translate}}</button>
           </div>
         </div>
       </ng-template>

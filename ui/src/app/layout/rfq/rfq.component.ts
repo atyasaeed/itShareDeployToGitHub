@@ -1,32 +1,39 @@
+import { areAllEquivalent } from '@angular/compiler/src/output/output_ast';
 import { Component, Inject, OnInit } from '@angular/core';
 import { TdLoadingService } from '@covalent/core/loading';
 import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { routerTransition } from 'src/app/router.animations';
 import { APP_CONFIG, IAppConfig } from 'src/app/shared/app.config';
 import { Order, LineItem } from 'src/app/shared/domain';
-import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
-import { OrderService } from 'src/app/shared/services/order.service';
-import * as fromStore from 'src/app/store';
-import { routerTransition } from 'src/app/router.animations';
-import { TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
 import { Quotation } from 'src/app/shared/domain/quotation.model';
-import { AcceptQuotationService } from 'src/app/shared/services/accept-quotation.service';
+import { RFQ } from 'src/app/shared/domain/rfq.model ';
+import { DefaultListComponent } from 'src/app/shared/helpers/default.list.component';
+import { LineItemService } from 'src/app/shared/services/line-item.service';
+import { OrderService } from 'src/app/shared/services/order.service';
+import { RFQService } from 'src/app/shared/services/rfq.service';
+import * as fromStore from 'src/app/store';
+
 @Component({
-  selector: 'app-accept-quotation',
-  templateUrl: './accept-quotation.component.html',
-  styleUrls: ['./accept-quotation.component.scss'],
+  selector: 'app-rfq',
+  templateUrl: './rfq.component.html',
+  styleUrls: ['./rfq.component.scss'],
   animations: [routerTransition()],
 })
-export class AcceptQuotationComponent extends DefaultListComponent<Quotation, AcceptQuotationService>
-  implements OnInit {
+export class RfqComponent extends DefaultListComponent<RFQ, RFQService> implements OnInit {
+  breadcrumbs = [{ heading: 'RFQs', icon: 'fa-tasks', link: '/RFQs' }];
   private _searchTerm = '';
   lang: string;
   checkInput: boolean;
   modalRef: BsModalRef;
   public isCollapsed: boolean[] = [];
+  duration: string;
+  unitPrice: string;
   constructor(
-    service: AcceptQuotationService,
+    service: RFQService,
+    private lineItemService: LineItemService,
     loadingService: TdLoadingService,
     private appStore: Store<fromStore.AppState>,
     private modalService: BsModalService,
@@ -66,6 +73,35 @@ export class AcceptQuotationComponent extends DefaultListComponent<Quotation, Ac
     }
   }
   getFileUrl(entity: LineItem): string {
-    return this.appConfig.FILE_URL_ADMIN + entity.files[0].asset_id;
+    return this.appConfig.FILE_URL + entity.files[0].asset_id;
+  }
+
+  quoteItem(lineitem: LineItem, template) {
+    if (!(lineitem.duration > 0 && lineitem.unitPrice > 0)) {
+      this.checkInput = true;
+      return;
+    }
+    this.modalRef = this.modalService.show(template);
+  }
+  confirmQuoteItem(rfq: RFQ) {
+    this.loadingService.register(this.key);
+    let quotation: Quotation = {} as Quotation;
+    quotation.unitPrice = rfq.unitPrice;
+    quotation.duration = rfq.duration;
+    this.lineItemService.quoteItem(quotation, rfq.id).subscribe(
+      (res) => {
+        if (res == null) {
+          this.toastr.warning(this.translate.instant('sorryTryAgainLater'));
+          this.loadingService.resolve(this.key);
+          return;
+        }
+        this.toastr.success(this.translate.instant('quoted'));
+        this.loadingService.resolve(this.key);
+      },
+      (err) => {
+        this.toastr.error(this.translate.instant(err.error.details[0]));
+        this.loadingService.resolve(this.key);
+      }
+    );
   }
 }

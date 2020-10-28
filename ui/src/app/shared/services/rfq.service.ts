@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { RestService } from '.';
-import { LineItem, Order } from '../domain';
+import { RFQ } from '../domain/rfq.model ';
 
 @Injectable({
   providedIn: 'root',
 })
-export class SentQuotationService extends RestService<LineItem> {
+export class RFQService extends RestService<RFQ> {
   resource: string = 'quotation/rfqs';
 }

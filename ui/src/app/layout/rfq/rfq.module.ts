@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { SentQuotationRoutingModule } from './sent-quotation-routing.module';
-import { SentQuotationComponent } from './sent-quotation.component';
+import { RfqRoutingModule } from './rfq-routing.module';
+import { RfqComponent } from './rfq.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatTabsModule } from '@angular/material/tabs';
 import { CovalentLoadingModule } from '@covalent/core/loading';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
@@ -13,10 +14,10 @@ import { SharedModule } from 'src/app/shared/modules/shared/shared.module';
 import { StlModalModule } from 'src/app/shared/modules/stl-modal/stl-modal.module';
 
 @NgModule({
-  declarations: [SentQuotationComponent],
+  declarations: [RfqComponent],
   imports: [
     CommonModule,
-    SentQuotationRoutingModule,
+    RfqRoutingModule,
     TranslateModule,
     NgbModule,
     FormsModule,
@@ -26,6 +27,7 @@ import { StlModalModule } from 'src/app/shared/modules/stl-modal/stl-modal.modul
     ReactiveFormsModule,
     CovalentLoadingModule,
     TooltipModule,
+    MatTabsModule,
   ],
 })
-export class SentQuotationModule {}
+export class RfqModule {}

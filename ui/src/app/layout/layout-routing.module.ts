@@ -100,6 +100,12 @@ const routes: Routes = [
       {
         path: 'quotation',
         loadChildren: () => import('./quotation/quotation.module').then((m) => m.QuotationModule),
+        canActivate: [PartnerGuard],
+      },
+      {
+        path: 'RFQs',
+        loadChildren: () => import('./rfq/rfq.module').then((m) => m.RfqModule),
+        canActivate: [PartnerGuard],
       },
     ],
   },
