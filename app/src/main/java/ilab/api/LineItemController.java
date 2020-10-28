@@ -151,4 +151,12 @@ public class LineItemController
 		return orderService.resumeRFM(id);
 	}
 
+	@PutMapping("{id}/commit")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public LineItem commitQuotation(@PathVariable("id") UUID id)
+	{
+		return quotationService.commitQuotation(id);
+
+	}
+
 }

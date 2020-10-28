@@ -480,5 +480,6 @@
   "quotedSuccessfully":"Quoted Successfully",
   "quotationSelected":"Quotation Selected",
   "resumeRFM":"Resume RFQ",
-  "holdRFM":"Hold RFQ"
+  "holdRFM":"Hold RFQ",
+  "sorryTryAgainLater": "آسف ، حاول مرة أخرى لاحقًا"
 }
