@@ -27,7 +27,7 @@ export class LineItemService extends RestService<LineItem> {
   itemReject(id, rejectionReason: LineItem) {
     return this.http.put(this.appConfig.getResourceUrl(this.resource) + `/${id}/rejectItem`, rejectionReason);
   }
-  itemStatus(id, action) {
+  itemStatus(id, action: string) {
     return this.http.put(this.appConfig.getResourceUrl(this.resource) + `/${id}/${action}`, '');
   }
 

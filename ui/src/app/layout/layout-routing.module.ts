@@ -98,6 +98,11 @@ const routes: Routes = [
         canActivate: [AdminGuard],
       },
       {
+        path: 'rfq-list/:entityId',
+        loadChildren: () => import('./rfq-list/rfq-list.module').then((m) => m.RfqListModule),
+        canActivate: [AdminGuard],
+      },
+      {
         path: 'quotation',
         loadChildren: () => import('./quotation/quotation.module').then((m) => m.QuotationModule),
         canActivate: [PartnerGuard],

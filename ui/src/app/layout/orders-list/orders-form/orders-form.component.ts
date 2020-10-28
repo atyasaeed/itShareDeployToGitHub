@@ -62,13 +62,13 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
   arrBooleanRejectItems: boolean[] = new Array();
   rejectItems: boolean = true;
   lineItem: LineItem = {} as LineItem;
-  // order: Observable<Order>;
-
   rejectionReason: RejectionReason = {} as RejectionReason;
   reasonList: Reason[] = [{ id: '', name: '', status: '' }];
   lang: string;
   selectedItems = [];
   dropdownSettings: IDropdownSettings = {};
+  sendRFQForm: FormGroup;
+  currentRouteUrl: string;
   constructor(
     formBuilder: FormBuilder,
     loadingService: TdLoadingService,
@@ -89,7 +89,12 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
   ) {
     super(formBuilder, loadingService, dialogService, service, route, router, translate, toastr);
 
+    this.currentRouteUrl = this.router.url;
     this.form = this.formBuilder.group({});
+    // this.sendRFQForm = this.formBuilder.group({
+    //   expirationDuration: ['', [Validators.required, Validators.pattern(/(?<=\s|^)\d+(?=\s|$)/)]],
+    //   notes: ['', [Validators.minLength(2), Validators.maxLength(250)]],
+    // });
     this.dropdownSettings = {
       idField: 'id',
       textField: 'name',
@@ -400,12 +405,12 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
   }
   lineItemStatus(lineItem: LineItem) {
     this.loadingService.register(this.key);
-    if (!lineItem.duration || !lineItem.unitPrice) {
-      this.toastr.error(this.translate.instant('lineItem.update.error'));
-      this.loadingService.resolve(this.key);
+    // if (!lineItem.duration || !lineItem.unitPrice) {
+    //   this.toastr.error(this.translate.instant('lineItem.update.error'));
+    //   this.loadingService.resolve(this.key);
 
-      return;
-    }
+    //   return;
+    // }
     let arrLineItems: boolean[] = new Array();
     let arrBooleanRejectItems: boolean[] = new Array();
 
@@ -447,6 +452,32 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
                 this.toastr.error(this.translate.instant(err.message));
               }
             );
+          },
+          (err) => {
+            this.toastr.error(this.translate.instant(err.message));
+            this.loadingService.resolve(this.key);
+          }
+        );
+        break;
+      case 'RFM':
+        this.itemservice.itemStatus(lineItem.id, 'commit').subscribe(
+          (res: LineItem) => {
+            lineItem.status = res.status;
+            this.toastr.success(this.translate.instant('quotedSuccessfully'));
+            this.loadingService.resolve(this.key);
+          },
+          (err) => {
+            this.toastr.error(this.translate.instant(err.message));
+            this.loadingService.resolve(this.key);
+          }
+        );
+        break;
+      case 'HRFQ':
+        this.itemservice.itemStatus(lineItem.id, 'commit').subscribe(
+          (res: LineItem) => {
+            lineItem.status = res.status;
+            this.toastr.success(this.translate.instant('quotedSuccessfully'));
+            this.loadingService.resolve(this.key);
           },
           (err) => {
             this.toastr.error(this.translate.instant(err.message));
@@ -569,6 +600,10 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
     this.modalRef = this.modalService.show(template);
   }
 
+  // sendRFQModal(template) {
+  //   this.modalRef = this.modalService.show(template);
+  // }
+
   checkOrderStatus() {
     this.loadingService.register(this.key);
     let arrLineItems: boolean[] = new Array();
@@ -600,6 +635,27 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
       (err) => {
         this.toastr.error(this.translate.instant(err.message));
         this.loadingService.resolve(this.key);
+      }
+    );
+  }
+  // submitSendRFQ() {
+  //   if (this.sendRFQForm.invalid) {
+  //     this.sendRFQForm.markAllAsTouched();
+  //   } else {
+  //     console.log(this.sendRFQForm.value);
+  //   }
+  // }
+  updateItemStatus(lineItem: LineItem, status: string) {
+    this.loadingService.register(this.key);
+    this.itemservice.itemStatus(lineItem.id, status).subscribe(
+      (res: LineItem) => {
+        lineItem.status = res.status;
+        this.toastr.success(this.translate.instant(status));
+        this.loadingService.resolve(this.key);
+      },
+      (err) => {
+        this.loadingService.resolve(this.key);
+        this.toastr.error(this.translate.instant(err.message));
       }
     );
   }
