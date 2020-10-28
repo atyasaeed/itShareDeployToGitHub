@@ -1,5 +1,6 @@
 package ilab.core.repository;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -21,6 +22,6 @@ public interface QuotationRepository
 {
 	Page<Quotation> findByPartnerAndStatus(Organization org, QuotationStatus status, Pageable page);
 
-	Page<Quotation> findByStatusAndLineItem_id(QuotationStatus status, UUID id, Pageable page);
+	Page<Quotation> findByStatusInAndLineItem_id(List<QuotationStatus> status, UUID id, Pageable page);
 
 }

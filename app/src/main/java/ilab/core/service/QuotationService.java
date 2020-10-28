@@ -1,5 +1,7 @@
 package ilab.core.service;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import javax.transaction.Transactional;
@@ -21,6 +23,7 @@ import ilab.core.domain.user.User;
 import ilab.core.repository.LineItemRepository;
 import ilab.core.repository.OrganizationRepository;
 import ilab.core.repository.QuotationRepository;
+import ilab.dto.RFQDto;
 import ilab.utils.exception.IllegalRequestDataException;
 
 @Service
@@ -40,10 +43,11 @@ public class QuotationService
 
 	public Page<Quotation> getItemQuotes(Pageable page, UUID id)
 	{
-		return quotationRepo.findByStatusAndLineItem_id(QuotationStatus.QUOTED, id, page);
+		List<QuotationStatus> eligibleStatus = Arrays.asList(QuotationStatus.QUOTED, QuotationStatus.SELECTED);
+		return quotationRepo.findByStatusInAndLineItem_id(eligibleStatus, id, page);
 	}
 
-	public Page<LineItem> readyFMs(Authentication auth, Pageable page)
+	public Page<RFQDto> readyFMs(Authentication auth, Pageable page)
 	{
 		User user = userService.findUser(auth);
 		if (orgValidation(user.getDefaultOrg()))
@@ -81,12 +85,12 @@ public class QuotationService
 			quotation.setStatus(QuotationStatus.SELECTED);
 			item.setUnitPrice(quotation.getUnitPrice());
 			item.setDuration(quotation.getDuration());
-			if (item.getSelected() != null)
+			if (item.getQuotation() != null)
 			{
-				item.getSelected().setStatus(QuotationStatus.QUOTED);
-				quotationRepo.save(item.getSelected());
+				item.getQuotation().setStatus(QuotationStatus.QUOTED);
+				quotationRepo.save(item.getQuotation());
 			}
-			item.setSelected(quotation);
+			item.setQuotation(quotation);
 			return quotationRepo.save(quotation);
 		}
 		return null;

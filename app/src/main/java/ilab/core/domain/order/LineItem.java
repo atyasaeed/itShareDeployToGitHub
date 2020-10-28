@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -20,6 +19,7 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -56,18 +56,8 @@ public class LineItem extends AbstractEntity<LineItem>
 	private int duration;
 	private String notes;
 	@OneToOne
-	private Quotation selected;
-	
-
-	public Quotation getSelected()
-	{
-		return selected;
-	}
-
-	public void setSelected(Quotation quotation)
-	{
-		this.selected = quotation;
-	}
+	@JsonIgnoreProperties("lineItem")
+	private Quotation quotation;
 
 	public int getDuration()
 	{
@@ -78,8 +68,6 @@ public class LineItem extends AbstractEntity<LineItem>
 	{
 		this.duration = duration;
 	}
-
-	
 
 	public long getQuantity()
 	{
@@ -189,5 +177,15 @@ public class LineItem extends AbstractEntity<LineItem>
 	public void setRejectionNote(String rejectionNote)
 	{
 		this.rejectionNote = rejectionNote;
+	}
+
+	public Quotation getQuotation()
+	{
+		return quotation;
+	}
+
+	public void setQuotation(Quotation quotation)
+	{
+		this.quotation = quotation;
 	}
 }

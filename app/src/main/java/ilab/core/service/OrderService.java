@@ -163,10 +163,7 @@ public class OrderService
 		OrderEntity order = orderRepo.findById(orderId).orElseThrow();
 		if (order.getOrganization().getId().equals(user.getDefaultOrg().getId())
 				&& order.getStatus() == OrderStatus.QUOTED)
-		{
 			order.setStatus(OrderStatus.QUOTE_REJECTED);
-
-		}
 		return order;
 	}
 
@@ -178,9 +175,7 @@ public class OrderService
 		OrderEntity order = orderRepo.findById(orderId).orElseThrow();
 		if (order.getOrganization().getId().equals(user.getDefaultOrg().getId())
 				&& eligibleStatus.contains(order.getStatus()))
-		{
 			order.setStatus(OrderStatus.CANCELLED);
-		}
 		return order;
 	}
 
@@ -192,7 +187,6 @@ public class OrderService
 		order.addLineItem(item);
 		int index = 0;
 		for (HyperFile hyperFile : item.getFiles())
-		{
 			// Todo: Validate the user owns the file asset if its ID!=null
 			if (hyperFile.getAsset().getId() == null)
 			{
@@ -215,9 +209,8 @@ public class OrderService
 					throw new IllegalRequestDataException("The file is not belonging to the user");
 				hyperFile.setAsset(assetsRepo.findById(hyperFile.getAsset().getId()).orElseThrow());
 			}
-		}
 
-//		estomatorService.price(item);		
+//		estomatorService.price(item);
 		item.setStatus(LineItemStatus.PENDING);
 		item = lineItemRepo.save(item);
 		order = orderRepo.save(order);
@@ -249,9 +242,7 @@ public class OrderService
 		List<OrderEntity> orders = orderRepo.findShoppingCart(OrderStatus.SHOPPING_CART, OrgId, PageRequest.of(0, 1));
 		OrderEntity order = null;
 		if (!orders.isEmpty())
-		{
 			order = orders.get(0);
-		}
 
 		return order;
 	}
@@ -282,9 +273,7 @@ public class OrderService
 		List<OrderEntity> orders = orderRepo.findGalleryCart(OrderStatus.GALLERY_CART, PageRequest.of(0, 1));
 		OrderEntity gallery = null;
 		if (!orders.isEmpty())
-		{
 			gallery = orders.get(0);
-		}
 
 		if (gallery == null)
 		{
@@ -321,7 +310,7 @@ public class OrderService
 				hf.setColor(newHf.getColor());
 				hf.setMaterial(newHf.getMaterial());
 				hf.setUnit(newHf.getUnit());
-				hf.setProcesses((String) newHf.getProcesses());
+				hf.setProcesses(newHf.getProcesses());
 			}
 		}
 
@@ -331,7 +320,7 @@ public class OrderService
 	public LineItem updateItem(LineItem newItem)
 	{
 		List<LineItemStatus> eligibleStatus = Arrays.asList(LineItemStatus.QUOTED, LineItemStatus.ITEM_REJECTED,
-				LineItemStatus.PENDING);
+				LineItemStatus.PENDING, LineItemStatus.RFM, LineItemStatus.HRFQ);
 		LineItem item = lineItemRepo.findById(newItem.getId()).orElseThrow();
 		if (item.getOrderEntity().getStatus() == OrderStatus.PENDING && eligibleStatus.contains(item.getStatus()))
 		{
@@ -537,9 +526,8 @@ public class OrderService
 
 		if (eligibleItemStatus.contains(item.getStatus())
 				&& eligibleOrderStatus.contains(item.getOrderEntity().getStatus()))
-		{
 			item.setStatus(LineItemStatus.CANCELLED);
-		} else
+		else
 			throw new IllegalRequestDataException("Can't cancel item");
 		return item;
 	}
@@ -554,9 +542,8 @@ public class OrderService
 
 		if (eligibleItemStatus.contains(item.getStatus())
 				&& eligibleOrderStatus.contains(item.getOrderEntity().getStatus()))
-		{
 			item.setStatus(LineItemStatus.QUOTE_REJECTED);
-		} else
+		else
 			throw new IllegalRequestDataException("Can't reject item quote");
 		return item;
 	}
@@ -571,9 +558,8 @@ public class OrderService
 
 		if (eligibleItemStatus.contains(item.getStatus())
 				&& eligibleOrderStatus.contains(item.getOrderEntity().getStatus()))
-		{
 			item.setStatus(LineItemStatus.QUOTE_ACCEPTED);
-		} else
+		else
 			throw new IllegalRequestDataException("Can't accept  item quote");
 		return item;
 	}
@@ -587,9 +573,8 @@ public class OrderService
 		if (eligibleOrderStatus.contains(item.getOrderEntity().getStatus())
 				&& eligibleItemStatus.contains(item.getStatus()) && item.getDuration() > 0
 				&& item.getUnitPrice() != null)
-		{
 			item.setStatus(LineItemStatus.QUOTED);
-		} else
+		else
 			throw new IllegalRequestDataException("Can't quote  the item ");
 		return item;
 	}
@@ -625,9 +610,8 @@ public class OrderService
 		LineItem item = lineItemRepo.findById(id).orElseThrow();
 		if (eligibleOrderStatus.contains(item.getOrderEntity().getStatus())
 				&& eligibleItemStatus.contains(item.getStatus()))
-		{
 			item.setStatus(LineItemStatus.IN_PROGRESS);
-		} else
+		else
 			throw new IllegalRequestDataException("Can't process  the item ");
 		return item;
 	}
@@ -640,9 +624,8 @@ public class OrderService
 
 		if (eligibleOrderStatus.contains(item.getOrderEntity().getStatus())
 				&& eligibleItemStatus.contains(item.getStatus()))
-		{
 			item.setStatus(LineItemStatus.FINISHED);
-		} else
+		else
 			throw new IllegalRequestDataException("Can't finish  the item ");
 		return item;
 	}
@@ -655,9 +638,8 @@ public class OrderService
 
 		if (eligibleOrderStatus.contains(item.getOrderEntity().getStatus())
 				&& eligibleStatus.contains(item.getStatus()))
-		{
 			item.setStatus(LineItemStatus.DELIVERED);
-		} else
+		else
 			throw new IllegalRequestDataException("Can't Deliver  the item ");
 		return item;
 	}
@@ -666,9 +648,8 @@ public class OrderService
 	{
 		LineItem item = lineItemRepo.findById(id).orElseThrow();
 		if (item.getOrderEntity().getStatus() == OrderStatus.PENDING && item.getStatus() != LineItemStatus.CANCELLED)
-		{
 			item.setStatus(LineItemStatus.PENDING);
-		} else
+		else
 			throw new IllegalRequestDataException("Can't reset item");
 		return item;
 	}
