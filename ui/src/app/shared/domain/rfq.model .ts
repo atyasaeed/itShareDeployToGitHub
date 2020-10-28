@@ -11,4 +11,3 @@ export interface RFQ extends Entity {
   unitPrice?: number;
   duration?: number;
 }
-

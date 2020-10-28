@@ -29,8 +29,8 @@ export class RfqComponent extends DefaultListComponent<RFQ, RFQService> implemen
   checkInput: boolean;
   modalRef: BsModalRef;
   public isCollapsed: boolean[] = [];
-  duration:string;
-  unitPrice :string;
+  duration: string;
+  unitPrice: string;
   constructor(
     service: RFQService,
     private lineItemService: LineItemService,
@@ -45,7 +45,6 @@ export class RfqComponent extends DefaultListComponent<RFQ, RFQService> implemen
     this.appStore.select(fromStore.getLang).subscribe((lang) => {
       this.lang = lang;
     });
-
   }
   // ngOnInit(): void {
   // }
@@ -78,32 +77,31 @@ export class RfqComponent extends DefaultListComponent<RFQ, RFQService> implemen
   }
 
   quoteItem(lineitem: LineItem, template) {
-    if (!(lineitem.duration > 0 && lineitem.unitPrice >0)) {
+    if (!(lineitem.duration > 0 && lineitem.unitPrice > 0)) {
       this.checkInput = true;
       return;
     }
     this.modalRef = this.modalService.show(template);
   }
   confirmQuoteItem(rfq: RFQ) {
-    this.loadingService.register(this.key)
+    this.loadingService.register(this.key);
     let quotation: Quotation = {} as Quotation;
     quotation.unitPrice = rfq.unitPrice;
     quotation.duration = rfq.duration;
     this.lineItemService.quoteItem(quotation, rfq.id).subscribe(
       (res) => {
         if (res == null) {
-          this.toastr.warning(this.translate.instant('sorryTryAgainLater'))
-          this.loadingService.resolve(this.key)
-          return
+          this.toastr.warning(this.translate.instant('sorryTryAgainLater'));
+          this.loadingService.resolve(this.key);
+          return;
         }
         this.toastr.success(this.translate.instant('quoted'));
-        this.loadingService.resolve(this.key)
+        this.loadingService.resolve(this.key);
       },
       (err) => {
         this.toastr.error(this.translate.instant(err.error.details[0]));
-        this.loadingService.resolve(this.key)
+        this.loadingService.resolve(this.key);
       }
     );
   }
-
 }
