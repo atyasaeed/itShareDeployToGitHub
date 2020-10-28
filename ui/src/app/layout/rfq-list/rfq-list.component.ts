@@ -69,12 +69,15 @@ export class RfqListComponent extends DefaultListComponent<Quotation, QuotationS
   // }
   acceptQuotation(event) {
     this.loadingService.register(this.key);
-    this.service.adminSelectQuotation(event.target.value).subscribe(res => {
-      this.loadingService.resolve(this.key);
-      this.toastr.success(this.translate.instant('quotationSelected'));
-    }, err => {
-      this.loadingService.resolve(this.key);
-      this.toastr.error(this.translate.instant(err.message));
-    });
+    this.service.adminSelectQuotation(event.target.value).subscribe(
+      (res) => {
+        this.loadingService.resolve(this.key);
+        this.toastr.success(this.translate.instant('quotationSelected'));
+      },
+      (err) => {
+        this.loadingService.resolve(this.key);
+        this.toastr.error(this.translate.instant(err.message));
+      }
+    );
   }
 }

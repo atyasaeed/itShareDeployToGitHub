@@ -460,7 +460,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
         );
         break;
       case 'RFM':
-        this.itemservice.itemStatus(lineItem.id, 'quote').subscribe(
+        this.itemservice.itemStatus(lineItem.id, 'commit').subscribe(
           (res: LineItem) => {
             lineItem.status = res.status;
             this.toastr.error(this.translate.instant('quotedSuccessfully'));
@@ -472,8 +472,8 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
           }
         );
         break;
-       case 'HRFQ':
-        this.itemservice.itemStatus(lineItem.id, 'quote').subscribe(
+      case 'HRFQ':
+        this.itemservice.itemStatus(lineItem.id, 'commit').subscribe(
           (res: LineItem) => {
             lineItem.status = res.status;
             this.toastr.error(this.translate.instant('quotedSuccessfully'));
@@ -650,7 +650,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
     this.itemservice.itemStatus(lineItem.id, status).subscribe(
       (res: LineItem) => {
         lineItem.status = res.status;
-        this.toastr.success(this.translate.instant(status))
+        this.toastr.success(this.translate.instant(status));
         this.loadingService.resolve(this.key);
       },
       (err) => {

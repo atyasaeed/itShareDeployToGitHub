@@ -475,5 +475,10 @@
   "RFQsExpiringOn":"تاريخ الإنتهاء",
   "stopReceivingQuotations":"وقف استقبال عروض الأسعار",
   "quotations": "Quotations",
-  "egpPerUnit": "جنيه مصري للوحدة"
+  "egpPerUnit": "جنيه مصري للوحدة",
+  "RFM":"RFM",
+  "quotedSuccessfully":"Quoted Successfully",
+  "quotationSelected":"Quotation Selected",
+  "resumeRFM":"Resume RFQ",
+  "holdRFM":"Hold RFQ"
 }

@@ -476,5 +476,10 @@
   "RFQsExpiringOn":"RFQs Expiring On",
   "stopReceivingQuotations":"Stop Receiving Quotations",
   "quotations": "Quotations",
-  "egpPerUnit": "EGP per unit"
+  "egpPerUnit": "EGP per unit",
+  "RFM":"RFM",
+  "quotedSuccessfully":"Quoted Successfully",
+  "quotationSelected":"Quotation Selected",
+  "resumeRFM":"Resume RFQ",
+  "holdRFM":"Hold RFQ"
 }
