@@ -96,6 +96,18 @@ public class QuotationService
 		return null;
 	}
 
+	public LineItem commitQuotation(UUID id)
+	{
+		LineItem item = lineItemRepo.findById(id).orElseThrow();
+		if (item.getQuotation() != null && item.getQuotation().getStatus() == QuotationStatus.SELECTED
+				&& (item.getStatus() == LineItemStatus.RFM || item.getStatus() == LineItemStatus.HRFQ))
+		{
+			item.setStatus(LineItemStatus.QUOTED);
+		}
+		return item;
+
+	}
+
 	public Page<Quotation> getQuotations(Authentication auth, Pageable page)
 	{
 		User user = userService.findUser(auth);
