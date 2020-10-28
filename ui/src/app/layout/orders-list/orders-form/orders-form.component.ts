@@ -463,7 +463,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
         this.itemservice.itemStatus(lineItem.id, 'commit').subscribe(
           (res: LineItem) => {
             lineItem.status = res.status;
-            this.toastr.error(this.translate.instant('quotedSuccessfully'));
+            this.toastr.success(this.translate.instant('quotedSuccessfully'));
             this.loadingService.resolve(this.key);
           },
           (err) => {
@@ -476,7 +476,7 @@ export class OrdersFormComponent extends DefaultFormComponent<Order, OrderServic
         this.itemservice.itemStatus(lineItem.id, 'commit').subscribe(
           (res: LineItem) => {
             lineItem.status = res.status;
-            this.toastr.error(this.translate.instant('quotedSuccessfully'));
+            this.toastr.success(this.translate.instant('quotedSuccessfully'));
             this.loadingService.resolve(this.key);
           },
           (err) => {

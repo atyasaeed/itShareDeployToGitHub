@@ -71,6 +71,7 @@ export class RfqListComponent extends DefaultListComponent<Quotation, QuotationS
     this.loadingService.register(this.key);
     this.service.adminSelectQuotation(event.target.value).subscribe(
       (res) => {
+        super.ngOnInit();
         this.loadingService.resolve(this.key);
         this.toastr.success(this.translate.instant('quotationSelected'));
       },

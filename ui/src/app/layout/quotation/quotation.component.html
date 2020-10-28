@@ -23,7 +23,7 @@
 
 
             <div class="col-md-3  f-size-20 font-weight-bold"><span>{{quotation.lineItem.service.name}} -
-                {{'id'|translate }} {{quotation.id.slice(-7)}}</span></div>
+                {{'id'|translate }} {{quotation.id|slice:0:7}}</span></div>
 
             <div class="col-md-2">{{'quantity' |translate}} : {{quotation.lineItem.quantity}}</div>
             <div class="col-md-2">{{'status' |translate}} : {{quotation.status}}</div>

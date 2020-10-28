@@ -47,7 +47,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let entity of entities$ | async; let i=index" [class.selected-quotation]="entity.status==='SELECTED'">
+            <tr *ngFor="let entity of entities$ | async; let i=index" >
               <th scope="row">{{ i+1 }}</th>
               <td>
                   <ngb-highlight [result]="entity.partner.name" [term]="searchTerm">
@@ -73,7 +73,7 @@
                   name="selected-quotation" [checked]="entity.status==='SELECTED'"
                   class="custom-control-input f-size-18" type="radio" id="'quotation_'{{entity.id}}" >
                   <label for="'quotation_'{{entity.id}}" class="custom-control-label">
-                    <div class="f-weight-400 f-size-15" [class.text-white]="entity.status==='SELECTED'">
+                    <div class="f-weight-400 f-size-15" >
                       {{'accept'|translate}}
                     </div>
                   </label>
