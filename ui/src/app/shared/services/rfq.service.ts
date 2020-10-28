@@ -5,6 +5,6 @@ import { LineItem, Order } from '../domain';
 @Injectable({
   providedIn: 'root',
 })
-export class SentQuotationService extends RestService<LineItem> {
+export class RFQService extends RestService<LineItem> {
   resource: string = 'quotation/rfqs';
 }

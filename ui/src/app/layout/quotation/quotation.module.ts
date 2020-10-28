@@ -17,6 +17,7 @@ import { MatTabsModule } from '@angular/material/tabs';
   declarations: [QuotationComponent],
   imports: [
     CommonModule,
+    QuotationRoutingModule,
     TranslateModule,
     NgbModule,
     FormsModule,
@@ -26,7 +27,6 @@ import { MatTabsModule } from '@angular/material/tabs';
     ReactiveFormsModule,
     CovalentLoadingModule,
     TooltipModule,
-    QuotationRoutingModule,
     MatTabsModule,
   ],
 })

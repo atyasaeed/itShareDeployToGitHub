@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AcceptQuotationComponent } from './accept-quotation.component';
+import { RfqComponent } from './rfq.component';
 
-describe('AcceptQuotationComponent', () => {
-  let component: AcceptQuotationComponent;
-  let fixture: ComponentFixture<AcceptQuotationComponent>;
+describe('RfqComponent', () => {
+  let component: RfqComponent;
+  let fixture: ComponentFixture<RfqComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AcceptQuotationComponent],
+      declarations: [RfqComponent],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AcceptQuotationComponent);
+    fixture = TestBed.createComponent(RfqComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
