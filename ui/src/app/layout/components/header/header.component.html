@@ -19,7 +19,7 @@
 
           <ng-container *ngIf="(items$)?.length!=0 else anonymous">
 
-            <li role="menuitem" class="media pointer" *ngFor="let entity of items$">
+            <li role="menuitem" class="media " *ngFor="let entity of items$">
               <div class="row">
                 <div class="col-4 text-center my-auto">
                   <img class=" img-fluid" [src]="appConfig.serviceImage(entity.service)">
@@ -130,43 +130,43 @@
 
         <li class="nav-item pointer my-auto ">
           <div class="btn-group" dropdown>
-            <a dropdownToggle class="dropdown-toggle nav-link f-size-16">
-              <img src="assets\images\user-circle-solid.png" />
+            <a dropdownToggle class="dropdown-toggle nav-link d-flex align-items-center f-size-16">
+              <i class="fas fa-user-circle f-size-34 px-2 site-color-v1"></i>
               {{user.username}}<span class="caret"></span>
             </a>
 
             <ul *dropdownMenu class="dropdown-menu dropdown-menu-right bg-color-v1" role="menu"
               aria-labelledby="button-basic">
               <li role="menuitem">
-                <a class="dropdown-item px-2" routerLink='/profile'>
-                  <img src="assets\images\user-edit-solid (1).png" class="px-2" /> <span
-                    class="f-size-14 custom-btn.v2 f-weight-600">{{ 'Profile' | translate }}</span>
+                <a class="dropdown-item d-flex align-items-center px-2" routerLink='/profile'>
+                  <i class="f-size-20 site-color-v1 px-2 fas fa-user-edit"></i> <span
+                    class="f-size-14  f-weight-600">{{ 'Profile' | translate }}</span>
                 </a>
               </li>
               <li role="menuitem">
-                <a class="dropdown-item px-2" routerLink='/address-book'>
-                  <i class="f-size-20 site-color-v1 mx-2 fas fa-address-book"></i>
-                  <span class="f-size-14 custom-btn.v2 f-weight-600">{{ 'addressBook' | translate }}</span>
+                <a class="dropdown-item px-2 d-flex align-items-center" routerLink='/address-book'>
+                  <i class="f-size-20 site-color-v1 px-2 fas fa-address-book"></i>
+                  <span class="f-size-14  f-weight-600">{{ 'addressBook' | translate }}</span>
                 </a>
               </li>
               <li role="menuitem" >
-                <a class="dropdown-item px-2" routerLink='/my-organizations'>
-                  <i class="f-size-20 site-color-v1 fas fa-building mx-2"></i>
-                  <span class="f-size-14 custom-btn.v2 f-weight-600">{{ 'myOrganizations' | translate }}</span>
+                <a class="dropdown-item px-2 d-flex align-items-center" routerLink='/my-organizations'>
+                  <i class="f-size-20 site-color-v1 fas fa-building px-2"></i>
+                  <span class="f-size-14  f-weight-600">{{ 'myOrganizations' | translate }}</span>
                 </a>
               </li>
               <li role="menuitem">
-                <a class="dropdown-item px-2" [routerLink]="'/change-password'">
+                <a class="dropdown-item px-2 d-flex align-items-center" [routerLink]="'/change-password'">
                   <!-- <i class="fa fa-fw fa-gear"></i> -->
-                  <img src="assets\images\unlock-alt-solid.png" class="px-2" /> <span
-                    class="f-size-14 custom-btn.v2 f-weight-600">{{ 'brand.changePassword' | translate }}</span>
+                  <i class="fas fa-unlock-alt f-size-20 site-color-v1 px-2"></i> <span
+                    class="f-size-14  f-weight-600">{{ 'brand.changePassword' | translate }}</span>
 
                 </a>
               </li>
               <li role="menuitem" style="cursor: pointer;">
-                <a class="dropdown-item px-2" (click)="authenticationService.logout()">
-                  <img src="assets\images\power-off-solid.png" class="px-2" /> <span
-                    class="f-size-14 custom-btn.v2 f-weight-600">{{ 'Log Out' | translate }}</span>
+                <a class="dropdown-item px-2 d-flex align-items-center" (click)="authenticationService.logout()">
+                  <i class="fas fa-power-off  f-size-20 site-color-v1 px-2"></i><span
+                    class="f-size-14  f-weight-600">{{ 'Log Out' | translate }}</span>
                 </a>
               </li>
             </ul>
@@ -174,9 +174,9 @@
         </li>
         &nbsp;
 
-        <li class="nav-item pointer" *notPartner>
+        <li class="nav-item " *notPartner>
           <div class="btn-group" dropdown>
-        <li dropdownToggle class=" px-2 position-relative dropdown-toggle nav-link">
+        <li dropdownToggle class="cursor-pointer px-2 position-relative dropdown-toggle nav-link">
           <!-- <img #cartPosition src="assets\images\cart-plus-solid.png" class="px-2" /> -->
           <i #cartPosition class="fas px-2 site-color-v1 fa-cart-plus fa-2x"></i>
           <span class="position-absolute f-size-14  quan-cart">{{quantitiesCount}}</span>
@@ -184,32 +184,32 @@
         <ul *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown-menu-cart messages  " role="menu"
           aria-labelledby="button-basic">
 
-          <ng-container *ngIf="(items$)?.length!=0 else anonymous">
+          <ng-container *ngIf="(items$)?.length!=0 else anonymous" >
+            <div class="cart-drop-menu">
+              <li role="menuitem" class="media container-fluid  cart-item" *ngFor="let entity of items$">
+                <div class="row py-1">
+                  <div class="col-md-4 text-left my-auto">
+                    <img class=" img-fluid" [src]="appConfig.serviceImage(entity.service)">
 
-            <li role="menuitem" class="media pointer cart-item" *ngFor="let entity of items$">
-              <div class="row">
-                <div class="col-md-4 text-center my-auto">
-                  <img class=" img-fluid" [src]="appConfig.serviceImage(entity.service)">
-
-                </div>
-                <div class="col-md-4 text-center my-auto f-size-13">
-                  <div class="media-body">
-                    <h5 class="mt-0 f-size-13">{{ entity.service.name }}</h5>
-                    <p class="last"> {{'quantity'}}: {{ entity.quantity }} </p>
+                  </div>
+                  <div class="col-md-5 text-center my-auto f-size-13">
+                    <div class="media-body">
+                      <h5 class="m-0 f-size-15 f-weight-600 site-color-v3">{{ entity.service.name }}</h5>
+                      <p class="last text-grey-v2 m-0">{{'quantity'|translate}} : <span class="site-color-v3">{{ entity.quantity }}</span></p>
+                    </div>
+                  </div>
+                  <div class="col-md-3 text-right my-auto">
+                    <button type="button" class="btn btn-outline-danger btn-xs" (click)="delete(entity)">
+                      <i class="fa fa-trash" aria-hidden="true"></i>
+                    </button>
                   </div>
                 </div>
-                <div class="col-md-4 text-center my-auto">
-                  <button type="button" class="btn btn-outline-danger btn-xs" (click)="delete(entity)">
-                    <i class="fa fa-trash" aria-hidden="true"></i>
-                  </button>
-                </div>
-              </div>
 
 
-            </li>
-
+              </li>
+            </div>
             <div class="cart-btns d-flex justify-content-center">
-              <button class="btn btn-info" routerLink="/shopping-cart">{{'viewCart' |translate}}</button>
+              <button class="custom-btn v1" routerLink="/shopping-cart">{{'viewCart' |translate}}</button>
             </div>
 
           </ng-container>

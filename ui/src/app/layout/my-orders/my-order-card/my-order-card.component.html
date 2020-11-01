@@ -2,6 +2,8 @@
   <ng-container *ngIf="!showStatusBreadcrumb()">
       <div class="overlay position-absolute d-flex" >
         <span class="cancelled">{{order.status | translate}}</span>
+        <button type="button" *ngIf="order.status == 'ORDER_REJECTED' " (click)="openModal(orderRejectReasons)"
+        class="custom-btn  btn-danger mt-2">{{'viewReasons'|translate}}</button>
       </div>
   </ng-container>
   <div class="custom-card-header p-3">
@@ -27,7 +29,7 @@
                 <span class="f-weight-400">{{order.quotedAt|date:'fullDate'}}</span>
               </div>
             </div>
-            <div class="col-md-4 my-auto">
+            <div class="col my-auto">
               <div >
                 <label>{{'orderedAt'|translate}} :&nbsp;</label>
                 <span class="f-weight-400">{{order.created | date:'fullDate'}}</span>
@@ -72,10 +74,6 @@
                 </div>
               </div>
 
-            </div>
-            <div class="col-md-4 text-center my-auto" *ngIf="order.status == 'ORDER_REJECTED' ">
-              <button type="button" (click)="openModal(orderRejectReasons)"
-                class="btn  btn-danger btn-block btn-sm m-1">{{'viewReasons'|translate}}</button>
             </div>
             <div class="col-md-12 px-md-5  my-auto" *ngIf="showStatusBreadcrumb()">
               <app-steps [stepsArr]="statusArr" activeStep="{{order.status}}"></app-steps>

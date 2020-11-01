@@ -58,3 +58,13 @@ padding: 5px;
   border-bottom: 1px solid #e9ecef;
   margin-bottom: 5px;
 }
+
+img{
+  border-radius: 8px;
+}
+
+.cart-drop-menu{
+  max-height: 250px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
