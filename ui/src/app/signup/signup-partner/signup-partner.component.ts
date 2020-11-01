@@ -125,10 +125,11 @@ export class SignupPartnerComponent implements OnInit, CanComponentDeactivate {
     this.orgservice.updateOrg(this.formData, this.registrationForm.get('id').value).subscribe(
       (res) => {
         this.registrationForm.markAsPristine();
-        this.router.navigateByUrl('/login');
         this.loadingService.resolve('loading');
         this.alertservice.success(this.translate.instant('registeration.success'));
-
+        localStorage.removeItem('currentUser');
+        this.appStore.dispatch(new fromStore.UpdateAuthUser(null));
+        this.router.navigateByUrl('/login');
         // this.alertservice.success('please check your email');
       },
       (err) => {

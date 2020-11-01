@@ -4,35 +4,43 @@ import { Observable } from 'rxjs';
 import { AuthenticationService } from '../services';
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
+import { getAuthUser, getInitStateLoaded } from 'src/app/store';
+import { filter, take } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
 export class AdminGuard implements CanActivate {
-  private isAuthenticated = false;
-  private hasAdminRole = false;
+  private isAuthenticated: boolean = false;
+  private hasAdminRole: boolean = false;
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,
     private appStore: Store<fromStore.AppState>
-  ) {
-    appStore.select(fromStore.getAuthUser).subscribe((user) => {
-      this.isAuthenticated = user !== null;
-      this.hasAdminRole = user && user.roles.includes('ROLE_ADMIN');
-    });
-  }
+  ) {}
+
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (this.hasAdminRole) {
-      return true;
-    }
-    if (this.isAuthenticated) {
-      this.router.navigate(['/access-denied']);
-    } else {
-      this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
-    }
-
-    return false;
+    return new Observable((observer) => {
+      this.appStore
+        .select(getInitStateLoaded)
+        .pipe(filter((res) => res === true))
+        .subscribe((res) => {
+          this.appStore.select(getAuthUser).subscribe((user) => {
+            if (user) {
+              this.isAuthenticated = true;
+            }
+            this.hasAdminRole = user && user.roles.includes('ROLE_ADMIN');
+            if (this.isAuthenticated && !this.hasAdminRole) {
+              this.router.navigate(['/access-denied']);
+            } else if (!this.isAuthenticated) {
+              this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+            }
+            observer.next(this.hasAdminRole);
+            observer.complete();
+          });
+        });
+    });
   }
 }

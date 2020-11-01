@@ -10,7 +10,7 @@ import { CanDeactivateGuard } from '../shared/guard/can-deactivate-guard.service
 
 const routes: Routes = [
   //{ path: '/:type', component: SignupComponent },
-  { path: '', component: SignupComponent, canDeactivate: [CanDeactivateGuard] },
+  { path: '', component: SignupComponent, canDeactivate: [CanDeactivateGuard], canActivate: [NonAuthGuard] },
 
   { path: 'activation', component: SignupActivationComponent },
   {

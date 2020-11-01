@@ -22,3 +22,4 @@ export const getAuthUser = createSelector(initState, fromInitstate.getAuthUser);
 export const getAuthServices = createSelector(initState, fromInitstate.getAuthServices);
 export const getShoppingCart = createSelector(initState, fromInitstate.getShoppingCart);
 export const getLang = createSelector(initState, fromInitstate.getLang);
+export const getInitStateLoaded = createSelector(initState, fromInitstate.getInitStateLoaded);
