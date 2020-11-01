@@ -1,7 +1,6 @@
 package ilab.api;
 
 import java.io.File;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,14 +45,17 @@ public class AssetsController implements AbstractRestController<FileAsset, UUID>
 		if (!resource.getFile().exists() && auth != null)
 		{
 
-			Optional<FileAsset> optional = assetsService.getAssetFile(id, auth);
-			FileAsset fileAsset = optional.isEmpty() ? null : optional.get();
+			FileAsset fileAsset = assetsService.getAssetFile(id, auth).orElse(null);
+			// TODO: We need to handle the files authorization?!
+			if (fileAsset == null)
+				fileAsset = assetsService.getAssetFile(id).orElse(null);
 			if (fileAsset != null)
 			{
 				resource = new FileSystemResource(
 						filesPath + fileAsset.getOrganization().getId() + File.separator + id);
 				filename = fileAsset.getName();
 			}
+
 		}
 		return ResponseEntity.ok().contentType(MediaType.parseMediaType("application/octet-stream"))
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"").body(resource);
