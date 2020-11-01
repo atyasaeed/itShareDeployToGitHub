@@ -56,7 +56,8 @@ public class LineItem extends AbstractEntity<LineItem>
 	private int duration;
 	private String notes;
 	@OneToOne
-	@JsonIgnoreProperties("lineItem")
+	@JsonIgnoreProperties(ignoreUnknown = true, value =
+	{ "lineItem", "partner" })
 	private Quotation quotation;
 
 	public int getDuration()
