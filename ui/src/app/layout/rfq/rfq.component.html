@@ -24,7 +24,7 @@
               {{'id'|translate }} {{rfq.id | slice:0:7}}</span></div>
 
           <div class="col-md-2">{{'quantity' |translate}} : {{rfq.quantity}}</div>
-          <div class="col-md-5"> {{"requestDate" | translate}} <span>{{rfq.created | date:'medium'}}</span>
+          <div class="col-md-5"> {{"requestDate" | translate}} <span>{{rfq.updated | date:'medium'}}</span>
           </div>
           <div class="col-md-1 d-flex justify-content-end cursor-pointer"><i class="fa fa-angle-down f-size-24 px-3"
               [ngClass]="{'fa-angle-down': !isCollapsed[i], 'fa-angle-up': isCollapsed[i]}"
