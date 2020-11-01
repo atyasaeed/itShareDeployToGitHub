@@ -15,7 +15,6 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () => import('./login/login.module').then((m) => m.LoginModule),
     data: { preload: true },
-    canActivate: [NonAuthGuard],
   },
   {
     path: 'forget-password',
