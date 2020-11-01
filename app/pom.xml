@@ -23,9 +23,9 @@
 				<version>${app.version}</version> </dependency> </dependencies> -->
 		</profile>
 		<profile>
-			<id>testing</id>
+			<id>test</id>
 			<properties>
-				<spring.profiles.active>testing</spring.profiles.active>
+				<spring.profiles.active>test</spring.profiles.active>
 			</properties>
 			<dependencies>
 				<dependency>
