@@ -34,7 +34,7 @@ export class userPrivilege implements CanActivate {
             }
             observer.next(this.hasPrivilege);
             observer.complete();
-          });
+          }).unsubscribe();
         });
     });
   }

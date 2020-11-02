@@ -36,7 +36,7 @@ export class PartnerGuard implements CanActivate {
             }
             observer.next(this.isActivePartner);
             observer.complete();
-          });
+          }).unsubscribe();
         });
     });
   }

@@ -27,14 +27,14 @@ export class NonAuthGuard implements CanActivate {
         .pipe(filter((res) => res === true))
         .subscribe((res) => {
           this.appStore.select(getAuthUser).subscribe((user) => {
-            if (!user) {
+            if (user===undefined||user===null) {
               this.noAuth = true;
             } else {
               this.router.navigateByUrl('/');
             }
             observer.next(this.noAuth);
             observer.complete();
-          });
+          }).unsubscribe();
         });
     });
   }

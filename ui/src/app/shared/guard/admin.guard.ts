@@ -39,7 +39,7 @@ export class AdminGuard implements CanActivate {
             }
             observer.next(this.hasAdminRole);
             observer.complete();
-          });
+          }).unsubscribe();
         });
     });
   }

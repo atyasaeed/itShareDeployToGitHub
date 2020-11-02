@@ -34,7 +34,7 @@ export class NotActivePartnerGuard implements CanActivate {
             }
             observer.next(this.notActivePartner);
             observer.complete();
-          });
+          }).unsubscribe();
         });
     });
   }
