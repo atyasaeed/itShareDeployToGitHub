@@ -4,7 +4,7 @@
     <fieldset [disabled]="!disabledForm">
       <section class="custom-card">
         <div class=" custom-card-header ">
-          <div class="form-group p-2  row">
+          <div class="form-group mb-0 p-2  row">
             <h4 class="col-md-4"><i class="fa fa-building-o" aria-hidden="true"></i> {{'organizationDetails'|translate}}
             </h4>
             <h6 class="col-md-4 m-auto text-center">{{"status"|translate}} : <span
@@ -13,11 +13,14 @@
 
             <div class="col-md-4 text-right"
               *ngIf="CommerciaFile && taxCardFile && org?.status =='PENDING' && !roleAdmin">
-              <a class="custom-btn v1" type="button" (click)="requestApproval()">{{'requestApproval' |translate}}</a>
+              <a class="custom-btn v1 text-light" type="button"
+                (click)="requestApproval()">{{'requestApproval' |translate}}</a>
 
             </div>
           </div>
         </div>
+        <h6 class="bg-danger text-light text-center mb-3" *ngIf="!form.controls.services.valid">
+          {{'chooseOneService.error' |translate}}</h6>
         <div class="text-right pr-3 mt-2"><button type="submit" mat-flat-button color="primary"
             *ngIf="toggleButton">{{ 'save' | translate }}</button>&nbsp;<a href="javascript:void(0)"
             *ngIf="!toggleButton" (click)='toggleButton =true && disabledForm=true' class="p-3">{{'edit'|translate}}</a>
@@ -151,10 +154,13 @@
       </section>
     </fieldset>
     <!--/////////////////////////////////-->
-    <section class="my-3 custom-card ">
-      <div class="form-group custom-card-header p-2">
+    <section class="mt-3 custom-card ">
+      <div class="form-group mb-0 custom-card-header p-2">
         <h4><i class="fa fa-paperclip"></i> {{'officialDocumentation'|translate}}</h4>
+
       </div>
+      <h6 class="bg-danger text-light text-center mb-3" *ngIf="!(CommerciaFile && taxCardFile)">
+        {{'uploadDocumentation.invaild' |translate}}</h6>
       <div class="form-row pt-0 row-files mt-2">
 
         <div class="form-group col-md-6">
@@ -205,48 +211,7 @@
 
         </div>
       </div>
-      <!-- <div class="form-row pt-0 row-files">
 
-        <div class="form-group col-md-6">
-          <h6>{{'ownerNationalIDFront'|translate}}</h6>
-        </div>
-        <div class="form-group col-md-6" *ngIf="!ownerNationalIDFrontFile">
-          <input #frontInput hidden="true" type="file" (change)="ownerNationalIDFront($event)" />
-          <button mat-flat-button type="button" color="primary" (click)="frontInput.click()" [disabled]='roleAdmin'><i
-              class="fa fa-upload"></i>
-            {{'upload'|translate}}</button>
-        </div>
-        <div class="form-group col-md-6" *ngIf="ownerNationalIDFrontFile">
-          <span class="text-success"><i class="fa fa-check" aria-hidden="true"></i> {{'uploaded'|translate}}</span>
-          <div><a class="text-danger" [href]="getFileUrlFront(org?.frontNatId?.id)"
-              *ngIf="org?.frontNatId?.id">{{'view'|translate}}</a><span *ngIf="!roleAdmin"> <span
-                *ngIf="org?.frontNatId?.id"> | </span><a href="javascript:void(0)" class="text-primary"
-                (click)='editOwnerNationalIDFront()'>{{'edit'|translate}}</a></span> </div>
-
-        </div>
-      </div>
-      <div class="form-row pt-0">
-
-        <div class="form-group col-md-6">
-          <h6>{{'ownerNationalIDBack'|translate}}</h6>
-        </div>
-        <div class="form-group col-md-6" *ngIf="!ownerNationalIDFBackFile">
-          <input #frontInput hidden="true" type="file" (change)="ownerNationalIDBack($event)" />
-          <button mat-flat-button type="button" color="primary" (click)="frontInput.click()" [disabled]='roleAdmin'><i
-              class="fa fa-upload"></i>
-            {{'upload'|translate}}</button>
-        </div>
-        <div class="form-group col-md-6" *ngIf="ownerNationalIDFBackFile">
-          <span class="text-success"><i class="fa fa-check" aria-hidden="true"></i> {{'uploaded'|translate}}</span>
-
-          <div>
-            <a [href]="getFileUrlBack(org?.backNatId?.id)" *ngIf="org?.backNatId?.id"
-              class="text-danger">{{'view'|translate}}</a>
-            <span *ngIf="!roleAdmin"><span *ngIf="org?.backNatId?.id"> | </span><a href="javascript:void(0)"
-                class="text-primary" (click)="editOwnerNationalIDBack()">{{'edit'|translate}}</a></span> </div>
-
-        </div>
-      </div> -->
     </section>
 
   </form>

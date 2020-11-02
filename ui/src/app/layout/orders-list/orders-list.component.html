@@ -10,6 +10,13 @@
           placeholder="{{'Search'|translate}}" name="searchTerm" [(ngModel)]="searchTerm" />
         <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
       </div>
+      <div class="col-md-6">
+        <ng-multiselect-dropdown [placeholder]="'status' | translate" [settings]="dropdownSettings"
+          [data]="dropdownList" [(ngModel)]="selectedItems" (onSelect)="onSelect($event)"
+          (onDeSelect)="onDeSelect($event)" (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)"
+          [ngModelOptions]="{standalone: true}">
+        </ng-multiselect-dropdown>
+      </div>
     </div>
 
     <div class="table-responsive">
