@@ -26,15 +26,18 @@ export class userPrivilege implements CanActivate {
         .select(getInitStateLoaded)
         .pipe(filter((res) => res === true))
         .subscribe((res) => {
-          this.appStore.select(getAuthUser).subscribe((user) => {
-            if (user && (user.roles.includes('ROLE_REGISTER_PRIVILEGE') || user.roles.length == 0)) {
-              this.hasPrivilege = true;
-            } else {
-              this.router.navigate(['']);
-            }
-            observer.next(this.hasPrivilege);
-            observer.complete();
-          }).unsubscribe();
+          this.appStore
+            .select(getAuthUser)
+            .subscribe((user) => {
+              if (user && (user.roles.includes('ROLE_REGISTER_PRIVILEGE') || user.roles.length == 0)) {
+                this.hasPrivilege = true;
+              } else {
+                this.router.navigate(['']);
+              }
+              observer.next(this.hasPrivilege);
+              observer.complete();
+            })
+            .unsubscribe();
         });
     });
   }

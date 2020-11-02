@@ -27,19 +27,22 @@ export class AdminGuard implements CanActivate {
         .select(getInitStateLoaded)
         .pipe(filter((res) => res === true))
         .subscribe((res) => {
-          this.appStore.select(getAuthUser).subscribe((user) => {
-            if (user) {
-              this.isAuthenticated = true;
-            }
-            this.hasAdminRole = user && user.roles.includes('ROLE_ADMIN');
-            if (this.isAuthenticated && !this.hasAdminRole) {
-              this.router.navigate(['/access-denied']);
-            } else if (!this.isAuthenticated) {
-              this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
-            }
-            observer.next(this.hasAdminRole);
-            observer.complete();
-          }).unsubscribe();
+          this.appStore
+            .select(getAuthUser)
+            .subscribe((user) => {
+              if (user) {
+                this.isAuthenticated = true;
+              }
+              this.hasAdminRole = user && user.roles.includes('ROLE_ADMIN');
+              if (this.isAuthenticated && !this.hasAdminRole) {
+                this.router.navigate(['/access-denied']);
+              } else if (!this.isAuthenticated) {
+                this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+              }
+              observer.next(this.hasAdminRole);
+              observer.complete();
+            })
+            .unsubscribe();
         });
     });
   }

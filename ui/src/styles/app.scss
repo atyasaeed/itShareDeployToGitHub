@@ -285,12 +285,13 @@ background-color: black !important;
 
 .custom-btn{
   border: none;
-  padding: 5px 25px;
+  padding: 5px 25px !important;
   border-radius: 20px;
   color: white ;
   transition: all 0.5s ease-in-out;
   cursor: pointer;
   white-space: unset;
+  text-align: center;
 }
 
 .custom-btn.v1{
@@ -302,13 +303,12 @@ background-color: black !important;
 }
 .custom-btn.v3{
   border: 2px solid #0E2546;
-border-radius: 20px;
-opacity: 1;
-color: #333333 !important;
+  color: #333333 !important;
 }
 
-.custom-btn.v1:hover,.custom-btn.v2:hover{
+.custom-btn.v1:hover,.custom-btn.v2:hover,.custom-btn.v3:hover{
   background-color: black;
+  color: white !important;
 }
 .custom-btn.v4{
   background: #EBEBEB;

@@ -23,18 +23,21 @@ export class NotActivePartnerGuard implements CanActivate {
         .select(getInitStateLoaded)
         .pipe(filter((res) => res === true))
         .subscribe((res) => {
-          this.appStore.select(getAuthUser).subscribe((user) => {
-            if (
-              user?.defaultOrgType === 'PARTNER' &&
-              (user?.defaultOrgStatus === 'PENDING' || user?.defaultOrgStatus === 'WAITING_APPROVAL')
-            ) {
-              this.notActivePartner = true;
-            } else {
-              this.router.navigate(['']);
-            }
-            observer.next(this.notActivePartner);
-            observer.complete();
-          }).unsubscribe();
+          this.appStore
+            .select(getAuthUser)
+            .subscribe((user) => {
+              if (
+                user?.defaultOrgType === 'PARTNER' &&
+                (user?.defaultOrgStatus === 'PENDING' || user?.defaultOrgStatus === 'WAITING_APPROVAL')
+              ) {
+                this.notActivePartner = true;
+              } else {
+                this.router.navigate(['']);
+              }
+              observer.next(this.notActivePartner);
+              observer.complete();
+            })
+            .unsubscribe();
         });
     });
   }

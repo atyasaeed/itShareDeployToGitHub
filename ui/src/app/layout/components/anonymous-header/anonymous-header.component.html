@@ -14,8 +14,8 @@
     </div>
 
     <div class="collapse navbar-collapse col-md-10" [class.show]="isOpen">
-      <ul class="navbar-nav   f-size-16 f-weight-600 w-100 row">
-        <div class="col-lg-5 d-flex justify-content-around">
+      <ul class="navbar-nav align-items-center f-size-16 f-weight-600 w-100 row">
+        <div class="col-lg-4 d-flex justify-content-around ">
 
           <li class="nav-item">
             <a class="site-color-v2 nav-link f-size-16 f-weight-600 custom-align "
@@ -30,15 +30,15 @@
             </a>
           </li>
         </div>
-        <div class="col-lg-7 d-flex justify-content-around">
-          <li class="nav-item my-auto">
+        <div class="col-lg-8 d-flex justify-content-between px-0">
+          <li class="nav-item my-auto mr-2">
             <a class="dropdown-item custom-btn v1 custom-align" [routerLink]="'/login'">
               {{ 'Login' | translate }}
             </a>
           </li>
 
-          <li class="nav-item my-auto">
-            <a class=" nav-link custom-btn v3 px-3" (click)="signupPartner()">{{'becomaApartner'|translate}}</a>
+          <li class="nav-item my-auto mr-2">
+            <a class=" nav-link custom-btn v3" (click)="signupPartner()">{{'becomaApartner'|translate}}</a>
           </li>
 
 

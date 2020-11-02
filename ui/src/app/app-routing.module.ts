@@ -15,7 +15,7 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () => import('./login/login.module').then((m) => m.LoginModule),
     data: { preload: true },
-    canActivate: [NonAuthGuard]
+    canActivate: [NonAuthGuard],
   },
   {
     path: 'forget-password',
@@ -30,12 +30,12 @@ const routes: Routes = [
   {
     path: 'reset-password',
     loadChildren: () => import('./reset-password/reset-password.module').then((m) => m.ResetPasswordModule),
-    canActivate:[NonAuthGuard]
+    canActivate: [NonAuthGuard],
   },
   {
     path: 'access-denied',
     loadChildren: () => import('./access-denied/access-denied.module').then((m) => m.AccessDeniedModule),
-    canActivate:[AuthGuard]
+    canActivate: [AuthGuard],
   },
   { path: 'not-found', loadChildren: () => import('./not-found/not-found.module').then((m) => m.NotFoundModule) },
   { path: '**', redirectTo: 'not-found' },

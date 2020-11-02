@@ -24,19 +24,22 @@ export class PartnerGuard implements CanActivate {
         .select(getInitStateLoaded)
         .pipe(filter((res) => res === true))
         .subscribe((res) => {
-          this.appStore.select(getAuthUser).subscribe((user) => {
-            if (user?.defaultOrgType === 'PARTNER') {
-              if (user?.defaultOrgStatus === 'PENDING') {
-                this.router.navigate(['/home/partner']);
+          this.appStore
+            .select(getAuthUser)
+            .subscribe((user) => {
+              if (user?.defaultOrgType === 'PARTNER') {
+                if (user?.defaultOrgStatus === 'PENDING') {
+                  this.router.navigate(['/home/partner']);
+                } else {
+                  this.isActivePartner = true;
+                }
               } else {
-                this.isActivePartner = true;
+                this.router.navigate(['']);
               }
-            } else {
-              this.router.navigate(['']);
-            }
-            observer.next(this.isActivePartner);
-            observer.complete();
-          }).unsubscribe();
+              observer.next(this.isActivePartner);
+              observer.complete();
+            })
+            .unsubscribe();
         });
     });
   }

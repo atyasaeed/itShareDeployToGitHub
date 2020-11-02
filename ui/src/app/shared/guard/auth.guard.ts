@@ -21,15 +21,18 @@ export class AuthGuard implements CanActivate {
         .select(getInitStateLoaded)
         .pipe(filter((res) => res === true))
         .subscribe((res) => {
-          this.appStore.select(getAuthUser).subscribe((user) => {
-            if (user) {
-              this.authUser = true;
-            } else {
-              this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
-            }
-            observer.next(this.authUser);
-            observer.complete();
-          }).unsubscribe();
+          this.appStore
+            .select(getAuthUser)
+            .subscribe((user) => {
+              if (user) {
+                this.authUser = true;
+              } else {
+                this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+              }
+              observer.next(this.authUser);
+              observer.complete();
+            })
+            .unsubscribe();
         });
     });
   }
