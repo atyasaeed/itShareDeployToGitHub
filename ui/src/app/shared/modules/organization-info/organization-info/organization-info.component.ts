@@ -276,6 +276,9 @@ export class OrganizationInfoComponent implements OnInit {
   }
 
   requestApproval() {
+    if ((<Array<Service>>this.form.get('services').value).length === 0) {
+      return;
+    }
     this.loadingService.register('loadingOrg');
     this.Service.requestApproval(this.org).subscribe(
       (res) => {

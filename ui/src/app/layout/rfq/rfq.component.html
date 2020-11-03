@@ -8,23 +8,23 @@
       </span>
       <input class="search-input form-control ml-2" [class.rtl]="lang==='ar'" type="text"
         placeholder="{{'Search'|translate}}" name="searchTerm" [(ngModel)]="searchTerm" />
-      <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
+      <span class="ml-3" *ngIf="service?.loading$ | async">Loading...</span>
     </div>
   </div>
 
   <div *tdLoading="'loading'">
 
-    <section class="custom-card" *ngFor="let rfq of entities$ |async  ;index as i ">
+    <section class="custom-card" *ngFor="let rfq of entities$|async  ;index as i ">
 
-      <div class="border-bottom mb-2">
+      <div class="border-bottom mb-2" *ngIf="rfq">
         <div class="form-group p-2 row">
 
 
-          <div class="col-md-4  f-size-20 font-weight-bold"><span>{{rfq.service.name}} -
-              {{'id'|translate }} {{rfq.id | slice:0:7}}</span></div>
+          <div class="col-md-4  f-size-20 font-weight-bold"><span>{{rfq?.service?.name}} -
+              {{'id'|translate }} {{rfq?.id | slice:0:7}}</span></div>
 
-          <div class="col-md-2">{{'quantity' |translate}} : {{rfq.quantity}}</div>
-          <div class="col-md-5"> {{"requestDate" | translate}} <span>{{rfq.created | date:'medium'}}</span>
+          <div class="col-md-2">{{'quantity' |translate}} : {{rfq?.quantity}}</div>
+          <div class="col-md-5"> {{"requestDate" | translate}} <span>{{rfq?.updated | date:'medium'}}</span>
           </div>
           <div class="col-md-1 d-flex justify-content-end cursor-pointer"><i class="fa fa-angle-down f-size-24 px-3"
               [ngClass]="{'fa-angle-down': !isCollapsed[i], 'fa-angle-up': isCollapsed[i]}"
@@ -34,20 +34,20 @@
 
       </div>
 
-      <div class="row ml-2 mb-3" [ngbCollapse]="!isCollapsed[i]">
+      <div class="row ml-2 mb-3" *ngIf="rfq" [ngbCollapse]="!isCollapsed[i]">
         <div class="col-md-3">
           <div class="service-image mb-2">
-            <img class="img-fluid" [src]="appConfig.FILE_URL + rfq.files[0].asset_id"
+            <img class="img-fluid" [src]="appConfig.FILE_URL + rfq?.files[0]?.asset_id"
               *ngIf="getFileExtension(rfq) == 'image';else stlExtension">
             <ng-template #stlExtension>
               <div *ngIf="getFileExtension(rfq) == 'stl';else serviceImage">
-                <img class="img-fluid " [src]="appConfig.serviceImage(rfq.service)">
-                <app-stl-modal [stlPath]="appConfig.FILE_URL + rfq.files[0].asset_id"></app-stl-modal>
+                <img class="img-fluid " [src]="appConfig.serviceImage(rfq?.service)">
+                <app-stl-modal [stlPath]="appConfig.FILE_URL + rfq?.files[0]?.asset_id"></app-stl-modal>
               </div>
 
             </ng-template>
             <ng-template #serviceImage>
-              <img class="img-fluid " [src]="appConfig.serviceImage(rfq.service)">
+              <img class="img-fluid " [src]="appConfig.serviceImage(rfq?.service)">
             </ng-template>
           </div>
           <div class="text-center mb-2"><a [href]="getFileUrl(rfq)">
@@ -142,7 +142,7 @@
       </div>
       <!--//////////////////////////////////////////////////////////MODAL//////////////////////////////////////////////////-->
       <ng-template #confirmQuote>
-        <div class="modal-body ">
+        <div class="modal-body" *ngIf="rfq">
           <div>
             <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
               <span aria-hidden="true">&times;</span>
@@ -153,7 +153,7 @@
           </div>
           <div class="text-center f-size-14 text-grey mt-2">
             <div class="text-center">{{'confirmQuote'|translate}}</div>
-            <div class="text-center">{{rfq.duration}} {{'days'|translate}} , {{rfq.unitPrice}}
+            <div class="text-center">{{rfq?.duration}} {{'days'|translate}} , {{rfq?.unitPrice}}
               {{'egpPerUnit'|translate}}</div>
           </div>
           <div class="text-center my-2 f-weight-600">
