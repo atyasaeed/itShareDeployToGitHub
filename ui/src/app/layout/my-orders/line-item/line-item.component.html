@@ -38,22 +38,23 @@
                     <div class="col-md-4 " *ngIf="showAfterInProgressStatus()">
                       {{'status' | translate}} : <span class="text-primary">{{lineItem.status}}</span>
                     </div>
-                    <div class="col-md-6 text-right" *ngIf="showApproveRejectQuote()">
-
-                      <label class="accept-radio mr-3 ">
-                          <input [checked]="checkRadio == 'accept'"  type="radio"
-                          id="accept_{{lineItem.id}}" name="quotedActions_{{lineItem.id}}" value="QUOTE_ACCEPTED"
-                          (change)="quotedActionsChanged($event)">
-                          <i class="fas fa-thumbs-up mr-2 f-size-20" ></i>
-                          <span class="f-size-14">{{'approve'|translate}}</span>
-                      </label>
-                       <label class="reject-radio mr-3 ">
-                          <input [checked]="checkRadio == 'reject'"  type="radio"
-                          id="reject_{{lineItem.id}}" value="QUOTE_REJECTED" name="quotedActions_{{lineItem.id}}"
-                          (change)="quotedActionsChanged($event)">
-                          <i class="fas fa-thumbs-down mr-2 f-size-20" ></i>
-                          <span class="f-size-14">{{'reject'|translate}}</span>
-                      </label>
+                    <div class="col-md-6 text-right" >
+                      <div *ngIf="showApproveRejectQuote()">
+                        <label class="accept-radio mr-3 ">
+                            <input [checked]="checkRadio == 'accept'"  type="radio"
+                            id="accept_{{lineItem.id}}" name="quotedActions_{{lineItem.id}}" value="QUOTE_ACCEPTED"
+                            (change)="quotedActionsChanged($event)">
+                            <i class="fas fa-thumbs-up mr-2 f-size-20" ></i>
+                            <span class="f-size-14">{{'approve'|translate}}</span>
+                        </label>
+                        <label class="reject-radio mr-3 ">
+                            <input [checked]="checkRadio == 'reject'"  type="radio"
+                            id="reject_{{lineItem.id}}" value="QUOTE_REJECTED" name="quotedActions_{{lineItem.id}}"
+                            (change)="quotedActionsChanged($event)">
+                            <i class="fas fa-thumbs-down mr-2 f-size-20" ></i>
+                            <span class="f-size-14">{{'reject'|translate}}</span>
+                        </label>
+                      </div>
                       <button tooltip="{{'cancel' | translate}}" hide-delay="0" (click)="cancelItemModal(cancelItemAlert)"
                         type="button" class="btn btn-outline-danger btn-sm  mr-3" *ngIf="showCancelItemBtn()">
                         <i class="fa fa-times" aria-hidden="true"></i>

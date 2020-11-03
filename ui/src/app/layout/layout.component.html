@@ -9,7 +9,7 @@
 </div>
 <app-sidebar (collapsedEvent)="receiveCollapsed($event)" *ngIf="user"></app-sidebar>
 <section class="main-container"
-  [ngClass]="{collapsed: collapsedSideBar,'main-container-rtl':collapsedSideBar,'ml-0':!user}">
+  [ngClass]="{collapsed: collapsedSideBar,'main-container-rtl':collapsedSideBar,'mx-0':!user}">
   <div *ngIf="loadingRouteConfig" class="lazy-load">
     <div class="loading ">
       <div class="dot"></div>

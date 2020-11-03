@@ -317,7 +317,7 @@ export class ShoppingCartFormComponent implements OnInit, AfterContentChecked {
           setTimeout(() => {
             this.loadingService.resolve('loading');
             this.appStore.dispatch(new fromStore.LoadInitState());
-            this.router.navigateByUrl('shopping-cart');
+            this.router.navigateByUrl('/shopping-cart');
           }, this.cartAnimation.animationDuration);
         },
         (err) => {

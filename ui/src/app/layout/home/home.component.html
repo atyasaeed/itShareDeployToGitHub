@@ -1,6 +1,6 @@
 <div [@routerTransition]>
   <div *noAuth>
-    <div class="container-fluid ">
+    <div >
       <div class="white-background">
         <div class="container">
           <div class="row py-5 px-3  landing-page-section">
@@ -127,8 +127,8 @@
                   <p class="mb-0 f-size-18 site-color-v3 ellipsis">{{service.name}}</p>
                   <a [routerLink]='["/shopping-cart/CartItem"]'>
                     <span class="mr-2 site-color-v1">{{'placeOrder'|translate}}</span>
-                    <img *englishLang src="assets/images/right-arrow.png" alt="">
-                    <img *arabicLang src="assets/images/left-arrow.png" alt="">
+                    <i *ngIf="lang==='en'" class="fas fa-arrow-right site-color-v1"></i>
+                    <i *ngIf="lang==='ar'" class="fas fa-arrow-left site-color-v1"></i>
                   </a>
                 </div>
               </div>

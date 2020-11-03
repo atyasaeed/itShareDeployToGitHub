@@ -5,38 +5,40 @@ import { AuthenticationService } from '../services';
 import * as fromStore from 'src/app/store';
 import { Store } from '@ngrx/store';
 import { User } from '../domain';
+import { getAuthUser, getInitStateLoaded } from 'src/app/store';
+import { filter } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
 export class userPrivilege implements CanActivate {
-  private isAuthenticated = false;
   private hasPrivilege = false;
-  user = {} as User;
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,
     private appStore: Store<fromStore.AppState>
-  ) {
-    appStore.select(fromStore.getAuthUser).subscribe((user) => {
-      this.isAuthenticated = user !== null;
-      this.hasPrivilege = user && (user.roles.includes('ROLE_REGISTER_PRIVILEGE') || user.roles.length == 0);
-      this.user = user;
-    });
-  }
+  ) {}
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (this.hasPrivilege) {
-      return true;
-    }
-    // if (!this.user) {
-    //   return true;
-    // }
-    else {
-      this.router.navigate(['']);
-    }
-
-    return false;
+    return new Observable((observer) => {
+      this.appStore
+        .select(getInitStateLoaded)
+        .pipe(filter((res) => res === true))
+        .subscribe((res) => {
+          this.appStore
+            .select(getAuthUser)
+            .subscribe((user) => {
+              if (user && (user.roles.includes('ROLE_REGISTER_PRIVILEGE') || user.roles.length == 0)) {
+                this.hasPrivilege = true;
+              } else {
+                this.router.navigate(['']);
+              }
+              observer.next(this.hasPrivilege);
+              observer.complete();
+            })
+            .unsubscribe();
+        });
+    });
   }
 }
