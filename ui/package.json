@@ -6,6 +6,8 @@
         "standardize": "prettier **/*.ts --write",
         "start": "npm run standardize && ng serve --port 4200",
         "build": "npm run standardize && ng build --prod --aot    --buildOptimizer",
+        "buildTest": "npm run standardize && ng build --configuration=test --aot    --buildOptimizer",
+        "buildDev": "",
         "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e"

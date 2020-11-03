@@ -29,8 +29,6 @@ import ilab.core.service.AssetService;
 public class AssetsController implements AbstractRestController<FileAsset, UUID>
 {
 	static final String REST_URL = "/api/digital-assets";
-	@Value("${iLab.paths.images}")
-	String imagesPath;
 	@Value("${iLab.paths.files}")
 	String filesPath;
 	@Autowired

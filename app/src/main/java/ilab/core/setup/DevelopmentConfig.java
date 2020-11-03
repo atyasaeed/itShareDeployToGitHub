@@ -51,10 +51,6 @@ public class DevelopmentConfig
 	ResourceLoader resourceLoader;
 	@Value("${iLab.paths.files}")
 	String filesPath;
-	@Value("${iLab.paths.initFiles}")
-	String initFilesPath;
-	@Value("${iLab.paths.images}")
-	String imagesPath;
 	@Value("${iLab.paths.setup}")
 	private String setupPath;
 	@Autowired
@@ -83,91 +79,81 @@ public class DevelopmentConfig
 	public CommandLineRunner dataLoader(ServiceRepository serviceRepo, UserRepository userRepo,
 			ServiceService serviceService)
 	{
-		return new CommandLineRunner()
-		{
-
-			@Override
-			public void run(String... args)
+		return args -> {
+			try
 			{
-				try
-				{
-					Address address = new Address();
-					Address address1 = new Address();
+				Address address = new Address();
+				Address address1 = new Address();
 
-					User user = userService.register(createUser("hatem.salem@ihub.asu.edu.eg", "New123456", "Admin",
-							"hatem.salem@ihub.asu.edu.eg", "01065002100", OrganizationType.INDIVIDUAL));
-					user = userService.enableUser(user.getId(), true, null);
-					user.getDefaultOrg().setStatus(OrganizationStatus.ACTIVE);
-					user = addAdminRoleAuthority(user);
-					address.setUser(user);
-					address.setLineOne("Street 16 New Cairo");
-					address.setPhoneNo(user.getMobileNo());
-					userRepo.save(user);
-					user = userService.register(createUser("mosalem@itraters.com", "New123456", "Hatem",
-							"mosalem@itraters.com", "01065003100", OrganizationType.PARTNER));
-					user = userService.enableUser(user.getId(), true, null);
-					Organization org = orgRepo.findById(user.getDefaultOrg().getId()).get();
-					org.setStatus(OrganizationStatus.ACTIVE);
-					address1.setUser(user);
-					address1.setLineOne("Street 16 New Cairo");
-					address1.setPhoneNo(user.getMobileNo());
-					orgRepo.save(org);
+				User user = userService.register(createUser("hatem.salem@ihub.asu.edu.eg", "New123456", "Admin",
+						"hatem.salem@ihub.asu.edu.eg", "01065002100", OrganizationType.INDIVIDUAL));
+				user = userService.enableUser(user.getId(), true, null);
+				user.getDefaultOrg().setStatus(OrganizationStatus.ACTIVE);
+				user = addAdminRoleAuthority(user);
+				address.setUser(user);
+				address.setLineOne("Street 16 New Cairo");
+				address.setPhoneNo(user.getMobileNo());
+				userRepo.save(user);
+				user = userService.register(createUser("mosalem@itraters.com", "New123456", "Hatem",
+						"mosalem@itraters.com", "01065003100", OrganizationType.PARTNER));
+				user = userService.enableUser(user.getId(), true, null);
+				Organization org = orgRepo.findById(user.getDefaultOrg().getId()).get();
+				org.setStatus(OrganizationStatus.ACTIVE);
+				address1.setUser(user);
+				address1.setLineOne("Street 16 New Cairo");
+				address1.setPhoneNo(user.getMobileNo());
+				orgRepo.save(org);
 
-					user = addRoleAuthority(user);
-					userRepo.save(user);
-					user = userService.register(createUser("karafat1998@gmail.com", "New123456", "Hatem",
-							"karafat1998@gmail.com", "01002222392", OrganizationType.PARTNER));
-					user = userService.enableUser(user.getId(), true, null);
-					user = addRoleAuthority(user);
-					userRepo.save(user);
-					Service services[] = new ObjectMapper().readValue(new File(setupPath + "/services.json"),
-							Service[].class);
-					for (Service service : services)
-					{
-
-						File file = new File(setupPath + "/" + service.getImage());
-						System.out.println(file.getPath() + ":" + file.exists());
-						FileItem fileItem = new DiskFileItem("file", Files.probeContentType(file.toPath()), false,
-								file.getName(), (int) file.length(), file.getParentFile());
-						InputStream input = new FileInputStream(file);
-						OutputStream os = fileItem.getOutputStream();
-						IOUtils.copy(input, os);
-						MultipartFile multipartFile = new CommonsMultipartFile(fileItem);
-						input.close();
-						os.close();
-						serviceService.createService(service, multipartFile);
-					}
-					Reason reasons[] = new ObjectMapper().readValue(new File(setupPath + "/reasons.json"),
-							Reason[].class);
-					for (Reason reason : reasons)
-					{
-						reasonRepo.save(reason);
-					}
-					State cairoState = new State();
-					cairoState.setArName("القاهرة");
-					cairoState.setEnName("Cairo");
-					stateRepo.save(cairoState);
-
-					City shroukCity = new City();
-					shroukCity.setArName("مدينة الشروق");
-					shroukCity.setEnName("Shrouk City");
-					shroukCity.setState(cairoState);
-					address.setCity(shroukCity);
-					address1.setCity(shroukCity);
-					cityRepo.save(shroukCity);
-					addressRepo.save(address);
-					addressRepo.save(address1);
-
-
-				} catch (Exception e)
+				user = addRoleAuthority(user);
+				userRepo.save(user);
+				user = userService.register(createUser("karafat1998@gmail.com", "New123456", "Hatem",
+						"karafat1998@gmail.com", "01002222392", OrganizationType.PARTNER));
+				user = userService.enableUser(user.getId(), true, null);
+				user = addRoleAuthority(user);
+				userRepo.save(user);
+				Service services[] = new ObjectMapper().readValue(new File(setupPath + "/services.json"),
+						Service[].class);
+				for (Service service : services)
 				{
 
-					System.out.println("===========DB Initialization Failed=========");
-					System.out.println(e);
-					e.printStackTrace();
+					File file = new File(setupPath + "/" + service.getImage());
+					System.out.println(file.getPath() + ":" + file.exists());
+					FileItem fileItem = new DiskFileItem("file", Files.probeContentType(file.toPath()), false,
+							file.getName(), (int) file.length(), file.getParentFile());
+					InputStream input = new FileInputStream(file);
+					OutputStream os = fileItem.getOutputStream();
+					IOUtils.copy(input, os);
+					MultipartFile multipartFile = new CommonsMultipartFile(fileItem);
+					input.close();
+					os.close();
+					serviceService.createService(service, multipartFile);
 				}
+				Reason reasons[] = new ObjectMapper().readValue(new File(setupPath + "/reasons.json"), Reason[].class);
+				for (Reason reason : reasons)
+					reasonRepo.save(reason);
+				State cairoState = new State();
+				cairoState.setArName("القاهرة");
+				cairoState.setEnName("Cairo");
+				stateRepo.save(cairoState);
 
+				City shroukCity = new City();
+				shroukCity.setArName("مدينة الشروق");
+				shroukCity.setEnName("Shrouk City");
+				shroukCity.setState(cairoState);
+				address.setCity(shroukCity);
+				address1.setCity(shroukCity);
+				cityRepo.save(shroukCity);
+				addressRepo.save(address);
+				addressRepo.save(address1);
+
+			} catch (Exception e)
+			{
+
+				System.out.println("===========DB Initialization Failed=========");
+				System.out.println(e);
+				e.printStackTrace();
 			}
+
 		};
 	}
 
@@ -231,5 +217,4 @@ public class DevelopmentConfig
 		return user;
 	}
 
-	
 }

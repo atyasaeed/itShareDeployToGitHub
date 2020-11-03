@@ -14,7 +14,7 @@
 		
 		you can submit a more accurate order now! <br>
 		   
-		<a href="http://fabrihub.net/my-orders/${orderId}"> view my order</a> <br><br>
+		<a href="https://www.fabrihub.net/my-orders/${orderId}"> view my order</a> <br><br>
 		
 		If you have any questions or need any help, don't hesitate to contact me directly by replying to this email!<br><br> 
 		
