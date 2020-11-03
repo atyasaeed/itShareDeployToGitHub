@@ -115,9 +115,7 @@ public class UserService implements UserDetailsService
 				user = existUser;
 			}
 		} else
-		{
 			orgUser = new OrganizationUser();
-		}
 		if (user.getDefaultOrg() == null)
 		{
 			Organization org = new Organization();
@@ -168,9 +166,7 @@ public class UserService implements UserDetailsService
 		User user = userRepo.findByUsernameIgnoreCase(dto.getUsername()).orElseThrow();
 
 		if (!encoder.matches(dto.getOldPassword(), user.getPassword()))
-		{
 			throw new ResponseStatusException(HttpStatus.CONFLICT, "Invalid Old Password");
-		}
 		user.setPassword(encoder.encode(dto.getNewPassword()));
 	}
 
@@ -196,7 +192,7 @@ public class UserService implements UserDetailsService
 
 		}
 		token.setSent(false);
-		token.setExpiryDate(new Date(System.currentTimeMillis() + (24 * 60 * 60 * 1000)));
+		token.setExpiryDate(new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000));
 		token.setLocale(LocaleContextHolder.getLocale());
 		token = passwordTokenRepo.save(token);
 		jmsTemplate.convertAndSend(passwordTokenQueue, token.getId());
@@ -206,16 +202,14 @@ public class UserService implements UserDetailsService
 	private void validateUserForAction(User user)
 	{
 		if (user.isAccountNonExpired() && user.isAccountNonLocked())
-		{
 			return;
-		}
 		throw new IllegalRequestDataException("User can't reset password because it is not active");
 	}
 
 	public void resetPassword(UUID userId, UUID token)
 	{
-		Optional<PasswordResetToken> resetToken = passwordTokenRepo.findById(token);
-		if (resetToken.isPresent() && resetToken.get().getUser().getId().equals(userId))
+		Optional<PasswordResetToken> resetToken = passwordTokenRepo.findByIdAndUser_idAndUsedFalse(token, userId);
+		if (resetToken.isPresent())
 		{
 			User user = resetToken.get().getUser();
 //			user.setPassword(encoder.encode("hello@123456"));
@@ -328,10 +322,7 @@ public class UserService implements UserDetailsService
 		User user = userRepo.findById(userId).orElse(null);
 
 		if (user != null && user.isEnabled() && user.isAccountNonLocked() && !user.getRoles().contains(Role.ROLE_USER))
-		{
 			emailService.sendTemplateMessage(user.getEmail(), "Welcome to iLab", "welcome-email.ftl", user);
-
-		}
 	}
 
 	public void sendActivation(UUID codeId) throws Exception

@@ -19,8 +19,6 @@
 			<properties>
 				<spring.profiles.active>dev</spring.profiles.active>
 			</properties>
-			<!-- <dependencies> <dependency> <groupId>ilab</groupId> <artifactId>ui</artifactId> 
-				<version>${app.version}</version> </dependency> </dependencies> -->
 		</profile>
 		<profile>
 			<id>test</id>
@@ -28,11 +26,6 @@
 				<spring.profiles.active>test</spring.profiles.active>
 			</properties>
 			<dependencies>
-				<dependency>
-					<groupId>ilab</groupId>
-					<artifactId>ui</artifactId>
-					<version>${app.version}</version>
-				</dependency>
 			</dependencies>
 		</profile>
 		<profile>
@@ -40,13 +33,6 @@
 			<properties>
 				<spring.profiles.active>prod</spring.profiles.active>
 			</properties>
-			<dependencies>
-				<dependency>
-					<groupId>ilab</groupId>
-					<artifactId>ui</artifactId>
-					<version>${app.version}</version>
-				</dependency>
-			</dependencies>
 		</profile>
 	</profiles>
 	<dependencies>
@@ -159,6 +145,12 @@
 			<artifactId>commons-csv</artifactId>
 			<version>1.8</version>
 		</dependency>
+		<dependency>
+			<groupId>ilab</groupId>
+			<artifactId>ui</artifactId>
+			<version>${app.version}</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<finalName>fabrihub-app-1.2-${project.activeProfiles[0].id}</finalName>

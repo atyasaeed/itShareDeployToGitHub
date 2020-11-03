@@ -516,7 +516,8 @@ public class OrderService
 	public LineItem cancelItem(UUID id, Authentication auth)
 	{
 		List<LineItemStatus> eligibleItemStatus = Arrays.asList(LineItemStatus.PENDING, LineItemStatus.QUOTED,
-				LineItemStatus.QUOTE_ACCEPTED, LineItemStatus.QUOTE_REJECTED, LineItemStatus.ITEM_REJECTED);
+				LineItemStatus.QUOTE_ACCEPTED, LineItemStatus.QUOTE_REJECTED, LineItemStatus.ITEM_REJECTED,
+				LineItemStatus.HRFQ, LineItemStatus.RFM);
 		List<OrderStatus> eligibleOrderStatus = Arrays.asList(OrderStatus.PENDING, OrderStatus.QUOTED,
 				OrderStatus.QUOTE_ACCEPTED);
 

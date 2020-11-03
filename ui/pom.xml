@@ -16,6 +16,31 @@
 		<frontend-maven-plugin.version>1.8.0</frontend-maven-plugin.version>
 		<environment>dev</environment>
 	</properties>
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<buildScript>buildDev</buildScript>
+			</properties>
+		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<buildScript>buildTest</buildScript>
+			</properties>
+			
+		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<buildScript>build</buildScript>
+			</properties>
+			
+		</profile>
+	</profiles>
 	<build>
 		<resources>
 			<resource>
@@ -69,7 +94,7 @@
 							<goal>npm</goal>
 						</goals>
 						<configuration>
-							<arguments>run-script build</arguments>
+							<arguments>run-script ${buildScript}</arguments>
 						</configuration>
 						<phase>generate-resources</phase>
 					</execution>
