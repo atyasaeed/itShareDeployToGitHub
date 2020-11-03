@@ -16,5 +16,8 @@ import ilab.core.domain.user.User;
 public interface PasswordTokenRepository extends CrudRepository<PasswordResetToken, UUID>
 {
 	PasswordResetToken findByUserAndUsedFalse(User user);
+
+	Optional<PasswordResetToken> findByIdAndUser_idAndUsedFalse(UUID id, UUID userId);
+
 	Optional<PasswordResetToken> findByIdAndUsedFalseAndSentFalse(UUID id);
 }

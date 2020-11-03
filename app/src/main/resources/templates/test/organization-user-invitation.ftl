@@ -7,7 +7,7 @@
 		 
 		You are Invited to be a member of Organization ${org.name}
 		   
-		<a href="http://test.fabrihub.net/org-member-invitation/${id}"> See Invitation</a> <br><br>
+		<a href="https://test.fabrihub.net/org-member-invitation/${id}"> See Invitation</a> <br><br>
 		
 		
 		
