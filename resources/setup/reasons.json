@@ -1,0 +1,20 @@
+[
+	{
+		"name": "Corrupted File",
+		"status": "PUBLISHED"
+	},
+	{
+		"name": "Unavailable Capacity",
+		"status": "PUBLISHED"
+	}
+	,
+	{
+		"name": "Draft Reason",
+		"status": "DRAFT"
+	}
+	,
+	{
+		"name": "Deleted Reason",
+		"status": "DELETED"
+	}
+]
