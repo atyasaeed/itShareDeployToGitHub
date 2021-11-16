@@ -28,7 +28,7 @@ import ilab.core.service.AddressService;
 @RestController
 @RequestMapping(path = AddressController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 
-public class AddressController implements AbstractRestController<Address, UUID>
+public class  AddressController implements AbstractRestController<Address, UUID>
 
 {
 	static final String REST_URL = "/api/address";
